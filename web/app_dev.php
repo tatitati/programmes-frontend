@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1); // php 7 strict mode
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
@@ -23,7 +23,6 @@ $loader = require __DIR__.'/../app/autoload.php';
 Debug::enable();
 
 $kernel = new AppKernel('dev', true);
-$kernel->loadClassCache();
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
