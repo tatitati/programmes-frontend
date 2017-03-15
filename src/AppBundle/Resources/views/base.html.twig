@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js b-pw-1280 {{branding.orbitThemeClasses|raw}}" lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        {{ orb.head|raw }}
+        {{ branding.head|raw }}
+
+        <link rel="stylesheet" href="assets/css/base.css">
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        {{ orb.bodyfirst|raw }}
+        {{ branding.bodyFirst|raw }}
+
+        <div class="schedules-main">
         {% block body %}{% endblock %}
+        </div>
+
+        {{ branding.bodyLast|raw }}
+        {{ orb.bodylast|raw }}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

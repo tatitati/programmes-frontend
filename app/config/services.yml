@@ -1,9 +1,48 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/service_container.html
 parameters:
-    #parameter_name: value
+    guzzle.factory.group: 'aws'
+    app.default_locale: 'en_GB'
+    app.orbit_client.class: RMP\OrbClient\OrbitClient
+    app.branding_client.class: BBC\BrandingClient\BrandingClient
 
 services:
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    guzzle.factory:
+        public: false
+        class: RMP\GuzzleFactory\GuzzleFactory
+        calls:
+            - ['setDefaultGroupName', ['%guzzle.factory.group%']]
+
+    guzzle:
+        public: false
+        class: GuzzleHttp\Client
+        factory: ['@guzzle.factory', 'getClient']
+        arguments:
+          - ~
+          - timeout: 60
+            connect_timeout: 15
+            verify: false #TODO fix me
+
+    # TODO: Work out pass through a SymfonyCache object wrapped in a
+    # DoctrineProvider. So that we can see caching information in the profiler
+    # panel that shall land in Symfony 3.3
+    app.orbit_client:
+        class: '%app.orbit_client.class%'
+        arguments: ['@guzzle', '@doctrine_cache.providers.app_page_chrome']
+
+    # TODO: Work out pass through a SymfonyCache object wrapped in a
+    # DoctrineProvider. So that we can see caching information in the profiler
+    # panel that shall land in Symfony 3.3
+    app.branding_client:
+        class: '%app.branding_client.class%'
+        arguments: ['@guzzle', '@doctrine_cache.providers.app_page_chrome']
+
+    ### Translations
+
+    app.translate_factory:
+        public: false
+        class: RMP\Translate\TranslateFactory
+
+    app.translate_en:
+        public: false
+        class: RMP\Translate\Translate
+        factory: ['@app.translate_factory', 'create']
+        arguments: ['%app.default_locale%']

@@ -11,8 +11,18 @@
         "psr-4": { "Tests\\": "tests/" },
         "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
     },
+    "repositories": [
+        { "type": "vcs", "url": "git@github.com:bbc/branding-client.git" },
+        { "type": "vcs", "url": "git@github.com:bbc/guzzle-factory.git" },
+        { "type": "vcs", "url": "git@github.com:bbc/rmp-orb-client.git" },
+        { "type": "vcs", "url": "git@github.com:bbc/rmp-translate.git" }
+    ],
     "require": {
         "php": ">=7.1.0",
+        "bbc/bbc-orb-client": "^1.2",
+        "bbc/branding-client": "^1.1",
+        "bbc-rmp/guzzle-factory": "^4.0",
+        "bbc-rmp/translate": "^1.6",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/orm": "^2.5",
