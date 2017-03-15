@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>/programmes Status</title>
+        <style>
+            .pass { color: green; }
+            .fail { color: red; }
+        </style>
+    </head>
+    <body>
+        <h1>Status at {{now|date('c')}}</h1>
+
+        <p data-test-name="db-connectivity">Database Connectivity: <span class="{{dbConnectivity ? 'pass' : 'fail'}}">{{ dbConnectivity ? "YES" : "NO" }}</span></p>
+    </body>
+</html>

@@ -10,12 +10,12 @@ abstract class BaseController extends Controller
 {
     private $brandingId = 'br-00001';
 
-    protected function setBrandingId($brandingId)
+    protected function setBrandingId(string $brandingId)
     {
         $this->brandingId = $brandingId;
     }
 
-    protected function renderWithChrome($view, array $parameters = array(), Response $response = null)
+    protected function renderWithChrome(string $view, array $parameters = array(), Response $response = null)
     {
         // Using $_GET is ugly, work out a way to get to the Request object
         // without having to pass it around everywhere

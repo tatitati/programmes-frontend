@@ -1,3 +1,7 @@
+status:
+    path: /status
+    defaults: { _controller: AppBundle:Status:status }
+
 root:
     path: /
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: home, permanent: true }
