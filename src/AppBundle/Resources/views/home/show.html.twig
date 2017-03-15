@@ -1,7 +1,10 @@
 {% extends '@App/base.html.twig' %}
 
+{% block html_classes %}b-pw-1280{% endblock %}
+
 {% block body %}
     <div class="b-g-p">
         <h1 style="color:red; margin: 0em;">It Lives!</h1>
+        <p>{{programmeCount|number_format}} Programmes and counting!</p>
     </div>
 {% endblock %}

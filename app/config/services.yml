@@ -21,14 +21,14 @@ services:
             connect_timeout: 15
             verify: false #TODO fix me
 
-    # TODO: Work out pass through a SymfonyCache object wrapped in a
+    # TODO: Work out how to pass through a SymfonyCache object wrapped in a
     # DoctrineProvider. So that we can see caching information in the profiler
     # panel that shall land in Symfony 3.3
     app.orbit_client:
         class: '%app.orbit_client.class%'
         arguments: ['@guzzle', '@doctrine_cache.providers.app_page_chrome']
 
-    # TODO: Work out pass through a SymfonyCache object wrapped in a
+    # TODO: Work out how to pass through a SymfonyCache object wrapped in a
     # DoctrineProvider. So that we can see caching information in the profiler
     # panel that shall land in Symfony 3.3
     app.branding_client:
@@ -46,3 +46,18 @@ services:
         class: RMP\Translate\Translate
         factory: ['@app.translate_factory', 'create']
         arguments: ['%app.default_locale%']
+
+
+    ### Programmes Service
+    # TODO see if repating every service here can be replaced with prototype
+    # services in Symfony 3.3: https://github.com/symfony/symfony/pull/21289
+    # TODO Define this just with its class name in Symfony 3.3
+    # https://github.com/symfony/symfony/pull/21133
+    pps.service_factory:
+        public: false
+        class: BBC\ProgrammesPagesService\Service\ServiceFactory
+        autowire: true
+
+    pps.programmes_service:
+        class: BBC\ProgrammesPagesService\Service\ProgrammesService
+        factory: [ '@pps.service_factory', 'getProgrammesService']
