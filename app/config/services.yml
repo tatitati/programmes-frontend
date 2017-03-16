@@ -5,6 +5,7 @@ parameters:
     app.branding_client.class: BBC\BrandingClient\BrandingClient
 
 services:
+
     guzzle.factory:
         public: false
         class: RMP\GuzzleFactory\GuzzleFactory
@@ -35,6 +36,7 @@ services:
         class: '%app.branding_client.class%'
         arguments: ['@guzzle', '@doctrine_cache.providers.app_page_chrome']
 
+
     ### Translations
 
     app.translate_factory:
@@ -46,6 +48,16 @@ services:
         class: RMP\Translate\Translate
         factory: ['@app.translate_factory', 'create']
         arguments: ['%app.default_locale%']
+
+
+    ### Monitoring
+
+    app.monitoring_subscriber:
+        class: AppBundle\Event\MonitoringSubscriber
+        arguments: ['@logger', '@debug.stopwatch']
+        tags:
+            - { name: 'kernel.event_subscriber' }
+            - { name: 'monolog.logger', channel: 'app_access' }
 
 
     ### Programmes Service
