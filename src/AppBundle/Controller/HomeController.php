@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends BaseController
 {
-    public function showAction(Request $request)
+    public function __invoke(Request $request)
     {
         // TODO swap this out for controllers-as-services and/or
         // getter injection in Symfony 3.3?

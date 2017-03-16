@@ -9,7 +9,7 @@ use DateTimeImmutable;
 
 class StatusController extends Controller
 {
-    public function statusAction(Request $request): Response
+    public function __invoke(Request $request): Response
     {
         // If the load balancer is pinging us then give them a plain OK
         if ($request->headers->get('User-Agent') == 'ELB-HealthChecker/1.0') {

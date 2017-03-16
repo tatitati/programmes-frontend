@@ -1,6 +1,6 @@
 status:
     path: /status
-    defaults: { _controller: AppBundle:Status:status }
+    defaults: { _controller: AppBundle\Controller\StatusController }
 
 root:
     path: /
@@ -8,4 +8,4 @@ root:
 
 home:
     path: /programmes
-    defaults: { _controller: AppBundle:Home:show }
+    defaults: { _controller: AppBundle\Controller\HomeController }

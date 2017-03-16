@@ -32,7 +32,7 @@ abstract class BaseController extends Controller
             // $this->get('app.rmp_translate_extension')->setTranslate($translate);
         }
 
-        $orb =$this->get('app.orbit_client')->getContent([
+        $orb = $this->get('app.orbit_client')->getContent([
             'variant' => $branding->getOrbitVariant(),
             'language' => $branding->getOrbitLanguage(),
             'searchScope' => $branding->getOrbitSearchScope(),
