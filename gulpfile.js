@@ -5,7 +5,7 @@ const args = require('yargs').argv;
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 
-const staticPathSrc = 'src/AppBundle/Resources';
+const staticPathSrc = 'src/Resources';
 const staticPathDist = 'web/assets';
 const sassMatch = '/sass/**/*.scss';
 

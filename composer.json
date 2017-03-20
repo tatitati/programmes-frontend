@@ -4,11 +4,11 @@
     "type": "project",
     "description": "The frontend for bbc.co.uk/programmes",
     "autoload": {
-        "psr-4": { "AppBundle\\": "src/AppBundle" },
+        "psr-4": { "AppBundle\\": "src" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
-        "psr-4": { "Tests\\": "tests/" },
+        "psr-4": { "Tests\\AppBundle\\": "tests/" },
         "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
     },
     "repositories": [

@@ -25,10 +25,10 @@ services:
             tags: ['form.type']
 
     App\:
-        resource: '../../src/AppBundle/{Command,EventSubscriber,Twig}'
+        resource: '../../src/{Command,EventSubscriber,Twig}'
 
     App\Controller\:
-        resource: '../../src/AppBundle/Controller'
+        resource: '../../src/Controller'
         public: true # Mandatory
 
 
