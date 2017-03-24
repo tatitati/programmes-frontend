@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+branch=$(echo $GIT_BRANCH | cut -d/ -f 2)
+echo $JOB_NAME:$branch $WORKSPACE
+
+rm -rf SRPMS
+
+echo "Stopping existing Container..."
+docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true
+
+echo "Running CI in container..."
+docker run --rm -u `id -u`:`id -g` -e OAUTH="$OAUTH_TOKEN" -v "$WORKSPACE":/mnt/ registry.ci.rmp.api.bbci.co.uk/programmes-docker-base script/ci-docker
+
+if [ "$BUILD_TYPE" = "pull-request" ]
+then
+    echo "Running mbt..."
+	BUILD_COMMAND="mbt"
+else
+    echo "Running cosmos-build..."
+	BUILD_COMMAND="cosmos-build"
+fi
+$BUILD_COMMAND -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base
+
+echo "Stopping container..."
+docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true

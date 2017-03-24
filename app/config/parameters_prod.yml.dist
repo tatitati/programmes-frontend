@@ -1,0 +1,16 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host:     127.0.0.1
+    database_port:     3306
+    database_name:     $database_name
+    database_user:     $database_user
+    database_password: $database_password
+    database_server_version: 5.6
+
+    # A secret key that's used to generate certain security-related tokens
+    secret:            $secret
+
+    cosmos_environment: $cosmos_environment
+    cosmos_component_release: $cosmos_component_release
