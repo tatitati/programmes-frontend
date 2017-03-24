@@ -1,6 +1,10 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+    app.orbit_client.class: RMP\OrbClient\StubClient
+    app.branding_client.class: BBC\BrandingClient\BrandingStubClient
+
 framework:
     test: ~
     session:
@@ -21,5 +25,5 @@ doctrine:
                 driver: pdo_sqlite
                 path: "%kernel.cache_dir%/test.db"
 
-# liip_functional_test:
-#     cache_sqlite_db: true
+liip_functional_test:
+    cache_sqlite_db: true

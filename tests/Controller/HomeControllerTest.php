@@ -2,16 +2,17 @@
 declare(strict_types=1);
 namespace Tests\AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Tests\AppBundle\BaseWebTestCase;
 
-class HomeControllerTest extends WebTestCase
+class HomeControllerTest extends BaseWebTestCase
 {
     public function testIndex()
     {
-        $client = static::createClient();
+        $this->loadFixtures([]);
 
+        $client = static::createClient();
         $crawler = $client->request('GET', '/programmes');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseStatusCode($client, 200);
     }
 }
