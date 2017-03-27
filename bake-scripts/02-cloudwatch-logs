@@ -58,11 +58,22 @@ datetime_format = %d-%b-%Y %H:%M:%S
 time_zone=UTC
 """
 
+logrotate_config = """
+/var/www/programmes-frontend/tmp/logs/*.log {
+    daily
+    rotate 4
+    compress
+    size 1G
+    dateext
+    create 666 nginx nginx
+}
+"""
+
 
 def logrotate():
     print "Setting up log rotation"
-    appRoot = "/var/www/programmes-frontend"
-    subprocess.call(['cp', appRoot + '/script/logrotate', '/etc/logrotate.d'])
+    with open('/etc/logrotate.d/frontend', "w") as f:
+        f.write(logrotate_config)
 
 
 def main(component_json_path):
