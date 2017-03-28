@@ -2,16 +2,16 @@
 declare(strict_types = 1);
 namespace AppBundle\Controller;
 
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends BaseController
 {
-    public function __invoke(Request $request)
+    public function homeAction(Request $request, ProgrammesService $programmesService)
     {
-        // TODO swap this out for controllers-as-services and/or
-        // getter injection in Symfony 3.3?
-        $programmesService = $this->get('pps.programmes_service');
-
+        // TODO: Name this method __invoke rather than homeAction if
+        // "controller.service_arguments" become supported on invokable controllers
+        // https://github.com/symfony/symfony/issues/22202
         $programmeCount = $programmesService->countAll();
 
         return $this->renderWithChrome('@App/home/show.html.twig', [

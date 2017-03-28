@@ -26,12 +26,13 @@ services:
         Symfony\Component\Form\FormTypeInterface:
             tags: ['form.type']
 
-    App\:
+    AppBundle\:
         resource: '../../src/{Command,EventSubscriber,Twig}'
 
-    App\Controller\:
+    AppBundle\Controller\:
         resource: '../../src/Controller'
         public: true # Mandatory
+        tags: ['controller.service_arguments']
 
 
     ### Begin the services!
@@ -92,12 +93,10 @@ services:
 
 
     ### Programmes Service
-    # TODO see if repating every service here can be replaced with prototype
+    # TODO see if repeating every service here can be replaced with prototype
     # services in Symfony 3.3: https://github.com/symfony/symfony/pull/21289
     BBC\ProgrammesPagesService\Service\ServiceFactory: ~
 
-    pps.programmes_service:
-        public: true
+    BBC\ProgrammesPagesService\Service\ProgrammesService:
         autowire: false
-        class: BBC\ProgrammesPagesService\Service\ProgrammesService
         factory: [ '@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getProgrammesService']

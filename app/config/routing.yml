@@ -8,4 +8,4 @@ root:
 
 home:
     path: /programmes
-    defaults: { _controller: AppBundle\Controller\HomeController }
+    defaults: { _controller: AppBundle\Controller\HomeController::homeAction }

@@ -2330,12 +2330,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "eb6f3f7515d32eb88d40f9768044701ef194e1d1"
+                "reference": "d5af0da0a7f80be2af8bb78871be57b616473c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/eb6f3f7515d32eb88d40f9768044701ef194e1d1",
-                "reference": "eb6f3f7515d32eb88d40f9768044701ef194e1d1",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/d5af0da0a7f80be2af8bb78871be57b616473c91",
+                "reference": "d5af0da0a7f80be2af8bb78871be57b616473c91",
                 "shasum": ""
             },
             "require": {
@@ -2387,6 +2387,7 @@
                 "symfony/inflector": "self.version",
                 "symfony/intl": "self.version",
                 "symfony/ldap": "self.version",
+                "symfony/lock": "self.version",
                 "symfony/monolog-bridge": "self.version",
                 "symfony/options-resolver": "self.version",
                 "symfony/process": "self.version",
@@ -2414,7 +2415,7 @@
                 "symfony/yaml": "self.version"
             },
             "require-dev": {
-                "cache/integration-tests": "^0.15.0",
+                "cache/integration-tests": "dev-master",
                 "doctrine/cache": "~1.6",
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.4",
@@ -2472,7 +2473,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-03-16 21:55:36"
+            "time": "2017-03-27 14:51:00"
         },
         {
             "name": "twig/twig",
