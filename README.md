@@ -11,10 +11,10 @@ the need to install other packages globally.
 Then perform `yarn install`
 
 To perform the development tasks
-`yarn run dev`
+`yarn run gulp`
 
 To perform the dist tasks (for ci)
-`yarn run dist`
+`yarn run gulp-ci`
 
 To watch for file changes
 `yarn run watch`

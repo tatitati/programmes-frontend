@@ -9,8 +9,8 @@
         "yargs": "^7.0.2"
     },
     "scripts": {
-        "dev": "gulp --env=dev",
-        "dist": "gulp --env=dist",
+        "gulp": "gulp --env=dev",
+        "gulp-ci": "gulp --env=dist",
         "watch": "gulp watch --env=dev"
     }
 }

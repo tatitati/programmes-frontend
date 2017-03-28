@@ -25,9 +25,13 @@ if [ ! -d "build/reports" ]; then
 fi
 
 php composer.phar --no-ansi --no-interaction install
+yarn install
 
 # Show php version for debugging
 php --version
+
+# Compile static assets
+yarn gulp-ci
 
 # Run PHPUnit
 vendor/bin/phpunit || RESULT=1
