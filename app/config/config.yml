@@ -18,7 +18,8 @@ framework:
     trusted_hosts: ~
     trusted_proxies: ~
     http_method_override: false
-    assets: ~
+    assets:
+        base_path: 'assets'
     php_errors:
         log: true
 

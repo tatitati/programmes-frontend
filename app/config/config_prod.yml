@@ -7,6 +7,10 @@ doctrine:
        result_cache_driver: apcu
        query_cache_driver: apcu
 
+framework:
+    assets:
+        json_manifest_path: '%kernel.root_dir%/../web/assets/rev-manifest.json'
+
 monolog:
     handlers:
         main:

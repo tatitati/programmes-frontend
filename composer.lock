@@ -321,7 +321,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-03-14T12:23:19+00:00"
+            "time": "2017-03-14 12:23:19"
         },
         {
             "name": "behat/transliterator",
@@ -2330,12 +2330,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "d5af0da0a7f80be2af8bb78871be57b616473c91"
+                "reference": "d0e904b0daf28923c0a3e3fb8233ee9ce3489d19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/d5af0da0a7f80be2af8bb78871be57b616473c91",
-                "reference": "d5af0da0a7f80be2af8bb78871be57b616473c91",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/d0e904b0daf28923c0a3e3fb8233ee9ce3489d19",
+                "reference": "d0e904b0daf28923c0a3e3fb8233ee9ce3489d19",
                 "shasum": ""
             },
             "require": {
@@ -2473,7 +2473,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-03-27 14:51:00"
+            "time": "2017-03-27 18:09:43"
         },
         {
             "name": "twig/twig",
