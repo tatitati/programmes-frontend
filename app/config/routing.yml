@@ -1,6 +1,6 @@
 status:
     path: /status
-    defaults: { _controller: AppBundle\Controller\StatusController }
+    defaults: { _controller: AppBundle\Controller\StatusController::statusAction }
 
 root:
     path: /
