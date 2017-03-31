@@ -18,3 +18,12 @@ To perform the dist tasks (for ci)
 
 To watch for file changes
 `yarn run watch`
+
+
+License
+-------
+
+This repository is available under the terms of the Apache 2.0 license.
+View the LICENSE file for more information.
+
+Copyright (c) 2017 BBC
