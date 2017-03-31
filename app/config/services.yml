@@ -37,19 +37,6 @@ services:
 
     ### Begin the services!
 
-    RMP\GuzzleFactory\GuzzleFactory:
-        calls:
-            - ['setDefaultGroupName', ['%guzzle.factory.group%']]
-
-    guzzle:
-        class: GuzzleHttp\Client
-        factory: ['@RMP\GuzzleFactory\GuzzleFactory', 'getClient']
-        arguments:
-          - ~
-          - timeout: 60
-            connect_timeout: 15
-            verify: false #TODO fix me
-
     # TODO: Work out how to pass through a SymfonyCache object wrapped in a
     # DoctrineProvider. So that we can see caching information in the profiler
     # panel that shall land in Symfony 3.3
@@ -57,7 +44,7 @@ services:
         public: true
         class: '%app.orbit_client.class%'
         arguments:
-            - '@guzzle'
+            - '@csa_guzzle.client.default'
             - '@doctrine_cache.providers.app_page_chrome'
             - { env: '%app.orbit_client.env%' }
 
@@ -68,7 +55,7 @@ services:
         public: true
         class: '%app.branding_client.class%'
         arguments:
-            - '@guzzle'
+            - '@csa_guzzle.client.default'
             - '@doctrine_cache.providers.app_page_chrome'
             - { env: '%app.branding_client.env%' }
 

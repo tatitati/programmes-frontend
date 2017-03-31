@@ -14,25 +14,24 @@
     "repositories": [
         { "type": "vcs", "url": "git@github.com:bbc/branding-client.git" },
         { "type": "vcs", "url": "git@github.com:bbc/DoctrineExtensions.git" },
-        { "type": "vcs", "url": "git@github.com:bbc/guzzle-factory.git" },
         { "type": "vcs", "url": "git@github.com:bbc/programmes-pages-service.git" },
         { "type": "vcs", "url": "git@github.com:bbc/rmp-orb-client.git" },
         { "type": "vcs", "url": "git@github.com:bbc/rmp-translate.git" }
     ],
     "require": {
         "php": ">=7.1.0",
+        "bbc-rmp/translate": "^1.6",
         "bbc/bbc-orb-client": "^1.2",
         "bbc/branding-client": "^1.1",
         "bbc/programmes-pages-service": "dev-master@dev",
-        "bbc-rmp/guzzle-factory": "^4.0",
-        "bbc-rmp/translate": "^1.6",
+        "csa/guzzle-bundle": "dev-master@dev",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
         "sensio/distribution-bundle": "^5.0",
         "stof/doctrine-extensions-bundle": "^1.2",
-        "symfony/monolog-bundle": "dev-master@dev",
+        "symfony/monolog-bundle": "^3.1",
         "symfony/symfony": "3.3.x-dev",
         "twig/twig": "^2.0"
     },
