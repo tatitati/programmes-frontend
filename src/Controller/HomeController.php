@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends BaseController
 {
-    public function homeAction(Request $request, ProgrammesService $programmesService)
+    public function showAction(Request $request, ProgrammesService $programmesService)
     {
         // TODO: Name this method __invoke rather than homeAction if
         // "controller.service_arguments" become supported on invokable controllers

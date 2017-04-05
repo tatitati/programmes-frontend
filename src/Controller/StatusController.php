@@ -10,7 +10,7 @@ use Doctrine\DBAL\Connection;
 
 class StatusController extends Controller
 {
-    public function statusAction(Request $request, Connection $dbalConnection): Response
+    public function showAction(Request $request, Connection $dbalConnection): Response
     {
         // TODO: Name this method __invoke rather than statusAction if
         // "controller.service_arguments" becomes supported on invokable controllers

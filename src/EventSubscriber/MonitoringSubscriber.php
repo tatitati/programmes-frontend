@@ -61,7 +61,7 @@ class MonitoringSubscriber implements EventSubscriberInterface
 
         // Skip if it is the status controller
         // This gets pinged every 15 seconds by the ELB and we don't need that noise
-        if ($controllerAction == 'StatusController::statusAction') {
+        if ($controllerAction == 'StatusController::showAction') {
             return;
         }
 

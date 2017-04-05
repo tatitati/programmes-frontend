@@ -1,6 +1,6 @@
 status:
     path: /status
-    defaults: { _controller: AppBundle\Controller\StatusController::statusAction }
+    defaults: { _controller: AppBundle\Controller\StatusController::showAction }
 
 root:
     path: /
@@ -8,7 +8,7 @@ root:
 
 home:
     path: /programmes
-    defaults: { _controller: AppBundle\Controller\HomeController::homeAction }
+    defaults: { _controller: AppBundle\Controller\HomeController::showAction }
 
 find_by_pid:
     path: /programmes/{pid}
