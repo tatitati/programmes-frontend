@@ -36,6 +36,7 @@ abstract class BaseController extends Controller
             'variant' => $branding->getOrbitVariant(),
             'language' => $branding->getOrbitLanguage(),
             'searchScope' => $branding->getOrbitSearchScope(),
+            'skipLinkTarget' => 'programmes-content',
         ]);
 
         $parameters = array_merge([

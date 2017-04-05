@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="{{branding.orbitThemeClasses|raw}} {% block html_classes %}{% endblock %}" lang="{{branding.options.language|default('en')}}">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="icon" href="http://www.bbc.co.uk/favicon.ico" type="image/x-icon" />
+        <meta name="theme-color" content="{{branding.colours.highlight.bg|default('#2B2B2B')}}" />
+        {{ orb.head|raw }}
+        {{ branding.head|raw }}
+
+        <!--[if (gt IE 8)|!(IE)]><!-->
+            <link rel="stylesheet" href="{{asset('css/ds2014.css')}}" />
+        <!--<![endif]-->
+        <!--[if (lt IE 9)&(!IEMobile)]>
+            <link rel="stylesheet" href="{{asset('css/ds2014-ie.css')}}" />
+        <![endif]-->
+        {% block stylesheets %}{% endblock %}
+
+        {# TODO: Build Page Title correctly #}
+        {# TODO: Twitter Tags, Facebook OpenGraph Tags and Apple touch Icons #}
+        {# TODO: Canonical URL #}
+
+        <script>document.documentElement.className += ' has-js';</script>
+    </head>
+    <body>
+        {{ orb.bodyfirst|raw }}
+        {{ branding.bodyFirst|raw }}
+
+        <div class="{% block page_classes %}programmes-page text-base b-g-p{% endblock %}" id="programmes-content" role="main">
+        {% block body %}{% endblock %}
+        </div>
+
+        {{ branding.bodyLast|raw }}
+        {{ orb.bodylast|raw }}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
