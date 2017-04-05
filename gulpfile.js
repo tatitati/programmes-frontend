@@ -23,7 +23,9 @@ gulp.task('images:clean', function() {
 gulp.task('sass', ['css:clean'], function() {
     return gulp.src(staticPathSrc + sassMatch)
         .pipe(sourcemaps.init())
-        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(sass({outputStyle: 'compressed', includePaths: [
+            'node_modules'
+        ]}).on('error', sass.logError))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(staticPathDist + '/css/'));
 });
@@ -46,7 +48,10 @@ gulp.task('rev', ['sass', 'images'], function() {
  * Entry tasks
  */
 gulp.task('watch',function() {
-    gulp.watch(staticPathSrc + sassMatch,['sass']);
+    gulp.watch([
+        staticPathSrc + sassMatch
+    ],['sass']);
+
     gulp.watch(staticPathSrc + imageMatch,['images']);
 });
 

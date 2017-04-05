@@ -3,6 +3,7 @@
     "private": true,
     "version": "1.0.0",
     "devDependencies": {
+        "breakup-sass": "^1.0.2",
         "del": "^2.2.2",
         "gulp": "^3.9.1",
         "gulp-rev": "^7.1.2",
