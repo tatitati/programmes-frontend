@@ -46,7 +46,7 @@ class FindByPidController extends BaseController
 
     private function programmeResponse(Programme $programme)
     {
-        return $this->renderWithChrome('@App/find_by_pid/programme.html.twig', [
+        return $this->renderWithChrome('find_by_pid/programme.html.twig', [
             'programme' => $programme,
         ]);
     }

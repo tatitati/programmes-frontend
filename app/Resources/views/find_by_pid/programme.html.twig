@@ -1,4 +1,4 @@
-{% extends '@App/base-ds2014.html.twig' %}
+{% extends 'base-ds2014.html.twig' %}
 
 {% block html_classes %}b-pw-1280{% endblock %}
 {% block title %}BBC - Programmes{% endblock %}
@@ -6,6 +6,6 @@
 {% block body %}
     <div class="br-box-page">
         <h1>It Lives!</h1>
-        <p>{{programmeCount|number_format}} Programmes and counting!</p>
+        {{dump(programme)}}
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@ class HomeController extends BaseController
         // https://github.com/symfony/symfony/issues/22202
         $programmeCount = $programmesService->countAll();
 
-        return $this->renderWithChrome('@App/home/show.html.twig', [
+        return $this->renderWithChrome('home/show.html.twig', [
             'programmeCount' => $programmeCount,
         ]);
     }

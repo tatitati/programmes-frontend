@@ -7,7 +7,7 @@ const rev = require('gulp-rev');
 const revdelOriginal = require('gulp-rev-delete-original');
 const del = require('del');
 
-const staticPathSrc = 'src/Resources';
+const staticPathSrc = 'app/Resources';
 const staticPathDist = 'web/assets';
 const sassMatch = '/sass/**/*.scss';
 const imageMatch = '/images/*';
