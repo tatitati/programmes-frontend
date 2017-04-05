@@ -16,7 +16,6 @@ framework:
         strict_requirements: ~
     default_locale: '%locale%'
     trusted_hosts: ~
-    trusted_proxies: ~
     http_method_override: false
     assets:
         base_path: 'assets'

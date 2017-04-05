@@ -2350,12 +2350,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "d0e904b0daf28923c0a3e3fb8233ee9ce3489d19"
+                "reference": "937045c83977bafe4a4babae04d899aa98f28efb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/d0e904b0daf28923c0a3e3fb8233ee9ce3489d19",
-                "reference": "d0e904b0daf28923c0a3e3fb8233ee9ce3489d19",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/937045c83977bafe4a4babae04d899aa98f28efb",
+                "reference": "937045c83977bafe4a4babae04d899aa98f28efb",
                 "shasum": ""
             },
             "require": {
@@ -2370,7 +2370,7 @@
                 "symfony/polyfill-php56": "~1.0",
                 "symfony/polyfill-php70": "~1.0",
                 "symfony/polyfill-util": "~1.0",
-                "twig/twig": "~1.28|~2.0"
+                "twig/twig": "~1.32|~2.2"
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0",
@@ -2493,7 +2493,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-03-27 18:09:43"
+            "time": "2017-04-05 15:20:10"
         },
         {
             "name": "twig/twig",

@@ -37,6 +37,11 @@ services:
 
     ### Begin the services!
 
+    # This needs to be triggered before the any existing default Resolvers,
+    # the largest of which has a priority of 100
+    AppBundle\ArgumentResolver\PidValueResolver:
+        tags: [{name: 'controller.argument_value_resolver', priority: 125 }]
+
     # TODO: Work out how to pass through a SymfonyCache object wrapped in a
     # DoctrineProvider. So that we can see caching information in the profiler
     # panel that shall land in Symfony 3.3
