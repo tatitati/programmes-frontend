@@ -7,3 +7,4 @@
 /vendor/
 /web/assets/
 /web/bundles/
+/composer.phar
