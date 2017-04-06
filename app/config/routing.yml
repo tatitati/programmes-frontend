@@ -14,3 +14,8 @@ find_by_pid:
     path: /programmes/{pid}
     defaults: { _controller: AppBundle\Controller\FindByPidController::showAction }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+could_labs:
+    path: /programmes/_cloudlabs{wildcard}
+    defaults: { _controller: AppBundle\Controller\CloudLabsController::showAction }
+    requirements: { wildcard: '^(/.*|$)' }
