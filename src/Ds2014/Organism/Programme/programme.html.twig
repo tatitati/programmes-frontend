@@ -1,0 +1,8 @@
+<div class="programme">
+    <h3>{{programme.title}}</h3>
+    {%- if programme.showSynopsis -%}
+        <p>{{programme.synopsis}}</p>
+    {%- endif -%}
+
+    {{tr('available_now')}}: {{programme.locale}}
+</div>

@@ -6,6 +6,10 @@
 {% block body %}
     <div class="br-box-page">
         <h1>It Lives!</h1>
+        {{ds2014('programme', programme, {
+            'showSynopsis': true
+        })}}
+
         {{dump(programme)}}
     </div>
 {% endblock %}
