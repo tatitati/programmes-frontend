@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CloudLabsController extends BaseController
 {
-    public function showAction(Request $request)
+    public function __invoke(Request $request)
     {
         return $this->render('cloud_labs/show.html.twig');
     }
