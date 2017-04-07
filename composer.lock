@@ -240,12 +240,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "8c2ffaf9ac471877d89dc18de6a3b00462ae7b58"
+                "reference": "008ab25f031c3c389dbe6e7fa485952cacef1459"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/8c2ffaf9ac471877d89dc18de6a3b00462ae7b58",
-                "reference": "8c2ffaf9ac471877d89dc18de6a3b00462ae7b58",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/008ab25f031c3c389dbe6e7fa485952cacef1459",
+                "reference": "008ab25f031c3c389dbe6e7fa485952cacef1459",
                 "shasum": ""
             },
             "require": {
@@ -280,7 +280,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-03-31 14:09:11"
+            "time": "2017-04-07 16:56:37"
         },
         {
             "name": "behat/transliterator",
@@ -2350,12 +2350,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "937045c83977bafe4a4babae04d899aa98f28efb"
+                "reference": "f04c0b5f04087f7a489bd0c29ec6ae3d842459c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/937045c83977bafe4a4babae04d899aa98f28efb",
-                "reference": "937045c83977bafe4a4babae04d899aa98f28efb",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/f04c0b5f04087f7a489bd0c29ec6ae3d842459c4",
+                "reference": "f04c0b5f04087f7a489bd0c29ec6ae3d842459c4",
                 "shasum": ""
             },
             "require": {
@@ -2493,7 +2493,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-04-05 15:20:10"
+            "time": "2017-04-07 14:44:54"
         },
         {
             "name": "twig/twig",

@@ -34,6 +34,12 @@ services:
         public: true # Mandatory
         tags: ['controller.service_arguments']
 
+    # TODO: Remove me once this type alias is defined in Symfony core
+    Symfony\Component\Stopwatch\Stopwatch: { alias: debug.stopwatch }
+    # TODO: Remve me once these type aliases are defined in DoctrineBundle
+    # (They're already in master, we're just waiting on a new release > 1.6.7)
+    Doctrine\DBAL\Driver\Connection: { alias:database_connection }
+    Doctrine\ORM\EntityManagerInterface: { alias: doctrine.orm.entity_manager }
 
     ### Begin the services!
 

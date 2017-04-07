@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DateTimeImmutable;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Connection;
 
 class StatusController extends Controller
 {
