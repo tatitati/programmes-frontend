@@ -1,0 +1,63 @@
+@mixin widths-setup-fixed($namespace: '', $base-size: 976px) {
+    // Whole
+    .#{$namespace}one-whole-fixed         { width:$base-size * 1.00 ; }
+
+    // Halves
+    .#{$namespace}one-half-fixed          { width:$base-size * 0.50; }
+
+    // Thirds
+    .#{$namespace}one-third-fixed         { width:$base-size * 0.33333; }
+    .#{$namespace}two-thirds-fixed        { width:$base-size * 0.66666; }
+
+    // Quarters
+    .#{$namespace}one-quarter-fixed       { width:$base-size * 0.25; }
+    .#{$namespace}three-quarters-fixed    { width:$base-size * 0.75; }
+
+    // Sixths
+    .#{$namespace}one-sixth-fixed         { width:$base-size * 0.16666; }
+    .#{$namespace}five-sixths-fixed       { width:$base-size * 0.83333; }
+
+    // Twelfths
+    .#{$namespace}one-twelfth-fixed       { width:$base-size * 0.08333; }
+    .#{$namespace}five-twelfths-fixed     { width:$base-size * 0.41666 }
+    .#{$namespace}seven-twelfths-fixed    { width:$base-size * 0.58333; }
+    .#{$namespace}eleven-twelfths-fixed   { width:$base-size * 0.91666; }
+
+    // Twenty-fourths
+    // Only used for advert box at full size, so we aren't including the full
+    // set of possible class names
+    .#{$namespace}nine-twentyfourths-fixed       { width:$base-size * 0.375; }
+    .#{$namespace}fifteen-twentyfourths-fixed      { width:$base-size * 0.625; }
+}
+
+@include breakup-block('basic') {
+    // When a single column looks too wide but two side-by-side columns looks
+    // too skinny use a grid--bounded to have a single column with some spacing
+    // around it (best used with grid-wrapper--center).
+    .grid--bounded {
+        max-width: 624px;
+    }
+}
+
+@include breakup-breakpoint('bpw') {
+    .bpw-grow-to-fit {
+        float: none;
+        width: auto;
+        overflow: auto; // Stop content peeking out underneath columns to the left
+    }
+
+    @include widths-setup-fixed('bpw-');
+}
+
+// For letting you undo grid-unbounded at a given breakpoint
+@each $name in $gel-widths-breakpoints {
+    @include breakup-breakpoint($name) {
+           .#{$name}-grid--unbounded {
+            max-width: none;
+        }
+    }
+}
+
+@include breakup-block('basic') {
+    .push-one-twentyfourth { margin-left: (100% / 24); }
+}

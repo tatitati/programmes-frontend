@@ -1,0 +1,108 @@
+@include breakup-tweakpoint('print', 'print', true) {
+    * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important;
+    -ms-filter: none !important; opacity: 1 !important;} /* black prints faster: sanbeiji.com/archives/953 */
+    a, a:visited { color: #444 !important; text-decoration: none; }
+    /*
+    DISABLED unless decided otherwise - prints the url after every link
+    a[href]:after { content: " (" attr(href) ")"; }
+    abbr[title]:after { content: " (" attr(title) ")"; }
+    .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; } /* don't show links for images, or javascript/internal links */
+    pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+    thead { display: table-header-group; } /* css-discuss.incutio.com/wiki/Printing_Tables */
+    tr, img { page-break-inside: avoid; }
+    @page { margin: 0.5cm; }
+    p, h2, h3 { orphans: 3; widows: 3; }
+    h2, h3{ page-break-after: avoid; }
+
+    // hide toolbars and other common elements
+    #orb-header,
+    #orb-footer,
+    .branding-productnav-container,
+    .rsn-nonjs-wrapper,
+    #branding-masthead,
+    .br-masthead,
+    #programmes-footer,
+    .programme__favourites,
+    .programme__versions,
+    .block-link__overlay-link {
+        display: none !important;
+    }
+
+    .programme__synopsis {
+        display: block !important;
+    }
+
+    // Cancel hiding of text inside <h1>. It must be shown
+    h1,
+    h1.visually-hidden,
+    h1 .visually-hidden,
+    #schedule-header {
+        clip: auto!important;
+        height: auto!important;
+        width: auto!important;
+        margin: inherit!important;
+        position: static!important;
+        overflow: visible!important;
+    }
+    h1 {
+        margin-bottom: 16px;
+    }
+
+    // MAP Buttons (i.e. favourites just take up space)
+    .map__buttons {
+        display: none;
+    }
+
+    // Segments add to favourites button
+    .segment__buttons .favourites-module-wrapper {
+        display: none !important;
+    }
+
+    // More / Less boxes should always be shown
+    .ml__hidden {
+        clip: auto!important;
+        height: auto!important;
+        width: auto!important;
+        margin: inherit!important;
+        position: static!important;
+        overflow: visible!important;
+    }
+
+    .ml__button,
+    .ml__ellipsis {
+        display: none !important;
+    }
+
+    // Schedule page specific styles
+    .weeknav--tvschedule,
+    .daynav--tvschedule {
+        margin-top: 0!important;
+    }
+
+    #schedule-header .nav--piped,
+    #schedule-daynav,
+    .tv-channels,
+    .tomorrow-bar,
+    #last-week,
+    #next-week,
+    .week-guide .trail,
+    .week-guide__alternative {
+        display: none !important;
+    }
+
+    .week-guide__table .week-guide__table__day {
+        width: auto;
+    }
+
+    .week-guide__table-box {
+        display: block!important;
+    }
+
+    .week-guide__table {
+        min-width: 0;
+
+        td {
+            font-size: 0.9em;
+        }
+    }
+}

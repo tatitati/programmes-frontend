@@ -12,28 +12,35 @@ const staticPathDist = 'web/assets';
 const sassMatch = '/sass/**/*.scss';
 const imageMatch = '/images/*';
 
-gulp.task('css:clean', function() {
+// ------
+
+gulp.task('sass:clean', function() {
     return del([staticPathDist + '/css']);
 });
 
-gulp.task('images:clean', function() {
-    return del([staticPathDist + '/images']);
-});
-
-gulp.task('sass', ['css:clean'], function() {
+gulp.task('sass', ['sass:clean'], function() {
     return gulp.src(staticPathSrc + sassMatch)
         .pipe(sourcemaps.init())
         .pipe(sass({outputStyle: 'compressed', includePaths: [
+            'src',
             'node_modules'
         ]}).on('error', sass.logError))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(staticPathDist + '/css/'));
 });
 
+// ------
+
+gulp.task('images:clean', function() {
+    return del([staticPathDist + '/images']);
+});
+
 gulp.task('images', ['images:clean'], function() {
     return gulp.src(staticPathSrc + '/images/**/*')
         .pipe(gulp.dest(staticPathDist + '/images/'));
 });
+
+// ------
 
 gulp.task('rev', ['sass', 'images'], function() {
     return gulp.src([staticPathDist + '/**/*', '!' + staticPathDist + '/**/rev-manifest.json'])
@@ -48,11 +55,12 @@ gulp.task('rev', ['sass', 'images'], function() {
  * Entry tasks
  */
 gulp.task('watch',function() {
-    gulp.watch([
-        staticPathSrc + sassMatch
-    ],['sass']);
+    gulp.watch(
+        [staticPathSrc + sassMatch, 'src/**/*.scss'],
+        ['sass']
+    );
 
-    gulp.watch(staticPathSrc + imageMatch,['images']);
+    gulp.watch([staticPathSrc + imageMatch], ['images']);
 });
 
 gulp.task('default', ['sass', 'images']);

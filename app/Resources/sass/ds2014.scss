@@ -1,4 +1,13 @@
-h1 {
-    color: red;
-    margin: 0;
-}
+/**
+ * Design System 2014
+ *
+ * Included at all viewport sizes. This file imports all our common libraries
+ * and any module and page specific styling.
+ */
+
+$breakup-included-blocks: ('basic' 'bp2' 'bpb1' 'bpb2' 'bpw' 'bpw1' 'bpw2' 'bpe' 'print');
+$ie : false;
+
+@import 'Ds2014/ds2014-components';
+
+@import 'Ds2014/Core/base/print';

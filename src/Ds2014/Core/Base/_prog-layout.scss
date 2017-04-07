@@ -1,0 +1,111 @@
+/**
+ * Prog Layout
+ *
+ * These classes are used to control the layout of programmes pages, where b-g-p
+ * and b-g-m don't quite cover our use case.
+ *
+ * These classes allow us to create a page with multiple columns, in conjunction
+ * with the grid classes, whose columns are indented differently at given sizes.
+ *  Unfortunately this has ended up meaning more wrapper classes to be properly
+ *  bullet-proof :(
+ */
+
+// Constrains the width of the content area. Used in a similar manner to .b-g-p
+// however it relies on the inner item to provide spacing at small sizes.
+// May either have a .prog-layout__primary or .prog-layout__secondary directly within it, or
+// may have a .grid-wrapper and .grid elements within it with the .layout-*
+// classes appearing within the .grid.
+//
+// <div class="pro-layout">
+//     <div class="prog-layout__primary">I am some simple content</div>
+// </div>
+//
+// <div class="pro-layout"><div class="grid-wrapper">
+//     <div class="grid bpw-one-half"><div class="grid__inner">
+//         <div class="prog-layout__primary">I am some simple content</div>
+//     </div></div>
+// </div></div>
+//
+@include breakup-block('basic') {
+    .prog-layout {
+        max-width: 976px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .prog-layout__primary,
+    .prog-layout__secondary {
+        @extend .cf;
+        display: block;
+
+        > :last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .prog-layout__primary {
+        padding-left: $basic-spacing;
+        padding-right: $basic-spacing;
+    }
+
+    .prog-layout__secondary {
+        margin-left: $basic-spacing;
+        margin-right: $basic-spacing;
+        padding-left: $basic-spacing;
+        padding-right: $basic-spacing;
+    }
+    .prog-box:after {
+        // prevent margin collapse making margins happen outside of prog-box
+        content: '';
+        display: table;
+    }
+}
+
+
+// prog-layout__primary is the most common layout. It is the one usually used for
+// the first column when we split our content into two columns.
+// At base sizes the box is flush to the edge of the viewport with the text
+// indented to be inline with the BBC Blocks. At wide and up viewports the box
+// shall defer it's sizing to that of it's containing column
+@include breakup-breakpoint('bp2') {
+    .prog-layout__primary {
+        padding-left: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+
+    .prog-layout__secondary {
+        margin-left: $wide-spacing;
+        margin-right: $wide-spacing;
+
+        padding-left: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+}
+
+ @include breakup-breakpoint('bpw') {
+    .prog-layout {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .prog-layout__primary {
+        padding-left: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+
+    .prog-layout__secondary {
+        margin-left: 0;
+        margin-right: 0;
+
+        padding-left: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+
+}
+
+// prog-layout__secondary is the alternate layout. It is the one usually used for
+// the second column when we split our content into two columns.
+// At base sizes the box is inline with the BBC Blocks with the text indented
+// the same distance as the blocks are from the viewport edge.
+// At wide and up viewports the box shall defer it's containing column
+

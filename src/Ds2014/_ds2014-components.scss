@@ -1,0 +1,115 @@
+/**
+ * Component listing.
+ *
+ * This listing is common across the standard and ie-specific stylesheets
+ * so abstract it
+ */
+
+// NEVER PUT ANY AMEN OBJECTS IN HERE
+
+// Variables come first, as these are referenced in Libraries
+@import 'Core/Generic/variables';
+@import 'Core/Gel/Generic/variables';
+
+// Libraries - Breakup, Normalize v1 and GEL
+@import 'breakup-sass/stylesheets/breakup';
+@import 'Core/Vendor/normalize';
+@import 'Core/Gel/gel';
+
+// Generics - common variables, mixins and helpers
+@import 'Core/Generic/functions';
+@import 'Core/Generic/mixins';
+@import 'Core/Generic/extends';
+@import 'Core/Generic/extends_classes';
+
+// Base - common styles including typography
+@import 'Core/Base/main';
+@import 'Core/Base/prog-layout';
+
+// Objects - Reusable abstractions
+// TODO these objects should be split into Atoms, Molecules, Organisms and
+// Templates following the Atomic Design principles.
+// This design system was created before we adopted atomic design and the
+// process of storing html templates and scss in the same location. At part of
+// the move to the new world we should opt into using these utilities as and
+// when we require them, and place them in a relevant folder structure.
+//
+// These are batched into groups based on how "core" they are, for instance the
+// the programme object uses the media object for some of it's layout so media
+// should come before programme. Highlight box is used in conjunction with
+// programme and should take prescience when applying styling so it should come
+// after programme.
+
+// Core objects
+// @import 'objects/media';
+// @import 'objects/island';
+// @import 'objects/link-complex';
+// @import 'objects/nav';
+
+// @import 'objects/component';
+// @import 'objects/programme';
+// @import 'objects/broadcast';
+// @import 'objects/promotion';
+
+
+// @import 'objects/columns';
+// @import 'objects/fixedsticky';
+// @import 'objects/folding-list';
+// @import 'objects/date-stack';
+// @import 'objects/icon-box';
+// @import 'objects/iplayer-icon';
+// @import 'objects/letters';
+// @import 'objects/pagination';
+// @import 'objects/moreless';
+
+// These items are meant to be used in conjunction with objects higher up.
+// Thus they should sit at the bottom to ensure their styles win in the cascade.
+// @import 'objects/box-link';
+// @import 'objects/block-link';
+// @import 'objects/broadcast-event';
+// @import 'objects/stream';
+// @import 'objects/feature';
+// @import 'objects/calendar-table';
+// @import 'objects/contact-detail';
+// @import 'objects/highlight-box';
+// @import 'objects/responsive-image';
+// @import 'objects/lazyload';
+// @import 'objects/lazylink';
+// @import 'objects/smp';
+// @import 'objects/segments-list';
+// @import 'objects/segment';
+// @import 'objects/superpromo';
+// @import 'objects/table';
+// @import 'objects/timebar';
+// @import 'objects/form';
+// @import 'objects/third-party';
+// @import 'objects/popup';
+// @import 'objects/related-links-primary';
+
+// Helpers
+@import 'Core/Helpers/js';
+
+// Modules
+// @import 'modules/shared/buy-online-module';
+// @import 'modules/shared/advert';
+// @import 'modules/shared/buttons';
+// @import 'modules/categories/navigation';
+// @import 'modules/atoz/atoz-grid';
+// @import 'modules/atoz/atoz-loader';
+// @import 'modules/atoz/navigation';
+// @import 'modules/atoz/search';
+// @import 'modules/clips/clips-grid';
+// @import 'modules/schedules/week_guide';
+// @import 'modules/schedules/tv-channels';
+// @import 'modules/schedules/fixed-nav';
+// @import 'modules/schedules/heading-links';
+// @import 'modules/schedules/lazyload';
+// @import 'modules/global/footer';
+// @import 'modules/programmes/map';
+// @import 'modules/programmes/episode-panel';
+// @import 'modules/programmes/clip-panel';
+// @import 'modules/programmes/related-topics';
+// @import 'modules/galleries/gallery';
+// @import 'modules/programmes/recipes';
+
+// Page - Page specific overrides, when modules don't fit
