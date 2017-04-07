@@ -5,17 +5,11 @@ namespace AppBundle\Controller;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
-use Symfony\Component\HttpFoundation\Request;
 
 class FindByPidController extends BaseController
 {
-    public function showAction(Pid $pid, ProgrammesService $programmesService)
+    public function __invoke(Pid $pid, ProgrammesService $programmesService)
     {
-        // TODO: Name this method __invoke rather than showAction if
-        // "controller.service_arguments" become supported on invokable controllers
-        // https://github.com/symfony/symfony/issues/22202
-        // $programmeCount = 2 ?? $programmesService->countAll();
-
         // Attempt to find a Programme
         // TODO lookup programme or group in one request
         $programme = $programmesService->findByPidFull($pid);

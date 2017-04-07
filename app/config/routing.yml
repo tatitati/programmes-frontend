@@ -1,6 +1,10 @@
+# TODO: remove ::invoke from invokable controllers once support for the short
+# form is merged (e.g. ...\BlahController::__invoke becomes ...\BlahController)
+# https://github.com/symfony/symfony/issues/22202
+
 status:
     path: /status
-    defaults: { _controller: AppBundle\Controller\StatusController::showAction }
+    defaults: { _controller: AppBundle\Controller\StatusController::__invoke }
 
 root:
     path: /
@@ -8,14 +12,14 @@ root:
 
 home:
     path: /programmes
-    defaults: { _controller: AppBundle\Controller\HomeController::showAction }
+    defaults: { _controller: AppBundle\Controller\HomeController::__invoke }
 
 find_by_pid:
     path: /programmes/{pid}
-    defaults: { _controller: AppBundle\Controller\FindByPidController::showAction }
+    defaults: { _controller: AppBundle\Controller\FindByPidController::__invoke }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 cloud_labs:
     path: /programmes/_cloudlabs{wildcard}
-    defaults: { _controller: AppBundle\Controller\CloudLabsController::showAction }
+    defaults: { _controller: AppBundle\Controller\CloudLabsController::__invoke }
     requirements: { wildcard: '^(/.*|$)' }
