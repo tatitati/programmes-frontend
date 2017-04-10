@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\ArgumentResolver;
+namespace App\ArgumentResolver;
 
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;

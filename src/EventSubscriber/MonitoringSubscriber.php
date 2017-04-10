@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace AppBundle\EventSubscriber;
+namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -51,13 +51,13 @@ class MonitoringSubscriber implements EventSubscriberInterface
 
         $controllerAction = $event->getRequest()->attributes->get('_controller', '');
 
-        // Skip if we can't find a controller, or if it isn't a AppBundle Controller
-        if (!$controllerAction || strpos($controllerAction, 'AppBundle\Controller') === false) {
+        // Skip if we can't find a controller, or if it isn't a App Controller
+        if (!$controllerAction || strpos($controllerAction, 'App\Controller') === false) {
             return;
         }
 
         // Strip off the common preamble for the sake of readability
-        $controllerAction = str_replace('AppBundle\\Controller\\', '', $controllerAction);
+        $controllerAction = str_replace('App\\Controller\\', '', $controllerAction);
 
         // Skip if it is the status controller
         // This gets pinged every 15 seconds by the ELB and we don't need that noise

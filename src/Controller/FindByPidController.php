@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace AppBundle\Controller;
+namespace App\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;

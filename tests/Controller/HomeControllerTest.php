@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\AppBundle\Controller;
+namespace Tests\App\Controller;
 
-use Tests\AppBundle\BaseWebTestCase;
+use Tests\App\BaseWebTestCase;
 
 class HomeControllerTest extends BaseWebTestCase
 {

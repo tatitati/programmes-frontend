@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace AppBundle\Controller;
+namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 

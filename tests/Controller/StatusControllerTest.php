@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\AppBundle\Controller;
+namespace Tests\App\Controller;
 
-use Tests\AppBundle\BaseWebTestCase;
+use Tests\App\BaseWebTestCase;
 
 class StatusControllerTest extends BaseWebTestCase
 {

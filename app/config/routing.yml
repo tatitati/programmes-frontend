@@ -1,6 +1,6 @@
 status:
     path: /status
-    defaults: { _controller: AppBundle\Controller\StatusController }
+    defaults: { _controller: App\Controller\StatusController }
 
 root:
     path: /
@@ -8,14 +8,14 @@ root:
 
 home:
     path: /programmes
-    defaults: { _controller: AppBundle\Controller\HomeController }
+    defaults: { _controller: App\Controller\HomeController }
 
 find_by_pid:
     path: /programmes/{pid}
-    defaults: { _controller: AppBundle\Controller\FindByPidController }
+    defaults: { _controller: App\Controller\FindByPidController }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 cloud_labs:
     path: /programmes/_cloudlabs{wildcard}
-    defaults: { _controller: AppBundle\Controller\CloudLabsController }
+    defaults: { _controller: App\Controller\CloudLabsController }
     requirements: { wildcard: '^(/.*|$)' }

@@ -26,10 +26,10 @@ services:
         Symfony\Component\Form\FormTypeInterface:
             tags: ['form.type']
 
-    AppBundle\:
+    App\:
         resource: '../../src/{Command,EventSubscriber,Twig}'
 
-    AppBundle\Controller\:
+    App\Controller\:
         resource: '../../src/Controller'
         public: true # Mandatory
         tags: ['controller.service_arguments']
@@ -38,14 +38,14 @@ services:
     Symfony\Component\Stopwatch\Stopwatch: { alias: debug.stopwatch }
     # TODO: Remve me once these type aliases are defined in DoctrineBundle
     # (They're already in master, we're just waiting on a new release > 1.6.7)
-    Doctrine\DBAL\Driver\Connection: { alias:database_connection }
+    Doctrine\DBAL\Driver\Connection: { alias: database_connection }
     Doctrine\ORM\EntityManagerInterface: { alias: doctrine.orm.entity_manager }
 
     ### Begin the services!
 
     # This needs to be triggered before the any existing default Resolvers,
     # the largest of which has a priority of 100
-    AppBundle\ArgumentResolver\PidValueResolver:
+    App\ArgumentResolver\PidValueResolver:
         tags: [{name: 'controller.argument_value_resolver', priority: 125 }]
 
     # TODO: Work out how to pass through a SymfonyCache object wrapped in a
@@ -84,7 +84,7 @@ services:
 
     ### Monitoring
 
-    AppBundle\EventSubscriber\MonitoringSubscriber:
+    App\EventSubscriber\MonitoringSubscriber:
         tags:
             - { name: 'kernel.event_subscriber' }
             - { name: 'monolog.logger', channel: 'app_access' }

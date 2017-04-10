@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\AppBundle;
+namespace Tests\App;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 abstract class BaseWebTestCase extends WebTestCase
 {
-    const FIXTURES_PATH = 'Tests\AppBundle\DataFixtures\ORM\\';
+    const FIXTURES_PATH = 'Tests\App\DataFixtures\ORM\\';
 
     public function assertResponseStatusCode($client, $expectedCode)
     {
