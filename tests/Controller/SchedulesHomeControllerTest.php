@@ -4,14 +4,14 @@ namespace Tests\App\Controller;
 
 use Tests\App\BaseWebTestCase;
 
-class HomeControllerTest extends BaseWebTestCase
+class SchedulesHomeControllerTest extends BaseWebTestCase
 {
     public function testController()
     {
         $this->loadFixtures([]);
 
         $client = static::createClient();
-        $crawler = $client->request('GET', '/programmes');
+        $crawler = $client->request('GET', '/schedules');
 
         $this->assertResponseStatusCode($client, 200);
     }
