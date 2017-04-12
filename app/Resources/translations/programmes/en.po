@@ -1,0 +1,2271 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: rmp\\translate programmes v1.0\n"
+"Language: en_GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==0 ? 0 : n==1 ? 1 : 2)\n"
+
+#. English: "About BBC Radio".
+#. Used by: Radio Nightingale
+msgid "about_bbc_radio"
+msgstr "About BBC Radio"
+
+#. English: "Add stuff to listen later. And follow your favourite shows to get updates and recommendations. All on any device.".
+msgid "add_stuff_listen_later"
+msgstr "Add stuff to listen later. And follow your favourite shows to get updates and recommendations. All on any device."
+
+#. English: "Added".
+#. Used by: NHP -> MyRadioHeader
+msgid "added"
+msgstr "Added"
+
+#. English: "All".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/a-z/by/%40/current .
+msgid "all"
+msgstr "All"
+
+#. English: "All available episodes".
+#. Priority for: Programmes
+msgid "all_available_episodes"
+msgstr "All available episodes"
+
+#. English: "All Categories".
+#. Used by: RadioNav -> Categories
+msgid "all_categories"
+msgstr "All Categories"
+
+#. English: "All episodes".
+#. Example URL: http://www.test.bbc.co.uk/programmes/b00cyj3f .
+#. Priority for: Programmes
+msgid "all_episodes"
+msgstr "All episodes"
+
+#. English: "All episodes available on BBC iPlayer".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d .
+msgid "all_episodes_iplayer"
+msgstr "All episodes available on BBC iPlayer"
+
+#. English: "All episodes available on BBC iPlayer Radio".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr .
+msgid "all_episodes_iplayer_radio"
+msgstr "All episodes available on BBC iPlayer Radio"
+
+#. English: "All podcasts".
+msgid "all_podcasts"
+msgstr "All podcasts"
+
+#. English: "All previous episodes".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b00srz5b .
+msgid "all_previous_episodes"
+msgstr "All previous episodes"
+
+#. English: "All programmes beginning with".
+#. Used by: RadioNav
+msgid "all_programmes_beginning_with"
+msgstr "All programmes beginning with"
+
+#. English: "All upcoming".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d
+#. Priority for: Programmes
+msgid "all_upcoming"
+msgstr "All upcoming"
+
+#. English: "Artist name".
+#. Priority for: Rich Tracks
+msgid "artist_name"
+msgstr "Artist name"
+
+#. English: "Arts, Culture & the Media".
+#. Used by: RadioNav -> Categories
+msgid "arts_culture_and_the_media"
+msgstr "Arts, Culture &amp; the Media"
+
+#. English: "All Programmes".
+msgid "atoz_all"
+msgstr "All Programmes"
+
+#. English: "Available now & Coming soon".
+msgid "atoz_current"
+msgstr "Available now & Coming soon"
+
+#. English: "Programmes beginning with the letter %1".
+msgid "atoz_letters"
+msgstr "Programmes beginning with the letter %1"
+
+#. English: "Sorry, there are no programmes in this category".
+msgid "atoz_nocategory"
+msgstr "Sorry, there are no programmes in this category"
+
+#. English: "Sorry, there are no programmes with titles containing %1".
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/a-z/by/thisisnotarealword .
+#. %1 is a variable, which may contain the value: "eastenders".
+#. Type: Body text
+msgid "atoz_nocontaining"
+msgstr "Sorry, there are no programmes with titles containing %1"
+
+#. English: "Sorry, there are no programmes with titles beginning with %1".
+msgid "atoz_noresults"
+msgstr "Sorry, there are no programmes with titles beginning with %1"
+
+#. English: "Use the A to Z to find a programme by name".
+msgid "atoz_note"
+msgstr "Use the A to Z to find a programme by name"
+
+#. English: "Programmes beginning with numbers or punctuation symbols".
+msgid "atoz_numbers"
+msgstr "Programmes beginning with numbers or punctuation symbols"
+
+#. English: "Search".
+msgid "atoz_search"
+msgstr "Search"
+
+#. English: "Search results for '%1'".
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/a-z/by/thisisnotarealword .
+#. %1 is a variable, which may contain the value: "eastenders".
+#. Type: Title
+msgid "atoz_search_title"
+msgstr "Search results for '%1'"
+
+#. English: "A to Z".
+msgid "atoz_title"
+msgstr "A to Z"
+
+#. English: "Programmes A to Z".
+msgid "atoz_title_full"
+msgstr "Programmes A to Z"
+
+#. English: "Try viewing %1all%2".
+msgid "atoz_tryall"
+msgstr "Try viewing %1all%2"
+
+#. English: "Try viewing %1current%2".
+msgid "atoz_trycurrent"
+msgstr "Try viewing %1current%2"
+
+#. English: "Audio"
+#. Example URL: http://www.bbc.co.uk/programmes/topics/Political_philosophy .
+msgid "audio"
+msgstr "Audio"
+
+#. English: "Audio described".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b0693y9r .
+msgid "audio_described"
+msgstr "Audio described"
+
+#. English (no items): "There are currently no available episodes".
+#. English (one item): "There is currently %count% available episode".
+#. English (2+ items): "There are currently %count% available episodes".
+#. Example URL: http://www.bbc.co.uk/programmes/b007wds5/episodes/player .
+#. Type: Body text
+msgid "available_count"
+msgid_plural "available_count %count%"
+msgstr[0] "There are currently no available episodes"
+msgstr[1] "There is currently %count% available episode"
+msgstr[2] "There are currently %count% available episodes"
+
+#. English (no items): "There are currently no available episodes".
+#. English (one item): "1 available episode".
+#. English (2+ items): "%count% available episodes".
+msgid "available_count_short"
+msgid_plural "available_count_short %count%"
+msgstr[0] "There are currently no available episodes"
+msgstr[1] "1 available episode"
+msgstr[2] "%count% available episodes"
+
+#. English (no items): "There are no available items".
+#. English (one item): "There is one available item".
+#. English (2+ items): "There are %count% available items".
+msgid "available_items_count"
+msgid_plural "available_items_count %count%"
+msgstr[0] "There are no available items"
+msgstr[1] "There is one available item"
+msgstr[2] "There are %count% available items"
+
+#. English: "Available now".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b04t0vqb .
+msgid "available_now"
+msgstr "Available now"
+
+#. English: "Available on BBC iPlayer".
+msgid "available_on_iplayer"
+msgstr "Available on BBC iPlayer"
+
+#. English: "On iPlayer".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d .
+#. Priority for: Programmes
+msgid "available_on_iplayer_short"
+msgstr "On iPlayer"
+
+#. English: "This programme will be available shortly after broadcast".
+#. Priority for: Programmes
+msgid "available_shortly"
+msgstr "This programme will be available shortly after broadcast"
+
+#. English: "Back to iPlayer Radio".
+#. Priority for: Favourites
+msgid "back_to_iplayer_radio"
+msgstr "Back to iPlayer Radio"
+
+#. English: "Back to top".
+#. Example URL: http://www.bbc.co.uk/radio3/programmes/schedules .
+#. Priority for: Programmes
+#. Priority for: Schedules
+msgid "back_to_top_of_page"
+msgstr "Back to top"
+
+#. English: "Back up to:".
+msgid "back_up_to"
+msgstr "Back up to:"
+
+#. English: "except %1".
+msgid "broadcast_except"
+msgstr "except %1"
+
+#. English: "%1 only".
+msgid "broadcast_only_on"
+msgstr "%1 only"
+
+#. English (no items): "Broadcasts".
+#. English (one item): "Broadcast".
+#. English (2+ items): "Broadcasts".
+#. Example URL: http://www.bbc.co.uk/programmes/p004t1s0/broadcasts .
+#. Priority for: Programmes
+msgid "broadcasts"
+msgid_plural "broadcasts %count%"
+msgstr[0] "Broadcasts"
+msgstr[1] "Broadcast"
+msgstr[2] "Broadcasts"
+
+#. English: "There are no broadcasts".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/p02rt545/broadcasts .
+msgid "broadcasts_none"
+msgstr "There are no broadcasts"
+
+#. English: "There are no broadcasts for the month and year selected".
+msgid "broadcasts_none_date"
+msgstr "There are no broadcasts for the month and year selected"
+
+#. English: "There are no upcoming broadcasts of this programme".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/p02rt545/broadcasts/upcoming .
+msgid "broadcasts_none_upcoming"
+msgstr "There are no upcoming broadcasts of this programme"
+
+#. English: "There are no upcoming debut broadcasts".
+#. Example URL: http://www.bbc.co.uk/programmes/p02rt545/broadcasts/upcoming/debut .
+msgid "broadcasts_none_upcoming_debut"
+msgstr "There are no upcoming debut broadcasts"
+
+#. English: "No upcoming broadcasts".
+#. Priority for: Programmes
+msgid "broadcasts_none_upcoming_short"
+msgstr "No upcoming broadcasts"
+
+#. English: "Series and episodes available from online suppliers".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr .
+msgid "buy_desc"
+msgstr "Series and episodes available from online suppliers"
+
+#. English: "Buy online".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b006mj59 .
+msgid "buy_online"
+msgstr "Buy online"
+
+#. English: "Where to buy".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/b006mj59 .
+msgid "buy_where"
+msgstr "Where to buy"
+
+#. English: "By date".
+msgid "by_date"
+msgstr "By date"
+
+#. English: "By format".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qj8q/galleries .
+#. Priority for: Programmes
+msgid "by_format"
+msgstr "By format"
+
+#. English: "By genre".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qj8q/galleries .
+#. Priority for: Programmes
+msgid "by_genre"
+msgstr "By genre"
+
+#. English (no items): "Categories".
+#. English (one item): "Category".
+#. English (2+ items): "Categories".
+msgid "categories"
+msgid_plural "categories %count%"
+msgstr[0] "Categories"
+msgstr[1] "Category"
+msgstr[2] "Categories"
+
+#. English: "Pick a category to see BBC Radio programmes".
+msgid "categories_subheading"
+msgstr "Pick a category to see BBC Radio programmes"
+
+#. English: "This category can be found on the stations highlighted below".
+msgid "category_stations_note"
+msgstr "This category can be found on the stations highlighted below"
+
+#. English: "Programmes categorised as %1".
+msgid "category_title"
+msgstr "Programmes categorised as %1"
+
+#. English: "This chapter is from".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/p031t7ll .
+msgid "chapter_context"
+msgstr "This chapter is from"
+
+#. English (no items): "Chapters".
+#. English (one item): "Chapter".
+#. English (2+ items): "Chapters".
+msgid "chapters"
+msgid_plural "chapters %count%"
+msgstr[0] "Chapters"
+msgstr[1] "Chapter"
+msgstr[2] "Chapters"
+
+#. English: "Choose your file"
+#. Example URL: "http://www.bbc.co.uk/programmes/p02nrsfl/episodes/downloads"
+#. Click one of the Download buttons and look at the heading of the popup
+msgid "choose_your_file"
+msgstr "Choose your file"
+
+#. English: "Clear selection".
+msgid "clear_selection"
+msgstr "Clear selection"
+
+#. English: "This clip will be available soon".
+#. Priority for: Programmes
+msgid "clip_availability_future"
+msgstr "This clip will be available soon"
+
+#. English: "Sorry, this clip is not currently available".
+#. Priority for: Programmes
+#. Example URL: http://www.bbc.co.uk/programmes/p026r38v .
+msgid "clip_availability_none"
+msgstr "Sorry, this clip is not currently available"
+
+#. English: "Sorry, this clip is no longer available".
+#. Priority for: Programmes
+msgid "clip_availability_past"
+msgstr "Sorry, this clip is no longer available"
+
+#. English: "This clip is from".
+#. Example URL: http://www.bbc.co.uk/programmes/p030sqjj .
+#. Priority for: Programmes
+msgid "clip_context"
+msgstr "This clip is from"
+
+#. English (no items): "Clips".
+#. English (one item): "Clip".
+#. English (2+ items): "Clips".
+#. Example URL: http://www.bbc.co.uk/programmes/b006q2x0/clips .
+#. Priority for: Programmes
+msgid "clips"
+msgid_plural "clips %count%"
+msgstr[0] "Clips"
+msgstr[1] "Clip"
+msgstr[2] "Clips"
+
+#. English (no items): "There are currently no available clips".
+#. English (one item): "There is currently 1 available clip".
+#. English (2+ items): "There are currently %count% available clips".
+#. Example URL: http://www.bbc.co.uk/programmes/p02p9f6q/clips .
+msgid "clips_count"
+msgid_plural "clips_count %count%"
+msgstr[0] "There are currently no available clips"
+msgstr[1] "There is currently 1 available clip"
+msgstr[2] "There are currently %count% available clips"
+
+#. English (no items): "Collections".
+#. English (one item): "Collection".
+#. English (2+ items): "Collections".
+msgid "collections"
+msgid_plural "collections %count%"
+msgstr[0] "Collections"
+msgstr[1] "Collection"
+msgstr[2] "Collections"
+
+#. English: "Available on".
+#. Example URL: http://www.bbc.co.uk/programmes/b006mj59 .
+#. Priority for: Programmes
+msgid "colon_available_on"
+msgstr "Available on"
+
+#. English: "From suppliers".
+#. Example URL: http://www.bbc.co.uk/programmes/b006mj59 .
+#. Priority for: Programmes
+msgid "colon_from_suppliers"
+msgstr "From suppliers"
+
+#. English: "Comedy".
+#. Used by: RadioNav -> Categories
+msgid "comedy"
+msgstr "Comedy"
+
+#. English: "Coming soon".
+#. Priority for: Programmes
+msgid "coming_soon"
+msgstr "Coming soon"
+
+#. English (no items): "Comments".
+#. English (one item): "Comment".
+#. English (2+ items): "Comments".
+#. Example URL: http://www.test.bbc.co.uk/programmes/b04tw2lf .
+#. Priority for: Programmes
+msgid "comments"
+msgid_plural "comments %count%"
+msgstr[0] "Comments"
+msgstr[1] "Comment"
+msgstr[2] "Comments"
+
+#. English (no items): "Contact details".
+#. English (one item): "Contact detail".
+#. English (2+ items): "Contact details".
+msgid "contact_details"
+msgid_plural "contact_details %count%"
+msgstr[0] "Contact details"
+msgstr[1] "Contact detail"
+msgstr[2] "Contact details"
+
+#. English: "Please complete this field".
+msgid "contact_form_field"
+msgstr "Please complete this field"
+
+#. English: "indicates mandatory fields".
+msgid "contact_form_mandatory"
+msgstr "indicates mandatory fields"
+
+#. English: "Send message".
+msgid "contact_form_submit"
+msgstr "Send message"
+
+#. English: "Sorry, the contact form is currently unavailable due to a technical problem.".
+msgid "contact_form_unavailable"
+msgstr ""
+"Sorry, the contact form is currently unavailable due to a technical problem."
+
+#. English: "Form details".
+msgid "contact_prompt"
+msgstr "Form details"
+
+#. English: "Please include the following details on your message:".
+msgid "contact_prompt_note"
+msgstr "Please include the following details on your message:"
+
+#. English: "Contact us".
+msgid "contact_us"
+msgstr "Contact us"
+
+#. English: "%1 Podcasts".
+msgid "context_podcasts"
+msgstr "%1 Podcasts"
+
+#. English (no items): "Credits".
+#. English (one item): "Credit".
+#. English (2+ items): "Credits".
+#. Example URL: http://www.bbc.co.uk/programmes/p02ct985 .
+#. Priority for: Programmes
+msgid "credits"
+msgid_plural "credits %count%"
+msgstr[0] "Credits"
+msgstr[1] "Credit"
+msgstr[2] "Credits"
+
+#. English: "This programme has no credits".
+msgid "credits_none"
+msgstr "This programme has no credits"
+
+#. English: "%1s".
+#. e.g. 1990s, 2000s
+#. Example URL: http://www.bbc.co.uk/programmes/b006q2x0/broadcasts .
+#. %1 is a variable, which may contain the value: "1990".
+msgid "decade"
+msgstr "%1s"
+
+#. English: "Documentaries".
+#. Used by: RadioNav -> Categories
+msgid "documentaries"
+msgstr "Documentaries"
+
+#. English (no items): "Downloads".
+#. English (one item): "Download".
+#. English (2+ items): "Downloads".
+#. Example URL: http://www.bbc.co.uk/programmes/b068sjpl
+#. Priority for: Programmes
+msgid "downloads"
+msgid_plural "downloads %count%"
+msgstr[0] "Downloads"
+msgstr[1] "Download"
+msgstr[2] "Downloads"
+
+#. English: "Drama".
+#. Used by: RadioNav -> Categories
+msgid "drama"
+msgstr "Drama"
+
+#. English: "Duration: %1".
+msgid "duration"
+msgstr "Duration: %1"
+
+#. English: "Entertainment".
+#. Used by: RadioNav -> Categories
+msgid "entertainment"
+msgstr "Entertainment"
+
+#. English: "This episode will be available soon".
+#. Priority for: Programmes
+msgid "episode_availability_future"
+msgstr "This episode will be available soon"
+
+#. English: "Sorry, this episode is not currently available".
+#. Example URL: http://www.bbc.co.uk/programmes/b0074cvd .
+#. Priority for: Programmes
+msgid "episode_availability_none"
+msgstr "Sorry, this episode is not currently available"
+
+#. English: "Sorry, this episode is not currently available on BBC iPlayer Radio".
+#. Example URL: http://www.bbc.co.uk/programmes/b00hc2d9 .
+#. Priority for: Programmes
+msgid "episode_availability_none_radio"
+msgstr "Sorry, this episode is not currently available on BBC iPlayer Radio"
+
+#. English: "Sorry, this episode is no longer available".
+#. Priority for: Programmes
+msgid "episode_availability_past"
+msgstr "Sorry, this episode is no longer available"
+
+#. English: "Sorry, this episode is no longer available on BBC iPlayer Radio".
+#. Priority for: Programmes
+msgid "episode_availability_past_radio"
+msgstr "Sorry, this episode is no longer available on BBC iPlayer Radio"
+
+#. English: "Episode guide".
+msgid "episode_guide"
+msgstr "Episode guide"
+
+#. English: "This episode is related to %1".
+msgid "episode_is_related_to"
+msgstr "This episode is related to %1"
+
+#. English: "Episode %1 of %2".
+#. Example URL: http://www.bbc.co.uk/programmes/b04nv6kr .
+#. %1 is a variable, which may contain the value: "3".
+#. %2 is a variable, which may contain the value: "5".
+#. Priority for: Programmes
+msgid "episode_number"
+msgstr "Episode %1 of %2"
+
+#. English (no items): "Sorry, no episodes available on BBC iPlayer".
+#. English (one item): "1 episode available on BBC iPlayer".
+#. English (2+ items): "%count% episodes available on BBC iPlayer".
+msgid "episode_on_iplayer"
+msgid_plural "episode_on_iplayer %count%"
+msgstr[0] "Sorry, no episodes available on BBC iPlayer"
+msgstr[1] "1 episode available on BBC iPlayer"
+msgstr[2] "%count% episodes available on BBC iPlayer"
+
+#. English (no items): "Episodes".
+#. English (one item): "Episode".
+#. English (2+ items): "Episodes".
+#. Example URL: http://www.bbc.co.uk/programmes/b006q2x0/episodes/guide .
+#. Priority for: Programmes
+msgid "episodes"
+msgid_plural "episodes %count%"
+msgstr[0] "Episodes"
+msgstr[1] "Episode"
+msgstr[2] "Episodes"
+
+#. English: "Episodes and clips".
+#. Priority for: Favourites
+msgid "episodes_and_clips"
+msgstr "Episodes and clips"
+
+#. English: "Episodes available:".
+msgid "episodes_available"
+msgstr "Episodes available:"
+
+#. English: "There will be %1 episodes. More information coming soon".
+msgid "episodes_more_soon"
+msgstr "There will be %1 episodes. More information coming soon"
+
+#. English: "There are no episodes".
+msgid "episodes_none"
+msgstr "There are no episodes"
+
+#. English: "Factual".
+#. Used by: RadioNav -> Categories
+msgid "factual"
+msgstr "Factual"
+
+#. English: "Sorry, we couldn't access this information. Please refresh to try again.".
+#. Priority for: Programmes
+msgid "fault"
+msgstr ""
+"Sorry, we couldn't access this information. Please refresh to try again."
+
+#. English: "Featured".
+msgid "featured"
+msgstr "Featured"
+
+#. English: "Featured in...".
+msgid "featured_in"
+msgstr "Featured in..."
+
+#. English: "Features".
+msgid "features"
+msgstr "Features"
+
+#. English: "Feedback".
+#. Used by: Radio Nightingale
+msgid "feedback"
+msgstr "Feedback"
+
+#. English: "Filter by".
+msgid "filter_by"
+msgstr "Filter by"
+
+#. English: "Find out more".
+#. Used by: NHP -> Personalisation -> Recommendations
+msgid "find_out_more"
+msgstr "Find out more"
+
+#. English: "Find podcasts".
+msgid "find_podcasts"
+msgstr "Find podcasts"
+
+#. English: "Find us at".
+#. Priority for: Programmes
+msgid "find_us_at"
+msgstr "Find us at"
+
+#. English: "You are at the first episode".
+#. Example URL: http://www.bbc.co.uk/programmes/p023w9fy .
+#. Priority for: Programmes
+msgid "first_episode"
+msgstr "You are at the first episode"
+
+#. English: "Following".
+#. Used by: NHP -> MyRadioHeader
+msgid "following"
+msgstr "Following"
+
+#. English (no items): "Formats".
+#. English (one item): "Format".
+#. English (2+ items): "Formats".
+msgid "formats"
+msgid_plural "formats %count%"
+msgstr[0] "Formats"
+msgstr[1] "Format"
+msgstr[2] "Formats"
+
+#. English: "Pick a format to see %1 programmes".
+msgid "formats_note"
+msgstr "Pick a format to see %1 programmes"
+
+#. English: "Full schedule".
+msgid "full_schedule"
+msgstr "Full schedule"
+
+#. English (no items): "Galleries".
+#. English (one item): "Gallery".
+#. English (2+ items): "Galleries".
+msgid "galleries"
+msgid_plural "galleries %count%"
+msgstr[0] "Galleries"
+msgstr[1] "Gallery"
+msgstr[2] "Galleries"
+
+#. English: "This gallery is from".
+msgid "galleries_context"
+msgstr "This gallery is from"
+
+#. English (no items): "There are currently no galleries".
+#. English (one item): "There is currently 1 gallery".
+#. English (2+ items): "There are currently %count% galleries".
+msgid "galleries_count"
+msgid_plural "galleries_count %count%"
+msgstr[0] "There are currently no galleries"
+msgstr[1] "There is currently 1 gallery"
+msgstr[2] "There are currently %count% galleries"
+
+#. English (no items): "Genres".
+#. English (one item): "Genre".
+#. English (2+ items): "Genres".
+msgid "genres"
+msgid_plural "genres %count%"
+msgstr[0] "Genres"
+msgstr[1] "Genre"
+msgstr[2] "Genres"
+
+#. English: "Pick a genre to see %1 programmes".
+msgid "genres_note"
+msgstr "Pick a genre to see %1 programmes"
+
+#. English: "GMT".
+#. Example URL: http://www.bbc.co.uk/programmes/p0385z3r
+msgid "gmt"
+msgstr "GMT"
+
+#. English: "Help".
+msgid "help"
+msgstr "Help"
+
+#. English: "Hide available episodes".
+msgid "hide_available_episodes"
+msgstr "Hide available episodes"
+
+#. English: "History".
+#. Used by: RadioNav -> Categories
+msgid "history"
+msgstr "History"
+
+#. English: "Home".
+#. Example URL: http://www.bbc.co.uk/programmes/p023w9fy .
+#. Priority for: Programmes
+msgid "home"
+msgstr "Home"
+
+#. English: "%1h ago".
+#. %1 is a variable, which may contain the value: "1".
+#. Priority for: Rich Tracks
+msgid "hours_ago_short"
+msgstr "%1h ago"
+
+#. English: "Listen from start".
+msgid "iplayer_listen_from_start"
+msgstr "Listen from start"
+
+#. English: "Listen live".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Programmes
+#. Priority for: Schedules
+msgid "iplayer_listen_live"
+msgstr "Listen live"
+
+#. English: "Listen now".
+#. Priority for: Programmes
+msgid "iplayer_listen_now"
+msgstr "Listen now"
+
+#. English (no items): "0 days left to listen".
+#. English (one item): "1 day left to listen".
+#. English (2+ items): "%count% days left to listen".
+msgid "iplayer_listen_remaining_days"
+msgid_plural "iplayer_listen_remaining_days %count%"
+msgstr[0] "0 days left to listen"
+msgstr[1] "1 day left to listen"
+msgstr[2] "%count% days left to listen"
+
+#. English (no items): "0 hours left to listen".
+#. English (one item): "1 hour left to listen".
+#. English (2+ items): "%count% hours left to listen".
+msgid "iplayer_listen_remaining_hours"
+msgid_plural "iplayer_listen_remaining_hours %count%"
+msgstr[0] "0 hours left to listen"
+msgstr[1] "1 hour left to listen"
+msgstr[2] "%count% hours left to listen"
+
+#. English: "NO ENGLISH TRANSLATION AVAILABLE YET".
+msgid "iplayer_listen_remaining_mins"
+msgstr ""
+
+#. English (no items): "0 minutes left to listen".
+#. English (one item): "1 minute left to listen".
+#. English (2+ items): "%count% minutes left to listen".
+msgid "iplayer_listen_remaining_minutes"
+msgid_plural "iplayer_listen_remaining_minutes %count%"
+msgstr[0] "0 minutes left to listen"
+msgstr[1] "1 minute left to listen"
+msgstr[2] "%count% minutes left to listen"
+
+#. English (no items): "0 months left to listen".
+#. English (one item): "1 month left to listen".
+#. English (2+ items): "%count% months left to listen".
+msgid "iplayer_listen_remaining_months"
+msgid_plural "iplayer_listen_remaining_months %count%"
+msgstr[0] "0 months left to listen"
+msgstr[1] "1 month left to listen"
+msgstr[2] "%count% months left to listen"
+
+#. English (no items): "0 seconds left to listen".
+#. English (one item): "1 second left to listen".
+#. English (2+ items): "%count% seconds left to listen".
+msgid "iplayer_listen_remaining_seconds"
+msgid_plural "iplayer_listen_remaining_seconds %count%"
+msgstr[0] "0 seconds left to listen"
+msgstr[1] "1 second left to listen"
+msgstr[2] "%count% seconds left to listen"
+
+#. English: "NO ENGLISH TRANSLATION AVAILABLE YET".
+msgid "iplayer_listen_remaining_secs"
+msgstr ""
+
+#. English (no items): "0 weeks left to listen".
+#. English (one item): "1 week left to listen".
+#. English (2+ items): "%count% weeks left to listen".
+msgid "iplayer_listen_remaining_weeks"
+msgid_plural "iplayer_listen_remaining_weeks %count%"
+msgstr[0] "0 weeks left to listen"
+msgstr[1] "1 week left to listen"
+msgstr[2] "%count% weeks left to listen"
+
+#. English: "over a year left to listen".
+msgid "iplayer_listen_remaining_years"
+msgstr "over a year left to listen"
+
+#. English: "Play episode".
+msgid "iplayer_play_clip"
+msgstr "Play clip"
+
+#. English: "Play episode".
+msgid "iplayer_play_episode"
+msgstr "Play episode"
+
+#. English: "Play from start".
+msgid "iplayer_play_from_start"
+msgstr "Play from start"
+
+#. English: "Play live".
+msgid "iplayer_play_live"
+msgstr "Play live"
+
+#. English: "Play now".
+msgid "iplayer_play_now"
+msgstr "Play now"
+
+#. English (no items): "0 days left to play".
+#. English (one item): "1 day left to play".
+#. English (2+ items): "%count% days left to play".
+msgid "iplayer_play_remaining_days"
+msgid_plural "iplayer_play_remaining_days %count%"
+msgstr[0] "0 days left to play"
+msgstr[1] "1 day left to play"
+msgstr[2] "%count% days left to play"
+
+#. English (no items): "0 hours left to play".
+#. English (one item): "1 hour left to play".
+#. English (2+ items): "%count% hours left to play".
+msgid "iplayer_play_remaining_hours"
+msgid_plural "iplayer_play_remaining_hours %count%"
+msgstr[0] "0 hours left to play"
+msgstr[1] "1 hour left to play"
+msgstr[2] "%count% hours left to play"
+
+#. English: "NO ENGLISH TRANSLATION AVAILABLE YET".
+msgid "iplayer_play_remaining_mins"
+msgstr ""
+
+#. English (no items): "0 minutes left to play".
+#. English (one item): "1 minute left to play".
+#. English (2+ items): "%count% minutes left to play".
+msgid "iplayer_play_remaining_minutes"
+msgid_plural "iplayer_play_remaining_minutes %count%"
+msgstr[0] "0 minutes left to play"
+msgstr[1] "1 minute left to play"
+msgstr[2] "%count% minutes left to play"
+
+#. English (no items): "0 months left to play".
+#. English (one item): "1 month left to play".
+#. English (2+ items): "%count% months left to play".
+msgid "iplayer_play_remaining_months"
+msgid_plural "iplayer_play_remaining_months %count%"
+msgstr[0] "0 months left to play"
+msgstr[1] "1 month left to play"
+msgstr[2] "%count% months left to play"
+
+#. English (no items): "0 seconds left to play".
+#. English (one item): "1 second left to play".
+#. English (2+ items): "%count% seconds left to play".
+msgid "iplayer_play_remaining_seconds"
+msgid_plural "iplayer_play_remaining_seconds %count%"
+msgstr[0] "0 seconds left to play"
+msgstr[1] "1 second left to play"
+msgstr[2] "%count% seconds left to play"
+
+#. English: "NO ENGLISH TRANSLATION AVAILABLE YET".
+msgid "iplayer_play_remaining_secs"
+msgstr ""
+
+#. English (no items): "0 weeks left to play".
+#. English (one item): "1 week left to play".
+#. English (2+ items): "%count% weeks left to play".
+msgid "iplayer_play_remaining_weeks"
+msgid_plural "iplayer_play_remaining_weeks %count%"
+msgstr[0] "0 weeks left to play"
+msgstr[1] "1 week left to play"
+msgstr[2] "%count% weeks left to play"
+
+#. English: "over a year left to play".
+msgid "iplayer_play_remaining_years"
+msgstr "over a year left to play"
+
+#. English (no items): "0 days".
+#. English (one item): "1 day".
+#. English (2+ items): "%count% days".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d/episodes/player
+#. Priority for: Programmes
+msgid "iplayer_time_days"
+msgid_plural "iplayer_time_days %count%"
+msgstr[0] "0 days"
+msgstr[1] "1 day"
+msgstr[2] "%count% days"
+
+#. English (no items): "0 hours".
+#. English (one item): "1 hour".
+#. English (2+ items): "%count% hours".
+#. Priority for: Programmes
+msgid "iplayer_time_hours"
+msgid_plural "iplayer_time_hours %count%"
+msgstr[0] "0 hours"
+msgstr[1] "1 hour"
+msgstr[2] "%count% hours"
+
+#. English: "indefinitely".
+msgid "iplayer_time_indefinitely"
+msgstr "indefinitely"
+
+#. English (no items): "0 mins".
+#. English (one item): "1 min".
+#. English (2+ items): "%count% mins".
+msgid "iplayer_time_mins"
+msgid_plural "iplayer_time_mins %count%"
+msgstr[0] "0 mins"
+msgstr[1] "1 min"
+msgstr[2] "%count% mins"
+
+#. English (no items): "0 minutes".
+#. English (one item): "1 minute".
+#. English (2+ items): "%count% minutes".
+#. Priority for: Programmes
+msgid "iplayer_time_minutes"
+msgid_plural "iplayer_time_minutes %count%"
+msgstr[0] "0 minutes"
+msgstr[1] "1 minute"
+msgstr[2] "%count% minutes"
+
+#. English (no items): "0 months".
+#. English (one item): "1 month".
+#. English (2+ items): "%count% months".
+#. Priority for: Programmes
+msgid "iplayer_time_months"
+msgid_plural "iplayer_time_months %count%"
+msgstr[0] "0 months"
+msgstr[1] "1 month"
+msgstr[2] "%count% months"
+
+#. English (no items): "0 seconds".
+#. English (one item): "1 second".
+#. English (2+ items): "%count% seconds".
+#. Priority for: Programmes
+msgid "iplayer_time_seconds"
+msgid_plural "iplayer_time_seconds %count%"
+msgstr[0] "0 seconds"
+msgstr[1] "1 second"
+msgstr[2] "%count% seconds"
+
+#. English (no items): "0 secs".
+#. English (one item): "1 sec".
+#. English (2+ items): "%count% secs".
+msgid "iplayer_time_secs"
+msgid_plural "iplayer_time_secs %count%"
+msgstr[0] "0 secs"
+msgstr[1] "1 sec"
+msgstr[2] "%count% secs"
+
+#. English (no items): "0 weeks".
+#. English (one item): "1 week".
+#. English (2+ items): "%count% weeks".
+msgid "iplayer_time_weeks"
+msgid_plural "iplayer_time_weeks %count%"
+msgstr[0] "0 weeks"
+msgstr[1] "1 week"
+msgstr[2] "%count% weeks"
+
+#. English: "over a year".
+msgid "iplayer_time_years"
+msgstr "over a year"
+
+#. English: "Watch from start".
+#. Priority for: Programmes
+#. Priority for: Schedules
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/schedules/london .
+msgid "iplayer_watch_from_start"
+msgstr "Watch from start"
+
+#. English: "Watch live".
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/schedules/london .
+#. Priority for: Programmes
+#. Priority for: Schedules
+msgid "iplayer_watch_live"
+msgstr "Watch live"
+
+#. English: "Watch now".
+#. Note: This text only appears on programmes currently available on iPlayer, try the latest episde of Eastenders.
+#. Priority for: Programmes
+msgid "iplayer_watch_now"
+msgstr "Watch now"
+
+#. English (no items): "0 days left to watch".
+#. English (one item): "1 day left to watch".
+#. English (2+ items): "%count% days left to watch".
+msgid "iplayer_watch_remaining_days"
+msgid_plural "iplayer_watch_remaining_days %count%"
+msgstr[0] "0 days left to watch"
+msgstr[1] "1 day left to watch"
+msgstr[2] "%count% days left to watch"
+
+#. English (no items): "0 hours left to watch".
+#. English (one item): "1 hour left to watch".
+#. English (2+ items): "%count% hours left to watch".
+msgid "iplayer_watch_remaining_hours"
+msgid_plural "iplayer_watch_remaining_hours %count%"
+msgstr[0] "0 hours left to watch"
+msgstr[1] "1 hour left to watch"
+msgstr[2] "%count% hours left to watch"
+
+#. English: "NO ENGLISH TRANSLATION AVAILABLE YET".
+msgid "iplayer_watch_remaining_mins"
+msgstr ""
+
+#. English (no items): "0 minutes left to watch".
+#. English (one item): "1 minute left to watch".
+#. English (2+ items): "%count% minutes left to watch".
+msgid "iplayer_watch_remaining_minutes"
+msgid_plural "iplayer_watch_remaining_minutes %count%"
+msgstr[0] "0 minutes left to watch"
+msgstr[1] "1 minute left to watch"
+msgstr[2] "%count% minutes left to watch"
+
+#. English (no items): "0 months left to watch".
+#. English (one item): "1 month left to watch".
+#. English (2+ items): "%count% months left to watch".
+msgid "iplayer_watch_remaining_months"
+msgid_plural "iplayer_watch_remaining_months %count%"
+msgstr[0] "0 months left to watch"
+msgstr[1] "1 month left to watch"
+msgstr[2] "%count% months left to watch"
+
+#. English (no items): "0 seconds left to watch".
+#. English (one item): "1 second left to watch".
+#. English (2+ items): "%count% seconds left to watch".
+msgid "iplayer_watch_remaining_seconds"
+msgid_plural "iplayer_watch_remaining_seconds %count%"
+msgstr[0] "0 seconds left to watch"
+msgstr[1] "1 second left to watch"
+msgstr[2] "%count% seconds left to watch"
+
+#. English: "NO ENGLISH TRANSLATION AVAILABLE YET".
+msgid "iplayer_watch_remaining_secs"
+msgstr ""
+
+#. English (no items): "0 weeks left to watch".
+#. English (one item): "1 week left to watch".
+#. English (2+ items): "%count% weeks left to watch".
+msgid "iplayer_watch_remaining_weeks"
+msgid_plural "iplayer_watch_remaining_weeks %count%"
+msgstr[0] "0 weeks left to watch"
+msgstr[1] "1 week left to watch"
+msgstr[2] "%count% weeks left to watch"
+
+#. English: "over a year left to watch".
+msgid "iplayer_watch_remaining_years"
+msgstr "over a year left to watch"
+
+#. English (no items): "There are no items".
+#. English (one item): "There is one item".
+#. English (2+ items): "There are %count% items".
+msgid "items_count"
+msgid_plural "items_count %count%"
+msgstr[0] "There are no items"
+msgstr[1] "There is one item"
+msgstr[2] "There are %count% items"
+
+#. English: "You must enable JavaScript to play content".
+#. Example URL: http://www.bbc.co.uk/programmes/p02r9d2d (You need to disable JavaScript in your browser to view this text on the page)
+#. Priority for: Programmes
+msgid "javascript_required"
+msgstr "You must enable JavaScript to play content"
+
+#. English: "Just now".
+msgid "just_now"
+msgstr "Just now"
+
+#. English: "Just played".
+#. Priority for: Rich Tracks
+msgid "just_played"
+msgstr "Just played"
+
+#. English: "en-GB".
+msgid "language_barlesque"
+msgstr "en-GB"
+
+#. English: "false".
+msgid "language_barlesque_ws"
+msgstr "false"
+
+#. English: "en".
+msgid "language_code"
+msgstr "en-GB"
+
+#. English: "ltr".
+msgid "language_direction"
+msgstr "ltr"
+
+#. English: "en_GB".
+msgid "language_locale"
+msgstr "en_GB"
+
+#. English: "English (UK)".
+msgid "language_name"
+msgstr "English (UK)"
+
+#. English: "Last".
+msgid "last"
+msgstr "Last"
+
+#. English: "Last Chance".
+#. Used by: NHP -> MyRadioHeader
+msgid "last_chance"
+msgstr "Last Chance"
+
+#. English: "You are at the last episode".
+#. Example URL: http://www.bbc.co.uk/programmes/b04ph4cn
+#. Priority for: Programmes
+msgid "last_episode"
+msgstr "You are at the last episode"
+
+#. English: "Last on".
+#. Example URL: http://www.bbc.co.uk/programmes/b008l210 .
+#. Priority for: Programmes
+msgid "last_on"
+msgstr "Last on"
+
+#. English: "Last played".
+msgid "last_played"
+msgstr "Last Played"
+
+#. English: "Latest".
+#. Used by: NHP -> MyRadioHeader
+msgid "latest"
+msgstr "Latest"
+
+#. English: "Latest episode".
+msgid "latest_episode"
+msgstr "Latest episode"
+
+#. English: "Listen in pop-out player".
+#. Example URL: http://www.bbc.co.uk/programmes/b04t0vqb (mouse over the icon underneath the episode title to see the text) .
+#. Priority for: Programmes
+msgid "listen_in_popout_player"
+msgstr "Listen in pop-out player"
+
+#. English: "Listen Later".
+#. Used by: NHP -> Personalisation -> Favourites
+#. Used by: RadioNav Service
+msgid "listen_later"
+msgstr "Listen Later"
+
+#. English: "Live".
+#. Example URL: http://www.bbc.co.uk/programmes/b01s8mnj/live .
+msgid "live"
+msgstr "Live"
+
+#. English: "Live at %1".
+msgid "live_at"
+msgstr "Live at %1"
+
+#. English: "This is from".
+msgid "live_context"
+msgstr "This is from"
+
+#. English: "Local Radio".
+msgid "local_radio"
+msgstr "Local Radio"
+
+#. English: "Local time".
+#. Example URL: http://www.bbc.co.uk/programmes/p0385z3r
+#. Priority for: Programmes
+msgid "local_time"
+msgstr "Local time"
+
+#. English: "%1m ago".
+#. %1 is a variable, which may contain the value: "1".
+#. Priority for: Rich Tracks
+msgid "minutes_ago_short"
+msgstr "%1m ago"
+
+#. English: "More".
+#. Example URL: http://www.bbc.co.uk/programmes/b01s6xyk .
+#. Priority for: Programmes
+msgid "more"
+msgstr "More"
+
+#. English: "More clips from %1".
+msgid "more_clips_from"
+msgstr "More clips from %1"
+
+#. English: "More episodes".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m8dq/episodes/guide (click series 12 link)
+#. Priority for: Programmes
+msgid "more_episodes"
+msgstr "More episodes"
+
+#. English: "More results for %1 from across the BBC".
+msgid "more_from_bbc"
+msgstr "More results for %1 from across the BBC"
+
+#. English: "More on Radio".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/genres/factual/artscultureandthemedia/player/episodes
+#. Priority for: Programmes
+msgid "more_on_radio"
+msgstr "More on Radio"
+
+#. English: "More on TV".
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/genres/drama/all .
+#. Priority for: Programmes
+msgid "more_on_tv"
+msgstr "More on TV"
+
+#. English: "Music".
+#. Used by: RadioNav -> Categories
+msgid "music"
+msgstr "Music"
+
+#. English: "Music and featured items".
+msgid "music_and_featured"
+msgstr "Music and featured items"
+
+#. English: "Music Played".
+msgid "music_played"
+msgstr "Music Played"
+
+#. English: "National Radio".
+msgid "national_radio"
+msgstr "National Radio"
+
+#. English: "Nations Radio".
+msgid "nations_radio"
+msgstr "Nations Radio"
+
+#. English: "New".
+#. Example URL: http://www.bbc.co.uk/programmes/b006vq92 (visible at the time of writing, note that this text is only shown on new series)
+#. Priority for: Programmes
+msgid "new"
+msgstr "New"
+
+#. English: "Radio 2 New Music Playlist".
+#. Used by: Radio v1
+msgid "new_music_playlist"
+msgstr "Radio 2 New Music Playlist"
+
+#. English: "New series".
+#. Example URL: http://www.bbc.co.uk/programmes/b006vq92 (visible at the time of writing, note that this text is only shown on new series)
+#. Priority for: Programmes
+msgid "new_series"
+msgstr "New series"
+
+#. English: "News".
+#. Used by: RadioNav -> Categories
+msgid "news"
+msgstr "News"
+
+#. English: "Next".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr/episodes/player (pagination)
+#. Priority for: Programmes
+msgid "next"
+msgstr "Next"
+
+#. English: "Next on".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d/broadcasts/upcoming .
+#. Priority for: Programmes
+msgid "next_on"
+msgstr "Next on"
+
+#. English: "No".
+#. Priority for: Favourites
+msgid "no"
+msgstr "No"
+
+#. English: "Sorry there is currently no information".
+msgid "no_information"
+msgstr "Sorry there is currently no information"
+
+#. English: "Sorry we haven't been able to find any podcasts for you, why not try a different station or genre?"
+msgid "no_podcast_items"
+msgstr "Sorry we haven't been able to find any podcasts for you, why not try a different station or genre?"
+
+#. English: "Not available".
+msgid "not_available_iplayer"
+msgstr "Not available"
+
+#. English: "Now and next".
+msgid "now_and_next"
+msgstr "Now and next"
+
+#. English: "Now playing".
+#. Priority for: Rich Tracks
+msgid "now_playing"
+msgstr "Now Playing"
+
+#. English: "Off air".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/1980/04/18 .
+#. Priority for: Programmes
+msgid "off_air"
+msgstr "Off air"
+
+#. English: "On air".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Programmes
+#. Priority for: Schedules
+msgid "on_air"
+msgstr "On air"
+
+#. English: "On demand".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr .
+#. Priority for: Programmes
+msgid "on_demand"
+msgstr "On demand"
+
+#. English: "On now".
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/schedules/london#on-now
+#. Priority for: Programmes
+#. Priority for: Schedules
+msgid "on_now"
+msgstr "On now"
+
+#. English: "On radio".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm#on-now (click through on the title of the currently on programme)
+#. Priority for: Programmes
+msgid "on_radio"
+msgstr "On radio"
+
+#. English: "On TV".
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/schedules/london#on-now (click through on the title of the currently on programme)
+#. Priority for: Programmes
+msgid "on_tv"
+msgstr "On TV"
+
+#. English (no items): "Outlets".
+#. English (one item): "Outlet".
+#. English (2+ items): "Outlets".
+#. Example URL: http://www.bbc.co.uk/worldnews/programmes/schedules (see tab title)
+#. Priority for: Schedules
+msgid "outlets"
+msgid_plural "outlets %count%"
+msgstr[0] "Outlets"
+msgstr[1] "Outlet"
+msgstr[2] "Outlets"
+
+#. English: "Over %1h ago".
+#. Priority for: Rich Tracks
+msgid "over_hours_ago_short"
+msgstr "Over %1h ago"
+
+#. English: "Over %1m ago".
+#. Priority for: Rich Tracks
+msgid "over_minutes_ago_short"
+msgstr "Over %1m ago"
+
+#. English: "Over %1s ago".
+#. Priority for: Rich Tracks
+msgid "over_seconds_ago_short"
+msgstr "Over %1s ago"
+
+#. English: "Overview".
+#. Used by: NHP -> MyRadioHeader
+msgid "overview"
+msgstr "Overview"
+
+#. English: "Page not found".
+msgid "page_not_found"
+msgstr "Page not found"
+
+#. English: "Please check the address and try again".
+msgid "page_not_found_note"
+msgstr "Please check the address and try again"
+
+#. English: "Sorry, that page was not found".
+msgid "page_not_found_title"
+msgstr "Sorry, that page was not found"
+
+#. English: "Page %1".
+msgid "pagination_link"
+msgstr "Page %1"
+
+#. English: "Page %1 of %2".
+msgid "pagination_page"
+msgstr "Page %1 of %2"
+
+#. English: "Performances & Events".
+#. Used by: RadioNav -> Categories
+msgid "performances_and_events"
+msgstr "Performances &amp; Events"
+
+#. English: "Played:".
+#. Priority for: Rich Tracks
+msgid "played:"
+msgstr "Played:"
+
+#. English: "Add music you love and enjoy it with %1".
+msgid "playlister_tagline"
+msgstr "Add music you love and enjoy it with %1"
+
+#. English: "Higher quality (128kbps)"
+#. Example URL: "http://www.bbc.co.uk/programmes/p02nrsfl/episodes/downloads"
+#. Click one of the Download buttons and look at the items of the popup
+msgid "podcast_128kbps_quality"
+msgstr "Higher quality (128kbps)"
+
+#. English: "Lower quality (64kbps)"
+#. Example URL: "http://www.bbc.co.uk/programmes/p02nrsfl/episodes/downloads"
+#. Click one of the Download buttons and look at the items of the popup
+msgid "podcast_64kbps_quality"
+msgstr "Lower quality (64kbps)"
+
+#. English: "This podcast belongs to".
+msgid "podcast_belongs"
+msgstr "This podcast belongs to"
+
+#. English (no items): "Podcasts".
+#. English (one item): "Podcast".
+#. English (2+ items): "Podcasts".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr/episodes/downloads .
+#. Priority for: Programmes
+msgid "podcasts"
+msgid_plural "podcasts %count%"
+msgstr[0] "Podcasts"
+msgstr[1] "Podcast"
+msgstr[2] "Podcasts"
+
+#. English: "Episodes to download".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr/episodes/downloads .
+#. Priority for: Programmes
+msgid "podcasts_desc"
+msgstr "Episodes to download"
+
+#. English: "More podcasts".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr/episodes/downloads .
+msgid "podcasts_more"
+msgstr "More podcasts"
+
+#. English: "Search".
+#. Used by: RadioNav
+msgid "podcasts_search"
+msgstr "Search"
+
+#. English: "Other podcasts you may like".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr/episodes/downloads (you need to disable JavaScript to see this text)
+msgid "podcasts_suggestions"
+msgstr "Other podcasts you may like"
+
+#. English: "Politics".
+#. Used by: RadioNav -> Categories
+msgid "politics"
+msgstr "Politics"
+
+#. English: "Previous".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr/episodes/player (pagination)
+#. Priority for: Programmes
+msgid "previous"
+msgstr "Previous"
+
+#. English (no items): "Profiles".
+#. English (one item): "Profile".
+#. English (2+ items): "Profiles".
+msgid "profiles"
+msgid_plural "profiles %count%"
+msgstr[0] "Profiles"
+msgstr[1] "Profile"
+msgstr[2] "Profiles"
+
+#. English: "Fact data".
+msgid "profiles_key_fact_data"
+msgstr "Fact data"
+
+#. English: "Key facts for %1".
+msgid "profiles_key_fact_summary"
+msgstr "Key facts for %1"
+
+#. English: "Fact title".
+msgid "profiles_key_fact_title"
+msgstr "Fact title"
+
+#. English: "Sorry there are no profiles for %1".
+msgid "profiles_none"
+msgstr "Sorry there are no profiles for %1"
+
+#. English: "This programme is not currently available on BBC iPlayer".
+#. Example URL: http://www.bbc.co.uk/programmes/b007wds5 .
+#. Priority for: Programmes
+msgid "programme_availability_none"
+msgstr "This programme is not currently available on BBC iPlayer"
+
+#. English: "This programme is not currently available on BBC iPlayer Radio".
+#. Example URL: http://www.bbc.co.uk/programmes/b03kpkyz .
+#. Priority for: Programmes
+msgid "programme_availability_none_radio"
+msgstr "This programme is not currently available on BBC iPlayer Radio"
+
+#. English: "This programme is no longer available on BBC iPlayer".
+#. Priority for: Programmes
+msgid "programme_availability_past"
+msgstr "This programme is no longer available on BBC iPlayer"
+
+#. English: "This programme is no longer available on BBC iPlayer Radio".
+#. Priority for: Programmes
+msgid "programme_availability_past_radio"
+msgstr "This programme is no longer available on BBC iPlayer Radio"
+
+#. English: "%1 homepage".
+msgid "programme_homepage"
+msgstr "%1 homepage"
+
+#. English (no items): "Programmes".
+#. English (one item): "Programme".
+#. English (2+ items): "Programmes".
+msgid "programmes"
+msgid_plural "programmes %count%"
+msgstr[0] "Programmes"
+msgstr[1] "Programme"
+msgstr[2] "Programmes"
+
+#. English: "Programmes A-Z".
+#. Used by: Radio Nightingale
+msgid "programmes_a_z"
+msgstr "Programmes A-Z"
+
+#. English (no items): "No programmes".
+#. English (one item): "1 programme".
+#. English (2+ items): "%1 programmes".
+msgid "programmes_count"
+msgid_plural "programmes_count %count%"
+msgstr[0] "No programmes"
+msgstr[1] "1 programme"
+msgstr[2] "%1 programmes"
+
+#. English: "BBC Programmes homepage".
+msgid "programmes_homepage"
+msgstr "BBC Programmes homepage"
+
+#. English: "Programmes will resume at %1".
+#. Priority for: Programmes
+msgid "programmes_resume_at"
+msgstr "Programmes will resume at %1"
+
+#. English: "QR code".
+#. Example URL: http://www.bbc.co.uk/programmes/b006q2x0/qrcode .
+msgid "qr_code"
+msgstr "QR code"
+
+#. English: "A %1QR code%2 is a type of barcode which can contain links to webpages. Mobile phones with a camera and an appropriate application are able to read these codes and take you to the address contained within it.".
+#. %1 is a variable, which may contain the value: "<a href='http://link-to-somewhere'>"
+#. %2 is a variable, which may contain the value: "</a>"
+#. Example URL: http://www.bbc.co.uk/programmes/b006q2x0/qrcode .
+msgid "qr_description"
+msgstr ""
+"A %1QR code%2 is a type of barcode which can contain links to webpages. "
+"Mobile phones with a camera and an appropriate application are able to read "
+"these codes and take you to the address contained within it."
+
+#. English: "You may save, print or share the image.".
+#. Example URL: http://www.bbc.co.uk/programmes/b006q2x0/qrcode .
+msgid "qr_instruction"
+msgstr "You may save, print or share the image."
+
+#. English: "This code will link to the page for %1 when read using a QR code reader.".
+#. %1 is a variable, which may contain the value: "Doctor Who"
+#. Example URL: http://www.bbc.co.uk/programmes/b006q2x0/qrcode .
+msgid "qr_link"
+msgstr ""
+"This code will link to the page for %1 when read using a QR code reader."
+
+#. English: "Radio Blog".
+#. Used by: Radio Nightingale
+msgid "radio_blog"
+msgstr "Radio Blog"
+
+#. English: "iPlayer Radio Help".
+#. Used by: Radio Nightingale
+msgid "radio_help"
+msgstr "iPlayer Radio Help"
+
+#. English: "Programmes".
+#. Used by: RadioNav
+msgid "radionav_programmes"
+msgstr "Programmes"
+
+#. English: "Readings".
+#. Used by: RadioNav -> Categories
+msgid "readings"
+msgstr "Readings"
+
+#. English: "Recently played".
+msgid "recently_played"
+msgstr "Recently played"
+
+#. English: "Recently visited".
+msgid "recently_visited"
+msgstr "Recently visited"
+
+#. English (no items): "Recipes".
+#. English (one item): "Recipe".
+#. English (2+ items): "Recipes".
+msgid "recipes"
+msgid_plural "recipes %count%"
+msgstr[0] "Recipes"
+msgstr[1] "Recipe"
+msgstr[2] "Recipes"
+
+#. English: "Sorry, there are no recommendations for this programme.".
+msgid "recommendations_noresults"
+msgstr "Sorry, there are no recommendations for this programme."
+
+#. English: "Based on things you've listened to and added. The more you listen, the better they'll get.".
+#. Used by: NHP Service -> Personalisation -> Recommendations
+msgid "recommendations_package_intro"
+msgstr ""
+"Based on things you've listened to and added. The more you listen, the "
+"better they'll get."
+
+#. English: "Recommendations for you".
+#. Used by: NHP Service -> Personalisation -> Recommendations
+msgid "recommendations_package_title"
+msgstr "Recommendations for you"
+
+#. English (no items): "Related Links".
+#. English (one item): "Related Link".
+#. English (2+ items): "Related Links".
+#. Example URL: http://www.bbc.co.uk/programmes/b00vcqcz .
+#. Priority for: Programmes
+msgid "related_links"
+msgid_plural "related_links %count%"
+msgstr[0] "Related Links"
+msgstr[1] "Related Link"
+msgstr[2] "Related Links"
+
+#. English: "Related programmes"
+#. Example URL: http://www.bbc.co.uk/programmes/p0054631 .
+msgid "related_programmes"
+msgstr "Related programmes"
+
+#. English: "Related topics"
+#. Example URL: http://www.bbc.co.uk/programmes/p0054631 .
+msgid "related_topics"
+msgstr "Related topics"
+
+#. English: "Release date: %1".
+#. %1 is a variable, which may contain the value: "1 October 2014"
+#. Example URL: http://www.bbc.co.uk/programmes/p027q949 (Hidden text for visually imapred users behind "1 October 2014")
+#. Priority for: Programmes
+msgid "release_date"
+msgstr "Release date: %1"
+
+#. English: "Religion & Ethics".
+#. Used by: RadioNav -> Categories
+msgid "religion_and_ethics"
+msgstr "Religion &amp; Ethics"
+
+#. English: "Remove".
+#. Priority for: Favourites
+msgid "remove"
+msgstr "Remove"
+
+#. English: "R".
+msgid "repeat_abbr"
+msgstr "R"
+
+#. English (no items): "Repeats".
+#. English (one item): "Repeat".
+#. English (2+ items): "Repeats".
+msgid "repeats"
+msgid_plural "repeats %count%"
+msgstr[0] "Repeats"
+msgstr[1] "Repeat"
+msgstr[2] "Repeats"
+
+#. English: "Broadcast schedule begins on %1".
+#. Example URL: http://www.bbc.co.uk/bbcone/programmes/schedules/london/1492/01/01 .
+#. %1 is a variable, which may contain the value: "Monday 1 October 2001"
+#. Priority for: Schedules
+msgid "schedule_begins_on"
+msgstr "Broadcast schedule begins on %1"
+
+#. English: "Broadcast schedule ended on %1".
+#. Example URL: http://www.bbc.co.uk/radio7/programmes/schedules/2015/09/01 .
+#. %1 is a variable, which may contain the value: "Saturday 2 April 2011"
+#. Priority for: Schedules
+msgid "schedule_ended_on"
+msgstr "Broadcast schedule ended on %1"
+
+#. English: "%1 schedule".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. %1 is a variable, which may contain the value: "Saturday 2 April 2011"
+#. Priority for: Schedules
+msgid "schedule_title"
+msgstr "%1 schedule"
+
+#. English (no items): "Schedules".
+#. English (one item): "Schedule".
+#. English (2+ items): "Schedules".
+#. Example URL: http://www.bbc.co.uk/worldnews/programmes/schedules .
+#. Priority for: Schedules
+msgid "schedules"
+msgid_plural "schedules %count%"
+msgstr[0] "Schedules"
+msgstr[1] "Schedule"
+msgstr[2] "Schedules"
+
+#. English: "Boxing Day".
+msgid "schedules_boxing_day"
+msgstr "Boxing Day"
+
+#. English: "Calendar".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Schedules
+msgid "schedules_calendar"
+msgstr "Calendar"
+
+#. English: "Please choose a day from the calendar".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm/this_month .
+#. Priority for: Schedules
+msgid "schedules_calendar_note"
+msgstr "Please choose a day from the calendar"
+
+#. English: "Christmas Day".
+msgid "schedules_christmas_day"
+msgstr "Christmas Day"
+
+#. English: "Christmas Eve".
+msgid "schedules_christmas_eve"
+msgstr "Christmas Eve"
+
+#. English: "Last %1".
+msgid "schedules_last_weekday"
+msgstr "Last %1"
+
+#. English: "New Year's Day".
+msgid "schedules_new_years_day"
+msgstr "New Year's Day"
+
+#. English: "Next %1".
+msgid "schedules_next_weekday"
+msgstr "Next %1"
+
+#. English: "There is no schedule for today. Please choose another day from the calendar".
+msgid "schedules_no_result"
+msgstr ""
+"There is no schedule for today. Please choose another day from the calendar"
+
+#. English: "Afternoon".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Schedules
+msgid "schedules_period_afternoon"
+msgstr "Afternoon"
+
+#. English: "Early".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Schedules
+msgid "schedules_period_early"
+msgstr "Early"
+
+#. English: "Evening".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Schedules
+msgid "schedules_period_evening"
+msgstr "Evening"
+
+#. English: "Late".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Schedules
+msgid "schedules_period_late"
+msgstr "Late"
+
+#. English: "Morning".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm .
+#. Priority for: Schedules
+msgid "schedules_period_morning"
+msgstr "Morning"
+
+#. English: "See other regional %1 variations".
+msgid "schedules_regional"
+msgstr "See other regional %1 variations"
+
+#. English: "View %1 schedule variations".
+msgid "schedules_regional_change"
+msgstr "View %1 schedule variations"
+
+#. English: "View %1".
+msgid "schedules_regional_changeto"
+msgstr "View %1"
+
+#. English: "Please choose a region for the appropriate schedule".
+#. Example URL: http://www.bbc.co.uk/worldnews/programmes/schedules .
+#. Priority for: Schedules
+msgid "schedules_regional_note"
+msgstr "Please choose a region for the appropriate schedule"
+
+#. English: "Please choose the appropriate schedule".
+#. Priority for: Schedules
+msgid "schedules_regional_note_radio"
+msgstr "Please choose the appropriate schedule"
+
+#. English: "Regional variations for %1".
+#. %1 is a variable, which may contain the value: "BBC World News"
+#. Example URL: http://www.bbc.co.uk/worldnews/programmes/schedules .
+#. Priority for: Schedules
+msgid "schedules_regional_title"
+msgstr "Regional variations for %1"
+
+#. English: "Schedule variations for %1".
+#. Example URL: http://www.bbc.co.uk/radioscotland/programmes/schedules .
+#. %1 is a variable, which may contain the value: "BBC Radio Scotland"
+#. Priority for: Schedules
+msgid "schedules_regional_title_radio"
+msgstr "Schedule variations for %1"
+
+#. English: "This week".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm/today .
+#. Priority for: Schedules
+msgid "schedules_this_week"
+msgstr "This week"
+
+#. English: "This year".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm/this_month .
+#. Priority for: Schedules
+msgid "schedules_this_year"
+msgstr "This year"
+
+#. English: "Today".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm/this_week .
+#. Priority for: Schedules
+msgid "schedules_today"
+msgstr "Today"
+
+#. English: "Tomorrow".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/schedules/fm/tomorrow .
+#. Priority for: Programmes
+msgid "schedules_tomorrow"
+msgstr "Tomorrow"
+
+#. English: "not ideal for small screens".
+#. Example URL: http://bbc.github.io/viewporter/index.html?width=320&url=http://www.bbc.co.uk/radio4/programmes/schedules/fm/this_week
+#. Priority for: Schedules
+msgid "schedules_week_disclaimer"
+msgstr "not ideal for small screens"
+
+#. English: "Show full week".
+#. Example URL: http://bbc.github.io/viewporter/index.html?width=320&url=http://www.bbc.co.uk/radio4/programmes/schedules/fm/this_week
+#. Priority for: Schedules
+msgid "schedules_week_show"
+msgstr "Show full week"
+
+#. English: "Yesterday".
+#. Priority for: Schedules
+msgid "schedules_yesterday"
+msgstr "Yesterday"
+
+#. English: "Science & Nature".
+#. Used by: RadioNav -> Categories
+msgid "science_and_nature"
+msgstr "Science &amp; Nature"
+
+#. English: "Search iPlayer Radio".
+#. Used by: RadioNav
+msgid "search_iplayer_radio"
+msgstr "Search iPlayer Radio"
+
+#. English: "%1s ago".
+#. %1 is a variable, which may contain the value: "1".
+#. Priority for: Rich Tracks
+msgid "seconds_ago_short"
+msgstr "%1s ago"
+
+#. English: "See all %1 episodes available on BBC iPlayer".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d/episodes/player.inc .
+#. %1 is a variable, which may contain the value: "eastenders".
+#. Priority for: Programmes
+msgid "see_all_available_from"
+msgstr "See all %1 episodes available on BBC iPlayer"
+
+#. English: "See all %1 episodes available".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qpgr/episodes/player.inc .
+#. %1 is a variable, which may contain the value: "The Archers".
+#. Priority for: Programmes
+msgid "see_all_available_from_radio"
+msgstr "See all %1 episodes available"
+
+#. English: "See all broadcasts of %1".
+msgid "see_all_broadcasts_of"
+msgstr "See all broadcasts of %1"
+
+#. English: "See all clips".
+#. Priority for: Programmes
+msgid "see_all_clips"
+msgstr "See all clips"
+
+#. English: "See all clips from %1".
+msgid "see_all_clips_from"
+msgstr "See all clips from %1"
+
+#. English: "See all credits for %1".
+msgid "see_all_credits_for"
+msgstr "See all credits for %1"
+
+#. English: "See all episodes from %1".
+#. Example URL: http://www.bbc.co.uk/programmes/p031mx39 .
+#. %1 is a variable, which may contain the value: "Eastenders".
+#. Priority for: Programmes
+msgid "see_all_episodes_from"
+msgstr "See all episodes from %1"
+
+#. English: "See all from %1".
+msgid "see_all_from"
+msgstr "See all from %1"
+
+#. English: "See all galleries".
+#. Priority for: Programmes
+msgid "see_all_galleries"
+msgstr "See all galleries"
+
+#. English: "See all galleries from %1".
+msgid "see_all_galleries_from"
+msgstr "See all galleries from %1"
+
+#. English: "See all items".
+msgid "see_all_items"
+msgstr "See all items"
+
+#. English: "See all podcasts".
+msgid "see_all_podcasts"
+msgstr "See all podcasts"
+
+#. English: "See all podcasts for %1".
+msgid "see_all_podcasts_for"
+msgstr "See all podcasts for %1"
+
+#. English: "See all podcasts from %1".
+msgid "see_all_podcasts_from"
+msgstr ""
+
+#. English: "See all previous episodes from %1".
+#. Priority for: Programmes
+msgid "see_all_previous_episodes_from"
+msgstr "See all previous episodes from %1"
+
+#. English: "See all recipes from %1".
+msgid "see_all_recipes_from"
+msgstr "See all recipes from %1"
+
+#. English: "See all topics for %1".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qykl .
+msgid "see_all_topics_for"
+msgstr "See all topics for %1"
+
+#. English: "See all upcoming broadcasts of %1".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d (Mouse over "All upcoming" text)
+#. %1 is a variable, which may contain the value: "Eastenders".
+#. Priority for: Programmes
+msgid "see_all_upcoming_of"
+msgstr "See all upcoming broadcasts of %1"
+
+#. English (no items): "Series".
+#. English (one item): "Series".
+#. English (2+ items): "Series".
+msgid "series"
+msgid_plural "series %count%"
+msgstr[0] "Series"
+msgstr[1] "Series"
+msgstr[2] "Series"
+
+#. English: "Explore the links below to find %1 programmes you're interested in".
+msgid "service_introduction"
+msgstr "Explore the links below to find %1 programmes you're interested in"
+
+#. English: "Show available episodes".
+msgid "show_available_episodes"
+msgstr "Show available episodes"
+
+#. English: "Show less".
+msgid "show_less"
+msgstr "Show less"
+
+#. English: "Show more".
+msgid "show_more"
+msgstr "Show more"
+
+#. English: "Show more added episodes and clips".
+#. Priority for: Favourites
+msgid "show_more_added_episodes_and_clips"
+msgstr "Show more added episodes and clips"
+
+#. English: "Show more added programmes".
+#. Priority for: Favourites
+msgid "show_more_added_programmes"
+msgstr "Show more added programmes"
+
+#. English: "Signed".
+#. i.e. a broadcast in a sign language version
+#. Priority for: Programmes
+msgid "signed"
+msgstr "Signed"
+
+#. English: "Similar programmes".
+#. Example URL: http://www.bbc.co.uk/programmes/b007wds5 .
+#. Priority for: Programmes
+msgid "similar_programmes"
+msgstr "Similar programmes"
+
+#. English: "Skip to".
+#. Example URL: http://www.bbc.co.uk/radiobristol/programmes/schedules .
+#. Priority for: Schedules
+msgid "skip_to"
+msgstr "Skip to"
+
+#. English: "Sorry, something's gone wrong".
+#. Priority for: Favourites
+msgid "sorry_somethings_gone_wrong"
+msgstr "Sorry, something's gone wrong"
+
+#. English: "Sort by".
+#. Example URL: http://www.bbc.co.uk/radio4/programmes/genres/entertainment/player .
+msgid "sort_by"
+msgstr "Sort by"
+
+#. English: "start using My Radio".
+msgid "start_using_my_radio"
+msgstr "start using My Radio"
+
+#. English: "Stations".
+msgid "stations"
+msgstr "Stations"
+
+#. English: "Subscribe".
+msgid "subscribe"
+msgstr "Subscribe"
+
+#. English: "Subscribe to podcast".
+msgid "subscribe_to_podcast"
+msgstr "Subscribe to podcast"
+
+#. English (no items): "There are currently no available episodes tagged with %1".
+#. English (one item): "There is currently 1 available episode tagged with %1".
+#. English (2+ items): "There are currently %count% available episodes tagged with %1".
+msgid "tagged_available"
+msgid_plural "tagged_available %count%"
+msgstr[0] "There are currently no available episodes tagged with %1"
+msgstr[1] "There is currently 1 available episode tagged with %1"
+msgstr[2] "There are currently %count% available episodes tagged with %1"
+
+#. English: "TV".
+msgid "television_abbr"
+msgstr "TV"
+
+#. English (no items): "%1 hours".
+#. English (one item): "%1 hour".
+#. English (2+ items): "%1 hours".
+msgid "time_hours_long"
+msgid_plural "time_hours_long %count%"
+msgstr[0] "%1 hours"
+msgstr[1] "%1 hour"
+msgstr[2] "%1 hours"
+
+#. English: "%1h".
+#. e.g. "2h" for 2 hours.
+msgid "time_hours_short"
+msgstr "%1h"
+
+#. English (no items): "%1 minutes".
+#. English (one item): "%1 minute".
+#. English (2+ items): "%1 minutes".
+msgid "time_minutes_long"
+msgid_plural "time_minutes_long %count%"
+msgstr[0] "%1 minutes"
+msgstr[1] "%1 minute"
+msgstr[2] "%1 minutes"
+
+#. English: "%1m".
+#. English: "e.g. "17m" for 17 minutes".
+msgid "time_minutes_short"
+msgstr "%1m"
+
+#. English (no items): "%1 seconds".
+#. English (one item): "%1 second".
+#. English (2+ items): "%1 seconds".
+msgid "time_seconds_long"
+msgid_plural "time_seconds_long %count%"
+msgstr[0] "%1 seconds"
+msgstr[1] "%1 second"
+msgstr[2] "%1 seconds"
+
+#. English: "%1s".
+#. English: "e.g. "12s" for 12 seconds".
+msgid "time_seconds_short"
+msgstr "%1s"
+
+#. English: "All times stated are UK"
+msgid "times_are_uk"
+msgstr "All times stated are UK"
+
+#. English: "Timings (where shown) are the time of the day".
+msgid "timings_start_of_day"
+msgstr "Timings (where shown) are the time of the day"
+
+#. English: "Timings (where shown) are from the start of the programme in hours and minutes".
+msgid "timings_start_of_programme"
+msgstr ""
+"Timings (where shown) are from the start of the programme in hours and "
+"minutes"
+
+#. English: "Top topics for this programme"
+#. Example URL: http://www.bbc.co.uk/programmes/b006qykl .
+msgid "top_topics"
+msgstr "Top topics for this programme"
+
+#. English: "%1 in all BBC programmes".
+#. Example URL: http://www.bbc.co.uk/programmes/b006qykl/topics/Social_philosophy .
+msgid "topic_in_all_programmes"
+msgstr "%1 in all BBC programmes"
+
+#. English (no items): "Topics".
+#. English (one item): "Topic".
+#. English (2+ items): "Topics".
+msgid "topics"
+msgid_plural "topics %count%"
+msgstr[0] "Topics"
+msgstr[1] "Topic"
+msgstr[2] "Topics"
+
+#. English: "Track title".
+#. Priority for: Rich Tracks
+msgid "track_title"
+msgstr "Track title"
+
+#. English: "UK Only".
+msgid "uk_only"
+msgstr "UK Only"
+
+#. English: "Upcoming episodes".
+#. Used by: Programmes
+msgid "upcoming_episodes"
+msgstr "Upcoming episodes"
+
+#. English: "Updated:".
+msgid "updated"
+msgstr "Updated:"
+
+#. English: "daily".
+msgid "updated_daily"
+msgstr "daily"
+
+#. English: "monthly".
+msgid "updated_monthly"
+msgstr "monthly"
+
+#. English: "occasionally".
+msgid "updated_occasionally"
+msgstr "occasionally"
+
+#. English: "NO ENGLISH TRANSLATION AVAILABLE YET".
+msgid "updated_oneoff"
+msgstr ""
+
+#. English: "weekly".
+msgid "updated_weekly"
+msgstr "weekly"
+
+#. English: "Video"
+#. Example URL: http://www.bbc.co.uk/programmes/topics/Political_philosophy .
+msgid "video"
+msgstr "Video"
+
+#. English: "View all".
+msgid "view_all"
+msgstr "View all"
+
+#. English: "View earlier today".
+msgid "view_earlier_today"
+msgstr "View earlier today"
+
+#. English: "View episodes".
+msgid "view_episodes"
+msgstr "View episodes"
+
+#. English: "%1 added".
+#. %1 is a variable, which may contain the value: "3".
+#. Priority for: Favourites
+msgid "x_added"
+msgstr "%1 added"
+
+#. English (no items): "No more".
+#. English (one item): "1 more".
+#. English (2+ items): "%count% more".
+#. Priority for: Programmes
+msgid "x_more"
+msgid_plural "x_more %count%"
+msgstr[0] "No more"
+msgstr[1] "1 more"
+msgstr[2] "%count% more"
+
+#. English (no items): "%count% new".
+#. English (one item): "1 new".
+#. English (2+ items): "%count% new".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d .
+#. Type: Body text
+#. Priority for: Programmes
+msgid "x_new"
+msgid_plural "x_new %count%"
+msgstr[0] "%count% new"
+msgstr[1] "1 new"
+msgstr[2] "%count% new"
+
+#. English (no items): "%1 new and no repeats".
+#. English (one item): "%1 new and 1 repeat".
+#. English (2+ items): "%1 new and %count% repeats".
+#. %1 is a variable, which may contain the value: "5".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d .
+#. Priority for: Programmes
+msgid "x_new_and_repeats"
+msgid_plural "x_new_and_repeats %count%"
+msgstr[0] "%1 new and no repeats"
+msgstr[1] "%1 new and 1 repeat"
+msgstr[2] "%1 new and %count% repeats"
+
+#. English (no items): "None total".
+#. English (one item): "1 total".
+#. English (2+ items): "%1 total".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d .
+#. %1 is a variable, which may contain the value: "3".
+#. Priority for: Programmes
+msgid "x_total"
+msgid_plural "x_total %count%"
+msgstr[0] "None total"
+msgstr[1] "1 total"
+msgstr[2] "%1 total"
+
+#. English: "Yes".
+#. Priority for: Favourites
+msgid "yes"
+msgstr "Yes"
+
+#. English: "You may also like".
+msgid "you_might_also_like"
+msgstr "You may also like"
+
+#. English: "Your own personal radio station".
+msgid "your_personal_radio_station"
+msgstr "Your own personal radio station"

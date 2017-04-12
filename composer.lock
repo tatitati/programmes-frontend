@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b3db9f196c07017094bcd442b671ce5",
+    "content-hash": "7decafbae337c79070dc959a5c278837",
     "packages": [
         {
             "name": "bbc-rmp/translate",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/rmp-translate.git",
-                "reference": "e1affd0f8242bb2d449ebb8bfde0af5fed079ced"
+                "reference": "d192e773e54ce6e0f88ef82ae30fc07f50559410"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/rmp-translate/zipball/e1affd0f8242bb2d449ebb8bfde0af5fed079ced",
-                "reference": "e1affd0f8242bb2d449ebb8bfde0af5fed079ced",
+                "url": "https://api.github.com/repos/bbc/rmp-translate/zipball/d192e773e54ce6e0f88ef82ae30fc07f50559410",
+                "reference": "d192e773e54ce6e0f88ef82ae30fc07f50559410",
                 "shasum": ""
             },
             "require": {
@@ -47,10 +47,10 @@
             ],
             "description": "Small PHP library and translation files for translations in programmes/amen",
             "support": {
-                "source": "https://github.com/bbc/rmp-translate/tree/v1.7.0",
+                "source": "https://github.com/bbc/rmp-translate/tree/v1.8.0",
                 "issues": "https://github.com/bbc/rmp-translate/issues"
             },
-            "time": "2017-03-31T14:42:45+00:00"
+            "time": "2017-04-11T16:42:21+00:00"
         },
         {
             "name": "bbc/bbc-orb-client",

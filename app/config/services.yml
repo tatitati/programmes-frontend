@@ -76,6 +76,13 @@ services:
     app.translate_factory:
         public: true
         class: RMP\Translate\TranslateFactory
+        arguments:
+            - fallback_locale: 'en_GB'
+              cachepath: '%kernel.cache_dir%/translations'
+              domains: ['programmes']
+              default_domain: 'programmes'
+              debug: '%kernel.debug%'
+              basepath: '%kernel.root_dir%/Resources/translations'
 
     RMP\Translate\Translate:
         autowire: false

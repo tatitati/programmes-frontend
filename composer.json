@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "bbc-rmp/translate": "^1.6",
+        "bbc-rmp/translate": "^1.8",
         "bbc/bbc-orb-client": "^1.2",
         "bbc/branding-client": "^1.1",
         "bbc/programmes-pages-service": "dev-master@dev",
