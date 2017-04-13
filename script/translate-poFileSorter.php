@@ -6,7 +6,7 @@
 
 // MAIN
 if (empty($argv[1]) || empty($argv[2])) {
-    echo 'translate-poFileSorter.php $inputFile $outputFile'."\n";
+    echo 'translate-poFileSorter.php $inputFile $outputFile' . "\n";
     exit(1);
 }
 $inputFileName = $argv[1];
@@ -59,15 +59,15 @@ if ($outputHandle === false) {
 
 // Print headers
 foreach ($headers as $line) {
-    fputs($outputHandle, $line."\n");
+    fputs($outputHandle, $line . "\n");
 }
 fputs($outputHandle, "\n");
 
-$renderableMessages = array_filter($messages, function($item){
+$renderableMessages = array_filter($messages, function ($item) {
     return !empty($item['key']);
 });
 
-$renderableMessagesLines = array_map(function($item){
+$renderableMessagesLines = array_map(function ($item) {
     return implode("\n", $item['lines']);
 }, $renderableMessages);
 
