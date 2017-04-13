@@ -2,7 +2,7 @@ imports:
     - { resource: config_dev.yml }
 
 parameters:
-    app.orbit_client.class: RMP\OrbClient\StubClient
+    app.orbit_client.class: BBC\BrandingClient\OrbitStubClient
     app.branding_client.class: BBC\BrandingClient\BrandingStubClient
 
 framework:

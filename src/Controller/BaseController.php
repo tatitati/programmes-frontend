@@ -37,6 +37,7 @@ abstract class BaseController extends Controller
         $orb = $this->get('app.orbit_client')->getContent([
             'variant' => $branding->getOrbitVariant(),
             'language' => $locale,
+        ], [
             'searchScope' => $branding->getOrbitSearchScope(),
             'skipLinkTarget' => 'programmes-content',
         ]);
