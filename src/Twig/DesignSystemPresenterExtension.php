@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Twig;
 
 use App\Ds2014\PresenterFactory as Ds2014PresenterFactory;
+use BBC\GEL\Iconography\IconPathHelper;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
@@ -13,6 +14,8 @@ class DesignSystemPresenterExtension extends Twig_Extension
     private $translate;
 
     private $ds2014PresenterFactory;
+
+    private $iconCache = [];
 
     public function __construct(
         Translate $translate,
@@ -35,6 +38,9 @@ class DesignSystemPresenterExtension extends Twig_Extension
     {
         return [
             new Twig_Function('tr', [$this, 'tr']),
+            new Twig_Function('gelicon', [$this, 'gelicon'], [
+                'is_safe' => ['html'],
+            ]),
             new Twig_Function('ds2014', [$this, 'ds2014'], [
                 'is_safe' => ['html'],
                 'is_variadic' => true,
@@ -69,5 +75,21 @@ class DesignSystemPresenterExtension extends Twig_Extension
         }
 
         return $this->translate->translate($key, $substitutions, $numPlurals, $domain);
+    }
+
+    public function gelicon($set, $icon, $height)
+    {
+        if (!isset($this->iconCache[$set][$icon])) {
+            if (!isset($this->iconCache[$set])) {
+                $this->iconCache[$set] = [];
+            }
+
+            $this->iconCache[$set][$icon] = file_get_contents(
+                IconPathHelper::getSvgPath($set, $icon)
+            );
+        }
+
+        return '<i class="gelicon" style="height:' . $height . 'px">' .
+            $this->iconCache[$set][$icon] . '</i>';
     }
 }
