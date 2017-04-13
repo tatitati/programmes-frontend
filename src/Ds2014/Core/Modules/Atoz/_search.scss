@@ -1,0 +1,28 @@
+.search {
+    background: #4A4848;
+    border: none;
+    border-bottom: solid 1px #707070;
+    margin-top: 8px;
+    padding-right: 8px;
+}
+.search__label {
+    width: 90%;
+    display: inline-block;
+}
+.search__input {
+    padding: 8px;
+    font-size: 1.2em;
+    background: transparent;
+    border: none;
+    color: #efefef;
+    width: 100%;
+}
+.search__button {
+    width: 10%;
+    background: transparent;
+    border: none;
+    color: #efefef;
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+}

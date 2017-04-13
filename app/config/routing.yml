@@ -15,6 +15,12 @@ find_by_pid:
     defaults: { _controller: App\Controller\FindByPidController }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+atoz_list_all:
+    path: /programmes/a-z/all
+    # Redirect with a blank route throws a 404.
+    # We haven't rebuilt this route yet, but are referencing it in the app
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+
 cloud_labs:
     path: /programmes/_cloudlabs{wildcard}
     defaults: { _controller: App\Controller\CloudLabsController }

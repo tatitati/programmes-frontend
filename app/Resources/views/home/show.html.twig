@@ -1,11 +1,110 @@
 {% extends 'base-ds2014.html.twig' %}
 
-{% block html_classes %}b-pw-1280{% endblock %}
 {% block title %}BBC - Programmes{% endblock %}
+{% block page_classes %}programmes-page text-base programmes-page--flush br-box-page{% endblock %}
+{% block inline_head %}
+<meta name="google-site-verification" content="hV6KPZarfCnRMLwC5CGKEw8-rjA4WGSanUzaGvGkf7s" />
+<style>
+    @-webkit-keyframes FLASH {
+        0%   { color: inherit; }
+        10%   { color: #ffffff; }
+        100% { color: inherit }
+    }
+
+    @keyframes FLASH {
+        0%   { color: inherit; }
+        10%   { color: #ffffff; }
+        100% { color: inherit }
+    }
+
+    .js-flash {
+        -webkit-animation: FLASH 2s ease-in;
+        animation: FLASH 2s ease-in;
+    }
+
+    @media (min-width: 600px) {
+        .home-intro { padding-top: 64px; }
+    }
+</style>
+{% endblock %}
 
 {% block body %}
-    <div class="br-box-page">
-        <h1>It Lives!</h1>
-        <p>{{programmeCount|number_format}} Programmes and counting!</p>
+<h1 class="visually-hidden">{{tr('programmes')}}</h1>
+
+<div class="delta no-margin">
+    <div class="br-box-highlight">
+        <div class="programmes-page b-g-p home-intro">
+            <p class="alpha deemphasize text--center"><span data-count="{{programmeCount}}">{{programmeCount|number_format}}</span> total programmes</p>
+            <div class="search"><form action="{{path('atoz_list_all')}}" method="get">
+                <label class="search__label"><span class="visually-hidden">Search for a programme title</span>
+                    <input type="search" name="q" class="search__input" placeholder="Search for a programme title" />
+                </label><button class="search__button" type="submit">{{gelicon('core', 'search', 16)}}<span class="visually-hidden"> {{tr('atoz_search')}}</span></button>
+            </form></div>
+        </div>
+
+        <div class="programmes-page g-c-l">
+            <div class="br-box-highlight island text--prose home-prose component">
+                <p>Welcome to BBC Programmes, a permanent rolling record of <strong>everything</strong> on BBC Television and Radio.
+                    Since October 2007 this site has created a permanent, findable web presence for every programme the BBC has broadcast,
+                    with some programmes being populated as far back as <a href="/programmes/b006qnmr/broadcasts/1942/01">1942</a>.</p>
+                <p>Whether you're looking for <a href="/programmes/b006qpgr">the world's longest running soap opera</a>,
+                    want to know about <a href="/programmes/p026vg04">nature</a>,
+                    to find a <a href="/programmes/b04v1zq9">tracklist</a> to add to <a href="/music/tracks/my">My Tracks</a>,
+                    or some <a href="/programmes/b008ncn6">classic comedy</a> it's all here. With <a href="/programmes/p021x88c">clips</a>,
+                    <a href="/programmes/p01nw9wb">galleries</a>,
+                    <a href="/programmes/b00vk2lp/episodes/guide">episode guides</a>,
+                    <a href="/programmes/profiles/4LHmt9VKqXq37pHWlQ38vsS/the-twelfth-doctor">character profiles</a> and even <a href="/programmes/articles/1g84m0sXpnNCv84GpN2PLZG/the-hitchhikers-guide-to-the-galaxy-game-30th-anniversary-edition">games</a>
+                    there's a lifetime of content to explore.</p>
+                <p>Get started by searching for a programme, browsing the <a href="/programmes/a-z/by/a">A-Z</a>, or choosing a <a href="/programmes/genres">genre</a>.</p>
+
+                <div class="grid-wrapper">
+                    <div class="grid bpb2-one-half bpw-one-half"><div class="grid__inner">
+                        <p><a href="/iplayer"><img src="{{asset('images/logos/iplayer.png')}}" class="rsp-img" alt="iPlayer" /></a></p>
+                    </div></div>
+                    <div class="grid bpb2-one-half bpw-one-half"><div class="grid__inner">
+                        <p><a href="/radio"><img src="{{asset('images/logos/iplayer_radio.png')}}" class="rsp-img" alt="iPlayer Radio" /></a></p>
+                    </div></div>
+                </div>
+
+                <p>Where applicable episodes will be available to watch at <a href="/iplayer">BBC iPlayer</a> or listen through <a href="/radio">BBC iPlayer Radio</a>.</p>
+            </div>
+        </div>
     </div>
+
+    <div class="b-g-p programmes-page">
+        {# TODO Services Block #}
+    </div>
+</div>
+
+<script>
+(function() {
+    if(!('querySelector' in document && 'classList' in document.body)) {
+        return;
+    }
+
+    var count = document.querySelector('[data-count]'),
+        updatesComplete = 0,
+        estimatedCount,
+        interval = 4000;
+
+    var increase = function() {
+        count.classList.remove('js-flash');
+        updatesComplete++;
+        estimatedCount++;
+        count.innerHTML = estimatedCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        setTimeout(function() { count.classList.add('js-flash') }, 10);
+
+        if (updatesComplete > 10) {
+            interval = 20000;
+        }
+
+        setTimeout(increase, interval);
+    };
+
+    if (count) {
+        estimatedCount = parseInt(count.getAttribute('data-count'), 10);
+        increase();
+    }
+})();
+</script>
 {% endblock %}
