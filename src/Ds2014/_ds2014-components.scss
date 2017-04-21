@@ -40,19 +40,20 @@
 // programme and should take prescience when applying styling so it should come
 // after programme.
 
+@import 'Atom/columns';
+@import 'Atom/component';
+@import 'Atom/island';
+@import 'Atom/responsive-image';
+
 // Core objects
 // @import 'objects/media';
-// @import 'objects/island';
 // @import 'objects/link-complex';
 // @import 'objects/nav';
 
-// @import 'objects/component';
 // @import 'objects/programme';
 // @import 'objects/broadcast';
 // @import 'objects/promotion';
 
-
-// @import 'objects/columns';
 // @import 'objects/fixedsticky';
 // @import 'objects/folding-list';
 // @import 'objects/date-stack';
@@ -72,7 +73,7 @@
 // @import 'objects/calendar-table';
 // @import 'objects/contact-detail';
 // @import 'objects/highlight-box';
-// @import 'objects/responsive-image';
+
 // @import 'objects/lazyload';
 // @import 'objects/lazylink';
 // @import 'objects/smp';

@@ -43,7 +43,7 @@
         </div>
 
         <div class="programmes-page g-c-l">
-            <div class="br-box-highlight island text--prose home-prose component">
+            <div class="br-box-highlight island text--prose component">
                 <p>Welcome to BBC Programmes, a permanent rolling record of <strong>everything</strong> on BBC Television and Radio.
                     Since October 2007 this site has created a permanent, findable web presence for every programme the BBC has broadcast,
                     with some programmes being populated as far back as <a href="/programmes/b006qnmr/broadcasts/1942/01">1942</a>.</p>
@@ -71,8 +71,43 @@
         </div>
     </div>
 
-    <div class="b-g-p programmes-page">
-        {# TODO Services Block #}
+    <div class="b-g-p programmes-page" id="services">
+        <h2>{{tr('schedules')}}</h2>
+
+        <div class="grid-wrapper">
+            <div class="grid bpw2-one-quarter bpe-one-quarter"><div class="grid__inner">
+                <h3 class="gamma--keyline br-keyline">{{tr('television_abbr')}}</h3>
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1">
+                    {% for network in tvNetworks %}
+                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div></div>
+            <div class="grid bpw2-one-half bpe-one-half"><div class="grid__inner">
+                <h3 class="gamma--keyline br-keyline">{{tr('national_radio')}}</h3>
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2">
+                    {% for network in nationalRadioNetworks %}
+                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div></div>
+            <div class="grid bpw2-one-quarter bpe-one-quarter"><div class="grid__inner">
+                <h3 class="gamma--keyline br-keyline">{{tr('nations_radio')}}</h3>
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1">
+                    {% for network in regionalRadioNetworks %}
+                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div></div>
+            <div class="grid bpw-one-whole"><div class="grid__inner">
+                <h3 class="gamma--keyline br-keyline">{{tr('local_radio')}}</h3>
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--4 bpe-columns--4">
+                    {% for network in localRadioNetworks %}
+                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</li>
+                    {% endfor %}
+                </ul>
+            </div></div>
+        </div>
     </div>
 </div>
 

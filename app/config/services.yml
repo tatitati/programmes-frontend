@@ -115,6 +115,10 @@ services:
     # services in Symfony 3.3: https://github.com/symfony/symfony/pull/21289
     BBC\ProgrammesPagesService\Service\ServiceFactory: ~
 
+    BBC\ProgrammesPagesService\Service\NetworksService:
+        autowire: false
+        factory: [ '@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getNetworksService']
+
     BBC\ProgrammesPagesService\Service\ProgrammesService:
         autowire: false
         factory: [ '@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getProgrammesService']

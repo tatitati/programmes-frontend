@@ -1,0 +1,50 @@
+// Columns
+//
+// For creating CSS columns
+// See /programmes/styleguide/columns
+
+@mixin column-setup($namespace: '') {
+    @for $i from 1 through 4 {
+        .#{$namespace}columns--#{$i} {
+            -webkit-column-count:#{$i};
+               -moz-column-count:#{$i};
+                    column-count:#{$i};
+        }
+    }
+}
+
+@include breakup-block('basic') {
+    .columns {
+        /* no column count for the default as it is one column */
+        -webkit-column-break-inside:avoid;
+           -moz-column-break-inside:avoid;
+                column-break-inside:avoid;
+        -webkit-column-gap:$wide-spacing; // use wide as 8px is much too crowded for columns
+           -moz-column-gap:$wide-spacing;
+                column-gap:$wide-spacing;
+        li, a {
+            // list items and links inside columns should not split across column
+            -webkit-column-break-inside:avoid;
+               -moz-column-break-inside:avoid;
+                    column-break-inside:avoid;
+        }
+    }
+    .columns--bordered {
+        -webkit-column-rule-width: 1px;
+           -moz-column-rule-width: 1px;
+                column-rule-width: 1px;
+        -webkit-column-rule-style: solid;
+           -moz-column-rule-style: solid;
+                column-rule-style: solid;
+        -webkit-column-gap:$wide-spacing*2;
+           -moz-column-gap:$wide-spacing*2;
+                column-gap:$wide-spacing*2;
+    }
+    @include column-setup();
+}
+
+@each $name in $gel-widths-breakpoints {
+    @include breakup-breakpoint($name) {
+       @include column-setup('#{$name}-');
+    }
+}
