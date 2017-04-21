@@ -4,6 +4,9 @@ namespace Tests\App\Controller;
 
 use Tests\App\BaseWebTestCase;
 
+/**
+ * @covers App\Controller\SchedulesByDayController
+ */
 class SchedulesByDayControllerTest extends BaseWebTestCase
 {
     public function testScheduleForToday()

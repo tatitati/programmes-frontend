@@ -4,6 +4,9 @@ namespace Tests\App\Controller;
 
 use Tests\App\BaseWebTestCase;
 
+/**
+ * @covers App\Controller\SchedulesHomeController
+ */
 class SchedulesHomeControllerTest extends BaseWebTestCase
 {
     public function testController()
