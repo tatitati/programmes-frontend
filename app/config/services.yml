@@ -9,22 +9,9 @@ parameters:
 services:
 
     _defaults:
+        autoconfigure: true
         autowire: true
         public: false
-
-    _instanceof:
-        Symfony\Component\Console\Command\Command:
-            tags: ['console.command']
-            public: true  # Mandatory
-
-        Twig_ExtensionInterface:
-            tags: ['twig.extension']
-
-        Symfony\Component\EventDispatcher\EventSubscriberInterface:
-            tags: ['kernel.event_subscriber']
-
-        Symfony\Component\Form\FormTypeInterface:
-            tags: ['form.type']
 
     App\:
         resource: '../../src/{Command,EventSubscriber,Twig}'
@@ -32,10 +19,7 @@ services:
     App\Controller\:
         resource: '../../src/Controller'
         public: true # Mandatory
-        tags: ['controller.service_arguments']
 
-    # TODO: Remove me once this type alias is defined in Symfony core
-    Symfony\Component\Stopwatch\Stopwatch: { alias: debug.stopwatch }
     # TODO: Remve me once these type aliases are defined in DoctrineBundle
     # (They're already in master, we're just waiting on a new release > 1.6.7)
     Doctrine\DBAL\Driver\Connection: { alias: database_connection }
