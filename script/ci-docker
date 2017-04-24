@@ -25,6 +25,7 @@ if [ ! -d "build/reports" ]; then
 fi
 
 php composer.phar --no-ansi --no-interaction install
+
 yarn install
 
 # Show php version for debugging
