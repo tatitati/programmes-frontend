@@ -66,7 +66,7 @@ services:
               domains: ['programmes']
               default_domain: 'programmes'
               debug: '%kernel.debug%'
-              basepath: '%kernel.root_dir%/Resources/translations'
+              basepath: '%kernel.project_dir%/app/Resources/translations'
 
     RMP\Translate\Translate:
         autowire: false

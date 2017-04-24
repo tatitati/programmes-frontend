@@ -12,7 +12,7 @@ framework:
     #translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
-        resource: '%kernel.root_dir%/config/routing.yml'
+        resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
     default_locale: '%locale%'
     trusted_hosts: ~
@@ -27,7 +27,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     paths:
-        '%kernel.root_dir%/../src/Ds2014': 'Ds2014'
+        '%kernel.project_dir%/src/Ds2014': 'Ds2014'
 
 # Doctrine Configuration
 doctrine:
@@ -49,7 +49,7 @@ doctrine:
         mappings:
             ProgrammesPagesService:
                 type: annotation
-                dir: '%kernel.root_dir%/../vendor/bbc/programmes-pages-service/src/Data/ProgrammesDb/Entity'
+                dir: '%kernel.project_dir%/vendor/bbc/programmes-pages-service/src/Data/ProgrammesDb/Entity'
                 is_bundle: false
                 prefix: BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity
         filters:
