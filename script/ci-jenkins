@@ -15,13 +15,20 @@ docker run --rm -u `id -u`:`id -g` -e OAUTH="$OAUTH_TOKEN" -v "$WORKSPACE":/mnt/
 
 if [ "$BUILD_TYPE" = "pull-request" ]
 then
-    echo "Running mbt..."
-	BUILD_COMMAND="mbt"
+    echo "Building RPM..."
+    mbt -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base
 else
-    echo "Running cosmos-build..."
-	BUILD_COMMAND="cosmos-build"
-fi
-$BUILD_COMMAND -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base
+    version=`cosmos-release generate-version programmes-frontend`
 
-echo "Stopping container..."
-docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true
+    echo "Building RPM..."
+    mbt -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base --rpmversion $version
+
+    echo 'COSMOS-RELEASE: Publishing assets.....'
+    cosmos-release publish-assets --role $STATIC_ASSETS_BUCKET_ROLE_ARN $STATIC_ASSETS "$STATIC_ASSETS_BUCKET/programmes-frontend"
+
+    echo 'COSMOS-RELEASE: Sending RPM metadata to cosmos.....'
+    cosmos-release service programmes-frontend RPMS/*.rpm --release-version v
+
+    echo "Stopping container..."
+    docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true
+fi
