@@ -20,7 +20,7 @@ abstract class BaseController extends Controller
     {
         // Using $_GET is ugly, work out a way to get to the Request object
         // without having to pass it around everywhere
-        $brandingClient = $this->get('app.branding_client');
+        $brandingClient = $this->container->get('app.branding_client');
         $branding = $brandingClient->getContent(
             $this->brandingId,
             $_GET[$brandingClient::PREVIEW_PARAM] ?? null
@@ -29,12 +29,12 @@ abstract class BaseController extends Controller
         // We only need to change the translation language if it is different
         // to the language the translation extension was initially created with
         $locale = $branding->getOrbitLanguage();
-        if ($locale != $this->getParameter('app.default_locale')) {
+        if ($locale != $this->container->getParameter('app.default_locale')) {
             $translate = $this->container->get('app.translate_factory')->create($locale);
             $this->container->get(DesignSystemPresenterExtension::class)->setTranslate($translate);
         }
 
-        $orb = $this->get('app.orbit_client')->getContent([
+        $orb = $this->container->get('app.orbit_client')->getContent([
             'variant' => $branding->getOrbitVariant(),
             'language' => $locale,
         ], [
