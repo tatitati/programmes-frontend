@@ -1,5 +1,4 @@
 parameters:
-    guzzle.factory.group: 'aws'
     app.default_locale: 'en_GB'
     app.orbit_client.class: BBC\BrandingClient\OrbitClient
     app.orbit_client.env: 'test'
