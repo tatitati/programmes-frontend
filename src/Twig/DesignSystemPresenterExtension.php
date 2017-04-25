@@ -24,6 +24,11 @@ class DesignSystemPresenterExtension extends Twig_Extension
         $this->ds2014PresenterFactory = $ds2014PresenterFactory;
     }
 
+    public function getTranslate(): Translate
+    {
+        return $this->translate;
+    }
+
     public function setTranslate(Translate $translate): void
     {
         $this->translate = $translate;

@@ -29,9 +29,11 @@ abstract class BaseController extends Controller
         // We only need to change the translation language if it is different
         // to the language the translation extension was initially created with
         $locale = $branding->getOrbitLanguage();
-        if ($locale != $this->container->getParameter('app.default_locale')) {
+        $designSystemPresenterExtension = $this->container->get(DesignSystemPresenterExtension::class);
+
+        if ($locale != $designSystemPresenterExtension->getTranslate()->getLocale()) {
             $translate = $this->container->get('app.translate_factory')->create($locale);
-            $this->container->get(DesignSystemPresenterExtension::class)->setTranslate($translate);
+            $designSystemPresenterExtension->setTranslate($translate);
         }
 
         $orb = $this->container->get('app.orbit_client')->getContent([
