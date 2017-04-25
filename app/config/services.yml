@@ -28,7 +28,7 @@ services:
 
     # This needs to be triggered before the any existing default Resolvers,
     # the largest of which has a priority of 100
-    App\ArgumentResolver\PidValueResolver:
+    App\ArgumentResolver\IdentifierValueResolver:
         tags: [{name: 'controller.argument_value_resolver', priority: 125 }]
 
     # TODO: Work out how to pass through a SymfonyCache object wrapped in a

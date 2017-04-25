@@ -3,19 +3,21 @@
 namespace App\ArgumentResolver;
 
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 
-class PidValueResolver implements ArgumentValueResolverInterface
+class IdentifierValueResolver implements ArgumentValueResolverInterface
 {
     public function supports(Request $request, ArgumentMetadata $argument)
     {
-        return Pid::class == $argument->getType() && !$argument->isVariadic() && $request->attributes->has($argument->getName());
+        return in_array($argument->getType(), [Pid::class, Sid::class]) && !$argument->isVariadic() && $request->attributes->has($argument->getName());
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-        yield new Pid($request->attributes->get($argument->getName()));
+        $type = $argument->getType();
+        yield new $type($request->attributes->get($argument->getName()));
     }
 }
