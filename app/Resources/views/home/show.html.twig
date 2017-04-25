@@ -77,7 +77,7 @@
         <div class="grid-wrapper">
             <div class="grid bpw2-one-quarter bpe-one-quarter"><div class="grid__inner">
                 <h3 class="gamma--keyline br-keyline">{{tr('television_abbr')}}</h3>
-                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1">
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1" data-list="tv-networks">
                     {% for network in tvNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name}}</a></li>
                     {% endfor %}
@@ -85,7 +85,7 @@
             </div></div>
             <div class="grid bpw2-one-half bpe-one-half"><div class="grid__inner">
                 <h3 class="gamma--keyline br-keyline">{{tr('national_radio')}}</h3>
-                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2">
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2" data-list="national-radio-networks">
                     {% for network in nationalRadioNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</a></li>
                     {% endfor %}
@@ -93,7 +93,7 @@
             </div></div>
             <div class="grid bpw2-one-quarter bpe-one-quarter"><div class="grid__inner">
                 <h3 class="gamma--keyline br-keyline">{{tr('nations_radio')}}</h3>
-                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1">
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1" data-list="regional-radio-networks">
                     {% for network in regionalRadioNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</a></li>
                     {% endfor %}
@@ -101,7 +101,7 @@
             </div></div>
             <div class="grid bpw-one-whole"><div class="grid__inner">
                 <h3 class="gamma--keyline br-keyline">{{tr('local_radio')}}</h3>
-                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--4 bpe-columns--4">
+                <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--4 bpe-columns--4" data-list="local-radio-networks">
                     {% for network in localRadioNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</li>
                     {% endfor %}
