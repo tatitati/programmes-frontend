@@ -21,12 +21,11 @@
     "require": {
         "php": ">=7.1.0",
         "bbc-rmp/translate": "^1.8",
-        "bbc/branding-client": "^1.3",
+        "bbc/branding-client": "^2.0",
         "bbc/gel-iconography-assets": "^1.2",
         "bbc/programmes-pages-service": "dev-master@dev",
         "csa/guzzle-bundle": "dev-master@dev",
         "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
         "sensio/distribution-bundle": "^5.0",

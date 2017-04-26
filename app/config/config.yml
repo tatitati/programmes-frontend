@@ -28,6 +28,8 @@ framework:
                 # this is required when and adapter is not supported directly
                 adapter: cache.adapter.psr6
                 provider: cache.null_provider # locally we don't want to use cache
+            cache.app_page_chrome:
+                adapter: cache.adapter.filesystem
 
 # Twig Configuration
 twig:
@@ -77,11 +79,6 @@ stof_doctrine_extensions:
         default:
             tree: true
             timestampable: true
-
-doctrine_cache:
-    providers:
-        app_page_chrome:
-            type: apcu
 
 csa_guzzle:
     profiler: '%kernel.debug%'
