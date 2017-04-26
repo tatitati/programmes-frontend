@@ -1,9 +1,5 @@
-.gelicon {
+svg.gelicon  {
     display: inline-block;
-}
-
-.gelicon > svg {
-    width: inherit;
-    height: inherit;
     fill: currentColor;
+    vertical-align: baseline;
 }
