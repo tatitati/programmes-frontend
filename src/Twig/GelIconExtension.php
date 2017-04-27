@@ -8,7 +8,7 @@ use Twig_Function;
 
 class GelIconExtension extends Twig_Extension
 {
-    private const SVG_DIMENSIONS = '!(?<=^\<svg xmlns="http://www.w3.org/2000/svg") width="(\d+)" height="(\d+)"!';
+    private const SVG_DIMENSIONS = '!(?<=^\<svg xmlns="http://www.w3.org/2000/svg" )width="(\d+)" height="(\d+)"!';
 
     private $iconCache = [];
 
