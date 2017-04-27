@@ -12,10 +12,6 @@ class StatusController extends Controller
 {
     public function __invoke(Request $request, Connection $dbalConnection): Response
     {
-        // TODO: Name this method __invoke rather than statusAction if
-        // "controller.service_arguments" becomes supported on invokable controllers
-        // https://github.com/symfony/symfony/issues/22202
-
         // If the load balancer is pinging us then give them a plain OK
         if ($request->headers->get('User-Agent') == 'ELB-HealthChecker/1.0') {
             return new Response('OK', Response::HTTP_OK, ['content-type' => 'text/plain']);
