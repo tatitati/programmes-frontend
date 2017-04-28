@@ -44,7 +44,7 @@
 @include column-setup();
 
 @each $name in $gel-widths-breakpoints {
-    @include breakup-breakpoint($name) {
+    @include mq-range($name) {
        @include column-setup('#{$name}-');
     }
 }

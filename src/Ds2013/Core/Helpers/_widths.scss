@@ -37,7 +37,7 @@
     max-width: 624px;
 }
 
-@include breakup-breakpoint('bpw') {
+@include mq-range('bpw') {
     .bpw-grow-to-fit {
         float: none;
         width: auto;
@@ -49,7 +49,7 @@
 
 // For letting you undo grid-unbounded at a given breakpoint
 @each $name in $gel-widths-breakpoints {
-    @include breakup-breakpoint($name) {
+    @include mq-range($name) {
            .#{$name}-grid--unbounded {
             max-width: none;
         }

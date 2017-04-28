@@ -40,7 +40,7 @@
     // below).
     .component__footer {
         @extend .prog-layout__secondary;
-        @include breakup-breakpoint('bpw') {
+        @include mq-range('bpw') {
             margin-left: $wide-spacing;
             margin-right: $wide-spacing;
         }
@@ -155,7 +155,7 @@
     }
 }
 
-@include breakup-breakpoint('bp2') {
+@include mq-range('bp2') {
     .component__header .stream__indicator-wrap {
         right: 16px;
     }
@@ -174,7 +174,7 @@
     }
 }
 
-@include breakup-tweakpoint('(min-width: #{px-to-em(400px)}) and (max-width: #{px-to-em(600px)})', 'bpb1') {
+@include mq($from: 'gel2', $until: 'gel3') {
     // prefixed bp*-highlight-box--grid need their spacing updated, otherwise
     // elements with ".highlight-box--list.bpb1-highlight-box--grid" inherit
     // incorrect spacing from from highlight-box--list defined above
@@ -197,7 +197,7 @@
     }
 }
 
-@include breakup-tweakpoint('(min-width: #{px-to-em(480px)}) and (max-width: #{px-to-em(600px)})', 'bpb2') {
+@include mq-range('bpb2') {
     // prefixed bp*-highlight-box--grid need their spacing updated, otherwise
     // elements with ".highlight-box--list.bpb2-highlight-box--grid" inherit
     // incorrect spacing from from highlight-box--list defined above
@@ -220,7 +220,7 @@
     }
 }
 
-@include breakup-breakpoint('bpw') {
+@include mq-range('bpw') {
     // When a box has a striped heading adjust the spacing between the header
     // and body
     .component--box--striped {

@@ -121,7 +121,7 @@
     white-space:nowrap;
 }
 
-@include breakup-breakpoint('bpw') {
+@include mq-range('bpw') {
     .bpw-text--left {
         text-align: left;
     }

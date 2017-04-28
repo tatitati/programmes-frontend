@@ -151,7 +151,7 @@ $massive-pushdown: 50em;
 }
 
 
-@include breakup-breakpoint('bpw') {
+@include mq-range('bpw') {
     #{$gel-class-prefix}grid-wrapper {
         margin-left: -$gel-grid-gutter-wide;
     }
@@ -208,7 +208,7 @@ $massive-pushdown: 50em;
 @each $name in ($gel-widths-breakpoints) {
     $spacing: if(index(('bpb1', 'bpb2'), $name), $gel-grid-gutter-basic, $gel-grid-gutter-wide);
 
-    @include breakup-breakpoint($name) {
+    @include mq-range($name) {
         @include gel-gutterwidths-setup('#{$name}-', $spacing);
     }
 }

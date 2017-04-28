@@ -52,7 +52,7 @@
 }
 
 
-@include breakup-breakpoint('bpw') {
+@include mq-range('bpw') {
     .island,
     .bpw-island {
         padding: $wide-spacing;

@@ -30,7 +30,7 @@
  * Generate media-query scoped grids for each breakpoint name defined
  */
 @each $name in $gel-widths-breakpoints {
-    @include breakup-breakpoint($name) {
+    @include mq-range($name) {
        @include gel-hidden-setup('#{$name}-');
     }
 }

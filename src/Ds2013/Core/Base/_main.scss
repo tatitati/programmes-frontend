@@ -30,12 +30,12 @@ abbr[title] {
     padding-top: $basic-spacing;
     padding-bottom: $basic-spacing;
 
-    @include breakup-breakpoint('bp2') {
+    @include mq-range('bp2') {
         padding-top: $wide-spacing;
         padding-bottom: $wide-spacing;
     }
 
-    @include breakup-breakpoint('bpw') {
+    @include mq-range('bpw') {
         padding-top: $wide-spacing;
         padding-bottom: $wide-spacing;
     }
@@ -43,7 +43,7 @@ abbr[title] {
 .programmes-page--stripe {
     padding-bottom: 0.1px; // hack to keep margins inside stripe
 }
-@include breakup-breakpoint('bpw') {
+@include mq-range('bpw') {
     .programmes-page--topboxed {
         padding-top: $wide-spacing;
     }
@@ -87,7 +87,7 @@ abbr[title] {
 // handle titles
 .context {
     display: block;
-    font-size: px-to-em(12px, gel-typography('basic', 'base', 'font-size'));
+    font-size: mq-px2em(12px, gel-typography('basic', 'base', 'font-size'));
 }
 .context__item:first-child {
     @extend .visually-hidden;
@@ -98,7 +98,7 @@ abbr[title] {
     margin-right: -$basic-spacing;
 }
 
-@include breakup-breakpoint('bpw') {
+@include mq-range('bpw') {
     .programmes-page--inset,
     .inset {
         padding-left: 16px;

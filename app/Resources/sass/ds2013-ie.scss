@@ -7,9 +7,9 @@
  * stylesheets but we do want it to have the wide styles.
  */
 
-$breakup-included-blocks: ('basic' 'bpw' 'bpe');
-$breakup-naked: true;
-$breakup-breakpoints-allow-naked: ('bpw' 'bpe');
+$mq-responsive: false;
+$mq-static-breakpoint: 'gel4';
+
 $ie : true;
 
 @import 'Ds2013/ds2013-components';

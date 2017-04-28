@@ -65,7 +65,7 @@
 // At base sizes the box is flush to the edge of the viewport with the text
 // indented to be inline with the BBC Blocks. At wide and up viewports the box
 // shall defer it's sizing to that of it's containing column
-@include breakup-breakpoint('bp2') {
+@include mq-range('bp2') {
     .prog-layout__primary {
         padding-left: $wide-spacing;
         padding-right: $wide-spacing;
@@ -80,7 +80,7 @@
     }
 }
 
- @include breakup-breakpoint('bpw') {
+ @include mq-range('bpw') {
     .prog-layout {
         padding-left: 16px;
         padding-right: 16px;
