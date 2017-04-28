@@ -36,7 +36,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     paths:
-        '%kernel.project_dir%/src/Ds2014': 'Ds2014'
+        '%kernel.project_dir%/src/Ds2013': 'Ds2013'
 
 # Doctrine Configuration
 doctrine:

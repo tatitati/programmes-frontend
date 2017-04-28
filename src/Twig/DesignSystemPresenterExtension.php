@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace App\Twig;
 
-use App\Ds2014\PresenterFactory as Ds2014PresenterFactory;
+use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
@@ -12,16 +12,16 @@ class DesignSystemPresenterExtension extends Twig_Extension
 {
     private $translate;
 
-    private $ds2014PresenterFactory;
+    private $ds2013PresenterFactory;
 
     private $iconCache = [];
 
     public function __construct(
         Translate $translate,
-        Ds2014PresenterFactory $ds2014PresenterFactory
+        Ds2013PresenterFactory $ds2013PresenterFactory
     ) {
         $this->translate = $translate;
-        $this->ds2014PresenterFactory = $ds2014PresenterFactory;
+        $this->ds2013PresenterFactory = $ds2013PresenterFactory;
     }
 
     public function getTranslate(): Translate
@@ -32,7 +32,7 @@ class DesignSystemPresenterExtension extends Twig_Extension
     public function setTranslate(Translate $translate): void
     {
         $this->translate = $translate;
-        $this->ds2014PresenterFactory->setLocale($this->translate->getLocale());
+        $this->ds2013PresenterFactory->setLocale($this->translate->getLocale());
     }
 
     /**
@@ -42,7 +42,7 @@ class DesignSystemPresenterExtension extends Twig_Extension
     {
         return [
             new Twig_Function('tr', [$this, 'tr']),
-            new Twig_Function('ds2014', [$this, 'ds2014'], [
+            new Twig_Function('ds2013', [$this, 'ds2013'], [
                 'is_safe' => ['html'],
                 'is_variadic' => true,
                 'needs_environment' => true,
@@ -68,12 +68,12 @@ class DesignSystemPresenterExtension extends Twig_Extension
         return $this->translate->translate($key, $substitutions, $numPlurals, $domain);
     }
 
-    public function ds2014(
+    public function ds2013(
         Twig_Environment $twigEnv,
         string $presenterName,
         array $presenterArguments = []
     ): string {
-        $presenter = $this->ds2014PresenterFactory->{$presenterName . 'Presenter'}(...$presenterArguments);
+        $presenter = $this->ds2013PresenterFactory->{$presenterName . 'Presenter'}(...$presenterArguments);
 
         return $twigEnv->render($presenter->getTemplatePath(), [$presenter->getBase() => $presenter]);
     }

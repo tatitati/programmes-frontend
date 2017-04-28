@@ -12,7 +12,7 @@ $breakup-naked: true;
 $breakup-breakpoints-allow-naked: ('bpw' 'bpe');
 $ie : true;
 
-@import 'Ds2014/ds2014-components';
+@import 'Ds2013/ds2013-components';
 
 /*ie fix for absolute link over img */
 .block-link__overlay-link{

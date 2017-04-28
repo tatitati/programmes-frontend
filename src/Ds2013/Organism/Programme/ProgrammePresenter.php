@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace App\Ds2014\Organism\Programme;
+namespace App\Ds2013\Organism\Programme;
 
-use App\Ds2014\Presenter;
-use App\Ds2014\PresenterFactory;
+use App\Ds2013\Presenter;
+use App\Ds2013\PresenterFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class ProgrammePresenter extends Presenter
@@ -16,11 +16,11 @@ class ProgrammePresenter extends Presenter
     private $programme;
 
     public function __construct(
-        PresenterFactory $ds2014,
+        PresenterFactory $ds2013,
         Programme $programme,
         array $options = []
     ) {
-        parent::__construct($ds2014, $options);
+        parent::__construct($ds2013, $options);
         $this->programme = $programme;
     }
 

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace App\Ds2014;
+namespace App\Ds2013;
 
 use stdClass;
 
@@ -33,7 +33,7 @@ abstract class Presenter
      */
     public function getTemplatePath(): string
     {
-        return '@Ds2014/' . $this->getClassPath() . self::TWIG_SUFFIX;
+        return '@Ds2013/' . $this->getClassPath() . self::TWIG_SUFFIX;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class Presenter
         if (!$this->uniqueId) {
             $parts = explode('\\', get_called_class());
             $class = end($parts);
-            $this->uniqueId = 'ds2014-' . $class . '-' . mt_rand();
+            $this->uniqueId = 'ds2013-' . $class . '-' . mt_rand();
         }
 
         return $this->uniqueId;
@@ -79,7 +79,7 @@ abstract class Presenter
     {
         $className = get_called_class();
         // strip off the namespace
-        $classPath = str_replace('App\Ds2014\\', '', $className);
+        $classPath = str_replace('App\Ds2013\\', '', $className);
         // split by backslash
         $parts = explode('\\', $classPath);
         // get the last bit (the class name)

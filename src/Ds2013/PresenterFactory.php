@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace App\Ds2014;
+namespace App\Ds2013;
 
 /**
- * Ds2014 Factory Class for creating presenters.
+ * Ds2013 Factory Class for creating presenters.
  *
  * This abstraction shall allow us to have a single entry point to create any
  * Presenter. This is particularly valuable in two cases:
