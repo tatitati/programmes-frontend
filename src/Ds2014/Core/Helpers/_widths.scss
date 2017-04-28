@@ -30,13 +30,11 @@
     .#{$namespace}fifteen-twentyfourths-fixed      { width:$base-size * 0.625; }
 }
 
-@include breakup-block('basic') {
-    // When a single column looks too wide but two side-by-side columns looks
-    // too skinny use a grid--bounded to have a single column with some spacing
-    // around it (best used with grid-wrapper--center).
-    .grid--bounded {
-        max-width: 624px;
-    }
+// When a single column looks too wide but two side-by-side columns looks
+// too skinny use a grid--bounded to have a single column with some spacing
+// around it (best used with grid-wrapper--center).
+.grid--bounded {
+    max-width: 624px;
 }
 
 @include breakup-breakpoint('bpw') {
@@ -58,6 +56,4 @@
     }
 }
 
-@include breakup-block('basic') {
-    .push-one-twentyfourth { margin-left: (100% / 24); }
-}
+.push-one-twentyfourth { margin-left: (100% / 24); }

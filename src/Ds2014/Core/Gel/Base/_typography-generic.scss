@@ -145,10 +145,8 @@
 }
 
 
-@include breakup-block('basic') {
-    $basic-typography: breakup-list-key-search(gel-typography-vars(), 'basic', 1);
-    @include gel-text-sizing('', nth($basic-typography, 2)...);
-}
+$basic-typography: breakup-list-key-search(gel-typography-vars(), 'basic', 1);
+@include gel-text-sizing('', nth($basic-typography, 2)...);
 
 /**
  * Generate media-query scoped font sizings for each breakpoint name defined

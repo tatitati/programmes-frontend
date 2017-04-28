@@ -93,11 +93,9 @@ abbr[title] {
     @extend .visually-hidden;
 }
 
-@include breakup-block('basic') {
-    .pull-out {
-        margin-left: -$basic-spacing;
-        margin-right: -$basic-spacing;
-    }
+.pull-out {
+    margin-left: -$basic-spacing;
+    margin-right: -$basic-spacing;
 }
 
 @include breakup-breakpoint('bpw') {

@@ -55,82 +55,81 @@
     }
 }
 
-@include breakup-block('basic') {
+
+.component__header {
+    padding-bottom: $basic-spacing;
+    position: relative;
+    h2, h3, p {
+        margin: 0;
+    }
+    // if a stream is in here, line it up
+    .stream__indicator-wrap {
+        position: absolute;
+        bottom: 1.175em;
+        right: 8px;
+    }
+}
+
+.component__body {
+    @extend .cf;
+}
+
+.component__footer {
+    padding-top: $basic-spacing;
+    padding-bottom: $basic-spacing;
+    margin-top: 1px;
+}
+
+.component--box {
     .component__header {
-        padding-bottom: $basic-spacing;
-        position: relative;
-        h2, h3, p {
-            margin: 0;
-        }
-        // if a stream is in here, line it up
-        .stream__indicator-wrap {
-            position: absolute;
-            bottom: 1.175em;
-            right: 8px;
-        }
+        padding-top: $basic-spacing;
     }
 
     .component__body {
-        @extend .cf;
-    }
-
-    .component__footer {
         padding-top: $basic-spacing;
         padding-bottom: $basic-spacing;
-        margin-top: 1px;
     }
 
-    .component--box {
-        .component__header {
-            padding-top: $basic-spacing;
-        }
-
-        .component__body {
-            padding-top: $basic-spacing;
-            padding-bottom: $basic-spacing;
-        }
-
-        .component__body:first-child {
-            padding-top: $basic-spacing;
-        }
+    .component__body:first-child {
+        padding-top: $basic-spacing;
     }
+}
 
-    // When a box has a striped heading adjust the spacing between the header
-    // and body
-    .component--box--striped {
-        .component__body {
-            padding-top: $basic-spacing;
-        }
+// When a box has a striped heading adjust the spacing between the header
+// and body
+.component--box--striped {
+    .component__body {
+        padding-top: $basic-spacing;
     }
+}
 
-    .component--box-flushbody {
-        // Additional declarations to ensure we are more specific the padding-top
-        // that gets applied to a component--box that is missing a header
-        .component__body,
-        .component__body:first-child {
-            padding: 0;
-        }
-    }
-
-    .component--box-flushbody-vertical {
-        // Additional declarations to ensure we are more specific the padding-top
-        // that gets applied to a component--box that is missing a header
-        .component__body,
-        .component__body:first-child {
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-    }
-
-    // the last item in a box should not have margin, or they double up
-    .component__header,
+.component--box-flushbody {
+    // Additional declarations to ensure we are more specific the padding-top
+    // that gets applied to a component--box that is missing a header
     .component__body,
-    .component__footer {
-        > p:last-child,
-        > ul:last-child,
-        > ol:last-child {
-            margin-bottom: 0;
-        }
+    .component__body:first-child {
+        padding: 0;
+    }
+}
+
+.component--box-flushbody-vertical {
+    // Additional declarations to ensure we are more specific the padding-top
+    // that gets applied to a component--box that is missing a header
+    .component__body,
+    .component__body:first-child {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+// the last item in a box should not have margin, or they double up
+.component__header,
+.component__body,
+.component__footer {
+    > p:last-child,
+    > ul:last-child,
+    > ol:last-child {
+        margin-bottom: 0;
     }
 }
 

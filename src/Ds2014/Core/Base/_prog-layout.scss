@@ -26,39 +26,37 @@
 //     </div></div>
 // </div></div>
 //
-@include breakup-block('basic') {
-    .prog-layout {
-        max-width: 976px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.prog-layout {
+    max-width: 976px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    .prog-layout__primary,
-    .prog-layout__secondary {
-        @extend .cf;
-        display: block;
+.prog-layout__primary,
+.prog-layout__secondary {
+    @extend .cf;
+    display: block;
 
-        > :last-child {
-            margin-bottom: 0;
-        }
+    > :last-child {
+        margin-bottom: 0;
     }
+}
 
-    .prog-layout__primary {
-        padding-left: $basic-spacing;
-        padding-right: $basic-spacing;
-    }
+.prog-layout__primary {
+    padding-left: $basic-spacing;
+    padding-right: $basic-spacing;
+}
 
-    .prog-layout__secondary {
-        margin-left: $basic-spacing;
-        margin-right: $basic-spacing;
-        padding-left: $basic-spacing;
-        padding-right: $basic-spacing;
-    }
-    .prog-box:after {
-        // prevent margin collapse making margins happen outside of prog-box
-        content: '';
-        display: table;
-    }
+.prog-layout__secondary {
+    margin-left: $basic-spacing;
+    margin-right: $basic-spacing;
+    padding-left: $basic-spacing;
+    padding-right: $basic-spacing;
+}
+.prog-box:after {
+    // prevent margin collapse making margins happen outside of prog-box
+    content: '';
+    display: table;
 }
 
 

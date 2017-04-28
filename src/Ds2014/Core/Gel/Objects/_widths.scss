@@ -66,9 +66,7 @@
 }
 
 
-@include breakup-block('basic') {
-    @include gel-widths-setup();
-}
+@include gel-widths-setup();
 
 /**
  * Generate media-query scoped grids for each breakpoint name defined
