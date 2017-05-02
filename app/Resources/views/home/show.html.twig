@@ -87,7 +87,7 @@
                 <h3 class="gamma--keyline br-keyline">{{tr('national_radio')}}</h3>
                 <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2" data-list="national-radio-networks">
                     {% for network in nationalRadioNetworks %}
-                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</a></li>
+                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
                     {% endfor %}
                 </ul>
             </div></div>
@@ -95,7 +95,7 @@
                 <h3 class="gamma--keyline br-keyline">{{tr('nations_radio')}}</h3>
                 <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1" data-list="regional-radio-networks">
                     {% for network in regionalRadioNetworks %}
-                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</a></li>
+                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
                     {% endfor %}
                 </ul>
             </div></div>
@@ -103,7 +103,7 @@
                 <h3 class="gamma--keyline br-keyline">{{tr('local_radio')}}</h3>
                 <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--4 bpe-columns--4" data-list="local-radio-networks">
                     {% for network in localRadioNetworks %}
-                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC ': ''})}}</li>
+                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</li>
                     {% endfor %}
                 </ul>
             </div></div>
