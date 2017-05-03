@@ -11,6 +11,7 @@
             "php71u-mbstring",
             "php71u-mysqlnd",
             "php71u-pecl-apcu",
+            "php71u-pecl-redis",
             "php71u-pdo",
             "awslogs"
         ],
