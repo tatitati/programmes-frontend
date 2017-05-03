@@ -58,12 +58,12 @@
                 <p>Get started by searching for a programme, browsing the <a href="/programmes/a-z/by/a">A-Z</a>, or choosing a <a href="/programmes/genres">genre</a>.</p>
 
                 <div class="grid-wrapper">
-                    <div class="grid bpb2-one-half bpw-one-half"><div class="grid__inner">
+                    <div class="grid bpb2-one-half bpw-one-half">
                         <p><a href="/iplayer"><img src="{{asset('images/logos/iplayer.png')}}" class="rsp-img" alt="iPlayer" /></a></p>
-                    </div></div>
-                    <div class="grid bpb2-one-half bpw-one-half"><div class="grid__inner">
+                    </div>
+                    <div class="grid bpb2-one-half bpw-one-half">
                         <p><a href="/radio"><img src="{{asset('images/logos/iplayer_radio.png')}}" class="rsp-img" alt="iPlayer Radio" /></a></p>
-                    </div></div>
+                    </div>
                 </div>
 
                 <p>Where applicable episodes will be available to watch at <a href="/iplayer">BBC iPlayer</a> or listen through <a href="/radio">BBC iPlayer Radio</a>.</p>
@@ -75,38 +75,38 @@
         <h2>{{tr('schedules')}}</h2>
 
         <div class="grid-wrapper">
-            <div class="grid bpw2-one-quarter bpe-one-quarter"><div class="grid__inner">
+            <div class="grid bpw2-one-quarter bpe-one-quarter">
                 <h3 class="gamma--keyline br-keyline">{{tr('television_abbr')}}</h3>
                 <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1" data-list="tv-networks">
                     {% for network in tvNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name}}</a></li>
                     {% endfor %}
                 </ul>
-            </div></div>
-            <div class="grid bpw2-one-half bpe-one-half"><div class="grid__inner">
+            </div>
+            <div class="grid bpw2-one-half bpe-one-half">
                 <h3 class="gamma--keyline br-keyline">{{tr('national_radio')}}</h3>
                 <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2" data-list="national-radio-networks">
                     {% for network in nationalRadioNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
                     {% endfor %}
                 </ul>
-            </div></div>
-            <div class="grid bpw2-one-quarter bpe-one-quarter"><div class="grid__inner">
+            </div>
+            <div class="grid bpw2-one-quarter bpe-one-quarter">
                 <h3 class="gamma--keyline br-keyline">{{tr('nations_radio')}}</h3>
                 <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--1 bpe-columns--1" data-list="regional-radio-networks">
                     {% for network in regionalRadioNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
                     {% endfor %}
                 </ul>
-            </div></div>
-            <div class="grid bpw-one-whole"><div class="grid__inner">
+            </div>
+            <div class="grid bpw-one-whole">
                 <h3 class="gamma--keyline br-keyline">{{tr('local_radio')}}</h3>
                 <ul class="list-unindented columns bpb2-columns--2 bpw-columns--2 bpw2-columns--4 bpe-columns--4" data-list="local-radio-networks">
                     {% for network in localRadioNetworks %}
                         <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
                     {% endfor %}
                 </ul>
-            </div></div>
+            </div>
         </div>
     </div>
 </div>

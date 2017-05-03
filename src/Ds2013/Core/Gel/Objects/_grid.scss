@@ -1,36 +1,38 @@
 /**
  * Grid object.
  *
- * An IE 7 compatible implementation of a fluid grid with fixed gutter sizes.
+ * An IE 8 compatible implementation of a fluid grid with fixed gutter sizes.
  * Use in conjunction with the width objects to set the sizing of your grid
  * items.
  *
- * The .grid__inner div is required for IE7 compatibility. If we drop support
- * for IE 7 then we can use box-sizing:border-box; and apply the padding
- * directly to the .grid element, thus removing the need for the nested div.
+ * The original grid from programmes had IE7 compatibility by using an inner
+ * `grid__inner` div rather than using box-sizing: border-box.
+ * As we no longer care about IE7 support we've moved to use border-box and apply
+ * padding directly to the `grid` element, which means we can get rid of that
+ * now-unneeded `grid__inner` div.
  *
  * Sample usage:
  *
  * <div class="grid-wrapper">
- *      <div class="grid one-third"><div class="grid__inner">
+ *      <div class="grid one-third">
  *          <p>One third grid</p>
- *      </div></div>
+ *      </div>
  *
- *      <div class="grid two-thirds"><div class="grid__inner">
+ *      <div class="grid two-thirds">
  *          <p>Two thirds grid</p>
- *      </div></div>
+ *      </div>
  *
- *      <div class="grid one-half"><div class="grid__inner">
+ *      <div class="grid one-half">
  *          <p>One half grid</p>
- *      </div></div>
+ *      </div>
  *
- *      <div class="grid one-quarter"><div class="grid__inner">
+ *      <div class="grid one-quarter">
  *          <p>One quarter grid</p>
- *      </div></div>
+ *      </div>
  *
- *      <div class="grid one-quarter"><div class="grid__inner">
+ *      <div class="grid one-quarter">
  *          <p>One quarter grid</p>
- *      </div></div>
+ *      </div>
  *   </div>
  */
 
@@ -81,11 +83,17 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
     zoom: 1;
     vertical-align: top;
 
-    // In case people want to use a * { box-sizing: border-box; } declaration
-    // as per http://paulirish.com/2012/box-sizing-border-box-ftw/
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
+    // In case people want to use a * { box-sizing: content-box; } declaration
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    padding-left: $gel-grid-gutter-basic;
+
+    // Reset whitespace spacing
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-rendering: auto;
 
     // Grid components have a default width so that you don't need to always
     // use the .one-whole class for mobile-first implementations
@@ -102,15 +110,6 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
     width: 100%;
 }
 
-#{$gel-class-prefix}grid__inner {
-    padding-left: $gel-grid-gutter-basic;
-
-    // Reset whitespace spacing
-    letter-spacing: normal;
-    word-spacing: normal;
-    text-rendering: auto;
-}
-
 #{$gel-class-prefix}grid-wrapper--center {
     text-align:center;
 
@@ -122,7 +121,8 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 #{$gel-class-prefix}grid-wrapper--bothsides {
     margin-left: -$gel-grid-gutter-basic-half;
     margin-right: -$gel-grid-gutter-basic-half;
-    #{$gel-class-prefix}grid__inner {
+
+    #{$gel-class-prefix}grid {
         padding-left: $gel-grid-gutter-basic-half;
         padding-right: $gel-grid-gutter-basic-half;
     }
@@ -133,7 +133,7 @@ $massive-pushdown: 50em;
 #{$gel-class-prefix}grid-wrapper--fauxcolumn {
     overflow: hidden;
 
-    #{$gel-class-prefix}grid__inner {
+    #{$gel-class-prefix}grid {
         margin-bottom: -$massive-pushdown;
         padding-bottom: $massive-pushdown;
     }
@@ -157,14 +157,15 @@ $massive-pushdown: 50em;
     }
 
 
-    #{$gel-class-prefix}grid__inner {
+    #{$gel-class-prefix}grid {
         padding-left: $gel-grid-gutter-wide;
     }
 
     #{$gel-class-prefix}grid-wrapper--bothsides {
         margin-left: -$gel-grid-gutter-wide-half;
         margin-right: -$gel-grid-gutter-wide-half;
-        #{$gel-class-prefix}grid__inner {
+
+        #{$gel-class-prefix}grid {
             padding-left: $gel-grid-gutter-wide-half;
             padding-right: $gel-grid-gutter-wide-half;
         }
@@ -186,7 +187,7 @@ $massive-pushdown: 50em;
         margin-left: 0;
     }
 
-    #{$gel-class-prefix}#{$namespace}grid__inner--flush {
+    #{$gel-class-prefix}#{$namespace}grid--flush {
         padding-right: 0;
         padding-left: 0;
     }
@@ -196,7 +197,7 @@ $massive-pushdown: 50em;
         margin-left: -$spacing / 2;
     }
 
-    #{$gel-class-prefix}#{$namespace}grid__inner--half {
+    #{$gel-class-prefix}#{$namespace}grid--half {
         padding-right: 0;
         padding-left: $spacing / 2;
     }
