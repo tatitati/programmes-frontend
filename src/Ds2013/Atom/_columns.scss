@@ -5,7 +5,7 @@
 
 @mixin column-setup($namespace: '') {
     @for $i from 1 through 4 {
-        .#{$namespace}columns--#{$i} {
+        .columns--#{$i}#{$namespace} {
             -webkit-column-count:#{$i};
                -moz-column-count:#{$i};
                     column-count:#{$i};
@@ -45,6 +45,6 @@
 
 @each $name in $gel-widths-breakpoints {
     @include mq-range($name) {
-       @include column-setup('#{$name}-');
+       @include column-setup('\\@#{$name}');
     }
 }
