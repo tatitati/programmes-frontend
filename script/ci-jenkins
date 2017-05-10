@@ -1,34 +1,46 @@
 #!/bin/sh
 
+function docker_run {
+    docker run --rm \
+    -u `id -u`:`id -g` \
+    -e OAUTH="$OAUTH_TOKEN" \
+    -v "$WORKSPACE":/mnt/ \
+    -v /etc/pki/tls/private/client.key:/etc/pki/tls/private/client.key \
+    -v /etc/pki/tls/certs/client.crt:/etc/pki/tls/certs/client.crt \
+    -v /etc/pki/tls/certs/ca-bundle.crt:/etc/pki/tls/certs/ca-bundle.crt \
+    registry.ci.rmp.api.bbci.co.uk/programmes-docker-centos7 "$@"
+}
+
 set -e
 
 branch=$(echo $GIT_BRANCH | cut -d/ -f 2)
 echo $JOB_NAME:$branch $WORKSPACE
 
-rm -rf SRPMS
+# clear old build files and tmp folder
+rm -rf RPMS SOURCES SPECS SRPMS tmp
 
-echo "Stopping existing Container..."
-docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true
+echo "Pulling latest Docker image version"
+docker pull registry.ci.rmp.api.bbci.co.uk/programmes-docker-centos7:latest
 
 echo "Running CI in container..."
-docker run --rm -u `id -u`:`id -g` -e OAUTH="$OAUTH_TOKEN" -v "$WORKSPACE":/mnt/ registry.ci.rmp.api.bbci.co.uk/programmes-docker-base script/ci-docker
+docker_run script/ci-docker
+
+echo "Fixing permissions"
+docker_run sudo chown -R jenkins:jenkins /mnt
 
 if [ "$BUILD_TYPE" = "pull-request" ]
 then
     echo "Building RPM..."
-    mbt -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base
+    docker_run mbt -r 7 -s rpmbuild
 else
     version=`cosmos-release generate-version programmes-frontend`
 
     echo "Building RPM..."
-    mbt -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base --rpmversion $version
+    docker_run mbt -r 7 -s rpmbuild --rpmversion $version
 
     echo 'COSMOS-RELEASE: Publishing assets.....'
     cosmos-release publish-assets --role $STATIC_ASSETS_BUCKET_ROLE_ARN $STATIC_ASSETS "$STATIC_ASSETS_BUCKET/programmes-frontend"
 
     echo 'COSMOS-RELEASE: Sending RPM metadata to cosmos.....'
     cosmos-release service programmes-frontend RPMS/*.rpm --release-version v
-
-    echo "Stopping container..."
-    docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true
 fi

@@ -12,19 +12,17 @@ fi
 
 export SYMFONY_ENV=prod;
 
-# Download and run composer
-if [ ! -f "composer.phar" ]; then
-    curl -sS https://getcomposer.org/installer | php
-fi
+# setup and run composer
 if [ -n "$OAUTH" ]; then
-    php composer.phar config -g github-oauth.github.com $OAUTH
+    composer config -g github-oauth.github.com $OAUTH
 fi
+
+composer --no-ansi --no-interaction install
+
 # Make sure the reports directory exists
 if [ ! -d "build/reports" ]; then
     mkdir -p build/reports
 fi
-
-php composer.phar --no-ansi --no-interaction install
 
 yarn install
 
@@ -41,7 +39,7 @@ vendor/bin/phpunit || RESULT=1
 vendor/bin/phpcs --report=checkstyle --report-file=build/reports/checkstyle.xml || RESULT=1
 
 if [ "$RESULT" = "0" ]; then
-    php composer.phar --no-ansi --no-interaction --no-dev --optimize-autoloader --prefer-dist install || RESULT=1
+    composer --no-ansi --no-interaction --no-dev --optimize-autoloader --prefer-dist install || RESULT=1
 fi
 
 exit $RESULT
