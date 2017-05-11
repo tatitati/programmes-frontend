@@ -2,6 +2,11 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
+use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
+use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+
 /**
  * Ds2013 Factory Class for creating presenters.
  *
@@ -46,12 +51,23 @@ class PresenterFactory
      * Create a programme presenter class
      */
     public function programmePresenter(
-        \BBC\ProgrammesPagesService\Domain\Entity\Programme $programme,
+        Programme $programme,
         array $options = []
-    ): Organism\Programme\ProgrammePresenter {
-        return new Organism\Programme\ProgrammePresenter(
+    ): ProgrammePresenter {
+        return new ProgrammePresenter(
             $this,
             $programme,
+            $options
+        );
+    }
+
+    public function broadcastPresenter(
+        Broadcast $broadcast,
+        array $options = []
+    ): BroadcastPresenter {
+        return new BroadcastPresenter(
+            $this,
+            $broadcast,
             $options
         );
     }

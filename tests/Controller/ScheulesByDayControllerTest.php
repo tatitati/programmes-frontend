@@ -16,7 +16,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/schedules/p00fzl6p');
 
-        $this->assertResponseStatusCode($client, 200);
+        $this->assertResponseStatusCode($client, 404);
     }
 
     public function testScheduleForDate()
@@ -26,6 +26,6 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/schedules/p00fzl6p/2017-03-04');
 
-        $this->assertResponseStatusCode($client, 200);
+        $this->assertResponseStatusCode($client, 404);
     }
 }

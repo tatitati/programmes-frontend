@@ -2,8 +2,6 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
-use stdClass;
-
 /**
  * Base Class for a Presenter
  */
@@ -49,14 +47,6 @@ abstract class Presenter
     }
 
     /**
-     * Convert the options to an object and return
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
      * Get or generate a unique ID. Once generated once the same one will be used
      * Only used for unique references in a single render
      */
@@ -69,6 +59,27 @@ abstract class Presenter
         }
 
         return $this->uniqueId;
+    }
+
+    public function getOption($keyOption)
+    {
+        if (isset($this->options[$keyOption])) {
+            return $this->options[$keyOption];
+        }
+
+        return null;
+    }
+
+    public function buildCssClasses(array $cssClassTests = []): string
+    {
+        $cssClasses = [];
+        foreach ($cssClassTests as $cssClass => $shouldSet) {
+            if ($shouldSet) {
+                $cssClasses[] = $cssClass;
+            }
+        }
+
+        return trim(implode(' ', $cssClasses));
     }
 
     /**

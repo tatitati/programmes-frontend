@@ -1,0 +1,175 @@
+/**
+ * Highlight Box
+ *
+ * A large box that changes background when hovered over.
+ * Useful visual cue when paired with block-link, which provides large click
+ * areas.
+ */
+@mixin highlight-box-setup($suffix: '', $spacing: $basic-spacing) {
+    $half-spacing: $spacing / 2;
+
+    .highlight-box-wrapper#{$suffix} {
+        list-style: none;
+        margin-top: 0;
+        margin-bottom: $spacing;
+        padding: 0;
+
+        // Fix the top border of the first highlight-box being cut off due to
+        // margin-bottom:-1px and combining with overflow:hidden shenanigans.
+        //overflow:auto; - this cuts off the right border. check if OK to remove
+    }
+
+    // For applying to lists of highlight-box--grid. Because every item has a
+    // margin-bottom and we can't reason about how many items are in the final
+    // row we need to pull the wrapper up but the requisite amount of spacing so
+    // it doesn't look like there's double the amount of margin-bottom.
+    .highlight-box-wrapper--grid#{$suffix} {
+        // Important so that we can
+        margin-bottom: -$spacing !important;
+    }
+
+    .highlight-box--grid#{$suffix},
+    .highlight-box--list#{$suffix} {
+        &:hover,
+        &:active,
+        &:focus,
+        &.highlight-box--active {
+            a {
+                // text-decoration: none; // this means links inside have no hover state?
+            }
+        }
+    }
+
+    .highlight-box--grid#{$suffix} {
+        margin: 0 0 $spacing 0;
+        padding: 0 0;
+
+        border-style: none;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.highlight-box--active {
+            // Position relative and top shunting to make sure that oldIE overlays
+            // the top / bottom border correctly and does not have any jumpy
+            // behavior on hover
+            position: relative;
+            top: 0;
+            z-index: 1;
+
+            margin: 0 0 $spacing 0;
+            padding: 0;
+
+
+            border-style: none;
+        }
+    }
+
+    .highlight-box--list#{$suffix} {
+        margin: 0 $spacing;
+        padding: $spacing 0;
+
+        border-style: none;
+        border-width: 1px;
+        border-bottom-style: solid;
+
+        // OK WTF is this doing, well gather around children...
+        // The last list item should not have a border along its bottom.
+        // The easiest way to do this is to toggle the border-color, otherwise
+        // we've have to set the border-style to none and change the padding,
+        // which means we'd need hover resets for all other highlight-box
+        // variants, which is a bit rubbish and requires a bit of repetition.
+        // Unfortunately we can't turn the border-color to transparent here,
+        // then back to what it should in the hover etc states as that value
+        // comes from the branding system, so we're left with using :not() to
+        // exclude those states from seeing the color change. :not() doesn't
+        // work in IE8 but then :last-child doesn't work in IE8 either so we
+        // haven't lost anything there.
+        // The first `li:last-child > &` is for when items are in a list-vertical
+        // partial where the highlight-boxes are immediatly inside an li.
+        // The `li:last-child > .grid__inner > &` is for when items are in a
+        // list-horizontal partial, where there is an intermediate `grid__inner`
+        // element.
+        li:last-child > &,
+        li:last-child > .grid__inner > & {
+            &:not(:hover):not(:active):not(:focus):not(.highlight-box--active) {
+                border-bottom-color: transparent;
+            }
+        }
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.highlight-box--active {
+            // Position relative and top shunting to make sure that oldIE overlays
+            // the top / bottom border correctly and does not have any jumpy
+            // behavior on hover
+            position: relative;
+            top: -1px;
+            z-index: 100;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: -1px;
+
+            // -1px to because we want the total spacing to be $spacing,
+            // including the 1px border
+            padding-left: ($spacing - 1px);
+            padding-right: ($spacing - 1px);
+
+            border-style: solid;
+        }
+    }
+
+    .highlight-box--list-borderless#{$suffix} {
+        margin: 0;
+        padding: $spacing;
+        border-style: none;
+    }
+}
+
+@include highlight-box-setup();
+
+
+@include mq-range('bpw') {
+    .highlight-box-wrapper {
+        margin-bottom: $wide-spacing;
+    }
+
+    .highlight-box--grid {
+        margin: 0 0 $wide-spacing 0;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.highlight-box--active {
+            margin: 0 0 $wide-spacing 0;
+        }
+    }
+
+    .highlight-box--list {
+        margin: 0 $wide-spacing;
+        padding: $wide-spacing 0;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.highlight-box--active {
+            // -1px to because we want the total spacing to be $spacing,
+            // including the 1px border
+            padding-left: ($wide-spacing - 1px);
+            padding-right: ($wide-spacing - 1px);
+        }
+    }
+
+    .highlight-box--list-borderless {
+        padding: $wide-spacing;
+    }
+}
+
+@each $name in $gel-widths-breakpoints {
+    $spacing: if(index(('bpb1', 'bpb2'), $name), $basic-spacing, $wide-spacing);
+
+    @include mq-range($name) {
+        @include highlight-box-setup('\\@#{$name}', $spacing);
+    }
+}

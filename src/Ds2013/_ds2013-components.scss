@@ -51,7 +51,7 @@
 // @import 'objects/nav';
 
 // @import 'objects/programme';
-// @import 'objects/broadcast';
+ @import 'Organism/Broadcast/broadcast';
 // @import 'objects/promotion';
 
 // @import 'objects/fixedsticky';
@@ -66,13 +66,13 @@
 // These items are meant to be used in conjunction with objects higher up.
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
 // @import 'objects/box-link';
-// @import 'objects/block-link';
+ @import 'Molecule/block-link';
 // @import 'objects/broadcast-event';
 // @import 'objects/stream';
 // @import 'objects/feature';
 // @import 'objects/calendar-table';
 // @import 'objects/contact-detail';
-// @import 'objects/highlight-box';
+@import 'Molecule/highlight-box';
 
 // @import 'objects/lazyload';
 // @import 'objects/lazylink';
@@ -102,9 +102,9 @@
 // @import 'modules/clips/clips-grid';
 // @import 'modules/schedules/week_guide';
 // @import 'modules/schedules/tv-channels';
-// @import 'modules/schedules/fixed-nav';
-// @import 'modules/schedules/heading-links';
-// @import 'modules/schedules/lazyload';
+@import 'Core/Modules/Schedules/fixed-nav';
+@import 'Core/Modules/Schedules/heading-links';
+@import 'Core/Modules/Schedules/lazyload';
 // @import 'modules/global/footer';
 // @import 'modules/programmes/map';
 // @import 'modules/programmes/episode-panel';

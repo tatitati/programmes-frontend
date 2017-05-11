@@ -1,0 +1,66 @@
+/**
+ * Heading Links
+ *
+ * Links that sit on the same line as a .alpha - tweak margins so that the links
+ * appear vertically centered with the heading text.
+ */
+
+
+.heading-links {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.schedules-jump {
+    overflow: auto;
+}
+
+//hack to not show nav--piped separator lines as there is only one item visible
+.heading-links > li,
+.schedules-jump__links > li {
+    border-right-style: none;
+}
+
+.schedules-jump__links > li {
+    margin-right: 0;
+    padding-right: 0;
+    margin-left: $basic-spacing;
+    padding-left: $basic-spacing;
+}
+
+.schedules-jump__title {
+    margin-right: $basic-spacing;
+}
+
+.schedules-jump__links {
+    overflow: hidden;
+}
+
+
+@include mq-range('bpb1') {
+    .heading-links {
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+}
+
+
+@include mq-range('bpw') {
+    .heading-links {
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+    .schedules-jump__title {
+        margin-right: $wide-spacing;
+    }
+
+    //hack to not show nav--piped separator lines as there is only one item visible
+    .heading-links > li,
+    .schedules-jump__links > li {
+        border-right-style: solid;
+        margin-left: 0;
+        padding-left: 0;
+        margin-right: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+}

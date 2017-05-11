@@ -1,0 +1,90 @@
+/**
+ * Broadcast list
+ */
+
+
+// this is used as a workaround, while Nitro can only give us one outlet
+// at a time. Hide 'London Only' so it "looks" like it's all of BBC One
+.broadcast--hide-exceptions {
+    .only, .except {
+        display: none;
+    }
+}
+
+.broadcast--grid {
+    $info-spacing: 0.25em;
+
+    .programme__img{
+        float: none;
+        margin-bottom: $basic-spacing;
+    }
+    .programme__icon--orphaned{
+        margin:0;
+        position: static;
+        float: right;
+    }
+
+    .broadcast__info {
+        margin-left: -$info-spacing;
+    }
+
+    .broadcast__time,
+    .broadcast__live {
+        margin-left: $info-spacing;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .broadcast__live {
+        margin-bottom: 0.25em;
+    }
+}
+
+.language-fr .broadcast__live {
+    // Hack to make french "on air" text fit
+    font-size: 0.75em;
+}
+
+.broadcast__time {
+    margin-bottom: 0.25em;
+    font-weight: normal;
+    opacity: 0.6;
+    .timezone--note{
+        display: block;
+        font-size: 0.64em;
+    }
+}
+
+.broadcast__live {
+    text-transform: uppercase;
+    text-align: center;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: auto;
+    font-weight: bold;
+    padding: $basic-half-spacing;
+}
+
+
+
+
+
+@include mq-range('bpw') {
+    .broadcast--grid {
+        .broadcast--live {
+            margin-top: -$basic-half-spacing;
+        }
+    }
+
+    .broadcast__live {
+        padding-left: $wide-half-spacing;
+        padding-right: $wide-half-spacing;
+    }
+}
+
+@include mq-range('bpe') {
+    .language-fr .broadcast__live {
+        font-size: 1em;
+    }
+}

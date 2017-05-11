@@ -1,0 +1,36 @@
+/**
+ * Fixed Navigation
+ *
+ * Styling for Fixed navbar and positioning fragment links so that they aren't
+ * hidden beneath the navbar.
+ */
+
+.fixed-supported {
+    // A bit rubbish as this number relies on the fixed nav not being too deep,
+    // but making this dynamic is tricky
+    $skiplink-pushdown: 56px;
+
+    .schedule-nav-wrapper {
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .schedule-skip-link,
+    .schedule-skip-link-on-now {
+        padding-top: $skiplink-pushdown;
+        margin-top: -$skiplink-pushdown;
+        overflow: hidden;
+    }
+
+    .schedule-variant-outlets {
+        padding-top: 80px;
+        margin-top: -80px;
+        overflow: hidden;
+    }
+
+    li:hover + .schedule-skip-link-on-now {
+        margin-top: -$skiplink-pushdown - 1px;
+    }
+}
+

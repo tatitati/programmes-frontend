@@ -1,0 +1,16 @@
+{% if servicesInNetwork|length > 0 %}
+    <div class="grid-wrapper">
+        <div class="grid 1/2@bpw2 1/2@bpe">
+            <p class="beta">
+                {{ service.shortName }} {{tr('schedule')}}
+            </p>
+        </div>
+
+         <div class="grid 1/2@bpw2 1/2@bpe">
+            <div class="bpw-text--right">
+                {% set translationKey = service.getNetwork().getMedium() == 'tv' ? 'schedules_regional' : 'schedules_regional_change' %}
+                <a href="{{path('schedules_home')}}" class="delta">{{tr(translationKey, {'%1':service.getNetwork().name })}}</a>
+            </div>
+         </div>
+    </div>
+{% endif %}

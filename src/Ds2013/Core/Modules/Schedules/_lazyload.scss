@@ -1,0 +1,21 @@
+// Styling for lazy reloads of the schedules page (world news timezone offsets)
+.schedule-reload-container.lazy-module--loading--loader {
+    &.lazy-module--loading {
+        @extend .loading-spinner--large;
+        @extend .loading-spinner;
+    }
+
+    &.lazy-module--loading:before {
+        position: absolute;
+        top:50px;
+        bottom: auto;
+        left: 50%;
+        margin-left: -20px;
+        z-index:1002;
+    }
+
+    &.lazy-module--loading:after {
+        background-image: none;
+        z-index: 1001;
+    }
+}

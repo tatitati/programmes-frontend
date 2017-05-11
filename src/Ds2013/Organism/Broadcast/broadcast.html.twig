@@ -1,0 +1,29 @@
+<div class="{{broadcast.getObjectClassesCss()}}" vocab="http://schema.org/" typeof="BroadcastEvent">
+    <div class="grid-wrapper">
+        <div class="broadcast__info grid {{broadcast.getInfoClassesCss()}}">
+                {#start time and zone#}
+                <h3 class="broadcast__time gamma" data-timezone="true" property="startDate" datatype="xsd:dateTime" content={{ broadcast.getStartAt()|date('c') }}>
+                    <span class="timezone--time">{{broadcast.getStartAt()|date('H:i')}}</span>
+                    {%  if broadcast.getOption('show_date') %}
+                        <br /><span class="micro timezone--date">{{broadcast.getStartAt()|date('d m yyyy')}}</span>
+                    {% endif %}
+                </h3>
+
+                {#end time and zone#}
+                <meta property="endDate" datatype="xsd:dateTime" content="{{ broadcast.getEndAt()|date('c')}}" />
+                <span property="publishedOn" typeof="BroadcastService" resource="{{broadcast.getServiceSchemaUrl()}}>">
+                    <meta property="name" content="{{broadcast.getServiceName()}}" />
+                </span>
+
+                {% if broadcast.isNow() %}
+                    <div class="broadcast__live centi br-box-highlight">
+                        {{ broadcast.getNetworkMedium() == 'tv' ? tr('on_now') : tr('on_air') }}
+                    </div>
+                {% endif %}
+
+                <div>
+                    programme presenter here
+                </div>
+        </div>
+    </div>
+</div>

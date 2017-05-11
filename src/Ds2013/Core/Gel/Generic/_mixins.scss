@@ -14,6 +14,18 @@
     }
 }
 
+// These mixins only exist to help the migration process. Give a helpful error when you attempt to use breakup-block
+// or breakup-breakpoint with information on how to fix it
+@mixin breakup-block($name) {
+    @error "You used breakup-block. Blocks with the name of 'basic' no longer need to be included within a mixin, their content can go directly the scss file";
+    @content;
+}
+
+@mixin breakup-breakpoint($name) {
+    @error "You used breakup-breakpoint(#{$name}). This has been superseeded by the mq-range mixin. Use mq-range(#{$name}) instead";
+    @content;
+}
+
 @function gel-typography($block, $group, $value) {
     // lookups so we can pass in a text string and return a value
     $group-names: ('base': 1, 'alpha': 2, 'beta': 3, 'gamma': 4, 'delta': 5, 'centi': 6, 'milli': 7, 'micro': 8);
