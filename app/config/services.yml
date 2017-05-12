@@ -98,11 +98,10 @@ services:
     ### Programmes Service
     BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory: ~
 
-    BBC\ProgrammesPagesService\Service\ServiceFactory:
-       arguments:
-           - '@doctrine.orm.default_entity_manager'
-           - '@BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory'
-           - '@cache.programmes'
+    BBC\ProgrammesPagesService\Cache\Cache:
+        arguments: [ '@cache.programmes', 'frontend.%cosmos_component_release%']
+
+    BBC\ProgrammesPagesService\Service\ServiceFactory: ~
 
     BBC\ProgrammesPagesService\Service\BroadcastsService:
             autowire: false
