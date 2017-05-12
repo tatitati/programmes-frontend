@@ -41,6 +41,6 @@ class ProgrammePresenter extends Presenter
 
     public function getLocale(): string
     {
-        return $this->presenterFactory->getLocale();
+        return $this->presenterFactory->getTranslate()->getLocale();
     }
 }
