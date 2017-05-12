@@ -13,8 +13,7 @@ use RMP\Translate\Translate;
  *
  * This abstraction shall allow us to have a single entry point to create any
  * Presenter. This is particularly valuable in two cases:
- * 1) When a presenter depends upon another presenter - we can pass in this
- *    factory to all presenters to it is trivial to create an new one
+ * 1) When presenters require Translate, we have a single point to inject it
  * 2) When we have multiple Domain objects that should all be rendered using the
  *    same template. This factory allows us to choose the correct presenter for
  *    a given domain object.
@@ -23,7 +22,7 @@ use RMP\Translate\Translate;
  * which have presenters.
  * Each respective group MUST have the methods kept in alphabetical order
  *
- * To instantiate Amen you MUST pass it a translation locale (e.g en_GB)
+ * To instantiate Ds2013 you MUST pass it an instance of Translate
  * All presenters MUST be created using this factory.
  * All presenters MUST call the base Presenter __construct method
  *
@@ -56,7 +55,7 @@ class PresenterFactory
         array $options = []
     ): ProgrammePresenter {
         return new ProgrammePresenter(
-            $this,
+            $this->translate,
             $programme,
             $options
         );
@@ -67,7 +66,6 @@ class PresenterFactory
         array $options = []
     ): BroadcastPresenter {
         return new BroadcastPresenter(
-            $this,
             $broadcast,
             $options
         );

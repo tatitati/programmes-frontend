@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace App\Ds2013\Organism\Broadcast;
 
 use App\Ds2013\Presenter;
-use App\Ds2013\PresenterFactory;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use DateTimeImmutable;
@@ -24,11 +23,10 @@ class BroadcastPresenter extends Presenter
     private $now;
 
     public function __construct(
-        PresenterFactory $ds2013,
         Broadcast $broadcast,
         array $options = []
     ) {
-        parent::__construct($ds2013, $options);
+        parent::__construct($options);
         $this->broadcast = $broadcast;
         $this->now = ApplicationTime::getTime();
     }

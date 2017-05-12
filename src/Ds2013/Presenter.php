@@ -15,14 +15,9 @@ abstract class Presenter
     /** @var string */
     protected $uniqueId;
 
-    /** @var PresenterFactory */
-    protected $presenterFactory;
-
     public function __construct(
-        PresenterFactory $presenterFactory,
         array $options = []
     ) {
-        $this->presenterFactory = $presenterFactory;
         $this->options = array_merge($this->options, $options);
     }
 
@@ -80,26 +75,6 @@ abstract class Presenter
         }
 
         return trim(implode(' ', $cssClasses));
-    }
-
-
-    protected function tr(
-        string $key,
-        $substitutions = [],
-        $numPlurals = null,
-        ?string $domain = null
-    ): string {
-        // this code is duplicating the function extension for the twig template. Same code. Can be improved this?
-        if (is_int($substitutions) && is_null($numPlurals)) {
-            $numPlurals = $substitutions;
-            $substitutions = array('%count%' => $numPlurals);
-        }
-
-        if (is_int($numPlurals) && !isset($substitutions['%count%'])) {
-            $substitutions['%count%'] = $numPlurals;
-        }
-
-        return $this->presenterFactory->getTranslate()->translate($key, $substitutions, $numPlurals, $domain);
     }
 
     /**

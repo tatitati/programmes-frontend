@@ -3,11 +3,14 @@ declare(strict_types = 1);
 namespace App\Ds2013\Organism\Programme;
 
 use App\Ds2013\Presenter;
-use App\Ds2013\PresenterFactory;
+use App\Ds2013\TranslatableTrait;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use RMP\Translate\Translate;
 
 class ProgrammePresenter extends Presenter
 {
+    use TranslatableTrait;
+
     protected $options = [
         'showSynosis' => true,
     ];
@@ -16,11 +19,12 @@ class ProgrammePresenter extends Presenter
     private $programme;
 
     public function __construct(
-        PresenterFactory $ds2013,
+        Translate $translate,
         Programme $programme,
         array $options = []
     ) {
-        parent::__construct($ds2013, $options);
+        parent::__construct($options);
+        $this->translate = $translate;
         $this->programme = $programme;
     }
 
@@ -41,6 +45,6 @@ class ProgrammePresenter extends Presenter
 
     public function getLocale(): string
     {
-        return $this->presenterFactory->getTranslate()->getLocale();
+        return $this->translate->getLocale();
     }
 }

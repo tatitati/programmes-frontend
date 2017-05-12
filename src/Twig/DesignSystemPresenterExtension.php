@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Twig;
 
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
+use App\Ds2013\TranslatableTrait;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
@@ -10,7 +11,7 @@ use RMP\Translate\Translate;
 
 class DesignSystemPresenterExtension extends Twig_Extension
 {
-    private $translate;
+    use TranslatableTrait;
 
     private $ds2013PresenterFactory;
 
@@ -41,7 +42,7 @@ class DesignSystemPresenterExtension extends Twig_Extension
     public function getFunctions()
     {
         return [
-            new Twig_Function('tr', [$this, 'tr']),
+            new Twig_Function('tr', [$this, 'trWrapper']),
             new Twig_Function('ds2013', [$this, 'ds2013'], [
                 'is_safe' => ['html'],
                 'is_variadic' => true,
@@ -50,22 +51,13 @@ class DesignSystemPresenterExtension extends Twig_Extension
         ];
     }
 
-    public function tr(
+    public function trWrapper(
         string $key,
         $substitutions = [],
         $numPlurals = null,
         ?string $domain = null
     ): string {
-        if (is_int($substitutions) && is_null($numPlurals)) {
-            $numPlurals = $substitutions;
-            $substitutions = array('%count%' => $numPlurals);
-        }
-
-        if (is_int($numPlurals) && !isset($substitutions['%count%'])) {
-            $substitutions['%count%'] = $numPlurals;
-        }
-
-        return $this->translate->translate($key, $substitutions, $numPlurals, $domain);
+        return $this->tr($key, $substitutions, $numPlurals, $domain);
     }
 
     public function ds2013(
