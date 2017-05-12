@@ -77,8 +77,7 @@ services:
 
     ### Front end factories
 
-    App\Ds2013\PresenterFactory:
-        arguments: ['%app.default_locale%']
+    App\Ds2013\PresenterFactory: ~
 
     ## Twig Extension
 

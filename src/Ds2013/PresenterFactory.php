@@ -6,6 +6,7 @@ use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use RMP\Translate\Translate;
 
 /**
  * Ds2013 Factory Class for creating presenters.
@@ -29,22 +30,22 @@ use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
  */
 class PresenterFactory
 {
-    /** @var string */
-    private $locale;
+    /** @var Translate */
+    private $translate;
 
-    public function __construct(string $locale)
+    public function __construct(Translate $translate)
     {
-        $this->locale = $locale;
+        $this->translate = $translate;
     }
 
-    public function getLocale(): string
+    public function getTranslate(): Translate
     {
-        return $this->locale;
+        return $this->translate;
     }
 
-    public function setLocale(string $locale): void
+    public function setTranslate(Translate $translate): void
     {
-        $this->locale = $locale;
+        $this->translate = $translate;
     }
 
     /**

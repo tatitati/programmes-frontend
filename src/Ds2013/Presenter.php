@@ -46,11 +46,20 @@ abstract class Presenter
         return end($parts);
     }
 
+    public function getOption($keyOption)
+    {
+        if (isset($this->options[$keyOption])) {
+            return $this->options[$keyOption];
+        }
+
+        return null;
+    }
+
     /**
      * Get or generate a unique ID. Once generated once the same one will be used
      * Only used for unique references in a single render
      */
-    public function getUniqueID(): string
+    protected function getUniqueID(): string
     {
         if (!$this->uniqueId) {
             $parts = explode('\\', get_called_class());
@@ -61,16 +70,7 @@ abstract class Presenter
         return $this->uniqueId;
     }
 
-    public function getOption($keyOption)
-    {
-        if (isset($this->options[$keyOption])) {
-            return $this->options[$keyOption];
-        }
-
-        return null;
-    }
-
-    public function buildCssClasses(array $cssClassTests = []): string
+    protected function buildCssClasses(array $cssClassTests = []): string
     {
         $cssClasses = [];
         foreach ($cssClassTests as $cssClass => $shouldSet) {
@@ -80,6 +80,26 @@ abstract class Presenter
         }
 
         return trim(implode(' ', $cssClasses));
+    }
+
+
+    protected function tr(
+        string $key,
+        $substitutions = [],
+        $numPlurals = null,
+        ?string $domain = null
+    ): string {
+        // this code is duplicating the function extension for the twig template. Same code. Can be improved this?
+        if (is_int($substitutions) && is_null($numPlurals)) {
+            $numPlurals = $substitutions;
+            $substitutions = array('%count%' => $numPlurals);
+        }
+
+        if (is_int($numPlurals) && !isset($substitutions['%count%'])) {
+            $substitutions['%count%'] = $numPlurals;
+        }
+
+        return $this->presenterFactory->getTranslate()->translate($key, $substitutions, $numPlurals, $domain);
     }
 
     /**

@@ -32,7 +32,7 @@ class DesignSystemPresenterExtension extends Twig_Extension
     public function setTranslate(Translate $translate): void
     {
         $this->translate = $translate;
-        $this->ds2013PresenterFactory->setLocale($this->translate->getLocale());
+        $this->ds2013PresenterFactory->setTranslate($this->translate);
     }
 
     /**
