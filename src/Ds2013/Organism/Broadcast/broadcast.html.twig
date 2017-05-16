@@ -15,7 +15,7 @@
                     <meta property="name" content="{{broadcast.getServiceName()}}" />
                 </span>
 
-                {% if broadcast.isNow() %}
+                {% if broadcast.isOnAirNow() %}
                     <div class="broadcast__live centi br-box-highlight">
                         {{ broadcast.getNetworkMedium() == 'tv' ? tr('on_now') : tr('on_air') }}
                     </div>

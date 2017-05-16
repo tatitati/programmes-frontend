@@ -45,7 +45,7 @@ class SchedulesByDayController extends BaseController
         // We only need to look for broadcasts if we know the service was available on that day
         // TODO should isAvailableOn be a method on Service?
         $broadcasts = [];
-        if ($this->isServiceActiveOnDate($service, $date)) {
+        if ($service->isActiveAt($date)) {
             $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDate, $endDate);
         }
 
@@ -60,7 +60,7 @@ class SchedulesByDayController extends BaseController
             'service' => $service,
             'servicesInNetwork' => $servicesInNetwork,
             'groupedBroadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $date),
-            'broadcastedNow' => $this->getBroadcastedNowFromSchedule($broadcasts),
+            'broadcastedNow' => $this->getOnAirBroadcast($broadcasts),
         ]);
     }
 
@@ -119,22 +119,16 @@ class SchedulesByDayController extends BaseController
         }
     }
 
-
-    private function getBroadcastedNowFromSchedule(array $broadcasts): ?Broadcast
+    private function getOnAirBroadcast(array $broadcasts): ?Broadcast
     {
         $now = ApplicationTime::getTime();
 
         foreach ($broadcasts as $broadcast) {
-            if ($broadcast->getStartAt() <= $now && $broadcast->getEndAt() > $now) {
+            if ($broadcast->isOnAirAt($now)) {
                 return $broadcast;
             }
         }
 
         return null;
-    }
-
-    private function isServiceActiveOnDate(Service $service, DateTimeImmutable $date): bool
-    {
-        return ($service->getStartDate() || $date >= $service->getStartDate()) && (!$service->getEndDate() || $date < $service->getEndDate());
     }
 }

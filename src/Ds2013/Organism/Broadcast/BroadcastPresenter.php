@@ -52,14 +52,9 @@ class BroadcastPresenter extends Presenter
         return 'http://www.bbc.co.uk/programmes/' . $pid;
     }
 
-    public function isNow(): bool
+    public function isOnAirNow(): bool
     {
-        return $this->broadcast->getStartAt() <= $this->now && $this->now < $this->broadcast->getEndAt();
-    }
-
-    public function isInThePast(): bool
-    {
-        return $this->broadcast->getEndAt() < $this->now;
+        return $this->broadcast->isOnAirAt($this->now);
     }
 
     public function getNetworkMedium(): string
@@ -83,7 +78,12 @@ class BroadcastPresenter extends Presenter
             $this->getOption('container_classes') => !empty($this->getOption('container_classes')),
             $this->getOption('highlight_box_classes') => !empty($this->getOption('highlight_box_classes')),
             'br-keyline br-blocklink-page br-page-linkhover-onbg015--hover' => $this->getOption('highlight_box_classes'),
-            'br-box-subtle highlight-box--active' => $this->getOption('steal_blocklink') and $this->isNow(),
+            'br-box-subtle highlight-box--active' => $this->getOption('steal_blocklink') && $this->isOnAirNow(),
         ]);
+    }
+
+    private function isInThePast(): bool
+    {
+        return $this->broadcast->getEndAt() < $this->now;
     }
 }
