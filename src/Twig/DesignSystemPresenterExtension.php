@@ -67,6 +67,9 @@ class DesignSystemPresenterExtension extends Twig_Extension
     ): string {
         $presenter = $this->ds2013PresenterFactory->{$presenterName . 'Presenter'}(...$presenterArguments);
 
-        return $twigEnv->render($presenter->getTemplatePath(), [$presenter->getBase() => $presenter]);
+        return $twigEnv->render(
+            $presenter->getTemplatePath(),
+            [$presenter->getTemplateVariableName() => $presenter]
+        );
     }
 }

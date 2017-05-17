@@ -7,7 +7,11 @@ namespace App\Ds2013;
  */
 abstract class Presenter
 {
-    private const TWIG_SUFFIX = '.html.twig';
+    /** @var string */
+    protected static $templatePath;
+
+    /** @var string */
+    protected static $templateVariableName;
 
     /** @var array */
     protected $options = [];
@@ -26,19 +30,32 @@ abstract class Presenter
      */
     public function getTemplatePath(): string
     {
-        return '@Ds2013/' . $this->getClassPath() . self::TWIG_SUFFIX;
+        if (!static::$templatePath) {
+            $className = get_called_class();
+            $classPath = str_replace('App\Ds2013\\', '', $className);
+
+            $parts = implode('/', explode('\\', $classPath, -1));
+            $pathPrefix = '@Ds2013/' . $parts . ($parts ? '/' : '');
+
+            static::$templatePath = $pathPrefix . static::snakeCasePresenterName() . '.html.twig';
+        }
+
+        return static::$templatePath;
     }
 
     /**
      * Get the base property that the twig template will be expecting
-     * to find it's variables under. Matches the presenter name (e.g programme).
-     * Therefore the Twig template would use {{ programme.title }}
+     * to find it's variables under. Twig conventions say variable names should
+     * use snake_case. So the "myExamplePresenter" presenter's variable name
+     * would be "my_example"
      */
-    public function getBase(): string
+    public function getTemplateVariableName(): string
     {
-        $classPath = $this->getClassPath();
-        $parts = explode('/', $classPath);
-        return end($parts);
+        if (!static::$templateVariableName) {
+            static::$templateVariableName = $this->snakeCasePresenterName();
+        }
+
+        return static::$templateVariableName;
     }
 
     public function getOption($keyOption)
@@ -57,7 +74,7 @@ abstract class Presenter
     protected function getUniqueID(): string
     {
         if (!$this->uniqueId) {
-            $parts = explode('\\', get_called_class());
+            $parts = explode('\\', static::class);
             $class = end($parts);
             $this->uniqueId = 'ds2013-' . $class . '-' . mt_rand();
         }
@@ -78,23 +95,23 @@ abstract class Presenter
     }
 
     /**
-     * Auto calculates the path to the Presenter Class
-     * So that every presenter doesn't need to restate its template path and base
+     * Calculates the presenter name for use in referencing the template and
+     * the name of the variable to be passed to that template.
+     * e.g. App\Ds2013\Organism\ExampleThingPresenter becomes example_thing
+     *
      */
-    private function getClassPath(): string
+    private static function snakeCasePresenterName(): string
     {
-        $className = get_called_class();
-        // strip off the namespace
-        $classPath = str_replace('App\Ds2013\\', '', $className);
-        // split by backslash
-        $parts = explode('\\', $classPath);
-        // get the last bit (the class name)
-        $last = array_pop($parts);
+        $namespaceEnd = strrpos(static::class, '\\');
+        $shortClassName = substr(static::class, $namespaceEnd + ($namespaceEnd ? 1: 0));
+
         // Trim the class name from the word 'Presenter'
-        $last = substr($last, 0, strpos($last, 'Presenter'));
-        // Add the class name back to the parts (lower case first character)
-        $parts[] = lcfirst($last);
-        // Recombobulate with forward slashes
-        return implode('/', $parts);
+        $presenterName = substr($shortClassName, 0, strpos($shortClassName, 'Presenter'));
+
+        return strtolower(preg_replace(
+            ["/([A-Z]+)/", "/_([A-Z]+)([A-Z][a-z])/"],
+            ["_$1", "_$1_$2"],
+            lcfirst($presenterName)
+        ));
     }
 }

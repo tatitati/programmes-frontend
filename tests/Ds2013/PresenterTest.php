@@ -12,8 +12,8 @@ class PresenterTest extends TestCase
         $presenter = $this->getMockForAbstractClass(Presenter::class, [], 'TestDemoObjectPresenter');
 
         $this->assertAttributeEquals([], 'options', $presenter);
-        $this->assertSame('testDemoObject', $presenter->getBase());
-        $this->assertSame('@Ds2013/testDemoObject.html.twig', $presenter->getTemplatePath());
+        $this->assertSame('test_demo_object', $presenter->getTemplateVariableName());
+        $this->assertSame('@Ds2013/test_demo_object.html.twig', $presenter->getTemplatePath());
     }
 
     public function testGetOption()
