@@ -10,7 +10,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use RMP\Translate\Translate;
 use PHPUnit\Framework\TestCase;
 
-
 /**
  * @covers App\Ds2013\PresenterFactory
  */

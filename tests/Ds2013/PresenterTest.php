@@ -19,7 +19,7 @@ class PresenterTest extends TestCase
     public function testGetOption()
     {
         $presenter = $this->getMockForAbstractClass(Presenter::class, [
-            ['optionOne' => 1, 'optionTwo' => 2]
+            ['optionOne' => 1, 'optionTwo' => 2],
         ]);
 
         $this->assertSame(1, $presenter->getOption('optionOne'));
@@ -29,7 +29,7 @@ class PresenterTest extends TestCase
     public function testGetOptionInvalid()
     {
         $presenter = $this->getMockForAbstractClass(Presenter::class, [
-            ['optionOne' => 1, 'optionTwo' => 2]
+            ['optionOne' => 1, 'optionTwo' => 2],
         ]);
 
         $this->assertSame(null, $presenter->getOption('garbage'));
