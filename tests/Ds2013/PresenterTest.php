@@ -14,6 +14,11 @@ class PresenterTest extends TestCase
         $this->assertAttributeEquals([], 'options', $presenter);
         $this->assertSame('test_demo_object', $presenter->getTemplateVariableName());
         $this->assertSame('@Ds2013/test_demo_object.html.twig', $presenter->getTemplatePath());
+
+        // Assert each presenter generates their own template info
+        $presenter = $this->getMockForAbstractClass(Presenter::class, [], 'AnotherTestDemoObjectPresenter');
+        $this->assertSame('another_test_demo_object', $presenter->getTemplateVariableName());
+        $this->assertSame('@Ds2013/another_test_demo_object.html.twig', $presenter->getTemplatePath());
     }
 
     public function testGetOption()

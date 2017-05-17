@@ -7,17 +7,17 @@ namespace App\Ds2013;
  */
 abstract class Presenter
 {
-    /** @var string */
-    protected static $templatePath;
-
-    /** @var string */
-    protected static $templateVariableName;
-
     /** @var array */
     protected $options = [];
 
     /** @var string */
-    protected $uniqueId;
+    private $templatePath;
+
+    /** @var string */
+    private $templateVariableName;
+
+    /** @var string */
+    private $uniqueId;
 
     public function __construct(
         array $options = []
@@ -30,17 +30,16 @@ abstract class Presenter
      */
     public function getTemplatePath(): string
     {
-        if (!static::$templatePath) {
-            $className = get_called_class();
-            $classPath = str_replace('App\Ds2013\\', '', $className);
+        if (!$this->templatePath) {
+            $classPath = str_replace('App\Ds2013\\', '', static::class);
 
             $parts = implode('/', explode('\\', $classPath, -1));
             $pathPrefix = '@Ds2013/' . $parts . ($parts ? '/' : '');
 
-            static::$templatePath = $pathPrefix . static::snakeCasePresenterName() . '.html.twig';
+            $this->templatePath = $pathPrefix . static::snakeCasePresenterName() . '.html.twig';
         }
 
-        return static::$templatePath;
+        return $this->templatePath;
     }
 
     /**
@@ -51,11 +50,11 @@ abstract class Presenter
      */
     public function getTemplateVariableName(): string
     {
-        if (!static::$templateVariableName) {
-            static::$templateVariableName = $this->snakeCasePresenterName();
+        if (!$this->templateVariableName) {
+            $this->templateVariableName = static::snakeCasePresenterName();
         }
 
-        return static::$templateVariableName;
+        return $this->templateVariableName;
     }
 
     public function getOption($keyOption)
