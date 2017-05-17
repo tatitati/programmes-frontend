@@ -20,7 +20,7 @@ class StatusController extends Controller
         // Other people get a better info screen
         return $this->render('status/status.html.twig', [
             'now' => new DateTimeImmutable(),
-            'dbConnectivity' => $dbalConnection->isConnected() || $dbalConnection->connect(),
+            'db_connectivity' => $dbalConnection->isConnected() || $dbalConnection->connect(),
         ]);
     }
 }

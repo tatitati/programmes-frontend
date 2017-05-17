@@ -58,9 +58,9 @@ class SchedulesByDayController extends BaseController
         return $this->renderWithChrome('schedules/by_day.html.twig', [
             'date' => $date,
             'service' => $service,
-            'servicesInNetwork' => $servicesInNetwork,
-            'groupedBroadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $date),
-            'broadcastedNow' => $this->getOnAirBroadcast($broadcasts),
+            'services_in_network' => $servicesInNetwork,
+            'grouped_broadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $date),
+            'on_air_broadcast' => $this->getOnAirBroadcast($broadcasts),
         ]);
     }
 

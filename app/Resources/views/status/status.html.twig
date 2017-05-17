@@ -11,6 +11,6 @@
     <body>
         <h1>Status at {{now|date('c')}}</h1>
 
-        <p data-test-name="db-connectivity">Database Connectivity: <span class="{{dbConnectivity ? 'pass' : 'fail'}}">{{ dbConnectivity ? "YES" : "NO" }}</span></p>
+        <p data-test-name="db-connectivity">Database Connectivity: <span class="{{ db_connectivity ? 'pass' : 'fail' }}">{{ db_connectivity ? "YES" : "NO" }}</span></p>
     </body>
 </html>

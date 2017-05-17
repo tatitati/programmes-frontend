@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html class="{{branding.orbitThemeClasses|raw}} {% block html_classes %}{% endblock %}" lang="{{branding.options.language|default('en')}}">
+<html class="{{ branding.orbitThemeClasses|raw }} {% block html_classes %}{% endblock %}" lang="{{ branding.options.language|default('en') }}">
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="http://www.bbc.co.uk/favicon.ico" type="image/x-icon" />
-        <meta name="theme-color" content="{{branding.colours.highlight.bg|default('#2B2B2B')}}" />
+        <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}" />
         {{ orb.head|raw }}
         {{ branding.head|raw }}
 
         <!--[if (gt IE 8)|!(IE)]><!-->
-            <link rel="stylesheet" href="{{asset('css/ds2013.css')}}" />
+            <link rel="stylesheet" href="{{ asset('css/ds2013.css') }}" />
         <!--<![endif]-->
         <!--[if (lt IE 9)&(!IEMobile)]>
-            <link rel="stylesheet" href="{{asset('css/ds2013-ie.css')}}" />
+            <link rel="stylesheet" href="{{ asset('css/ds2013-ie.css') }}" />
         <![endif]-->
         {% block inline_head %}{% endblock %}
 

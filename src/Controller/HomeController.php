@@ -20,11 +20,11 @@ class HomeController extends BaseController
         );
 
         return $this->renderWithChrome('home/show.html.twig', [
-            'programmeCount' => $programmeCount,
-            'tvNetworks' => $this->filterNetworks($networks, 'TV'),
-            'nationalRadioNetworks' => $this->filterNetworks($networks, 'National Radio'),
-            'regionalRadioNetworks' => $this->filterNetworks($networks, 'Regional Radio'),
-            'localRadioNetworks' => $this->filterNetworks($networks, 'Local Radio'),
+            'programme_count' => $programmeCount,
+            'tv_networks' => $this->filterNetworks($networks, 'TV'),
+            'national_radio_networks' => $this->filterNetworks($networks, 'National Radio'),
+            'regional_radio_networks' => $this->filterNetworks($networks, 'Regional Radio'),
+            'local_radio_networks' => $this->filterNetworks($networks, 'Local Radio'),
         ]);
     }
 

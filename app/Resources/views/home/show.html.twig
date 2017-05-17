@@ -29,16 +29,16 @@
 {% endblock %}
 
 {% block body %}
-<h1 class="visually-hidden">{{tr('programmes')}}</h1>
+<h1 class="visually-hidden">{{ tr('programmes') }}</h1>
 
 <div class="delta no-margin">
     <div class="br-box-highlight">
         <div class="programmes-page b-g-p home-intro">
-            <p class="alpha deemphasize text--center"><span data-count="{{programmeCount}}">{{programmeCount|number_format}}</span> total programmes & groups</p>
-            <div class="search"><form action="{{path('atoz_list_all')}}" method="get">
+            <p class="alpha deemphasize text--center"><span data-count="{{ programme_count }}">{{ programme_count|number_format }}</span> total programmes & groups</p>
+            <div class="search"><form action="{{ path('atoz_list_all') }}" method="get">
                 <label class="search__label"><span class="visually-hidden">Search for a programme title</span>
                     <input type="search" name="q" class="search__input" placeholder="Search for a programme title" />
-                </label><button class="search__button" type="submit">{{gelicon('core', 'search', 16)}}<span class="visually-hidden"> {{tr('atoz_search')}}</span></button>
+                </label><button class="search__button" type="submit">{{ gelicon('core', 'search', 16) }}<span class="visually-hidden"> {{ tr('atoz_search') }}</span></button>
             </form></div>
         </div>
 
@@ -59,10 +59,10 @@
 
                 <div class="grid-wrapper">
                     <div class="grid 1/2@bpb2 1/2@bpw">
-                        <p><a href="/iplayer"><img src="{{asset('images/logos/iplayer.png')}}" class="rsp-img" alt="iPlayer" /></a></p>
+                        <p><a href="/iplayer"><img src="{{ asset('images/logos/iplayer.png') }}" class="rsp-img" alt="iPlayer" /></a></p>
                     </div>
                     <div class="grid 1/2@bpb2 1/2@bpw">
-                        <p><a href="/radio"><img src="{{asset('images/logos/iplayer_radio.png')}}" class="rsp-img" alt="iPlayer Radio" /></a></p>
+                        <p><a href="/radio"><img src="{{ asset('images/logos/iplayer_radio.png') }}" class="rsp-img" alt="iPlayer Radio" /></a></p>
                     </div>
                 </div>
 
@@ -72,38 +72,38 @@
     </div>
 
     <div class="b-g-p programmes-page" id="services">
-        <h2>{{tr('schedules')}}</h2>
+        <h2>{{ tr('schedules') }}</h2>
 
         <div class="grid-wrapper">
             <div class="grid 1/4@bpw2 1/4@bpe">
-                <h3 class="gamma--keyline br-keyline">{{tr('television_abbr')}}</h3>
+                <h3 class="gamma--keyline br-keyline">{{ tr('television_abbr') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw columns--1@bpw2 columns--1@bpe" data-list="tv-networks">
-                    {% for network in tvNetworks %}
-                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name}}</a></li>
+                    {% for network in tv_networks %}
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="grid 1/2@bpw2 1/2@bpe">
-                <h3 class="gamma--keyline br-keyline">{{tr('national_radio')}}</h3>
+                <h3 class="gamma--keyline br-keyline">{{ tr('national_radio') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw" data-list="national-radio-networks">
-                    {% for network in nationalRadioNetworks %}
-                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
+                    {% for network in national_radio_networks %}
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name|replace({'BBC': ''})|trim }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="grid 1/4@bpw2 1/4@bpe">
-                <h3 class="gamma--keyline br-keyline">{{tr('nations_radio')}}</h3>
+                <h3 class="gamma--keyline br-keyline">{{ tr('nations_radio') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw columns--1@bpw2 columns--1@bpe" data-list="regional-radio-networks">
-                    {% for network in regionalRadioNetworks %}
-                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
+                    {% for network in regional_radio_networks %}
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name|replace({'BBC': ''})|trim }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="grid">
-                <h3 class="gamma--keyline br-keyline">{{tr('local_radio')}}</h3>
+                <h3 class="gamma--keyline br-keyline">{{ tr('local_radio') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw bpw2-columns--4 bpe-columns--4" data-list="local-radio-networks">
-                    {% for network in localRadioNetworks %}
-                        <li><a href="{{path('schedules_by_day', {'pid': network.defaultService.pid})}}">{{network.name|replace({'BBC': ''})|trim}}</a></li>
+                    {% for network in local_radio_networks %}
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name|replace({'BBC': ''})|trim }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

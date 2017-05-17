@@ -7,7 +7,7 @@ class SchedulesHomeController extends BaseController
     public function __invoke()
     {
         return $this->renderWithChrome('schedules/home.html.twig', [
-            'serviceList' => [],
+            'service_list' => [],
         ]);
     }
 }

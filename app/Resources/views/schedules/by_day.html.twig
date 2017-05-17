@@ -2,23 +2,21 @@
 
 {% block body %}
     {% include 'schedules/components/nav.html.twig' %}
-    {% include 'schedules/components/regionpick.html.twig' with { 'servicesInNetwork': servicesInNetwork, 'service': service } only %}
+    {% include 'schedules/components/regionpick.html.twig' with { 'services_in_network': services_in_network, 'service': service } only %}
 
     <ol class="list-unstyled g-c-l">
-        {% for periodName, broadcastInPeriod in groupedBroadcasts %}
-            <li id="{{periodName}}" class="schedule-skip-link">
-                <h2 class="delta text--shout island--horizontal component">{{periodName}}</h2>
+        {% for period_name, broadcast_in_period in grouped_broadcasts %}
+            <li id="{{ period_name }}" class="schedule-skip-link">
+                <h2 class="delta text--shout island--horizontal component">{{ period_name }}</h2>
                 <ol class="highlight-box-wrapper">
-
                     {#list of broadcasts in day period#}
-                    {% for broadcast in broadcastInPeriod %}
-                        <li {{ broadcast == broadcastedNow ? 'id=on-now class=schedule-skip-link-on-now' : null }} >
-                            {{ds2013('broadcast', broadcast, {
+                    {% for broadcast in broadcast_in_period %}
+                        <li {{ broadcast == on_air_broadcast ? 'id=on-now class=schedule-skip-link-on-now' : null }} >
+                            {{ ds2013('broadcast', broadcast, {
                                 'highlight_box_classes' : 'highlight-box--list'
-                            })}}
+                            }) }}
                         </li>
                     {% endfor %}
-
                 </ol>
             </li>
         {% endfor %}
