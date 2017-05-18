@@ -65,7 +65,7 @@
 
 // These items are meant to be used in conjunction with objects higher up.
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
-// @import 'objects/box-link';
+ @import 'Atom/box-link';
  @import 'Molecule/block-link';
 // @import 'objects/broadcast-event';
 // @import 'objects/stream';

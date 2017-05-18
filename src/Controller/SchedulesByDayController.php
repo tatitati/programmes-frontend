@@ -5,6 +5,7 @@ namespace App\Controller;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
@@ -49,6 +50,12 @@ class SchedulesByDayController extends BaseController
             $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDate, $endDate);
         }
 
+        foreach ($servicesInNetwork as $key => $serviceInNetwork) {
+            if (!$serviceInNetwork->isActiveAt($date)) {
+                unset($servicesInNetwork[$key]);
+            }
+        }
+
         // If there aren't any broadcasts then show a sorry page, that is a 404
         // We don't want to clutter search results with loads of pages that says "sorry no results'
         if (!$broadcasts) {
@@ -58,6 +65,7 @@ class SchedulesByDayController extends BaseController
         return $this->renderWithChrome('schedules/by_day.html.twig', [
             'date' => $date,
             'service' => $service,
+            'service_is_tv' => $service->getNetwork()->getMedium() == NetworkMediumEnum::TV,
             'services_in_network' => $servicesInNetwork,
             'grouped_broadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $date),
             'on_air_broadcast' => $this->getOnAirBroadcast($broadcasts),

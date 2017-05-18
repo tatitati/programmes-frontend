@@ -1,0 +1,11 @@
+/**
+ * Box Link
+ *
+ * Used create links in a block with padding (always basic-spacing)
+ */
+
+.box-link {
+    display: block;
+    padding-top: $basic-spacing;
+    padding-bottom: $basic-spacing;
+}

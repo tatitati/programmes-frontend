@@ -22,6 +22,27 @@
         {% endfor %}
     </ol>
 
+    {# If there is only 1 service in the network, it is the service we are currently viewing #}
+    {% if services_in_network|length >= 2 %}
+        <div class="br-box-page island--vertical">
+            <h2>{{ service_is_tv ? tr('schedules_regional_note') : tr('schedules_regional_note_radio') }}</h2>
+            <div id="outlets" class="schedule-variant-outlets">
+                <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
+                    {%- for service_in_network in services_in_network -%}
+                        <li>
+                            {%- if service_in_network.pid == service.pid -%}
+                                <span class="box-link">{{ service_in_network.shortName }}</span>
+                            {%- else -%}
+                                <a href="{{ path('schedules_by_day', {'pid': service_in_network.pid, 'date': date|date('Y-m-d')}) }}"
+                                   data-href-add-utcoffset="true" class="box-link">{{ service_in_network.shortName }}</a>
+                            {%- endif -%}
+                        </li>
+                    {%- endfor -%}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}
 
 
