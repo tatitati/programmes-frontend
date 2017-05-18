@@ -2,6 +2,7 @@
 
 const gulp = require('gulp');
 const sass = require('gulp-sass');
+const { gulpSassError } = require('gulp-sass-error');
 const sourcemaps = require('gulp-sourcemaps');
 const rev = require('gulp-rev');
 const revdelOriginal = require('gulp-rev-delete-original');
@@ -12,6 +13,7 @@ const staticPathDist = 'web/assets';
 const sassMatch = '/sass/**/*.scss';
 const imageMatch = '/images/*';
 
+var throwError = true;
 // ------
 
 gulp.task('sass:clean', function() {
@@ -24,7 +26,7 @@ gulp.task('sass', ['sass:clean'], function() {
         .pipe(sass({outputStyle: 'compressed', includePaths: [
             'src',
             'node_modules'
-        ]}).on('error', sass.logError))
+        ]}).on('error', gulpSassError(throwError)))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(staticPathDist + '/css/'));
 });
@@ -55,6 +57,11 @@ gulp.task('rev', ['sass', 'images'], function() {
  * Entry tasks
  */
 gulp.task('watch',function() {
+    // When watching we don't want to throw an error, because then we have to
+    // go and restart the watch task if we ever write invalid sass, which would
+    // be really annoying.
+    throwError = false;
+
     gulp.watch(
         [staticPathSrc + sassMatch, 'src/**/*.scss'],
         ['sass']
