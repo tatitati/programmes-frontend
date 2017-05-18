@@ -2,8 +2,10 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
+use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use RMP\Translate\Translate;
@@ -46,6 +48,25 @@ class PresenterFactory
     {
         $this->translate = $translate;
     }
+
+    /**
+     * Molecules
+     */
+    public function imagePresenter(
+        Image $image,
+        $sizes,
+        array $options = []
+    ): ImagePresenter {
+        return new ImagePresenter(
+            $image,
+            $sizes,
+            $options
+        );
+    }
+
+    /**
+     * Organisms
+     */
 
     /**
      * Create a programme presenter class

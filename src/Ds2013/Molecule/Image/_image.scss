@@ -1,8 +1,9 @@
-.rsp-img {
+.image {
     width:100%;
     @include transition(opacity 0.1s ease-in-out);
     display: block;
 }
-.lazy-img {
-   opacity: 0;
+
+.image--lazy {
+    opacity: 0;
 }

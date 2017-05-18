@@ -1,0 +1,5 @@
+{%- if image.option('is_lazy_loaded') -%}
+    <div class="image image--lazy" data-img-blank="{{ asset("images/blank.png") }}" data-alt="{{ image.option('alt') }}" data-srcset="{{ image.srcsets }}" data-sizes="{{ image.sizes }}"></div>
+{%- else -%}
+    <img class="image" src="{{ image.src }}" alt="{{ image.option('alt') }}" srcset="{{ image.srcsets }}" sizes="{{ image.sizes }}" />
+{%- endif -%}

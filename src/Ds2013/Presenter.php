@@ -23,6 +23,7 @@ abstract class Presenter
         array $options = []
     ) {
         $this->options = array_merge($this->options, $options);
+        $this->validateOptions($this->options);
     }
 
     /**
@@ -91,6 +92,13 @@ abstract class Presenter
         }
 
         return trim(implode(' ', $cssClasses));
+    }
+
+    /**
+     * Validate options. Should be overridden.
+     */
+    protected function validateOptions(array $options): void
+    {
     }
 
     /**
