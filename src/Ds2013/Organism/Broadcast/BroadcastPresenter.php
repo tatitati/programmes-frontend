@@ -46,10 +46,9 @@ class BroadcastPresenter extends Presenter
         return $this->broadcast->getEndAt();
     }
 
-    public function getServiceSchemaUrl(): string
+    public function getServicePid(): string
     {
-        $pid = $this->broadcast->getService()->getPid();
-        return 'http://www.bbc.co.uk/programmes/' . $pid;
+        return (string) $this->broadcast->getService()->getPid();
     }
 
     public function isOnAirNow(): bool
@@ -62,14 +61,30 @@ class BroadcastPresenter extends Presenter
         return $this->broadcast->getProgrammeItem()->getNetwork()->getMedium();
     }
 
-    public function getInfoClassesCss(): string
+
+
+    public function getProgrammeItem()
+    {
+        return $this->broadcast->getProgrammeItem();
+    }
+
+    public function getInfoClasses(): string
     {
         return $this->buildCssClasses([
             '1/4 1/6@bpb2 1/6@bpw' => $this->getOption('is_stacked'),
         ]);
     }
 
-    public function getObjectClassesCss(): string
+    public function getMessageIsNow(): string
+    {
+        if ($this->getNetworkMedium() == 'tv') {
+            return 'on_now';
+        }
+
+        return 'on_air';
+    }
+
+    public function getObjectClasses(): string
     {
         return $this->buildCssClasses([
             'broadcast' => true,
@@ -79,6 +94,13 @@ class BroadcastPresenter extends Presenter
             $this->getOption('highlight_box_classes') => !empty($this->getOption('highlight_box_classes')),
             'br-keyline br-blocklink-page br-page-linkhover-onbg015--hover' => $this->getOption('highlight_box_classes'),
             'br-box-subtle highlight-box--active' => $this->getOption('steal_blocklink') && $this->isOnAirNow(),
+        ]);
+    }
+
+    public function getProgrammeClasses()
+    {
+        return $this->buildCssClasses([
+                '3/4 5/6@bpb2 5/6@bpw' => !$this->getOption('is_stacked'),
         ]);
     }
 
