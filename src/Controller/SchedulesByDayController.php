@@ -62,11 +62,20 @@ class SchedulesByDayController extends BaseController
             // TODO
         }
 
+        $twinService = null;
+        if (count($servicesInNetwork) == 2) {
+            $otherServices = array_filter($servicesInNetwork, function (Service $sisterService) use ($service) {
+                return ($service->getSid() !== $sisterService->getSid());
+            });
+            $twinService = reset($otherServices);
+        }
+
         return $this->renderWithChrome('schedules/by_day.html.twig', [
             'date' => $date,
             'service' => $service,
             'service_is_tv' => $service->getNetwork()->getMedium() == NetworkMediumEnum::TV,
             'services_in_network' => $servicesInNetwork,
+            'twin_service' => $twinService,
             'grouped_broadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $date),
             'on_air_broadcast' => $this->getOnAirBroadcast($broadcasts),
         ]);

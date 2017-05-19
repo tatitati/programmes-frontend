@@ -1,8 +1,32 @@
 {% extends 'base_ds2013.html.twig' %}
 
+{% block page_classes %}programmes-page text-base b-g-p programmes-page--flush{% endblock %}
+
 {% block body %}
     {% include 'schedules/components/nav.html.twig' %}
-    {% include 'schedules/components/regionpick.html.twig' with { 'services_in_network': services_in_network, 'service': service } only %}
+    {% include 'schedules/components/regionpick.html.twig' with { 'services_in_network': services_in_network, 'service': service, 'service_is_tv': service_is_tv, 'twin_service': twin_service, 'date': date } only %}
+
+    {% if not service_is_tv %}
+        <div class="g-c-l">
+            <div class="schedules-jump island micro">
+                <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
+                <ul class="schedules-jump__links nav nav--piped">
+                    {% if on_air_broadcast %}
+                        <li>
+                            <a href="#on-now">{{ tr('on_air') }}</a>
+                        </li>
+                    {% endif %}
+                    {% for period_name, broadcast_in_period in grouped_broadcasts %}
+                        {% if broadcast_in_period %}
+                            <li>
+                                <a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
 
     <ol class="list-unstyled g-c-l">
         {% for period_name, broadcast_in_period in grouped_broadcasts %}
@@ -34,7 +58,8 @@
                                 <span class="box-link">{{ service_in_network.shortName }}</span>
                             {%- else -%}
                                 <a href="{{ path('schedules_by_day', {'pid': service_in_network.pid, 'date': date|date('Y-m-d')}) }}"
-                                   data-href-add-utcoffset="true" class="box-link">{{ service_in_network.shortName }}</a>
+                                   data-href-add-utcoffset="true"
+                                   class="box-link">{{ service_in_network.shortName }}</a>
                             {%- endif -%}
                         </li>
                     {%- endfor -%}
