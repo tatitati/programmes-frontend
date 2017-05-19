@@ -11,6 +11,7 @@ use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use DateInterval;
 use DateTimeImmutable;
+use Symfony\Component\HttpFoundation\Response;
 
 class SchedulesByDayController extends BaseController
 {
@@ -59,7 +60,10 @@ class SchedulesByDayController extends BaseController
         // If there aren't any broadcasts then show a sorry page, that is a 404
         // We don't want to clutter search results with loads of pages that says "sorry no results'
         if (!$broadcasts) {
-            // TODO
+            return $this->renderWithChrome('schedules/no_schedule.html.twig', [
+                'date' => $date,
+                'service' => $service,
+            ], new Response('', Response::HTTP_NOT_FOUND));
         }
 
         $twinService = null;
