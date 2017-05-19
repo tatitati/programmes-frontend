@@ -1,5 +1,4 @@
 <div class="b-g-p no-margin-vertical islet--vertical br-box-highlight br-highlight-bg-onbg080{{ service_is_tv ? ' visually-hidden' }}" id="schedule-header">
-    <div class="b-g-p no-margin-vertical islet--vertical br-box-highlight br-highlight-bg-onbg080 visually-hidden" id="schedule-header">
     <h1>
         <span class="visually-hidden">
             <span class="outlet">
@@ -14,6 +13,6 @@
 </div>
 <div class="schedule-nav-wrapper fixedsticky">
     <div id="schedule-daynav" class="centi br-box-highlight {{ service_is_tv ? 'g-o-l daynav--tvschedule' : 'g-f-l' }}">
-        {#@TODO PUT DAYNAV HERE#}
+        {{ ds2013('dateList', date, service ) }}
     </div>
 </div>

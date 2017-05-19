@@ -2,12 +2,16 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
+use App\Ds2013\Molecule\DateList\DateListItemPresenter;
+use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use DateTimeImmutable;
 use RMP\Translate\Translate;
 
 /**
@@ -52,6 +56,18 @@ class PresenterFactory
     /**
      * Molecules
      */
+    public function dateListPresenter(
+        DateTimeImmutable $datetime,
+        Service $service,
+        array $options = []
+    ): DateListPresenter {
+        return new DateListPresenter(
+            $datetime,
+            $service,
+            $options
+        );
+    }
+
     public function imagePresenter(
         Image $image,
         $sizes,

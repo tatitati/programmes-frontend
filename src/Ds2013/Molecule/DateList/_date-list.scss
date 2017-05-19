@@ -1,0 +1,256 @@
+/**
+ * Date list
+ *
+ * A list of page links that fill the width of the current container.
+ *
+ * By default it hides all but the next and previous arrows and text, showing
+ * more pages as the viewport size increases.
+ *
+ * TODO Refactor to remove the constant width adjustment by using
+ * text-align:justify - http://www.barrelny.com/blog/text-align-justify-and-rwd/
+ */
+
+.date-list__page {
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.2em;
+}
+
+.date-list__page > a,
+.date-list__page > span {
+    display: block;
+    min-width: mq-px2em(32px, 14px);
+    padding: 4px 0;
+    font-weight: normal;
+}
+
+.date-list__page--current .date-list__item-line2 {
+    font-weight: bold;
+}
+
+// Nested in a .date-list class to trump the "nav > li" styles
+.date-list {
+    a {
+        &:hover,
+        &:active,
+        &:focus {
+            text-decoration: none;
+        }
+    }
+
+    .date-list__page {
+        display: none;
+        width: (100% / 3);
+    }
+
+    .date-list__page--offset0,
+    .date-list__page--offset1 {
+        @include inline-block();
+    }
+}
+
+.date-list__item-line1 {
+    display: block;
+    font-size: 0.84em;
+
+    // Only bold this if it within a link
+    a & {
+        font-weight: bold;
+    }
+}
+
+.date-list__item-line2 {
+    display: block;
+}
+
+.date-list__page--current .date-list__item-line2 {
+    font-weight: bold;
+}
+
+@include mq($from: 360px, $until: 599px) {
+    .date-list {
+        .date-list__page {
+            width: (100% / 5);
+        }
+
+        .date-list__page--offset2 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq($from: 500px, $until: 599px) {
+    .date-list {
+        .date-list__page {
+            width: (100% / 7);
+        }
+
+        .date-list__page--offset3 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq-range('bpw') {
+    .date-list {
+        .date-list__page {
+            width: (100% / 7);
+        }
+
+        .date-list__page--offset2,
+        .date-list__page--offset3 {
+            @include inline-block();
+        }
+    }
+    // the daynav version of the date list on the TV schedules needs to be pulled upwards
+    .daynav--tvschedule {
+        margin-top: -40px;
+        .date-list__page {
+            vertical-align: middle;
+            // Min-height for our elements with a background so the bar looks flush with the top of the page
+            & > a,
+            & > span {
+                min-height: 34px;
+                padding: 4px 0 2px;
+            }
+        }
+    }
+
+    // Don't pull upwards when fixed to the top of the page
+    .fixed-supported {
+        .schedule-nav-wrapper.fixedsticky-on .daynav--tvschedule {
+            margin-top: 0;
+        }
+    }
+}
+
+@include mq($from: 698px, $until: 1007px) {
+    .date-list {
+        .date-list__page {
+            width: (100% / 9);
+        }
+
+        // Show the current and four either side
+        .date-list__page--offset4 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq($from: 788px, $until: 1007px) {
+    .date-list {
+        .date-list__page {
+            width: (100% / 11);
+        }
+
+        // Show the current and five either side
+        .date-list__page--offset5 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq($from: 898px, $until: 1007px) {
+    .date-list {
+        .date-list__page {
+            width: (100% / 13);
+        }
+
+        // Show the current and six either side
+        .date-list__page--offset6 {
+            @include inline-block();
+        }
+    }
+}
+
+// Not full width date list
+@include mq-range('bpw') {
+    .date-list--limit7 {
+
+        .date-list__page {
+            width: (100% / 5);
+            display: none;
+        }
+
+        .date-list__page--offset0,
+        .date-list__page--offset1,
+        .date-list__page--offset2 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq($from: 628px, $until: 1007px) {
+    .date-list--limit7 {
+        .date-list__page {
+            width: (100% / 7);
+        }
+
+        // Show the current and three either side
+        .date-list__page--offset3 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq($from: 738px, $until: 1007px) {
+    .date-list--limit7 {
+        .date-list__page {
+            width: (100% / 9);
+        }
+
+        // Show the current and three either side
+        .date-list__page--offset4 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq($from: 848px, $until: 1007px) {
+    .date-list--limit7 {
+        .date-list__page {
+            width: (100% / 11);
+        }
+
+        // Show the current and four either side
+        .date-list__page--offset5 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq($from: 958px, $until: 1007px) {
+    .date-list--limit7 {
+        .date-list__page {
+            width: (100% / 13);
+        }
+
+        // Show the current and five either side
+        .date-list__page--offset6 {
+            @include inline-block();
+        }
+    }
+}
+
+@include mq-range('bpe') {
+    // Show all pages by default
+    // Nested in a .date-list class to trump the "nav > li" styles
+    .date-list {
+        .date-list__page {
+            @include inline-block();
+            width: (100% / 15);
+        }
+    }
+
+    .date-list--limit7 {
+        .date-list__page {
+            @include inline-block();
+            width: (100% / 13);
+        }
+
+        // Show the current and six either side
+        .date-list__page--offset7 {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{% spaceless %}
+    {% import _self as self %}
+
+    <li class="{{ date_list_item.cssClassesForLi }}">
+        {% if date_list_item.shouldShowLink %}
+            <a href="{{ path('schedules_by_day', {'pid': date_list_item.servicePid, 'date': date_list_item.datetime.format('Y-m-d')}) }}"
+               class="{{ date_list_item.cssClassesForItem }}" {{ date_list_item.attributesForItem }}>
+                {{ self.dateLines(date_list_item.isToday, date_list_item.datetime) }}
+            </a>
+        {% else %}
+            <span class="{{ date_list_item.cssClassesForItem }}">
+                {{ self.dateLines(date_list_item.isToday, date_list_item.datetime) }}
+            </span>
+        {% endif %}
+    </li>
+
+    {% macro dateLines(isToday, datetime) %}
+        <span class="date-list__item-line1">
+            {{ isToday ? tr('schedules_today') : datetime.format('D') }}
+        </span>
+        <span class="date-list__item-line2">
+            {{ datetime.format('d M') }}
+        </span>
+    {% endmacro %}
+{% endspaceless %}

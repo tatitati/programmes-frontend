@@ -94,6 +94,17 @@ abstract class Presenter
         return trim(implode(' ', $cssClasses));
     }
 
+    protected function buildHtmlAttributes(array $htmlAttributes = []): string
+    {
+        $attributes = [];
+
+        foreach ($htmlAttributes as $attribute => $value) {
+            $attributes[] = $attribute . '="' . htmlentities($value, ENT_COMPAT, 'UTF-8') . '"';
+        }
+
+        return trim(implode(' ', $attributes));
+    }
+
     /**
      * Validate options. Should be overridden.
      */
