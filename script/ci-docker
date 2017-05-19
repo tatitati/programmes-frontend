@@ -25,7 +25,6 @@ if [ ! -d "build/reports" ]; then
 fi
 
 yarn install
-yarn run gulp
 
 # Show php version for debugging
 php --version
