@@ -1,50 +1,52 @@
 {% extends 'base_ds2013.html.twig' %}
 
-{% block page_classes %}programmes-page text-base b-g-p programmes-page--flush{% endblock %}
+{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
 
 {% block body %}
     {% include 'schedules/components/nav.html.twig' %}
-    {% include 'schedules/components/regionpick.html.twig' with { 'services_in_network': services_in_network, 'service': service, 'service_is_tv': service_is_tv, 'twin_service': twin_service, 'date': date } only %}
+    <div class="b-g-p br-box-page island--vertical">
+        {% include 'schedules/components/regionpick.html.twig' with { 'services_in_network': services_in_network, 'service': service, 'service_is_tv': service_is_tv, 'twin_service': twin_service, 'date': date } only %}
 
-    {% if not service_is_tv %}
-        <div class="g-c-l">
-            <div class="schedules-jump island micro">
-                <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
-                <ul class="schedules-jump__links nav nav--piped">
-                    {% if on_air_broadcast %}
-                        <li>
-                            <a href="#on-now">{{ tr('on_air') }}</a>
-                        </li>
-                    {% endif %}
-                    {% for period_name, broadcast_in_period in grouped_broadcasts %}
-                        {% if broadcast_in_period %}
+        {% if not service_is_tv %}
+            <div class="g-c-l">
+                <div class="schedules-jump island micro">
+                    <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
+                    <ul class="schedules-jump__links nav nav--piped">
+                        {% if on_air_broadcast %}
                             <li>
-                                <a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a>
+                                <a href="#on-now">{{ tr('on_air') }}</a>
                             </li>
                         {% endif %}
-                    {% endfor %}
-                </ul>
+                        {% for period_name, broadcast_in_period in grouped_broadcasts %}
+                            {% if broadcast_in_period %}
+                                <li>
+                                    <a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
 
-    <ol class="list-unstyled g-c-l">
-        {% for period_name, broadcast_in_period in grouped_broadcasts %}
-            <li id="{{ period_name }}" class="schedule-skip-link">
-                <h2 class="delta text--shout island--horizontal component">{{ period_name }}</h2>
-                <ol class="highlight-box-wrapper">
-                    {#list of broadcasts in day period#}
-                    {% for broadcast in broadcast_in_period %}
-                        <li {{ broadcast == on_air_broadcast ? 'id=on-now class=schedule-skip-link-on-now' : null }} >
-                            {{ ds2013('broadcast', broadcast, {
-                                'highlight_box_classes' : 'highlight-box--list'
-                            }) }}
-                        </li>
-                    {% endfor %}
-                </ol>
-            </li>
-        {% endfor %}
-    </ol>
+        <ol class="list-unstyled g-c-l">
+            {% for period_name, broadcast_in_period in grouped_broadcasts %}
+                <li id="{{ period_name }}" class="schedule-skip-link">
+                    <h2 class="delta text--shout island--horizontal component">{{ period_name }}</h2>
+                    <ol class="highlight-box-wrapper">
+                        {#list of broadcasts in day period#}
+                        {% for broadcast in broadcast_in_period %}
+                            <li {{ broadcast == on_air_broadcast ? 'id=on-now class=schedule-skip-link-on-now' : null }} >
+                                {{ ds2013('broadcast', broadcast, {
+                                    'highlight_box_classes' : 'highlight-box--list'
+                                }) }}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
 
     {# If there is only 1 service in the network, it is the service we are currently viewing #}
     {% if services_in_network|length >= 2 %}
