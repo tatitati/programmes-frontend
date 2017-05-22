@@ -37,6 +37,7 @@ def substitute_data(data):
         'secret': data["secure_configuration"]["secret"],
         'cosmos_environment': data["environment"],
         'cosmos_component_release': data['release'],
+        'redis_endpoint': data["configuration"]["redis_endpoint"],
     }
 
 

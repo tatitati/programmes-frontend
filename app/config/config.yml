@@ -24,10 +24,11 @@ framework:
     cache:
         pools:
             cache.programmes:
-                # cache.adapter.psr6 act as a proxy for the adapter we set on the "provider" section,
-                # this is required when and adapter is not supported directly
-                adapter: cache.adapter.psr6
-                provider: cache.null_provider # locally we don't want to use cache
+                adapter: '%cache_adapter%'
+                provider: '%cache_provider%'
+                # the only aim of default_lifetime is to prevent setting permanent keys, please don't use the default_lifetime in the code.
+                # PSR-6 consider "0" or NULL value as a way to store the key for as long as the implementation allows.
+                default_lifetime: 120
             cache.app_page_chrome:
                 adapter: cache.adapter.filesystem
 
