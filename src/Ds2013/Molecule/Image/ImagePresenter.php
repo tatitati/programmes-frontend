@@ -82,11 +82,11 @@ class ImagePresenter extends Presenter
 
         if (!is_array($options['srcsets'])) {
             throw new InvalidOptionException("Option 'srcsets' must be an array");
-        } else {
-            foreach ($options['srcsets'] as $srcset) {
-                if (!is_numeric($srcset)) {
-                    throw new InvalidOptionException("Every 'srcsets' element must be numeric");
-                }
+        }
+
+        foreach ($options['srcsets'] as $srcset) {
+            if (!is_numeric($srcset)) {
+                throw new InvalidOptionException("Every 'srcsets' element must be numeric");
             }
         }
 

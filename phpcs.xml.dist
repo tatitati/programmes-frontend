@@ -53,4 +53,10 @@
            <property name="ignoreNewlines" value="true"/>
         </properties>
     </rule>
+
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="2" />
+        </properties>
+    </rule>
 </ruleset>
