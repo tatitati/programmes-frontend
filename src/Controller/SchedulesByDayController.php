@@ -17,18 +17,6 @@ class SchedulesByDayController extends BaseController
 {
     public function __invoke(Pid $pid, ?string $date, ServicesService $servicesService, BroadcastsService $broadcastService)
     {
-        if ($date) {
-            // Try and create a date from the one provided
-            $date = DateTimeImmutable::createFromFormat('Y-m-d', $date);
-            if (!$date) {
-                throw $this->createNotFoundException('Invalid date');
-            }
-        } else {
-            // Otherwise use now
-            $date = ApplicationTime::getTime();
-            // TODO blank out the hours. Should that be a method to ApplicationTime?
-        }
-
         $service = $servicesService->findByPidFull($pid);
         if (!$service) {
             throw $this->createNotFoundException('Service not found');
@@ -37,22 +25,16 @@ class SchedulesByDayController extends BaseController
         // Get all services that belong to this network
         $servicesInNetwork = $servicesService->findAllInNetwork($service->getNetwork()->getNid());
 
-        // set day interval time
-        $startDate = $date->setTime(0, 0, 0);
-        if ($service->getNetwork()->getType() == 'tv') {
-            $startDate = $startDate->add(new DateInterval('PT6H'));
-        }
-        $endDate = $startDate->add(new DateInterval('P1D'));
+        list($startDateTime, $endDateTime) = $this->getStartAndEndTimes($service->getNetwork()->getType() == 'TV', $date);
 
         // We only need to look for broadcasts if we know the service was available on that day
-        // TODO should isAvailableOn be a method on Service?
         $broadcasts = [];
-        if ($service->isActiveAt($date)) {
-            $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDate, $endDate);
+        if ($service->isActiveAt($startDateTime)) {
+            $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDateTime, $endDateTime);
         }
 
         foreach ($servicesInNetwork as $key => $serviceInNetwork) {
-            if (!$serviceInNetwork->isActiveAt($date)) {
+            if (!$serviceInNetwork->isActiveAt($startDateTime)) {
                 unset($servicesInNetwork[$key]);
             }
         }
@@ -61,7 +43,7 @@ class SchedulesByDayController extends BaseController
         // We don't want to clutter search results with loads of pages that says "sorry no results'
         if (!$broadcasts) {
             return $this->renderWithChrome('schedules/no_schedule.html.twig', [
-                'date' => $date,
+                'date' => $startDateTime,
                 'service' => $service,
             ], new Response('', Response::HTTP_NOT_FOUND));
         }
@@ -75,12 +57,12 @@ class SchedulesByDayController extends BaseController
         }
 
         return $this->renderWithChrome('schedules/by_day.html.twig', [
-            'date' => $date,
+            'date' => $startDateTime,
             'service' => $service,
             'service_is_tv' => $service->getNetwork()->getMedium() == NetworkMediumEnum::TV,
             'services_in_network' => $servicesInNetwork,
             'twin_service' => $twinService,
-            'grouped_broadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $date),
+            'grouped_broadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $startDateTime),
             'on_air_broadcast' => $this->getOnAirBroadcast($broadcasts),
         ]);
     }
@@ -151,5 +133,46 @@ class SchedulesByDayController extends BaseController
         }
 
         return null;
+    }
+
+    /**
+     * Radio schedules run midnight to midnight
+     * TV schedules run 6AM to 6AM
+     * This method works out which times should be used for retrieving broadcasts.
+     *
+     * @param bool $serviceIsTv
+     * @param null|string $date in Y-m-d format
+     * @return DateTimeImmutable[] StartDate and EndDate
+     */
+    private function getStartAndEndTimes(bool $serviceIsTv, ?string $date): array
+    {
+        $tvOffsetHours = 6;
+        if ($date) {
+            // Try and create a date from the one provided
+            $startDateTime = DateTimeImmutable::createFromFormat('Y-m-d|', $date);
+
+            if (!$startDateTime) {
+                throw $this->createNotFoundException('Invalid date');
+            }
+        } else {
+            // Otherwise use now
+            $dateTime = ApplicationTime::getTime();
+
+            // If a user is viewing the TV schedule between midnight and 6AM, we actually want to display yesterday's schedule.
+            if ($serviceIsTv && (int) $dateTime->format('H') < $tvOffsetHours) {
+                $dateTime = $dateTime->sub(new DateInterval('P1D'));
+            }
+
+            $startDateTime = $dateTime->setTime(0, 0, 0);
+        }
+
+        // set day interval time
+        if ($serviceIsTv) {
+            $startDateTime = $startDateTime->setTime($tvOffsetHours, 0, 0);
+        }
+
+        $endDateTime = $startDateTime->add(new DateInterval('P1D'));
+
+        return [$startDateTime, $endDateTime];
     }
 }
