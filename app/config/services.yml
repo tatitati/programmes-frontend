@@ -24,7 +24,9 @@ services:
             - ['%redis_endpoint%']
         calls:
         # By default, RedisCluster will only send commands to master nodes, this option distribute readonly commands between masters and slaves
-            - { method: 'setOption', arguments: [!php/const:RedisCluster::OPT_SLAVE_FAILOVER, !php/const:RedisCluster::FAILOVER_DISTRIBUTE]}
+        # RedisCluster::OPT_SLAVE_FAILOVER  = 5
+        # RedisCluster::FAILOVER_DISTRIBUTE = 2
+            - { method: 'setOption', arguments: [5, 2] }
 
     App\:
         resource: '../../src/{Command,EventSubscriber,Twig}'
