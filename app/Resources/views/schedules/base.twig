@@ -1,0 +1,12 @@
+{% extends 'base_ds2013.html.twig' %}
+
+{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
+
+{% block body %}
+    {% include 'schedules/components/nav.html.twig' %}
+    <div class="b-g-p br-box-page island--vertical">
+        {% include 'schedules/components/regionpick.html.twig' with { 'services_in_network': services_in_network, 'service': service, 'service_is_tv': service_is_tv, 'twin_service': twin_service, 'date': date } only %}
+
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

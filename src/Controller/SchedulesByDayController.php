@@ -39,15 +39,6 @@ class SchedulesByDayController extends BaseController
             }
         }
 
-        // If there aren't any broadcasts then show a sorry page, that is a 404
-        // We don't want to clutter search results with loads of pages that says "sorry no results'
-        if (!$broadcasts) {
-            return $this->renderWithChrome('schedules/no_schedule.html.twig', [
-                'date' => $startDateTime,
-                'service' => $service,
-            ], new Response('', Response::HTTP_NOT_FOUND));
-        }
-
         $twinService = null;
         if (count($servicesInNetwork) == 2) {
             $otherServices = array_filter($servicesInNetwork, function (Service $sisterService) use ($service) {
@@ -56,15 +47,25 @@ class SchedulesByDayController extends BaseController
             $twinService = reset($otherServices);
         }
 
-        return $this->renderWithChrome('schedules/by_day.html.twig', [
+        $viewData = [
             'date' => $startDateTime,
             'service' => $service,
             'service_is_tv' => $service->getNetwork()->getMedium() == NetworkMediumEnum::TV,
             'services_in_network' => $servicesInNetwork,
             'twin_service' => $twinService,
+        ];
+        // If there aren't any broadcasts then show a sorry page, that is a 404
+        // We don't want to clutter search results with loads of pages that says "sorry no results'
+        if (!$broadcasts) {
+            return $this->renderWithChrome('schedules/no_schedule.html.twig', $viewData, new Response('', Response::HTTP_NOT_FOUND));
+        }
+
+        $viewData = array_merge($viewData, [
             'grouped_broadcasts' => $this->groupBroadcastsByPeriodOfDay($broadcasts, $startDateTime),
             'on_air_broadcast' => $this->getOnAirBroadcast($broadcasts),
         ]);
+
+        return $this->renderWithChrome('schedules/by_day.html.twig', $viewData);
     }
 
     private function groupBroadcastsByPeriodOfDay(array $broadcasts, DateTimeImmutable $selectedDate): array

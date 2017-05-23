@@ -1,33 +1,27 @@
-{% extends 'base_ds2013.html.twig' %}
+{% extends 'schedules/base.twig' %}
 
-{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
-
-{% block body %}
-    {% include 'schedules/components/nav.html.twig' %}
-    <div class="b-g-p br-box-page island--vertical">
-        {% include 'schedules/components/regionpick.html.twig' with { 'services_in_network': services_in_network, 'service': service, 'service_is_tv': service_is_tv, 'twin_service': twin_service, 'date': date } only %}
-
-        {% if not service_is_tv %}
-            <div class="g-c-l">
-                <div class="schedules-jump island micro">
-                    <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
-                    <ul class="schedules-jump__links nav nav--piped">
-                        {% if on_air_broadcast %}
+{% block content %}
+    {% if not service_is_tv %}
+        <div class="g-c-l">
+            <div class="schedules-jump island micro">
+                <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
+                <ul class="schedules-jump__links nav nav--piped">
+                    {% if on_air_broadcast %}
+                        <li>
+                            <a href="#on-now">{{ tr('on_air') }}</a>
+                        </li>
+                    {% endif %}
+                    {% for period_name, broadcast_in_period in grouped_broadcasts %}
+                        {% if broadcast_in_period %}
                             <li>
-                                <a href="#on-now">{{ tr('on_air') }}</a>
+                                <a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a>
                             </li>
                         {% endif %}
-                        {% for period_name, broadcast_in_period in grouped_broadcasts %}
-                            {% if broadcast_in_period %}
-                                <li>
-                                    <a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
+                    {% endfor %}
+                </ul>
             </div>
-        {% endif %}
+        </div>
+    {% endif %}
 
         <ol class="list-unstyled g-c-l">
             {% for period_name, broadcast_in_period in grouped_broadcasts %}
@@ -50,7 +44,7 @@
 
     {# If there is only 1 service in the network, it is the service we are currently viewing #}
     {% if services_in_network|length >= 2 %}
-        <div class="br-box-page island--vertical">
+        <div class="island--vertical">
             <h2>{{ service_is_tv ? tr('schedules_regional_note') : tr('schedules_regional_note_radio') }}</h2>
             <div id="outlets" class="schedule-variant-outlets">
                 <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
