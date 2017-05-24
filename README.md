@@ -21,6 +21,23 @@ To perform the dist tasks (for ci)
 To watch for file changes
 `yarn run watch`
 
+Composer and cache:clear
+------------------------
+
+**The problem:** If you run composer install then will be executed a group of 
+console commands. One of these is `app/console cache:clear`. This command try 
+to connect to Redis server in localhost, so composer consider that redis 
+server is in the environment in which is executed, but is only inside the 
+VM, giving errors. Neither Composer nor `cache:clear` accept options to 
+handle this in a better way.
+ 
+**Replication:** If you try to run the `clear:cache` console command (with `composer install`) 
+from outside de VM you will have you an error as we cannot connect to redis inside 
+the VM using composer from outside. 
+  
+**Solution:** run `composer install` inside the VM. 
+
+
 
 Translations
 ------------
