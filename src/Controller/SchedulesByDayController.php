@@ -167,12 +167,15 @@ class SchedulesByDayController extends BaseController
             $startDateTime = $dateTime->setTime(0, 0, 0);
         }
 
+        $interval = 'P1DT6H';
+
         // set day interval time
         if ($serviceIsTv) {
             $startDateTime = $startDateTime->setTime($tvOffsetHours, 0, 0);
+            $interval = 'P1D';
         }
 
-        $endDateTime = $startDateTime->add(new DateInterval('P1D'));
+        $endDateTime = $startDateTime->add(new DateInterval($interval));
 
         return [$startDateTime, $endDateTime];
     }
