@@ -15,7 +15,7 @@ class HomeFixture extends AbstractFixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            NetworksFixture::class,
+            NetworksAndServicesFixture::class,
         ];
     }
 

@@ -9,7 +9,7 @@
          <div class="grid 1/2@bpw2 1/2@bpe">
             <div class="bpw-text--right">
                 {% if twin_service is empty %}
-                    {% set translationKey = service_is_tv ? 'schedules_regional' : 'schedules_regional_change' %}
+                    {% set translationKey = service.isTv ? 'schedules_regional' : 'schedules_regional_change' %}
                     <a href="{{ path('schedules_home') }}" class="delta">{{ tr(translationKey, {'%1':service.network.name }) }}</a>
                 {% else %}
                     <a href="{{path('schedules_by_day', {'pid': twin_service.pid, 'date': date.format('Y-m-d')})}}" class="delta">{{tr('schedules_regional_changeto', {'%1':twin_service.name })}}</a>

@@ -25,7 +25,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
             ApplicationTime::setTime($timestamp);
         }
 
-        $this->loadFixtures(["BroadcastsFixture", "NetworksFixture"]);
+        $this->loadFixtures(["BroadcastsFixture"]);
 
         $client = static::createClient();
         $url = '/schedules/' . $network;
@@ -55,6 +55,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
     public function testScheduleIsNotFound()
     {
+        // This empties the DB to ensure previous iterations are cleared
         $this->loadFixtures([]);
 
         $client = static::createClient();
@@ -65,7 +66,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
     public function testScheduleForDateIsNotFound()
     {
-        $this->loadFixtures(["BroadcastsFixture", "NetworksFixture"]);
+        $this->loadFixtures(["BroadcastsFixture"]);
 
         $client = static::createClient();
         $crawler = $client->request('GET', '/schedules/p00fzl6p/2017-03-04');

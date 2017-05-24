@@ -1,7 +1,7 @@
 {% extends 'schedules/base.twig' %}
 
 {% block content %}
-    {% if not service_is_tv %}
+    {% if not service.isTv %}
         <div class="g-c-l">
             <div class="schedules-jump island micro">
                 <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
@@ -45,7 +45,7 @@
     {# If there is only 1 service in the network, it is the service we are currently viewing #}
     {% if services_in_network|length >= 2 %}
         <div class="island--vertical">
-            <h2>{{ service_is_tv ? tr('schedules_regional_note') : tr('schedules_regional_note_radio') }}</h2>
+            <h2>{{ service.isTv ? tr('schedules_regional_note') : tr('schedules_regional_note_radio') }}</h2>
             <div id="outlets" class="schedule-variant-outlets">
                 <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
                     {%- for service_in_network in services_in_network -%}

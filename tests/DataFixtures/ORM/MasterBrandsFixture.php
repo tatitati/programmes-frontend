@@ -17,7 +17,7 @@ class MasterBrandsFixture extends AbstractFixture implements DependentFixtureInt
     public function getDependencies()
     {
         return [
-            NetworksFixture::class,
+            NetworksAndServicesFixture::class,
         ];
     }
 

@@ -22,25 +22,14 @@ class SchedulesByDayController extends BaseController
             throw $this->createNotFoundException('Service not found');
         }
 
+        list($startDateTime, $endDateTime) = $this->getStartAndEndTimes($service->isTV(), $date);
+
         // Get all services that belong to this network
-        $servicesInNetwork = $servicesService->findAllInNetwork($service->getNetwork()->getNid());
-
-        list($startDateTime, $endDateTime) = $this->getStartAndEndTimes($service->getNetwork()->getType() == 'TV', $date);
-
-        // We only need to look for broadcasts if we know the service was available on that day
-        $broadcasts = [];
-        if ($service->isActiveAt($startDateTime)) {
-            $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDateTime, $endDateTime);
-        }
-
-        foreach ($servicesInNetwork as $key => $serviceInNetwork) {
-            if (!$serviceInNetwork->isActiveAt($startDateTime)) {
-                unset($servicesInNetwork[$key]);
-            }
-        }
+        $servicesInNetwork = $servicesService->findAllInNetworkActiveOn($service->getNetwork()->getNid(), $startDateTime);
 
         $twinService = null;
         if (count($servicesInNetwork) == 2) {
+            // If there are two services, find the "other" service
             $otherServices = array_filter($servicesInNetwork, function (Service $sisterService) use ($service) {
                 return ($service->getSid() !== $sisterService->getSid());
             });
@@ -50,14 +39,20 @@ class SchedulesByDayController extends BaseController
         $viewData = [
             'date' => $startDateTime,
             'service' => $service,
-            'service_is_tv' => $service->getNetwork()->getMedium() == NetworkMediumEnum::TV,
             'services_in_network' => $servicesInNetwork,
             'twin_service' => $twinService,
         ];
+
+        // If the service is not active render a 404
+        if (!$service->isActiveAt($startDateTime)) {
+            return $this->renderNoSchedule($viewData);
+        }
+
+        $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDateTime, $endDateTime);
         // If there aren't any broadcasts then show a sorry page, that is a 404
         // We don't want to clutter search results with loads of pages that says "sorry no results'
         if (!$broadcasts) {
-            return $this->renderWithChrome('schedules/no_schedule.html.twig', $viewData, new Response('', Response::HTTP_NOT_FOUND));
+            return $this->renderNoSchedule($viewData);
         }
 
         $viewData = array_merge($viewData, [
@@ -68,6 +63,14 @@ class SchedulesByDayController extends BaseController
         return $this->renderWithChrome('schedules/by_day.html.twig', $viewData);
     }
 
+    private function renderNoSchedule(array $viewData)
+    {
+        return $this->renderWithChrome(
+            'schedules/no_schedule.html.twig',
+            $viewData,
+            new Response('', Response::HTTP_NOT_FOUND)
+        );
+    }
     private function groupBroadcastsByPeriodOfDay(array $broadcasts, DateTimeImmutable $selectedDate): array
     {
         $intervalsDay = [

@@ -19,7 +19,7 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
     public function getDependencies()
     {
         return [
-            ServicesFixture::class,
+            NetworksAndServicesFixture::class,
             VersionsFixture::class,
             ProgrammeItemsFixture::class,
         ];
@@ -74,7 +74,7 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
 
     private function buildTvSchedule()
     {
-        $service = $this->getReference('p00fzl6p'); //bbc_radio_two
+        $service = $this->getReference('p00fzl6p'); //bbc_one_london
 
         $version = $this->getReference('p4000001');
         $programmeItem = $this->getReference('p3000001'); //Yesterday Afternoon Episode
