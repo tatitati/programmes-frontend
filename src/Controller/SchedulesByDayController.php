@@ -94,15 +94,26 @@ class SchedulesByDayController extends BaseController
         return array_filter($intervalsDay);
     }
 
+    /**
+     * Early - midnight until 6am
+     * Morning - 6am until midday
+     * Afternoon - midday until 6pm
+     * Evening - 6pm until midnight
+     * Late - midnight until 6am the next day
+     *
+     * @param Broadcast $broadcast
+     * @param DateTimeImmutable $selectedDate
+     * @return string
+     */
     private function getBroadcastPeriodWord(Broadcast $broadcast, DateTimeImmutable $selectedDate): string
     {
-        $selectedDayStart = $selectedDate->setTime(0, 0, 0);
         $selectedDayEnd = $selectedDate->setTime(23, 59, 59);
 
         $startBroadcast = $broadcast->getStartAt();
         $startBroadcastHour = $startBroadcast->format('H');
 
-        if ($startBroadcast < $selectedDayEnd && $startBroadcastHour < 6) {
+        // Need to check for 'late' first as these broadcasts are actually the day after the selected date
+        if ($startBroadcast > $selectedDayEnd) {
             return 'late';
         }
 
@@ -118,9 +129,7 @@ class SchedulesByDayController extends BaseController
             return 'afternoon';
         }
 
-        if ($startBroadcastHour <= 23 && $startBroadcast > $selectedDayStart) {
-            return 'evening';
-        }
+        return 'evening';
     }
 
     private function getOnAirBroadcast(array $broadcasts): ?Broadcast
