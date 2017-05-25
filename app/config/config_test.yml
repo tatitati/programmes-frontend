@@ -11,6 +11,11 @@ framework:
         storage_id: session.storage.mock_file
     profiler:
         collect: false
+    cache:
+        pools:
+            cache.programmes:
+                adapter: cache.adapter.psr6
+                provider: cache.null_provider
 
 web_profiler:
     toolbar: false
