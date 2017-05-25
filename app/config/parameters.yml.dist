@@ -29,4 +29,4 @@ parameters:
     # - "cache.null_provider". use this one for null adapter
     cache_provider: cache.null_provider
 
-    redis_endpoint: 127.0.0.1:6379
+    redis_endpoint: sandbox.bbc.co.uk:6379
