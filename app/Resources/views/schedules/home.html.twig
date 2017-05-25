@@ -1,5 +1,73 @@
 {% extends 'base_ds2013.html.twig' %}
+{% import _self as self %}
+
+{% block title %}BBC - {{tr('schedules')}}{% endblock %}
 
 {% block body %}
-Schedules Home
+    <div class="sch-main br-box-page">
+        {% for title, networks in groups %}
+            <div class="sch-group">
+                <h2 class="alpha sch-grouptitle">{{ title }}</h2>
+                {{ self.decades_bar(decades, decadePercent) }}
+
+                {% for network in networks %}
+                    {{ self.network(network) }}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
+
+{% macro decades_bar(decades, decadePercent) %}
+    <div class="grid-wrapper hidden visible@bpw2 visible@bpe">
+        <div class="grid 1/3"></div>
+        <div class="grid 2/3">
+            <ol class="delta grid-wrapper sch-history__decades br-box-secondary">
+                {% for decade in decades %}
+                    <li class="grid sch-history__decade br-secondary-text-onborder" style="width: {{ decadePercent }}%">
+                        {{ decade }}
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro network(network) %}
+    {% if network.services|length == 1 %}
+        {% set service = network.services[0] %}
+        {#NETWORK HAS ONLY ONE SERVICE, SO NETWORK LINK POINT TO THIS SERVICE INSTEAD OF LISTING THEM#}
+        <div class="sch-service-row">
+            <a class="deemphasize gamma grid-wrapper" href="{{ path('schedules_by_day', { pid : service.service.pid }) }}">
+                {{ self.service_name(service.service.name, "gamma sch-network-name") }}
+                {{ self.service_availability(service) }}
+            </a>
+        </div>
+    {% else %}
+        <div class="gamma sch-network-name">{{ network.network.name }}</div>
+        {% for service in network.services %}
+            <div class="sch-service-row">
+                <a class="deemphasize delta grid-wrapper" href="{{ path('schedules_by_day', { pid : service.service.pid }) }}">
+                    {{ self.service_name(service.service.shortName, "sch-service-name") }}
+                    {{ self.service_availability(service) }}
+                </a>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro service_name(name, classCss) %}
+    <div class="grid 1/3@bpw2 1/3@bpe">
+        <div class="{{ classCss }}">{{ name }}</div>
+    </div>
+{% endmacro %}
+
+{% macro service_availability(service) %}
+    {% if service.hasDate %}
+        <div class="grid 2/3@bpw2 2/3@bpe hidden grid-visible@bpw2 grid-visible@bpe">
+            <div class="sch-history__link" style="width:{{ service.width }}%; margin-left: {{ service.offset }}%">
+                <div class="sch-history__bar"></div>
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}

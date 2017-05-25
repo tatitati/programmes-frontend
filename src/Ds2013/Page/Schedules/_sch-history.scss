@@ -1,0 +1,38 @@
+$history-bar-color : #844a11;
+$history-bar-color-hover : #fff;
+
+.sch-history__decades {
+    list-style: none;
+    margin-bottom: $basic-spacing;
+    padding: $basic-spacing 0;
+}
+
+.sch-history__decade {
+    text-indent: $basic-spacing;
+    border-left-width: 1px;
+    border-left-style: solid;
+    margin: 0;
+    padding: 0;
+
+    &:first-child {
+        border-left-style: none;
+    }
+}
+
+.sch-history__bar {
+    display: block;
+    box-sizing: border-box;
+    height: 4px;
+    width: 100%;
+    background: $history-bar-color;
+}
+
+.sch-history__link {
+    display: block;
+    box-sizing: border-box;
+    border-left: solid 4px $history-bar-color;
+    border-right: solid 4px $history-bar-color;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 4px;
+}
