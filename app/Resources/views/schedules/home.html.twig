@@ -34,6 +34,7 @@
 {% endmacro %}
 
 {% macro network(network) %}
+    {% import _self as self %}
     {% if network.services|length == 1 %}
         {% set service = network.services[0] %}
         {#NETWORK HAS ONLY ONE SERVICE, SO NETWORK LINK POINT TO THIS SERVICE INSTEAD OF LISTING THEM#}
