@@ -15,10 +15,12 @@
         'text--faded': date_list_item.offset != 0 and not date_list_item.isLink,
     }) %}
 
+    {% set item_attributes = date_list_item.isGmt ? 'data-href-add-utcoffset="beans"' %}
+
     <li class="{{ li_classes }}">
         {% if date_list_item.isLink %}
             <a href="{{ path('schedules_by_day', {'pid': date_list_item.servicePid, 'date': date_list_item.datetime.format('Y-m-d')}) }}"
-               class="{{ item_classes }}" {{ date_list_item.attributesForItem }}>
+               class="{{ item_classes }}" {{ item_attributes|raw }}>
                 {{ self.dateLines(date_list_item.isToday, date_list_item.datetime) }}
             </a>
         {% else %}

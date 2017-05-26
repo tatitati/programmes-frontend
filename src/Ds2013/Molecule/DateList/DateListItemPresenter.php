@@ -37,14 +37,6 @@ class DateListItemPresenter extends Presenter
         $this->offset = $offset;
     }
 
-    public function getAttributesForItem(): string
-    {
-        if ($this->options['user_timezone'] == 'GMT') {
-            return '';
-        }
-        return $this->buildHtmlAttributes(['data-href-add-utcoffset' => 'true']);
-    }
-
     public function getDatetime(): DateTimeImmutable
     {
         return $this->datetime;
@@ -71,5 +63,10 @@ class DateListItemPresenter extends Presenter
         return $this->offset != 0 &&
             ApplicationTime::getTime()->add(new DateInterval('P90D')) > $this->datetime &&
             $this->service->isActiveAt($this->datetime);
+    }
+
+    public function isGmt(): bool
+    {
+        return $this->options['user_timezone'] == 'GMT';
     }
 }
