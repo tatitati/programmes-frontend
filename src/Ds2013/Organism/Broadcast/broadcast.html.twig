@@ -1,6 +1,24 @@
-<div class="{{ broadcast.objectClasses }}" vocab="http://schema.org/" typeof="BroadcastEvent">
+{% set broadcast_classes = build_css_classes({
+    'broadcast': true,
+    'broadcast--has-ended': broadcast.isInThePast,
+    'block-link block-link--steal': broadcast.option('steal_blocklink'),
+    (broadcast.option('container_classes')): broadcast.option('container_classes'),
+    (broadcast.option('highlight_box_classes')): broadcast.option('highlight_box_classes'),
+    'br-keyline br-blocklink-page br-page-linkhover-onbg015--hover': broadcast.option('highlight_box_classes'),
+    'br-box-subtle highlight-box--active': broadcast.option('steal_blocklink') and broadcast.isOnAirNow,
+}) %}
+
+{% set info_classes = build_css_classes({
+    '1/4 1/6@bpb2 1/6@bpw': not broadcast.option('is_stacked'),
+}) %}
+
+{% set programme_classes = build_css_classes({
+    '3/4 5/6@bpb2 5/6@bpw': not broadcast.option('is_stacked'),
+}) %}
+
+<div class="{{ broadcast_classes }}" vocab="http://schema.org/" typeof="BroadcastEvent">
     <div class="grid-wrapper">
-        <div class="broadcast__info grid {{ broadcast.infoClasses }}">
+        <div class="broadcast__info grid {{ info_classes }}">
                 {#start time and zone#}
                 <h3 class="broadcast__time gamma" data-timezone="true" property="startDate" datatype="xsd:dateTime" content={{ broadcast.startAt|date('c') }}>
                     <span class="timezone--time">{{broadcast.startAt|date('H:i')}}</span>
@@ -21,12 +39,11 @@
                     </div>
                 {% endif %}
         </div>
-        <div class="broadcast__programme grid {{ broadcast.programmeClasses }}" rev="publication">
+        <div class="broadcast__programme grid {{ programme_classes }}" rev="publication">
             <div class="grid__inner">
 
             </div>
         </div>
-
     </div>
 </div>
 

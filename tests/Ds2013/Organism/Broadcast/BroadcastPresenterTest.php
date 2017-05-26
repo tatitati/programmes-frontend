@@ -17,7 +17,7 @@ class BroadcastPresenterTest extends TestCase
     /**
      * @dataProvider datesProvider
      */
-    public function testClassesBasedOnStatusBroadcast($start, $end, $cssClass, $isOnAir)
+    public function testClassesBasedOnStatusBroadcast($start, $end, $isOnAir)
     {
         // set now
         $timestamp = (new DateTimeImmutable('2017-05-18 08:30:00'))->getTimestamp();
@@ -35,21 +35,16 @@ class BroadcastPresenterTest extends TestCase
             false
         );
 
-        $presenter = new BroadcastPresenter(
-            $broadcast,
-            ['highlight_box_classes' => 'my-highglight-class']
-        );
+        $presenter = new BroadcastPresenter($broadcast);
 
         $this->assertEquals($isOnAir, $presenter->isOnAirNow());
-        $this->assertContains($cssClass, $presenter->getObjectClasses());
-        $this->assertContains('my-highglight-class', $presenter->getObjectClasses());
     }
 
     public function datesProvider()
     {
         return [
-            ['2017-05-18 07:00:00', '2017-05-18 08:00:00', 'broadcast--has-ended', false],
-            ['2017-05-18 08:00:00', '2017-05-18 09:00:00', 'highlight-box--active', true],
+            ['2017-05-18 07:00:00', '2017-05-18 08:00:00', false],
+            ['2017-05-18 08:00:00', '2017-05-18 09:00:00', true],
         ];
     }
 }

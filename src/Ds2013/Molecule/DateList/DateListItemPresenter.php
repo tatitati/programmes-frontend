@@ -45,30 +45,14 @@ class DateListItemPresenter extends Presenter
         return $this->buildHtmlAttributes(['data-href-add-utcoffset' => 'true']);
     }
 
-    public function getCssClassesForItem(): string
-    {
-        $shouldShowLink = $this->shouldShowLink();
-        return $this->buildCssClasses([
-            'br-page-bg-onbg--hover br-page-linkhover-ontext--hover' => $shouldShowLink,
-            'br-box-page' => ($this->offset == 0),
-            'text--faded' => ($this->offset != 0 && !$shouldShowLink),
-        ]);
-    }
-
-    public function getCssClassesForLi(): string
-    {
-        return $this->buildCssClasses([
-            'date-list__page' => true,
-            'date-list__page--offset' . abs($this->offset) => true,
-            'date-list__page--first' => $this->offset == -7,
-            'date-list__page--last' => $this->offset == 7,
-            'date-list__page--current' => ($this->offset == 0),
-        ]);
-    }
-
     public function getDatetime(): DateTimeImmutable
     {
         return $this->datetime;
+    }
+
+    public function getOffset(): int
+    {
+        return $this->offset;
     }
 
     public function isToday(): bool
@@ -81,7 +65,7 @@ class DateListItemPresenter extends Presenter
         return (string) $this->service->getPid();
     }
 
-    public function shouldShowLink(): bool
+    public function isLink(): bool
     {
         // if the date is more than 90 DAYS from now, then don't allow a link (page will still exist)
         return $this->offset != 0 &&

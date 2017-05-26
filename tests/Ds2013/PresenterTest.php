@@ -40,17 +40,6 @@ class PresenterTest extends TestCase
         $this->assertSame(null, $presenter->getOption('garbage'));
     }
 
-    public function testBuildCssClasses()
-    {
-        $buildCssClassesFn = $this->boundCall('buildCssClasses');
-
-        $this->assertSame('foo baz qux', $buildCssClassesFn([
-            'foo' => true,
-            'bar' => false,
-            'baz qux' => true,
-        ]));
-    }
-
     public function testGetUniqueID()
     {
         $presenter = $this->getMockForAbstractClass(Presenter::class, [], 'TestDemoObjectPresenter');

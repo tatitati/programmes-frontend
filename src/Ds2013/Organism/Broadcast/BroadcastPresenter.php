@@ -61,18 +61,9 @@ class BroadcastPresenter extends Presenter
         return $this->broadcast->getProgrammeItem()->getNetwork()->getMedium();
     }
 
-
-
     public function getProgrammeItem()
     {
         return $this->broadcast->getProgrammeItem();
-    }
-
-    public function getInfoClasses(): string
-    {
-        return $this->buildCssClasses([
-            '1/4 1/6@bpb2 1/6@bpw' => $this->getOption('is_stacked'),
-        ]);
     }
 
     public function getMessageIsNow(): string
@@ -84,27 +75,7 @@ class BroadcastPresenter extends Presenter
         return 'on_air';
     }
 
-    public function getObjectClasses(): string
-    {
-        return $this->buildCssClasses([
-            'broadcast' => true,
-            'broadcast--has-ended' => $this->isInThePast(),
-            'block-link block-link--steal' => $this->getOption('steal_blocklink'),
-            $this->getOption('container_classes') => !empty($this->getOption('container_classes')),
-            $this->getOption('highlight_box_classes') => !empty($this->getOption('highlight_box_classes')),
-            'br-keyline br-blocklink-page br-page-linkhover-onbg015--hover' => $this->getOption('highlight_box_classes'),
-            'br-box-subtle highlight-box--active' => $this->getOption('steal_blocklink') && $this->isOnAirNow(),
-        ]);
-    }
-
-    public function getProgrammeClasses()
-    {
-        return $this->buildCssClasses([
-                '3/4 5/6@bpb2 5/6@bpw' => !$this->getOption('is_stacked'),
-        ]);
-    }
-
-    private function isInThePast(): bool
+    public function isInThePast(): bool
     {
         return $this->broadcast->getEndAt() < $this->now;
     }

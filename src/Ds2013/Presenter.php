@@ -82,18 +82,6 @@ abstract class Presenter
         return $this->uniqueId;
     }
 
-    protected function buildCssClasses(array $cssClassTests = []): string
-    {
-        $cssClasses = [];
-        foreach ($cssClassTests as $cssClass => $shouldSet) {
-            if ($shouldSet) {
-                $cssClasses[] = $cssClass;
-            }
-        }
-
-        return trim(implode(' ', $cssClasses));
-    }
-
     protected function buildHtmlAttributes(array $htmlAttributes = []): string
     {
         $attributes = [];
