@@ -47,11 +47,6 @@ class DateListItemPresenter extends Presenter
         return $this->offset;
     }
 
-    public function isToday(): bool
-    {
-        return ApplicationTime::getTime()->format('Y-m-d') == $this->datetime->format('Y-m-d');
-    }
-
     public function getServicePid(): string
     {
         return (string) $this->service->getPid();
@@ -68,5 +63,10 @@ class DateListItemPresenter extends Presenter
     public function isGmt(): bool
     {
         return $this->options['user_timezone'] == 'GMT';
+    }
+
+    public function isToday(): bool
+    {
+        return ApplicationTime::getTime()->format('Y-m-d') == $this->datetime->format('Y-m-d');
     }
 }
