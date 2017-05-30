@@ -28,10 +28,10 @@
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
-        "sensio/distribution-bundle": "^5.0",
+        "sensio/distribution-bundle": "^5.0.19",
         "stof/doctrine-extensions-bundle": "^1.2",
         "symfony/monolog-bundle": "^3.1",
-        "symfony/symfony": "3.3.x-dev",
+        "symfony/symfony": "3.3.*",
         "twig/twig": "^2.0"
     },
     "require-dev": {
@@ -40,7 +40,7 @@
         "liip/functional-test-bundle": "^1.7",
         "phpunit/phpunit": "^6.1",
         "squizlabs/php_codesniffer": "^2.9",
-        "symfony/phpunit-bridge": "3.3.*@dev"
+        "symfony/phpunit-bridge": "^3.3.0"
     },
     "scripts": {
         "symfony-scripts": [

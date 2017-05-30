@@ -29,8 +29,10 @@ services:
             - { method: 'setOption', arguments: [5, 2] }
 
     App\:
-        resource: '../../src/{Command,EventSubscriber,Twig}'
+        resource: '../../src/*'
+        exclude: '../../src/{Entity,Repository}'
 
+    # controllers are imported separately to make sure they're public
     App\Controller\:
         resource: '../../src/Controller'
         public: true # Mandatory

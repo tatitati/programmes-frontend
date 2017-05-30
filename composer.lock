@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e7cc85f940c7923cb6dfb6c59958b15",
+    "content-hash": "7620fb6d4071e4dac56818552773d716",
     "packages": [
         {
             "name": "bbc-rmp/translate",
@@ -2427,16 +2427,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "dev-master",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "3471b5831822d506d38e2639ac69b0cf5cf43b59"
+                "reference": "5a7e31c48e7cd4831efa409fffb661beb9995174"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/3471b5831822d506d38e2639ac69b0cf5cf43b59",
-                "reference": "3471b5831822d506d38e2639ac69b0cf5cf43b59",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/5a7e31c48e7cd4831efa409fffb661beb9995174",
+                "reference": "5a7e31c48e7cd4831efa409fffb661beb9995174",
                 "shasum": ""
             },
             "require": {
@@ -2490,7 +2490,6 @@
                 "symfony/inflector": "self.version",
                 "symfony/intl": "self.version",
                 "symfony/ldap": "self.version",
-                "symfony/lock": "self.version",
                 "symfony/monolog-bridge": "self.version",
                 "symfony/options-resolver": "self.version",
                 "symfony/process": "self.version",
@@ -2577,7 +2576,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-04-23 22:36:34"
+            "time": "2017-05-29T21:02:32+00:00"
         },
         {
             "name": "twig/twig",
@@ -4270,16 +4269,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "dev-master",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "fc1b0c54b61a30fd15d6de04f6e01c01d0aa4a7b"
+                "reference": "1a09124ea479cca85fc66a6f21e59aa952ebed1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/fc1b0c54b61a30fd15d6de04f6e01c01d0aa4a7b",
-                "reference": "fc1b0c54b61a30fd15d6de04f6e01c01d0aa4a7b",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/1a09124ea479cca85fc66a6f21e59aa952ebed1f",
+                "reference": "1a09124ea479cca85fc66a6f21e59aa952ebed1f",
                 "shasum": ""
             },
             "require": {
@@ -4328,7 +4327,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-03-13 11:11:00"
+            "time": "2017-05-28T11:10:04+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -4424,9 +4423,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "csa/guzzle-bundle": 20,
-        "symfony/symfony": 20,
-        "symfony/phpunit-bridge": 20
+        "csa/guzzle-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
