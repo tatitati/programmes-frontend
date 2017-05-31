@@ -19,25 +19,25 @@
 <div class="{{ broadcast_classes }}" vocab="http://schema.org/" typeof="BroadcastEvent">
     <div class="grid-wrapper">
         <div class="broadcast__info grid {{ info_classes }}">
-                {#start time and zone#}
-                <h3 class="broadcast__time gamma" data-timezone="true" property="startDate" datatype="xsd:dateTime" content={{ broadcast.startAt|date('c') }}>
-                    <span class="timezone--time">{{broadcast.startAt|date('H:i')}}</span>
-                    {%  if broadcast.option('show_date') %}
-                        <br /><span class="micro timezone--date">{{ broadcast.startAt|date('d m yyyy') }}</span>
-                    {% endif %}
-                </h3>
-
-                {#end time and zone#}
-                <meta property="endDate" datatype="xsd:dateTime" content="{{ broadcast.endAt|date('c')}}" />
-                <span property="publishedOn" typeof="BroadcastService" resource="{{ path('find_by_pid', {'pid' : broadcast.servicePid }) }}>">
-                    <meta property="name" content="{{ broadcast.serviceName }}" />
-                </span>
-
-                {% if broadcast.isOnAirNow %}
-                    <div class="broadcast__live centi br-box-highlight">
-                        {{ tr(broadcast.onAirMessage) }}
-                    </div>
+            {#start time and zone#}
+            <h3 class="broadcast__time gamma" data-timezone="true" property="startDate" datatype="xsd:dateTime" content={{ broadcast.startAt|date('c') }}>
+                <span class="timezone--time">{{broadcast.startAt|date('H:i')}}</span>
+                {%  if broadcast.option('show_date') %}
+                    <br /><span class="micro timezone--date">{{ broadcast.startAt|date('d/m/Y') }}</span>
                 {% endif %}
+            </h3>
+
+            {#end time and zone#}
+            <meta property="endDate" datatype="xsd:dateTime" content="{{ broadcast.endAt|date('c')}}" />
+            <span property="publishedOn" typeof="BroadcastService" resource="{{ path('schedules_by_day', {'pid' : broadcast.servicePid }) }}>">
+                <meta property="name" content="{{ broadcast.serviceName }}" />
+            </span>
+
+            {% if broadcast.isOnAirNow %}
+                <div class="broadcast__live centi br-box-highlight">
+                    {{ tr(broadcast.onAirMessage) }}
+                </div>
+            {% endif %}
         </div>
         <div class="broadcast__programme grid {{ programme_classes }}" rev="publication">
             <div class="grid__inner">
