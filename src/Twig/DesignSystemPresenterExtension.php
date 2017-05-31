@@ -15,8 +15,6 @@ class DesignSystemPresenterExtension extends Twig_Extension
 
     private $ds2013PresenterFactory;
 
-    private $iconCache = [];
-
     public function __construct(
         Translate $translate,
         Ds2013PresenterFactory $ds2013PresenterFactory
