@@ -5,11 +5,13 @@
     "devDependencies": {
         "del": "^2.2.2",
         "gulp": "^3.9.1",
+        "gulp-requirejs-optimize": "^1.2.0",
         "gulp-rev": "^7.1.2",
         "gulp-rev-delete-original": "^0.2.3",
         "gulp-sass": "^3.1.0",
         "gulp-sass-error": "^1.0.5",
         "gulp-sourcemaps": "^2.4.1",
+        "jquery.appear": "^1.0.1",
         "sass-mq": "^3.3.2"
     },
     "scripts": {

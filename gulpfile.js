@@ -7,13 +7,50 @@ const sourcemaps = require('gulp-sourcemaps');
 const rev = require('gulp-rev');
 const revdelOriginal = require('gulp-rev-delete-original');
 const del = require('del');
+const requirejsOptimize = require('gulp-requirejs-optimize');
 
 const staticPathSrc = 'app/Resources';
 const staticPathDist = 'web/assets';
 const sassMatch = '/sass/**/*.scss';
+const jsMatch = '/js/**/*.js';
 const imageMatch = '/images/*';
 
 var throwError = true;
+
+gulp.task('js:clean', function () {
+    return del([staticPathDist + '/js']);
+});
+
+gulp.task('js', ['js:clean'], function () {
+
+    const modulesToOptimize = [
+        staticPathSrc + '/js/**/rv-bootstrap.js'
+    ];
+
+    const config = {
+        "baseUrl": "app/Resources/js",
+        "paths": {
+            "jquery-1.9": "empty:",
+            "jquery.appear": "../../../node_modules/jquery.appear/jquery.appear"
+        },
+        "shim": {
+            "jquery.appear": {
+                "deps": ["jquery"],
+                "exports": "jquery.appear"
+            }
+        },
+        "map": {
+            "*": {
+                "jquery": "jquery-1.9"
+            }
+        }
+    };
+
+    return gulp.src(modulesToOptimize)
+        .pipe(requirejsOptimize(config))
+        .pipe(gulp.dest(staticPathDist + '/js'));
+});
+
 // ------
 
 gulp.task('sass:clean', function() {
@@ -44,7 +81,7 @@ gulp.task('images', ['images:clean'], function() {
 
 // ------
 
-gulp.task('rev', ['sass', 'images'], function() {
+gulp.task('rev', ['sass', 'images', 'js'], function() {
     return gulp.src([staticPathDist + '/**/*', '!' + staticPathDist + '/**/rev-manifest.json'])
         .pipe(rev())
         .pipe(gulp.dest(staticPathDist))
@@ -68,7 +105,8 @@ gulp.task('watch',function() {
     );
 
     gulp.watch([staticPathSrc + imageMatch], ['images']);
+    gulp.watch([staticPathSrc + jsMatch], ['js']);
 });
 
-gulp.task('default', ['sass', 'images']);
+gulp.task('default', ['sass', 'images', 'js']);
 gulp.task('distribution', ['rev']);
