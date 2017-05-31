@@ -12,22 +12,6 @@ services:
         autowire: true
         public: false
 
-    cache.null_provider:
-        class: Symfony\Component\Cache\Adapter\NullAdapter
-
-    # we need an instance of RedisCluster, default Redis class doesn't support cluster mode.
-    # RedisCluster class support most Redis operations
-    cache.default_redis_provider:
-        class: RedisCluster
-        arguments:
-            - ~
-            - ['%redis_endpoint%']
-        calls:
-        # By default, RedisCluster will only send commands to master nodes, this option distribute readonly commands between masters and slaves
-        # RedisCluster::OPT_SLAVE_FAILOVER  = 5
-        # RedisCluster::FAILOVER_DISTRIBUTE = 2
-            - { method: 'setOption', arguments: [5, 2] }
-
     App\:
         resource: '../../src/*'
         exclude: '../../src/{Entity,Repository}'
@@ -49,9 +33,27 @@ services:
     App\ArgumentResolver\IdentifierValueResolver:
         tags: [{name: 'controller.argument_value_resolver', priority: 125 }]
 
-    # TODO: Work out how to pass through a SymfonyCache object wrapped in a
-    # DoctrineProvider. So that we can see caching information in the profiler
-    # panel that shall land in Symfony 3.3
+
+    ### Caches
+
+    cache.null_provider:
+        class: Symfony\Component\Cache\Adapter\NullAdapter
+
+    # we need an instance of RedisCluster, default Redis class doesn't support cluster mode.
+    # RedisCluster class support most Redis operations
+    cache.default_redis_provider:
+        class: RedisCluster
+        arguments:
+            - ~
+            - ['%redis_endpoint%']
+        calls:
+        # By default, RedisCluster will only send commands to master nodes, this option distribute readonly commands between masters and slaves
+        # RedisCluster::OPT_SLAVE_FAILOVER  = 5
+        # RedisCluster::FAILOVER_DISTRIBUTE = 2
+            - { method: 'setOption', arguments: [5, 2] }
+
+    ### Http Clients
+
     app.orbit_client:
         public: true
         class: '%app.orbit_client.class%'
@@ -60,9 +62,6 @@ services:
             - '@cache.app_page_chrome'
             - { env: '%app.orbit_client.env%', mustache: { cache: '%kernel.cache_dir%/mustache' } }
 
-    # TODO: Work out how to pass through a SymfonyCache object wrapped in a
-    # DoctrineProvider. So that we can see caching information in the profiler
-    # panel that shall land in Symfony 3.3
     app.branding_client:
         public: true
         class: '%app.branding_client.class%'
@@ -70,7 +69,6 @@ services:
             - '@csa_guzzle.client.default'
             - '@cache.app_page_chrome'
             - { env: '%app.branding_client.env%' }
-
 
     ### Translations
 
@@ -90,10 +88,6 @@ services:
         factory: ['@app.translate_factory', 'create']
         arguments: ['%app.default_locale%']
 
-    ### Front end factories
-
-    App\Ds2013\PresenterFactory: ~
-
     ## Twig Extension
 
     # This needs to be public as we may end up injecting a new Translate
@@ -109,27 +103,26 @@ services:
             - { name: 'kernel.event_subscriber' }
             - { name: 'monolog.logger', channel: 'app_access' }
 
-
     ### Programmes Service
-    BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory: ~
+
+    BBC\ProgrammesPagesService\Cache\CacheInterface:
+        alias: BBC\ProgrammesPagesService\Cache\Cache
 
     BBC\ProgrammesPagesService\Cache\Cache:
-        arguments: [ '@cache.programmes', 'frontend.%cosmos_component_release%']
+        arguments: ['@cache.programmes', 'frontend.%cosmos_component_release%']
+
+    BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory: ~
 
     BBC\ProgrammesPagesService\Service\ServiceFactory: ~
 
     BBC\ProgrammesPagesService\Service\BroadcastsService:
-            autowire: false
-            factory: [ '@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getBroadcastsService']
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getBroadcastsService']
 
     BBC\ProgrammesPagesService\Service\NetworksService:
-        autowire: false
-        factory: [ '@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getNetworksService']
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getNetworksService']
 
     BBC\ProgrammesPagesService\Service\ProgrammesService:
-        autowire: false
-        factory: [ '@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getProgrammesService']
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getProgrammesService']
 
     BBC\ProgrammesPagesService\Service\ServicesService:
-        autowire: false
-        factory: [ '@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getServicesService']
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getServicesService']
