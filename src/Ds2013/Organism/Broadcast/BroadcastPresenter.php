@@ -36,6 +36,11 @@ class BroadcastPresenter extends Presenter
         return $this->broadcast->getService()->getName();
     }
 
+    public function getServicePid(): string
+    {
+        return (string) $this->broadcast->getService()->getPid();
+    }
+
     public function getStartAt(): DateTimeImmutable
     {
         return $this->broadcast->getStartAt();
@@ -46,33 +51,19 @@ class BroadcastPresenter extends Presenter
         return $this->broadcast->getEndAt();
     }
 
-    public function getServicePid(): string
-    {
-        return (string) $this->broadcast->getService()->getPid();
-    }
-
-    public function isOnAirNow(): bool
-    {
-        return $this->broadcast->isOnAirAt($this->now);
-    }
-
-    public function getNetworkMedium(): string
-    {
-        return $this->broadcast->getProgrammeItem()->getNetwork()->getMedium();
-    }
-
     public function getProgrammeItem()
     {
         return $this->broadcast->getProgrammeItem();
     }
 
-    public function getMessageIsNow(): string
+    public function getOnAirMessage(): string
     {
-        if ($this->getNetworkMedium() == 'tv') {
-            return 'on_now';
-        }
+        return $this->broadcast->getService()->isTv() ? 'on_now' : 'on_air';
+    }
 
-        return 'on_air';
+    public function isOnAirNow(): bool
+    {
+        return $this->broadcast->isOnAirAt($this->now);
     }
 
     public function isInThePast(): bool
