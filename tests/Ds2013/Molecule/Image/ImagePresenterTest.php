@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013\Molecule\Image;
 
-use App\Ds2013\Exception\InvalidOptionException;
+use App\Ds2013\InvalidOptionException;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;

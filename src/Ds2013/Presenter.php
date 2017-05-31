@@ -60,11 +60,15 @@ abstract class Presenter
 
     public function getOption($keyOption)
     {
-        if (isset($this->options[$keyOption])) {
+        if (array_key_exists($keyOption, $this->options)) {
             return $this->options[$keyOption];
         }
 
-        return null;
+        throw new InvalidOptionException(sprintf(
+            'Called getOption with an invalid value. Expected one of %s but got "%s"',
+            '"' . implode('", "', array_keys($this->options)) . '"',
+            $keyOption
+        ));
     }
 
     /**

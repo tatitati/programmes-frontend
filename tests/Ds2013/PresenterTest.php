@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
+use App\Ds2013\InvalidOptionException;
 use App\Ds2013\Presenter;
 use PHPUnit\Framework\TestCase;
 
@@ -37,7 +38,12 @@ class PresenterTest extends TestCase
             ['optionOne' => 1, 'optionTwo' => 2],
         ]);
 
-        $this->assertSame(null, $presenter->getOption('garbage'));
+        $this->expectException(InvalidOptionException::class);
+        $this->expectExceptionMessage(
+            'Called getOption with an invalid value. Expected one of "optionOne", "optionTwo" but got "garbage"'
+        );
+
+        $presenter->getOption('garbage');
     }
 
     public function testGetUniqueID()
