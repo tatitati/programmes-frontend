@@ -11,6 +11,7 @@ use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use DateInterval;
 use DateTimeImmutable;
+use DateTimeZone;
 use Symfony\Component\HttpFoundation\Response;
 
 class SchedulesByDayController extends BaseController
@@ -112,7 +113,7 @@ class SchedulesByDayController extends BaseController
     {
         $selectedDayEnd = $selectedDate->setTime(23, 59, 59);
 
-        $startBroadcast = $broadcast->getStartAt();
+        $startBroadcast = $broadcast->getStartAt()->setTimezone(new DateTimeZone('Europe/London'));
         $startBroadcastHour = $startBroadcast->format('H');
 
         // Need to check for 'late' first as these broadcasts are actually the day after the selected date
@@ -149,7 +150,7 @@ class SchedulesByDayController extends BaseController
     }
 
     /**
-     * Radio schedules run midnight to midnight
+     * Radio schedules run midnight to 6AM
      * TV schedules run 6AM to 6AM
      * This method works out which times should be used for retrieving broadcasts.
      *
@@ -162,14 +163,14 @@ class SchedulesByDayController extends BaseController
         $tvOffsetHours = 6;
         if ($date) {
             // Try and create a date from the one provided
-            $startDateTime = DateTimeImmutable::createFromFormat('Y-m-d|', $date);
+            $startDateTime = DateTimeImmutable::createFromFormat('Y-m-d|', $date, new DateTimeZone('Europe/London'));
 
             if (!$startDateTime) {
                 throw $this->createNotFoundException('Invalid date');
             }
         } else {
             // Otherwise use now
-            $dateTime = ApplicationTime::getTime();
+            $dateTime = ApplicationTime::getLocalTime();
 
             // If a user is viewing the TV schedule between midnight and 6AM, we actually want to display yesterday's schedule.
             if ($serviceIsTv && (int) $dateTime->format('H') < $tvOffsetHours) {

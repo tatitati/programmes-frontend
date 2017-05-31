@@ -34,6 +34,8 @@ framework:
 
 # Twig Configuration
 twig:
+    date:
+        timezone: Europe/London
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     paths:
@@ -52,6 +54,8 @@ doctrine:
         charset: UTF8
         types:
             date_partial: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\DatePartialType
+            datetime: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\UtcDateTimeType
+            datetimetz: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\UtcDateTimeType
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
