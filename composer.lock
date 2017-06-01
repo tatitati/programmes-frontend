@@ -212,16 +212,16 @@
         },
         {
             "name": "bbc/programmes-pages-service",
-            "version": "v2.1.6",
+            "version": "v2.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "fb0ae1a65bed603506726fea8112455f79693edf"
+                "reference": "4d51da5dcdbfd18be2db65f0c546e70d5b9315ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/fb0ae1a65bed603506726fea8112455f79693edf",
-                "reference": "fb0ae1a65bed603506726fea8112455f79693edf",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/4d51da5dcdbfd18be2db65f0c546e70d5b9315ba",
+                "reference": "4d51da5dcdbfd18be2db65f0c546e70d5b9315ba",
                 "shasum": ""
             },
             "require": {
@@ -255,10 +255,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/v2.1.6",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/v2.1.7",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-06-01T10:12:12+00:00"
+            "time": "2017-06-01T11:54:47+00:00"
         },
         {
             "name": "behat/transliterator",

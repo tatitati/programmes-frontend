@@ -1,0 +1,19 @@
+{% if region_pick.servicesInNetwork|length > 0 %}
+    <div class="grid-wrapper">
+        <div class="grid 1/2@bpw2 1/2@bpe">
+            <p class="beta">
+                {{ tr('schedule_title', {'%1':region_pick.service.name})}}
+            </p>
+        </div>
+         <div class="grid 1/2@bpw2 1/2@bpe">
+            <div class="bpw-text--right">
+                {% if region_pick.twinService is empty %}
+                    {% set translationKey = region_pick.service.isTv ? 'schedules_regional' : 'schedules_regional_change' %}
+                    <a href="{{ path('schedules_home') }}" class="delta">{{ tr(translationKey, {'%1':region_pick.service.network.name }) }}</a>
+                {% else %}
+                    <a href="{{path('schedules_by_day', {'pid': region_pick.twinService.pid, 'date': region_pick.date.format('Y-m-d')})}}" class="delta">{{tr('schedules_regional_changeto', {'%1':region_pick.twin_service.name })}}</a>
+                {% endif %}
+            </div>
+         </div>
+    </div>
+{% endif %}

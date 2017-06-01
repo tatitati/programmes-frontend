@@ -1,0 +1,68 @@
+{% if not schedules_by_day_page.service.isTv %}
+    <div class="g-c-l">
+        <div class="schedules-jump island micro">
+            <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
+            <ul class="schedules-jump__links nav nav--piped">
+                {% if schedules_by_day_page.onAirBroadcast %}
+                    <li>
+                        <a href="#on-now">{{ tr('on_air') }}</a>
+                    </li>
+                {% endif %}
+                {% for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay %}
+                    {% if broadcast_in_period %}
+                        <li>
+                            <a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+
+<ol class="list-unstyled g-c-l">
+    {% set onairshown = false %}
+    {% for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay %}
+        <li id="{{ period_name }}" class="schedule-skip-link">
+            <h2 class="delta text--shout island--horizontal component">{{ period_name }}</h2>
+            <ol class="highlight-box-wrapper">
+                {# list of broadcasts in day period #}
+                {% for broadcast in broadcast_in_period %}
+                    {% set onairattributes = null %}
+                    {% if broadcast.isOnAir and not onairshown %}
+                        {% set onairattributes = 'id=on-now class=schedule-skip-link-on-now' %}
+                        {% set onairshown = true %}
+                    {% endif %}
+                    <li {{ onairattributes }}>
+                        {{ ds2013('broadcast', broadcast, {
+                            'highlight_box_classes' : 'highlight-box--list'
+                        }) }}
+                    </li>
+                {% endfor %}
+            </ol>
+        </li>
+    {% endfor %}
+</ol>
+</div>
+
+{# If there is only 1 service in the network, it is the service we are currently viewing #}
+{% if schedules_by_day_page.servicesInNetwork|length >= 2 %}
+    <div class="island--vertical">
+        <h2>{{ schedules_by_day_page.service.isTv ? tr('schedules_regional_note') : tr('schedules_regional_note_radio') }}</h2>
+        <div id="outlets" class="schedule-variant-outlets">
+            <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
+                {%- for service_in_network in schedules_by_day_page.servicesInNetwork -%}
+                    <li>
+                        {%- if service_in_network.pid == schedules_by_day_page.service.pid -%}
+                            <span class="box-link">{{ service_in_network.shortName }}</span>
+                        {%- else -%}
+                            <a href="{{ path('schedules_by_day', {'pid': service_in_network.pid, 'date': schedules_by_day_page.startDate|date('Y-m-d')}) }}"
+                               data-href-add-utcoffset="true"
+                               class="box-link">{{ service_in_network.shortName }}</a>
+                        {%- endif -%}
+                    </li>
+                {%- endfor -%}
+            </ul>
+        </div>
+    </div>
+{% endif %}
