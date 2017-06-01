@@ -4,20 +4,19 @@ namespace App\Ds2013\Page\Schedules\RegionPick;
 
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use DateTimeImmutable;
 
 class RegionPickPresenter extends Presenter
 {
     /**@var Service */
     private $service;
 
-    /** @var DateTimeImmutable */
+    /** @var string|null */
     private $date;
 
     /** @var Service[] */
     private $servicesInNetwork;
 
-    public function __construct(Service $service, DateTimeImmutable $date, array $servicesInNetwork, array $options = [])
+    public function __construct(Service $service, ?string $date, array $servicesInNetwork, array $options = [])
     {
         parent::__construct($options);
         $this->service = $service;
@@ -25,31 +24,52 @@ class RegionPickPresenter extends Presenter
         $this->servicesInNetwork = $servicesInNetwork;
     }
 
-    public function getService(): Service
+    public function hasRegionPicker(): bool
     {
-        return $this->service;
+        return count($this->servicesInNetwork) > 1;
     }
 
-    public function getDate(): DateTimeImmutable
+    public function getServiceName(): string
+    {
+        return $this->service->getName();
+    }
+
+    public function getLinkMessage(): string
+    {
+        $twin = $this->getTwinService();
+        if ($twin) {
+            return 'schedules_regional_changeto';
+        }
+        return $this->service->isTv() ? 'schedules_regional' : 'schedules_regional_change';
+    }
+
+    public function getLinkName(): string
+    {
+        $twin = $this->getTwinService();
+        return $twin ? $twin->getName() : $this->service->getNetwork()->getName();
+    }
+
+    public function getDate(): ?string
     {
         return $this->date;
     }
 
-    public function getServicesInNetwork(): array
+    public function getTwinServicePid(): string
     {
-        return $this->servicesInNetwork;
+        $twin = $this->getTwinService();
+        return $twin ? (string) $twin->getPid() : '';
     }
 
-    public function getTwinService(): ?Service
+    private function getTwinService(): ?Service
     {
-        $twinService = null;
-        if (count($this->servicesInNetwork) == 2) {
-            // If there are two services, find the "other" service
-            $otherServices = array_filter($this->servicesInNetwork, function (Service $sisterService) use ($service) {
-                return ($service->getSid() !== $sisterService->getSid());
-            });
-            $twinService = reset($otherServices);
+        if (count($this->servicesInNetwork) != 2) {
+            return null;
         }
-        return $twinService;
+
+        // If there are two services, find the "other" service
+        $otherServices = array_filter($this->servicesInNetwork, function (Service $sisterService) {
+            return ($this->service->getSid() != $sisterService->getSid());
+        });
+        return reset($otherServices);
     }
 }

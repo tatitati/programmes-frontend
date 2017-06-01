@@ -115,7 +115,7 @@ class PresenterFactory
      */
     public function regionPickPresenter(
         Service $service,
-        DateTimeImmutable $date,
+        ?string $date,
         array $servicesInNetwork,
         array $options = []
     ) {
