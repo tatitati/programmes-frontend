@@ -25,6 +25,12 @@
 
     <div class="b-g-p br-box-page island--vertical">
         {{ ds2013('regionPick', page_presenter.service, app.request.attributes.get('date'), page_presenter.servicesInNetwork) }}
+
         {% block content %}{% endblock %}
+
+        {# Only show services list if there are more than two #}
+        {% if page_presenter.servicesInNetwork|length > 2 %}
+            {{ ds2013('networkServicesList', page_presenter.service, app.request.attributes.get('date'), page_presenter.servicesInNetwork) }}
+        {% endif %}
     </div>
 {% endblock %}

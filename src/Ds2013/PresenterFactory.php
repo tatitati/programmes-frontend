@@ -7,6 +7,7 @@ use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
+use App\Ds2013\Page\Schedules\NetworkServicesList\NetworkServicesListPresenter;
 use App\Ds2013\Page\Schedules\RegionPick\RegionPickPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
@@ -113,6 +114,15 @@ class PresenterFactory
     /**
      * Page Presenters
      */
+    public function networkServicesListPresenter(
+        Service $service,
+        ?string $date,
+        array $servicesInNetwork,
+        array $options = []
+    ) {
+        return new NetworkServicesListPresenter($service, $date, $servicesInNetwork, $options);
+    }
+
     public function regionPickPresenter(
         Service $service,
         ?string $date,
