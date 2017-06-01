@@ -3,9 +3,8 @@ declare(strict_types = 1);
 namespace App\Ds2013\Organism\Broadcast;
 
 use App\Ds2013\Presenter;
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 
 class BroadcastPresenter extends Presenter
 {
@@ -28,7 +27,7 @@ class BroadcastPresenter extends Presenter
     ) {
         parent::__construct($options);
         $this->broadcast = $broadcast;
-        $this->now = ApplicationTime::getTime();
+        $this->now = Chronos::now('Europe/London');
     }
 
     public function getServiceName(): string
@@ -41,14 +40,14 @@ class BroadcastPresenter extends Presenter
         return (string) $this->broadcast->getService()->getPid();
     }
 
-    public function getStartAt(): DateTimeImmutable
+    public function getStartAt(): Chronos
     {
-        return $this->broadcast->getStartAt();
+        return new Chronos($this->broadcast->getStartAt());
     }
 
-    public function getEndAt(): DateTimeImmutable
+    public function getEndAt(): Chronos
     {
-        return $this->broadcast->getEndAt();
+        return new Chronos($this->broadcast->getEndAt());
     }
 
     public function getProgrammeItem()

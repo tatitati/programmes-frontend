@@ -21,18 +21,18 @@
         {% if date_list_item.isLink %}
             <a href="{{ path('schedules_by_day', {'pid': date_list_item.servicePid, 'date': date_list_item.datetime.format('Y-m-d')}) }}"
                class="{{ item_classes }}" {{ item_attributes|raw }}>
-                {{ self.dateLines(date_list_item.isToday, date_list_item.datetime) }}
+                {{ self.dateLines(date_list_item.datetime) }}
             </a>
         {% else %}
             <span class="{{ item_classes }}">
-                {{ self.dateLines(date_list_item.isToday, date_list_item.datetime) }}
+                {{ self.dateLines(date_list_item.datetime) }}
             </span>
         {% endif %}
     </li>
 
-    {% macro dateLines(isToday, datetime) %}
+    {% macro dateLines(datetime) %}
         <span class="date-list__item-line1">
-            {{ isToday ? tr('schedules_today') : datetime.format('D') }}
+            {{ datetime.isToday ? tr('schedules_today') : datetime.format('D') }}
         </span>
         <span class="date-list__item-line2">
             {{ datetime.format('d M') }}

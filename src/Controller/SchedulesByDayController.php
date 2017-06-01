@@ -7,12 +7,10 @@ use App\Ds2013\PresenterFactory;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
-use DateInterval;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 use DateTimeZone;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -64,39 +62,37 @@ class SchedulesByDayController extends BaseController
      *
      * @param bool $serviceIsTv
      * @param null|string $date in Y-m-d format
-     * @return DateTimeImmutable[] StartDate and EndDate
+     * @return Chronos[] StartDate and EndDate
      */
     private function getStartAndEndTimes(bool $serviceIsTv, ?string $date): array
     {
         $tvOffsetHours = 6;
         if ($date) {
             // Try and create a date from the one provided
-            $startDateTime = DateTimeImmutable::createFromFormat('Y-m-d|', $date, new DateTimeZone('Europe/London'));
+            $startDateTime = Chronos::createFromFormat('Y-m-d|', $date, 'Europe/London');
 
             if (!$startDateTime) {
                 throw $this->createNotFoundException('Invalid date');
             }
         } else {
             // Otherwise use now
-            $dateTime = ApplicationTime::getLocalTime();
+            $startDateTime = Chronos::today('Europe/London');
 
             // If a user is viewing the TV schedule between midnight and 6AM, we actually want to display yesterday's schedule.
-            if ($serviceIsTv && (int) $dateTime->format('H') < $tvOffsetHours) {
-                $dateTime = $dateTime->sub(new DateInterval('P1D'));
+            if ($serviceIsTv && $startDateTime->wasWithinLast($tvOffsetHours . ' hours')) {
+                $startDateTime = Chronos::yesterday('Europe/London');
             }
-
-            $startDateTime = $dateTime->setTime(0, 0, 0);
         }
 
-        $interval = 'P1DT6H';
+        $scheduleHours = '30';
 
         // set day interval time
         if ($serviceIsTv) {
-            $startDateTime = $startDateTime->setTime($tvOffsetHours, 0, 0);
-            $interval = 'P1D';
+            $startDateTime = $startDateTime->addHours($tvOffsetHours);
+            $scheduleHours = '24';
         }
 
-        $endDateTime = $startDateTime->add(new DateInterval($interval));
+        $endDateTime = $startDateTime->addHours($scheduleHours);
 
         return [$startDateTime, $endDateTime];
     }

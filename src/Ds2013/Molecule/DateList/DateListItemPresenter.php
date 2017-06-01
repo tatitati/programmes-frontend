@@ -4,10 +4,8 @@ declare(strict_types = 1);
 namespace App\Ds2013\Molecule\DateList;
 
 use App\Ds2013\Presenter;
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use DateInterval;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 
 class DateListItemPresenter extends Presenter
 {
@@ -16,7 +14,7 @@ class DateListItemPresenter extends Presenter
         'user_timezone' => 'GMT',
     ];
 
-    /** @var DateTimeImmutable */
+    /** @var Chronos */
     private $datetime;
 
     /** @var Service */
@@ -25,19 +23,16 @@ class DateListItemPresenter extends Presenter
     /** @var int */
     private $offset;
 
-    public function __construct(DateTimeImmutable $datetime, Service $service, int $offset, array $options = [])
+    public function __construct(Chronos $datetime, Service $service, int $offset, array $options = [])
     {
         parent::__construct($options);
-        if ($offset < 0) {
-            $this->datetime = $datetime->sub(new DateInterval('P' . abs($offset) . 'D'));
-        } else {
-            $this->datetime = $datetime->add(new DateInterval('P' . $offset . 'D'));
-        }
+
+        $this->datetime = $datetime->addDays($offset);
         $this->service = $service;
         $this->offset = $offset;
     }
 
-    public function getDatetime(): DateTimeImmutable
+    public function getDatetime(): Chronos
     {
         return $this->datetime;
     }
@@ -56,17 +51,12 @@ class DateListItemPresenter extends Presenter
     {
         // if the date is more than 90 DAYS from now, then don't allow a link (page will still exist)
         return $this->offset != 0 &&
-            ApplicationTime::getTime()->add(new DateInterval('P90D')) > $this->datetime &&
+            $this->datetime->lt(new Chronos('90 days')) &&
             $this->service->isActiveAt($this->datetime);
     }
 
     public function isGmt(): bool
     {
         return $this->options['user_timezone'] == 'GMT';
-    }
-
-    public function isToday(): bool
-    {
-        return ApplicationTime::getTime()->format('Y-m-d') == $this->datetime->format('Y-m-d');
     }
 }

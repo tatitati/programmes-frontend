@@ -3,10 +3,9 @@ declare(strict_types = 1);
 namespace App\Ds2013\Page\Schedules\ByDayPage;
 
 use App\Ds2013\Presenter;
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 use DateTimeZone;
 
 class SchedulesByDayPagePresenter extends Presenter
@@ -14,10 +13,10 @@ class SchedulesByDayPagePresenter extends Presenter
     /** @var Service */
     private $service;
 
-    /** @var DateTimeImmutable */
+    /** @var Chronos */
     private $startDate;
 
-    /** @var DateTimeImmutable */
+    /** @var Chronos */
     private $endDate;
 
     /** @var Broadcast[] */
@@ -31,8 +30,8 @@ class SchedulesByDayPagePresenter extends Presenter
 
     public function __construct(
         Service $service,
-        DateTimeImmutable $startDate,
-        DateTimeImmutable $endDate,
+        Chronos $startDate,
+        Chronos $endDate,
         array $broadcasts,
         array $servicesInNetwork,
         array $options = []
@@ -50,7 +49,7 @@ class SchedulesByDayPagePresenter extends Presenter
         return $this->service;
     }
 
-    public function getStartDate(): DateTimeImmutable
+    public function getStartDate(): Chronos
     {
         return $this->startDate;
     }
@@ -91,7 +90,7 @@ class SchedulesByDayPagePresenter extends Presenter
         if ($this->onAirBroadcast !== false) {
             return $this->onAirBroadcast;
         }
-        $now = ApplicationTime::getTime();
+        $now = Chronos::now('Europe/London');
 
         $this->onAirBroadcast = null;
         foreach ($this->broadcasts as $broadcast) {
@@ -110,12 +109,12 @@ class SchedulesByDayPagePresenter extends Presenter
      * Late - midnight until 6am the next day
      *
      * @param Broadcast $broadcast
-     * @param DateTimeImmutable $selectedDate
+     * @param Chronos $selectedDate
      * @return string
      */
-    private function getBroadcastPeriodWord(Broadcast $broadcast, DateTimeImmutable $selectedDate): string
+    private function getBroadcastPeriodWord(Broadcast $broadcast, Chronos $selectedDate): string
     {
-        $selectedDayEnd = $selectedDate->setTime(23, 59, 59);
+        $selectedDayEnd = $selectedDate->endOfDay();
 
         $startBroadcast = $broadcast->getStartAt()->setTimezone(new DateTimeZone('Europe/London'));
         $startBroadcastHour = $startBroadcast->format('H');

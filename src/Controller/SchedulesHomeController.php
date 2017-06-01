@@ -2,10 +2,9 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Service\ServicesService;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 
 class SchedulesHomeController extends BaseController
 {
@@ -24,15 +23,15 @@ class SchedulesHomeController extends BaseController
 
         $services = $servicesService->getAllInNetworks();
 
-        $now = ApplicationTime::getTime();
-        $earliestBroadcastDate = new DateTimeImmutable('1920-01-01T00:00:00Z');
-        $latestBroadcastDate = $this->getFinalMomentInCurrentDecade();
+        $now = Chronos::now('Europe/London');
+        $earliestBroadcastDate = new Chronos('1920-01-01T00:00:00Z');
+        $latestBroadcastDate = $now->endOfDecade();
 
         $diff = $earliestBroadcastDate->diff($latestBroadcastDate);
         $pointsPerDay = 100 / $diff->days;
 
-        $earliestDecade = $this->getDecade($earliestBroadcastDate);
-        $latestDecade = $this->getDecade($latestBroadcastDate);
+        $earliestDecade = $earliestBroadcastDate->startOfDecade()->year;
+        $latestDecade = $latestBroadcastDate->startOfDecade()->year;
 
         $decades = range($earliestDecade, $latestDecade, 10);
         $decadePercent = 100 / count($decades);
@@ -53,7 +52,6 @@ class SchedulesHomeController extends BaseController
             $groups[$groupKey][$nid]['services'][] = $this->createServiceItem(
                 $service,
                 $earliestBroadcastDate,
-                $latestBroadcastDate,
                 $now,
                 $pointsPerDay
             );
@@ -68,9 +66,8 @@ class SchedulesHomeController extends BaseController
 
     private function createServiceItem(
         Service $service,
-        DateTimeImmutable $earliestBroadcastDate,
-        DateTimeImmutable $latestBroadcastDate,
-        DateTimeImmutable $now,
+        Chronos $earliestBroadcastDate,
+        Chronos $now,
         $pointsPerDay
     ): array {
         $result = [
@@ -108,17 +105,5 @@ class SchedulesHomeController extends BaseController
         }
 
         return 'Other';
-    }
-
-    private function getDecade(DateTimeImmutable $datetime): float
-    {
-        $year = (int) $datetime->format('Y');
-        return intdiv($year, 10) * 10;
-    }
-
-    private function getFinalMomentInCurrentDecade(): DateTimeImmutable
-    {
-        $decade = $this->getDecade(ApplicationTime::getTime()) + 9;
-        return new DateTimeImmutable($decade . '-12-31 23:59:59Z');
     }
 }

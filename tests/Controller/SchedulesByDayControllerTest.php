@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace Tests\App\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 use Tests\App\BaseWebTestCase;
 
 /**
@@ -21,8 +21,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
     public function testScheduleDisplaysCorrectBroadcastsForTime(?string $timeNow, string $network, ?string $scheduleDate, array $expectedBroadcasts)
     {
         if (!is_null($timeNow)) {
-            $timestamp = (new DateTimeImmutable($timeNow))->getTimestamp();
-            ApplicationTime::setTime($timestamp);
+            ApplicationTime::setTime((new Chronos($timeNow))->timestamp);
         }
 
         $this->loadFixtures(["BroadcastsFixture"]);

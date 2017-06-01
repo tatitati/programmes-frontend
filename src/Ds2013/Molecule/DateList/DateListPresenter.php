@@ -5,7 +5,7 @@ namespace App\Ds2013\Molecule\DateList;
 
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 
 class DateListPresenter extends Presenter
 {
@@ -15,13 +15,13 @@ class DateListPresenter extends Presenter
         'user_timezone' => 'GMT',
     ];
 
-    /** @var DateTimeImmutable */
+    /** @var Chronos */
     private $datetime;
 
     /** @var Service */
     private $service;
 
-    public function __construct(DateTimeImmutable $datetime, Service $service, array $options = [])
+    public function __construct(Chronos $datetime, Service $service, array $options = [])
     {
         parent::__construct($options);
         $this->datetime = $datetime;

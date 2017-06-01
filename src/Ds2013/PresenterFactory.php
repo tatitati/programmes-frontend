@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
-use App\Ds2013\Molecule\DateList\DateListItemPresenter;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
@@ -13,6 +12,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use Cake\Chronos\Chronos;
 use DateTimeImmutable;
 use RMP\Translate\Translate;
 
@@ -59,7 +59,7 @@ class PresenterFactory
      * Molecules
      */
     public function dateListPresenter(
-        DateTimeImmutable $datetime,
+        Chronos $datetime,
         Service $service,
         array $options = []
     ): DateListPresenter {
@@ -124,8 +124,8 @@ class PresenterFactory
 
     public function schedulesByDayPagePresenter(
         Service $service,
-        DateTimeImmutable $startDateTime,
-        DateTimeImmutable $endDateTime,
+        Chronos $startDateTime,
+        Chronos $endDateTime,
         array $servicesInNetwork,
         array $options = []
     ) {
