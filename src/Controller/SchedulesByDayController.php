@@ -16,8 +16,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SchedulesByDayController extends BaseController
 {
-    public function __invoke(Pid $pid, ?string $date, ServicesService $servicesService, BroadcastsService $broadcastService, PresenterFactory $presenterFactory)
-    {
+    public function __invoke(
+        Pid $pid,
+        ?string $date,
+        ServicesService $servicesService,
+        BroadcastsService $broadcastService,
+        PresenterFactory $presenterFactory
+    ) {
         $service = $servicesService->findByPidFull($pid);
         if (!$service) {
             throw $this->createNotFoundException('Service not found');
@@ -35,7 +40,7 @@ class SchedulesByDayController extends BaseController
             $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDateTime, $endDateTime);
         }
 
-        $pageViewModel = $presenterFactory->schedulesByDayPagePresenter(
+        $pagePresenter = $presenterFactory->schedulesByDayPagePresenter(
             $service,
             $startDateTime,
             $endDateTime,
@@ -43,17 +48,45 @@ class SchedulesByDayController extends BaseController
             $servicesInNetwork
         );
 
+        $viewData = $this->viewData(
+            $service,
+            $startDateTime,
+            $endDateTime,
+            $broadcasts,
+            $servicesInNetwork,
+            $pagePresenter
+        );
+
         // If the service is not active render a 404
         if (!$broadcasts) {
             return $this->renderWithChrome(
                 'schedules/no_schedule.html.twig',
-                ['page_presenter' => $pageViewModel],
+                $viewData,
                 new Response('', Response::HTTP_NOT_FOUND)
             );
         }
 
-        return $this->renderWithChrome('schedules/by_day.html.twig', ['page_presenter' => $pageViewModel]);
+        return $this->renderWithChrome('schedules/by_day.html.twig', $viewData);
     }
+
+    private function viewData(
+        Service $service,
+        Chronos $startDateTime,
+        Chronos $endDateTime,
+        array $broadcasts,
+        array $servicesInNetwork,
+        SchedulesByDayPagePresenter $pagePresenter
+    ): array {
+        return [
+            'service' => $service,
+            'start_date' => $startDateTime,
+            'end_date' => $endDateTime,
+            'broadcasts' => $broadcasts,
+            'services_in_network' => $servicesInNetwork,
+            'page_presenter' => $pagePresenter,
+        ];
+    }
+
 
     /**
      * Radio schedules run midnight to 6AM
