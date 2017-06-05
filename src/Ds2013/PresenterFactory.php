@@ -136,6 +136,7 @@ class PresenterFactory
         Service $service,
         Chronos $startDateTime,
         Chronos $endDateTime,
+        array $broadcasts,
         array $servicesInNetwork,
         array $options = []
     ) {
@@ -143,6 +144,7 @@ class PresenterFactory
             $service,
             $startDateTime,
             $endDateTime,
+            $broadcasts,
             $servicesInNetwork,
             $options
         );
