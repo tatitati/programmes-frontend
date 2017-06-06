@@ -24,7 +24,9 @@ framework:
     cache:
         pools:
             cache.programmes:
-                adapter: '%cache_adapter%'
+                # symfony support many adapters for different cache providers. cache.adapter.psr6 is a proxy adapter,
+                # using cache.adapter.psr6 we can use any adapter class which implements the AdapterInterface
+                adapter: 'cache.adapter.psr6'
                 provider: '%cache_provider%'
                 # the only aim of default_lifetime is to prevent setting permanent keys, please don't use the default_lifetime in the code.
                 # PSR-6 consider "0" or NULL value as a way to store the key for as long as the implementation allows.

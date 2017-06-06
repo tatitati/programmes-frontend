@@ -14,7 +14,6 @@ framework:
     cache:
         pools:
             cache.programmes:
-                adapter: cache.adapter.psr6
                 provider: cache.null_provider
 
 web_profiler:
