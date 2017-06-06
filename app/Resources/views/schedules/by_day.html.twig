@@ -1,5 +1,5 @@
 {% extends 'schedules/base.twig' %}
 
 {% block content %}
-    {%- include page_presenter.templatePath with { (page_presenter.templateVariableName): page_presenter } only %}
+    {{ ds2013_presenter(page_presenter) }}
 {% endblock %}

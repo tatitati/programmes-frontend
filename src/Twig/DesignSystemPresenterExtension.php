@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Twig;
 
+use App\Ds2013\Presenter as Ds2013Presenter;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
 use App\Ds2013\TranslatableTrait;
 use Twig_Environment;
@@ -46,6 +47,10 @@ class DesignSystemPresenterExtension extends Twig_Extension
                 'is_variadic' => true,
                 'needs_environment' => true,
             ]),
+            new Twig_Function('ds2013_presenter', [$this, 'ds2013Presenter'], [
+                'is_safe' => ['html'],
+                'needs_environment' => true,
+            ]),
         ];
     }
 
@@ -65,6 +70,13 @@ class DesignSystemPresenterExtension extends Twig_Extension
     ): string {
         $presenter = $this->ds2013PresenterFactory->{$presenterName . 'Presenter'}(...$presenterArguments);
 
+        return $this->ds2013Presenter($twigEnv, $presenter);
+    }
+
+    public function ds2013Presenter(
+        Twig_Environment $twigEnv,
+        Ds2013Presenter $presenter
+    ): string {
         return $twigEnv->render(
             $presenter->getTemplatePath(),
             [$presenter->getTemplateVariableName() => $presenter]
