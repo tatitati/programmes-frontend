@@ -5,15 +5,18 @@
  * hidden beneath the navbar.
  */
 
-.fixed-supported {
-    // A bit rubbish as this number relies on the fixed nav not being too deep,
-    // but making this dynamic is tricky
+// A bit rubbish as this number relies on the fixed nav not being too deep,
+// but making this dynamic is tricky
+@supports (position: sticky) {
     $skiplink-pushdown: 56px;
 
     .schedule-nav-wrapper {
         top: 0;
         width: 100%;
         z-index: 1000;
+
+        position: -webkit-sticky;
+        position: sticky;
     }
 
     .schedule-skip-link,
@@ -33,4 +36,3 @@
         margin-top: -$skiplink-pushdown - 1px;
     }
 }
-

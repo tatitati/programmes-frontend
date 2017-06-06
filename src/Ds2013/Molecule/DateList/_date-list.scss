@@ -102,26 +102,6 @@
             @include inline-block();
         }
     }
-    // the daynav version of the date list on the TV schedules needs to be pulled upwards
-    .daynav--tvschedule {
-        margin-top: -40px;
-        .date-list__page {
-            vertical-align: middle;
-            // Min-height for our elements with a background so the bar looks flush with the top of the page
-            & > a,
-            & > span {
-                min-height: 34px;
-                padding: 4px 0 2px;
-            }
-        }
-    }
-
-    // Don't pull upwards when fixed to the top of the page
-    .fixed-supported {
-        .schedule-nav-wrapper.fixedsticky-on .daynav--tvschedule {
-            margin-top: 0;
-        }
-    }
 }
 
 @include mq($from: 698px, $until: 1007px) {
