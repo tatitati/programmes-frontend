@@ -28,6 +28,11 @@ services:
 
     ### Begin the services!
 
+    App\Controller\ExceptionController:
+        public: true
+        arguments:
+            $debug: '%kernel.debug%'
+
     # This needs to be triggered before the any existing default Resolvers,
     # the largest of which has a priority of 100
     App\ArgumentResolver\IdentifierValueResolver:

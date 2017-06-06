@@ -39,6 +39,7 @@ twig:
     date:
         timezone: Europe/London
     debug: '%kernel.debug%'
+    exception_controller: App\Controller\ExceptionController
     strict_variables: '%kernel.debug%'
     paths:
         '%kernel.project_dir%/src/Ds2013': 'Ds2013'
