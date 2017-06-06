@@ -1,4 +1,29 @@
-{% if not schedules_by_day_page.service.isTv %}
+{% set title_classes = build_css_classes({
+    'grid': true,
+    '1/2@bpw2 1/2@bpe': schedules_by_day_page.hasSiblingServiceLink,
+}) %}
+
+<div class="grid-wrapper">
+    <div class="{{ title_classes }}">
+        <p class="beta">
+            {{ tr('schedule_title', {'%1': schedules_by_day_page.service.name}) }}
+        </p>
+    </div>
+    {% if schedules_by_day_page.hasSiblingServiceLink %}
+         <div class="grid 1/2@bpw2 1/2@bpe">
+            <div class="bpw-text--right">
+                {% set link = schedules_by_day_page.twinServicePid ? path('schedules_by_day', {
+                    'pid': schedules_by_day_page.twinServicePid,
+                    'date': schedules_by_day_page.routeDate,
+                }) : '#outlets' %}
+                <a href="{{ link }}" class="delta">{{ tr(schedules_by_day_page.siblingServicesLinkMessage, {'%1': schedules_by_day_page.siblingServicesLinkName}) }}</a>
+            </div>
+         </div>
+    {% endif %}
+</div>
+
+
+{% if schedules_by_day_page.hasJumpLinks %}
     <div class="g-c-l">
         <div class="schedules-jump island micro">
             <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
@@ -20,27 +45,60 @@
     </div>
 {% endif %}
 
-<ol class="list-unstyled g-c-l">
-    {% set onairshown = false %}
-    {% for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay %}
-        <li id="{{ period_name }}" class="schedule-skip-link">
-            <h2 class="delta text--shout island--horizontal component">{{ period_name }}</h2>
-            <ol class="highlight-box-wrapper">
-                {# list of broadcasts in day period #}
-                {% for broadcast in broadcast_in_period %}
-                    {% set onairattributes = null %}
-                    {% if broadcast.isOnAir and not onairshown %}
-                        {% set onairattributes = 'id=on-now class=schedule-skip-link-on-now' %}
-                        {% set onairshown = true %}
-                    {% endif %}
-                    <li {{ onairattributes }}>
-                        {{ ds2013('broadcast', broadcast, {
-                            'highlight_box_classes' : 'highlight-box--list'
-                        }) }}
-                    </li>
-                {% endfor %}
-            </ol>
-        </li>
-    {% endfor %}
-</ol>
+{% if schedules_by_day_page.hasBroadcasts %}
+    <ol class="list-unstyled g-c-l">
+        {% set onairshown = false %}
+        {% for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay %}
+            <li id="{{ period_name }}" class="schedule-skip-link">
+                <h2 class="delta text--shout island--horizontal component">{{ period_name }}</h2>
+                <ol class="highlight-box-wrapper">
+                    {# list of broadcasts in day period #}
+                    {% for broadcast in broadcast_in_period %}
+                        {% set onairattributes = null %}
+                        {% if broadcast.isOnAir and not onairshown %}
+                            {% set onairattributes = 'id=on-now class=schedule-skip-link-on-now' %}
+                            {% set onairshown = true %}
+                        {% endif %}
+                        <li {{ onairattributes }}>
+                            {{ ds2013('broadcast', broadcast, {
+                                'highlight_box_classes' : 'highlight-box--list'
+                            }) }}
+                        </li>
+                    {% endfor %}
+                </ol>
+            </li>
+        {% endfor %}
+    </ol>
+{% else %}
+    <p class="noschedule">
+        {% if schedules_by_day_page.service.startDate and schedules_by_day_page.startDate < schedules_by_day_page.service.startDate %}
+            {{ tr('schedule_begins_on', {'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': schedules_by_day_page.service.startDate|date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.service.startDate|date("l j F Y") ~ '</a>'})|raw }}
+        {% elseif schedules_by_day_page.service.endDate and schedules_by_day_page.startDate > schedules_by_day_page.service.endDate %}
+            {{ tr('schedule_ended_on',{'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': schedules_by_day_page.service.endDate|date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.service.endDate|date("l j F Y") ~ '</a>'})|raw }}
+        {% else %}
+            {{ tr('schedules_no_result') }}
+        {% endif %}
+    </p>
+{% endif %}
 
+
+{% if schedules_by_day_page.hasSiblingServiceList %}
+    <div class="island--vertical">
+        <h2>{{ tr(schedules_by_day_page.servicesHeadingMessage) }}</h2>
+        <div id="outlets" class="schedule-variant-outlets">
+            <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
+                {%- for service in schedules_by_day_page.servicesInNetwork -%}
+                    <li>
+                        {%- if service.pid == schedules_by_day_page.service.pid -%}
+                            <span class="box-link">{{ service.shortName }}</span>
+                        {%- else -%}
+                            <a href="{{ path('schedules_by_day', {'pid': service.pid, 'date': schedules_by_day_page.routeDate}) }}"
+                               data-href-add-utcoffset="true"
+                               class="box-link">{{ service.shortName }}</a>
+                        {%- endif -%}
+                    </li>
+                {%- endfor -%}
+            </ul>
+        </div>
+    </div>
+{% endif %}

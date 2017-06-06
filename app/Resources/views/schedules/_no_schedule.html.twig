@@ -1,9 +1,0 @@
- <p class="noschedule">
-    {% if service.startDate and start_date < service.startDate %}
-        {{ tr('schedule_begins_on', {'%1': '<a href="' ~ path('schedules_by_day', {'pid': service.pid, 'date': service.startDate|date('Y-m-d')}) ~ '">' ~ service.startDate|date("l j F Y") ~ '</a>'})|raw }}
-    {% elseif service.endDate and start_date > service.endDate %}
-        {{ tr('schedule_ended_on',{'%1': '<a href="' ~ path('schedules_by_day', {'pid': service.pid, 'date': service.endDate|date('Y-m-d')}) ~ '">' ~ service.endDate|date("l j F Y") ~ '</a>'})|raw }}
-    {% else %}
-        {{ tr('schedules_no_result') }}
-    {% endif %}
-</p>

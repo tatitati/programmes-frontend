@@ -25,6 +25,12 @@ class SchedulesByDayPagePresenter extends Presenter
     /** @var Service[] */
     private $servicesInNetwork;
 
+    /** @var string|null */
+    private $routeDate;
+
+    /** @var Service */
+    private $twinService;
+
     /** @var Broadcast */
     private $onAirBroadcast = false;
 
@@ -33,6 +39,7 @@ class SchedulesByDayPagePresenter extends Presenter
         Chronos $startDate,
         Chronos $endDate,
         array $broadcasts,
+        ?string $routeDate,
         array $servicesInNetwork,
         array $options = []
     ) {
@@ -41,7 +48,10 @@ class SchedulesByDayPagePresenter extends Presenter
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->broadcasts = $broadcasts;
+        $this->routeDate = $routeDate;
         $this->servicesInNetwork = $servicesInNetwork;
+
+        $this->twinService = $this->twinService();
     }
 
     public function getService(): Service
@@ -54,9 +64,42 @@ class SchedulesByDayPagePresenter extends Presenter
         return $this->startDate;
     }
 
+    public function getEndDate(): Chronos
+    {
+        return $this->endDate;
+    }
+
+    public function getRouteDate(): ?string
+    {
+        return $this->routeDate;
+    }
+
     public function getServicesInNetwork(): array
     {
         return $this->servicesInNetwork;
+    }
+
+    public function getServicesHeadingMessage()
+    {
+        return $this->service->isTv() ? 'schedules_regional_note' : 'schedules_regional_note_radio';
+    }
+
+    public function getSiblingServicesLinkMessage(): string
+    {
+        if ($this->twinService) {
+            return 'schedules_regional_changeto';
+        }
+        return $this->service->isTv() ? 'schedules_regional' : 'schedules_regional_change';
+    }
+
+    public function getSiblingServicesLinkName(): string
+    {
+        return $this->twinService ? $this->twinService->getName() : $this->service->getNetwork()->getName();
+    }
+
+    public function getTwinServicePid(): string
+    {
+        return $this->twinService ? (string) $this->twinService->getPid() : '';
     }
 
     public function getBroadcastsGroupedByPeriodOfDay(): array
@@ -101,6 +144,27 @@ class SchedulesByDayPagePresenter extends Presenter
         }
         return $this->onAirBroadcast;
     }
+
+    public function hasBroadcasts(): bool
+    {
+        return !!$this->broadcasts;
+    }
+
+    public function hasJumpLinks(): bool
+    {
+        return !!$this->broadcasts && !$this->service->isTv();
+    }
+
+    public function hasSiblingServiceLink(): bool
+    {
+        return count($this->servicesInNetwork) > 1;
+    }
+
+    public function hasSiblingServiceList(): bool
+    {
+        return count($this->servicesInNetwork) > 2;
+    }
+
     /**
      * Early - midnight until 6am
      * Morning - 6am until midday
@@ -137,5 +201,18 @@ class SchedulesByDayPagePresenter extends Presenter
         }
 
         return 'evening';
+    }
+
+    private function twinService(): ?Service
+    {
+        if (count($this->servicesInNetwork) != 2) {
+            return null;
+        }
+
+        // If there are two services, find the "other" service
+        $otherServices = array_filter($this->servicesInNetwork, function (Service $sisterService) {
+            return ($this->service->getSid() != $sisterService->getSid());
+        });
+        return reset($otherServices);
     }
 }

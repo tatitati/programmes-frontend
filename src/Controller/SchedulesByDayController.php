@@ -45,15 +45,13 @@ class SchedulesByDayController extends BaseController
             $startDateTime,
             $endDateTime,
             $broadcasts,
+            $date,
             $servicesInNetwork
         );
 
         $viewData = $this->viewData(
             $service,
             $startDateTime,
-            $endDateTime,
-            $broadcasts,
-            $servicesInNetwork,
             $pagePresenter
         );
 
@@ -66,21 +64,14 @@ class SchedulesByDayController extends BaseController
     private function viewData(
         Service $service,
         Chronos $startDateTime,
-        Chronos $endDateTime,
-        array $broadcasts,
-        array $servicesInNetwork,
         SchedulesByDayPagePresenter $pagePresenter
     ): array {
         return [
             'service' => $service,
             'start_date' => $startDateTime,
-            'end_date' => $endDateTime,
-            'broadcasts' => $broadcasts,
-            'services_in_network' => $servicesInNetwork,
             'page_presenter' => $pagePresenter,
         ];
     }
-
 
     /**
      * Radio schedules run midnight to 6AM

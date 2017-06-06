@@ -24,22 +24,6 @@
     </nav>
 
     <div class="b-g-p br-box-page island--vertical">
-        {{ ds2013('regionPick', service, app.request.attributes.get('date'), services_in_network) }}
-
-        {% if broadcasts %}
-            {{ ds2013_presenter(page_presenter) }}
-        {% else %}
-            {% include 'schedules/_no_schedule.html.twig' with {
-                'service': service,
-                'start_date': start_date,
-                'end_date': end_date,
-            } only %}
-        {% endif %}
-
-
-        {# Only show services list if there are more than two #}
-        {% if services_in_network|length > 2 %}
-            {{ ds2013('networkServicesList', service, app.request.attributes.get('date'), services_in_network) }}
-        {% endif %}
+        {{ ds2013_presenter(page_presenter) }}
     </div>
 {% endblock %}

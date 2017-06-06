@@ -114,29 +114,12 @@ class PresenterFactory
     /**
      * Page Presenters
      */
-    public function networkServicesListPresenter(
-        Service $service,
-        ?string $date,
-        array $servicesInNetwork,
-        array $options = []
-    ) {
-        return new NetworkServicesListPresenter($service, $date, $servicesInNetwork, $options);
-    }
-
-    public function regionPickPresenter(
-        Service $service,
-        ?string $date,
-        array $servicesInNetwork,
-        array $options = []
-    ) {
-        return new RegionPickPresenter($service, $date, $servicesInNetwork, $options);
-    }
-
     public function schedulesByDayPagePresenter(
         Service $service,
         Chronos $startDateTime,
         Chronos $endDateTime,
         array $broadcasts,
+        ?string $routeDate,
         array $servicesInNetwork,
         array $options = []
     ) {
@@ -145,6 +128,7 @@ class PresenterFactory
             $startDateTime,
             $endDateTime,
             $broadcasts,
+            $routeDate,
             $servicesInNetwork,
             $options
         );
