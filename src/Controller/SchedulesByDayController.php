@@ -57,16 +57,10 @@ class SchedulesByDayController extends BaseController
             $pagePresenter
         );
 
-        // If the service is not active render a 404
-        if (!$broadcasts) {
-            return $this->renderWithChrome(
-                'schedules/no_schedule.html.twig',
-                $viewData,
-                new Response('', Response::HTTP_NOT_FOUND)
-            );
-        }
-
-        return $this->renderWithChrome('schedules/by_day.html.twig', $viewData);
+        // If there are no broadcasts, then the status code should be 404, so
+        // that search engines do not index thousands of empty pages
+        $response = new Response('', $broadcasts ? 200 : 404);
+        return $this->renderWithChrome('schedules/by_day.html.twig', $viewData, $response);
     }
 
     private function viewData(
