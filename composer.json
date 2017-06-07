@@ -20,6 +20,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
+        "ext-intl": "*",
         "ext-redis": "*",
         "bbc-rmp/translate": "^1.8",
         "bbc/branding-client": "^2.0",

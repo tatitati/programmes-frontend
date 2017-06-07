@@ -11,8 +11,7 @@
             </span>
         </span>
             <time class="date">
-                {#@TODO deal with international services always showing UTC rather than using GMT/BST ?#}
-                {{ start_date.format('l j F Y') }}
+                {{ start_date|dateFormat('eeee d MMMM Y') }}
             </time>
         </h1>
     </div>

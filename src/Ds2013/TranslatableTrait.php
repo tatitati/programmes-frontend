@@ -2,12 +2,36 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
+use DateTimeInterface;
+use IntlDateFormatter;
 use RMP\Translate\Translate;
 
 trait TranslatableTrait
 {
     /** @var Translate */
     protected $translate;
+
+    /**
+     * @param DateTimeInterface $dateTime
+     * @param string $format    Format must be in ICU format
+     *
+     * @see http://userguide.icu-project.org/formatparse/datetime
+     *
+     * @return bool|string
+     */
+    protected function dateFormat(DateTimeInterface $dateTime, string $format)
+    {
+        $formatter = IntlDateFormatter::create(
+            $this->translate->getLocale(),
+            IntlDateFormatter::NONE,
+            IntlDateFormatter::NONE,
+            $dateTime->getTimezone(),
+            IntlDateFormatter::GREGORIAN,
+            $format
+        );
+
+        return $formatter->format($dateTime->getTimestamp());
+    }
 
     protected function tr(
         string $key,

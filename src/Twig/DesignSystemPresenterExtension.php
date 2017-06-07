@@ -5,10 +5,12 @@ namespace App\Twig;
 use App\Ds2013\Presenter as Ds2013Presenter;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
 use App\Ds2013\TranslatableTrait;
+use DateTimeInterface;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
 use RMP\Translate\Translate;
+use Twig_SimpleFilter;
 
 class DesignSystemPresenterExtension extends Twig_Extension
 {
@@ -33,6 +35,16 @@ class DesignSystemPresenterExtension extends Twig_Extension
     {
         $this->translate = $translate;
         $this->ds2013PresenterFactory->setTranslate($this->translate);
+    }
+
+    /**
+     * @return Twig_SimpleFilter[]
+     */
+    public function getFilters(): array
+    {
+        return [
+            new Twig_SimpleFilter('dateFormat', [$this, 'dateFormatWrapper']),
+        ];
     }
 
     /**
@@ -61,6 +73,11 @@ class DesignSystemPresenterExtension extends Twig_Extension
         ?string $domain = null
     ): string {
         return $this->tr($key, $substitutions, $numPlurals, $domain);
+    }
+
+    public function dateFormatWrapper(DateTimeInterface $dateTime, string $format): string
+    {
+        return $this->dateFormat($dateTime, $format);
     }
 
     public function ds2013(

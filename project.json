@@ -8,6 +8,7 @@
         },
         "requires": [
             "programmes-rds-loadbalancer",
+            "php71u-intl",
             "php71u-mbstring",
             "php71u-mysqlnd",
             "php71u-pecl-apcu",

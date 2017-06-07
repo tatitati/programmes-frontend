@@ -32,10 +32,10 @@
 
     {% macro dateLines(datetime) %}
         <span class="date-list__item-line1">
-            {{ datetime.isToday ? tr('schedules_today') : datetime.format('D') }}
+            {{ datetime.isToday ? tr('schedules_today') : datetime|dateFormat('eee') }}
         </span>
         <span class="date-list__item-line2">
-            {{ datetime.format('d M') }}
+            {{ datetime|dateFormat('d MMM') }}
         </span>
     {% endmacro %}
 {% endspaceless %}
