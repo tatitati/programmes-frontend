@@ -16,9 +16,6 @@ class SchedulesByDayPagePresenter extends Presenter
     /** @var Chronos */
     private $startDate;
 
-    /** @var Chronos */
-    private $endDate;
-
     /** @var Broadcast[] */
     private $broadcasts;
 
@@ -37,7 +34,6 @@ class SchedulesByDayPagePresenter extends Presenter
     public function __construct(
         Service $service,
         Chronos $startDate,
-        Chronos $endDate,
         array $broadcasts,
         ?string $routeDate,
         array $servicesInNetwork,
@@ -46,7 +42,6 @@ class SchedulesByDayPagePresenter extends Presenter
         parent::__construct($options);
         $this->service = $service;
         $this->startDate = $startDate;
-        $this->endDate = $endDate;
         $this->broadcasts = $broadcasts;
         $this->routeDate = $routeDate;
         $this->servicesInNetwork = $servicesInNetwork;
@@ -62,11 +57,6 @@ class SchedulesByDayPagePresenter extends Presenter
     public function getStartDate(): Chronos
     {
         return $this->startDate;
-    }
-
-    public function getEndDate(): Chronos
-    {
-        return $this->endDate;
     }
 
     public function getRouteDate(): ?string

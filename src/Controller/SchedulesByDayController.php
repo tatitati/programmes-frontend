@@ -43,7 +43,6 @@ class SchedulesByDayController extends BaseController
         $pagePresenter = $presenterFactory->schedulesByDayPagePresenter(
             $service,
             $startDateTime,
-            $endDateTime,
             $broadcasts,
             $date,
             $servicesInNetwork
