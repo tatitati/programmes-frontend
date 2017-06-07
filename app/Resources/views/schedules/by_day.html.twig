@@ -11,14 +11,14 @@
             </span>
         </span>
             <time class="date">
-                {{ start_date|dateFormat('eeee d MMMM Y') }}
+                {{ broadcast_day_start|dateFormat('eeee d MMMM Y') }}
             </time>
         </h1>
     </div>
 
     <nav class="schedule-nav-wrapper fixedsticky">
         <div id="schedule-daynav" class="centi br-box-highlight {{ service.isTv ? 'g-o-l' : 'g-f-l' }}">
-            {{ ds2013('dateList', start_date, service) }}
+            {{ ds2013('dateList', broadcast_day_start, service) }}
         </div>
     </nav>
 

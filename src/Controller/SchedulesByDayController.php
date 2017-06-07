@@ -62,12 +62,12 @@ class SchedulesByDayController extends BaseController
 
     private function viewData(
         Service $service,
-        Chronos $startDateTime,
+        Chronos $broadcastDayStart,
         SchedulesByDayPagePresenter $pagePresenter
     ): array {
         return [
             'service' => $service,
-            'start_date' => $startDateTime,
+            'broadcast_day_start' => $broadcastDayStart,
             'page_presenter' => $pagePresenter,
         ];
     }

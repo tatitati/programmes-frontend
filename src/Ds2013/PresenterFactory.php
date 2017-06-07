@@ -116,7 +116,7 @@ class PresenterFactory
      */
     public function schedulesByDayPagePresenter(
         Service $service,
-        Chronos $startDateTime,
+        Chronos $broadcastDayStart,
         array $broadcasts,
         ?string $routeDate,
         array $servicesInNetwork,
@@ -124,7 +124,7 @@ class PresenterFactory
     ) {
         return new SchedulesByDayPagePresenter(
             $service,
-            $startDateTime,
+            $broadcastDayStart,
             $broadcasts,
             $routeDate,
             $servicesInNetwork,

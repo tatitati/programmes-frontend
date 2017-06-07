@@ -14,7 +14,7 @@ class SchedulesByDayPagePresenter extends Presenter
     private $service;
 
     /** @var Chronos */
-    private $startDate;
+    private $broadcastDayStart;
 
     /** @var Broadcast[] */
     private $broadcasts;
@@ -33,7 +33,7 @@ class SchedulesByDayPagePresenter extends Presenter
 
     public function __construct(
         Service $service,
-        Chronos $startDate,
+        Chronos $broadcastDayStart,
         array $broadcasts,
         ?string $routeDate,
         array $servicesInNetwork,
@@ -41,7 +41,7 @@ class SchedulesByDayPagePresenter extends Presenter
     ) {
         parent::__construct($options);
         $this->service = $service;
-        $this->startDate = $startDate;
+        $this->broadcastDayStart = $broadcastDayStart;
         $this->broadcasts = $broadcasts;
         $this->routeDate = $routeDate;
         $this->servicesInNetwork = $servicesInNetwork;
@@ -54,9 +54,9 @@ class SchedulesByDayPagePresenter extends Presenter
         return $this->service;
     }
 
-    public function getStartDate(): Chronos
+    public function getBroadcastDayStart(): Chronos
     {
-        return $this->startDate;
+        return $this->broadcastDayStart;
     }
 
     public function getRouteDate(): ?string
@@ -111,7 +111,7 @@ class SchedulesByDayPagePresenter extends Presenter
             //     $periods_of_day[$period][] = $this->_broadcastGap($prior_broadcast->end, $broadcast->start);
             // }
 
-            $period = $this->getBroadcastPeriodWord($broadcast, $this->startDate);
+            $period = $this->getBroadcastPeriodWord($broadcast, $this->broadcastDayStart);
             $intervalsDay[$period][] = $broadcast;
         }
 
