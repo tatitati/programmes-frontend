@@ -2,10 +2,13 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use BBC\BrandingClient\BrandingClient;
+use BBC\BrandingClient\OrbitClient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Twig\DesignSystemPresenterExtension;
+use RMP\Translate\TranslateFactory;
 
 abstract class BaseController extends Controller
 {
@@ -20,7 +23,7 @@ abstract class BaseController extends Controller
     {
         // Using $_GET is ugly, work out a way to get to the Request object
         // without having to pass it around everywhere
-        $brandingClient = $this->container->get('app.branding_client');
+        $brandingClient = $this->container->get(BrandingClient::class);
         $branding = $brandingClient->getContent(
             $this->brandingId,
             $_GET[$brandingClient::PREVIEW_PARAM] ?? null
@@ -32,11 +35,11 @@ abstract class BaseController extends Controller
         $designSystemPresenterExtension = $this->container->get(DesignSystemPresenterExtension::class);
 
         if ($locale != $designSystemPresenterExtension->getTranslate()->getLocale()) {
-            $translate = $this->container->get('app.translate_factory')->create($locale);
+            $translate = $this->container->get(TranslateFactory::class)->create($locale);
             $designSystemPresenterExtension->setTranslate($translate);
         }
 
-        $orb = $this->container->get('app.orbit_client')->getContent([
+        $orb = $this->container->get(OrbitClient::class)->getContent([
             'variant' => $branding->getOrbitVariant(),
             'language' => $locale,
         ], [

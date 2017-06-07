@@ -57,7 +57,7 @@ services:
 
     ### Http Clients
 
-    app.orbit_client:
+    BBC\BrandingClient\OrbitClient:
         public: true
         class: '%app.orbit_client.class%'
         arguments:
@@ -65,7 +65,7 @@ services:
             - '@cache.app_page_chrome'
             - { env: '%app.orbit_client.env%', mustache: { cache: '%kernel.cache_dir%/mustache' } }
 
-    app.branding_client:
+    BBC\BrandingClient\BrandingClient:
         public: true
         class: '%app.branding_client.class%'
         arguments:
@@ -75,9 +75,8 @@ services:
 
     ### Translations
 
-    app.translate_factory:
+    RMP\Translate\TranslateFactory:
         public: true
-        class: RMP\Translate\TranslateFactory
         arguments:
             - fallback_locale: 'en_GB'
               cachepath: '%kernel.cache_dir%/translations'
@@ -87,8 +86,7 @@ services:
               basepath: '%kernel.project_dir%/app/Resources/translations'
 
     RMP\Translate\Translate:
-        autowire: false
-        factory: ['@app.translate_factory', 'create']
+        factory: ['@RMP\Translate\TranslateFactory', 'create']
         arguments: ['%app.default_locale%']
 
     ## Twig Extension
