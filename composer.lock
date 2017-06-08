@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "03db4cf7aeaffa9d0b2f47d9daf160e0",
+    "content-hash": "555411cc4a92a54f695cd53d06af8329",
     "packages": [
         {
             "name": "bbc-rmp/translate",
@@ -212,16 +212,16 @@
         },
         {
             "name": "bbc/programmes-pages-service",
-            "version": "v2.1.8",
+            "version": "v2.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "d8eb53318d8491abee5e70e577561bddfee4ff1b"
+                "reference": "1a5735d68f8258eee47026779df4608dab4736b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/d8eb53318d8491abee5e70e577561bddfee4ff1b",
-                "reference": "d8eb53318d8491abee5e70e577561bddfee4ff1b",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/1a5735d68f8258eee47026779df4608dab4736b6",
+                "reference": "1a5735d68f8258eee47026779df4608dab4736b6",
                 "shasum": ""
             },
             "require": {
@@ -259,10 +259,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/v2.1.8",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/v2.1.9",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-06-01T14:19:29+00:00"
+            "time": "2017-06-08T15:47:38+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -2552,16 +2552,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.3.0",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "5a7e31c48e7cd4831efa409fffb661beb9995174"
+                "reference": "82bd7c039214b34bb5d12c04f996f05f6581c49f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/5a7e31c48e7cd4831efa409fffb661beb9995174",
-                "reference": "5a7e31c48e7cd4831efa409fffb661beb9995174",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/82bd7c039214b34bb5d12c04f996f05f6581c49f",
+                "reference": "82bd7c039214b34bb5d12c04f996f05f6581c49f",
                 "shasum": ""
             },
             "require": {
@@ -2578,7 +2578,7 @@
                 "symfony/polyfill-php56": "~1.0",
                 "symfony/polyfill-php70": "~1.0",
                 "symfony/polyfill-util": "~1.0",
-                "twig/twig": "~1.32|~2.2"
+                "twig/twig": "~1.34|~2.4"
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0",
@@ -2701,20 +2701,20 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-05-29T21:02:32+00:00"
+            "time": "2017-06-06T04:00:14+00:00"
         },
         {
             "name": "twig/twig",
-            "version": "v2.3.2",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "85e8372c451510165c04bf781295f9d922fa524b"
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/85e8372c451510165c04bf781295f9d922fa524b",
-                "reference": "85e8372c451510165c04bf781295f9d922fa524b",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/eab7c3288ae6603d7d6f92b531626af2b162d1f2",
+                "reference": "eab7c3288ae6603d7d6f92b531626af2b162d1f2",
                 "shasum": ""
             },
             "require": {
@@ -2729,12 +2729,15 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
                     "Twig_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2764,7 +2767,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-04-21T00:13:02+00:00"
+            "time": "2017-06-07T18:47:58+00:00"
         }
     ],
     "packages-dev": [
@@ -2886,22 +2889,22 @@
         },
         {
             "name": "escapestudios/symfony2-coding-standard",
-            "version": "2.10.1",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/djoos/Symfony2-coding-standard.git",
-                "reference": "fdf8de2c4de016abb5ea6b6015f80c47f1f6301b"
+                "url": "https://github.com/djoos/Symfony-coding-standard.git",
+                "reference": "4aea10ad53d1952b2cfd8f7c9afe5e481dd574bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/djoos/Symfony2-coding-standard/zipball/fdf8de2c4de016abb5ea6b6015f80c47f1f6301b",
-                "reference": "fdf8de2c4de016abb5ea6b6015f80c47f1f6301b",
+                "url": "https://api.github.com/repos/djoos/Symfony-coding-standard/zipball/4aea10ad53d1952b2cfd8f7c9afe5e481dd574bc",
+                "reference": "4aea10ad53d1952b2cfd8f7c9afe5e481dd574bc",
                 "shasum": ""
             },
             "require": {
                 "squizlabs/php_codesniffer": "~2.0"
             },
-            "type": "coding-standard",
+            "type": "phpcodesniffer-standard",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.x-dev"
@@ -2929,7 +2932,7 @@
                 "phpcs",
                 "symfony"
             ],
-            "time": "2017-05-05T08:51:47+00:00"
+            "time": "2017-06-08T10:48:30+00:00"
         },
         {
             "name": "liip/functional-test-bundle",
@@ -4394,16 +4397,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.3.0",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "1a09124ea479cca85fc66a6f21e59aa952ebed1f"
+                "reference": "acae7416018ebe5a7a2d79b4221203b2b8aca5d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/1a09124ea479cca85fc66a6f21e59aa952ebed1f",
-                "reference": "1a09124ea479cca85fc66a6f21e59aa952ebed1f",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/acae7416018ebe5a7a2d79b4221203b2b8aca5d3",
+                "reference": "acae7416018ebe5a7a2d79b4221203b2b8aca5d3",
                 "shasum": ""
             },
             "require": {
@@ -4452,7 +4455,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-05-28T11:10:04+00:00"
+            "time": "2017-06-01T14:45:22+00:00"
         },
         {
             "name": "theseer/tokenizer",
