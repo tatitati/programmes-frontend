@@ -4,6 +4,7 @@ namespace App\Ds2013\Page\Schedules\ByDayPage;
 
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use DateTimeZone;
@@ -102,17 +103,25 @@ class SchedulesByDayPagePresenter extends Presenter
             'late' => [],
         ];
 
-        //$prior_broadcast = null;
+        $priorBroadcast = null;
         foreach ($this->broadcasts as $broadcast) {
-            // // If the end of the prior is earlier than the start of this broadcast
-            // // then inject a broadcast gap object.
-            // if ($prior_broadcast && $prior_broadcast->end->compare($broadcast->start) == -1) {
-            //     $period = $this->_getBroadcastPeriod($prior_broadcast->end, $day, $use_timezones);
-            //     $periods_of_day[$period][] = $this->_broadcastGap($prior_broadcast->end, $broadcast->start);
-            // }
+            // If there is space between the start of the current broadcast and
+            // the end of the prior broadcast then inject a broadcast gap
+            if ($priorBroadcast && $broadcast->getStartAt()->gt($priorBroadcast->getEndAt())) {
+                $broadcastGap = new BroadcastGap(
+                    $this->service,
+                    $priorBroadcast->getEndAt(),
+                    $broadcast->getStartAt()
+                );
+
+                $period = $this->getBroadcastPeriodWord($broadcastGap, $this->broadcastDayStart);
+                $intervalsDay[$period][] = $broadcastGap;
+            }
 
             $period = $this->getBroadcastPeriodWord($broadcast, $this->broadcastDayStart);
             $intervalsDay[$period][] = $broadcast;
+
+            $priorBroadcast = $broadcast;
         }
 
         return array_filter($intervalsDay);
@@ -162,11 +171,11 @@ class SchedulesByDayPagePresenter extends Presenter
      * Evening - 6pm until midnight
      * Late - midnight until 6am the next day
      *
-     * @param Broadcast $broadcast
+     * @param Broadcast|BroadcastGap $broadcast
      * @param Chronos $selectedDate
      * @return string
      */
-    private function getBroadcastPeriodWord(Broadcast $broadcast, Chronos $selectedDate): string
+    private function getBroadcastPeriodWord($broadcast, Chronos $selectedDate): string
     {
         $selectedDayEnd = $selectedDate->endOfDay();
 

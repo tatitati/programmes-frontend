@@ -9,7 +9,6 @@ use App\Ds2013\Organism\Programme\ProgrammePresenter;
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\Ds2013\Page\Schedules\NetworkServicesList\NetworkServicesListPresenter;
 use App\Ds2013\Page\Schedules\RegionPick\RegionPickPresenter;
-use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -102,7 +101,7 @@ class PresenterFactory
     }
 
     public function broadcastPresenter(
-        Broadcast $broadcast,
+        $broadcast,
         array $options = []
     ): BroadcastPresenter {
         return new BroadcastPresenter(

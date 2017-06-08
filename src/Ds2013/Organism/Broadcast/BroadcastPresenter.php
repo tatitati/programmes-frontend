@@ -4,7 +4,9 @@ namespace App\Ds2013\Organism\Broadcast;
 
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use Cake\Chronos\Chronos;
+use InvalidArgumentException;
 
 class BroadcastPresenter extends Presenter
 {
@@ -16,15 +18,24 @@ class BroadcastPresenter extends Presenter
         'steal_blocklink' => true,
     ];
 
-    /** @var Broadcast */
+    /** @var Broadcast|BroadcastGap */
     private $broadcast;
 
     private $now;
 
     public function __construct(
-        Broadcast $broadcast,
+        $broadcast,
         array $options = []
     ) {
+        if (!($broadcast instanceof Broadcast || $broadcast instanceof BroadcastGap)) {
+            throw new InvalidArgumentException(sprintf(
+                'Expected $broadcast to be an instance of "%s" or "%s". Found instance of "%s"',
+                Broadcast::CLASS,
+                BroadcastGap::CLASS,
+                (is_object($broadcast) ? get_class($broadcast) : gettype($broadcast))
+            ));
+        }
+
         parent::__construct($options);
         $this->broadcast = $broadcast;
         $this->now = Chronos::now('Europe/London');
@@ -52,6 +63,10 @@ class BroadcastPresenter extends Presenter
 
     public function getProgrammeItem()
     {
+        if ($this->broadcast instanceof BroadcastGap) {
+            return null;
+        }
+
         return $this->broadcast->getProgrammeItem();
     }
 

@@ -29,20 +29,28 @@
 
             {#end time and zone#}
             <meta property="endDate" datatype="xsd:dateTime" content="{{ broadcast.endAt|date('c')}}" />
-            <span property="publishedOn" typeof="BroadcastService" resource="{{ path('schedules_by_day', {'pid' : broadcast.servicePid }) }}>">
+            <span property="publishedOn" typeof="BroadcastService" resource="{{ path('schedules_by_day', {'pid' : broadcast.servicePid }) }}">
                 <meta property="name" content="{{ broadcast.serviceName }}" />
             </span>
 
-            {% if broadcast.isOnAirNow %}
+            {% if not broadcast.programmeItem %}
+                <div class="broadcast__live centi br-box-subtle">
+                    {{ tr('off_air') }}
+                </div>
+            {% elseif broadcast.isOnAirNow %}
                 <div class="broadcast__live centi br-box-highlight">
                     {{ tr(broadcast.onAirMessage) }}
                 </div>
             {% endif %}
         </div>
         <div class="broadcast__programme grid {{ programme_classes }}" rev="publication">
-            <div class="grid__inner">
-
-            </div>
+            {% if broadcast.programmeItem %}
+                {# TODO Render Programme Presenter #}
+            {% else %}
+                <p class="text--subtle centi" data-timezone="true" content="{{ broadcast.endAt|date('c') }}">
+                    {{ tr('programmes_resume_at', {'%1': '<span class="timezone--time">' ~ broadcast.endAt|date('H:i') ~ '</span>'})|raw }}
+                </p>
+            {% endif %}
         </div>
     </div>
 </div>
