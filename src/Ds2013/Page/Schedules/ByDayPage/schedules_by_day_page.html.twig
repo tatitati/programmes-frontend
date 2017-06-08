@@ -71,9 +71,9 @@
     </ol>
 {% else %}
     <p class="noschedule">
-        {% if schedules_by_day_page.service.startDate and schedules_by_day_page.broadcast_day_start < schedules_by_day_page.service.startDate %}
+        {% if schedules_by_day_page.service.startDate and schedules_by_day_page.broadcastDayStart < schedules_by_day_page.service.startDate %}
             {{ tr('schedule_begins_on', {'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': schedules_by_day_page.service.startDate|date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.service.startDate|date("l j F Y") ~ '</a>'})|raw }}
-        {% elseif schedules_by_day_page.service.endDate and schedules_by_day_page.broadcast_day_start > schedules_by_day_page.service.endDate %}
+        {% elseif schedules_by_day_page.service.endDate and schedules_by_day_page.broadcastDayStart > schedules_by_day_page.service.endDate %}
             {{ tr('schedule_ended_on',{'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': schedules_by_day_page.service.endDate|date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.service.endDate|date("l j F Y") ~ '</a>'})|raw }}
         {% else %}
             {{ tr('schedules_no_result') }}
