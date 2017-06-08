@@ -30,7 +30,7 @@ class BroadcastDay
     /** @var Chronos */
     private $end;
 
-    public function __construct(Chronos $date, string $networkMedium)
+    public function __construct(Chronos $dateTime, string $networkMedium)
     {
         if (!in_array($networkMedium, [NetworkMediumEnum::RADIO, NetworkMediumEnum::TV, NetworkMediumEnum::UNKNOWN])) {
             throw new InvalidArgumentException(sprintf(
@@ -43,14 +43,14 @@ class BroadcastDay
         if ($networkMedium == NetworkMediumEnum::TV) {
             // If the time is before 6am, then the broadcast day begins at 6am
             // on the previous day
-            if ($date->lt($date->setTime(6, 0, 0))) {
-                $date = $date->addDays(-1);
+            if ($dateTime->hour < 6) {
+                $dateTime = $dateTime->subDays(1);
             }
 
-            $this->start = $date->setTime(6, 0, 0);
+            $this->start = $dateTime->setTime(6, 0, 0);
             $this->end = $this->start->addHours(24);
         } else {
-            $this->start = $date->setTime(0, 0, 0);
+            $this->start = $dateTime->setTime(0, 0, 0);
             $this->end = $this->start->addHours(30);
         }
     }

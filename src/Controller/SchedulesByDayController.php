@@ -93,6 +93,6 @@ class SchedulesByDayController extends BaseController
 
         // If a date has been provided, use the broadcast date for midday on
         // the given date
-        return Chronos::createFromFormat('Y-m-d H:i:s|', $dateString . '12:00:00', 'Europe/London');
+        return Chronos::createFromFormat('Y-m-d H:i:s', $dateString . '12:00:00', 'Europe/London');
     }
 }
