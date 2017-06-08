@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -9,6 +10,11 @@ class AppKernel extends Kernel
     {
         date_default_timezone_set(@date_default_timezone_get());
         parent::__construct($environment, $debug);
+
+        // For testing if you need to fix to an exact time
+        // \BBC\ProgrammesPagesService\Domain\ApplicationTime::setTime(
+        //     (int) (new DateTimeImmutable('2016-01-03 03:00:00Z'))->format('U')
+        // );
     }
 
     public function registerBundles()
