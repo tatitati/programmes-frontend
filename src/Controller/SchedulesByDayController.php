@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\Ds2013\PresenterFactory;
+use App\ValueObject\BroadcastDay;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -23,26 +24,38 @@ class SchedulesByDayController extends BaseController
         BroadcastsService $broadcastService,
         PresenterFactory $presenterFactory
     ) {
+        $dateTimeToShow = $this->dateTimeToShow($date);
+        if (!$dateTimeToShow) {
+            throw $this->createNotFoundException('Invalid date');
+        }
+
         $service = $servicesService->findByPidFull($pid);
         if (!$service) {
             throw $this->createNotFoundException('Service not found');
         }
 
-        list($startDateTime, $endDateTime) = $this->getStartAndEndTimes($service->isTV(), $date);
+        $broadcastDay = new BroadcastDay($dateTimeToShow, $service->getNetwork()->getMedium());
 
         // Get all services that belong to this network
-        $servicesInNetwork = $servicesService->findAllInNetworkActiveOn($service->getNetwork()->getNid(), $startDateTime);
+        $servicesInNetwork = $servicesService->findAllInNetworkActiveOn(
+            $service->getNetwork()->getNid(),
+            $broadcastDay->start()
+        );
 
         $broadcasts = [];
 
-        if ($service->isActiveAt($startDateTime)) {
+        if ($service->isActiveAt($broadcastDay->start())) {
             // Get broadcasts in relevant period
-            $broadcasts = $broadcastService->findByServiceAndDateRange($service->getSid(), $startDateTime, $endDateTime);
+            $broadcasts = $broadcastService->findByServiceAndDateRange(
+                $service->getSid(),
+                $broadcastDay->start(),
+                $broadcastDay->end()
+            );
         }
 
         $pagePresenter = $presenterFactory->schedulesByDayPagePresenter(
             $service,
-            $startDateTime,
+            $broadcastDay->start(),
             $broadcasts,
             $date,
             $servicesInNetwork
@@ -50,7 +63,7 @@ class SchedulesByDayController extends BaseController
 
         $viewData = $this->viewData(
             $service,
-            $startDateTime,
+            $broadcastDay->start(),
             $pagePresenter
         );
 
@@ -72,45 +85,14 @@ class SchedulesByDayController extends BaseController
         ];
     }
 
-    /**
-     * Radio schedules run midnight to 6AM
-     * TV schedules run 6AM to 6AM
-     * This method works out which times should be used for retrieving broadcasts.
-     *
-     * @param bool $serviceIsTv
-     * @param null|string $date in Y-m-d format
-     * @return Chronos[] StartDate and EndDate
-     */
-    private function getStartAndEndTimes(bool $serviceIsTv, ?string $date): array
+    private function dateTimeToShow(?string $dateString): Chronos
     {
-        $tvOffsetHours = 6;
-        if ($date) {
-            // Try and create a date from the one provided
-            $startDateTime = Chronos::createFromFormat('Y-m-d|', $date, 'Europe/London');
-
-            if (!$startDateTime) {
-                throw $this->createNotFoundException('Invalid date');
-            }
-        } else {
-            // Otherwise use now
-            $startDateTime = Chronos::today('Europe/London');
-
-            // If a user is viewing the TV schedule between midnight and 6AM, we actually want to display yesterday's schedule.
-            if ($serviceIsTv && $startDateTime->wasWithinLast($tvOffsetHours . ' hours')) {
-                $startDateTime = Chronos::yesterday('Europe/London');
-            }
+        if (!$dateString) {
+            return Chronos::now('Europe/London');
         }
 
-        $scheduleHours = '30';
-
-        // set day interval time
-        if ($serviceIsTv) {
-            $startDateTime = $startDateTime->addHours($tvOffsetHours);
-            $scheduleHours = '24';
-        }
-
-        $endDateTime = $startDateTime->addHours($scheduleHours);
-
-        return [$startDateTime, $endDateTime];
+        // If a date has been provided, use the broadcast date for midday on
+        // the given date
+        return Chronos::createFromFormat('Y-m-d H:i:s|', $dateString . '12:00:00', 'Europe/London');
     }
 }
