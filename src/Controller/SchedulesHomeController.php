@@ -18,7 +18,7 @@ class SchedulesHomeController extends BaseController
             'Regional Radio' => [],
             'Local Radio' => [],
             'Other' => [],
-            'Historical' => [],
+            'Historic' => [],
         ];
 
         $services = $servicesService->getAllInNetworks();
@@ -96,7 +96,7 @@ class SchedulesHomeController extends BaseController
     private function groupKeyForService(Service $service): string
     {
         if ($service->getEndDate()) {
-            return 'Historical';
+            return 'Historic';
         }
 
         $type = $service->getNetwork()->getType();
