@@ -12,7 +12,7 @@ class ProgrammePresenter extends Presenter
     use TranslatableTrait;
 
     protected $options = [
-        'showSynosis' => true,
+        'showSynopsis' => true,
     ];
 
     /** @var Programme */
@@ -41,10 +41,5 @@ class ProgrammePresenter extends Presenter
     public function showSynopsis(): bool
     {
         return $this->options['showSynopsis'];
-    }
-
-    public function getLocale(): string
-    {
-        return $this->translate->getLocale();
     }
 }
