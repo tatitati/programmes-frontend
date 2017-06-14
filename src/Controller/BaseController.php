@@ -6,17 +6,27 @@ namespace App\Controller;
 use App\ValueObject\MetaContext;
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\OrbitClient;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Twig\DesignSystemPresenterExtension;
 use RMP\Translate\TranslateFactory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-abstract class BaseController extends Controller
+abstract class BaseController extends AbstractController
 {
     private $brandingId = 'br-00001';
     private $context;
+
+    public static function getSubscribedServices()
+    {
+        return array_merge(parent::getSubscribedServices(), [
+            BrandingClient::class,
+            OrbitClient::class,
+            DesignSystemPresenterExtension::class,
+            TranslateFactory::class,
+        ]);
+    }
 
     protected function getCanonicalUrl(): string
     {

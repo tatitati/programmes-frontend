@@ -56,7 +56,6 @@ services:
     ### Http Clients
 
     BBC\BrandingClient\OrbitClient:
-        public: true
         class: '%app.orbit_client.class%'
         arguments:
             - '@csa_guzzle.client.default'
@@ -64,7 +63,6 @@ services:
             - { env: '%app.orbit_client.env%', mustache: { cache: '%kernel.cache_dir%/mustache' } }
 
     BBC\BrandingClient\BrandingClient:
-        public: true
         class: '%app.branding_client.class%'
         arguments:
             - '@csa_guzzle.client.default'
@@ -74,7 +72,6 @@ services:
     ### Translations
 
     RMP\Translate\TranslateFactory:
-        public: true
         arguments:
             - fallback_locale: 'en_GB'
               cachepath: '%kernel.cache_dir%/translations'
@@ -86,14 +83,6 @@ services:
     RMP\Translate\Translate:
         factory: ['@RMP\Translate\TranslateFactory', 'create']
         arguments: ['%app.default_locale%']
-
-    ## Twig Extension
-
-    # This needs to be public as we may end up injecting a new Translate
-    # instance into it, if the programme options say the language should be one
-    # other than the default
-    App\Twig\DesignSystemPresenterExtension:
-        public: true
 
     ### Monitoring
 
