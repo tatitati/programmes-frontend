@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html class="{{ branding.orbitThemeClasses|raw }} {% block html_classes %}{% endblock %}" lang="{{ branding.options.language|default('en') }}">
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
-        <link rel="icon" href="http://www.bbc.co.uk/favicon.ico" type="image/x-icon" />
-        <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}" />
+        <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon"/>
+        <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}"/>
+        <meta name="description" content="{{ metaContext.description }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta property="og:site_name" content="BBC">
+        <meta property="og:title" content="{{ block('title') }}">
+        <meta property="og:type" content="website">
+        <link rel="canonical" href="{{ canonical }}">
+        <meta property="og:url" content="{{ canonical }}">
+        <meta property="og:description" content="{{ metaContext.description }}">
+        <meta property="og:image" content="{{ metaContext.image.getUrl(1200, 675) }}">
+        <meta name="msapplication-square150x150logo" content="{{ metaContext.image.getUrl(160, 160) }}">
+        {% if(metaContext.isRadio) %}
+            <meta name="apple-itunes-app"
+                  content="app-id=560458506, app-argument={{ canonical }}?bbc_referrer={{ canonical|url_encode }}">
+        {% endif %}
+
         {{ orb.head|raw }}
         {{ branding.head|raw }}
 

@@ -30,6 +30,8 @@ class SchedulesByDayController extends BaseController
         }
 
         $service = $servicesService->findByPidFull($pid);
+        $this->setContext($service);
+
         if (!$service) {
             throw $this->createNotFoundException('Service not found');
         }

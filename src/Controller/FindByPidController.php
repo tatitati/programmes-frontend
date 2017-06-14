@@ -14,6 +14,7 @@ class FindByPidController extends BaseController
         // TODO lookup programme or group in one request
         $programme = $programmesService->findByPidFull($pid);
         if ($programme) {
+            $this->setContext($programme);
             return $this->programmeResponse($programme);
         }
 

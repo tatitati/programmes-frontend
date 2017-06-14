@@ -1,5 +1,9 @@
 {% extends 'base_ds2013.html.twig' %}
 
+{%- block title -%}
+    {{ metaContext.titlePrefix() }} - {{ tr('schedules') }}, {{ broadcast_day_start|dateFormat('eeee d MMMM Y') }}
+{%- endblock -%}
+
 {% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
 
 {% block body %}
