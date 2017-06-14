@@ -43,7 +43,7 @@ class DesignSystemPresenterExtension extends Twig_Extension
     public function getFilters(): array
     {
         return [
-            new Twig_SimpleFilter('dateFormat', [$this, 'dateFormatWrapper']),
+            new Twig_SimpleFilter('localDate', [$this, 'localDateWrapper']),
         ];
     }
 
@@ -75,9 +75,9 @@ class DesignSystemPresenterExtension extends Twig_Extension
         return $this->tr($key, $substitutions, $numPlurals, $domain);
     }
 
-    public function dateFormatWrapper(DateTimeInterface $dateTime, string $format): string
+    public function localDateWrapper(DateTimeInterface $dateTime, string $format): string
     {
-        return $this->dateFormat($dateTime, $format);
+        return $this->localDate($dateTime, $format);
     }
 
     public function ds2013(

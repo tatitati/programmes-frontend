@@ -19,7 +19,7 @@ trait TranslatableTrait
      *
      * @return bool|string
      */
-    protected function dateFormat(DateTimeInterface $dateTime, string $format)
+    protected function localDate(DateTimeInterface $dateTime, string $format)
     {
         $formatter = IntlDateFormatter::create(
             $this->translate->getLocale(),
