@@ -22,6 +22,8 @@ class SchedulesByDayController extends BaseController
         ServicesService $servicesService,
         BroadcastsService $broadcastService
     ) {
+        $this->setBrandingId('br-08368');
+
         $dateTimeToShow = $this->dateTimeToShow($date);
         if (!$dateTimeToShow) {
             throw $this->createNotFoundException('Invalid date');
