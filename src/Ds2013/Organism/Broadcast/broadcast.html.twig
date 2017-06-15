@@ -46,7 +46,6 @@
         <div class="broadcast__programme grid {{ programme_classes }}" rev="publication">
             {%- if broadcast.programmeItem -%}
                 {{- ds2013('programme', broadcast.programmeItem) -}}
-                {# TODO Render Programme Presenter #}
             {%- else -%}
                 <p class="text--subtle centi" data-timezone="true" content="{{ broadcast.endAt|date('c') }}">
                     {{- tr('programmes_resume_at', {'%1': '<span class="timezone--time">' ~ broadcast.endAt|date('H:i') ~ '</span>'})|raw -}}
