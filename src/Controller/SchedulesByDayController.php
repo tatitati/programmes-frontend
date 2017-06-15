@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
-use App\Ds2013\PresenterFactory;
 use App\ValueObject\BroadcastDay;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
@@ -21,8 +20,7 @@ class SchedulesByDayController extends BaseController
         Pid $pid,
         ?string $date,
         ServicesService $servicesService,
-        BroadcastsService $broadcastService,
-        PresenterFactory $presenterFactory
+        BroadcastsService $broadcastService
     ) {
         $dateTimeToShow = $this->dateTimeToShow($date);
         if (!$dateTimeToShow) {
@@ -55,7 +53,7 @@ class SchedulesByDayController extends BaseController
             );
         }
 
-        $pagePresenter = $presenterFactory->schedulesByDayPagePresenter(
+        $pagePresenter = new SchedulesByDayPagePresenter(
             $service,
             $broadcastDay->start(),
             $broadcasts,

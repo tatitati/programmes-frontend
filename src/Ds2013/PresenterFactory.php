@@ -6,9 +6,6 @@ use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
-use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
-use App\Ds2013\Page\Schedules\NetworkServicesList\NetworkServicesListPresenter;
-use App\Ds2013\Page\Schedules\RegionPick\RegionPickPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -106,27 +103,6 @@ class PresenterFactory
     ): BroadcastPresenter {
         return new BroadcastPresenter(
             $broadcast,
-            $options
-        );
-    }
-
-    /**
-     * Page Presenters
-     */
-    public function schedulesByDayPagePresenter(
-        Service $service,
-        Chronos $broadcastDayStart,
-        array $broadcasts,
-        ?string $routeDate,
-        array $servicesInNetwork,
-        array $options = []
-    ) {
-        return new SchedulesByDayPagePresenter(
-            $service,
-            $broadcastDayStart,
-            $broadcasts,
-            $routeDate,
-            $servicesInNetwork,
             $options
         );
     }
