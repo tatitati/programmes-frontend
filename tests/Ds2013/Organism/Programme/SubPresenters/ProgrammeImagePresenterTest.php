@@ -10,18 +10,28 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 use Tests\App\TwigEnvironmentProvider;
 
 class ProgrammeImagePresenterTest extends TestCase
 {
-    private $mockRouter;
+    private $router;
 
     private $mockTranslationsHelper;
 
     public function setUp()
     {
-        $this->mockRouter = $this->createMock(UrlGeneratorInterface::class);
+        $routeCollectionBuilder = new RouteCollectionBuilder();
+        $routeCollectionBuilder->add('/programmes/{pid}', '', 'find_by_pid');
+        $routeCollectionBuilder->add('/iplayer/{pid}', '', 'iplayer_play');
+
+        $this->router = new UrlGenerator(
+            $routeCollectionBuilder->build(),
+            new RequestContext()
+        );
+
         $this->mockTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
     }
 
@@ -35,7 +45,7 @@ class ProgrammeImagePresenterTest extends TestCase
             ->method('isRadio')
             ->willReturn($isRadio);
         $programmeImagePresenter = new ProgrammeImagePresenter(
-            $this->mockRouter,
+            $this->router,
             $this->mockTranslationsHelper,
             $programme
         );
@@ -55,7 +65,7 @@ class ProgrammeImagePresenterTest extends TestCase
     {
         $programmeItem = $this->playbackUrlProgramme(Episode::class, 'b0000002', false, false);
         $programmeImagePresenter = new ProgrammeImagePresenter(
-            $this->mockRouter,
+            $this->router,
             $this->mockTranslationsHelper,
             $programmeItem
         );
@@ -67,15 +77,8 @@ class ProgrammeImagePresenterTest extends TestCase
      */
     public function testGetPlaybackUrlProgrammes(ProgrammeItem $programmeItem, $expectedUrl)
     {
-        $this->mockRouter->expects($this->once())
-            ->method('generate')
-            ->with(
-                'find_by_pid',
-                ['pid' => (string) $programmeItem->getPid()]
-            )->willReturn('/programmes/' . (string) $programmeItem->getPid());
-
         $programmeImagePresenter = new ProgrammeImagePresenter(
-            $this->mockRouter,
+            $this->router,
             $this->mockTranslationsHelper,
             $programmeItem
         );

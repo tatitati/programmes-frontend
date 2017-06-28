@@ -1,0 +1,29 @@
+# This file shall contain routes used to build URLs that we want to reference
+# within the application, but are not part of the application. These routes
+# fall into one of two buckets:
+#
+# 1) A url to an external product, e.g. iplayer, iplayer radio
+# 2) A url to a /programme page we have not yet migrated. As we migrate pages,
+#    we shall move these routes into the main routing.yml.
+#
+# All routes in this file shall be configured with
+# defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+# This means that the url can be routed by this application but throws a 404.
+
+### External Products
+
+iplayer_play:
+    path: /iplayer/{pid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+iplayer_live:
+    path: /iplayer/live/{sid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { sid: '[0-9a-z_]{1,}' }
+
+### /programmes v2
+
+atoz_list_all:
+    path: /programmes/a-z/all
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }

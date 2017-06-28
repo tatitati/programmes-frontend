@@ -79,11 +79,15 @@ class ProgrammeImagePresenter extends ProgrammePresenterBase
             return '';
         }
 
+        $routeName = 'iplayer_play';
+        $routeArguments = ['pid' => $this->programme->getPid()];
+
         if ($this->programme->isRadio() || $this->programme->isAudio() || $this->programme instanceof Clip) {
             // Radio programme. Link to programme page for now.
-            return $this->router->generate('find_by_pid', ['pid' => $this->programme->getPid()]) . '#play';
+            $routeName = 'find_by_pid';
+            $routeArguments['_fragment'] = 'play';
         }
-        // TV Episode @TODO this needs to be more sophistimicated
-        return '/iplayer/' . urlencode((string) $this->programme->getPid());
+
+        return $this->router->generate($routeName, $routeArguments);
     }
 }

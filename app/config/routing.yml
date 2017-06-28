@@ -15,12 +15,6 @@ find_by_pid:
     defaults: { _controller: App\Controller\FindByPidController }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
-atoz_list_all:
-    path: /programmes/a-z/all
-    # Redirect with a blank route throws a 404.
-    # We haven't rebuilt this route yet, but are referencing it in the app
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-
 schedules_home:
     path: /schedules
     defaults: { _controller: App\Controller\SchedulesHomeController }
@@ -30,7 +24,13 @@ schedules_by_day:
     defaults: { _controller: App\Controller\SchedulesByDayController, date: null }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', date: '\d{4}-\d{2}-\d{2}' }
 
+# Labs routes, for testing things
+
 cloud_labs:
     path: /programmes/_cloudlabs{wildcard}
     defaults: { _controller: App\Controller\CloudLabsController }
     requirements: { wildcard: '^(/.*|$)' }
+
+# Include any 3rd party routes. This should be the last thing in the file
+_3rd_party:
+    resource: routing_3rd_party.yml
