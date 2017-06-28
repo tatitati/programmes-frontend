@@ -1,6 +1,11 @@
-<div class="programme">
-    <h3>{{ programme.title }}</h3>
-    {%- if programme.showSynopsis -%}
-        <p>{{ programme.synopsis }}</p>
-    {%- endif -%}
+{% set outer_html_attributes = build_html_attributes(programme.option("outer_html_attributes")) %}
+<div class="{{ build_css_classes(programme.outerDivClasses) }}" typeof="{{ rdfa_schema_programme_typeof(programme.programme) }}" resource="{{ path('find_by_pid', {'pid': programme.programme.pid}) }}" {{ outer_html_attributes | raw}}>
+    {# Render programme image and overlay #}
+    {{ ds2013_presenter(programme.programmeImagePresenter) }}
+    <div class="programme__body">
+        {# Render main title and subtitles with links and RDFa data #}
+        {{ ds2013_presenter(programme.programmeTitlePresenter) }}
+        {# Render additional body content #}
+        {{ ds2013_presenter(programme.programmeBodyPresenter) }}
+    </div>
 </div>

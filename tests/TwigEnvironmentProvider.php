@@ -2,10 +2,12 @@
 declare(strict_types = 1);
 namespace Tests\App;
 
+use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\PresenterFactory;
 use App\Twig\DesignSystemPresenterExtension;
 use App\Twig\GelIconExtension;
 use App\Twig\HtmlUtilitiesExtension;
+use App\Twig\RdfaSchemaExtension;
 use RMP\Translate\TranslateFactory;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
@@ -25,16 +27,28 @@ class TwigEnvironmentProvider
     /** @var Twig_Environment */
     static private $twig;
 
+    /** @var PresenterFactory */
+    static private $presenterFactory;
+
     public static function twig(): Twig_Environment
     {
         if (self::$twig === null) {
-            self::$twig = self::buildTwig();
+            self::build();
         }
 
         return self::$twig;
     }
 
-    private static function buildTwig(): Twig_Environment
+    public static function presenterFactory(): PresenterFactory
+    {
+        if (self::$presenterFactory === null) {
+            self::build();
+        }
+
+        return self::$presenterFactory;
+    }
+
+    private static function build(): void
     {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../app/Resources');
         $loader->addPath(__DIR__ . '/../src/Ds2013', 'Ds2013');
@@ -63,22 +77,30 @@ class TwigEnvironmentProvider
 
         $twig->addExtension(new AssetExtension($assetPackages));
 
-        $twig->addExtension(new RoutingExtension(new UrlGenerator(
+        $router = new UrlGenerator(
             $routeCollectionBuilder->build(),
             new RequestContext()
-        )));
+        );
+        $twig->addExtension(new RoutingExtension($router));
 
         // Programmes extensions
+        $helperFactory = new HelperFactory($translate, $router);
+
+        // Set presenter factory for template tests to use.
+        self::$presenterFactory = new PresenterFactory($translate, $router, $helperFactory);
 
         $twig->addExtension(new DesignSystemPresenterExtension(
             $translate,
-            new PresenterFactory($translate)
+            self::$presenterFactory
         ));
 
         $twig->addExtension(new GelIconExtension());
 
         $twig->addExtension(new HtmlUtilitiesExtension($assetPackages));
 
-        return $twig;
+        $twig->addExtension(new RdfaSchemaExtension($assetPackages));
+
+        // Set twig for template tests to use
+        self::$twig = $twig;
     }
 }

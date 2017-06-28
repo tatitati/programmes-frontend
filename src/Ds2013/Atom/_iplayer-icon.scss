@@ -1,0 +1,39 @@
+// this object uses !important as the iPlayer branding colours MUST NOT
+// be overridden
+
+.iplayer-text,
+.iplayer-icon {
+    color: $iplayer-pink !important;
+}
+
+.iplayer-icon--boxed {
+    background: $iplayer-pink !important;
+    color: #fff !important;
+    &:hover,
+    &:active,
+    &:focus {
+        background: $iplayer-grey !important;
+        color: $iplayer-pink !important;
+    }
+}
+
+.iplayer-icon--invert {
+    background: $iplayer-grey !important;
+    color: $iplayer-pink !important;
+    &:hover,
+    &:active,
+    &:focus {
+        background: $iplayer-pink !important;
+        color: #fff !important;
+    }
+}
+
+// an icon in a container does not have a colour until hovered
+.iplayer-icon--container:hover,
+.iplayer-icon--container:active,
+.iplayer-icon--container:focus {
+    .iplayer-icon {
+        color: $iplayer-pink !important;
+        background: $iplayer-grey !important;
+    }
+}

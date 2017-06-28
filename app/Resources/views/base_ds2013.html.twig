@@ -58,6 +58,8 @@
 
         {{ branding.bodyLast|raw }}
         {{ orb.bodylast|raw }}
+        {# @TODO does this need to pull from a specific env? #}
+        <script>require(['//static.bbci.co.uk/radio/player/script/popup.js'], function () {})</script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

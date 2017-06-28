@@ -55,6 +55,11 @@ class BroadcastDay
         }
     }
 
+    public function isNow(): bool
+    {
+        return Chronos::now()->between($this->start, $this->end);
+    }
+
     public function start(): Chronos
     {
         return $this->start;

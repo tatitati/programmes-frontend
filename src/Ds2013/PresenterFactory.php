@@ -2,16 +2,20 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
+use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
+use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
-use DateTimeImmutable;
 use RMP\Translate\Translate;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Ds2013 Factory Class for creating presenters.
@@ -37,9 +41,17 @@ class PresenterFactory
     /** @var Translate */
     private $translate;
 
-    public function __construct(Translate $translate)
+    /** @var UrlGeneratorInterface */
+    private $router;
+
+    /** @var HelperFactory */
+    private $helperFactory;
+
+    public function __construct(Translate $translate, UrlGeneratorInterface $router, HelperFactory $helperFactory)
     {
         $this->translate = $translate;
+        $this->router = $router;
+        $this->helperFactory = $helperFactory;
     }
 
     public function getTranslate(): Translate
@@ -91,7 +103,25 @@ class PresenterFactory
         array $options = []
     ): ProgrammePresenter {
         return new ProgrammePresenter(
-            $this->translate,
+            $this->router,
+            $this->helperFactory,
+            $programme,
+            $options
+        );
+    }
+
+    public function broadcastProgrammePresenter(
+        CollapsedBroadcast $collapsedBroadcast,
+        ?Programme $programme = null,
+        array $options = []
+    ): BroadcastProgrammePresenter {
+        if (!$programme) {
+            $programme = $collapsedBroadcast->getProgrammeItem();
+        }
+        return new BroadcastProgrammePresenter(
+            $this->router,
+            $this->helperFactory,
+            $collapsedBroadcast,
             $programme,
             $options
         );
@@ -99,10 +129,12 @@ class PresenterFactory
 
     public function broadcastPresenter(
         $broadcast,
+        ?CollapsedBroadcast $collapsedBroadcast,
         array $options = []
     ): BroadcastPresenter {
         return new BroadcastPresenter(
             $broadcast,
+            $collapsedBroadcast,
             $options
         );
     }

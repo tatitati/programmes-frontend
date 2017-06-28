@@ -1,0 +1,24 @@
+{% if programme_body.option('show_synopsis') %}
+    <p class="programme__synopsis text--subtle centi">
+        {% if programme_body.hasDefinedPositionUnderParentProgramme %}
+            {% set position_text = tr('episode_number', {
+                '%1': programme_body.programme.position,
+                '%2': programme_body.programme.parent.expectedChildCount,
+            }) %}
+            {% spaceless %}
+                <abbr title="{{ position_text }}">
+                    <span property="position" datatype="xsd:int">{{ programme_body.programme.position }}</span>/<span class="programme__groupsize">{{ programme_body.programme.parent.expectedChildCount }}</span>
+                </abbr>
+            {% endspaceless %}
+        {% endif %}
+        <span property="description">{{ truncate(programme_body.programme.shortSynopsis, programme_body.synopsisTruncationLength) }}</span>
+        {% block synopsis_extra %}{% endblock %}
+    </p>
+{% endif %}
+{% if programme_body.shouldShowDuration %}
+    <p class="programme__service micro">
+        {{ tr('duration', {'%1': programme_body.durationInWords }) }}
+    </p>
+{% endif %}
+{# This exists solely to be extended. @TODO revisit once this is more fleshed out #}
+{% block body_extra %}{% endblock %}

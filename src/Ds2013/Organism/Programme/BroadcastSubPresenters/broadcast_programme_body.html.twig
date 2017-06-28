@@ -1,0 +1,45 @@
+{% extends "@Ds2013/Organism/Programme/SubPresenters/programme_body.html.twig" %}
+{% import _self as self %}
+{%- block synopsis_extra -%}
+    {# Add an indicator showing whether this is a repeat if we have a collapsed broadcast #}
+    {%- if programme_body.isRepeat -%}
+        <abbr class="repeat" title="{{ tr('repeats', 1) }}">({{ tr('repeat_abbr') }})</abbr>
+    {%- endif -%}
+{%- endblock -%}
+{%- block body_extra -%}
+    {# Add a rewind/watch live link if collapsed broadcast is watchable live #}
+    {%- if programme_body.isWatchableLive -%}
+        {%- if programme_body.programme.isTv -%}
+            {{ self.render_live_link(programme_body.rewindUrl, programme_body.translatePlayFromStart, 'live-restart', true) }}
+        {%- elseif programme_body.isWorldServiceForeignLanguage -%}
+            {{ self.render_live_link(programme_body.simulcastUrl, programme_body.translatePlayLive, 'listen', false) }}
+        {%- elseif programme_body.programme.isRadio -%}
+            {{ self.render_live_link(programme_body.simulcastUrl, programme_body.translatePlayLive, 'pop-out', true) }}
+            {% if programme_body.option('context_service') %}
+                <p class="programme__live hidden@bpw">
+                    <a href="/radio/stations/{{ programme_body.option('context_service').urlKey }}">
+                        {{ programme_body.translatePlayLive }}
+                    </a> ({{ tr('programme_homepage', {'%1' : programme_body.option('context_service').name }) }})
+                </p>
+            {% endif %}
+        {%- else -%}
+            <p class="programme__live hidden visible@bpw">
+                <a href="{{ programme_body.simulcastUrl }}">
+                    {{ programme_body.translatePlayLive }}
+                </a>
+            </p>
+        {%- endif -%}
+    {% endif %}
+{%- endblock -%}
+
+{%- macro render_live_link(url, link_text, icon_name, hide_below_bpw) -%}
+    {% set extra_classes = hide_below_bpw ? 'hidden visible@bpw' : '' %}
+    <p class="programme__live {{ extra_classes }}">
+        <a class="link-complex--sub" href="{{ url }}">
+            {{ gelicon('audio-visual', icon_name, 15) }}
+            <span class="link-complex--sub__target">
+                {{ link_text }}
+            </span>
+        </a>
+    </p>
+{%- endmacro -%}

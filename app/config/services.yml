@@ -12,17 +12,19 @@ services:
         autowire: true
         public: false
 
+    # Autowire all necessary Twig, Argument resolver and Event Subscriber services
     App\:
-        resource: '../../src/*'
-        exclude: '../../src/{Entity,Repository}'
+        resource: '../../src/{ArgumentResolver,EventSubscriber,Twig}'
 
-    # controllers are imported separately to make sure they're public
+    # Autowire controllers in the DI layer and make them public
     App\Controller\:
         resource: '../../src/Controller'
         public: true # Mandatory
 
 
     ### Begin the services!
+
+    App\Redis\RedisClusterFactory: ~
 
     App\Controller\ExceptionController:
         public: true
@@ -114,6 +116,9 @@ services:
 
     BBC\ProgrammesPagesService\Service\BroadcastsService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getBroadcastsService']
+
+    BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService:
+            factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getCollapsedBroadcastsService']
 
     BBC\ProgrammesPagesService\Service\NetworksService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getNetworksService']

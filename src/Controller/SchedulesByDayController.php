@@ -4,14 +4,12 @@ namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\ValueObject\BroadcastDay;
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
-use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
-use DateTimeZone;
 use Symfony\Component\HttpFoundation\Response;
 
 class SchedulesByDayController extends BaseController
@@ -20,7 +18,8 @@ class SchedulesByDayController extends BaseController
         Pid $pid,
         ?string $date,
         ServicesService $servicesService,
-        BroadcastsService $broadcastService
+        BroadcastsService $broadcastService,
+        CollapsedBroadcastsService $collapsedBroadcastsService
     ) {
         $this->setBrandingId('br-08368');
 
@@ -46,6 +45,7 @@ class SchedulesByDayController extends BaseController
 
         $broadcasts = [];
 
+        $liveCollapsedBroadcast = null;
         if ($service->isActiveAt($broadcastDay->start())) {
             // Get broadcasts in relevant period
             $broadcasts = $broadcastService->findByServiceAndDateRange(
@@ -53,6 +53,15 @@ class SchedulesByDayController extends BaseController
                 $broadcastDay->start(),
                 $broadcastDay->end()
             );
+            // Hydrate any live broadcasts with a collapsed broadcast
+            if ($broadcastDay->isNow()) {
+                foreach ($broadcasts as $broadcast) {
+                    if ($broadcast->isOnAir()) {
+                        $liveCollapsedBroadcast = $collapsedBroadcastsService->findByBroadcast($broadcast);
+                        break;
+                    }
+                }
+            }
         }
 
         $pagePresenter = new SchedulesByDayPagePresenter(
@@ -60,7 +69,8 @@ class SchedulesByDayController extends BaseController
             $broadcastDay->start(),
             $broadcasts,
             $date,
-            $servicesInNetwork
+            $servicesInNetwork,
+            $liveCollapsedBroadcast
         );
 
         $viewData = $this->viewData(

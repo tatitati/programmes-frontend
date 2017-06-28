@@ -75,7 +75,11 @@ class BroadcastTemplateTest extends BaseTemplateTestCase
     private function broadcast(Chronos $startDate, Chronos $endDate): Broadcast
     {
         $mockEpisode = $this->createMock(Episode::class);
+        // I'm kind of amazed this primitive mock doesnt blow up the programme object
+        // but we'll keep it for now
         $mockEpisode->method('getPid')->willReturn(new Pid('b0000001'));
+        $mockEpisode->method('getTitle')->willReturn('KHAAAAAN');
+        $mockEpisode->method('getAncestry')->willReturn([$mockEpisode]);
 
         $mockService = $this->createMock(Service::class);
         $mockService->method('getPid')->willReturn(new Pid('b0000002'));

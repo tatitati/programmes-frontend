@@ -1,0 +1,47 @@
+/**
+ * Link-Complex
+ *
+ * A link where only some of it's children should have underline styles
+ */
+
+// Styling underline using ".programmes-page a" means we need increased specificity
+.link-complex,
+.programmes-page a.link-complex {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+    }
+
+    &:hover .link-complex__target,
+    &:active .link-complex__target,
+    &:focus .link-complex__target {
+        text-decoration:underline;
+    }
+}
+
+// Sometimes we need to have a link-complex within another link-complex. In this
+// case we don't want hovering over the main link-complex to trigger the
+// underline on the nested link. To solve this if you are already within a
+// link-complex then the nested item should use `link-complex--sub` and
+// `link-complex--sub__target` to work around this.
+// An example of this is the "watch from start" simulcast link in the programme
+// object in the schedules page. The watch from start text should not underline
+// if the main programme object is hovered over.
+.link-complex--sub,
+.programmes-page a.link-complex--sub {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+    }
+
+    &:hover .link-complex--sub__target,
+    &:active .link-complex--sub__target,
+    &:focus .link-complex--sub__target {
+        text-decoration:underline;
+    }
+}
+

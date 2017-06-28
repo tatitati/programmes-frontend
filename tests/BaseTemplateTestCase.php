@@ -45,9 +45,24 @@ abstract class BaseTemplateTestCase extends TestCase
         ]);
     }
 
+    protected function assertHasClasses(string $expectedClasses, Crawler $node, $message): void
+    {
+        $expectedClassesArray = explode(' ', $expectedClasses);
+        $classesArray = explode(' ', $node->attr('class'));
+        // Check that all classes in $classes are present in
+        // the class attribute of the node. Extra classes are ok.
+        $hasClasses = !array_diff($expectedClassesArray, $classesArray);
+        $this->assertTrue($hasClasses, $message);
+    }
+
     protected function assertSchemaOrgItem(string $expected, Crawler $node)
     {
         $this->assertEquals('http://schema.org/', $node->attr('vocab'));
+        $this->assertSchemaOrgTypeOf($expected, $node);
+    }
+
+    protected function assertSchemaOrgTypeOf(string $expected, Crawler $node)
+    {
         $this->assertEquals($expected, $node->attr('typeof'));
     }
 

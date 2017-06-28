@@ -1,0 +1,453 @@
+/**
+ *  .programme
+ *  A generic programme aggregation object with an image,
+ *  availability, titles and synopsis
+ *  Extends the media object
+ */
+
+$programme-icon-basic-box-size: gel-typography('basic', 'delta', 'line-height');
+$programme-icon-basic-size: gel-typography('basic', 'delta', 'font-size') - 3px;
+
+$programme-icon-bpb1-box-size: gel-typography('bpb1', 'delta', 'line-height') + 10px;
+$programme-icon-bpb1-size: gel-typography('bpb1', 'delta', 'font-size');
+
+$programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18px;
+$programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
+
+.programme {
+    @extend .media;
+    @extend .link-complex;
+}
+
+.programme__img {
+    position: relative;
+}
+
+.programme__body {
+    @extend .media__body;
+}
+
+.programme__img {
+    float: left;
+    margin-right: $basic-spacing;
+    margin-bottom: 0;
+    max-width: 148px;
+    overflow: hidden;
+
+    // A reduced max width for indented items so that the right of the image
+    // still lines up
+    &.push-one-twentyfourth {
+        max-width: 118px;
+    }
+}
+
+.programme__img--nomax {
+    max-width: none;
+}
+
+.programme__titles a {
+    @include inline-block();
+    @extend .link-complex__target;
+}
+
+.programme__title {
+    display: block;
+    margin-bottom: 0;
+}
+
+.programme__img-box {
+    background: #CCC;
+    background: rgba(204,204,204,0.5);
+
+    // Hidden by default
+    display: none;
+    visibility: hidden;
+}
+.programme__overlay {
+    min-width: 100%;
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+.programme__new {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: left;
+}
+.programme__overlay--live,
+.programme__overlay--available {
+    min-width: 92.857142857142857%;
+}
+.programme__availability {
+    display: block;
+}
+.programme__availability:hover,
+.programme__availability:active,
+.programme__availability:focus {
+    .programme__icon {
+        background: $iplayer-grey;
+        filter: none;
+        color: #FFFFFF;
+    }
+};
+.programme__overlay a.programme__availability:hover {
+    text-decoration: none; // specific to override .programmes-page
+}
+.programme__icon {
+    float: left;
+    margin-right: 1px;
+    display: block;
+    height: $programme-icon-basic-box-size;
+    width: $programme-icon-basic-box-size;
+    //line-height: $programme-icon-basic-box-size;
+    //font-size: $programme-icon-basic-size;
+    text-align: center;
+    .gelicon {
+        width: $programme-icon-basic-size;
+        height: $programme-icon-basic-size;
+        margin-top: ($programme-icon-basic-box-size / 4);
+    }
+}
+
+.programme__icon--translucent {
+    background-color: rgb(38, 37, 37);
+    background-color: rgba(38, 37, 37, 0.7);
+    color: #FFFFFF;
+}
+
+.programme__icon--orphaned {
+    margin-left: $basic-spacing;
+    float: right;
+}
+.programme__overlay-data {
+    display: none;
+    height: 24px;
+    max-width: 274px;
+    overflow: hidden;
+}
+.programme__time-remaining {
+    font-weight: normal;
+    margin: 4px 8px 0 8px;
+    text-align: left;
+    line-height: 1; // 12px
+}
+
+.programme__body {
+    max-width: 464px;
+}
+.programme__subtitle {
+    display: block;
+    margin-top: 0;
+    font-weight: normal;
+}
+.programme__titles {
+    margin: 0;
+}
+.programme__synopsis,
+.programme__service,
+.programme__favourites,
+.programme__live,
+.programme__child-availability {
+    margin-top: 4px;
+    margin-bottom: 0px;
+}
+.programme__broadcast-date {
+    margin-top: 16px;
+    margin-bottom: 0px;
+    .timezone.timezone--date{
+        padding-right: 8px;
+    }
+}
+.programme__synopsis {
+    display: none;
+}
+.programme__service {
+    font-weight: bold;
+
+    // If we're showing both the broadcast date and the service then have
+    // them run into each other instead of being spaced out.
+    .programme__broadcast-date ~ & {
+        margin-top: 0;
+    }
+}
+.programme__service .only,
+.programme__service .except {
+    font-weight: normal;
+}
+
+.programme__child-availability a {
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+
+        span {
+            text-decoration: underline;
+        }
+    }
+}
+
+// show/hide bits of this object, when embedded in a stream
+.stream .programme,
+.stream .programme__body,
+.stream .programme__overlay {
+    @include transition(opacity 0.3s ease-in, background-color 0.3s ease-in);
+    opacity: 1;
+}
+.stream:not(.touched):not(.stream--alwaysvisible) .stream__i_hidden .programme__body,
+.stream:not(.touched):not(.stream--alwaysvisible) .stream__i_hidden .programme__overlay {
+    opacity: 0;
+}
+.stream:not(.touched):not(.stream--alwaysvisible) .stream__i_hidden .programme {
+    background-color: transparent;
+}
+
+.programme__status {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: $iplayer-pink;
+    padding: 4px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.programme__status--dull {
+    background: #222;
+}
+
+
+@include mq-range('bpb1') {
+    .programme__img-box {
+        display:block;
+        visibility: visible;
+    }
+
+    .has-js .programme__img--hasimage .programme__overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    .has-js .programme__img--hasimage ~ .programme__new {
+        top: 0;
+        left: 0;
+        position: absolute;
+        padding: 0px 4px;
+        text-align: center;
+    }
+}
+
+
+@include mq-range('bpb2') {
+    .programme__icon {
+        height: $programme-icon-bpb1-box-size;
+        width: $programme-icon-bpb1-box-size;
+        //line-height: $programme-icon-bpb1-box-size;
+        //font-size: $programme-icon-bpb1-size;
+        .gelicon {
+            width: $programme-icon-bpb1-size;
+            height: $programme-icon-bpb1-size;
+            margin-top: ($programme-icon-bpb1-box-size / 4);
+        }
+    }
+    .programme__icon--orphaned {
+        top: -0.375em;
+    }
+}
+
+
+@include mq-range('bpw') {
+    .programme__img {
+        margin-right: $wide-spacing;
+    }
+
+    .programme__img-box {
+        display:block;
+        visibility: visible;
+    }
+    .programme__icon {
+        height: $programme-icon-bpw-box-size;
+        width: $programme-icon-bpw-box-size;
+        //line-height: $programme-icon-bpw-box-size;
+        //font-size: $programme-icon-bpw-size;
+        .gelicon {
+            width: $programme-icon-bpw-size;
+            height: $programme-icon-bpw-size;
+            margin-top: ($programme-icon-bpw-box-size / 4);
+        }
+    }
+    .programme__icon--orphaned {
+        margin-left: $wide-half-spacing;
+    }
+
+    /*  Only to be set if a user has javascript enabled
+        And the object has an image */
+    .has-js .programme__img--hasimage .programme__overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    .has-js .programme__img--hasimage ~ .programme__new {
+        top: 0;
+        left: 0;
+        position: absolute;
+        padding: 0px 4px;
+        text-align: center;
+    }
+    .programme__overlay-data {
+        height: $programme-icon-bpw-box-size;
+        display: block;
+    }
+    .programme__time-remaining {
+        margin: 9px 8px 0 8px;
+        font-size: px-to-em(11px, gel-typography('bpw', 'base', 'font-size'));
+        line-height: 1.1;
+    }
+
+    .programme__synopsis {
+        display: block;
+    }
+}
+
+@include mq-range('bpw2') {
+    .programme__overlay--available {
+        min-width: 82.857143%;
+    }
+}
+@include mq-range('bpe') {
+    .programme__overlay--available {
+        min-width: 82.857143%;
+    }
+    .programme__overlay--live {
+        min-width: 70.857%;
+    }
+}
+
+@include mq($from: 600px, $until: 769px) {
+    .programme__icon {
+        height: $programme-icon-bpb1-box-size;
+        width: $programme-icon-bpb1-box-size;
+        //line-height: $programme-icon-bpb1-box-size;
+        //font-size: $programme-icon-bpb1-size;
+        .gelicon {
+            height: $programme-icon-bpb1-size;
+            width: $programme-icon-bpb1-size;
+            margin-top: ($programme-icon-bpb1-box-size / 4);
+        }
+    }
+    .programme__icon--orphaned {
+        top: -0.375em;
+        margin-left: $wide-half-spacing;
+    }
+
+    .programme__overlay-data {
+        height: $programme-icon-bpb1-box-size;
+    }
+    .programme__time-remaining {
+        margin: 4px 8px 0 8px;
+    }
+}
+
+
+// Per breakpoint toggles for programme image top or left.
+// We need to overwrite each property to ensure that no phantom properties from
+// the other declaration remain.
+@mixin programme-image-setup($namespace: '', $spacing: $basic-spacing) {
+    $half-spacing: $spacing / 2;
+
+    .#{$namespace}programme--list {
+        .programme__img {
+            float: left;
+            margin-right: $spacing;
+            margin-bottom: 0;
+            max-width: 224px;
+            overflow: hidden;
+        }
+
+        .programme__img--nomax {
+            max-width: none;
+        }
+
+        .programme__body {
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    .#{$namespace}programme--list-featured {
+        @extend .#{$namespace}programme--list;
+
+        .programme__body {
+            margin-top: $spacing;
+            margin-bottom: $spacing;
+            margin-right: $spacing;
+        }
+        .programme__service,
+        .programme__child-availability {
+            margin-top: 16px;
+            margin-bottom: 0px;
+
+        }
+        .programme__broadcast-date ~ .programme__service {
+            // If we're showing both the broadcast date and the service then have
+            // them run into each other instead of being spaced out.
+            margin-top: 0;
+        }
+    }
+
+    .#{$namespace}programme--grid {
+        .programme__img {
+            float: none;
+            margin-right: 0;
+            max-width: none;
+            margin-bottom: $half-spacing;
+        }
+
+        .programme__body {
+            margin-bottom: $half-spacing;
+            margin-left: $half-spacing;
+            margin-right: $half-spacing;
+        }
+        .programme__body--flush {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}
+
+@include programme-image-setup();
+
+
+@include mq-range('bpw') {
+    .programme--list {
+        .programme__img {
+            margin-right: $wide-spacing;
+        }
+    }
+
+    .programme--grid {
+        .programme__img  {
+            margin-bottom: $wide-half-spacing;
+        }
+
+        .programme__body {
+            margin-bottom: $wide-half-spacing;
+            margin-left: $wide-half-spacing;
+            margin-right: $wide-half-spacing;
+        }
+        .programme__body--flush {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}
+
+@each $name in $gel-widths-breakpoints {
+    $spacing: if(index(('bpb1', 'bpb2'), $name), $basic-spacing, $wide-spacing);
+
+    @include mq-range($name) {
+        @include programme-image-setup('#{$name}-', $spacing);
+    }
+}

@@ -23,6 +23,8 @@ class HtmlUtilitiesExtension extends Twig_Extension
         return [
             new Twig_Function('asset_js', [$this, 'assetJs']),
             new Twig_Function('build_css_classes', [$this, 'buildCssClasses']),
+            new Twig_Function('build_html_attributes', [$this, 'buildHtmlAttributes']),
+            new Twig_Function('truncate', [$this, 'truncate']),
         ];
     }
 
@@ -43,7 +45,34 @@ class HtmlUtilitiesExtension extends Twig_Extension
                 $cssClasses[] = $cssClass;
             }
         }
-
         return trim(implode(' ', $cssClasses));
+    }
+
+    public function buildHtmlAttributes(array $htmlAttributes): string
+    {
+        $attrs = [];
+        foreach ($htmlAttributes as $attributeName => $attributeValue) {
+            $attrs[] = htmlspecialchars($attributeName, ENT_HTML5) . '="' . htmlspecialchars($attributeValue, ENT_HTML5) . '"';
+        }
+        return trim(implode(' ', $attrs));
+    }
+
+    /**
+     * Smart(ish) truncate.
+     * Takes a string and truncates it to no more than the required character length,
+     * but to the previous space to prevent breaking up words.
+     *
+     * @param string $string the string to be shortened.
+     * @param int|null $length max number of characters the string should be (null = no truncate)
+     * @param string $suffix string to override the continuation character (default ellipsis)
+     * @return string
+     */
+    public function truncate(string $string, ?int $length, string $suffix = '…')
+    {
+        if (!$length || mb_strlen($string) <= $length) {
+            return $string;
+        }
+
+        return mb_substr($string, 0, mb_strrpos($string, ' ', - (mb_strlen($string) - $length))) . $suffix;
     }
 }

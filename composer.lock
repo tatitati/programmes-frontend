@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1ba103837ab814f483022d2f55eddeb",
+    "content-hash": "d416c6310044b21d608e870145147cf7",
     "packages": [
         {
             "name": "bbc-rmp/translate",
@@ -212,16 +212,16 @@
         },
         {
             "name": "bbc/programmes-pages-service",
-            "version": "v2.1.10",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "2ef4eca44bad13acd6d0725f7264beb941f3bcf7"
+                "reference": "f636337cc81d2e40f046e12914aa8f42d4b46d6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/2ef4eca44bad13acd6d0725f7264beb941f3bcf7",
-                "reference": "2ef4eca44bad13acd6d0725f7264beb941f3bcf7",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/f636337cc81d2e40f046e12914aa8f42d4b46d6b",
+                "reference": "f636337cc81d2e40f046e12914aa8f42d4b46d6b",
                 "shasum": ""
             },
             "require": {
@@ -259,10 +259,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/v2.1.10",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/v2.2.1",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-06-12T09:58:22+00:00"
+            "time": "2017-06-28T15:37:50+00:00"
         },
         {
             "name": "behat/transliterator",

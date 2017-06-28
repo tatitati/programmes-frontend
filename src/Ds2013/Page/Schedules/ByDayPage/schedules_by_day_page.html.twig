@@ -54,13 +54,15 @@
                 <ol class="highlight-box-wrapper">
                     {# list of broadcasts in day period #}
                     {% for broadcast in broadcast_in_period %}
-                        {% set onairattributes = null %}
+                        {% set onairattributes = '' %}
+                        {% set collapsed_broadcast = null %}
                         {% if broadcast.isOnAir and not onairshown %}
                             {% set onairattributes = 'id=on-now class=schedule-skip-link-on-now' %}
+                            {% set collapsed_broadcast = schedules_by_day_page.liveCollapsedBroadcast %}
                             {% set onairshown = true %}
                         {% endif %}
                         <li {{ onairattributes }}>
-                            {{ ds2013('broadcast', broadcast, {
+                            {{ ds2013('broadcast', broadcast, collapsed_broadcast, {
                                 'highlight_box_classes' : 'highlight-box--list'
                             }) }}
                         </li>

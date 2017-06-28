@@ -5,6 +5,7 @@ namespace App\Ds2013\Organism\Broadcast;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use Cake\Chronos\Chronos;
 use InvalidArgumentException;
 
@@ -21,10 +22,21 @@ class BroadcastPresenter extends Presenter
     /** @var Broadcast|BroadcastGap */
     private $broadcast;
 
+    /** @var CollapsedBroadcast */
+    private $collapsedBroadcast;
+
+    /** @var Chronos */
     private $now;
 
+    /**
+     * BroadcastPresenter constructor.
+     * @param Broadcast|BroadcastGap $broadcast
+     * @param CollapsedBroadcast|null $collapsedBroadcast
+     * @param array $options
+     */
     public function __construct(
         $broadcast,
+        ?CollapsedBroadcast $collapsedBroadcast = null,
         array $options = []
     ) {
         if (!($broadcast instanceof Broadcast || $broadcast instanceof BroadcastGap)) {
@@ -35,10 +47,18 @@ class BroadcastPresenter extends Presenter
                 (is_object($broadcast) ? get_class($broadcast) : gettype($broadcast))
             ));
         }
-
         parent::__construct($options);
         $this->broadcast = $broadcast;
+        $this->collapsedBroadcast = $collapsedBroadcast;
         $this->now = Chronos::now('Europe/London');
+    }
+
+    /**
+     * @return Broadcast|BroadcastGap
+     */
+    public function getBroadcast()
+    {
+        return $this->broadcast;
     }
 
     public function getServiceName(): string
@@ -83,5 +103,10 @@ class BroadcastPresenter extends Presenter
     public function isInThePast(): bool
     {
         return $this->broadcast->getEndAt() < $this->now;
+    }
+
+    public function getCollapsedBroadcast(): ?CollapsedBroadcast
+    {
+        return $this->collapsedBroadcast;
     }
 }

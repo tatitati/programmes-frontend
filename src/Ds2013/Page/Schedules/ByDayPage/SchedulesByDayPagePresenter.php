@@ -5,6 +5,7 @@ namespace App\Ds2013\Page\Schedules\ByDayPage;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use DateTimeZone;
@@ -32,12 +33,16 @@ class SchedulesByDayPagePresenter extends Presenter
     /** @var Broadcast */
     private $onAirBroadcast = false;
 
+    /** @var CollapsedBroadcast|null */
+    private $liveCollapsedBroadcast;
+
     public function __construct(
         Service $service,
         Chronos $broadcastDayStart,
         array $broadcasts,
         ?string $routeDate,
         array $servicesInNetwork,
+        ?CollapsedBroadcast $liveCollapsedBroadcast,
         array $options = []
     ) {
         parent::__construct($options);
@@ -46,6 +51,7 @@ class SchedulesByDayPagePresenter extends Presenter
         $this->broadcasts = $broadcasts;
         $this->routeDate = $routeDate;
         $this->servicesInNetwork = $servicesInNetwork;
+        $this->liveCollapsedBroadcast = $liveCollapsedBroadcast;
 
         $this->twinService = $this->twinService();
     }
@@ -68,6 +74,11 @@ class SchedulesByDayPagePresenter extends Presenter
     public function getServicesInNetwork(): array
     {
         return $this->servicesInNetwork;
+    }
+
+    public function getLiveCollapsedBroadcast(): ?CollapsedBroadcast
+    {
+        return $this->liveCollapsedBroadcast;
     }
 
     public function getServicesHeadingMessage()

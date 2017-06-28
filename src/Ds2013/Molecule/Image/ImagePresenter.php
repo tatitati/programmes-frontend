@@ -12,7 +12,7 @@ class ImagePresenter extends Presenter
     /** @inheritdoc */
     protected $options = [
         'is_lazy_loaded' => true,
-        'srcsets' => [320, 480, 640, 768, 896, 1008],
+        'srcsets' => [80, 160, 320, 480, 640, 768, 896, 1008],
         'ratio' => null,
         'alt' => '',
         'src_width' => null,
