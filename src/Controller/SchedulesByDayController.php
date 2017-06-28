@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\ValueObject\BroadcastDay;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
@@ -53,14 +54,13 @@ class SchedulesByDayController extends BaseController
                 $broadcastDay->start(),
                 $broadcastDay->end()
             );
+
             // Hydrate any live broadcasts with a collapsed broadcast
             if ($broadcastDay->isNow()) {
-                foreach ($broadcasts as $broadcast) {
-                    if ($broadcast->isOnAir()) {
-                        $liveCollapsedBroadcast = $collapsedBroadcastsService->findByBroadcast($broadcast);
-                        break;
-                    }
-                }
+                $liveCollapsedBroadcast = $this->findLiveCollapsedBroadcast(
+                    $broadcasts,
+                    $collapsedBroadcastsService
+                );
             }
         }
 
@@ -106,5 +106,18 @@ class SchedulesByDayController extends BaseController
         // If a date has been provided, use the broadcast date for midday on
         // the given date
         return Chronos::createFromFormat('Y-m-d H:i:s', $dateString . '12:00:00', 'Europe/London');
+    }
+
+    private function findLiveCollapsedBroadcast(
+        array $broadcasts,
+        CollapsedBroadcastsService $collapsedBroadcastsService
+    ): ?CollapsedBroadcast {
+        foreach ($broadcasts as $broadcast) {
+            if ($broadcast->isOnAir()) {
+                return $collapsedBroadcastsService->findByBroadcast($broadcast);
+            }
+        }
+
+        return null;
     }
 }
