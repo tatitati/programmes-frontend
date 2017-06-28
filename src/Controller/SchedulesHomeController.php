@@ -34,9 +34,13 @@ class SchedulesHomeController extends BaseController
         $latestDecade = $latestBroadcastDate->startOfDecade()->year;
 
         $decades = range($earliestDecade, $latestDecade, 10);
-        $decadePercent = 100 / count($decades);
 
         foreach ($services as $service) {
+            // We only care about services with a startDate
+            if (!$service->getStartDate()) {
+                continue;
+            }
+
             /** @var Service $service */
             $network = $service->getNetwork();
             $groupKey = $this->groupKeyForService($service);
@@ -57,10 +61,16 @@ class SchedulesHomeController extends BaseController
             );
         }
 
+        // Remove any groups that have no networks within them
+        foreach ($groups as $key => $networks) {
+            if (!$networks) {
+                unset($groups[$key]);
+            }
+        }
+
         return $this->renderWithChrome('schedules/home.html.twig', [
             'groups' => $groups,
             'decades' => $decades,
-            'decadePercent' => $decadePercent,
         ]);
     }
 
@@ -70,27 +80,17 @@ class SchedulesHomeController extends BaseController
         Chronos $now,
         $pointsPerDay
     ): array {
-        $result = [
-            'service' => $service,
-            'hasDate' => false,
-            'isOngoing' => false,
-            'offset' => null,
-            'width' => null,
-        ];
-
-        if (!$service->getStartDate()) {
-            return $result;
-        }
-
-        $result['hasDate'] = true;
-        $result['isOngoing'] = !$service->getEndDate();
+        // We've already filtered out all services that don't have a startDate
         $diffFromStart = $earliestBroadcastDate->diff($service->getStartDate());
         $endDate = $service->getEndDate() ?? $now;
         $diffForLength = $service->getStartDate()->diff($endDate);
-        $result['offset'] = $diffFromStart->days * $pointsPerDay;
-        $result['width'] = $diffForLength->days * $pointsPerDay;
 
-        return $result;
+        return [
+            'service' => $service,
+            'isOngoing' => !$service->getEndDate(),
+            'offset' => $diffFromStart->days * $pointsPerDay,
+            'width' => $diffForLength->days * $pointsPerDay,
+        ];
     }
 
     private function groupKeyForService(Service $service): string

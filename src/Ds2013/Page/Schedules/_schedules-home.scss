@@ -1,0 +1,115 @@
+.sch-group + .sch-group {
+    margin-top: $wide-spacing * 2;
+}
+
+.sch-service-row {
+    box-sizing: border-box;
+    display: block; // upgraded later if flexbox is supported
+
+    margin: -1px (-$basic-spacing) 0;
+    padding: 4px ($basic-spacing - 1px);
+    border: 1px solid transparent;
+    border-color: #ddd transparent;
+
+    // Don't show a border for the first row immediately after a group title
+    .sch-group__title + & {
+        border-top-color: transparent;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+        background: #eee;
+        border-color: #ddd;
+    }
+}
+
+.sch-network-name {
+    margin-top: $basic-spacing;
+    margin-bottom: $basic-spacing;
+}
+
+.sch-service-name {
+    padding-left: $wide-spacing;
+    margin-bottom: 0;
+}
+
+.sch-group__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.sch-decades {
+    display: none; // Enabled later if is flexbox supported
+    width: 66.66666%;
+    list-style: none;
+    align-items: center;
+
+    margin-bottom: $basic-spacing;
+    padding: $basic-spacing 0;
+}
+
+.sch-decades > li {
+    flex: 1 1 auto;
+    text-align: center;
+    border-left-width: 1px;
+    border-left-style: solid;
+    margin: 0;
+    padding: 0;
+
+    &:first-child {
+        border-left-style: none;
+    }
+}
+
+.sch-duration {
+    display: none; // Enabled later if flexbox is supported
+    width: 66.66666%;
+}
+
+.sch-duration__bar {
+    $bar-size: 4px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: $bar-size;
+    // ensure the box is at least this wide to avoid the before and after
+    // pseudo-elements glitching into each other
+    min-width: $bar-size * 2;
+
+    &,
+    &::before,
+    &::after {
+        box-sizing: border-box;
+        background: #844a11;
+    }
+
+    &::before,
+    &::after {
+        display: block;
+        content: '';
+        height: 300%;
+        width: $bar-size;
+    }
+}
+
+@supports (display: flex) {
+    @include mq($from: 'gel3b') {
+        .sch-service-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sch-decades {
+            display: flex;
+        }
+
+        .sch-duration {
+            display: block;
+        }
+    }
+}
