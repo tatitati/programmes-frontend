@@ -10,11 +10,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class ProgrammeImagePresenter
- *
  * Sub-presenter for ProgrammePresenter
- *
- * @package App\Ds2013\Organism\Programme\ProgrammeImage
  */
 class ProgrammeTitlePresenter extends ProgrammePresenterBase
 {

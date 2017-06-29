@@ -16,13 +16,9 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class BroadcastProgrammePresenter
- *
  * This is an override of the programme presenter that handles
  * cases where we wish to display broadcast (watch live/services)
  * information alongside a programme.
- *
- * @package App\Ds2013\Organism\Programme
  */
 class BroadcastProgrammePresenter extends ProgrammePresenter
 {
