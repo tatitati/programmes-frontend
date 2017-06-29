@@ -9,7 +9,7 @@
     <div class="{{ outer_div_classes }}">
         {% if programme_image.option('show_image') %}
             <meta property="image" content="{{ programme_image.getImageUrl(480,270)}}" />
-            {{ ds2013('image', programme_image.image, programme_image.option('sizes'), {
+            {{ ds2013('image', programme_image.image, programme_image.option('default_width'), programme_image.option('sizes'), {
                 'is_lazy_loaded' : programme_image.option('is_lazy_loaded')
             })}}
         {% endif %}

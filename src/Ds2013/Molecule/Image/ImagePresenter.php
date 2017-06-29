@@ -15,11 +15,13 @@ class ImagePresenter extends Presenter
         'srcsets' => [80, 160, 320, 480, 640, 768, 896, 1008],
         'ratio' => null,
         'alt' => '',
-        'src_width' => null,
     ];
 
     /** @var Image */
     private $image;
+
+    /** @var int */
+    private $defaultWidth;
 
     /** @var string */
     private $sizes;
@@ -27,11 +29,15 @@ class ImagePresenter extends Presenter
     /**
      * ImagePresenter constructor.
      * @param Image $image
+     * @param int $defaultWidth
+     *        Used to build the src attribute for browsers that don't support srcset/sizes
      * @param array|string $sizes
+     *        Used to build the sizes attribute
      * @param array $options
      */
     public function __construct(
         Image $image,
+        int $defaultWidth,
         $sizes,
         array $options = []
     ) {
@@ -44,6 +50,7 @@ class ImagePresenter extends Presenter
         }
 
         $this->image = $image;
+        $this->defaultWidth = $defaultWidth;
         $this->sizes = $this->buildSizes($sizes);
     }
 
@@ -54,11 +61,7 @@ class ImagePresenter extends Presenter
 
     public function getSrc(): string
     {
-        if ($this->getOption('src_width')) {
-            return $this->buildSrcUrl($this->getOption('src_width'));
-        }
-
-        return $this->buildSrcUrl($this->getOption('srcsets')[0]);
+        return $this->buildSrcUrl($this->defaultWidth);
     }
 
     public function getSrcsets(): string
@@ -96,14 +99,6 @@ class ImagePresenter extends Presenter
 
         if (!is_string($options['alt'])) {
             throw new InvalidOptionException("Option 'alt' must be a string");
-        }
-
-        if (!is_numeric($options['src_width']) && !is_null($options['src_width'])) {
-            throw new InvalidOptionException("Option 'src_width' must be numeric or null");
-        }
-
-        if (!$options['src_width'] && !$options['srcsets']) {
-            throw new InvalidOptionException("At least one of these options must be specified: 'src_width' or 'srcsets'");
         }
     }
 

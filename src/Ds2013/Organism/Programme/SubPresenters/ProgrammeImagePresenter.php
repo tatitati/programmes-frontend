@@ -15,17 +15,22 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class ProgrammeImagePresenter extends ProgrammePresenterBase
 {
+    // @TODO see if this default_width and sizes make sense
     /** @var array */
     protected $options = [
         'show_image' => true,
         'show_overlay' => true,
         'is_lazy_loaded' => true,
         'classes' => '1/4@bpb1 1/4@bpb2 1/3@bpw',
+        'default_width' => 320,
         'sizes' => [
             0 => '0vw',
             320 => 1 / 4,
             480 => 1 / 4,
             600 => 1 / 3,
+            // @TODO confirm these are the right sizes
+            1008 => '336px',
+            1280 => '432px',
         ],
     ];
 

@@ -13,17 +13,16 @@ class ImagePresenterTest extends TestCase
     {
         $image = $this->createMockImage();
         $sizes = [130 => 1/2];
-        $imagePresenter = new ImagePresenter($image, $sizes);
+        $imagePresenter = new ImagePresenter($image, 48, $sizes);
 
         // Test default options
         $this->assertEquals(true, $imagePresenter->getOption('is_lazy_loaded'));
         $this->assertEquals([80, 160, 320, 480, 640, 768, 896, 1008], $imagePresenter->getOption('srcsets'));
         $this->assertEquals('', $imagePresenter->getOption('alt'));
         $this->assertNull($imagePresenter->getOption('ratio'));
-        $this->assertNull($imagePresenter->getOption('src_width'));
 
-        // Test generating src url using the first srcset
-        $this->assertEquals('80 by n', $imagePresenter->getSrc());
+        // Test generating src url using the defaultWidth argument
+        $this->assertEquals('48 by n', $imagePresenter->getSrc());
     }
 
     public function testSettingOptions(): void
@@ -31,10 +30,9 @@ class ImagePresenterTest extends TestCase
         $image = $this->createMockImage();
         $sizes = [130 => 1/2];
 
-        $imagePresenter = new ImagePresenter($image, $sizes, [
+        $imagePresenter = new ImagePresenter($image, 300, $sizes, [
             'srcsets' => [320],
             'alt' => 'alt text',
-            'src_width' => 300,
             'ratio' => 1/2,
         ]);
 
@@ -46,8 +44,7 @@ class ImagePresenterTest extends TestCase
     public function testSizesStringOverride(): void
     {
         $image = $this->createMockImage();
-        $sizes = 'string override';
-        $imagePresenter = new ImagePresenter($image, $sizes);
+        $imagePresenter = new ImagePresenter($image, 48, 'string override');
 
         $this->assertEquals('string override', $imagePresenter->getSizes());
     }
@@ -55,8 +52,7 @@ class ImagePresenterTest extends TestCase
     public function testEmptySizesArray(): void
     {
         $image = $this->createMockImage();
-        $sizes = [];
-        $imagePresenter = new ImagePresenter($image, $sizes);
+        $imagePresenter = new ImagePresenter($image, 48, []);
 
         $this->assertEquals('100vw', $imagePresenter->getSizes());
     }
@@ -64,22 +60,9 @@ class ImagePresenterTest extends TestCase
     public function testInvalidSizesType()
     {
         $image = $this->createMockImage();
-        $sizes = 3;
 
         $this->expectException(InvalidArgumentException::class);
-        new ImagePresenter($image, $sizes);
-    }
-
-    public function testInvalidSrcsetsAndSrcWidthCombination()
-    {
-        $image = $this->createMockImage();
-        $sizes = [];
-
-        $this->expectException(InvalidOptionException::class);
-        new ImagePresenter($image, $sizes, [
-            'srcsets' => [],
-            'src_width' => null,
-        ]);
+        new ImagePresenter($image, 48, 3);
     }
 
     private function createMockImage()

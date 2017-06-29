@@ -81,11 +81,13 @@ class PresenterFactory
 
     public function imagePresenter(
         Image $image,
+        int $defaultWidth,
         $sizes,
         array $options = []
     ): ImagePresenter {
         return new ImagePresenter(
             $image,
+            $defaultWidth,
             $sizes,
             $options
         );
