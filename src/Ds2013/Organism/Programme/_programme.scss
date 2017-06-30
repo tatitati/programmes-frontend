@@ -99,14 +99,6 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     display: block;
     height: $programme-icon-basic-box-size;
     width: $programme-icon-basic-box-size;
-    //line-height: $programme-icon-basic-box-size;
-    //font-size: $programme-icon-basic-size;
-    text-align: center;
-    .gelicon {
-        width: $programme-icon-basic-size;
-        height: $programme-icon-basic-size;
-        margin-top: ($programme-icon-basic-box-size / 4);
-    }
 }
 
 .programme__icon--translucent {
@@ -243,13 +235,6 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     .programme__icon {
         height: $programme-icon-bpb1-box-size;
         width: $programme-icon-bpb1-box-size;
-        //line-height: $programme-icon-bpb1-box-size;
-        //font-size: $programme-icon-bpb1-size;
-        .gelicon {
-            width: $programme-icon-bpb1-size;
-            height: $programme-icon-bpb1-size;
-            margin-top: ($programme-icon-bpb1-box-size / 4);
-        }
     }
     .programme__icon--orphaned {
         top: -0.375em;
@@ -269,13 +254,6 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     .programme__icon {
         height: $programme-icon-bpw-box-size;
         width: $programme-icon-bpw-box-size;
-        //line-height: $programme-icon-bpw-box-size;
-        //font-size: $programme-icon-bpw-size;
-        .gelicon {
-            width: $programme-icon-bpw-size;
-            height: $programme-icon-bpw-size;
-            margin-top: ($programme-icon-bpw-box-size / 4);
-        }
     }
     .programme__icon--orphaned {
         margin-left: $wide-half-spacing;
@@ -328,13 +306,6 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     .programme__icon {
         height: $programme-icon-bpb1-box-size;
         width: $programme-icon-bpb1-box-size;
-        //line-height: $programme-icon-bpb1-box-size;
-        //font-size: $programme-icon-bpb1-size;
-        .gelicon {
-            height: $programme-icon-bpb1-size;
-            width: $programme-icon-bpb1-size;
-            margin-top: ($programme-icon-bpb1-box-size / 4);
-        }
     }
     .programme__icon--orphaned {
         top: -0.375em;

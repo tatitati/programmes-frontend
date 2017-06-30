@@ -2,15 +2,13 @@
 declare(strict_types = 1);
 namespace App\Twig;
 
-use BBC\GEL\Iconography\IconPathHelper;
 use Twig_Extension;
 use Twig_Function;
+use InvalidArgumentException;
 
 class GelIconExtension extends Twig_Extension
 {
-    private const SVG_DIMENSIONS = '!(?<=^\<svg xmlns="http://www.w3.org/2000/svg" )width="(\d+)" height="(\d+)"!';
-
-    private $iconCache = [];
+    private $usedIcons = [];
 
     /**
      * {@inheritdoc}
@@ -18,29 +16,58 @@ class GelIconExtension extends Twig_Extension
     public function getFunctions()
     {
         return [
-            new Twig_Function('gelicon', [$this, 'gelicon'], [
+            new Twig_Function('gelicons_source', [$this, 'gelIconsSource'], [
+                'is_safe' => ['html'],
+            ]),
+            new Twig_Function('gelicon', [$this, 'gelIcon'], [
                 'is_safe' => ['html'],
             ]),
         ];
     }
 
-    public function gelicon($set, $icon, $height)
+    public function gelIconsSource()
     {
-        if (!isset($this->iconCache["${set}|${icon}|${height}"])) {
-            // Icons contain explicit width and height attributes.
-            // We want to add a class attribute, remove the width and replace
-            // the height with our own. Removing the width is fine as the svg
-            // shall still have its viewbox attribute which give the svg an
-            // intrinsic ratio.
-            // <svg xmlns="..." width="32px" height="32px" viewbox="..."> becomes
-            // <svg xmlns="..." class="gelicon" height="16" viewbox="...">
-            $this->iconCache["${set}|${icon}|${height}"] = preg_replace(
-                self::SVG_DIMENSIONS,
-                'class="gelicon" height="' . $height . '"',
-                file_get_contents(IconPathHelper::getSvgPath($set, $icon))
-            );
+        if (empty($this->usedIcons)) {
+            return '';
         }
+        $iconsSource = '<svg class="gelicons-source"><defs>';
+        foreach ($this->usedIcons as $usedIcon) {
+            $iconsSource .= $this->loadSvgSymbol($usedIcon['set'], $usedIcon['icon']);
+        }
+        $iconsSource .= '</defs></svg>';
+        return $iconsSource;
+    }
 
-        return $this->iconCache["${set}|${icon}|${height}"];
+    public function gelIcon(string $set, string $icon, ...$extraClasses)
+    {
+        $set = preg_replace('/[^A-Za-z0-9_-]/', '', $set);
+        $icon = preg_replace('/[^A-Za-z0-9_-]/', '', $icon);
+        $this->addIcon($set, $icon);
+        $classes = 'gelicon';
+        foreach ($extraClasses as $extraClass) {
+            $classes .= " gelicon--$extraClass";
+        }
+        $iconId = "#gelicon--$set--$icon";
+
+        return '<svg class="' . htmlspecialchars($classes, ENT_HTML5) . '"><use xlink:href="' . $iconId . '" /></svg>';
+    }
+
+    private function addIcon(string $set, string $icon): void
+    {
+        $key = "${set}|${icon}";
+        if (!isset($this->usedIcons[$key])) {
+            $this->usedIcons[$key] = ['set' => $set, 'icon' => $icon];
+        }
+    }
+
+    private function loadSvgSymbol(string $set, string $icon)
+    {
+        $path = dirname(dirname(__DIR__)) . join(DIRECTORY_SEPARATOR, ['', 'app', 'Resources', 'gelicons', $set, $icon]) . '.svg';
+        $contents = file_get_contents($path);
+        if (!$contents) {
+            throw new InvalidArgumentException("$path does not contain a valid svg");
+        }
+        return $contents;
+
     }
 }

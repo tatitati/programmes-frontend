@@ -10,7 +10,8 @@
         {% if programme_image.option('show_image') %}
             <meta property="image" content="{{ programme_image.getImageUrl(480,270)}}" />
             {{ ds2013('image', programme_image.image, programme_image.option('default_width'), programme_image.option('sizes'), {
-                'is_lazy_loaded' : programme_image.option('is_lazy_loaded')
+                'is_lazy_loaded' : programme_image.option('is_lazy_loaded'),
+                'ratio': (16 / 9)
             })}}
         {% endif %}
 
@@ -39,7 +40,7 @@
                                    data-linktrack="programmeobjectlink=cta"
                                 >
                                     <div class="{{ programme_icon_classes }}">
-                                        {{ gelicon('audio-visual', programme_image.mediaIconName, 20) }}
+                                        {{ gelicon('audio-visual', programme_image.mediaIconName, 'half-container') }}
                                     </div>
                                     <meta property="description" content="{{ programme_image.programme.shortSynopsis }}" />
                                     <meta property="thumbnailUrl" content="{{ programme_image.getImageUrl(1920, 1080) }}" />
@@ -57,7 +58,7 @@
                         {% else %}
                             {# If our available programme is NOT an episode, e.g. a clip #}
                             <div class="{{ programme_icon_classes }}">
-                                {{ gelicon('audio-visual', programme_image.mediaIconName, 20) }}
+                                {{ gelicon('audio-visual', programme_image.mediaIconName, 'half-container') }}
                             </div>
                             <meta property="description" content="{{ programme_image.programme.shortSynopsis }}" />
                             <meta property="thumbnailUrl" content="{{ programme_image.getImageUrl(1920, 1080) }}" />

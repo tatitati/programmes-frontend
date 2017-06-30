@@ -3,3 +3,87 @@ svg.gelicon  {
     fill: currentColor;
     vertical-align: baseline;
 }
+.gelicons-source {
+    width: 0;
+    height: 0;
+    position: absolute;
+    visibility: hidden;
+    speak: none;
+}
+.gelicon--half-container {
+    width: 50%;
+    height: 50%;
+    margin: 25%;
+}
+.gelicon--fill-container {
+    width: 100%;
+    height: 100%;
+}
+svg.gelicon--alpha, svg.gelicon--beta, svg.gelicon--gamma, svg.gelicon--delta, svg.gelicon--centi, svg.gelicon--milli, svg.gelicon--micro {
+    vertical-align: text-top;
+}
+.gelicon--leading {
+    margin-right: $basic-spacing;
+}
+.gelicon--trailing {
+    margin-left: $basic-spacing;
+}
+/**
+ * Arguments correspond to the text description in the GEL pdf as follows:
+ * $base:     Article body text
+ * $alpha:    Article title or section header
+ * $beta:     Sub header
+ * $gamma:    Strong headline title
+ * $delta:    Slightly enhanced text (not in GEL guidelines)
+ * $centi:    Index body text and image captions
+ * $milli:    Time stamp
+ * $micro:    Small header capitals
+ */
+@mixin svg-sizing($namespace, $base, $alpha, $beta, $gamma, $delta, $centi, $milli, $micro) {
+    .gelicon--alpha {
+        width: nth($alpha, 1);
+        height: nth($alpha, 1);
+    }
+
+    .gelicon--beta {
+        width: nth($beta, 1);
+        height: nth($beta, 1);
+    }
+
+    .gelicon--gamma {
+        width: nth($gamma, 1);
+        height: nth($gamma, 1);
+    }
+
+    .gelicon--delta {
+        width: nth($delta, 1);
+        height: nth($delta, 1);
+    }
+
+    .gelicon--centi {
+        width: nth($centi, 1);
+        height: nth($centi, 1);
+    }
+
+    .gelicon--milli {
+        width: nth($milli, 1);
+        height: nth($milli, 1);
+    }
+
+    .gelicon--micro {
+        width: nth($micro, 1);
+        height: nth($micro, 1);
+    }
+}
+
+@include svg-sizing('', map-get($gel-typography, 'basic')...);
+
+/**
+ * Generate media-query scoped gel-icon sizings that correspond to our font sizings for each breakpoint name defined
+ */
+@each $item in $gel-typography-breakpoints {
+    @include mq-range($item) {
+        @include svg-sizing('#{$item}-', map-get($gel-typography, $item)...);
+    }
+}
+
