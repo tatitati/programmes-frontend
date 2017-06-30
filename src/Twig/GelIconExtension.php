@@ -30,7 +30,7 @@ class GelIconExtension extends Twig_Extension
         if (empty($this->usedIcons)) {
             return '';
         }
-        $iconsSource = '<svg class="gelicons-source"><defs>';
+        $iconsSource = '<svg xmlns="http://www.w3.org/2000/svg" class="gelicons-source"><defs>';
         foreach ($this->usedIcons as $usedIcon) {
             $iconsSource .= $this->loadSvgSymbol($usedIcon['set'], $usedIcon['icon']);
         }
@@ -68,6 +68,5 @@ class GelIconExtension extends Twig_Extension
             throw new InvalidArgumentException("$path does not contain a valid svg");
         }
         return $contents;
-
     }
 }

@@ -15,6 +15,7 @@
     <exclude-pattern>./node_modules/</exclude-pattern>
     <exclude-pattern>./web/</exclude-pattern>
     <exclude-pattern>./app/</exclude-pattern>
+    <exclude-pattern>./script/</exclude-pattern>
 
     <!-- There should not be any code in the bundle Resources directory. -->
     <exclude-pattern>*/Resources/*</exclude-pattern>

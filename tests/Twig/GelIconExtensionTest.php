@@ -10,7 +10,10 @@ class GelIconExtensionTest extends TestCase
     public function testGelicon()
     {
         $extension = new GelIconExtension();
-        $expectedPattern = '$<svg xmlns="http://www.w3.org/2000/svg" class="gelicon" height="16" viewBox="[0-9 ]+">.+</svg>$';
-        $this->assertRegexp($expectedPattern, $extension->gelicon('core', 'search', 16));
+        $expectedPattern = '$<svg class="gelicon gelicon--alpha">.+</svg>$';
+        $html = $extension->gelicon('core', 'search', 'alpha');
+        $this->assertRegexp($expectedPattern, $html);
+        $expectedUse = '$<use xlink:href="#gelicon--core--search" />$';
+        $this->assertRegExp($expectedUse, $html);
     }
 }
