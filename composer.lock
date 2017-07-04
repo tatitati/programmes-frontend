@@ -54,16 +54,16 @@
         },
         {
             "name": "bbc/branding-client",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/branding-client.git",
-                "reference": "eea784379ea54fe0ec656b36b28752b08db6302c"
+                "reference": "5ba37a3b05105f7f30e89cad807356fb98141cc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/branding-client/zipball/eea784379ea54fe0ec656b36b28752b08db6302c",
-                "reference": "eea784379ea54fe0ec656b36b28752b08db6302c",
+                "url": "https://api.github.com/repos/bbc/branding-client/zipball/5ba37a3b05105f7f30e89cad807356fb98141cc9",
+                "reference": "5ba37a3b05105f7f30e89cad807356fb98141cc9",
                 "shasum": ""
             },
             "require": {
@@ -73,8 +73,8 @@
                 "psr/cache": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.6",
-                "squizlabs/php_codesniffer": "^2.7",
+                "phpunit/phpunit": "^6.1",
+                "squizlabs/php_codesniffer": "^2.9",
                 "symfony/cache": "^3.2"
             },
             "type": "library",
@@ -93,10 +93,10 @@
             ],
             "description": "PHP Branding client",
             "support": {
-                "source": "https://github.com/bbc/branding-client/tree/v2.0.0",
+                "source": "https://github.com/bbc/branding-client/tree/v2.0.1",
                 "issues": "https://github.com/bbc/branding-client/issues"
             },
-            "time": "2017-04-27T11:02:42+00:00"
+            "time": "2017-07-04T15:29:00+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",

@@ -48,7 +48,7 @@ abstract class BaseController extends Controller
 
         // We only need to change the translation language if it is different
         // to the language the translation extension was initially created with
-        $locale = $branding->getOrbitLanguage();
+        $locale = $branding->getLanguage();
         $designSystemPresenterExtension = $this->container->get(DesignSystemPresenterExtension::class);
 
         if ($locale != $designSystemPresenterExtension->getTranslate()->getLocale()) {
