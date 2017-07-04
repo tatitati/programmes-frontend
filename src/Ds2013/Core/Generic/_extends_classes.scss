@@ -179,10 +179,6 @@
     }
 }
 
-@-webkit-keyframes SPINNER {
-  0%   { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
 @keyframes SPINNER {
   0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -198,7 +194,6 @@
     border-radius: 100%;
     height: 16px;
     width: 16px;
-    -webkit-animation: SPINNER 0.75s infinite linear;
     animation:         SPINNER 0.75s infinite linear;
 }
 
@@ -208,6 +203,5 @@
     height: 40px;
     width: 40px;
     border-left-color: rgba(255, 255, 255, 0.15) !important;
-    -webkit-animation: SPINNER 1.1s infinite linear;
     animation:         SPINNER 1.1s infinite linear;
 }

@@ -43,23 +43,13 @@
 }
 
 @mixin transform($transform) {
-    -webkit-transform: $transform;
-       -moz-transform: $transform;
-        -ms-transform: $transform;
-         -o-transform: $transform;
-            transform: $transform;
+    @warn "The use of the mixin tranform is deprecated. Please use the transform property directly"
 }
 
 @mixin transition($transition...) {
-  -webkit-transition: $transition;
-     -moz-transition: $transition;
-       -o-transition: $transition;
-          transition: $transition;
+    @warn "The use of the mixin transition is deprecated. Please use the transition property directly"
 }
 
 @mixin transition-delay($transition-delay) {
-  -webkit-transition-delay: $transition-delay;
-     -moz-transition-delay: $transition-delay;
-       -o-transition-delay: $transition-delay;
-          transition-delay: $transition-delay;
+    @warn "The use of the mixin transition-delay is deprecated. Please use the transition-delay property directly"
 }

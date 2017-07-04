@@ -84,8 +84,6 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
     vertical-align: top;
 
     // In case people want to use a * { box-sizing: content-box; } declaration
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 
     padding-left: $gel-grid-gutter-basic;

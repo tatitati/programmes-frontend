@@ -8,6 +8,7 @@ const rev = require('gulp-rev');
 const revdelOriginal = require('gulp-rev-delete-original');
 const del = require('del');
 const requirejsOptimize = require('gulp-requirejs-optimize');
+const autoprefixer = require('gulp-autoprefixer');
 
 const staticPathSrc = 'app/Resources';
 const staticPathDist = 'web/assets';
@@ -64,6 +65,9 @@ gulp.task('sass', ['sass:clean'], function() {
             'src',
             'node_modules'
         ]}).on('error', gulpSassError(throwError)))
+        .pipe(autoprefixer({
+            browsers: ['last 3 versions'], cascade: false, remove: false
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(staticPathDist + '/css/'));
 });

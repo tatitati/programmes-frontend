@@ -40,12 +40,6 @@ $timebar-inactive: #444;
     background: $timebar-inactive;
 }
 
-    // webkit is the only prefix needed
-@-webkit-keyframes lastchance {
-    0% {background-color: $timebar-inactive;}
-    50% {background-color: $iplayer-pink;}
-    80% {background-color: $timebar-inactive;}
-}
 @keyframes lastchance {
     0% {background-color: $timebar-inactive;}
     50% {background-color: $iplayer-pink;}
@@ -53,16 +47,12 @@ $timebar-inactive: #444;
 }
 .timebar-barbox-lastchance,
 .timebar-barbox--live {
-    // webkit is the only prefix needed
-    -webkit-animation: lastchance 3s infinite;
     animation:         lastchance 3s infinite;
 }
 
 .timebar-barbox--live:nth-child(2) {
-    -webkit-animation-delay: 1s;
     animation-delay: 1s;
 }
 .timebar-barbox--live:nth-child(3) {
-    -webkit-animation-delay: 2s;
     animation-delay: 2s;
 }

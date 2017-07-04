@@ -183,7 +183,7 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
 .stream .programme,
 .stream .programme__body,
 .stream .programme__overlay {
-    @include transition(opacity 0.3s ease-in, background-color 0.3s ease-in);
+    transition: opacity 0.3s ease-in, background-color 0.3s ease-in;
     opacity: 1;
 }
 .stream:not(.touched):not(.stream--alwaysvisible) .stream__i_hidden .programme__body,
