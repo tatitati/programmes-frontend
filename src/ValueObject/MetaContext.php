@@ -31,6 +31,10 @@ class MetaContext
             if ($context->getNetwork()) {
                 $this->titlePrefix = $context->getNetwork()->getName();
             }
+
+            // TODO add rdfa type so that it can be added onto the <body> tag
+            // e.g. http://www.bbc.co.uk/programmes/b006q2x0 has
+            // <body vocab="http://schema.org/" typeof="TVSeries">
         } elseif ($context instanceof Service) {
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $context->getName();

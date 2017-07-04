@@ -1,23 +1,39 @@
 <!DOCTYPE html>
-<html class="{{ branding.orbitThemeClasses|raw }} {% block html_classes %}{% endblock %}" lang="{{ branding.options.language|default('en') }}">
+<html class="{{ branding.orbitThemeClasses|raw }} {% block html_classes %}{% endblock %}" lang="{{ branding.language|default('en') }}">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
-        <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon"/>
-        <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}"/>
-        <meta name="description" content="{{ metaContext.description }}">
-        <meta name="twitter:card" content="summary_large_image">
+        <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon">
+        <link rel="canonical" href="{{ canonical_url }}">
+        <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}">
+        <meta name="description" content="{{ meta_context.description }}">
+
+        {#- OpenGraph tags for Facebook/Twitter -#}
         <meta property="og:site_name" content="BBC">
         <meta property="og:title" content="{{ block('title') }}">
         <meta property="og:type" content="website">
-        <link rel="canonical" href="{{ canonical }}">
-        <meta property="og:url" content="{{ canonical }}">
-        <meta property="og:description" content="{{ metaContext.description }}">
-        <meta property="og:image" content="{{ metaContext.image.getUrl(1200, 675) }}">
-        <meta name="msapplication-square150x150logo" content="{{ metaContext.image.getUrl(160, 160) }}">
-        {% if(metaContext.isRadio) %}
-            <meta name="apple-itunes-app"
-                  content="app-id=560458506, app-argument={{ canonical }}?bbc_referrer={{ canonical|url_encode }}">
+        <meta property="og:url" content="{{ canonical_url }}">
+        <meta property="og:description" content="{{ meta_context.description }}">
+        <meta property="og:image" content="{{ meta_context.image.getUrl(1200, 675) }}">
+
+        {#- Twitter-specific tags -#}
+        <meta name="twitter:card" content="summary_large_image">
+
+        {#- Android/iOS homepage icons -#}
+        <link rel="shortcut icon" sizes="196x196" href="{{ meta_context.image.getUrl(208, 208) }}">
+        <link rel="shortcut icon" sizes="128x128" href="{{ meta_context.image.getUrl(128, 128) }}">
+        <link rel="apple-touch-icon" href="{{ meta_context.image.getUrl(80, 80) }}" >
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ meta_context.image.getUrl(128,128) }}">
+        <link rel="apple-touch-icon" sizes="152x152" href="{{ meta_context.image.getUrl(160, 160) }}">
+
+        {#- This image 272px not 150px wide because Microsoft suggests the image
+            dimensions be 1.8x larger than the rendered size to allow for scaling.
+            See https://msdn.microsoft.com/en-us/library/dn439794(v=vs.85).aspx
+        -#}
+        <meta name="msapplication-square150x150logo" content="{{ meta_context.image.getUrl(272, 272) }}">
+
+        {% if (meta_context.isRadio) %}
+            <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ canonical_url }}?bbc_referrer={{ canonical_url|url_encode }}">
         {% endif %}
 
         {{ orb.head|raw }}
@@ -38,14 +54,13 @@
                     'jquery-1.9': "https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1",
                     'rv-bootstrap': "{{ asset_js('js/rv-bootstrap.js') }}"
                 },
+                "priority": ['jquery-1.9', 'rv-bootstrap'],
                 "map": {
                     "*": {
                         "jquery": "jquery-1.9"
                     }
                 }
             });
-
-            requirejs(['rv-bootstrap']);
         </script>
     </head>
     <body>
@@ -56,10 +71,12 @@
         {% block body %}{% endblock %}
         </div>
         {{ gelicons_source() }}
+        <script>
+            require(['https://static.bbci.co.uk/radio/player/script/popup.js']);
+            require(['rv-bootstrap']);
+        </script>
+        {% block javascripts %}{% endblock %}
         {{ branding.bodyLast|raw }}
         {{ orb.bodylast|raw }}
-        {# @TODO does this need to pull from a specific env? #}
-        <script>require(['//static.bbci.co.uk/radio/player/script/popup.js'], function () {})</script>
-        {% block javascripts %}{% endblock %}
     </body>
 </html>
