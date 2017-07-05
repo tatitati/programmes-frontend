@@ -60,7 +60,7 @@ abstract class BaseController extends AbstractController
 
         // We only need to change the translation language if it is different
         // to the language the translation extension was initially created with
-        $locale = $branding->getLanguage();
+        $locale = $branding->getLocale();
         $designSystemPresenterExtension = $this->container->get(DesignSystemPresenterExtension::class);
 
         if ($locale != $designSystemPresenterExtension->getTranslate()->getLocale()) {
@@ -70,7 +70,7 @@ abstract class BaseController extends AbstractController
 
         $orb = $this->container->get(OrbitClient::class)->getContent([
             'variant' => $branding->getOrbitVariant(),
-            'language' => $locale,
+            'language' => $branding->getLanguage(),
         ], [
             'searchScope' => $branding->getOrbitSearchScope(),
             'skipLinkTarget' => 'programmes-content',
