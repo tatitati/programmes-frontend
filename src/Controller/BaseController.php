@@ -79,8 +79,7 @@ abstract class BaseController extends AbstractController
         $parameters = array_merge([
             'orb' => $orb,
             'branding' => $branding,
-            'canonical_url' => $this->getCanonicalUrl(),
-            'meta_context' => new MetaContext($this->context),
+            'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl()),
         ], $parameters);
 
         return $this->render($view, $parameters, $response);

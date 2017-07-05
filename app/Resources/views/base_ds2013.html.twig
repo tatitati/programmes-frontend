@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon">
-        {% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}
+        {% if meta_context.canonicalUrl %}<link rel="canonical" href="{{ meta_context.canonicalUrl }}">{% endif %}
         <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}">
         <meta name="description" content="{{ meta_context.description }}">
 
@@ -12,7 +12,7 @@
         <meta property="og:site_name" content="BBC">
         <meta property="og:title" content="{{ block('title') }}">
         <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ canonical_url }}">
+        {% if meta_context.canonicalUrl %}<meta property="og:url" content="{{ meta_context.canonicalUrl }}">{% endif %}
         <meta property="og:description" content="{{ meta_context.description }}">
         <meta property="og:image" content="{{ meta_context.image.getUrl(1200, 675) }}">
 
@@ -32,8 +32,8 @@
         -#}
         <meta name="msapplication-square150x150logo" content="{{ meta_context.image.getUrl(272, 272) }}">
 
-        {% if (meta_context.isRadio) %}
-            <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ canonical_url }}?bbc_referrer={{ canonical_url|url_encode }}">
+        {% if meta_context.canonicalUrl and meta_context.isRadio %}
+            <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ meta_context.canonicalUrl }}?bbc_referrer={{ meta_context.canonicalUrl|url_encode }}">
         {% endif %}
 
         {{ orb.head|raw }}

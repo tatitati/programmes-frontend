@@ -22,8 +22,13 @@ class MetaContext
     /** @var string */
     private $titlePrefix = '';
 
-    public function __construct($context = null)
+    /** @var string */
+    private $canonicalUrl = '';
+
+    public function __construct($context = null, string $canonicalUrl = '')
     {
+        $this->canonicalUrl = $canonicalUrl;
+
         if ($context instanceof Programme) {
             $this->description = $context->getShortSynopsis();
             $this->image = $context->getImage();
@@ -53,6 +58,11 @@ class MetaContext
                 'png'
             );
         }
+    }
+
+    public function canonicalUrl(): string
+    {
+        return $this->canonicalUrl;
     }
 
     public function description(): string

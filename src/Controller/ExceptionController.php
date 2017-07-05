@@ -62,8 +62,7 @@ class ExceptionController extends BaseExceptionController
                 'currentContent' => $currentContent,
                 'orb' => $orb,
                 'branding' => $branding,
-                'canonical_url' => null,
-                'meta_context' => new MetaContext(),
+                'meta_context' => new MetaContext(null, ''),
             ]
         ));
     }
