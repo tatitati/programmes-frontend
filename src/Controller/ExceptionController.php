@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\ValueObject\MetaContext;
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\OrbitClient;
 use Symfony\Bundle\TwigBundle\Controller\ExceptionController as BaseExceptionController;
@@ -61,6 +62,8 @@ class ExceptionController extends BaseExceptionController
                 'currentContent' => $currentContent,
                 'orb' => $orb,
                 'branding' => $branding,
+                'canonical_url' => null,
+                'meta_context' => new MetaContext(),
             ]
         ));
     }

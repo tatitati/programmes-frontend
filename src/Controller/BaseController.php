@@ -21,9 +21,11 @@ abstract class BaseController extends Controller
     protected function getCanonicalUrl(): string
     {
         $requestAttributes = $this->container->get('request_stack')->getCurrentRequest()->attributes;
-        $route = $requestAttributes->get('_route');
-        $routeParams = $requestAttributes->get('_route_params');
-        return $this->generateUrl($route, $routeParams, UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->generateUrl(
+            $requestAttributes->get('_route'),
+            $requestAttributes->get('_route_params'),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 
     protected function setBrandingId(string $brandingId)
@@ -65,10 +67,10 @@ abstract class BaseController extends Controller
         ]);
 
         $parameters = array_merge([
-            'canonical_url' => $this->getCanonicalUrl(),
-            'meta_context' => new MetaContext($this->context),
             'orb' => $orb,
             'branding' => $branding,
+            'canonical_url' => $this->getCanonicalUrl(),
+            'meta_context' => new MetaContext($this->context),
         ], $parameters);
 
         return $this->render($view, $parameters, $response);

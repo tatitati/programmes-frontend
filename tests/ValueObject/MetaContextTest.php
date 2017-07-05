@@ -16,7 +16,7 @@ class MetaContextTest extends TestCase
 {
     public function testWithNullContext()
     {
-        $metaContext = new MetaContext(null);
+        $metaContext = new MetaContext();
         $this->assertSame('', $metaContext->description());
         $this->assertSame('', $metaContext->titlePrefix());
         $this->assertFalse($metaContext->isRadio());

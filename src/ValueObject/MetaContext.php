@@ -22,7 +22,7 @@ class MetaContext
     /** @var string */
     private $titlePrefix = '';
 
-    public function __construct($context)
+    public function __construct($context = null)
     {
         if ($context instanceof Programme) {
             $this->description = $context->getShortSynopsis();
