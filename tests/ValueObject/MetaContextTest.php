@@ -57,14 +57,14 @@ class MetaContextTest extends TestCase
         $network->method('getImage')->willReturn($image);
 
         $service = $this->createMock(Service::class);
-        $service->method('getName')->willReturn('Jeff');
+        $service->method('getName')->willReturn('Geoff');
         $service->method('getNetwork')->willReturn($network);
         $service->method('isRadio')->willReturn(false);
 
         $metaContext = new MetaContext($service);
 
         $this->assertSame('', $metaContext->description());
-        $this->assertSame('Jeff', $metaContext->titlePrefix());
+        $this->assertSame('Geoff', $metaContext->titlePrefix());
         $this->assertFalse($metaContext->isRadio());
         $this->assertEquals('getTitleOutput', $metaContext->image()->getTitle());
     }
