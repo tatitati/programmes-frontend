@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b427b6f699b7e147b02fdbf5531cacae",
+    "content-hash": "c717a081525e8aa33c41e76625c1e878",
     "packages": [
         {
             "name": "bbc-rmp/translate",
@@ -54,16 +54,16 @@
         },
         {
             "name": "bbc/branding-client",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/branding-client.git",
-                "reference": "2a77f3ccef53f3c413ab88444daf37f659a367d2"
+                "reference": "ba33c4e2c97a1cb37ae958b737aad909bc99977a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/branding-client/zipball/2a77f3ccef53f3c413ab88444daf37f659a367d2",
-                "reference": "2a77f3ccef53f3c413ab88444daf37f659a367d2",
+                "url": "https://api.github.com/repos/bbc/branding-client/zipball/ba33c4e2c97a1cb37ae958b737aad909bc99977a",
+                "reference": "ba33c4e2c97a1cb37ae958b737aad909bc99977a",
                 "shasum": ""
             },
             "require": {
@@ -93,10 +93,10 @@
             ],
             "description": "PHP Branding client",
             "support": {
-                "source": "https://github.com/bbc/branding-client/tree/v2.0.2",
+                "source": "https://github.com/bbc/branding-client/tree/v2.0.3",
                 "issues": "https://github.com/bbc/branding-client/issues"
             },
-            "time": "2017-07-05T16:58:51+00:00"
+            "time": "2017-07-06T17:03:37+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",
@@ -2556,16 +2556,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.3.3",
+            "version": "v3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "098bb166d51cdf0b0541550d037bb3ad1f8fa846"
+                "reference": "82f7cba3c272bcd266f2d27ad6f07832c2eb3a1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/098bb166d51cdf0b0541550d037bb3ad1f8fa846",
-                "reference": "098bb166d51cdf0b0541550d037bb3ad1f8fa846",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/82f7cba3c272bcd266f2d27ad6f07832c2eb3a1c",
+                "reference": "82f7cba3c272bcd266f2d27ad6f07832c2eb3a1c",
                 "shasum": ""
             },
             "require": {
@@ -2704,7 +2704,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-07-04T06:03:16+00:00"
+            "time": "2017-07-05T13:28:34+00:00"
         },
         {
             "name": "twig/twig",
@@ -4400,7 +4400,7 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.3.3",
+            "version": "v3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
