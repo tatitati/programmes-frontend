@@ -40,11 +40,6 @@
     }
 }
 
-.language-fr .broadcast__live {
-    // Hack to make french "on air" text fit
-    font-size: 0.75em;
-}
-
 .broadcast__time {
     margin-bottom: 0.25em;
     font-weight: normal;
@@ -67,9 +62,6 @@
 }
 
 
-
-
-
 @include mq-range('bpw') {
     .broadcast--grid {
         .broadcast--live {
@@ -83,8 +75,9 @@
     }
 }
 
-@include mq-range('bpe') {
-    .language-fr .broadcast__live {
-        font-size: 1em;
+// Hack to make french "on air" text fit
+@include mq($until: 'gel4') {
+    html[lang=fr] .broadcast__live {
+        font-size: 0.75em;
     }
 }
