@@ -1,12 +1,16 @@
-{% set title_classes = build_css_classes({
+{%- set title_classes = build_css_classes({
     'grid': true,
     '1/2@bpw2 1/2@bpe': schedules_by_day_page.hasSiblingServiceLink,
-}) %}
+}) -%}
 
 <div class="grid-wrapper">
     <div class="{{ title_classes }}">
         <p class="beta">
-            {{ tr('schedule_title', {'%1': schedules_by_day_page.service.name}) }}
+            {%- if schedules_by_day_page.hasSiblingServiceLink and schedules_by_day_page.service.name != schedules_by_day_page.service.network.name -%}
+                {{- tr('schedule_title', {'%1': schedules_by_day_page.service.shortName}) -}}
+            {% else %}
+                {{- tr('schedules', 1) -}}
+            {%- endif -%}
         </p>
     </div>
     {% if schedules_by_day_page.hasSiblingServiceLink %}

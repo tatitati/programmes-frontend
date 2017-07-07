@@ -96,7 +96,7 @@ class SchedulesByDayPagePresenter extends Presenter
 
     public function getSiblingServicesLinkName(): string
     {
-        return $this->twinService ? $this->twinService->getName() : $this->service->getNetwork()->getName();
+        return $this->twinService ? $this->twinService->getShortName() : $this->service->getNetwork()->getName();
     }
 
     public function getTwinServicePid(): string

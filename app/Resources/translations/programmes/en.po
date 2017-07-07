@@ -1717,7 +1717,7 @@ msgstr "Broadcast schedule ended on %1"
 #. %1 is a variable, which may contain the value: "Saturday 2 April 2011"
 #. Priority for: Schedules
 msgid "schedule_title"
-msgstr "%1 schedule"
+msgstr "%1 Schedule"
 
 #. English (no items): "Schedules".
 #. English (one item): "Schedule".
