@@ -4,6 +4,7 @@ namespace Tests\App\Ds2013\Helpers\PlayTranslationsHelper;
 
 use App\Ds2013\Helpers\AvailabilityTimeToWordsHelper;
 use App\Ds2013\Helpers\PlayTranslationsHelper;
+use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use PHPUnit\Framework\TestCase;
 use RMP\Translate\Translate;
@@ -18,7 +19,9 @@ class TimeToWordsTest extends TestCase
     public function setUp()
     {
         $this->mockTranslate = $this->createMock(Translate::class);
-        $this->helper = new PlayTranslationsHelper($this->mockTranslate);
+        $mockTranslateProvider = $this->createMock(TranslateProvider::class);
+        $mockTranslateProvider->method('getTranslate')->willReturn($this->mockTranslate);
+        $this->helper = new PlayTranslationsHelper($mockTranslateProvider);
     }
 
     public function testNoTimeRemainingToWords()

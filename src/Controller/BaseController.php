@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Translate\TranslateProvider;
 use App\ValueObject\MetaContext;
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\OrbitClient;
@@ -12,7 +13,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Twig\DesignSystemPresenterExtension;
-use RMP\Translate\TranslateFactory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class BaseController extends AbstractController
@@ -26,8 +26,7 @@ abstract class BaseController extends AbstractController
         return array_merge(parent::getSubscribedServices(), [
             BrandingClient::class,
             OrbitClient::class,
-            DesignSystemPresenterExtension::class,
-            TranslateFactory::class,
+            TranslateProvider::class,
         ]);
     }
 
@@ -70,12 +69,9 @@ abstract class BaseController extends AbstractController
         // We only need to change the translation language if it is different
         // to the language the translation extension was initially created with
         $locale = $branding->getLocale();
-        $designSystemPresenterExtension = $this->container->get(DesignSystemPresenterExtension::class);
+        $translateProvider = $this->container->get(TranslateProvider::class);
 
-        if ($locale != $designSystemPresenterExtension->getTranslate()->getLocale()) {
-            $translate = $this->container->get(TranslateFactory::class)->create($locale);
-            $designSystemPresenterExtension->setTranslate($translate);
-        }
+        $translateProvider->setLocale($locale);
 
         $orb = $this->container->get(OrbitClient::class)->getContent([
             'variant' => $branding->getOrbitVariant(),

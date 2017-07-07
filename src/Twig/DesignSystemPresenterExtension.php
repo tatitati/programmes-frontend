@@ -4,12 +4,12 @@ namespace App\Twig;
 
 use App\Ds2013\Presenter as Ds2013Presenter;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
-use App\Ds2013\TranslatableTrait;
+use App\Translate\TranslatableTrait;
+use App\Translate\TranslateProvider;
 use DateTimeInterface;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
-use RMP\Translate\Translate;
 use Twig_SimpleFilter;
 
 class DesignSystemPresenterExtension extends Twig_Extension
@@ -19,22 +19,11 @@ class DesignSystemPresenterExtension extends Twig_Extension
     private $ds2013PresenterFactory;
 
     public function __construct(
-        Translate $translate,
+        TranslateProvider $translateProvider,
         Ds2013PresenterFactory $ds2013PresenterFactory
     ) {
-        $this->translate = $translate;
+        $this->translateProvider = $translateProvider;
         $this->ds2013PresenterFactory = $ds2013PresenterFactory;
-    }
-
-    public function getTranslate(): Translate
-    {
-        return $this->translate;
-    }
-
-    public function setTranslate(Translate $translate): void
-    {
-        $this->translate = $translate;
-        $this->ds2013PresenterFactory->setTranslate($this->translate);
     }
 
     /**

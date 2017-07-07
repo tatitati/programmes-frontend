@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;
 use RMP\Translate\Translate;
+use App\Translate\TranslateProvider;
 use DateTimeImmutable;
 
 class TranslateAvailableUntilToWordsTest extends TestCase
@@ -22,7 +23,9 @@ class TranslateAvailableUntilToWordsTest extends TestCase
     {
         $this->mockTranslate = $this->createMock(Translate::class);
         $this->mockTranslate->method('getLocale')->willReturn('en_GB');
-        $this->helper = new PlayTranslationsHelper($this->mockTranslate);
+        $mockTranslateProvider = $this->createMock(TranslateProvider::class);
+        $mockTranslateProvider->method('getTranslate')->willReturn($this->mockTranslate);
+        $this->helper = new PlayTranslationsHelper($mockTranslateProvider);
         ApplicationTime::setTime((new Chronos('2017-06-01T12:00:00'))->timestamp);
     }
 

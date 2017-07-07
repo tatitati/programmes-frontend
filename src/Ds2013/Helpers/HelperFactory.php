@@ -2,13 +2,13 @@
 
 namespace App\Ds2013\Helpers;
 
-use RMP\Translate\Translate;
+use App\Translate\TranslateProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HelperFactory
 {
-    /** @var Translate */
-    private $translate;
+    /** @var TranslateProvider */
+    private $translateProvider;
 
     /** @var Router */
     private $router;
@@ -22,9 +22,9 @@ class HelperFactory
      * All functions in this factory should take no parameters. Think of these as a less braindead version
      * of PHP traits.
      */
-    public function __construct(Translate $translate, UrlGeneratorInterface $router)
+    public function __construct(TranslateProvider $translateProvider, UrlGeneratorInterface $router)
     {
-        $this->translate = $translate;
+        $this->translateProvider = $translateProvider;
         $this->router = $router;
     }
 
@@ -39,7 +39,7 @@ class HelperFactory
     public function getPlayTranslationsHelper()
     {
         if (!isset($this->helpers[PlayTranslationsHelper::class])) {
-            $this->helpers[PlayTranslationsHelper::class] = new PlayTranslationsHelper($this->translate);
+            $this->helpers[PlayTranslationsHelper::class] = new PlayTranslationsHelper($this->translateProvider);
         }
         return $this->helpers[PlayTranslationsHelper::class];
     }

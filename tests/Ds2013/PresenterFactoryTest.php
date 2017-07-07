@@ -6,6 +6,7 @@ use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use RMP\Translate\Translate;
@@ -32,19 +33,11 @@ class PresenterFactoryTest extends TestCase
     public function setUp()
     {
         $this->translate = $this->createMock(Translate::class);
+        $translateProvider = $this->createMock(TranslateProvider::class);
+        $translateProvider->method('getTranslate')->willReturn($this->translate);
         $this->router = $this->createMock(UrlGeneratorInterface::class);
         $this->helperFactory = $this->createMock(HelperFactory::class);
-        $this->factory = new PresenterFactory($this->translate, $this->router, $this->helperFactory);
-    }
-
-    public function testGetSetTranslate()
-    {
-        $this->assertSame($this->translate, $this->factory->getTranslate());
-
-        $newTranslate = $this->createMock(Translate::class);
-        $this->factory->setTranslate($newTranslate);
-
-        $this->assertSame($newTranslate, $this->factory->getTranslate());
+        $this->factory = new PresenterFactory($translateProvider, $this->router, $this->helperFactory);
     }
 
     public function testOrganismBroadcast()

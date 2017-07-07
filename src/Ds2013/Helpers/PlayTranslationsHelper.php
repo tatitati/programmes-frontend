@@ -2,14 +2,14 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Helpers;
 
-use App\Ds2013\TranslatableTrait;
+use App\Translate\TranslatableTrait;
+use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use DateInterval;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use Cake\Chronos\Chronos;
-use RMP\Translate\Translate;
 
 class PlayTranslationsHelper
 {
@@ -25,9 +25,9 @@ class PlayTranslationsHelper
         'iplayer_time',
     ];
 
-    public function __construct(Translate $translate)
+    public function __construct(TranslateProvider $translateProvider)
     {
-        $this->translate = $translate;
+        $this->translateProvider = $translateProvider;
     }
 
     public function translateAvailableUntilToWords(ProgrammeItem $programmeItem, Service $service = null): string

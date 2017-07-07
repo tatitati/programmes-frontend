@@ -4,6 +4,7 @@ namespace Tests\App;
 
 use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\PresenterFactory;
+use App\Translate\TranslateProvider;
 use App\Twig\DesignSystemPresenterExtension;
 use App\Twig\GelIconExtension;
 use App\Twig\HtmlUtilitiesExtension;
@@ -64,7 +65,7 @@ class TwigEnvironmentProvider
             'basepath' => __DIR__ . '/../app/Resources/translations',
         ]);
 
-        $translate = $translateFactory->create('en_GB');
+        $translateProvider = new TranslateProvider($translateFactory);
 
         $assetPackages = new Packages(new Package(new EmptyVersionStrategy()));
 
@@ -84,13 +85,13 @@ class TwigEnvironmentProvider
         $twig->addExtension(new RoutingExtension($router));
 
         // Programmes extensions
-        $helperFactory = new HelperFactory($translate, $router);
+        $helperFactory = new HelperFactory($translateProvider, $router);
 
         // Set presenter factory for template tests to use.
-        self::$presenterFactory = new PresenterFactory($translate, $router, $helperFactory);
+        self::$presenterFactory = new PresenterFactory($translateProvider, $router, $helperFactory);
 
         $twig->addExtension(new DesignSystemPresenterExtension(
-            $translate,
+            $translateProvider,
             self::$presenterFactory
         ));
 

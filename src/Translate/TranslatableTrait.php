@@ -1,15 +1,14 @@
 <?php
 declare(strict_types = 1);
-namespace App\Ds2013;
+namespace App\Translate;
 
 use DateTimeInterface;
 use IntlDateFormatter;
-use RMP\Translate\Translate;
 
 trait TranslatableTrait
 {
-    /** @var Translate */
-    protected $translate;
+    /** @var TranslateProvider */
+    protected $translateProvider;
 
     /**
      * @param DateTimeInterface $dateTime
@@ -22,7 +21,7 @@ trait TranslatableTrait
     protected function localDate(DateTimeInterface $dateTime, string $format)
     {
         $formatter = IntlDateFormatter::create(
-            $this->translate->getLocale(),
+            $this->translateProvider->getTranslate()->getLocale(),
             IntlDateFormatter::NONE,
             IntlDateFormatter::NONE,
             $dateTime->getTimezone(),
@@ -48,6 +47,6 @@ trait TranslatableTrait
             $substitutions['%count%'] = $numPlurals;
         }
 
-        return $this->translate->translate($key, $substitutions, $numPlurals, $domain);
+        return $this->translateProvider->getTranslate()->translate($key, $substitutions, $numPlurals, $domain);
     }
 }

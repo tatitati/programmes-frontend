@@ -1,8 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\Ds2013;
+namespace Tests\App\Translate;
 
-use App\Ds2013\TranslatableTrait;
+use App\Translate\TranslatableTrait;
+use App\Translate\TranslateProvider;
 use RMP\Translate\Translate;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -60,17 +61,19 @@ class TranslatableTraitTest extends TestCase
     /**
      * This is funky. It generates a closure that has its scope bound to a
      * mock, which means it has access to call protected functions (i.e. tr).
-     * We also need to do some reflection malarkey to set the translate property
+     * We also need to do some reflection malarkey to set the translateProvider property
      */
     private function boundTr(Translate $translate): callable
     {
+        $translateProvider = $this->createMock(TranslateProvider::class);
+        $translateProvider->method('getTranslate')->willReturn($translate);
         $translatable = $this->getMockForTrait(TranslatableTrait::class);
 
         $reflection = new ReflectionClass($translatable);
-        $translateProperty = $reflection->getProperty('translate');
+        $translateProperty = $reflection->getProperty('translateProvider');
         $translateProperty->setAccessible(true);
 
-        $translateProperty->setValue($translatable, $translate);
+        $translateProperty->setValue($translatable, $translateProvider);
 
 
         // Define a closure that will call the protected method using "this".

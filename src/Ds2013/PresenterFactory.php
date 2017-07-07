@@ -14,7 +14,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
-use RMP\Translate\Translate;
+use App\Translate\TranslateProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -31,15 +31,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * which have presenters.
  * Each respective group MUST have the methods kept in alphabetical order
  *
- * To instantiate Ds2013 you MUST pass it an instance of Translate
+ * To instantiate Ds2013 you MUST pass it an instance of TranslateProvider
  * All presenters MUST be created using this factory.
  * All presenters MUST call the base Presenter __construct method
  *
  */
 class PresenterFactory
 {
-    /** @var Translate */
-    private $translate;
+    /** @var TranslateProvider */
+    private $translateProvider;
 
     /** @var UrlGeneratorInterface */
     private $router;
@@ -47,21 +47,11 @@ class PresenterFactory
     /** @var HelperFactory */
     private $helperFactory;
 
-    public function __construct(Translate $translate, UrlGeneratorInterface $router, HelperFactory $helperFactory)
+    public function __construct(TranslateProvider $translateProvider, UrlGeneratorInterface $router, HelperFactory $helperFactory)
     {
-        $this->translate = $translate;
+        $this->translateProvider = $translateProvider;
         $this->router = $router;
         $this->helperFactory = $helperFactory;
-    }
-
-    public function getTranslate(): Translate
-    {
-        return $this->translate;
-    }
-
-    public function setTranslate(Translate $translate): void
-    {
-        $this->translate = $translate;
     }
 
     /**

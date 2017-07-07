@@ -80,10 +80,6 @@ services:
               debug: '%kernel.debug%'
               basepath: '%kernel.project_dir%/app/Resources/translations'
 
-    RMP\Translate\Translate:
-        factory: ['@RMP\Translate\TranslateFactory', 'create']
-        arguments: ['%app.default_locale%']
-
     ### Monitoring
 
     App\EventSubscriber\MonitoringSubscriber:
