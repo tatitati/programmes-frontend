@@ -34,6 +34,7 @@ class SeriesFixtures
             5,
             0,
             true, //ispodcastable, not used yet
+            OptionsFixture::empty(),
             BrandsFixtures::bookOfTheWeek(),
             null,
             MasterBrandsFixtures::radioFour(),

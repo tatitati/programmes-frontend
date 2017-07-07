@@ -22,19 +22,17 @@ class SchedulesByDayController extends BaseController
         BroadcastsService $broadcastService,
         CollapsedBroadcastsService $collapsedBroadcastsService
     ) {
-        $this->setBrandingId('br-08368');
-
         $dateTimeToShow = $this->dateTimeToShow($date);
         if (!$dateTimeToShow) {
             throw $this->createNotFoundException('Invalid date');
         }
 
         $service = $servicesService->findByPidFull($pid);
-        $this->setContext($service);
-
         if (!$service) {
             throw $this->createNotFoundException('Service not found');
         }
+
+        $this->setContext($service);
 
         $broadcastDay = new BroadcastDay($dateTimeToShow, $service->getNetwork()->getMedium());
 

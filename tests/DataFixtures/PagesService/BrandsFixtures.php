@@ -33,6 +33,7 @@ class BrandsFixtures
             1, //available episodes count
             0, //available galleries count
             false,
+            OptionsFixture::eastEnders(),
             null, //parent
             null, //position
             MasterBrandsFixtures::bbcOne(),
@@ -67,6 +68,7 @@ class BrandsFixtures
             30, //available episodes count
             0, //available galleries count
             false,
+            OptionsFixture::empty(),
             null, //parent
             null, //position
             MasterBrandsFixtures::radioFour(),

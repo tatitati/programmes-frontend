@@ -36,6 +36,7 @@ class EpisodesFixtures
             0,
             0,
             0,
+            OptionsFixture::eastEnders(),
             BrandsFixtures::eastEnders(),
             2, // position
             MasterBrandsFixtures::bbcOne(),
@@ -73,6 +74,7 @@ class EpisodesFixtures
             0,
             0,
             0,
+            OptionsFixture::empty(),
             SeriesFixtures::bookOfTheWeekRealityIsNotWhatItSeems(),
             5, // position
             MasterBrandsFixtures::radioFour(),

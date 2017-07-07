@@ -6,8 +6,10 @@ namespace App\Controller;
 use App\ValueObject\MetaContext;
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\OrbitClient;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Twig\DesignSystemPresenterExtension;
 use RMP\Translate\TranslateFactory;
@@ -16,6 +18,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 abstract class BaseController extends AbstractController
 {
     private $brandingId = 'br-00001';
+
     private $context;
 
     public static function getSubscribedServices()
@@ -46,6 +49,12 @@ abstract class BaseController extends AbstractController
     protected function setContext($context)
     {
         $this->context = $context;
+
+        if ($context instanceof Programme || $context instanceof Network) {
+            $this->setBrandingId($context->getOption('branding_id'));
+        } elseif ($context instanceof Service) {
+            $this->setBrandingId($context->getNetwork()->getOption('branding_id'));
+        }
     }
 
     protected function renderWithChrome(string $view, array $parameters = [], Response $response = null)
