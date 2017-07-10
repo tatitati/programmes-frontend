@@ -61,10 +61,11 @@ gulp.task('sass:clean', function() {
 gulp.task('sass', ['sass:clean'], function() {
     return gulp.src(staticPathSrc + sassMatch)
         .pipe(sourcemaps.init())
-        .pipe(sass({outputStyle: 'compressed', includePaths: [
-            'src',
-            'node_modules'
-        ]}).on('error', gulpSassError(throwError)))
+        .pipe(sass({
+            outputStyle: 'compressed',
+            precision: 8,
+            includePaths: ['src', 'node_modules']
+        }).on('error', gulpSassError(throwError)))
         .pipe(autoprefixer({
             browsers: ['last 3 versions'], cascade: false, remove: false
         }))
