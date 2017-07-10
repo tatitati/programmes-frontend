@@ -36,6 +36,8 @@
             "nginx.worker_rlimit_nofile": 3000,
             "nginx.worker_processes": 4,
             "nginx.worker_connections": 1592,
+            "nginx.gzip_comp_level": 1,
+            "nginx.gzip_experimental_config": true,
             "nginx.force_http_to_https_redirect": true,
             "nginx.remove_trailing_slashes": true,
             "nginx.redirect_cache_max_age": 3600
