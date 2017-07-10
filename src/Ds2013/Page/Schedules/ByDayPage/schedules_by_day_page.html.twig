@@ -32,18 +32,14 @@
         <div class="schedules-jump island micro">
             <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
             <ul class="schedules-jump__links nav nav--piped">
-                {% if schedules_by_day_page.onAirBroadcast %}
-                    <li>
-                        <a href="#on-now">{{ tr('on_air') }}</a>
-                    </li>
-                {% endif %}
-                {% for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay %}
-                    {% if broadcast_in_period %}
-                        <li>
-                            <a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
+                {%- if schedules_by_day_page.onAirBroadcast -%}
+                    <li><a href="#on-now">{{ tr('on_air') }}</a></li>
+                {%- endif -%}
+                {%- for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay -%}
+                    {%- if broadcast_in_period -%}
+                        <li><a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a></li>
+                    {%- endif -%}
+                {%- endfor -%}
             </ul>
         </div>
     </div>
