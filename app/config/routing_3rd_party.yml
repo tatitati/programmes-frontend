@@ -13,7 +13,7 @@
 ### External Products
 
 iplayer_play:
-    path: /iplayer/{pid}
+    path: /iplayer/episode/{pid}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
