@@ -2,7 +2,7 @@
 {% set title_tag = programme_title.option('title_tag') %}
 {% spaceless %}
     <{{ title_tag }} class="programme__titles">
-        <a property="url" href="{{ programme_title.titleLinkUrl }}" resource="http://www.bbc.co.uk{{ programme_title.titleLinkUrl }}" class="br-blocklink__link block-link__target" data-linktrack="programmeobjectlink=title">
+        <a property="url" href="{{ programme_title.titleLinkUrl }}" resource="{{ programme_title.titleLinkUrl }}" class="br-blocklink__link block-link__target" data-linktrack="programmeobjectlink=title">
             <span class="programme__title {{ programme_title.option('title_classes') }}">
                 {{ self.render_title(programme_title.mainTitleProgramme, programme_title) }}
             </span>

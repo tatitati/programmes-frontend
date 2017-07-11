@@ -16,6 +16,7 @@ iplayer_play:
     path: /iplayer/episode/{pid}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
 
 iplayer_live:
     path: /iplayer/live/{sid}

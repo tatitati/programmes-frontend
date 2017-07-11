@@ -48,7 +48,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('programme__overlay programme__overlay--available', $overlayDiv, 'Overlay container classes');
 
         $overlayLink = $overlayDiv->filterXPath('//a')->first();
-        $this->assertEquals('/iplayer/episode/p0000001', $overlayLink->attr('href'));
+        $this->assertEquals('http://localhost/iplayer/episode/p0000001', $overlayLink->attr('href'));
         $this->assertStringStartsWith('30 days left to watch', $overlayLink->attr('title'));
         $this->assertEquals('programmeobjectlink=cta', $overlayLink->attr('data-linktrack'));
         $this->assertHasClasses('iplayer-icon--container', $overlayLink, 'Iplayer overlay link has icon classes');
@@ -61,7 +61,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
 
         // Test main link target
         $targetLink = $crawler->filter('.block-link__target');
-        $this->assertEquals('/programmes/p0000001', $targetLink->attr('href'), 'Main block-link target URL');
+        $this->assertEquals('http://localhost/programmes/p0000001', $targetLink->attr('href'), 'Main block-link target URL');
         $this->assertEquals('programmeobjectlink=title', $targetLink->attr('data-linktrack'), 'Main block link tracking');
 
         // Test titles
@@ -115,7 +115,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('programme__overlay programme__overlay--available', $overlayDiv, 'Overlay container classes');
 
         $overlayLink = $overlayDiv->filterXPath('//a')->first();
-        $this->assertEquals('/programmes/b0849ccf#play', $overlayLink->attr('href'));
+        $this->assertEquals('http://localhost/programmes/b0849ccf#play', $overlayLink->attr('href'));
         $this->assertStringStartsWith('Listen now', $overlayLink->attr('title'));
         $this->assertEquals('programmeobjectlink=cta', $overlayLink->attr('data-linktrack'));
         $this->assertHasClasses('iplayer-icon--container', $overlayLink, 'Iplayer overlay link has icon classes');
@@ -128,7 +128,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
 
         // Test main link target
         $targetLink = $crawler->filter('.block-link__target');
-        $this->assertEquals('/programmes/b0849ccf', $targetLink->attr('href'), 'Main block-link target URL');
+        $this->assertEquals('http://localhost/programmes/b0849ccf', $targetLink->attr('href'), 'Main block-link target URL');
         $this->assertEquals('programmeobjectlink=title', $targetLink->attr('data-linktrack'), 'Main block link tracking');
 
         // Test titles

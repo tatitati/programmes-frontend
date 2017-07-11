@@ -89,6 +89,6 @@ class ProgrammeImagePresenter extends ProgrammePresenterBase
             $routeArguments['_fragment'] = 'play';
         }
 
-        return $this->router->generate($routeName, $routeArguments);
+        return $this->router->generate($routeName, $routeArguments, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

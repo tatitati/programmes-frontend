@@ -49,7 +49,7 @@ class ProgrammeTitlePresenter extends ProgrammePresenterBase
     public function getTitleLinkUrl(): string
     {
         // Link to iplayer/podcasts will be added here later
-        return $this->router->generate('find_by_pid', ['pid' => $this->programme->getPid()]);
+        return $this->router->generate('find_by_pid', ['pid' => $this->programme->getPid()], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     public function getMainTitleProgramme(): Programme

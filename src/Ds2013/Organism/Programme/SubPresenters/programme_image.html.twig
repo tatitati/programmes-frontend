@@ -33,7 +33,7 @@
                         {% if programme_image.isEpisode %}
                             <div property="{{ rdfa_schema_media_type(programme_image.programme) }}" typeof="{{ rdfa_schema_mediaobject_typeof(programme_image.programme) }}">
                                 <a property="url"
-                                   resource="http://www.bbc.co.uk{{ programme_image.playbackUrl }}"
+                                   resource="{{ programme_image.playbackUrl }}"
                                    href="{{ programme_image.playbackUrl }}"
                                    class="programme__availability programme__player iplayer-icon--container"
                                    title="{{ programme_image.availabilityInWords }}"

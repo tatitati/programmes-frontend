@@ -25,7 +25,7 @@ class ProgrammeImagePresenterTest extends TestCase
     {
         $routeCollectionBuilder = new RouteCollectionBuilder();
         $routeCollectionBuilder->add('/programmes/{pid}', '', 'find_by_pid');
-        $routeCollectionBuilder->add('/iplayer/{pid}', '', 'iplayer_play');
+        $routeCollectionBuilder->add('/iplayer/episode/{pid}', '', 'iplayer_play');
 
         $this->router = new UrlGenerator(
             $routeCollectionBuilder->build(),
@@ -69,7 +69,7 @@ class ProgrammeImagePresenterTest extends TestCase
             $this->mockTranslationsHelper,
             $programmeItem
         );
-        $this->assertEquals('/iplayer/b0000002', $programmeImagePresenter->getPlaybackUrl());
+        $this->assertEquals('http://localhost/iplayer/episode/b0000002', $programmeImagePresenter->getPlaybackUrl());
     }
 
     /**
@@ -90,19 +90,19 @@ class ProgrammeImagePresenterTest extends TestCase
         return [
             [// Radio episode
                 $this->playbackUrlProgramme(Episode::class, 'b0000001', true, true),
-                '/programmes/b0000001#play', // Expected URL for programme
+                'http://localhost/programmes/b0000001#play', // Expected URL for programme
             ],
             [// Audio episode
                 $this->playbackUrlProgramme(Episode::class, 'b0000001', false, true),
-                '/programmes/b0000001#play', // Expected URL for programme
+                'http://localhost/programmes/b0000001#play', // Expected URL for programme
             ],
             [// Radio clip
                 $this->playbackUrlProgramme(Clip::class, 'p0000003', true, true),
-                '/programmes/p0000003#play', // Expected URL for programme
+                'http://localhost/programmes/p0000003#play', // Expected URL for programme
             ],
             [// TV Clip
                 $this->playbackUrlProgramme(Clip::class, 'p0000003', false, false),
-                '/programmes/p0000003#play', // Expected URL for programme
+                'http://localhost/programmes/p0000003#play', // Expected URL for programme
             ],
         ];
     }
