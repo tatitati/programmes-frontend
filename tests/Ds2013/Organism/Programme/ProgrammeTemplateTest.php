@@ -48,7 +48,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('programme__overlay programme__overlay--available', $overlayDiv, 'Overlay container classes');
 
         $overlayLink = $overlayDiv->filterXPath('//a')->first();
-        $this->assertEquals('/iplayer/p0000001', $overlayLink->attr('href'));
+        $this->assertEquals('/iplayer/episode/p0000001', $overlayLink->attr('href'));
         $this->assertStringStartsWith('30 days left to watch', $overlayLink->attr('title'));
         $this->assertEquals('programmeobjectlink=cta', $overlayLink->attr('data-linktrack'));
         $this->assertHasClasses('iplayer-icon--container', $overlayLink, 'Iplayer overlay link has icon classes');
