@@ -31,7 +31,7 @@ class CollapsedBroadcastProgrammePresenter extends ProgrammePresenter
     ];
 
     /**
-     * Define options needed by all broadcast sub-presenters too
+     * Define options needed by all collapsed broadcast sub-presenters too
      *
      * @var array
      */

@@ -6,14 +6,17 @@ use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
+use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use App\Translate\TranslateProvider;
+use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -101,21 +104,51 @@ class PresenterFactory
         );
     }
 
-    public function collapsedBroadcastProgrammePresenter(
-        CollapsedBroadcast $collapsedBroadcast,
+    /**
+     * A Broadcast Programme is a special case of the Programme Presenter, that
+     * contains additional information about a given broadcast of a programme.
+     *
+     * Usually this shall be a CollapasedBroadcast, however sometimes you may
+     * only have a Broadcast to hand.
+     *
+     * You may pass in an explicit programme in as an argument in case the
+     * programme attached to $broadcast does not have a full hierarchy attached
+     * to it.
+     *
+     * @param Broadcast|CollapsedBroadcast $broadcast
+     * @param Programme|null $programme
+     */
+    public function broadcastProgrammePresenter(
+        $broadcast,
         ?Programme $programme = null,
         array $options = []
-    ): CollapsedBroadcastProgrammePresenter {
-        if (!$programme) {
-            $programme = $collapsedBroadcast->getProgrammeItem();
+    ) {
+        if ($broadcast instanceof CollapsedBroadcast) {
+            return new CollapsedBroadcastProgrammePresenter(
+                $this->router,
+                $this->helperFactory,
+                $broadcast,
+                $programme ?? $broadcast->getProgrammeItem(),
+                $options
+            );
         }
-        return new CollapsedBroadcastProgrammePresenter(
-            $this->router,
-            $this->helperFactory,
-            $collapsedBroadcast,
-            $programme,
-            $options
-        );
+
+        if ($broadcast instanceof Broadcast) {
+            return new BroadcastProgrammePresenter(
+                $this->router,
+                $this->helperFactory,
+                $broadcast,
+                $programme ?? $broadcast->getProgrammeItem(),
+                $options
+            );
+        }
+
+        throw new InvalidArgumentException(sprintf(
+            'Expected $broadcast to be an instance of "%s" or "%s". Found instance of "%s"',
+            Broadcast::CLASS,
+            CollapsedBroadcast::CLASS,
+            (is_object($broadcast) ? get_class($broadcast) : gettype($broadcast))
+        ));
     }
 
     public function broadcastPresenter(

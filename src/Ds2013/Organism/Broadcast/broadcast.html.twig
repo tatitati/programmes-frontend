@@ -47,7 +47,7 @@
             {%- if broadcast.programmeItem -%}
                 {#- This currently only implements the subset of functionality needed for the broadcast-by-day page.
                    Other options on this page may need changes here -#}
-                {%- set programme_options = {
+                {{ ds2013('broadcastProgramme', broadcast.collapsedBroadcast ?? broadcast.broadcast, broadcast.programmeItem, {
                     'highlight_box_classes': '',
                     'context_service': broadcast.broadcast.service,
                     'image_options': {
@@ -60,13 +60,7 @@
                             800: '148px',
                         }
                     },
-                } -%}
-                {%- if broadcast.collapsedBroadcast -%}
-                    {# Only show collapsed brocast presenter when we have it #}
-                    {{ ds2013('collapsedBroadcastProgramme', broadcast.collapsedBroadcast, broadcast.programmeItem, programme_options) }}
-                {%- else -%}
-                    {{ ds2013('programme', broadcast.programmeItem, programme_options) }}
-                {%- endif -%}
+                }) }}
             {%- else -%}
                 <p class="text--subtle centi" data-timezone="true" content="{{ broadcast.endAt|date('c') }}">
                     {{- tr('programmes_resume_at', {'%1': '<span class="timezone--time">' ~ broadcast.endAt|local_date('H:i') ~ '</span>'})|raw -}}
