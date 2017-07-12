@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013\Organism\Broadcast;
 
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
@@ -19,7 +20,7 @@ class BroadcastPresenterTest extends TestCase
     public function testClassesBasedOnStatusBroadcast($start, $end, $isOnAir)
     {
         // set now
-        Chronos::setTestNow(new Chronos('2017-05-18 08:30:00'));
+        ApplicationTime::setTime((new Chronos('2017-05-18 08:30:00'))->getTimestamp());
 
         $broadcast = new Broadcast(
             new Pid('b1234567'),

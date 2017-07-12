@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Ds2013\Organism\Broadcast;
 
 use App\Ds2013\Presenter;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -24,9 +25,6 @@ class BroadcastPresenter extends Presenter
 
     /** @var CollapsedBroadcast */
     private $collapsedBroadcast;
-
-    /** @var Chronos */
-    private $now;
 
     /**
      * BroadcastPresenter constructor.
@@ -50,7 +48,6 @@ class BroadcastPresenter extends Presenter
         parent::__construct($options);
         $this->broadcast = $broadcast;
         $this->collapsedBroadcast = $collapsedBroadcast;
-        $this->now = Chronos::now('Europe/London');
     }
 
     /**
@@ -97,12 +94,12 @@ class BroadcastPresenter extends Presenter
 
     public function isOnAirNow(): bool
     {
-        return $this->broadcast->isOnAirAt($this->now);
+        return $this->broadcast->isOnAirAt(ApplicationTime::getTime());
     }
 
     public function isInThePast(): bool
     {
-        return $this->broadcast->getEndAt() < $this->now;
+        return $this->broadcast->getEndAt() < ApplicationTime::getTime();
     }
 
     public function getCollapsedBroadcast(): ?CollapsedBroadcast

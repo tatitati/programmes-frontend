@@ -4,6 +4,7 @@ namespace App\Ds2013\Helpers;
 
 use App\Translate\TranslatableTrait;
 use App\Translate\TranslateProvider;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use DateInterval;
@@ -47,9 +48,7 @@ class PlayTranslationsHelper
         $translationPrefix = 'iplayer_' . $mediaVerb . '_remaining';
         $text = $this->timeIntervalToWords($remainingTime, false, $translationPrefix);
         if ($programmeItem->getStreamableUntil()) {
-            //@TODO implement full range of /programmes BS around date formatting. This is a tiny subset. See DateTime.php in v2
-            // Also @TODO localDate does not correctly respect the "application timezone". It's outputting GMT.
-            $text .= ' (' . $this->localDate($programmeItem->getStreamableUntil(), 'EEE dd MMMM yyyy, HH:mm') . ')';
+            $text .= ' (' . $this->localDateIntl($programmeItem->getStreamableUntil(), 'EEE dd MMMM yyyy, HH:mm') . ')';
         }
         return $text;
     }
@@ -146,7 +145,7 @@ class PlayTranslationsHelper
     private function availableUntil(ProgrammeItem $programmeItem): ?DateInterval
     {
         if ($programmeItem->getStreamableUntil()) {
-            $now = $this->getNow();
+            $now = ApplicationTime::getTime();
             $availableTimeRemaining = $now->diff($programmeItem->getStreamableUntil());
             if ($availableTimeRemaining->days > 365) {
                 // >= 1Y counts as indefinite
@@ -177,13 +176,5 @@ class PlayTranslationsHelper
             return 'watch';
         }
         return 'play';
-    }
-
-    private function getNow()
-    {
-        if (!$this->now) {
-            $this->now = Chronos::now();
-        }
-        return $this->now;
     }
 }

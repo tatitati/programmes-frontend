@@ -9,6 +9,7 @@ use App\Twig\DesignSystemPresenterExtension;
 use App\Twig\GelIconExtension;
 use App\Twig\HtmlUtilitiesExtension;
 use App\Twig\RdfaSchemaExtension;
+use App\Twig\TranslateAndTimeExtension;
 use RMP\Translate\TranslateFactory;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
@@ -91,9 +92,10 @@ class TwigEnvironmentProvider
         self::$presenterFactory = new PresenterFactory($translateProvider, $router, $helperFactory);
 
         $twig->addExtension(new DesignSystemPresenterExtension(
-            $translateProvider,
             self::$presenterFactory
         ));
+
+        $twig->addExtension(new TranslateAndTimeExtension($translateProvider));
 
         $twig->addExtension(new GelIconExtension());
 

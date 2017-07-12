@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Ds2013\Page\Schedules\ByDayPage;
 
 use App\Ds2013\Presenter;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -143,11 +144,10 @@ class SchedulesByDayPagePresenter extends Presenter
         if ($this->onAirBroadcast !== false) {
             return $this->onAirBroadcast;
         }
-        $now = Chronos::now('Europe/London');
 
         $this->onAirBroadcast = null;
         foreach ($this->broadcasts as $broadcast) {
-            if ($broadcast->isOnAirAt($now)) {
+            if ($broadcast->isOnAir()) {
                 $this->onAirBroadcast = $broadcast;
                 break;
             }
@@ -190,7 +190,7 @@ class SchedulesByDayPagePresenter extends Presenter
     {
         $selectedDayEnd = $selectedDate->endOfDay();
 
-        $startBroadcast = $broadcast->getStartAt()->setTimezone(new DateTimeZone('Europe/London'));
+        $startBroadcast = $broadcast->getStartAt()->setTimezone(ApplicationTime::getLocalTimeZone());
         $startBroadcastHour = $startBroadcast->format('H');
 
         // Need to check for 'late' first as these broadcasts are actually the day after the selected date

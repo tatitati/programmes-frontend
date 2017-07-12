@@ -20,10 +20,10 @@
     <div class="grid-wrapper">
         <div class="broadcast__info grid {{ info_classes }}">
             {#start time and zone#}
-            <h3 class="broadcast__time gamma" data-timezone="true" property="startDate" datatype="xsd:dateTime" content={{ broadcast.startAt|date('c') }}>
-                <span class="timezone--time">{{broadcast.startAt|date('H:i')}}</span>
+            <h3 class="broadcast__time gamma" data-timezone="true" property="startDate" datatype="xsd:dateTime" content="{{ broadcast.startAt|date('c') }}">
+                <span class="timezone--time">{{ broadcast.startAt|local_date('H:i') }}{{ broadcast.startAt|time_zone_note() }}</span>
                 {%- if broadcast.option('show_date') -%}
-                    <br /><span class="micro timezone--date">{{ broadcast.startAt|date('d/m/Y') }}</span>
+                    <br /><span class="micro timezone--date">{{ broadcast.startAt|local_date('d/m/Y') }}</span>
                 {%- endif -%}
             </h3>
 
@@ -69,7 +69,7 @@
                 {%- endif -%}
             {%- else -%}
                 <p class="text--subtle centi" data-timezone="true" content="{{ broadcast.endAt|date('c') }}">
-                    {{- tr('programmes_resume_at', {'%1': '<span class="timezone--time">' ~ broadcast.endAt|date('H:i') ~ '</span>'})|raw -}}
+                    {{- tr('programmes_resume_at', {'%1': '<span class="timezone--time">' ~ broadcast.endAt|local_date('H:i') ~ '</span>'})|raw -}}
                 </p>
             {%- endif -%}
         </div>

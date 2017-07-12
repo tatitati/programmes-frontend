@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Ds2013\Helpers;
 
 use App\Ds2013\Helpers\LiveBroadcastHelper;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -20,7 +21,7 @@ class LiveBroadcastHelperTest extends TestCase
     public function setUp()
     {
         $this->helper = new LiveBroadcastHelper();
-        Chronos::setTestNow(new Chronos('2017-06-01 00:00:00'));
+        ApplicationTime::setTime((new Chronos('2017-06-01 00:00:00'))->getTimestamp());
     }
 
     public function testIsWatchableTrue()

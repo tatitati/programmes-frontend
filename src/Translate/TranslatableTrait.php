@@ -2,8 +2,11 @@
 declare(strict_types = 1);
 namespace App\Translate;
 
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use DateTimeInterface;
 use IntlDateFormatter;
+use RMP\Translate\DateCorrection;
+use DateTimeZone;
 
 trait TranslatableTrait
 {
@@ -11,6 +14,9 @@ trait TranslatableTrait
     protected $translateProvider;
 
     /**
+     * Formatter for international dates in a "Text" format. Need something with translated words in it?
+     * You want this one
+     *
      * @param DateTimeInterface $dateTime
      * @param string $format    Format must be in ICU format
      *
@@ -18,18 +24,28 @@ trait TranslatableTrait
      *
      * @return bool|string
      */
-    protected function localDate(DateTimeInterface $dateTime, string $format)
+    protected function localDateIntl(DateTimeInterface $dateTime, string $format, DateTimeZone $timeZone = null)
     {
+        if (!$timeZone) {
+            $timeZone = ApplicationTime::getLocalTimeZone();
+        }
+        $locale = $this->translateProvider->getTranslate()->getLocale();
         $formatter = IntlDateFormatter::create(
-            $this->translateProvider->getTranslate()->getLocale(),
+            $locale,
+            IntlDateFormatter::LONG,
             IntlDateFormatter::NONE,
-            IntlDateFormatter::NONE,
-            $dateTime->getTimezone(),
+            $timeZone,
             IntlDateFormatter::GREGORIAN,
             $format
         );
 
-        return $formatter->format($dateTime->getTimestamp());
+        $output = $formatter->format($dateTime->getTimestamp());
+        //@TODO figure out if we need RMP\Translate's DateCorrection or if our OS now correctly handles these spellings
+        /*
+        $dateCorrection = new DateCorrection();
+        $output = $dateCorrection->fixSpelling($output, $this->translateProvider->getTranslate()->getLocale());
+        */
+        return $output;
     }
 
     protected function tr(

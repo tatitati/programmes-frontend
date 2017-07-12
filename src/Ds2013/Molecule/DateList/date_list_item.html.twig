@@ -19,7 +19,7 @@
 
     <li class="{{ li_classes }}">
         {% if date_list_item.isLink %}
-            <a href="{{ path('schedules_by_day', {'pid': date_list_item.servicePid, 'date': date_list_item.datetime.format('Y-m-d')}) }}"
+            <a href="{{ path('schedules_by_day', {'pid': date_list_item.servicePid, 'date': date_list_item.datetime|local_date('Y-m-d')}) }}"
                class="{{ item_classes }}" {{ item_attributes|raw }}>
                 {{ self.dateLines(date_list_item.datetime) }}
             </a>
@@ -33,10 +33,10 @@
     {% macro dateLines(datetime) %}
         <span class="date-list__item-line1">
             {#- The French for "today" does not fit into the box so don't even try -#}
-            {{ datetime.isToday and tr('language_code') != 'fr' ? tr('schedules_today') : datetime|localDate('eee') }}
+            {{ datetime.isToday and tr('language_code') != 'fr' ? tr('schedules_today') : datetime|local_date_intl('eee') }}
         </span>
         <span class="date-list__item-line2">
-            {{ datetime|localDate('d MMM') }}
+            {{ datetime|local_date_intl('d MMM') }}
         </span>
     {% endmacro %}
 {% endspaceless %}

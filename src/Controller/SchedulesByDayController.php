@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\ValueObject\BroadcastDay;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -22,17 +23,17 @@ class SchedulesByDayController extends BaseController
         BroadcastsService $broadcastService,
         CollapsedBroadcastsService $collapsedBroadcastsService
     ) {
-        $dateTimeToShow = $this->dateTimeToShow($date);
-        if (!$dateTimeToShow) {
-            throw $this->createNotFoundException('Invalid date');
-        }
-
         $service = $servicesService->findByPidFull($pid);
         if (!$service) {
             throw $this->createNotFoundException('Service not found');
         }
 
         $this->setContext($service);
+
+        $dateTimeToShow = $this->dateTimeToShow($date, $service);
+        if (!$dateTimeToShow) {
+            throw $this->createNotFoundException('Invalid date');
+        }
 
         $broadcastDay = new BroadcastDay($dateTimeToShow, $service->getNetwork()->getMedium());
 
@@ -95,15 +96,19 @@ class SchedulesByDayController extends BaseController
         ];
     }
 
-    private function dateTimeToShow(?string $dateString): Chronos
+    private function dateTimeToShow(?string $dateString, Service $service): Chronos
     {
-        if (!$dateString) {
-            return Chronos::now('Europe/London');
+        // "International" services are UTC, all others are Europe/London (the default)
+        if ($service->isInternational()) {
+            ApplicationTime::setLocalTimeZone('UTC');
         }
-
+        if (!$dateString) {
+            return ApplicationTime::getLocalTime();
+        }
+        // Routing should ensure $dateString is in format \d{4}-\d{2}-\d{2}
         // If a date has been provided, use the broadcast date for midday on
         // the given date
-        return Chronos::createFromFormat('Y-m-d H:i:s', $dateString . '12:00:00', 'Europe/London');
+        return Chronos::createFromFormat('Y-m-d H:i:s', $dateString . ' 12:00:00', ApplicationTime::getLocalTimeZone());
     }
 
     private function findLiveCollapsedBroadcast(

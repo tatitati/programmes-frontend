@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
@@ -23,7 +24,7 @@ class SchedulesHomeController extends BaseController
 
         $services = $servicesService->getAllInNetworks();
 
-        $now = Chronos::now('Europe/London');
+        $now = ApplicationTime::getLocalTime();
         $earliestBroadcastDate = new Chronos('1920-01-01T00:00:00Z');
         $latestBroadcastDate = $now->endOfDecade();
 

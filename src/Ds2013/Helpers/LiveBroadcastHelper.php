@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Helpers;
 
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
@@ -181,7 +182,7 @@ class LiveBroadcastHelper
 
     private function isOnNowIsh(CollapsedBroadcast $collapsedBroadcast, bool $advancedLive = false): bool
     {
-        $startBefore = $endAfter = $this->getNow();
+        $startBefore = $endAfter = ApplicationTime::getTime();
         if ($advancedLive) {
             // This is used to show a link to a live broadcast before it starts
             // (caching etc)
@@ -203,21 +204,10 @@ class LiveBroadcastHelper
         return $servicesBySid;
     }
 
-    /**
-     * This is going to be a lot quicker than creating a bunch of new date objects. Stop looking at me like that.
-     */
-    private function getNow(): Chronos
-    {
-        if (!$this->now) {
-            $this->now = Chronos::now();
-        }
-        return $this->now;
-    }
-
     private function getSixMinutesFromNow(): Chronos
     {
         if (!$this->sixMinutesFromNow) {
-            $this->sixMinutesFromNow = $this->getNow()->addMinutes(6);
+            $this->sixMinutesFromNow = ApplicationTime::getTime()->addMinutes(6);
         }
         return $this->sixMinutesFromNow;
     }

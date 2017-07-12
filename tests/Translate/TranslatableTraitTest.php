@@ -7,6 +7,8 @@ use App\Translate\TranslateProvider;
 use RMP\Translate\Translate;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use DateTime;
+use DateTimeZone;
 
 class TranslatableTraitTest extends TestCase
 {
@@ -58,6 +60,19 @@ class TranslatableTraitTest extends TestCase
         $this->assertSame('output', $trFn('key', ['%sub%' => 'ham'], 2));
     }
 
+    public function testLocalDateIntl()
+    {
+        $mockTranslate = $this->createMock(Translate::class);
+        $mockTranslate->expects($this->once())->method('getLocale')
+            ->willReturn('cy_GB');
+
+        $boundFunction = $this->boundLocalDateIntl($mockTranslate);
+        $dateTime = new DateTime('2017-08-11 06:00:00');
+        $timeZone = new DateTimeZone('Europe/London');
+        $result = $boundFunction($dateTime, 'EEE dd MMMM yyyy, HH:mm', $timeZone);
+        $this->assertEquals('Gwen 11 Awst 2017, 07:00', $result);
+    }
+
     /**
      * This is funky. It generates a closure that has its scope bound to a
      * mock, which means it has access to call protected functions (i.e. tr).
@@ -79,6 +94,27 @@ class TranslatableTraitTest extends TestCase
         // Define a closure that will call the protected method using "this".
         $barCaller = function (...$args) {
             return $this->tr(...$args);
+        };
+        // Bind the closure to $translatable's scope.
+        return $barCaller->bindTo($translatable, $translatable);
+    }
+
+    private function boundLocalDateIntl(Translate $translate): callable
+    {
+        $translateProvider = $this->createMock(TranslateProvider::class);
+        $translateProvider->method('getTranslate')->willReturn($translate);
+        $translatable = $this->getMockForTrait(TranslatableTrait::class);
+
+        $reflection = new ReflectionClass($translatable);
+        $translateProperty = $reflection->getProperty('translateProvider');
+        $translateProperty->setAccessible(true);
+
+        $translateProperty->setValue($translatable, $translateProvider);
+
+
+        // Define a closure that will call the protected method using "this".
+        $barCaller = function (...$args) {
+            return $this->localDateIntl(...$args);
         };
         // Bind the closure to $translatable's scope.
         return $barCaller->bindTo($translatable, $translatable);

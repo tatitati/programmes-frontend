@@ -4,36 +4,18 @@ namespace App\Twig;
 
 use App\Ds2013\Presenter as Ds2013Presenter;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
-use App\Translate\TranslatableTrait;
-use App\Translate\TranslateProvider;
-use DateTimeInterface;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
-use Twig_SimpleFilter;
 
 class DesignSystemPresenterExtension extends Twig_Extension
 {
-    use TranslatableTrait;
-
     private $ds2013PresenterFactory;
 
     public function __construct(
-        TranslateProvider $translateProvider,
         Ds2013PresenterFactory $ds2013PresenterFactory
     ) {
-        $this->translateProvider = $translateProvider;
         $this->ds2013PresenterFactory = $ds2013PresenterFactory;
-    }
-
-    /**
-     * @return Twig_SimpleFilter[]
-     */
-    public function getFilters(): array
-    {
-        return [
-            new Twig_SimpleFilter('localDate', [$this, 'localDateWrapper']),
-        ];
     }
 
     /**
@@ -42,7 +24,6 @@ class DesignSystemPresenterExtension extends Twig_Extension
     public function getFunctions()
     {
         return [
-            new Twig_Function('tr', [$this, 'trWrapper']),
             new Twig_Function('ds2013', [$this, 'ds2013'], [
                 'is_safe' => ['html'],
                 'is_variadic' => true,
@@ -53,20 +34,6 @@ class DesignSystemPresenterExtension extends Twig_Extension
                 'needs_environment' => true,
             ]),
         ];
-    }
-
-    public function trWrapper(
-        string $key,
-        $substitutions = [],
-        $numPlurals = null,
-        ?string $domain = null
-    ): string {
-        return $this->tr($key, $substitutions, $numPlurals, $domain);
-    }
-
-    public function localDateWrapper(DateTimeInterface $dateTime, string $format): string
-    {
-        return $this->localDate($dateTime, $format);
     }
 
     public function ds2013(
