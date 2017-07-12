@@ -21,9 +21,11 @@ iplayer_live:
     path: /iplayer/live/{sid}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { sid: '[0-9a-z_]{1,}' }
+    schemes: [http]
 
 ### /programmes v2
 
 atoz_list_all:
     path: /programmes/a-z/all
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    schemes: [http]
