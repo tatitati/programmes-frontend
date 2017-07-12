@@ -63,7 +63,7 @@
                 } -%}
                 {%- if broadcast.collapsedBroadcast -%}
                     {# Only show collapsed brocast presenter when we have it #}
-                    {{ ds2013('broadcastProgramme', broadcast.collapsedBroadcast, broadcast.programmeItem, programme_options) }}
+                    {{ ds2013('collapsedBroadcastProgramme', broadcast.collapsedBroadcast, broadcast.programmeItem, programme_options) }}
                 {%- else -%}
                     {{ ds2013('programme', broadcast.programmeItem, programme_options) }}
                 {%- endif -%}

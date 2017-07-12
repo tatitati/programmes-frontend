@@ -7,9 +7,9 @@ use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\Helpers\LiveBroadcastHelper;
 use App\Ds2013\Helpers\PlayTranslationsHelper;
 use App\Ds2013\Helpers\TitleLogicHelper;
-use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
-use App\Ds2013\Organism\Programme\BroadcastSubPresenters\BroadcastProgrammeBodyPresenter;
-use App\Ds2013\Organism\Programme\BroadcastSubPresenters\BroadcastProgrammeImagePresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -56,7 +56,7 @@ class BroadcastProgrammePresenterTest extends TestCase
         $programme = $this->createMock(Brand::class);
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
 
-        $presenter = new BroadcastProgrammePresenter(
+        $presenter = new CollapsedBroadcastProgrammePresenter(
             $this->mockRouter,
             $this->mockHelperFactory,
             $collapsedBroadcast,
@@ -65,7 +65,7 @@ class BroadcastProgrammePresenterTest extends TestCase
         );
 
         $broadcastProgrammeImagePresenter = $presenter->getProgrammeImagePresenter();
-        $this->assertInstanceOf(BroadcastProgrammeImagePresenter::class, $broadcastProgrammeImagePresenter);
+        $this->assertInstanceOf(CollapsedBroadcastProgrammeImagePresenter::class, $broadcastProgrammeImagePresenter);
         $expectedOptions = array_merge($options, $options['image_options']);
         unset($expectedOptions['image_options']);
         foreach ($expectedOptions as $key => $value) {
@@ -89,7 +89,7 @@ class BroadcastProgrammePresenterTest extends TestCase
         $programme = $this->createMock(Brand::class);
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
 
-        $presenter = new BroadcastProgrammePresenter(
+        $presenter = new CollapsedBroadcastProgrammePresenter(
             $this->mockRouter,
             $this->mockHelperFactory,
             $collapsedBroadcast,
@@ -98,7 +98,7 @@ class BroadcastProgrammePresenterTest extends TestCase
         );
 
         $broadcastProgrammeBodyPresenter = $presenter->getProgrammeBodyPresenter();
-        $this->assertInstanceOf(BroadcastProgrammeBodyPresenter::class, $broadcastProgrammeBodyPresenter);
+        $this->assertInstanceOf(CollapsedBroadcastProgrammeBodyPresenter::class, $broadcastProgrammeBodyPresenter);
         $expectedOptions = array_merge($options, $options['body_options']);
         unset($expectedOptions['body_options']);
         foreach ($expectedOptions as $key => $value) {
@@ -116,7 +116,7 @@ class BroadcastProgrammePresenterTest extends TestCase
         ];
         $programme = $this->createMock(Clip::class);
         $broadcast = $this->createMock(CollapsedBroadcast::class);
-        $programmePresenter = new BroadcastProgrammePresenter(
+        $programmePresenter = new CollapsedBroadcastProgrammePresenter(
             $this->mockRouter,
             $this->mockHelperFactory,
             $broadcast,

@@ -6,9 +6,8 @@ use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
-use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
-use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -102,15 +101,15 @@ class PresenterFactory
         );
     }
 
-    public function broadcastProgrammePresenter(
+    public function collapsedBroadcastProgrammePresenter(
         CollapsedBroadcast $collapsedBroadcast,
         ?Programme $programme = null,
         array $options = []
-    ): BroadcastProgrammePresenter {
+    ): CollapsedBroadcastProgrammePresenter {
         if (!$programme) {
             $programme = $collapsedBroadcast->getProgrammeItem();
         }
-        return new BroadcastProgrammePresenter(
+        return new CollapsedBroadcastProgrammePresenter(
             $this->router,
             $this->helperFactory,
             $collapsedBroadcast,

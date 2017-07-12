@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Ds2013\Organism\Programme\BroadcastSubPresenters;
+namespace Tests\App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters;
 
 use App\Ds2013\Helpers\LiveBroadcastHelper;
 use App\Ds2013\Helpers\PlayTranslationsHelper;
-use App\Ds2013\Organism\Programme\BroadcastSubPresenters\BroadcastProgrammeBodyPresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -41,7 +41,7 @@ class BroadcastProgrammeBodyPresenterTest extends TestCase
         $programme = $this->createMock(Programme::class);
         $programme->method('getNetwork')->willReturn($network);
 
-        $presenter = new BroadcastProgrammeBodyPresenter(
+        $presenter = new CollapsedBroadcastProgrammeBodyPresenter(
             $this->mockRouter,
             $this->mockTranslationsHelper,
             $this->mockLiveBroadcastHelper,

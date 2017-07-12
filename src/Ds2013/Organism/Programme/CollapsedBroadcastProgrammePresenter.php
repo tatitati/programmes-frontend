@@ -4,9 +4,9 @@ namespace App\Ds2013\Organism\Programme;
 
 use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\InvalidOptionException;
-use App\Ds2013\Organism\Programme\BroadcastSubPresenters\BroadcastProgrammeBodyPresenter;
-use App\Ds2013\Organism\Programme\BroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
-use App\Ds2013\Organism\Programme\BroadcastSubPresenters\BroadcastProgrammeImagePresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeImagePresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeTitlePresenter;
@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * cases where we wish to display broadcast (watch live/services)
  * information alongside a programme.
  */
-class BroadcastProgrammePresenter extends ProgrammePresenter
+class CollapsedBroadcastProgrammePresenter extends ProgrammePresenter
 {
     /** @var CollapsedBroadcast */
     private $collapsedBroadcast;
@@ -58,7 +58,7 @@ class BroadcastProgrammePresenter extends ProgrammePresenter
 
     public function getProgrammeImagePresenter(): ProgrammeImagePresenter
     {
-        return new BroadcastProgrammeImagePresenter(
+        return new CollapsedBroadcastProgrammeImagePresenter(
             $this->router,
             $this->helperFactory->getPlayTranslationsHelper(),
             $this->helperFactory->getLiveBroadcastHelper(),
@@ -70,7 +70,7 @@ class BroadcastProgrammePresenter extends ProgrammePresenter
 
     public function getProgrammeBodyPresenter(): ProgrammeBodyPresenter
     {
-        return new BroadcastProgrammeBodyPresenter(
+        return new CollapsedBroadcastProgrammeBodyPresenter(
             $this->router,
             $this->helperFactory->getPlayTranslationsHelper(),
             $this->helperFactory->getLiveBroadcastHelper(),
