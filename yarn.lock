@@ -1095,10 +1095,6 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-jquery.appear@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/jquery.appear/-/jquery.appear-1.0.1.tgz#b5694fdac6bbabadaf47d8febc54aedcf7619545"
-
 js-base64@^2.1.8:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
@@ -1139,6 +1135,10 @@ kind-of@^3.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
   dependencies:
     is-buffer "^1.1.5"
+
+lazysizes@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/lazysizes/-/lazysizes-3.0.0.tgz#b1bacb5a0f28113ffa7b389ce2f35f1cff19d9b9"
 
 lcid@^1.0.0:
   version "1.0.0"

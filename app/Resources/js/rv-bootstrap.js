@@ -1,11 +1,5 @@
-define(['jquery', 'images'],function($, Images){
-    $(function() {
-        var responsiveImages = new Images();
-        responsiveImages.init();
-    });
-
+define(['jquery', 'respimg', 'lazysizes'],function($){
     return {
-        $: $,
-        Images: Images
+        $: $
     }
 });

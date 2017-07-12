@@ -32,13 +32,8 @@ gulp.task('js', ['js:clean'], function () {
         "baseUrl": "app/Resources/js",
         "paths": {
             "jquery-1.9": "empty:",
-            "jquery.appear": "../../../node_modules/jquery.appear/jquery.appear"
-        },
-        "shim": {
-            "jquery.appear": {
-                "deps": ["jquery"],
-                "exports": "jquery.appear"
-            }
+            "respimg": "../../../node_modules/lazysizes/plugins/respimg/ls.respimg",
+            "lazysizes": "../../../node_modules/lazysizes/lazysizes-umd"
         },
         "map": {
             "*": {

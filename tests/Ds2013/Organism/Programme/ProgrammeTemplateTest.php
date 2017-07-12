@@ -38,7 +38,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
             $imageContainer,
             'Image container div classes'
         );
-        $imageLazy = $imageContainer->filter('.image--lazy');
+        $imageLazy = $imageContainer->filter('.lazyload');
         $this->assertCount(1, $imageLazy);
         $this->assertContains('p01vg679', $imageLazy->attr('data-srcset'));
 
@@ -105,7 +105,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
             $imageContainer,
             'Image container div classes'
         );
-        $imageLazy = $imageContainer->filter('.image--lazy');
+        $imageLazy = $imageContainer->filter('.lazyload');
         $this->assertCount(1, $imageLazy);
         $this->assertContains('p04hc8d1', $imageLazy->attr('data-srcset'));
 
