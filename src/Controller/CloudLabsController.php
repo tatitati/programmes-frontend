@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CloudLabsController extends BaseController
@@ -39,7 +38,7 @@ class CloudLabsController extends BaseController
 
     public function showAction()
     {
-        return $this->renderWithChrome('cloud_labs/show.html.twig');
+        return $this->render('cloud_labs/show.html.twig');
     }
 
     public function analyticsAction()
