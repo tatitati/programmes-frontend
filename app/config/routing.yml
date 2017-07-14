@@ -26,10 +26,13 @@ schedules_by_day:
 
 # Labs routes, for testing things
 
+cloud_labs_root:
+    path: /programmes/_cloudlabs
+    defaults: { _controller: App\Controller\CloudLabsController, action: show }
+
 cloud_labs:
-    path: /programmes/_cloudlabs{wildcard}
+    path: /programmes/_cloudlabs/{action}
     defaults: { _controller: App\Controller\CloudLabsController }
-    requirements: { wildcard: '^(/.*|$)' }
 
 # Include any 3rd party routes. This should be the last thing in the file
 _3rd_party:
