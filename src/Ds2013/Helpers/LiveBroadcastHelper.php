@@ -41,6 +41,7 @@ class LiveBroadcastHelper
         'bbc_parliament'                        => '/iplayer/live/bbcparliament',
         'bbc_alba'                              => '/iplayer/live/bbcalba',
         'bbc_radio_one'                         => '/radio/player/bbc_radio_one',
+        'bbc_radio_one_vintage'                 => '/radio/player/bbc_radio_one_vintage',
         'bbc_1xtra'                             => '/radio/player/bbc_1xtra',
         'bbc_radio_two'                         => '/radio/player/bbc_radio_two',
         'bbc_radio_three'                       => '/radio/player/bbc_radio_three',
