@@ -16,6 +16,7 @@ class StatusControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 200);
 
         $this->assertEquals('YES', $crawler->filter('[data-test-name=db-connectivity] span')->text());
+        $this->assertHasRequiredResponseHeaders($client, 'no-cache, private');
     }
 
     public function testStatusFromElb()
@@ -27,5 +28,6 @@ class StatusControllerTest extends BaseWebTestCase
 
         $this->assertResponseStatusCode($client, 200);
         $this->assertEquals('OK', $client->getResponse()->getContent());
+        $this->assertHasRequiredResponseHeaders($client, 'no-cache, private');
     }
 }

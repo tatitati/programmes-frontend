@@ -17,5 +17,6 @@ class SchedulesHomeControllerTest extends BaseWebTestCase
         $crawler = $client->request('GET', '/schedules');
 
         $this->assertResponseStatusCode($client, 200);
+        $this->assertHasRequiredResponseHeaders($client);
     }
 }

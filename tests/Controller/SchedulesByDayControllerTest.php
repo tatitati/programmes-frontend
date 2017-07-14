@@ -36,6 +36,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 200);
         $broadcasts = $crawler->filter("meta[property='endDate']")->extract(['content']);
         $this->assertEquals($expectedBroadcasts, $broadcasts);
+        $this->assertHasRequiredResponseHeaders($client);
     }
 
     public function scheduleDateTestProvider(): array

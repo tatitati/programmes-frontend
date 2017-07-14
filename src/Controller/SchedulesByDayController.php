@@ -80,8 +80,10 @@ class SchedulesByDayController extends BaseController
 
         // If there are no broadcasts, then the status code should be 404, so
         // that search engines do not index thousands of empty pages
-        $response = new Response('', $broadcasts ? 200 : 404);
-        return $this->renderWithChrome('schedules/by_day.html.twig', $viewData, $response);
+        if (!$broadcasts) {
+            $this->response()->setStatusCode(404);
+        }
+        return $this->renderWithChrome('schedules/by_day.html.twig', $viewData);
     }
 
     private function viewData(

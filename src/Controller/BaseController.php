@@ -30,6 +30,8 @@ abstract class BaseController extends AbstractController
 
     private $context;
 
+    private $response;
+
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -38,6 +40,14 @@ abstract class BaseController extends AbstractController
             OrbitClient::class,
             TranslateProvider::class,
         ]);
+    }
+
+    public function __construct()
+    {
+        $this->response = new Response();
+        // It is required to set the cache-control header when creating the response object otherwise Symfony
+        // will create and set its value to "no-cache, private" by default
+        $this->response()->setPublic()->setMaxAge(120);
     }
 
     protected function getCanonicalUrl(): string
@@ -73,7 +83,12 @@ abstract class BaseController extends AbstractController
         }
     }
 
-    protected function renderWithChrome(string $view, array $parameters = [], Response $response = null)
+    protected function response(): Response
+    {
+        return $this->response;
+    }
+
+    protected function renderWithChrome(string $view, array $parameters = [])
     {
         $branding = $this->requestBranding();
 
@@ -98,7 +113,21 @@ abstract class BaseController extends AbstractController
             'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl()),
         ], $parameters);
 
-        return $this->render($view, $parameters, $response);
+        return $this->render($view, $parameters, $this->response);
+    }
+
+    /**
+     * Renders a view. Same as parent but using $this->response
+     *
+     * @param string        $view       The view name
+     * @param array         $parameters An array of parameters to pass to the view
+     * @param Response      $response   A response instance
+     *
+     * @return Response A Response instance
+     */
+    protected function render($view, array $parameters = [], Response $response = null): Response
+    {
+        return parent::render($view, $parameters, $response ?? $this->response);
     }
 
     private function requestBranding(): Branding

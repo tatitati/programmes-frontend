@@ -44,5 +44,7 @@ class HomeControllerTest extends BaseWebTestCase
             [['Radio Berkshire', '/schedules/p00fzl74']],
             $crawler->filter('[data-list="local-radio-networks"] a')->extract(['_text', 'href'])
         );
+
+        $this->assertHasRequiredResponseHeaders($client);
     }
 }
