@@ -26,7 +26,6 @@
     {% endif %}
 </div>
 
-
 {% if schedules_by_day_page.hasJumpLinks %}
     <div class="g-c-l">
         <div class="schedules-jump island micro">
@@ -48,8 +47,15 @@
 {% if schedules_by_day_page.hasBroadcasts %}
     <ol class="list-unstyled g-c-l">
         {% set onairshown = false %}
+        {% set showBackToTop = false %}
         {% for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay %}
             <li id="{{ period_name }}" class="schedule-skip-link">
+                {% if showBackToTop %}
+                    <a class="pull--right micro link-complex"
+                       href="#">{{ gelicon('basics', 'to-top', 'centi', 'leading') }}<span
+                            class="link-complex__target">{{ tr('back_to_top_of_page') }}</span></a>
+                {% endif %}
+                {% set showBackToTop = schedules_by_day_page.hasJumpLinks %}
                 <h2 class="delta text--shout island--horizontal component">{{ tr('schedules_period_' ~ period_name) }}</h2>
                 <ol class="highlight-box-wrapper">
                     {# list of broadcasts in day period #}
@@ -82,7 +88,6 @@
         {% endif %}
     </p>
 {% endif %}
-
 
 {% if schedules_by_day_page.hasSiblingServiceList %}
     <div class="island--vertical">
