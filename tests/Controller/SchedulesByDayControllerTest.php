@@ -70,4 +70,48 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
         $this->assertResponseStatusCode($client, 404);
     }
+
+    public function testNoScheduleBeginsOn()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        $client = static::createClient();
+        $url = '/schedules/p00rfdrb/2012-07-24';
+        $crawler = $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 404);
+        $message = $crawler->filter(".noschedule")->text();
+        $this->assertEquals('Broadcast schedule begins on Wednesday 25 July 2012', trim($message));
+        $this->assertHasRequiredResponseHeaders($client);
+    }
+
+    public function testNoScheduleEndedOn()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        $client = static::createClient();
+        $url = '/schedules/p00rfdrb/2012-08-15';
+        $crawler = $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 404);
+        $message = $crawler->filter(".noschedule")->text();
+        $this->assertEquals('Broadcast schedule ended on Tuesday 14 August 2012', trim($message));
+        $this->assertHasRequiredResponseHeaders($client);
+    }
+
+    public function testNoScheduleNoResult()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        foreach (['2012-07-25', '2012-08-14'] as $date) {
+            $client = static::createClient();
+            $url = '/schedules/p00rfdrb/' . $date;
+            $crawler = $client->request('GET', $url);
+
+            $this->assertResponseStatusCode($client, 404);
+            $message = $crawler->filter(".noschedule")->text();
+            $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($message));
+            $this->assertHasRequiredResponseHeaders($client);
+        }
+    }
 }

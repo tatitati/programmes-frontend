@@ -5,9 +5,9 @@ namespace Tests\App\DataFixtures\ORM;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Network;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class NetworksAndServicesFixture extends AbstractFixture
 {
@@ -36,6 +36,9 @@ class NetworksAndServicesFixture extends AbstractFixture
         // Local Radio
         $this->buildNetwork('bbc_radio_berkshire', 'BBC Radio Berkshire', 'Local Radio', NetworkMediumEnum::RADIO);
 
+        // Network with start and end
+        $this->buildNetwork('bbc_radio_five_live_olympics_extra', '5 live Olympics Extra', 'National Radio', NetworkMediumEnum::RADIO, new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'));
+
         $this->manager->flush();
     }
 
@@ -61,6 +64,11 @@ class NetworksAndServicesFixture extends AbstractFixture
         $localNetwork->setDefaultService($localService);
         $this->manager->persist($localNetwork);
 
+        $olympicService = $this->getReference('p00rfdrb');
+        $olympicNetwork = $this->getReference('network_bbc_radio_five_live_olympics_extra');
+        $olympicNetwork->setDefaultService($olympicService);
+        $this->manager->persist($olympicNetwork);
+
         $this->manager->flush();
     }
 
@@ -78,6 +86,9 @@ class NetworksAndServicesFixture extends AbstractFixture
         // Local Radio
         $this->buildService('bbc_radio_berkshire', 'p00fzl74', 'BBC Radio Berkshire', 'Local Radio', 'audio', $this->getReference('network_bbc_radio_berkshire'));
 
+        // Network with start and end
+        $this->buildService('bbc_radio_five_live_olympics_extra', 'p00rfdrb', '5 live Olympics Extra', 'National Radio', 'audio', $this->getReference('network_bbc_radio_five_live_olympics_extra'), new DateTime('2012-07-25 21:00:00'), new DateTime('2012-08-13 23:00:00'));
+
         $this->manager->flush();
     }
 
@@ -87,10 +98,14 @@ class NetworksAndServicesFixture extends AbstractFixture
         string $title,
         string $type,
         string $mediaType,
-        Network $network
+        Network $network,
+        DateTime $startDate = null,
+        DateTime $endDate = null
     ): Service {
         $entity = new Service($sid, $pid, $title, $type, $mediaType);
         $entity->setNetwork($network);
+        $entity->setStartDate($startDate);
+        $entity->setEndDate($endDate);
         $this->manager->persist($entity);
         $this->addReference($pid, $entity);
         return $entity;
@@ -100,12 +115,16 @@ class NetworksAndServicesFixture extends AbstractFixture
         string $nid,
         string $title,
         string $type,
-        string $medium
+        string $medium,
+        DateTime $startDate = null,
+        DateTime $endDate = null
     ): Network {
-        $entity = new Network($nid, $title, $title);
+        $entity = new Network($nid, $title);
         $entity->setPosition(1);
         $entity->setType($type);
         $entity->setMedium($medium);
+        $entity->setStartDate($startDate);
+        $entity->setEndDate($endDate);
         $this->manager->persist($entity);
         $this->addReference('network_' . $nid, $entity);
         return $entity;

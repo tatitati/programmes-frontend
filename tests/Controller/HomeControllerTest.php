@@ -29,7 +29,7 @@ class HomeControllerTest extends BaseWebTestCase
 
         // National Radio Networks
         $this->assertEquals(
-            [['Radio 2', '/schedules/p00fzl8v']],
+            [['5 live Olympics Extra', '/schedules/p00rfdrb'], ['Radio 2', '/schedules/p00fzl8v']],
             $crawler->filter('[data-list="national-radio-networks"] a')->extract(['_text', 'href'])
         );
 
