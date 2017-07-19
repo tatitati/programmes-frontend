@@ -16,19 +16,9 @@ class CloudLabsController extends BaseController
         $methodName = $action . 'Action';
 
         if (!method_exists($this, $methodName)) {
-            // Valid actions are based upon the methods in this class that end
-            // with 'Action'
-            $validActions = [];
-
-            foreach (get_class_methods($this) as $method) {
-                if (substr($method, -6) == 'Action') {
-                    $validActions[] = substr($method, 0, -6);
-                }
-            }
-
             throw $this->createNotFoundException(sprintf(
                 'CloudLabs Action not found. Expected one of %s but got "%s"',
-                '"' . implode('", "', $validActions) . '"',
+                '"' . implode('", "', $this->validActionNames()) . '"',
                 $action
             ));
         }
@@ -44,5 +34,20 @@ class CloudLabsController extends BaseController
     public function analyticsAction()
     {
         return new Response('hai');
+    }
+
+    private function validActionNames(): array
+    {
+        // Valid actions are based upon the methods in this class that end
+        // with 'Action'
+        $validActions = [];
+
+        foreach (get_class_methods($this) as $method) {
+            if (substr($method, -6) == 'Action') {
+                $validActions[] = substr($method, 0, -6);
+            }
+        }
+
+        return $validActions;
     }
 }
