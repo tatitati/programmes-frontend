@@ -45,9 +45,9 @@ class UpdateGelicons
             throw new InvalidArgumentException("$inputPath does not exist or is not readable");
         }
         // Get rid of width
-        $contents = preg_replace('#^\s*(<svg[^>]*?) width="\d+"([^>]*>)#i', '${1}${2}', $contents);
+        $contents = preg_replace('#^\s*(<svg[^>]*?) width="[0-9\.]+"([^>]*>)#i', '${1}${2}', $contents);
         // get rid of height
-        $contents = preg_replace('#^\s*(<svg[^>]*?) height="\d+"([^>]*>)#i', '${1}${2}', $contents);
+        $contents = preg_replace('#^\s*(<svg[^>]*?) height="[0-9\.]+"([^>]*>)#i', '${1}${2}', $contents);
         // Replace <svg> with <symbol id=
         list($set, $icon) = $this->getDetailsFromPath($inputPath);
         $id = "gelicon--$set--$icon";
