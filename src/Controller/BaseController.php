@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Branding\BrandingPlaceholderResolver;
 use App\Translate\TranslateProvider;
 use App\ValueObject\MetaContext;
 use BBC\BrandingClient\Branding;
@@ -37,6 +38,7 @@ abstract class BaseController extends AbstractController
         return array_merge(parent::getSubscribedServices(), [
             'logger' => LoggerInterface::class,
             BrandingClient::class,
+            BrandingPlaceholderResolver::class,
             OrbitClient::class,
             TranslateProvider::class,
         ]);
@@ -162,6 +164,14 @@ abstract class BaseController extends AbstractController
 
             $this->setBrandingId($this->fallbackBrandingId);
             $branding = $brandingClient->getContent($this->brandingId, null);
+        }
+
+        // Resolve branding placeholders
+        if ($this->context) {
+            $branding = $this->container->get(BrandingPlaceholderResolver::class)->resolve(
+                $branding,
+                $this->context
+            );
         }
 
         return $branding;

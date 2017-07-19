@@ -14,7 +14,7 @@ services:
 
     # Autowire all necessary Twig, Argument resolver and Event Subscriber services
     App\:
-        resource: '../../src/{ArgumentResolver,EventSubscriber,Twig}'
+        resource: '../../src/{ArgumentResolver,Branding,EventSubscriber,Twig}'
 
     # Autowire controllers in the DI layer and make them public
     App\Controller\:
