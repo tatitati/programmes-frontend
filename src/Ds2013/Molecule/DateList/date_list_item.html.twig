@@ -1,6 +1,4 @@
 {% spaceless %}
-    {% import _self as self %}
-
     {% set li_classes = build_css_classes({
         'date-list__page': true,
         ('date-list__page--offset' ~ date_list_item.offset|abs): true,
@@ -15,28 +13,16 @@
         'text--faded': date_list_item.offset != 0 and not date_list_item.isLink,
     }) %}
 
-    {% set item_attributes = date_list_item.isGmt ? 'data-href-add-utcoffset="beans"' %}
-
     <li class="{{ li_classes }}">
         {% if date_list_item.isLink %}
-            <a href="{{ path('schedules_by_day', {'pid': date_list_item.servicePid, 'date': date_list_item.datetime|local_date('Y-m-d')}) }}"
-               class="{{ item_classes }}" {{ item_attributes|raw }}>
-                {{ self.dateLines(date_list_item.datetime) }}
+            <a href="{{ date_list_item.link }}"
+               class="{{ item_classes }}" {{ item_attributes is defined ? item_attributes|raw : ''}}>
+                {{ block('date_lines') }}
             </a>
         {% else %}
             <span class="{{ item_classes }}">
-                {{ self.dateLines(date_list_item.datetime) }}
+                 {{ block('date_lines') }}
             </span>
         {% endif %}
     </li>
-
-    {% macro dateLines(datetime) %}
-        <span class="date-list__item-line1">
-            {#- The French for "today" does not fit into the box so don't even try -#}
-            {{ datetime.isToday and tr('language_code') != 'fr' ? tr('schedules_today') : datetime|local_date_intl('eee') }}
-        </span>
-        <span class="date-list__item-line2">
-            {{ datetime|local_date_intl('d MMM') }}
-        </span>
-    {% endmacro %}
 {% endspaceless %}

@@ -1,0 +1,31 @@
+{% extends 'base_ds2013.html.twig' %}
+
+{%- block title -%}
+    {{ meta_context.titlePrefix }} - {{ tr('schedules') }}, {{ block('date') }}
+{%- endblock -%}
+
+{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
+
+{% block body %}
+    <div class="b-g-p no-margin-vertical islet--vertical br-box-highlight br-highlight-bg-onbg080" id="schedule-header">
+        {%- block header_links -%}{%- endblock -%}
+        <h1>
+            <span class="visually-hidden">
+                <span class="outlet">
+                    {{ tr('schedule_title', {'%1': service.name}) }}
+                </span>
+            </span>
+            <time class="date">
+                {{ block('date') }}
+            </time>
+        </h1>
+    </div>
+
+    <nav class="schedule-nav-wrapper">
+        {{ block('date_nav') }}
+    </nav>
+
+    <div class="b-g-p br-box-page island--vertical">
+        {{ block('schedule') }}
+    </div>
+{% endblock %}

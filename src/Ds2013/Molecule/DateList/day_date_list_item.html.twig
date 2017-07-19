@@ -1,0 +1,12 @@
+{% set item_attributes = date_list_item.isGmt ? 'data-href-add-utcoffset="beans"' %}
+{% extends "@Ds2013/Molecule/DateList/date_list_item.html.twig" %}
+
+{%- block date_lines -%}
+    <span class="date-list__item-line1">
+        {#- The French for "today" does not fit into the box so don't even try -#}
+        {{ date_list_item.datetime.isToday and tr('language_code') != 'fr' ? tr('schedules_today') : date_list_item.datetime|local_date_intl('eee') }}
+    </span>
+    <span class="date-list__item-line2">
+        {{ date_list_item.datetime|local_date_intl('d MMM') }}
+    </span>
+{% endblock %}

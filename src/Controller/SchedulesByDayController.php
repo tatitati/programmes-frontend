@@ -12,7 +12,6 @@ use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
-use Symfony\Component\HttpFoundation\Response;
 
 class SchedulesByDayController extends BaseController
 {

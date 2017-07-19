@@ -1,32 +1,21 @@
-{% extends 'base_ds2013.html.twig' %}
+{% extends 'schedules/by_base.html.twig' %}
 
-{%- block title -%}
-    {{ meta_context.titlePrefix }} - {{ tr('schedules') }}, {{ broadcast_day_start|local_date_intl('eeee d MMMM Y') }}
-{%- endblock -%}
+{%- block date -%}
+    {{ broadcast_day_start|local_date_intl('eeee d MMMM Y') }}
+{% endblock %}
 
-{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
-
-{% block body %}
-    <div class="b-g-p no-margin-vertical islet--vertical br-box-highlight br-highlight-bg-onbg080{{ service.isTv ? ' visually-hidden' }}" id="schedule-header">
-        <h1>
-        <span class="visually-hidden">
-            <span class="outlet">
-                {{ tr('schedule_title', {'%1': service.name}) }}
-            </span>
-        </span>
-            <time class="date">
-                {{ broadcast_day_start|local_date_intl('eeee d MMMM Y') }}
-            </time>
-        </h1>
+{%- block date_nav -%}
+    <div id="schedule-daynav" class="centi br-box-highlight g-f-l">
+        {{ ds2013('dateList', broadcast_day_start, service) }}
     </div>
+{% endblock %}
 
-    <nav class="schedule-nav-wrapper fixedsticky">
-        <div id="schedule-daynav" class="centi br-box-highlight g-f-l">
-            {{ ds2013('dateList', broadcast_day_start, service) }}
-        </div>
-    </nav>
+{%- block header_links -%}
+    <p class="pull--right islet--vertical no-margin-vertical delta">
+        <a href="{{ path('schedules_by_month', {pid: service.pid, date: broadcast_day_start|local_date('Y-m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
+    </p>
+{% endblock %}
 
-    <div class="b-g-p br-box-page island--vertical">
-        {{ ds2013_presenter(page_presenter) }}
-    </div>
+{%- block schedule -%}
+    {{ ds2013_presenter(page_presenter) }}
 {% endblock %}

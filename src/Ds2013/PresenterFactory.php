@@ -3,19 +3,20 @@ declare(strict_types = 1);
 namespace App\Ds2013;
 
 use App\Ds2013\Helpers\HelperFactory;
+use App\Ds2013\Molecule\Calendar\CalendarPresenter;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use Cake\Chronos\Chronos;
-use App\Translate\TranslateProvider;
+use Cake\Chronos\ChronosInterface;
 use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -59,12 +60,25 @@ class PresenterFactory
     /**
      * Molecules
      */
+    public function calendarPresenter(
+        ChronosInterface $datetime,
+        Service $service,
+        array $options = []
+    ): CalendarPresenter {
+        return new CalendarPresenter(
+            $datetime,
+            $service,
+            $options
+        );
+    }
+
     public function dateListPresenter(
-        Chronos $datetime,
+        ChronosInterface $datetime,
         Service $service,
         array $options = []
     ): DateListPresenter {
         return new DateListPresenter(
+            $this->router,
             $datetime,
             $service,
             $options
