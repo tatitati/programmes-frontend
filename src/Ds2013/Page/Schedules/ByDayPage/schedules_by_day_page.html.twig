@@ -89,6 +89,28 @@
     </p>
 {% endif %}
 
+<div class="g-c-l">
+    <p class="tomorrow-bar">
+        {%- set nextDay = schedules_by_day_page.BroadcastDayStart.addDays(1) -%}
+        {% if schedules_by_day_page.service.isInternational %}
+            {%- set attributes = build_html_attributes({'data-href-add-utcoffset' : 'true'}) -%}
+        {% else %}
+            {%- set attributes = '' -%}
+        {% endif %}
+        <a class="tomorrow-bar--link island bpw-islet text--no-ul text--right br-page-linkhover-onbg015 br-page-linkhover-onbg--hover br-page-bg-ontext--hover"
+           href="{{ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': nextDay.format('Y-m-d')}) }}" {{ attributes }}>
+            {%- if nextDay.isTomorrow -%}
+                {{ tr('schedules_tomorrow') }}
+            {%- elseif nextDay.isToday -%}
+                {{ tr('schedules_today') }}
+            {%- else -%}
+                {{ nextDay|local_date_intl('EEEE d MMMM yyyy') }}
+            {%- endif -%}
+            {{ gelicon('basics', 'next', 'centi', 'trailing') }}
+        </a>
+    </p>
+</div>
+
 {% if schedules_by_day_page.hasSiblingServiceList %}
     <div class="island--vertical">
         <h2>{{ tr(schedules_by_day_page.servicesHeadingMessage) }}</h2>
