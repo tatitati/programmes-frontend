@@ -25,11 +25,11 @@ monolog:
         app_access:
             type: stream
             channels: ['app_access']
-            path: '%kernel.logs_dir%/%kernel.environment%-access.log'
+            path: '%kernel.logs_dir%/prod-access.log'
             level: info
         nested:
             type: stream
-            path: '%kernel.logs_dir%/%kernel.environment%.log'
+            path: '%kernel.logs_dir%/prod.log'
             level: debug
         console:
             type: console

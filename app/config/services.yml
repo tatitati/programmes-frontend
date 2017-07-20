@@ -1,9 +1,7 @@
 parameters:
     app.default_locale: 'en_GB'
     app.orbit_client.class: BBC\BrandingClient\OrbitClient
-    app.orbit_client.env: 'test'
     app.branding_client.class: BBC\BrandingClient\BrandingClient
-    app.branding_client.env: 'test'
 
 services:
 
@@ -60,14 +58,14 @@ services:
         arguments:
             - '@csa_guzzle.client.default'
             - '@cache.app_page_chrome'
-            - { env: '%app.orbit_client.env%', mustache: { cache: '%kernel.cache_dir%/mustache' } }
+            - { env: '%app.feed_env.orbit%', mustache: { cache: '%kernel.cache_dir%/mustache' } }
 
     BBC\BrandingClient\BrandingClient:
         class: '%app.branding_client.class%'
         arguments:
             - '@csa_guzzle.client.default'
             - '@cache.app_page_chrome'
-            - { env: '%app.branding_client.env%' }
+            - { env: '%app.feed_env.branding%' }
 
     ### Translations
 

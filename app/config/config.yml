@@ -6,6 +6,11 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    # These are the default feed environments for LIVE. They may be overridden
+    # on a per cosmos environment basis by editing config_prod_int.yml or
+    # config_prod_test.yml
+    app.feed_env.orbit: 'live'
+    app.feed_env.branding: 'live'
 
 framework:
     #esi: ~

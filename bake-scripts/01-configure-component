@@ -41,7 +41,7 @@ def substitute_data(data):
     }
 
 
-def rewrite_application_parameters():
+def rewrite_application_parameters(config):
     appParamWriteFile = appRoot + "/app/config/parameters.yml"
     appParamReadFile = appRoot + "/app/config/parameters_prod.yml.dist"
 
@@ -50,11 +50,25 @@ def rewrite_application_parameters():
         raise IOError("MISSING FILE: " + appParamReadFile)
 
     src = Template(open(appParamReadFile).read())
-    parameters = src.substitute(substitute_data(component_config()))
+    parameters = src.substitute(substitute_data(config))
 
     print "Overwriting " + appParamWriteFile
     with open(appParamWriteFile, 'wt') as config_file:
         config_file.write(parameters)
+
+
+def rewrite_application_front_controller(symfony_env):
+    appFrontControllerFile = appRoot + "/web/app.php"
+
+    content = open(appFrontControllerFile).read()
+    content = content.replace(
+        "new AppKernel('prod', false)",
+        "new AppKernel('" + symfony_env + "', false)"
+    )
+
+    print "Overwriting " + appFrontControllerFile
+    with open(appFrontControllerFile, 'wt') as front_controller_file:
+        front_controller_file.write(content)
 
 
 def system_tweaks():
@@ -74,7 +88,7 @@ def system_tweaks():
         f.write("nginx hard nofile 6000\n")
 
 
-def regenerate_cache():
+def regenerate_cache(symfony_env):
     appTmpDir = appRoot + "/tmp"
     appConsoleFile = appRoot + "/app/console"
 
@@ -86,8 +100,8 @@ def regenerate_cache():
     # The warmup in cache:clear doesn't quite do what you expect so we should
     # call cache:warmup explicitly
     # http://symfony.com/blog/new-in-symfony-3-3-deprecated-cache-clear-with-warmup
-    subprocess.call(['php', appConsoleFile, '--env=prod', 'cache:clear', '--no-warmup', '--no-debug'])
-    subprocess.call(['php', appConsoleFile, '--env=prod', 'cache:warmup', '--no-debug'])
+    subprocess.call(['php', appConsoleFile, '--env=' + symfony_env, 'cache:clear', '--no-warmup', '--no-debug'])
+    subprocess.call(['php', appConsoleFile, '--env=' + symfony_env, 'cache:warmup', '--no-debug'])
 
     # Give the temp directory back to nginx
     subprocess.call(['chown', '-R', 'nginx:nginx', appTmpDir])
@@ -100,8 +114,15 @@ def create_monitoring_cronjob():
 
 def main():
     print "Setting up configurations..."
-    rewrite_application_parameters()
-    regenerate_cache()
+    config = component_config()
+
+    symfony_env = "prod"
+    if (config["environment"] != 'live'):
+        symfony_env = symfony_env + '_' + config["environment"]
+
+    rewrite_application_parameters(config)
+    rewrite_application_front_controller(symfony_env)
+    regenerate_cache(symfony_env)
     #create_monitoring_cronjob()
     system_tweaks()
 
