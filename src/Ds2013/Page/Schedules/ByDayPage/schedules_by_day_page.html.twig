@@ -56,7 +56,9 @@
                             class="link-complex__target">{{ tr('back_to_top_of_page') }}</span></a>
                 {% endif %}
                 {% set showBackToTop = schedules_by_day_page.hasJumpLinks %}
-                <h2 class="delta text--shout island--horizontal component">{{ tr('schedules_period_' ~ period_name) }}</h2>
+                {% if schedules_by_day_page.hasPeriodHeadings %}
+                    <h2 class="delta text--shout island--horizontal component">{{ tr('schedules_period_' ~ period_name) }}</h2>
+                {% endif %}
                 <ol class="highlight-box-wrapper">
                     {# list of broadcasts in day period #}
                     {% for broadcast in broadcast_in_period %}
