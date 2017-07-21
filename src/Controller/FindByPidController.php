@@ -15,7 +15,7 @@ class FindByPidController extends BaseController
         $programme = $programmesService->findByPidFull($pid);
         if ($programme) {
             $this->setContext($programme);
-            return $this->programmeResponse($programme);
+            return $this->exampleProgrammeResponse($programme);
         }
 
         // Attempt to find a Version
@@ -39,9 +39,14 @@ class FindByPidController extends BaseController
         throw $this->createNotFoundException(sprintf('The item with PID "%s" was not found', $pid));
     }
 
-    private function programmeResponse(Programme $programme)
+    /**
+     * I am a placeholder so we can show a page for programmes that we have not
+     * yet started working on. I can be removed once we implement all programme
+     * routes
+     */
+    private function exampleProgrammeResponse(Programme $programme)
     {
-        return $this->renderWithChrome('find_by_pid/programme.html.twig', [
+        return $this->renderWithChrome('find_by_pid/example_programme.html.twig', [
             'programme' => $programme,
         ]);
     }
