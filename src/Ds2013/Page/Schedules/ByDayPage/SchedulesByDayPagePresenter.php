@@ -9,7 +9,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
-use DateTimeZone;
 
 class SchedulesByDayPagePresenter extends Presenter
 {
