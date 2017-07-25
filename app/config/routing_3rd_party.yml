@@ -24,6 +24,19 @@ iplayer_live:
     requirements: { sid: '[0-9a-z_]{1,}' }
     schemes: [http]
 
+radio_player:
+    path: /radio/player/{sid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { sid: '[0-9a-z_]{1,}' }
+    schemes: [http]
+
+worldservice_liveradio:
+    host: "bbc.com"
+    path: /{language}/{sid}/liveradio
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { language: '[a-z]{1,}', sid: '[0-9a-z_]{1,}' }
+    schemes: [http]
+
 ### /programmes v2
 
 atoz_list_all:

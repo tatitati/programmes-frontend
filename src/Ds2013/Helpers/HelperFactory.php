@@ -31,7 +31,7 @@ class HelperFactory
     public function getLiveBroadcastHelper()
     {
         if (!isset($this->helpers[LiveBroadcastHelper::class])) {
-            $this->helpers[LiveBroadcastHelper::class] = new LiveBroadcastHelper();
+            $this->helpers[LiveBroadcastHelper::class] = new LiveBroadcastHelper($this->router);
         }
         return $this->helpers[LiveBroadcastHelper::class];
     }

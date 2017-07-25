@@ -12,15 +12,31 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;
 use DateTimeImmutable;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 
 class LiveBroadcastHelperTest extends TestCase
 {
     /** @var LiveBroadcastHelper */
     private $helper;
 
+    /** @var UrlGeneratorInterface */
+    private $router;
+
     public function setUp()
     {
-        $this->helper = new LiveBroadcastHelper();
+        $routeCollectionBuilder = new RouteCollectionBuilder();
+        $routeCollectionBuilder->add('/iplayer/live/{sid}', '', 'iplayer_live');
+
+        $router = new UrlGenerator(
+            $routeCollectionBuilder->build(),
+            new RequestContext()
+        );
+
+        $this->router = $this->createMock(UrlGeneratorInterface::class);
+        $this->helper = new LiveBroadcastHelper($router);
         ApplicationTime::setTime((new Chronos('2017-06-01 00:00:00'))->getTimestamp());
     }
 
@@ -31,6 +47,7 @@ class LiveBroadcastHelperTest extends TestCase
             new DateTimeImmutable('2017-05-31 23:00:00'),
             new DateTimeImmutable('2017-06-01 01:00:00')
         );
+
         $result = $this->helper->isWatchableLive($collapsedBroadcast);
         $this->assertTrue($result);
     }
@@ -43,6 +60,7 @@ class LiveBroadcastHelperTest extends TestCase
             new DateTimeImmutable('2017-06-01 01:00:00'),
             true
         );
+
         $result = $this->helper->isWatchableLive($collapsedBroadcast);
         $this->assertFalse($result);
     }
@@ -54,6 +72,7 @@ class LiveBroadcastHelperTest extends TestCase
             new DateTimeImmutable('2017-06-01 00:00:01'),
             new DateTimeImmutable('2017-06-01 01:00:00')
         );
+
         $result = $this->helper->isWatchableLive($collapsedBroadcast);
         $this->assertFalse($result);
     }
@@ -65,6 +84,7 @@ class LiveBroadcastHelperTest extends TestCase
             new DateTimeImmutable('2017-05-31 23:00:00'),
             new DateTimeImmutable('2017-06-01 01:00:00')
         );
+
         $result = $this->helper->isWatchableLive($collapsedBroadcast);
         $this->assertFalse($result);
     }
@@ -76,6 +96,7 @@ class LiveBroadcastHelperTest extends TestCase
             new DateTimeImmutable('2017-06-01 00:05:00'),
             new DateTimeImmutable('2017-06-01 01:00:00')
         );
+
         $result = $this->helper->isWatchableLive($collapsedBroadcast, true);
         $this->assertTrue($result);
     }
@@ -87,8 +108,9 @@ class LiveBroadcastHelperTest extends TestCase
             new DateTimeImmutable('2017-06-01 00:00:00'),
             new DateTimeImmutable('2017-06-01 01:00:00')
         );
+
         $result = $this->helper->simulcastUrl($collapsedBroadcast);
-        $this->assertEquals('/iplayer/live/bbcone', $result);
+        $this->assertEquals('http://localhost/iplayer/live/bbcone', $result);
     }
 
     public function testSimulcastUrlOrdering()
@@ -98,8 +120,9 @@ class LiveBroadcastHelperTest extends TestCase
             new DateTimeImmutable('2017-06-01 00:00:00'),
             new DateTimeImmutable('2017-06-01 01:00:00')
         );
+
         $result = $this->helper->simulcastUrl($collapsedBroadcast);
-        $this->assertEquals('/iplayer/live/bbcone', $result);
+        $this->assertEquals('http://localhost/iplayer/live/bbcone', $result);
     }
 
     public function testSimulcastUrlPreferredService()
@@ -111,8 +134,9 @@ class LiveBroadcastHelperTest extends TestCase
         );
         $preferredService = $this->createMock(Service::class);
         $preferredService->method('getSid')->willReturn(new Sid('bbc_news24'));
+
         $result = $this->helper->simulcastUrl($collapsedBroadcast, $preferredService);
-        $this->assertEquals('/iplayer/live/bbcnews', $result);
+        $this->assertEquals('http://localhost/iplayer/live/bbcnews', $result);
     }
 
     private function createCollapsedBroadcast(
