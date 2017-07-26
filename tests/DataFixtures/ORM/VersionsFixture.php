@@ -4,9 +4,9 @@ namespace Tests\App\DataFixtures\ORM;
 
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 
 class VersionsFixture extends AbstractFixture implements DependentFixtureInterface
 {

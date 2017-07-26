@@ -6,10 +6,10 @@ namespace App\Ds2013\Organism\Programme\SubPresenters;
 use App\Ds2013\Helpers\PlayTranslationsHelper;
 use App\Ds2013\Organism\Programme\ProgrammePresenterBase;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
-use InvalidArgumentException;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**

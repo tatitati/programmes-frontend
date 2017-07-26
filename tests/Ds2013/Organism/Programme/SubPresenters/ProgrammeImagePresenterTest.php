@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollectionBuilder;
-use Tests\App\TwigEnvironmentProvider;
 
 class ProgrammeImagePresenterTest extends TestCase
 {

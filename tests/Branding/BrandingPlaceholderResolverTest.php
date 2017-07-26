@@ -9,11 +9,11 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use PHPUnit\Framework\TestCase;
 use RMP\Translate\Translate;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollectionBuilder;
-use PHPUnit\Framework\TestCase;
 
 class BrandingPlaceholderResolverTest extends TestCase
 {

@@ -4,11 +4,11 @@ namespace Tests\App\Translate;
 
 use App\Translate\TranslatableTrait;
 use App\Translate\TranslateProvider;
-use RMP\Translate\Translate;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use RMP\Translate\Translate;
 
 class TranslatableTraitTest extends TestCase
 {

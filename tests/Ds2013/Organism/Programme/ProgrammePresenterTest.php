@@ -6,7 +6,6 @@ namespace Tests\App\Ds2013\Organism\Programme;
 use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\Helpers\PlayTranslationsHelper;
 use App\Ds2013\Helpers\TitleLogicHelper;
-use App\Ds2013\InvalidOptionException;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeImagePresenter;

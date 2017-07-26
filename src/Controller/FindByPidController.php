@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
-use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 
 class FindByPidController extends BaseController

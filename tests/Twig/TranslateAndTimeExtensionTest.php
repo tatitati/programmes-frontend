@@ -6,9 +6,9 @@ namespace Tests\App\Twig;
 use App\Translate\TranslateProvider;
 use App\Twig\TranslateAndTimeExtension;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
-use PHPUnit\Framework\TestCase;
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use RMP\Translate\Translate;
 
 class TranslateAndTimeExtensionTest extends TestCase

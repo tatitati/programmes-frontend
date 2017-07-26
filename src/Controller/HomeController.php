@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use BBC\ProgrammesPagesService\Service\NetworksService;
-use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 

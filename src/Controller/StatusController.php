@@ -2,11 +2,11 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use DateTimeImmutable;
+use Doctrine\DBAL\Driver\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use DateTimeImmutable;
-use Doctrine\DBAL\Driver\Connection;
 
 class StatusController extends Controller
 {

@@ -6,7 +6,6 @@ use App\Ds2013\Helpers\TitleLogicHelper;
 use App\Ds2013\Organism\Programme\ProgrammePresenterBase;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**

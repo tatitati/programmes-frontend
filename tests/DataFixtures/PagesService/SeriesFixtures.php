@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Tests\App\DataFixtures\PagesService;
 
-use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;

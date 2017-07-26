@@ -2,9 +2,9 @@
 declare(strict_types = 1);
 namespace App\Twig;
 
+use InvalidArgumentException;
 use Twig_Extension;
 use Twig_Function;
-use InvalidArgumentException;
 
 class GelIconExtension extends Twig_Extension
 {

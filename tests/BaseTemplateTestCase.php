@@ -3,9 +3,9 @@ declare(strict_types = 1);
 namespace Tests\App;
 
 use App\Ds2013\Presenter;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Twig_Environment;
-use PHPUnit\Framework\TestCase;
 
 abstract class BaseTemplateTestCase extends TestCase
 {

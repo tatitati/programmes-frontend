@@ -4,12 +4,11 @@ namespace App\Ds2013\Organism\Programme;
 
 use App\Ds2013\Helpers\HelperFactory;
 use App\Ds2013\InvalidOptionException;
-use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeImagePresenter;
-use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeTitlePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;

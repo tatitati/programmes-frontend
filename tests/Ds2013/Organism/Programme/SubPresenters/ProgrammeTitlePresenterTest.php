@@ -9,7 +9,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Tests\App\TwigEnvironmentProvider;
 
 class ProgrammeTitlePresenterTest extends TestCase
 {

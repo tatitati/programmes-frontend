@@ -4,12 +4,12 @@ namespace Tests\App\DataFixtures\ORM;
 
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\ProgrammeItem;
-use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Service;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
 use DateTime;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 
 class BroadcastsFixture extends AbstractFixture implements DependentFixtureInterface
 {

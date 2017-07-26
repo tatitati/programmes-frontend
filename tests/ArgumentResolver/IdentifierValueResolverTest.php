@@ -6,8 +6,8 @@ use App\ArgumentResolver\IdentifierValueResolver;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 
 class IdentifierValueResolverTest extends TestCase
 {
