@@ -97,12 +97,12 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface
         }
 
         // Attempt to find a Version
-        // $version = $this->serviceFactory->getVersionsService()->findByPidFull($pid);
-        // if ($version) {
-        //     $request->attributes->set('version', $version);
-        //     $request->attributes->set('_controller', \App\Controller\FindByPid\VersionController::class);
-        //     return;
-        // }
+        $version = $this->serviceFactory->getVersionsService()->findByPidFull($pid);
+        if ($version) {
+            $request->attributes->set('version', $version);
+            $request->attributes->set('_controller', \App\Controller\FindByPid\VersionController::class);
+            return;
+        }
 
         // Attempt to find a Segment
         // $segment = $this->serviceFactory->getSegmentsService()->findByPidFull($pid);

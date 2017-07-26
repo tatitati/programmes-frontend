@@ -15,6 +15,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -134,6 +135,22 @@ abstract class BaseController extends AbstractController
     protected function render($view, array $parameters = [], Response $response = null): Response
     {
         return parent::render($view, $parameters, $response ?? $this->response);
+    }
+
+    /**
+     * Returns a RedirectResponse to the given URL.
+     * This picks up the default cache configuration of $this->response that was
+     * set in the constructor
+     *
+     * @param string $url    The URL to redirect to
+     * @param int    $status The status code to use for the Response
+     *
+     * @return RedirectResponse
+     */
+    protected function redirect($url, $status = 302): RedirectResponse
+    {
+        $headers = $this->response->headers->all();
+        return new RedirectResponse($url, $status, $headers);
     }
 
     private function requestBranding(): Branding

@@ -6,7 +6,10 @@ use App\EventSubscriber\FindByPidRouterSubscriber;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
+use BBC\ProgrammesPagesService\Domain\Entity\Segment;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\SegmentsService;
 use BBC\ProgrammesPagesService\Service\VersionsService;
@@ -20,7 +23,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class FindByPidRouterSubscriberTest extends TestCase
 {
     /**
-     * @dataProvider coreEntityDataProvider
+     * @dataProvider entityDataProvider
      */
     public function testEntityResponse($programme, $version, $segment, $expectedController)
     {
@@ -43,7 +46,7 @@ class FindByPidRouterSubscriberTest extends TestCase
         }
     }
 
-    public function coreEntityDataProvider()
+    public function entityDataProvider()
     {
         $tleo = $this->createMock(Brand::class);
         $series = $this->createMock(Series::class);
@@ -54,8 +57,10 @@ class FindByPidRouterSubscriberTest extends TestCase
             [$series, null, null, 'App\Controller\FindByPid\DefaultController'],
             [$this->createMock(Episode::class), null, null, 'App\Controller\FindByPid\DefaultController'],
             [$this->createMock(Clip::class), null, null, 'App\Controller\FindByPid\DefaultController'],
+            // TODO add checks for Groups
+            [null, $this->createMock(Version::class), null, 'App\Controller\FindByPid\VersionController'],
         ];
-        // TODO add checks for Groups, Version and Segment
+        // TODO add checks for Groups and Segment
     }
 
     public function testOnlyRunsOnMasterRequests()
@@ -84,13 +89,12 @@ class FindByPidRouterSubscriberTest extends TestCase
         $this->expectExceptionMessage('The item with PID "b0000001" was not found');
 
         $this->buildSubscriber()->updateController($this->event($request));
-
     }
 
     private function buildSubscriber(
-        $programmeResult = null,
-        $versionResult = null,
-        $segmentResult = null
+        Programme $programmeResult = null,
+        Version $versionResult = null,
+        Segment $segmentResult = null
     ) {
         $programmesService = $this->createMock(ProgrammesService::class);
         $programmesService->method('findByPidFull')->willReturn($programmeResult);
@@ -124,5 +128,4 @@ class FindByPidRouterSubscriberTest extends TestCase
             $isMasterRequest ? HttpKernelInterface::MASTER_REQUEST : HttpKernelInterface::SUB_REQUEST
         );
     }
-
 }
