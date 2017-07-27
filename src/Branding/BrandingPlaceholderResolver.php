@@ -4,8 +4,8 @@ namespace App\Branding;
 
 use App\Translate\TranslateProvider;
 use BBC\BrandingClient\Branding;
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -47,7 +47,7 @@ class BrandingPlaceholderResolver
     public function resolve(Branding $branding, $context): Branding
     {
         // If the context is not a Programme or Group then don't attempt to resolve
-        if (!($context instanceof Programme /*|| $context instanceof Group*/)) {
+        if (!($context instanceof CoreEntity)) {
             return $branding;
         }
 
@@ -133,9 +133,6 @@ class BrandingPlaceholderResolver
             $hasClips = $tleo->getAvailableClipsCount() > 0;
             $hasGalleries = $tleo->getAvailableGalleriesCount() > 0;
         }
-
-        // TODO handle instanceof Group
-        // At the time of writing Group models have not yet been implemented
 
         // Episodes link
         if ($tleo && $hasEpisodes) {

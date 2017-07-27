@@ -10,8 +10,8 @@ use BBC\BrandingClient\Branding;
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\BrandingException;
 use BBC\BrandingClient\OrbitClient;
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -78,10 +78,7 @@ abstract class BaseController extends AbstractController
 
         // br-00002 is the default 'Programme Variant' - use that when we're
         // displaying programme/group/service pages.
-        // TODO instanceof Group should use the brandingId from their options
-        // and use br-00002 as a fallback (same as instanceof Programme), when
-        // we create those domain models
-        if ($context instanceof Programme || $context instanceof Network) {
+        if ($context instanceof CoreEntity || $context instanceof Network) {
             $this->setBrandingId($context->getOption('branding_id'));
             $this->fallbackBrandingId = 'br-00002';
         } elseif ($context instanceof Service) {
