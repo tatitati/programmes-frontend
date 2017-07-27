@@ -3,8 +3,13 @@ declare(strict_types = 1);
 namespace App\EventSubscriber;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
+use BBC\ProgrammesPagesService\Domain\Entity\Collection;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Franchise;
+use BBC\ProgrammesPagesService\Domain\Entity\Gallery;
+use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\Season;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -66,34 +71,59 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface
 
         $pid = new Pid($request->attributes->get('pid'));
 
-        // Attempt to find a Programme
-        // TODO attempt to find a group in the same query
-        $programme = $this->serviceFactory->getProgrammesService()->findByPidFull($pid);
-        if ($programme) {
-            $request->attributes->set('programme', $programme);
-
-            if ($programme instanceof ProgrammeContainer) {
-                if (!$programme->getParent()) {
+        // Attempt to find a Programme or Group
+        $coreEntity = $this->serviceFactory->getCoreEntitiesService()->findByPidFull($pid);
+        if ($coreEntity) {
+            if ($coreEntity instanceof ProgrammeContainer) {
+                if (!$coreEntity->getParent()) {
+                    $request->attributes->set('programme', $coreEntity);
                     $request->attributes->set('_controller', \App\Controller\FindByPid\TlecController::class);
                     return;
                 }
 
-                $request->attributes->set('_controller', \App\Controller\FindByPid\DefaultController::class);
+                $request->attributes->set('programme', $coreEntity);
+                $request->attributes->set('_controller', \App\Controller\FindByPid\SeriesController::class);
                 return;
             }
 
-            if ($programme instanceof Episode) {
-                $request->attributes->set('_controller', \App\Controller\FindByPid\DefaultController::class);
+            if ($coreEntity instanceof Episode) {
+                $request->attributes->set('episode', $coreEntity);
+                $request->attributes->set('_controller', \App\Controller\FindByPid\EpisodeController::class);
                 return;
             }
 
-            if ($programme instanceof Clip) {
-                $request->attributes->set('_controller', \App\Controller\FindByPid\DefaultController::class);
+            if ($coreEntity instanceof Clip) {
+                $request->attributes->set('clip', $coreEntity);
+                $request->attributes->set('_controller', \App\Controller\FindByPid\ClipController::class);
+                return;
+            }
+
+            if ($coreEntity instanceof Collection) {
+                $request->attributes->set('collection', $coreEntity);
+                $request->attributes->set('_controller', \App\Controller\FindByPid\CollectionController::class);
+                return;
+            }
+
+            if ($coreEntity instanceof Gallery) {
+                $request->attributes->set('gallery', $coreEntity);
+                $request->attributes->set('_controller', \App\Controller\FindByPid\GalleryController::class);
+                return;
+            }
+
+            if ($coreEntity instanceof Season) {
+                $request->attributes->set('season', $coreEntity);
+                $request->attributes->set('_controller', \App\Controller\FindByPid\SeasonController::class);
+                return;
+            }
+
+            if ($coreEntity instanceof Franchise) {
+                $request->attributes->set('franchise', $coreEntity);
+                $request->attributes->set('_controller', \App\Controller\FindByPid\FranchiseController::class);
                 return;
             }
 
             // Otherwise something has gone very wrong
-            throw new NotFoundHttpException(sprintf('The programme with PID "%s" was of an unknown type', $pid));
+            throw new NotFoundHttpException(sprintf('The item with PID "%s" was of an unknown type', $pid));
         }
 
         // Attempt to find a Version
@@ -105,12 +135,12 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface
         }
 
         // Attempt to find a Segment
-        // $segment = $this->serviceFactory->getSegmentsService()->findByPidFull($pid);
-        // if ($segment) {
-        //     $request->attributes->set('segment', $segment);
-        //     $request->attributes->set('_controller', \App\Controller\FindByPid\SegmentController::class);
-        //     return;
-        // }
+        $segment = $this->serviceFactory->getSegmentsService()->findByPidFull($pid);
+        if ($segment) {
+            $request->attributes->set('segment', $segment);
+            $request->attributes->set('_controller', \App\Controller\FindByPid\SegmentController::class);
+            return;
+        }
 
         throw new NotFoundHttpException(sprintf('The item with PID "%s" was not found', $pid));
     }

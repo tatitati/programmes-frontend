@@ -1,7 +1,7 @@
 {#
     I am a placeholder so we can show something for find by pid pages that we
     have not yet started working on. I can be removed once we implement all
-    programme routes
+    find by pid pages
  #}
 {% extends 'base_ds2013.html.twig' %}
 
@@ -11,10 +11,21 @@
 {% block body %}
     <div class="br-box-page">
         <h1>It Lives!</h1>
-        {{ ds2013('programme', programme, {
-            'showSynopsis': true
-        }) }}
 
-        {{ dump(programme) }}
+        {% if programme is defined %}
+            {{ ds2013('programme', programme, {
+                'showSynopsis': true
+            }) }}
+
+            {{ dump(programme) }}
+        {% endif %}
+
+        {% if group is defined %}
+            {{ dump(group) }}
+        {% endif %}
+
+        {% if segment is defined %}
+            {{ dump(segment) }}
+        {% endif %}
     </div>
 {% endblock %}
