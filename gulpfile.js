@@ -9,6 +9,7 @@ const revdelOriginal = require('gulp-rev-delete-original');
 const del = require('del');
 const requirejsOptimize = require('gulp-requirejs-optimize');
 const autoprefixer = require('gulp-autoprefixer');
+const override = require('gulp-rev-css-url');
 
 const staticPathSrc = 'app/Resources';
 const staticPathDist = 'web/assets';
@@ -84,6 +85,7 @@ gulp.task('images', ['images:clean'], function() {
 gulp.task('rev', ['sass', 'images', 'js'], function() {
     return gulp.src([staticPathDist + '/**/*', '!' + staticPathDist + '/**/rev-manifest.json'])
         .pipe(rev())
+        .pipe(override())
         .pipe(gulp.dest(staticPathDist))
         .pipe(revdelOriginal()) // delete no-revised file
         .pipe(rev.manifest('rev-manifest.json'))

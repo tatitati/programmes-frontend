@@ -8,6 +8,7 @@
         "gulp-autoprefixer": "^4.0.0",
         "gulp-requirejs-optimize": "^1.2.0",
         "gulp-rev": "^7.1.2",
+        "gulp-rev-css-url": "^0.1.0",
         "gulp-rev-delete-original": "^0.2.3",
         "gulp-sass": "^3.1.0",
         "gulp-sass-error": "^1.0.5",

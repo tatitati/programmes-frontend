@@ -115,6 +115,36 @@
     </div>
 {% endif %}
 
+<div class="island--vertical">
+    {%- if schedules_by_day_page.otherNetworks -%}
+        <ul class="tv-channels component nav">
+            {%- for network in schedules_by_day_page.otherNetworks -%}
+                {%- set classes = build_css_classes({
+                    'tv-channels__item': true,
+                    ('tv-channels__item--' ~ network.nid) : true,
+                    'tv-channels__item--active' : (schedules_by_day_page.service.network.nid == network.nid)
+                }) -%}
+                <li class="tv-channels__listitem">
+                    <a class="{{ classes }}"
+                       href="{{ path('schedules_by_day', {'pid': network.defaultService.pid, 'date': schedules_by_day_page.routeDate}) }}">
+                        <span class="visually-hidden">{{ network.defaultService.name }}</span>
+                    </a>
+                </li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+    {%- if schedules_by_day_page.service.isTv -%}
+        <ul class="nav nav--piped text--right">
+            <li>
+                <a class="deemphasize" href="/showsandtours/">Shows &amp; Tours</a>
+            </li>
+            <li>
+                <a class="deemphasize" href="http://faq.external.bbc.co.uk/questions/television/">Help &amp; FAQ</a>
+            </li>
+        </ul>
+    {%- endif -%}
+</div>
+
 {% if schedules_by_day_page.hasSiblingServiceList %}
     <div class="island--vertical">
         <h2>{{ tr(schedules_by_day_page.servicesHeadingMessage) }}</h2>

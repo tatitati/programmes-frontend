@@ -1,0 +1,169 @@
+/**
+ * TV channels nav
+ *
+ */
+/**
+ * Generic styling
+ */
+.tv-channels {
+    width: 194px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.tv-channels__listitem {
+    vertical-align: top;
+}
+
+.tv-channels__item {
+    width: 96px;
+    height: 41px;
+    background-image: image-url('logos/services_channel_sprite.png');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    margin: 0 1px 1px 0;
+}
+
+.tv-channels__item--bbc_world_news {
+    display: none!important; // hide the international service
+}
+
+.tv-channels__item--bbc_one {
+    background-position: 0 0;
+}
+
+.tv-channels__item--bbc_two {
+    background-position: 0 -41px;
+}
+
+.tv-channels__item--bbc_three {
+    background-position: 0 -82px;
+}
+
+.tv-channels__item--bbc_four {
+    background-position: 0 -123px;
+}
+
+.tv-channels__item--cbbc {
+    background-position: 0 -164px;
+}
+
+.tv-channels__item--cbeebies {
+    background-position: 0 -205px;
+}
+
+.tv-channels__item--bbc_hd {
+    background-position: 0 -246px;
+}
+
+.tv-channels__item--bbc_news24 {
+    background-position: 0 -287px;
+}
+
+.tv-channels__item--bbc_parliament {
+    background-position: 0 -328px;
+}
+
+.tv-channels__item--bbc_alba {
+    background-position: 0 -369px;
+}
+
+.tv-channels__item--s4cpbs {
+    background-position: 0 -410px;
+}
+
+.tv-channels__item--bbc_one.tv-channels__item--active,
+.tv-channels__item--bbc_one:active,
+.tv-channels__item--bbc_one:focus,
+.tv-channels__item--bbc_one:hover {
+    background-position: -96px 0;
+}
+
+.tv-channels__item--bbc_two.tv-channels__item--active,
+.tv-channels__item--bbc_two:active,
+.tv-channels__item--bbc_two:focus,
+.tv-channels__item--bbc_two:hover {
+    background-position: -96px -41px;
+}
+
+.tv-channels__item--bbc_three.tv-channels__item--active,
+.tv-channels__item--bbc_three:active,
+.tv-channels__item--bbc_three:focus,
+.tv-channels__item--bbc_three:hover {
+    background-position: -96px -82px;
+}
+
+.tv-channels__item--bbc_four.tv-channels__item--active,
+.tv-channels__item--bbc_four:active,
+.tv-channels__item--bbc_four:focus,
+.tv-channels__item--bbc_four:hover {
+    background-position: -96px -123px;
+}
+
+.tv-channels__item--cbbc.tv-channels__item--active,
+.tv-channels__item--cbbc:active,
+.tv-channels__item--cbbc:focus,
+.tv-channels__item--cbbc:hover {
+    background-position: -96px -164px;
+}
+
+.tv-channels__item--cbeebies.tv-channels__item--active,
+.tv-channels__item--cbeebies:active,
+.tv-channels__item--cbeebies:focus,
+.tv-channels__item--cbeebies:hover {
+    background-position: -96px -205px;
+}
+
+.tv-channels__item--bbc_hd.tv-channels__item--active,
+.tv-channels__item--bbc_hd:active,
+.tv-channels__item--bbc_hd:focus,
+.tv-channels__item--bbc_hd:hover {
+    background-position: -96px -246px;
+}
+
+.tv-channels__item--bbc_news24.tv-channels__item--active,
+.tv-channels__item--bbc_news24:active,
+.tv-channels__item--bbc_news24:focus,
+.tv-channels__item--bbc_news24:hover {
+    background-position: -96px -287px;
+}
+
+.tv-channels__item--bbc_parliament.tv-channels__item--active,
+.tv-channels__item--bbc_parliament:active,
+.tv-channels__item--bbc_parliament:focus,
+.tv-channels__item--bbc_parliament:hover {
+    background-position: -96px -328px;
+}
+
+.tv-channels__item--bbc_alba.tv-channels__item--active,
+.tv-channels__item--bbc_alba:active,
+.tv-channels__item--bbc_alba:focus,
+.tv-channels__item--bbc_alba:hover {
+    background-position: -96px -369px;
+}
+
+.tv-channels__item--s4cpbs.tv-channels__item--active,
+.tv-channels__item--s4cpbs:active .tv-channels__item--s4cpbs:focus,
+.tv-channels__item--s4cpbs:hover {
+    background-position: -96px -410px;
+}
+
+@include mq-range ('bpb2') {
+    .tv-channels {
+        width: 388px;
+    }
+}
+
+@include mq-range ('bpw') {
+    .tv-channels {
+        width: 485px;
+    }
+}
+
+@include mq-range ('bpe') {
+    .tv-channels {
+        width: auto;
+    }
+}

@@ -6,10 +6,12 @@ use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\ValueObject\BroadcastDay;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
+use BBC\ProgrammesPagesService\Service\NetworksService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
 
@@ -18,6 +20,7 @@ class SchedulesByDayController extends BaseController
     public function __invoke(
         Pid $pid,
         ?string $date,
+        NetworksService $networksService,
         ServicesService $servicesService,
         BroadcastsService $broadcastService,
         CollapsedBroadcastsService $collapsedBroadcastsService
@@ -68,6 +71,7 @@ class SchedulesByDayController extends BaseController
             $broadcasts,
             $date,
             $servicesInNetwork,
+            $this->getOtherNetworks($service, $networksService, $broadcastDay),
             $liveCollapsedBroadcast
         );
 
@@ -123,5 +127,39 @@ class SchedulesByDayController extends BaseController
         }
 
         return null;
+    }
+
+    /**
+     * @param Service $service
+     * @param NetworksService $networksService
+     * @param BroadcastDay $broadcastDay
+     * @return Network[]
+     */
+    private function getOtherNetworks(Service $service, NetworksService $networksService, BroadcastDay $broadcastDay): array
+    {
+        if (!$service->isTv()) {
+            return [];
+        }
+
+        $allTvNetworks = $networksService->findPublishedNetworksByType(
+            ['TV'],
+            NetworksService::NO_LIMIT
+        );
+        $whitelistedNetworks = [
+            'bbc_one',
+            'bbc_two',
+            'bbc_three',
+            'bbc_four',
+            'cbbc',
+            'cbeebies',
+            'bbc_news24',
+            'bbc_parliament',
+            'bbc_alba',
+            's4cpbs',
+        ];
+        return array_filter($allTvNetworks, function (Network $network) use ($broadcastDay, $whitelistedNetworks) {
+            return in_array((string) $network->getNid(), $whitelistedNetworks) &&
+                $network->getDefaultService()->isActiveAt($broadcastDay->start());
+        });
     }
 }

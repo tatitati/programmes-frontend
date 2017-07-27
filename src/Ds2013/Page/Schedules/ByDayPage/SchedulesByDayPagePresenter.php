@@ -7,6 +7,7 @@ use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 
@@ -36,12 +37,16 @@ class SchedulesByDayPagePresenter extends Presenter
     /** @var CollapsedBroadcast|null */
     private $liveCollapsedBroadcast;
 
+    /** @var Network[] */
+    private $otherNetworks;
+
     public function __construct(
         Service $service,
         Chronos $broadcastDayStart,
         array $broadcasts,
         ?string $routeDate,
         array $servicesInNetwork,
+        array $otherNetworks,
         ?CollapsedBroadcast $liveCollapsedBroadcast,
         array $options = []
     ) {
@@ -52,8 +57,14 @@ class SchedulesByDayPagePresenter extends Presenter
         $this->routeDate = $routeDate;
         $this->servicesInNetwork = $servicesInNetwork;
         $this->liveCollapsedBroadcast = $liveCollapsedBroadcast;
+        $this->otherNetworks = $otherNetworks;
 
         $this->twinService = $this->twinService();
+    }
+
+    public function getOtherNetworks()
+    {
+        return $this->otherNetworks;
     }
 
     public function getService(): Service
