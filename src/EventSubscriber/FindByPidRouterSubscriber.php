@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\EventSubscriber;
 
+use App\Exception\ProgrammeOptionsRedirectHttpException;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Collection;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -74,6 +75,14 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface
         // Attempt to find a Programme or Group
         $coreEntity = $this->serviceFactory->getCoreEntitiesService()->findByPidFull($pid);
         if ($coreEntity) {
+            // Redirect if the options demand it
+            if ($coreEntity && $coreEntity->getOptions()->getOption('pid_override_url') && $coreEntity->getOptions()->getOption('pid_override_code')) {
+                throw new ProgrammeOptionsRedirectHttpException(
+                    $coreEntity->getOptions()->getOption('pid_override_url'),
+                    $coreEntity->getOptions()->getOption('pid_override_code')
+                );
+            }
+
             if ($coreEntity instanceof ProgrammeContainer) {
                 if (!$coreEntity->getParent()) {
                     $request->attributes->set('programme', $coreEntity);

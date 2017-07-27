@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\EventSubscriber;
 
+use App\Exception\ProgrammeOptionsRedirectHttpException;
 use App\EventSubscriber\FindByPidRouterSubscriber;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -11,6 +12,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Franchise;
 use BBC\ProgrammesPagesService\Domain\Entity\Gallery;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Season;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
@@ -71,6 +73,22 @@ class FindByPidRouterSubscriberTest extends TestCase
             [null, $this->createMock(Version::class), null, 'App\Controller\FindByPid\VersionController', 'version'],
             [null, null, $this->createMock(Segment::class), 'App\Controller\FindByPid\SegmentController', 'segment'],
         ];
+    }
+
+    public function testEntityTriggersRedirectsIfSetInOptions()
+    {
+        $coreEntity = $this->createMock(Brand::class);
+        $coreEntity->method('getOptions')->willReturn(new Options([
+            'pid_override_url' => 'http://example.com',
+            'pid_override_code' => 301,
+        ]));
+
+        $request = $this->request();
+
+        $this->expectException(ProgrammeOptionsRedirectHttpException::class);
+        $this->expectExceptionMessage('Programme Options has triggered a "301" redirect to "http://example.com"');
+
+        $this->buildSubscriber($coreEntity)->updateController($this->event($request));
     }
 
     public function testOnlyRunsOnMasterRequests()

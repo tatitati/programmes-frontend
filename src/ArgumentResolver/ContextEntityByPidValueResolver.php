@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\ArgumentResolver;
 
+use App\Exception\ProgrammeOptionsRedirectHttpException;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -84,6 +85,14 @@ class ContextEntityByPidValueResolver implements ArgumentValueResolverInterface
                 $pid,
                 (new ReflectionClass($type))->getShortName()
             );
+
+            // Redirect if the options demand it
+            if ($entity && $entity->getOptions()->getOption('pid_override_url') && $entity->getOptions()->getOption('pid_override_code')) {
+                throw new ProgrammeOptionsRedirectHttpException(
+                    $entity->getOptions()->getOption('pid_override_url'),
+                    $entity->getOptions()->getOption('pid_override_code')
+                );
+            }
         } elseif (is_a($type, Service::class, true)) {
             // Attempt to look up the Service
             $entity = $this->serviceFactory->getServicesService()->findByPidFull($pid);
