@@ -6,18 +6,12 @@ namespace App\Controller;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Date;
 
 class SchedulesByMonthController extends BaseController
 {
-    public function __invoke(Pid $pid, string $date, ServicesService $servicesService)
+    public function __invoke(Service $service, string $date)
     {
-        $service = $servicesService->findByPidFull($pid);
-        if (!$service) {
-            throw $this->createNotFoundException('Service not found');
-        }
-
         $this->setContext($service);
 
         $firstOfMonth = Date::createFromFormat('Y-m', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();

@@ -6,18 +6,12 @@ namespace App\Controller;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Date;
 
 class SchedulesByYearController extends BaseController
 {
-    public function __invoke(Pid $pid, string $year, ServicesService $servicesService)
+    public function __invoke(Service $service, string $year)
     {
-        $service = $servicesService->findByPidFull($pid);
-        if (!$service) {
-            throw $this->createNotFoundException('Service not found');
-        }
-
         $this->setContext($service);
 
         $startOfYear = Date::createFromFormat('Y', $year, ApplicationTime::getLocalTimeZone())->firstOfYear();

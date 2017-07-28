@@ -18,18 +18,13 @@ use Cake\Chronos\Chronos;
 class SchedulesByDayController extends BaseController
 {
     public function __invoke(
-        Pid $pid,
+        Service $service,
         ?string $date,
         NetworksService $networksService,
         ServicesService $servicesService,
         BroadcastsService $broadcastService,
         CollapsedBroadcastsService $collapsedBroadcastsService
     ) {
-        $service = $servicesService->findByPidFull($pid);
-        if (!$service) {
-            throw $this->createNotFoundException('Service not found');
-        }
-
         $this->setContext($service);
 
         $dateTimeToShow = $this->dateTimeToShow($date, $service);
