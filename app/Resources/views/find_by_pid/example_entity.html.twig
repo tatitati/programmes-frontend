@@ -16,16 +16,14 @@
             {{ ds2013('programme', programme, {
                 'showSynopsis': true
             }) }}
-
-            {{ dump(programme) }}
         {% endif %}
 
         {% if group is defined %}
-            {{ dump(group) }}
+            <h2>Group {{ group.pid }}: {{ group.title }}</h2>
         {% endif %}
 
         {% if segment is defined %}
-            {{ dump(segment) }}
+            <h2>Segment {{ segment.pid }}: {{ segment.title }}</h2>
         {% endif %}
     </div>
 {% endblock %}
