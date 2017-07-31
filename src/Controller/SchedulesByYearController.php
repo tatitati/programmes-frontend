@@ -14,7 +14,7 @@ class SchedulesByYearController extends BaseController
     {
         $this->setContext($service);
 
-        $startOfYear = Date::createFromFormat('Y', $year, ApplicationTime::getLocalTimeZone())->firstOfYear();
+        $startOfYear = Date::createFromFormat('Y|', $year, ApplicationTime::getLocalTimeZone())->firstOfYear();
         $viewData = ['start_of_year' => $startOfYear, 'service' => $service];
 
         // If the service is not active at all over the year, then the status code should be 404, so

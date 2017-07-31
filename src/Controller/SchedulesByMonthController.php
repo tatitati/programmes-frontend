@@ -14,7 +14,7 @@ class SchedulesByMonthController extends BaseController
     {
         $this->setContext($service);
 
-        $firstOfMonth = Date::createFromFormat('Y-m', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();
+        $firstOfMonth = Date::createFromFormat('Y-m|', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();
         $viewData = ['first_of_month' => $firstOfMonth, 'service' => $service];
 
         // If the service is not active at all over the month, then the status code should be 404, so
