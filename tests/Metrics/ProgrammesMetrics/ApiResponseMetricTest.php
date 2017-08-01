@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Test\App\Metrics\ProgrammesMetrics;
+namespace Tests\App\Metrics\ProgrammesMetrics;
 
 use App\Metrics\ProgrammesMetrics\ApiResponseMetric;
 use PHPUnit\Framework\TestCase;

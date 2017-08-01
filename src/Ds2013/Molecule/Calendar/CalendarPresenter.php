@@ -35,7 +35,7 @@ class CalendarPresenter extends Presenter
 
     public function getPid(): string
     {
-        return (string) $this->service->pid;
+        return (string) $this->service->getPid();
     }
 
     protected function validateOptions(array $options): void

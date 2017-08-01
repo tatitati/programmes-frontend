@@ -16,7 +16,7 @@ abstract class ProgrammePresenterBase extends Presenter
     /** @var Programme */
     protected $programme;
 
-    /** @var Route $router */
+    /** @var UrlGeneratorInterface */
     protected $router;
 
     public function __construct(

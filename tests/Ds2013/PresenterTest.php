@@ -54,7 +54,7 @@ class PresenterTest extends TestCase
         $initialId = $uniqueIdFn();
 
         // Assert format
-        $this->assertRegexp('/^ds2013-TestDemoObjectPresenter-[0-9]+$/', $initialId);
+        $this->assertRegExp('/^ds2013-TestDemoObjectPresenter-[0-9]+$/', $initialId);
 
         // Assert we get the same value if we call uniqueID multiple times on the same Presenter
         $this->assertSame($initialId, $uniqueIdFn());

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters;
+namespace Tests\App\Ds2013\Organism\Programme\BroadcastSubPresenters;
 
 use App\Ds2013\Helpers\LiveBroadcastHelper;
 use App\Ds2013\Helpers\PlayTranslationsHelper;

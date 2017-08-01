@@ -1,8 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Ds2013\Molecule\DateList;
+namespace Tests\App\Ds2013\Molecule\DateList;
 
+use App\Ds2013\Molecule\DateList\MonthDateListItemPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
@@ -54,6 +55,6 @@ class MonthDateListPresenterTest extends TestCase
     private function createPresenter(Service $service, int $offset, array $options = [])
     {
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
-        return new DayDateListItemPresenter($urlGeneratorInterface, Chronos::now(), $service, $offset, $options);
+        return new MonthDateListItemPresenter($urlGeneratorInterface, Chronos::now(), $service, $offset, $options);
     }
 }

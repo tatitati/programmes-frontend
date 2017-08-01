@@ -159,8 +159,8 @@ class PresenterFactory
 
         throw new InvalidArgumentException(sprintf(
             'Expected $broadcast to be an instance of "%s" or "%s". Found instance of "%s"',
-            Broadcast::CLASS,
-            CollapsedBroadcast::CLASS,
+            Broadcast::class,
+            CollapsedBroadcast::class,
             (is_object($broadcast) ? get_class($broadcast) : gettype($broadcast))
         ));
     }

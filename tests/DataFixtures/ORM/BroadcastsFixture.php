@@ -30,7 +30,7 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
         $this->manager = $manager;
 
         $this->buildRadioSchedule();
-        $this->buildTVSchedule();
+        $this->buildTvSchedule();
 
         $this->manager->flush();
     }

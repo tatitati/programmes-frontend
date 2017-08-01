@@ -10,7 +10,7 @@ class HelperFactory
     /** @var TranslateProvider */
     private $translateProvider;
 
-    /** @var Router */
+    /** @var UrlGeneratorInterface */
     private $router;
 
     /** @var array */

@@ -43,6 +43,7 @@
         "doctrine/doctrine-fixtures-bundle": "^2.3",
         "escapestudios/symfony2-coding-standard": "^2.10",
         "liip/functional-test-bundle": "^1.7",
+        "phpstan/phpstan": "^0.8.0",
         "phpunit/phpunit": "^6.1",
         "squizlabs/php_codesniffer": "^2.9",
         "symfony/phpunit-bridge": "^3.3.0"

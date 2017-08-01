@@ -11,8 +11,9 @@ class GelIconExtensionTest extends TestCase
     {
         $extension = new GelIconExtension();
         $expectedPattern = '$<svg class="gelicon gelicon--alpha">.+</svg>$';
-        $html = $extension->gelicon('core', 'search', 'alpha');
-        $this->assertRegexp($expectedPattern, $html);
+        $html = $extension->gelIcon('core', 'search', 'alpha');
+        $this->assertRegExp($expectedPattern, $html);
+
         $expectedUse = '$<use xlink:href="#gelicon--core--search" />$';
         $this->assertRegExp($expectedUse, $html);
     }

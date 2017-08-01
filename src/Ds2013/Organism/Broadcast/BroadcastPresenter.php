@@ -40,8 +40,8 @@ class BroadcastPresenter extends Presenter
         if (!($broadcast instanceof Broadcast || $broadcast instanceof BroadcastGap)) {
             throw new InvalidArgumentException(sprintf(
                 'Expected $broadcast to be an instance of "%s" or "%s". Found instance of "%s"',
-                Broadcast::CLASS,
-                BroadcastGap::CLASS,
+                Broadcast::class,
+                BroadcastGap::class,
                 (is_object($broadcast) ? get_class($broadcast) : gettype($broadcast))
             ));
         }

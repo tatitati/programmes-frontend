@@ -15,7 +15,7 @@ use RMP\Translate\TranslateFactory;
  */
 class TranslateProvider
 {
-    /** @var  Translate */
+    /** @var Translate|null */
     private $translate;
 
     /** @var TranslateFactory */

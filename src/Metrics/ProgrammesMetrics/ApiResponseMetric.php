@@ -28,7 +28,7 @@ class ApiResponseMetric implements ProgrammesMetricInterface
     public function getCacheKeyValuePairs(): array
     {
         return [
-            $this->cacheKey('count') => $this->count,
+            $this->cacheKey() => $this->count,
         ];
     }
 

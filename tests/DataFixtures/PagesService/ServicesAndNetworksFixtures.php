@@ -20,7 +20,7 @@ class ServicesAndNetworksFixtures
 
     public static function serviceRadioFourFM(): Service
     {
-        return self::internalServiceRadioFourFM(self::networkRadio4());
+        return self::internalServiceRadioFourFM(self::networkRadioFour());
     }
 
     public static function networkBbcOne(): Network
