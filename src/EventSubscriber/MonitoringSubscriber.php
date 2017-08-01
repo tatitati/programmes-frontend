@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\EventSubscriber;
 
+use App\Metrics\MetricsManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
@@ -15,10 +16,14 @@ class MonitoringSubscriber implements EventSubscriberInterface
     private $logger;
     private $stopwatch;
 
-    public function __construct(LoggerInterface $logger, Stopwatch $stopwatch)
+    /** @var MetricsManager */
+    private $metricsManager;
+
+    public function __construct(LoggerInterface $logger, Stopwatch $stopwatch, MetricsManager $metricsManager)
     {
         $this->logger = $logger;
         $this->stopwatch = $stopwatch;
+        $this->metricsManager = $metricsManager;
     }
 
     public static function getSubscribedEvents()
@@ -40,35 +45,24 @@ class MonitoringSubscriber implements EventSubscriberInterface
 
     public function terminateEnd(KernelEvent $event)
     {
-        $this->logRequestTime($event);
+        $this->sendMetrics($event);
     }
 
-    private function logRequestTime(KernelEvent $event)
+    private function sendMetrics(KernelEvent $event)
     {
-        if ($event->isMasterRequest()) {
-            $this->stopwatch->stop(self::REQUEST_TIMER);
-        }
-
-        $controllerAction = $event->getRequest()->attributes->get('_controller', '');
-
-        // Skip if we can't find a controller, or if it isn't a App Controller
-        if (!$controllerAction || strpos($controllerAction, 'App\Controller') === false) {
-            return;
-        }
-
-        // Strip off the common preamble for the sake of readability
-        $controllerAction = str_replace('App\\Controller\\', '', $controllerAction);
-
-        // Skip if it is the status controller
-        // This gets pinged every 15 seconds by the ELB and we don't need that noise
-        if ($controllerAction == 'StatusController::showAction') {
+        $request = $event->getRequest();
+        $controllerName = $request->get('_controller');
+        $this->stopwatch->stop(self::REQUEST_TIMER);
+        if (!$event->isMasterRequest()) {
             return;
         }
 
         $controllerPeriod = $this->getControllerPeriod();
         if ($controllerPeriod) {
-            $this->logger->info('CONTROLLER {0} {1}', [$controllerAction, $controllerPeriod]);
+            $this->metricsManager->addRouteMetric($controllerName, $controllerPeriod);
         }
+
+        $this->metricsManager->send();
     }
 
     private function getControllerPeriod()
@@ -76,7 +70,7 @@ class MonitoringSubscriber implements EventSubscriberInterface
         foreach ($this->stopwatch->getSections() as $section) {
             $event = $section->getEvents()[self::REQUEST_TIMER] ?? null;
             if ($event) {
-                return $event->getDuration();
+                return (int) round($event->getDuration());
             }
         }
 

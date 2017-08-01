@@ -2,6 +2,10 @@ parameters:
     app.default_locale: 'en_GB'
     app.orbit_client.class: BBC\BrandingClient\OrbitClient
     app.branding_client.class: BBC\BrandingClient\BrandingClient
+    app.metric_cache.class: App\Metrics\Cache\MetricCacheApcu
+    app.metric_backend.class: App\Metrics\Backend\CloudWatchMetricBackend
+    frontend.aws.http_timeout: 15
+    frontend.aws.http_connect_timeout: 5
 
 services:
 
@@ -88,6 +92,32 @@ services:
         tags:
             - { name: 'kernel.event_subscriber' }
             - { name: 'monolog.logger', channel: 'app_access' }
+
+    App\Metrics\MetricsManager: ~
+
+    App\Metrics\MetricsMiddleware:
+        tags:
+            - { name: 'csa_guzzle.middleware', alias: 'metrics_middleware', pritority: 90 }
+
+    RMP\CloudwatchMonitoring\MonitoringHandler:
+        arguments:
+            $namespace: 'frontend'
+            $env: '%cosmos_environment%'
+
+    Aws\CloudWatch\CloudWatchClient:
+        arguments:
+            - region: '%aws_s3_region%'
+              version: '2010-08-01'
+              http:
+                timeout: '%frontend.aws.http_timeout%'
+                connect_timeout: '%frontend.aws.http_connect_timeout%'
+
+
+    App\Metrics\Backend\MetricBackendInterface:
+        class: '%app.metric_backend.class%'
+
+    App\Metrics\Cache\MetricCacheInterface:
+        class: "%app.metric_cache.class%"
 
     ### Programmes Service
 

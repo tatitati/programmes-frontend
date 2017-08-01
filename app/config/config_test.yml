@@ -4,6 +4,8 @@ imports:
 parameters:
     app.orbit_client.class: BBC\BrandingClient\OrbitStubClient
     app.branding_client.class: BBC\BrandingClient\BrandingStubClient
+    app.metric_backend.class: App\Metrics\Backend\NullMetricBackend
+    app.metric_cache.class: App\Metrics\Cache\MetricCacheNull
 
 framework:
     test: ~

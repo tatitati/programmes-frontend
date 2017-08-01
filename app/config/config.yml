@@ -11,6 +11,7 @@ parameters:
     # config_prod_test.yml
     app.feed_env.orbit: 'live'
     app.feed_env.branding: 'live'
+    aws_s3_region: eu-west-1
 
 framework:
     #esi: ~
