@@ -37,8 +37,6 @@ framework:
                 # the only aim of default_lifetime is to prevent setting permanent keys, please don't use the default_lifetime in the code.
                 # PSR-6 consider "0" or NULL value as a way to store the key for as long as the implementation allows.
                 default_lifetime: 120
-            cache.app_page_chrome:
-                adapter: cache.adapter.filesystem
 
 # Twig Configuration
 twig:
