@@ -33,9 +33,7 @@ class MetaContext
             $this->description = $context->getShortSynopsis();
             $this->image = $context->getImage();
             $this->isRadio = $context->isRadio();
-            if ($context->getNetwork()) {
-                $this->titlePrefix = $context->getNetwork()->getName();
-            }
+            $this->titlePrefix = $this->coreEntityTitlePrefix($context);
 
             // TODO add rdfa type so that it can be added onto the <body> tag
             // e.g. http://www.bbc.co.uk/programmes/b006q2x0 has
@@ -83,5 +81,21 @@ class MetaContext
     public function titlePrefix(): string
     {
         return $this->titlePrefix;
+    }
+
+    private function coreEntityTitlePrefix(CoreEntity $coreEntity): string
+    {
+        $prefix = '';
+        if ($coreEntity->getTleo()->getNetwork()) {
+            $prefix = $coreEntity->getTleo()->getNetwork()->getName() . ' - ';
+        }
+
+        $longerTitleParts = [];
+        foreach (array_reverse($coreEntity->getAncestry()) as $ancestor) {
+            $longerTitleParts[] = $ancestor->getTitle();
+        }
+
+        $prefix .= implode(', ', $longerTitleParts);
+        return $prefix;
     }
 }
