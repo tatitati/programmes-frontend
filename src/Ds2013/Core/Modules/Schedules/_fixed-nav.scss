@@ -22,6 +22,9 @@
     .schedule-skip-link-on-now {
         padding-top: $skiplink-pushdown;
         margin-top: -$skiplink-pushdown;
+    }
+
+    .schedule-skip-link {
         overflow: hidden;
     }
 
