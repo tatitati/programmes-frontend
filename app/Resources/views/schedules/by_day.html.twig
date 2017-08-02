@@ -11,9 +11,11 @@
 {% endblock %}
 
 {%- block header_links -%}
-    <p class="pull--right islet--vertical no-margin-vertical delta">
-        <a href="{{ path('schedules_by_month', {pid: service.pid, date: broadcast_day_start|local_date('Y-m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
-    </p>
+    {% if service.isRadio %}
+        <p class="pull--right islet--vertical no-margin-vertical delta">
+            <a href="{{ path('schedules_by_month', {pid: service.pid, date: broadcast_day_start|local_date('Y-m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
+        </p>
+    {% endif %}
 {% endblock %}
 
 {%- block schedule -%}
