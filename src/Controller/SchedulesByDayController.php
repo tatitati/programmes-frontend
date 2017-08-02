@@ -132,7 +132,7 @@ class SchedulesByDayController extends BaseController
      */
     private function getOtherNetworks(Service $service, NetworksService $networksService, BroadcastDay $broadcastDay): array
     {
-        if (!$service->isTv()) {
+        if (!$service->isTv() || $service->isInternational()) {
             return [];
         }
 
