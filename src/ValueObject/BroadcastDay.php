@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\ValueObject;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use Cake\Chronos\Chronos;
 use InvalidArgumentException;
@@ -59,6 +60,11 @@ class BroadcastDay
     public function isNow(): bool
     {
         return ApplicationTime::getTime()->between($this->start, $this->end);
+    }
+
+    public function serviceIsActiveOnThisDay(Service $service): bool
+    {
+        return (!$service->getStartDate() || $service->getStartDate()->lte($this->end)) && (!$service->getEndDate() || $this->start->lt($service->getEndDate()));
     }
 
     public function start(): Chronos

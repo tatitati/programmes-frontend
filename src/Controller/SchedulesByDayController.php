@@ -43,7 +43,7 @@ class SchedulesByDayController extends BaseController
         $broadcasts = [];
 
         $liveCollapsedBroadcast = null;
-        if ($service->isActiveAt($broadcastDay->start())) {
+        if ($broadcastDay->serviceIsActiveOnThisDay($service)) {
             // Get broadcasts in relevant period
             $broadcasts = $broadcastService->findByServiceAndDateRange(
                 $service->getSid(),
@@ -154,7 +154,7 @@ class SchedulesByDayController extends BaseController
         ];
         return array_filter($allTvNetworks, function (Network $network) use ($broadcastDay, $whitelistedNetworks) {
             return in_array((string) $network->getNid(), $whitelistedNetworks) &&
-                $network->getDefaultService()->isActiveAt($broadcastDay->start());
+                $broadcastDay->serviceIsActiveOnThisDay($network->getDefaultService());
         });
     }
 }

@@ -35,6 +35,8 @@ abstract class AbstractDateListItemPresenter extends Presenter
 
     abstract public function getLink(): string;
 
+    abstract public function isLink(): bool;
+
     public function getDateTime(): ChronosInterface
     {
         return $this->datetime;
@@ -48,13 +50,5 @@ abstract class AbstractDateListItemPresenter extends Presenter
     public function getTemplateVariableName(): string
     {
         return 'date_list_item';
-    }
-
-    public function isLink(): bool
-    {
-        // if the date is more than 90 DAYS from now, then don't allow a link (page will still exist)
-        return $this->offset != 0 &&
-            $this->datetime->lt(new Chronos('90 days')) &&
-            $this->service->isActiveAt($this->datetime);
     }
 }
