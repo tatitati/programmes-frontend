@@ -3,9 +3,13 @@
 {% block html_classes %}b-pw-1280{% endblock %}
 {% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
 {% block title %}{{ meta_context.titlePrefix }}{% endblock %}
+{% block adsToDisplay %}leaderboard mpu sponsor{% endblock %}
 
 {% block body %}
     {# TODO Leaderboard Advert #}
+    <div class="b-g-p">
+        {{ advert('leaderboard', [1,2,3,4]) }}
+    </div>
 
     {# TODO BBC Live Promo #}
 

@@ -1,3 +1,5 @@
+{%- set hasAdverts = adverts_set_blocks(meta_context.showAdverts and block('adsToDisplay') is defined ? block('adsToDisplay') : '') -%}
+
 <!DOCTYPE html>
 <html class="{{ branding.orbitThemeClasses|raw }} {% block html_classes %}{% endblock %}" lang="{{ tr('language_code') }}">
     <head>
@@ -36,6 +38,12 @@
             <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ meta_context.canonicalUrl }}?bbc_referrer={{ meta_context.canonicalUrl|url_encode }}">
         {% endif %}
 
+        {#
+            bbcdotcom adverts requires synchronous fig loading.
+            See https://navigation.api.bbc.co.uk/docs/fig.md#using-a-blocking-fig
+            Remove this once Ads work without the blocking fig - GNLADAPPS-38
+        #}
+        {% if hasAdverts %}<script>window.orb_fig_blocking = true;</script>{% endif %}
         {{ orb.head|raw }}
         {{ branding.head|raw }}
 
@@ -62,6 +70,7 @@
                 }
             });
         </script>
+        {{ adverts_head() }}
     </head>
     <body {{ meta_context.rdfaAttributes }}>
         {{ orb.bodyfirst|raw }}

@@ -32,6 +32,9 @@ class MetaContext
     /** @var string */
     private $schemaType = '';
 
+    /** @var bool */
+    private $showAdverts = false;
+
     public function __construct($context = null, string $canonicalUrl = '')
     {
         $this->canonicalUrl = $canonicalUrl;
@@ -42,9 +45,14 @@ class MetaContext
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $this->coreEntityTitlePrefix($context);
             $this->schemaType = $this->getSchemaTypeEquivalent($context);
+
+            if ($context->getNetwork()) {
+                $this->showAdverts = $context->getNetwork()->isInternational();
+            }
         } elseif ($context instanceof Service) {
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $context->getName();
+
             if ($context->getNetwork()) {
                 $this->image = $context->getNetwork()->getImage();
             }
@@ -94,6 +102,11 @@ class MetaContext
         }
 
         return 'vocab="http://schema.org/" typeof=' . $this->schemaType;
+    }
+
+    public function showAdverts(): bool
+    {
+        return $this->showAdverts;
     }
 
     private function coreEntityTitlePrefix(CoreEntity $coreEntity): string

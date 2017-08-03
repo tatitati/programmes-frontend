@@ -2,6 +2,8 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Response;
 
 class CloudLabsController extends BaseController
@@ -34,6 +36,14 @@ class CloudLabsController extends BaseController
     public function analyticsAction()
     {
         return new Response('hai');
+    }
+
+    public function advertsAction(ProgrammesService $programmesService)
+    {
+        $programme = $programmesService->findByPidFull(new Pid('n13xtmd5'));
+        $this->setContext($programme);
+
+        return $this->renderWithChrome('cloud_labs/adverts.html.twig');
     }
 
     private function validActionNames(): array
