@@ -1,0 +1,125 @@
+$type-settings: (
+    'canon': (
+        'group-a': (28px, 32px),
+        'group-b': (32px, 36px),
+        'group-d': (44px, 48px),
+    ),
+    'trafalgar': (
+        'group-a': (20px, 24px),
+        'group-b': (24px, 28px),
+        'group-d': (32px, 36px),
+    ),
+    'double-pica': (
+        'group-a': (20px, 24px),
+        'group-b': (20px, 24px),
+        'group-d': (24px, 28px),
+    ),
+    'great-primer': (
+        'group-a': (18px, 22px),
+        'group-b': (18px, 22px),
+        'group-d': (20px, 24px),
+    ),
+    'pica': (
+        'group-a': (15px, 20px),
+        'group-b': (16px, 20px),
+        'group-d': (16px, 20px),
+    ),
+    'long-primer': (
+        'group-a': (15px, 18px),
+        'group-b': (15px, 18px),
+        'group-d': (14px, 18px),
+    ),
+    'brevier': (
+        'group-a': (14px, 16px),
+        'group-b': (14px, 18px),
+        'group-d': (13px, 16px),
+    ),
+    'minion': (
+        'group-a': (12px, 16px, (text-transform: uppercase)),
+        'group-b': (12px, 16px),
+        'group-d': (12px, 16px),
+    ),
+    'body-copy': (
+        'group-a': (15px, 20px),
+        'group-b': (16px, 22px),
+        'group-d': (16px, 22px),
+    ),
+);
+
+@mixin _typography-group($class-name, $font-size, $line-height, $additional-properties: ()) {
+    .gel-#{$class-name},
+    .gel-#{$class-name}-bold {
+        font-size: $font-size;
+        font-size: ($font-size / 16px) * 1rem; // HTML base size is fixed at 16px in Amen
+        line-height: $line-height / $font-size;
+
+        @each $property, $value in $additional-properties {
+            #{$property}: $value;
+        }
+    }
+
+    .gel-#{$class-name}-bold {
+        // GEL says anything greater than 18px should have tighter letter tracking
+        @if ($font-size > 18px) {
+            letter-spacing: -0.03em;
+        }
+    }
+}
+
+%gel-type-bold {
+    font-weight: bold;
+}
+
+@each $class-name, $groups in $type-settings {
+    @include _typography-group($class-name, map-get($groups, 'group-a')...);
+
+    .gel-#{$class-name}-bold {
+        @extend %gel-type-bold;
+    }
+}
+
+@each $gel-group, $amen-mq in ('group-b': 'gel1b', 'group-d': 'gel3') {
+    @include mq($from: $amen-mq) {
+        @each $class-name, $groups in $type-settings {
+            @include _typography-group($class-name, map-get($groups, $gel-group)...)
+        }
+    }
+}
+
+// Removing default margins and emphasis
+// developers are responsible for re-adding margins where required.
+// the vast majority of pages are using these in one line, or what grid margins
+// for large blocks of text use .text--prose to restore spacings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+blockquote,
+table {
+    margin: 0;
+    font-weight: normal;
+}
+
+// Setting some default sizes for elements when used with no classes
+h1 {
+    @extend .gel-trafalgar;
+}
+
+h2 {
+    @extend .gel-double-pica;
+}
+
+h3 {
+    @extend .gel-great-primer;
+}
+
+h4
+h5,
+h6 {
+    @extend .gel-pica;
+}

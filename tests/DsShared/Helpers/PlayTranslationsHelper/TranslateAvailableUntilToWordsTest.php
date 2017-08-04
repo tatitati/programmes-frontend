@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\Ds2013\Helpers\PlayTranslationsHelper;
+namespace Tests\App\DsShared\Helpers\PlayTranslationsHelper;
 
-use App\Ds2013\Helpers\AvailabilityTimeToWordsHelper;
-use App\Ds2013\Helpers\PlayTranslationsHelper;
+use App\DsShared\Helpers\AvailabilityTimeToWordsHelper;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ds2013\Helpers;
+namespace App\DsShared\Helpers;
 
 use App\Translate\TranslateProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

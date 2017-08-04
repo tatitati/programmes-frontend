@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Molecule\Calendar;
 
-use App\Ds2013\InvalidOptionException;
+use App\Exception\InvalidOptionException;
 use App\Ds2013\Molecule\Calendar\CalendarPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;

@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace Tests\App;
 
-use App\Ds2013\Helpers\HelperFactory;
-use App\Ds2013\PresenterFactory;
+use App\DsShared\Helpers\HelperFactory;
+use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
+use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
 use App\Translate\TranslateProvider;
 use App\Twig\DesignSystemPresenterExtension;
 use App\Twig\GelIconExtension;
@@ -30,7 +31,9 @@ class TwigEnvironmentProvider
     static private $twig;
 
     /** @var PresenterFactory */
-    static private $presenterFactory;
+    static private $ds2013PresenterFactory;
+
+    static private $dsAmenPresenterFactory;
 
     public static function twig(): Twig_Environment
     {
@@ -41,13 +44,22 @@ class TwigEnvironmentProvider
         return self::$twig;
     }
 
-    public static function presenterFactory(): PresenterFactory
+    public static function ds2013PresenterFactory(): Ds2013PresenterFactory
     {
-        if (self::$presenterFactory === null) {
+        if (self::$ds2013PresenterFactory === null) {
             self::build();
         }
 
-        return self::$presenterFactory;
+        return self::$ds2013PresenterFactory;
+    }
+
+    public static function dsAmenPresenterFactory(): DsAmenPresenterFactory
+    {
+        if (self::$dsAmenPresenterFactory === null) {
+            self::build();
+        }
+
+        return self::$dsAmenPresenterFactory;
     }
 
     private static function build(): void
@@ -89,10 +101,12 @@ class TwigEnvironmentProvider
         $helperFactory = new HelperFactory($translateProvider, $router);
 
         // Set presenter factory for template tests to use.
-        self::$presenterFactory = new PresenterFactory($translateProvider, $router, $helperFactory);
+        self::$ds2013PresenterFactory = new Ds2013PresenterFactory($translateProvider, $router, $helperFactory);
+        self::$dsAmenPresenterFactory = new DsAmenPresenterFactory($translateProvider, $router, $helperFactory);
 
         $twig->addExtension(new DesignSystemPresenterExtension(
-            self::$presenterFactory
+            self::$ds2013PresenterFactory,
+            self::$dsAmenPresenterFactory
         ));
 
         $twig->addExtension(new TranslateAndTimeExtension($translateProvider));

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Ds2013\Helpers;
+namespace Tests\App\DsShared\Helpers;
 
-use App\Ds2013\Helpers\LiveBroadcastHelper;
+use App\DsShared\Helpers\LiveBroadcastHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Organism\Programme\SubPresenters;
 
-use App\Ds2013\Helpers\PlayTranslationsHelper;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;

@@ -47,6 +47,7 @@ twig:
     strict_variables: '%kernel.debug%'
     paths:
         '%kernel.project_dir%/src/Ds2013': 'Ds2013'
+        '%kernel.project_dir%/src/DsAmen': 'DsAmen'
 
 # Doctrine Configuration
 doctrine:

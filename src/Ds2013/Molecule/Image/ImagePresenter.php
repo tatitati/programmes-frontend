@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Molecule\Image;
 
-use App\Ds2013\InvalidOptionException;
+use App\Exception\InvalidOptionException;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use InvalidArgumentException;

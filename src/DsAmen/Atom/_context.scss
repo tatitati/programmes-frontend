@@ -1,0 +1,15 @@
+// a contextual title.
+// for showing the hierarchy of programmes
+// usually as part of the <h1>
+
+// will be displayed on a new line before the rest
+.context {
+    display: block;
+}
+
+// make the top (first) item invisible
+.context--notop {
+    .context__item:first-child {
+        @extend .invisible;
+    }
+}

@@ -1,0 +1,28 @@
+// Breakpoints
+// These are the GEL breakpoints, with some extras to cover
+// the large space between some of them
+$mq-breakpoints: (
+    gel1b: 320px,
+    gel2: 400px,
+    gel2b: 480px,
+    gel3: 600px,
+    gel3b: 768px,
+    gel4: 1008px,
+    gel5: 1280px
+) !default;
+
+@function gel-unit($breakpoint) {
+    $unit: $gel-unit-small;
+    // ensure wider breakpoint than gel3 is large unit
+    @if map-get($mq-breakpoints, $breakpoint) >= map-get($mq-breakpoints, gel3) {
+        $unit: $gel-unit-large;
+    }
+    @return $unit;
+}
+
+// convert the list of breakpoints into suffixes
+$breakpoint-suffixes: ();
+@each $key, $value in ($mq-breakpoints) {
+    $suffix: '\\@#{$key}';
+    $breakpoint-suffixes: map-merge($breakpoint-suffixes, ($key: $suffix));
+}

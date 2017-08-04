@@ -1,0 +1,35 @@
+.box-link {
+    position: relative;
+
+    a,
+    abbr[title],
+    .box-link__elevated {
+        position: relative;
+        z-index: 2;
+    }
+}
+
+// we need a higher specificity than .box-link a
+.box-link__target.box-link__target {
+    position: static;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        outline: 0;
+        z-index: 1;
+
+        // fix for IE not allowing empty clickable elements
+        // must NOT be converted to "transparent" by sass
+        background: unquote('rgba(0,0,0,0)');
+
+        // fix for high contrast mode making all backgrounds solid black
+        opacity: 0;
+    }
+}

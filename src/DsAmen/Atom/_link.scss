@@ -1,0 +1,52 @@
+.link--block {
+    display: block;
+}
+
+.link--hover-underline {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+// ensure specificity is more than the page link styling
+.link-complex.link-complex {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+    }
+
+    &:hover .link-complex__target,
+    &:active .link-complex__target,
+    &:focus .link-complex__target {
+        text-decoration: underline;
+    }
+}
+
+
+/**
+ * For when you know you want a white link
+ */
+.link--white {
+    @extend .link--hover-underline;
+    color: #ffffff;
+}
+
+/**
+ * For when you know you want a black link
+ */
+.link--black {
+    @extend .link--hover-underline;
+    color: #111111;
+}
+
+/**
+ * For when you want a link to look like a button
+ */
+.link--button {
+    display: inline-block;
+    padding: $gel-unit-small $gel-unit-large;
+}

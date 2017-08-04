@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Organism\Programme;
 
-use App\Ds2013\Helpers\HelperFactory;
-use App\Ds2013\InvalidOptionException;
+use App\DsShared\Helpers\HelperFactory;
+use App\Exception\InvalidOptionException;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;

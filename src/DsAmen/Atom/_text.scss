@@ -1,0 +1,112 @@
+.text--left {
+    text-align: left;
+}
+
+.text--right {
+    text-align: right;
+}
+
+.text--center {
+    text-align: center;
+}
+
+.text--shout {
+    text-transform: uppercase;
+}
+
+.text--annotation-white-outline {
+    display: inline-block;
+    border: 1px solid $white;
+    background-color: $medium-grey;
+    color: $white;
+    padding: $gel-unit-small/4;
+}
+
+.text--annotation-pink-filled {
+    display: inline-block;
+    color: $white;
+    background: $iplayer-pink;
+    padding: $gel-unit-small/2;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right--spaced {
+    @extend .pull-right;
+    margin-left: 16px;
+}
+
+.pull-left--spaced {
+    @extend .pull-left;
+    margin-right: 16px;
+}
+
+.text-subtle {
+    opacity: 0.76;
+}
+
+.text-inactive {
+    opacity: 0.5;
+}
+
+.text-break {
+    word-wrap: break-word;
+}
+
+.text--single-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// prose - for large blocks of text
+// ensure the line length isn't too long
+// and ensure rich-text elements render correctly
+// with proper spacing in between
+.text--prose {
+    p,
+    ul,
+    ol,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    table,
+    blockquote {
+        max-width: 752px;
+        margin-bottom: $gel-unit-small;
+
+        @include mq($from: gel2b) {
+            margin-bottom: $gel-unit-large;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    h1 {
+        color: #ff0000 !important; // this is to discourage usage of <h1> in prose.
+    }
+
+    ul,
+    ol {
+        overflow: hidden;
+        list-style-position: outside;
+        padding-left: 32px;
+    }
+}
+
+// if the text is an orphan, then it doesn't need to push
+// itself away from other objects (usually a one line <p>)
+// remove the bottom margin added by gel
+.text--orphan {
+    margin-bottom: 0;
+}

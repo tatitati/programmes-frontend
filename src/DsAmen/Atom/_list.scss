@@ -1,0 +1,133 @@
+/**
+ * Styles for laying out lists
+ */
+
+ul,
+ol {
+    padding-left: 16px;
+}
+
+ul {
+    list-style: square;
+}
+
+.list-raw {
+    padding-left: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    > li {
+        list-style: none;
+    }
+}
+
+.list-inline {
+    @extend .list-raw;
+
+    > * { // immediate children
+        display: inline-block;
+        vertical-align: top;
+    }
+}
+
+.list-inline--spaced {
+    > * { // immediate children
+        margin-right: 4px;
+        margin-bottom: 4px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+.list-standard {
+    list-style-type: square;
+    margin: 8px 0 0 8px;
+    padding-left: 8px;
+
+    > * { // immediate children
+        position: relative;
+        z-index: 2;
+        margin-top: 4px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.list-lined {
+    @extend .list-inline;
+}
+
+// LI inside lists get this automatically,
+// but there is a class if you happen to not be using a list
+//noinspection CssOptimizeSimilarProperties
+.list-lined > li,
+.list-lined__item {
+    margin: 0;
+    padding: 0;
+    border-left-width: 1px;
+    border-left-style: solid;
+
+    &:first-child {
+        border-left-width: 0;
+    }
+}
+
+.list-lined--spaced {
+    > li,
+    .list-lined__item {
+        padding-left: 8px;
+        padding-right: 8px;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+}
+
+.list-lined--closed {
+    > li,
+    .list-lined__item {
+
+        //noinspection CssOptimizeSimilarProperties
+        &:first-child {
+            border-left-width: 1px;
+            border-left-style: solid;
+        }
+
+        //noinspection CssOptimizeSimilarProperties
+        &:last-child {
+            border-right-width: 1px;
+            border-right-style: solid;
+        }
+    }
+}
+
+.lined-below {
+    padding-bottom: $gel-unit-small;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}
+
+.lined-above {
+    padding-top: $gel-unit-small;
+    border-top-style: solid;
+    border-top-width: 2px;
+}
+
+@include mq($from: gel3) {
+    .lined-below {
+        padding-bottom: $gel-unit-large;
+    }
+
+    .lined-above {
+        padding-top: $gel-unit-large;
+    }
+}

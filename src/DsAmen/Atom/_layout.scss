@@ -1,0 +1,30 @@
+/** similar to .b-g-m
+    but doesn't have a section where it doesn't line up,
+    and doesn't fix the size in IE8.
+    Use this as a wrapper, but don't put any styles on it
+*/
+.page-limit {
+    padding-left: 8px;
+    padding-right: 8px;
+    max-width: 1008px;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (min-width: 400px) {
+    .page-limit {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+/**
+ * For when you need to push an object away from another by a tiny bit
+ */
+.leading-gap {
+    margin-top: 2px;
+}
+
+.align--center {
+    margin-left: auto;
+    margin-right: auto;
+}

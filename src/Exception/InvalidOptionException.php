@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Ds2013;
+namespace App\Exception;
 
 use LogicException;
 

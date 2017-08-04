@@ -1,0 +1,50 @@
+.island {
+    padding: $gel-unit-small;
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+
+@include mq($from: gel3) {
+    .island {
+        padding: $gel-unit-large;
+    }
+}
+
+.island--squashed {
+    @extend .island;
+    padding-top: $gel-unit-small;
+    padding-bottom: $gel-unit-small;
+}
+
+.island--vertical {
+    @extend .island;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.islet {
+    @extend .island;
+    padding: $gel-unit-small;
+}
+
+.islet--vertical {
+    @extend .islet;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.islet--horizontal {
+    @extend .islet;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+// used if the internals are going to handle their own spacing (grid)
+.island--contains-grid {
+    padding-bottom: 0;
+    @include mq($from: gel3) {
+        padding-bottom: 0;
+    }
+}

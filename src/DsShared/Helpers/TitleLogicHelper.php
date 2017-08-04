@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ds2013\Helpers;
+namespace App\DsShared\Helpers;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use InvalidArgumentException;

@@ -26,7 +26,8 @@ gulp.task('js:clean', function () {
 gulp.task('js', ['js:clean'], function () {
 
     const modulesToOptimize = [
-        staticPathSrc + '/js/**/rv-bootstrap.js'
+        staticPathSrc + '/js/**/rv-bootstrap.js',
+        staticPathSrc + '/js/**/dsAmen-bootstrap.js'
     ];
 
     const config = {
@@ -34,8 +35,10 @@ gulp.task('js', ['js:clean'], function () {
         "paths": {
             "jquery-1.9": "empty:",
             "respimg": "../../../node_modules/lazysizes/plugins/respimg/ls.respimg",
-            "lazysizes": "../../../node_modules/lazysizes/lazysizes-umd"
+            "lazysizes": "../../../node_modules/lazysizes/lazysizes-umd",
+            "eqjs": "../../../node_modules/eq.js/build/eq"
         },
+        // @TODO do not optimise on sandbox
         "map": {
             "*": {
                 "jquery": "jquery-1.9"

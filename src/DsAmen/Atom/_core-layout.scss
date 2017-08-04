@@ -1,0 +1,80 @@
+.grid {
+    @include flexbox(block);
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 0 0 0 (-$gel-unit-small); // need brackets or Scss combines with the zero
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+}
+
+.grid--items-center {
+    align-items: center;
+}
+
+.grid__item {
+    @include flexbox(inline-block);
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%; // will be overridden with fractions
+    vertical-align: top;
+    padding-left: $gel-unit-small;
+
+    > * {
+        flex: 0 0 100%;
+        overflow: hidden;
+        // immediate child of grid_item MUST be 100% width, as that was the point of the grid
+        width: 100%;
+    }
+}
+
+.grid__item--inline {
+    width: auto;
+}
+
+.grid__item,
+.grid-unit {
+    margin-bottom: $gel-unit-small;
+}
+
+
+@include mq($from: gel3) {
+    .grid {
+        margin-left: -$gel-unit-large;
+    }
+
+    .grid__item {
+        padding-left: $gel-unit-large;
+    }
+
+    .grid__item,
+    .grid-unit {
+        margin-bottom: $gel-unit-large;
+    }
+}
+
+.grid--flush {
+    margin-left: 0;
+
+    > .grid__item {
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+}
+
+.grid--flush-bottom {
+    > .grid__item {
+        margin-bottom: 0;
+    }
+}
+
+
+// include fractions unprefixed
+@include fractions();
+
+// include fractions with all the breakpoint suffixes
+@each $key, $value in $breakpoint-suffixes {
+    @include mq($from: $key) {
+        @include fractions($value);
+    }
+}

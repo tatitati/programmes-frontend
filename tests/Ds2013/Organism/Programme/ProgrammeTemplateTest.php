@@ -20,7 +20,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
     public function testEastendersEpisode()
     {
         $programme = EpisodesFixtures::eastendersAvailable();
-        $presenterFactory = TwigEnvironmentProvider::presenterFactory();
+        $presenterFactory = TwigEnvironmentProvider::ds2013PresenterFactory();
         $presenter = $presenterFactory->programmePresenter($programme, []);
         $crawler = $this->presenterCrawler($presenter);
 
@@ -87,7 +87,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         Chronos::setTestNow(new Chronos('2017-06-01 12:00:00'));
 
         $programme = EpisodesFixtures::beyondSpaceAndTimeAvailable();
-        $presenterFactory = TwigEnvironmentProvider::presenterFactory();
+        $presenterFactory = TwigEnvironmentProvider::ds2013PresenterFactory();
         $presenter = $presenterFactory->programmePresenter($programme, []);
 
         $crawler = $this->presenterCrawler($presenter);

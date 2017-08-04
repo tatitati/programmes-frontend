@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Ds2013\Helpers;
+namespace Tests\App\DsShared\Helpers;
 
-use App\Ds2013\Helpers\TitleLogicHelper;
+use App\DsShared\Helpers\TitleLogicHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use PHPUnit\Framework\TestCase;
 

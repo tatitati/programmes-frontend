@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters;
 
-use App\Ds2013\Helpers\LiveBroadcastHelper;
-use App\Ds2013\Helpers\PlayTranslationsHelper;
+use App\DsShared\Helpers\LiveBroadcastHelper;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;

@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Organism\Programme\SubPresenters;
 
-use App\Ds2013\Helpers\TitleLogicHelper;
+use App\DsShared\Helpers\TitleLogicHelper;
 use App\Ds2013\Organism\Programme\ProgrammePresenterBase;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;

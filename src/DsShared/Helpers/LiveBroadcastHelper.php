@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace App\Ds2013\Helpers;
+namespace App\DsShared\Helpers;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;

@@ -1,0 +1,158 @@
+//
+// Variables for use across the whole project
+//
+
+//
+// Named colors
+//
+
+$iplayer-pink: #f54997;
+$white: #ffffff;
+$medium-grey: #323232;
+
+
+// These are from Amen. Don't know if they're used/needed
+
+//$body-grey: #262525;
+//$box-grey: #3b3a3a;
+//$keyline-grey: #3b3a3b;
+//$box-keyline: #525151;
+//$body-text: #ffffff;
+//$body-link: #ffffff;
+//$body-link-hover: $iplayer-pink;
+//$bbc-radio-three: #9c131b;
+//$bbc-radio-two: #cc6600;
+//$bbc-radio-six-music: #1a4146;
+//$dark: #000000;
+//$alpha-dark: rgba(0, 0, 0, 0.7);
+
+//$light: #cccccc;
+//$light-grey: #e4e4e4;
+//$light-grey-subtle: #929292;
+//$light-grey-subtle2: #a4a4a4;
+
+//$medium-grey2: #404040;
+//$alpha-medium-grey: rgba(50, 50, 50, 0.3);
+//$medium-grey-subtle: #434343;
+//$medium-grey-subtle2: #333333;
+//$blue: #3179b5;
+//$music-blue: #a0e2f5;
+//
+//$rmp-card-color: #3b424c !default;
+//$richtrack-bar-color: $iplayer-pink !default;
+//
+//.clr-pink {
+//    color: $iplayer-pink;
+//}
+//
+//.clr-pink-bg {
+//    background-color: $iplayer-pink;
+//}
+//
+//.clr-pink-bdr {
+//    border-color: $iplayer-pink;
+//}
+//
+//.clr-grey {
+//    color: $body-grey;
+//}
+//
+//.clr-grey-bg {
+//    background-color: $body-grey;
+//}
+//
+//.clr-grey-bdr {
+//    border-color: $body-grey;
+//}
+//
+//.clr-black {
+//    color: $dark;
+//}
+//
+//.clr-light-grey {
+//    color: $light-grey;
+//}
+//
+//.clr-light-grey-bdr {
+//    border-color: $light-grey;
+//}
+//
+//.clr-light-grey-subtle {
+//    color: $light-grey-subtle;
+//}
+//
+//.clr-light-grey-subtle2 {
+//    color: $light-grey-subtle2;
+//}
+//
+//.clr-medium-grey-bg {
+//    background-color: $medium-grey;
+//}
+//
+//.clr-medium-grey2-bdr {
+//    border-color: $medium-grey2;
+//}
+//
+//.clr-alpha-medium-grey-bg {
+//    background-color: $alpha-medium-grey;
+//}
+//
+//.clr-medium-grey-subtle {
+//    color: $medium-grey-subtle;
+//}
+//
+//.clr-medium-grey-subtle-bg {
+//    background-color: $medium-grey-subtle;
+//}
+//
+//.clr-medium-grey-subtle-bdr {
+//    border-color: $medium-grey-subtle;
+//}
+//
+//.clr-white {
+//    color: $white;
+//}
+//
+//.clr-white-bg {
+//    background-color: $white;
+//}
+//
+//.clr-alpha-black-bg {
+//    background-color: $alpha-dark;
+//}
+//
+//.clr-blue-bg {
+//    background-color: $blue;
+//}
+//
+////
+//// Colors binding to concrete locations
+////
+//
+//$body-bg-color: $body-grey;
+//$body-color: #bdbdbd;
+//
+//
+//.clr-body {
+//    color: $body-bg-color;
+//}
+//
+//.clr-body-bg {
+//    background-color: $body-bg-color;
+//}
+//
+//.clr-body-bdr {
+//    border-color: $body-bg-color;
+//}
+//
+//.clr-text {
+//    color: $body-color;
+//}
+//
+//.clr-text-bg {
+//    background-color: $body-color;
+//}
+//
+//.clr-text-bdr {
+//    border-color: $body-color;
+//}

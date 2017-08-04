@@ -1,0 +1,42 @@
+// flexbox
+@mixin flexbox($fallback: block) {
+    display: $fallback;
+    display: -ms-flexbox;      /* IE 10 */
+    display: -webkit-flex;     /* Chrome */
+    display: flex;             /* Spec  */
+}
+
+@mixin inline-flexbox($fallback: inline-block) {
+    display: $fallback;
+    display: -ms-inline-flexbox;      /* IE 10 */
+    display: -webkit-inline-flex;     /* Chrome */
+    display: inline-flex;             /* Spec  */
+}
+
+@mixin flex-grow($size) {
+    // If you omit this line it will go properly mental in IE10
+    -ms-flex: $size $size 0%;
+    -webkit-flex-grow: $size;
+    flex-grow: $size;
+}
+
+@mixin input-placeholder() {
+    &::-webkit-input-placeholder {
+        @content;
+    }
+    &::-moz-placeholder {
+        @content;
+    }
+    &:-ms-input-placeholder {
+        @content;
+    }
+    &::-ms-input-placeholder {
+        @content;
+    }
+    &:-moz-placeholder {
+        @content;
+    }
+    &::placeholder {
+        @content;
+    }
+}

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Organism\Programme\SubPresenters;
 
-use App\Ds2013\Helpers\TitleLogicHelper;
+use App\DsShared\Helpers\TitleLogicHelper;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeTitlePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;

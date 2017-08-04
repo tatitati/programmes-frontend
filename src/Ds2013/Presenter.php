@@ -2,8 +2,10 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
+use App\Exception\InvalidOptionException;
+
 /**
- * Base Class for a Presenter
+ * Base Class for a DS2013 Presenter
  */
 abstract class Presenter
 {

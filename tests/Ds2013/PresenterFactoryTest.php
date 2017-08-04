@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
-use App\Ds2013\Helpers\HelperFactory;
+use App\DsShared\Helpers\HelperFactory;
 use App\Ds2013\Molecule\Calendar\CalendarPresenter;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;

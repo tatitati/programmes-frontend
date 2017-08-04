@@ -1,0 +1,81 @@
+//
+// Base layout
+//
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+// correct the ORB layout
+#orb-banner,
+#orb-footer {
+    *,
+    *:before,
+    *:after {
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    ul > li {
+        list-style-type: none;
+    }
+}
+
+.b-g-p,
+.b-g-m {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+html {
+    overflow-y: scroll;
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+    -ms-interpolation-mode: bicubic;
+}
+
+
+p,
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-weight: normal;
+}
+
+blockquote {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+button {
+    background: none;
+    border: 0;
+}
+
+
+// links are scoped to .amen
+// add amen to your page section containing amen data
+.amen {
+    a:link,
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover,
+    a:focus,
+    a:active {
+        text-decoration: underline;
+    }
+}

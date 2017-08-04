@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Organism\Programme;
 
-use App\Ds2013\Helpers\HelperFactory;
+use App\DsShared\Helpers\HelperFactory;
 use App\Ds2013\Organism\Programme\BroadcastSubPresenters\BroadcastProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeBodyPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;

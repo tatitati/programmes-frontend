@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Molecule\DateList;
 
-use App\Ds2013\InvalidOptionException;
+use App\Exception\InvalidOptionException;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\DateList\DayDateListItemPresenter;
 use App\Ds2013\Molecule\DateList\MonthDateListItemPresenter;

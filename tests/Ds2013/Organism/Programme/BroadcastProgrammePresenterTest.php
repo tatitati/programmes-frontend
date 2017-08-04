@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Organism\Programme;
 
-use App\Ds2013\Helpers\HelperFactory;
-use App\Ds2013\Helpers\LiveBroadcastHelper;
-use App\Ds2013\Helpers\PlayTranslationsHelper;
-use App\Ds2013\Helpers\TitleLogicHelper;
+use App\DsShared\Helpers\HelperFactory;
+use App\DsShared\Helpers\LiveBroadcastHelper;
+use App\DsShared\Helpers\PlayTranslationsHelper;
+use App\DsShared\Helpers\TitleLogicHelper;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
@@ -107,7 +107,7 @@ class BroadcastProgrammePresenterTest extends TestCase
     }
 
     /**
-     * @expectedException \App\Ds2013\InvalidOptionException
+     * @expectedException \App\Exception\InvalidOptionException
      */
     public function testInvalidContextService()
     {
