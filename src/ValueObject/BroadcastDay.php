@@ -3,10 +3,8 @@ declare(strict_types = 1);
 namespace App\ValueObject;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
-use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use Cake\Chronos\Chronos;
-use InvalidArgumentException;
 
 /**
  * Encapsulates the concept of a Broadcast Day, as TV and Radio have differing
@@ -24,23 +22,11 @@ use InvalidArgumentException;
  * 2017-02-05T03:00:00 is 2017-02-05T00:00:00 till 2017-02-06T06:00:00;
  * NOT 2017-02-04T00:00:00 till 2017-02-05T06:00:00.
  */
-class BroadcastDay
+class BroadcastDay extends BroadcastPeriod
 {
-    /** @var Chronos */
-    private $start;
-
-    /** @var Chronos */
-    private $end;
-
     public function __construct(Chronos $dateTime, string $networkMedium)
     {
-        if (!in_array($networkMedium, [NetworkMediumEnum::RADIO, NetworkMediumEnum::TV, NetworkMediumEnum::UNKNOWN])) {
-            throw new InvalidArgumentException(sprintf(
-                'Called new BroadcastDay() with an invalid networkMedium. Expected one of %s but got "%s"',
-                '"' . implode('", "', [NetworkMediumEnum::RADIO, NetworkMediumEnum::TV, NetworkMediumEnum::UNKNOWN]) . '"',
-                $networkMedium
-            ));
-        }
+        $this->validateNetworkMedium($networkMedium);
 
         if ($networkMedium == NetworkMediumEnum::TV) {
             // If the time is before 6am, then the broadcast day begins at 6am
@@ -60,20 +46,5 @@ class BroadcastDay
     public function isNow(): bool
     {
         return ApplicationTime::getTime()->between($this->start, $this->end);
-    }
-
-    public function serviceIsActiveOnThisDay(Service $service): bool
-    {
-        return (!$service->getStartDate() || $service->getStartDate()->lte($this->end)) && (!$service->getEndDate() || $this->start->lt($service->getEndDate()));
-    }
-
-    public function start(): Chronos
-    {
-        return $this->start;
-    }
-
-    public function end(): Chronos
-    {
-        return $this->end;
     }
 }

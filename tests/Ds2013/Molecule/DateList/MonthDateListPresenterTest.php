@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Ds2013\Molecule\DateList;
 
 use App\Ds2013\Molecule\DateList\MonthDateListItemPresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
@@ -33,8 +34,12 @@ class MonthDateListPresenterTest extends TestCase
 
     public function testIsLink()
     {
+        $network = $this->createMock(Network::class);
+        $network->method('getMedium')->willReturn('tv');
         $service = $this->createMock(Service::class);
-        $service->method('isActiveAt')->willReturn(true);
+        $service->method('getStartDate')->willReturn(null);
+        $service->method('getEndDate')->willReturn(null);
+        $service->method('getNetwork')->willReturn($network);
         $presenter = $this->createPresenter($service, -1);
         $this->assertTrue($presenter->isLink());
     }

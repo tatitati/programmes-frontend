@@ -33,14 +33,17 @@ class DayDateListItemPresenter extends AbstractDateListItemPresenter
 
     public function isLink(): bool
     {
+        // if the date is more than 90 DAYS from now, then don't allow a link (page will still exist)
+        if ($this->offset === 0 || $this->datetime->gte(new Chronos('90 days'))) {
+            return false;
+        }
+
         $network = $this->service->getNetwork();
         if (is_null($network)) {
             return false;
         }
-        $broadcastDay = new BroadcastDay($this->datetime, $network->getMedium());
-        // if the date is more than 90 DAYS from now, then don't allow a link (page will still exist)
-        return $this->offset != 0 &&
-            $this->datetime->lt(new Chronos('90 days')) &&
-            $broadcastDay->serviceIsActiveOnThisDay($this->service);
+
+        $broadcastYear = new BroadcastDay($this->datetime, $network->getMedium());
+        return $broadcastYear->serviceIsActiveInThisPeriod($this->service);
     }
 }

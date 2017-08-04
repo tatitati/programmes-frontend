@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Molecule\DateList;
 
+use App\ValueObject\BroadcastMonth;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
@@ -27,8 +28,16 @@ class MonthDateListItemPresenter extends AbstractDateListItemPresenter
     public function isLink(): bool
     {
         // if the date is more than 2 weeks from now, then don't allow a link (page will still exist)
-        return $this->offset != 0 &&
-            $this->datetime->lt(new Chronos('2 weeks')) &&
-            $this->service->isActiveAt($this->datetime);
+        if ($this->offset === 0 || $this->datetime->gte(new Chronos('2 weeks'))) {
+            return false;
+        }
+
+        $network = $this->service->getNetwork();
+        if (is_null($network)) {
+            return false;
+        }
+
+        $broadcastMonth = new BroadcastMonth($this->datetime, $network->getMedium());
+        return $broadcastMonth->serviceIsActiveInThisPeriod($this->service);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Ds2013\Molecule\Calendar;
 use App\Ds2013\InvalidOptionException;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use Cake\Chronos\Chronos;
 use Cake\Chronos\Date;
 
 class CalendarPresenter extends Presenter
@@ -21,14 +22,14 @@ class CalendarPresenter extends Presenter
     /** @var Service */
     private $service;
 
-    public function __construct(Date $date, Service $service, array $options = [])
+    public function __construct(Chronos $date, Service $service, array $options = [])
     {
         parent::__construct($options);
         $this->date = $date;
         $this->service = $service;
     }
 
-    public function getFirstOfMonth(): Date
+    public function getFirstOfMonth(): Chronos
     {
         return $this->date;
     }

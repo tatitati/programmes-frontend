@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Molecule\DateList;
 
+use App\ValueObject\BroadcastYear;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
@@ -27,8 +28,16 @@ class YearDateListItemPresenter extends AbstractDateListItemPresenter
     public function isLink(): bool
     {
         // if the date is more than 90 DAYS from now, then don't allow a link (page will still exist)
-        return $this->offset != 0 &&
-            $this->datetime->lt(new Chronos('90 days')) &&
-            $this->service->isActiveAt($this->datetime);
+        if ($this->offset === 0 || $this->datetime->gte(new Chronos('90 days'))) {
+            return false;
+        }
+
+        $network = $this->service->getNetwork();
+        if (is_null($network)) {
+            return false;
+        }
+
+        $broadcastYear = new BroadcastYear($this->datetime, $network->getMedium());
+        return $broadcastYear->serviceIsActiveInThisPeriod($this->service);
     }
 }

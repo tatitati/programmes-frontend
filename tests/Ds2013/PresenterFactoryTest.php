@@ -13,7 +13,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
-use Cake\Chronos\Date;
 use PHPUnit\Framework\TestCase;
 use RMP\Translate\Translate;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -67,7 +66,7 @@ class PresenterFactoryTest extends TestCase
 
     public function testMoleculeCalendar()
     {
-        $now = Date::now();
+        $now = Chronos::now();
         $mockService = $this->createMock(Service::class);
 
         $this->assertEquals(
