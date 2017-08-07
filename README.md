@@ -118,7 +118,7 @@ How to do this:
 Checkout the profiling-build branch, rebase it on master and deploy this branch to INT. This assumes that the 
 code you want to profile is on master of course. 
 
-Visit hhttps://programmes-frontend.int.api.bbc.co.uk/whatever/your/route/is?__profile=1 (Note the double underscore).
+Visit https://programmes-frontend.int.api.bbc.co.uk/whatever/your/route/is?__profile=1 (Note the double underscore).
 Load that at least 5 times to make sure that everything that should be cached is cached.
 Now visit https://programmes-frontend.int.api.bbc.co.uk/xhprof/xhprof_html/index.php .
 You should see a list of your visits along with a load of metrics on execution. 
