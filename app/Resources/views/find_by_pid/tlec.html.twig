@@ -1,9 +1,8 @@
 {% extends 'base_ds_amen.html.twig' %}
 
 {% block html_classes %}b-pw-1280{% endblock %}
-{%- block title -%}
-    {{ meta_context.titlePrefix }}
-{%- endblock -%}
+{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
+{% block title %}{{ meta_context.titlePrefix }}{% endblock %}
 
 {% block body %}
     {# TODO Leaderboard Advert #}
