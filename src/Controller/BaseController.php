@@ -59,7 +59,7 @@ abstract class BaseController extends AbstractController
 
     protected function getCanonicalUrl(): string
     {
-        $requestAttributes = $this->request()->attributes;
+        $requestAttributes = $this->container->get('request_stack')->getMasterRequest()->attributes;
         return $this->generateUrl(
             $requestAttributes->get('_route'),
             $requestAttributes->get('_route_params'),

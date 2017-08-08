@@ -23,7 +23,7 @@ class CloudLabsController extends BaseController
             ));
         }
 
-        return $this->{$methodName}();
+        return $this->forward(self::class . '::' . $methodName);
     }
 
     public function showAction()
