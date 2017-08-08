@@ -1,82 +1,82 @@
 <!DOCTYPE html>
 <html class="{{ branding.orbitThemeClasses|raw }} {% block html_classes %}{% endblock %}" lang="{{ tr('language_code') }}">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon">
-    {% if meta_context.canonicalUrl %}<link rel="canonical" href="{{ meta_context.canonicalUrl }}">{% endif %}
-    <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}">
-    <meta name="description" content="{{ meta_context.description }}">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon">
+        {% if meta_context.canonicalUrl %}<link rel="canonical" href="{{ meta_context.canonicalUrl }}">{% endif %}
+        <meta name="theme-color" content="{{ branding.colours.highlight.bg|default('#2B2B2B') }}">
+        <meta name="description" content="{{ meta_context.description }}">
 
-    {#- OpenGraph tags for Facebook/Twitter -#}
-    <meta property="og:site_name" content="BBC">
-    <meta property="og:title" content="{{ block('title') }}">
-    <meta property="og:type" content="website">
-    {% if meta_context.canonicalUrl %}<meta property="og:url" content="{{ meta_context.canonicalUrl }}">{% endif %}
-    <meta property="og:description" content="{{ meta_context.description }}">
-    <meta property="og:image" content="{{ meta_context.image.getUrl(1200, 675) }}">
+        {#- OpenGraph tags for Facebook/Twitter -#}
+        <meta property="og:site_name" content="BBC">
+        <meta property="og:title" content="{{ block('title') }}">
+        <meta property="og:type" content="website">
+        {% if meta_context.canonicalUrl %}<meta property="og:url" content="{{ meta_context.canonicalUrl }}">{% endif %}
+        <meta property="og:description" content="{{ meta_context.description }}">
+        <meta property="og:image" content="{{ meta_context.image.getUrl(1200, 675) }}">
 
-    {#- Twitter-specific tags -#}
-    <meta name="twitter:card" content="summary_large_image">
+        {#- Twitter-specific tags -#}
+        <meta name="twitter:card" content="summary_large_image">
 
-    {#- Android/iOS homepage icons -#}
-    <link rel="shortcut icon" sizes="196x196" href="{{ meta_context.image.getUrl(208, 208) }}">
-    <link rel="shortcut icon" sizes="128x128" href="{{ meta_context.image.getUrl(128, 128) }}">
-    <link rel="apple-touch-icon" href="{{ meta_context.image.getUrl(80, 80) }}" >
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ meta_context.image.getUrl(128,128) }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ meta_context.image.getUrl(160, 160) }}">
+        {#- Android/iOS homepage icons -#}
+        <link rel="shortcut icon" sizes="196x196" href="{{ meta_context.image.getUrl(208, 208) }}">
+        <link rel="shortcut icon" sizes="128x128" href="{{ meta_context.image.getUrl(128, 128) }}">
+        <link rel="apple-touch-icon" href="{{ meta_context.image.getUrl(80, 80) }}" >
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ meta_context.image.getUrl(128,128) }}">
+        <link rel="apple-touch-icon" sizes="152x152" href="{{ meta_context.image.getUrl(160, 160) }}">
 
-    {#- This image 272px not 150px wide because Microsoft suggests the image
-        dimensions be 1.8x larger than the rendered size to allow for scaling.
-        See https://msdn.microsoft.com/en-us/library/dn439794(v=vs.85).aspx
-    -#}
-    <meta name="msapplication-square150x150logo" content="{{ meta_context.image.getUrl(272, 272) }}">
+        {#- This image 272px not 150px wide because Microsoft suggests the image
+            dimensions be 1.8x larger than the rendered size to allow for scaling.
+            See https://msdn.microsoft.com/en-us/library/dn439794(v=vs.85).aspx
+        -#}
+        <meta name="msapplication-square150x150logo" content="{{ meta_context.image.getUrl(272, 272) }}">
 
-    {% if meta_context.canonicalUrl and meta_context.isRadio %}
-        <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ meta_context.canonicalUrl }}?bbc_referrer={{ meta_context.canonicalUrl|url_encode }}">
-    {% endif %}
+        {% if meta_context.canonicalUrl and meta_context.isRadio %}
+            <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ meta_context.canonicalUrl }}?bbc_referrer={{ meta_context.canonicalUrl|url_encode }}">
+        {% endif %}
 
-    {{ orb.head|raw }}
-    {{ branding.head|raw }}
+        {{ orb.head|raw }}
+        {{ branding.head|raw }}
 
-    <!--[if (gt IE 9)|!(IE)]><!-->
-    <link rel="stylesheet" href="{{ asset('css/dsAmen.css') }}" />
-    <!--<![endif]-->
-    <!--[if (lte IE 9)&(!IEMobile)]>
-    <link rel="stylesheet" href="{{ asset('css/dsAmen-ie.css') }}" />
-    <![endif]-->
-    {% block inline_head %}{% endblock %}
+        <!--[if (gt IE 9)|!(IE)]><!-->
+        <link rel="stylesheet" href="{{ asset('css/dsAmen.css') }}" />
+        <!--<![endif]-->
+        <!--[if (lte IE 9)&(!IEMobile)]>
+        <link rel="stylesheet" href="{{ asset('css/dsAmen-ie.css') }}" />
+        <![endif]-->
+        {% block inline_head %}{% endblock %}
 
-    <script>document.documentElement.className += ' has-js';</script>
-    <script>
-        requirejs.config({
-            "paths": {
-                'jquery-1.9': "https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1",
-                'dsAmen-bootstrap': "{{ asset_js('js/dsAmen-bootstrap.js') }}"
-            },
-            "priority": ['jquery-1.9', 'dsamen-bootstrap'],
-            "map": {
-                "*": {
-                    "jquery": "jquery-1.9"
+        <script>document.documentElement.className += ' has-js';</script>
+        <script>
+            requirejs.config({
+                "paths": {
+                    'jquery-1.9': "https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1",
+                    'dsAmen-bootstrap': "{{ asset_js('js/dsAmen-bootstrap.js') }}"
+                },
+                "priority": ['jquery-1.9', 'dsamen-bootstrap'],
+                "map": {
+                    "*": {
+                        "jquery": "jquery-1.9"
+                    }
                 }
-            }
-        });
-    </script>
-</head>
-<body>
-{{ orb.bodyfirst|raw }}
-{{ branding.bodyFirst|raw }}
+            });
+        </script>
+    </head>
+    <body>
+    {{ orb.bodyfirst|raw }}
+    {{ branding.bodyFirst|raw }}
 
-<div class="{% block page_classes %}gel-long-primer amen{% endblock %}" id="programmes-main-content" role="main">
-    {% block body %}{% endblock %}
-</div>
-{{ gelicons_source() }}
-<script>
-    require(['https://static.bbci.co.uk/radio/player/script/popup.js']);
-    require(['dsAmen-bootstrap']);
-</script>
-{% block javascripts %}{% endblock %}
-{{ branding.bodyLast|raw }}
-{{ orb.bodylast|raw }}
-</body>
+    <div class="{% block page_classes %}gel-long-primer amen{% endblock %}" id="programmes-main-content" role="main">
+        {% block body %}{% endblock %}
+    </div>
+    {{ gelicons_source() }}
+    <script>
+        require(['https://static.bbci.co.uk/radio/player/script/popup.js']);
+        require(['dsAmen-bootstrap']);
+    </script>
+    {% block javascripts %}{% endblock %}
+    {{ branding.bodyLast|raw }}
+    {{ orb.bodylast|raw }}
+    </body>
 </html>
