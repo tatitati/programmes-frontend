@@ -3,8 +3,12 @@ declare(strict_types = 1);
 
 namespace App\ValueObject;
 
+use BBC\ProgrammesPagesService\Domain\Entity\Brand;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 
@@ -25,6 +29,9 @@ class MetaContext
     /** @var string */
     private $canonicalUrl = '';
 
+    /** @var string */
+    private $schemaType = '';
+
     public function __construct($context = null, string $canonicalUrl = '')
     {
         $this->canonicalUrl = $canonicalUrl;
@@ -34,10 +41,7 @@ class MetaContext
             $this->image = $context->getImage();
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $this->coreEntityTitlePrefix($context);
-
-            // TODO add rdfa type so that it can be added onto the <body> tag
-            // e.g. http://www.bbc.co.uk/programmes/b006q2x0 has
-            // <body vocab="http://schema.org/" typeof="TVSeries">
+            $this->schemaType = $this->getSchemaTypeEquivalent($context);
         } elseif ($context instanceof Service) {
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $context->getName();
@@ -83,6 +87,15 @@ class MetaContext
         return $this->titlePrefix;
     }
 
+    public function getRdfaAttributes(): string
+    {
+        if (!$this->schemaType) {
+            return '';
+        }
+
+        return 'vocab="http://schema.org/" typeof=' . $this->schemaType;
+    }
+
     private function coreEntityTitlePrefix(CoreEntity $coreEntity): string
     {
         $prefix = '';
@@ -97,5 +110,28 @@ class MetaContext
 
         $prefix .= implode(', ', $longerTitleParts);
         return $prefix;
+    }
+
+    private function getSchemaTypeEquivalent(CoreEntity $entity)
+    {
+        $type = $entity->isRadio() ? 'Radio' : 'TV';
+
+        if ($entity instanceof Episode) {
+            return $type . 'Episode';
+        }
+
+        if ($entity instanceof Series) {
+            return $type . 'Season';
+        }
+
+        if ($entity instanceof Brand) {
+            return $type . 'Series';
+        }
+
+        if ($entity instanceof Clip) {
+            return $type . 'Clip';
+        }
+
+        return '';
     }
 }
