@@ -9,8 +9,8 @@ use App\Metrics\ProgrammesMetrics\ApiResponseMetric;
 use App\Metrics\ProgrammesMetrics\ApiTimeMetric;
 use App\Metrics\ProgrammesMetrics\ProgrammesMetricInterface;
 use App\Metrics\ProgrammesMetrics\RouteMetric;
-use Symfony\Component\Routing\Router;
 use InvalidArgumentException;
+use Symfony\Component\Routing\RouterInterface;
 
 class MetricsManager
 {
@@ -25,7 +25,7 @@ class MetricsManager
     /** @var ProgrammesMetricInterface[] */
     private $metrics = [];
 
-    /** @var Router */
+    /** @var RouterInterface */
     private $router;
 
     /** @var MetricCacheInterface */
@@ -37,7 +37,7 @@ class MetricsManager
     /** @var array */
     private $validRouteControllers;
 
-    public function __construct(Router $router, MetricCacheInterface $cache, MetricBackendInterface $backend)
+    public function __construct(RouterInterface $router, MetricCacheInterface $cache, MetricBackendInterface $backend)
     {
         $this->router = $router;
         $this->cache = $cache;
