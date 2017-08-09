@@ -146,5 +146,8 @@ services:
     BBC\ProgrammesPagesService\Service\ProgrammesService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getProgrammesService']
 
+    BBC\ProgrammesPagesService\Service\ProgrammesAggregationService:
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getProgrammesAggregationService']
+
     BBC\ProgrammesPagesService\Service\ServicesService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getServicesService']

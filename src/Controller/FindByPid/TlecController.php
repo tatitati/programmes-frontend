@@ -7,6 +7,7 @@ use App\Controller\BaseController;
 use App\DsAmen\Organism\Map\MapPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
+use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,9 +21,25 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TlecController extends BaseController
 {
-    public function __invoke(Request $request, ProgrammeContainer $programme, ProgrammesService $programmesService, CollapsedBroadcastsService $collapsedBroadcastsService)
-    {
+    public function __invoke(
+        Request $request,
+        ProgrammeContainer $programme,
+        ProgrammesService $programmesService,
+        CollapsedBroadcastsService $collapsedBroadcastsService,
+        ProgrammesAggregationService $aggregationService
+    ) {
         $this->setContext($programme);
+
+        $clips = [];
+        $galleries = [];
+
+        if ($programme->getOption('show_clip_cards')) {
+            $clips = $aggregationService->findDescendantClips($programme, 4);
+        }
+
+        if ($programme->getOption('show_gallery_cards')) {
+            $galleries = $aggregationService->findDescendantGalleries($programme, 4);
+        }
 
         $upcomingEpisodesCount = $collapsedBroadcastsService->countUpcomingByProgramme($programme);
         $mostRecentBroadcast = null;
@@ -34,6 +51,8 @@ class TlecController extends BaseController
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
+            'clips' => $clips,
+            'galleries' => $galleries,
             'mapPresenter' => $mapPresenter,
         ]);
     }
