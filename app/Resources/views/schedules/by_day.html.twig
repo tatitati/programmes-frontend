@@ -1,23 +1,21 @@
 {% extends 'schedules/by_base.html.twig' %}
 
-{%- block date -%}
-    {{ broadcast_day_start|local_date_intl('eeee d MMMM Y') }}
-{% endblock %}
+{% block date %}{{ broadcast_day_start|local_date_intl('eeee d MMMM Y') }}{% endblock %}
 
 {%- block date_nav -%}
     <div id="schedule-daynav" class="centi br-box-highlight g-f-l">
         {{ ds2013('dateList', broadcast_day_start, service) }}
     </div>
-{% endblock %}
+{%- endblock -%}
 
 {%- block header_links -%}
-    {% if service.isRadio %}
+    {%- if service.isRadio -%}
         <p class="pull--right islet--vertical no-margin-vertical delta">
             <a href="{{ path('schedules_by_month', {pid: service.pid, date: broadcast_day_start|local_date('Y-m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
         </p>
-    {% endif %}
-{% endblock %}
+    {%- endif -%}
+{%- endblock -%}
 
 {%- block schedule -%}
     {{ ds2013_presenter(page_presenter) }}
-{% endblock %}
+{%- endblock -%}
