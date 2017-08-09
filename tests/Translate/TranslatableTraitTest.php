@@ -90,7 +90,6 @@ class TranslatableTraitTest extends TestCase
 
         $translateProperty->setValue($translatable, $translateProvider);
 
-
         // Define a closure that will call the protected method using "this".
         $barCaller = function (...$args) {
             return $this->tr(...$args);
@@ -110,7 +109,6 @@ class TranslatableTraitTest extends TestCase
         $translateProperty->setAccessible(true);
 
         $translateProperty->setValue($translatable, $translateProvider);
-
 
         // Define a closure that will call the protected method using "this".
         $barCaller = function (...$args) {

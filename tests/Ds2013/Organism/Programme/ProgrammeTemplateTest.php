@@ -24,7 +24,6 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $presenter = $presenterFactory->programmePresenter($programme, []);
         $crawler = $this->presenterCrawler($presenter);
 
-
         $outerDiv = $crawler->filterXPath('//div');
         // Test outer div classes
         $this->assertHasClasses('programme programme--tv programme--episode block-link', $outerDiv, 'Outer div classes');
@@ -57,7 +56,6 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertCount(1, $iconContainer);
         $this->assertHasClasses('programme__icon br-box-page iplayer-icon iplayer-icon--boxed', $iconContainer, 'Icon container classes');
         $this->assertCount(1, $iconContainer->filter('svg.gelicon'), 'svg icon present');
-
 
         // Test main link target
         $targetLink = $crawler->filter('.block-link__target');
@@ -125,7 +123,6 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('programme__icon br-box-page iplayer-icon iplayer-icon--boxed', $iconContainer, 'Icon container classes');
         $this->assertCount(1, $iconContainer->filter('svg.gelicon'), 'svg icon present');
 
-
         // Test main link target
         $targetLink = $crawler->filter('.block-link__target');
         $this->assertEquals('http://localhost/programmes/b0849ccf', $targetLink->attr('href'), 'Main block-link target URL');
@@ -151,7 +148,6 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
 
         $subTitle1 = $subTitles->filter('span[property="name"]')->eq(1);
         $this->assertEquals('Beyond Space and Time', $subTitle1->text());
-
 
         // Synopsis and Episode x of n
         $synopsisP = $crawler->filter('.programme__synopsis');
