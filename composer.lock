@@ -391,7 +391,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/v2.5.0",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-08-08 15:45:48"
+            "time": "2017-08-08T15:45:48+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -613,7 +613,7 @@
                 }
             ],
             "description": "A bundle integrating GuzzleHttp >= 4.0",
-            "time": "2017-07-02 17:55:35"
+            "time": "2017-07-02T17:55:35+00:00"
         },
         {
             "name": "doctrine/annotations",

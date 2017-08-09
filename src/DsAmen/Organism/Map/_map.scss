@@ -1,0 +1,99 @@
+$map-gap : 2px;
+
+.map {
+    margin-left: -$map-gap;
+    margin-top: $map-gap;
+    margin-bottom: $gel-unit-small;
+
+    @include mq($from: gel3) {
+        margin-bottom: $gel-unit-large;
+    }
+}
+
+.map__item {
+    padding-left: $map-gap;
+    margin-bottom: $map-gap;
+}
+
+.map-grid__item {
+    padding-left: 0;
+}
+
+.map__item--flush {
+    margin-bottom: 0;
+}
+
+.map-grid {
+    flex-direction: column;
+    margin-left: 0;
+    margin-bottom: -$map-gap;
+}
+
+.map-grid__column-wrap {
+    @include flexbox();
+    @include flex-grow(1);
+    flex: 1 1 auto;
+}
+
+.map-card-wrap {
+    @include flexbox();
+    flex-direction: column;
+}
+
+.map__prose,
+.map-card {
+    @include flex-grow(1);
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+.map-social-icons {
+    align-items: center;
+}
+
+.map-social__icon:nth-child(n+4) {
+    display: none;
+}
+
+.map-social__label {
+    position: relative;
+    top: -1px;
+    margin-left: $gel-unit-small;
+    margin-right: $gel-unit-small;
+}
+
+.map-social__icon {
+    font-size: 22px;
+}
+
+.map__heading {
+    margin-bottom: $gel-unit-small;
+}
+
+.map__buttons {
+    vertical-align: middle;
+    margin-right: 11px; // due to weird paddings etc
+}
+
+.map__additional-info {
+    @include flexbox();
+    margin: 0 $gel-unit-small $gel-unit-small;
+    padding-top: $gel-unit-small;
+
+    @include mq($from: gel3) {
+        margin: 0 $gel-unit-large $gel-unit-large;
+        padding-top: $gel-unit-large;
+    }
+}
+
+@include mq($from: gel2) {
+    .map-social__label {
+        margin-left: $gel-unit-large;
+    }
+}
+
+@include mq($from: gel4) {
+    .map-social__icon:nth-child(n+4) {
+        display: inline-block;
+    }
+}

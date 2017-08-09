@@ -11,7 +11,9 @@
 
     {# TODO Priority Vote block #}
 
-    {# Media Availability Panel #}
+    {% if mapPresenter.showMap %}
+        {{ ds_amen_presenter(mapPresenter) }}
+    {% endif %}
 
     <div class="b-g-p">
         <div class="leading-gap cf">

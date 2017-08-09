@@ -1,0 +1,18 @@
+<div class="grid__item map__item 1/1" data-map-column="social2016">
+    <h1>I Я Social Info for {{ social.programme.title }}</h1>
+</div>
+
+{#<? $classes = $this->buildCssClasses(array(#}
+{#'grid__item map__item' => true,#}
+{#$this->data->media_panel->mandatory_columns['social']->grid_classes => true,#}
+{#));#}
+
+{#if ($this->data->media_panel->mandatory_columns['social']->getSocialMedia()): ?>#}
+{#<div class="<?=$classes?>" data-map-column="social2016">#}
+    {#<? self::view('/programmes/map/social.spv', array(#}
+                        {#'data' => $this->data,#}
+    {#'column' => $this->data->media_panel->mandatory_columns['social'],#}
+    {#'classes' => 'br-box-' . BBC_Programmes_View_Map::BRANDING_COLOUR ,#}
+    {#))->render(); ?>#}
+{#</div>#}
+{#<? endif; ?>#}

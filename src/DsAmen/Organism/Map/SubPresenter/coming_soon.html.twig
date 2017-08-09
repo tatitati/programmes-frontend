@@ -1,0 +1,13 @@
+<div class="grid__item map__item 1/1">
+    {% if coming_soon.comingSoon %}
+        <div class="island">
+            <h2 class="map__heading gel-double-pica-bold">{{ tr('coming_soon') }}</h2>
+        </div>
+        <h1>I Я On Coming Soon for {{ coming_soon.programme.title }}</h1>
+    {% else %}
+        <div class="island">
+            <h2 class="map__heading gel-double-pica-bold">{{ tr('coming_soon') }}</h2>
+            <p>{{ coming_soon.comingSoonTextOnly }}</p>
+        </div>
+    {% endif %}
+</div>
