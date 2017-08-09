@@ -5,7 +5,6 @@ namespace App\Ds2013\Molecule\DateList;
 
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

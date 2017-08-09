@@ -4,6 +4,7 @@
     "version": "1.0.0",
     "devDependencies": {
         "del": "^2.2.2",
+        "eq.js": "^1.9.0",
         "gulp": "^3.9.1",
         "gulp-autoprefixer": "^4.0.0",
         "gulp-requirejs-optimize": "^1.2.0",
@@ -14,7 +15,6 @@
         "gulp-sass-error": "^1.0.5",
         "gulp-sourcemaps": "^2.4.1",
         "lazysizes": "^3.0.0",
-        "eq.js": "^1.9.0",
         "sass-mq": "^3.3.2"
     },
     "scripts": {

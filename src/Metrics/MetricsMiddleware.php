@@ -4,15 +4,10 @@ namespace App\Metrics;
 
 use App\Fixture\Doctrine\EntityRepository\HttpFixtureRepository;
 use App\Fixture\ScenarioManager;
-use BBC\BrandingClient\OrbitClient;
-use GuzzleHttp\Promise\FulfilledPromise;
-use InvalidArgumentException;
+use GuzzleHttp\TransferStats;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
-use GuzzleHttp\TransferStats;
-use RuntimeException;
 
 class MetricsMiddleware
 {

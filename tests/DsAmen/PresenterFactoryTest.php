@@ -2,9 +2,9 @@
 declare(strict_types = 1);
 namespace Tests\App\DsAmen;
 
-use App\DsShared\Helpers\HelperFactory;
 use App\DsAmen\Organism\Programme\ProgrammePresenter;
 use App\DsAmen\PresenterFactory;
+use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use PHPUnit\Framework\TestCase;

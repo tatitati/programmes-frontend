@@ -3,8 +3,8 @@ declare(strict_types = 1);
 namespace Tests\App\DsAmen;
 
 use App\DsAmen\Presenter;
-use PHPUnit\Framework\TestCase;
 use App\Exception\InvalidOptionException;
+use PHPUnit\Framework\TestCase;
 
 class PresenterTest extends TestCase
 {

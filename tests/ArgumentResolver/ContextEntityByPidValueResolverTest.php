@@ -4,13 +4,13 @@ namespace Tests\App\ArgumentResolver;
 
 use App\ArgumentResolver\ContextEntityByPidValueResolver;
 use App\Exception\ProgrammeOptionsRedirectHttpException;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Options;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
+use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;

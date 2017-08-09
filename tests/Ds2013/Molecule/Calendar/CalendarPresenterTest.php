@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Molecule\Calendar;
 
-use App\Exception\InvalidOptionException;
 use App\Ds2013\Molecule\Calendar\CalendarPresenter;
+use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;

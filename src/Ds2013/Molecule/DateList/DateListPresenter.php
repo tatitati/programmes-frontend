@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Molecule\DateList;
 
-use App\Exception\InvalidOptionException;
 use App\Ds2013\Presenter;
+use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\ChronosInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

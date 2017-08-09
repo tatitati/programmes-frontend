@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
-use App\Exception\InvalidOptionException;
 use App\Ds2013\Presenter;
 use PHPUnit\Framework\TestCase;
 

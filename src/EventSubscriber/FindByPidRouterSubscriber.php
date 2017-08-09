@@ -8,7 +8,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Collection;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Franchise;
 use BBC\ProgrammesPagesService\Domain\Entity\Gallery;
-use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Season;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;

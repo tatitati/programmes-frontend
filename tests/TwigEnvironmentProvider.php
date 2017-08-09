@@ -2,9 +2,9 @@
 declare(strict_types = 1);
 namespace Tests\App;
 
-use App\DsShared\Helpers\HelperFactory;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
 use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
+use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use App\Twig\DesignSystemPresenterExtension;
 use App\Twig\GelIconExtension;

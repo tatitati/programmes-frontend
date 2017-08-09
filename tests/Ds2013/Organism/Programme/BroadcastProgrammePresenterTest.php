@@ -3,13 +3,13 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Organism\Programme;
 
+use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
+use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\DsShared\Helpers\TitleLogicHelper;
-use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
-use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
-use App\Ds2013\Organism\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;

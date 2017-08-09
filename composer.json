@@ -29,7 +29,7 @@
         "bbc/gel-iconography-assets": "^1.2",
         "bbc/programmes-pages-service": "dev-master@dev",
         "cakephp/chronos": "^1.1",
-        "csa/guzzle-bundle": "dev-master@dev",
+        "csa/guzzle-bundle": "^2.2.1",
         "doctrine/doctrine-bundle": "^1.6.8",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",

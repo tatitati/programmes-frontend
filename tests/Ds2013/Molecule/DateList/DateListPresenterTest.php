@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Molecule\DateList;
 
-use App\Exception\InvalidOptionException;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
 use App\Ds2013\Molecule\DateList\DayDateListItemPresenter;
 use App\Ds2013\Molecule\DateList\MonthDateListItemPresenter;
 use App\Ds2013\Molecule\DateList\YearDateListItemPresenter;
+use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;

@@ -2,11 +2,11 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Organism\Programme;
 
-use App\DsShared\Helpers\HelperFactory;
-use App\Exception\InvalidOptionException;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeBodyPresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeImagePresenter;
 use App\Ds2013\Organism\Programme\SubPresenters\ProgrammeTitlePresenter;
+use App\DsShared\Helpers\HelperFactory;
+use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;

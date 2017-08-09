@@ -4,8 +4,8 @@ namespace App\Twig;
 
 use App\Ds2013\Presenter as Ds2013Presenter;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
-use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
 use App\DsAmen\Presenter as DsAmenPresenter;
+use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
