@@ -3,12 +3,9 @@ declare(strict_types = 1);
 
 namespace App\ValueObject;
 
-use BBC\ProgrammesPagesService\Domain\Entity\Brand;
-use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
-use BBC\ProgrammesPagesService\Domain\Entity\Series;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 
@@ -29,22 +26,22 @@ class MetaContext
     /** @var string */
     private $canonicalUrl = '';
 
-    /** @var string */
-    private $schemaType = '';
-
     /** @var bool */
     private $showAdverts = false;
+
+    /** @var CoreEntity|Network */
+    private $context;
 
     public function __construct($context = null, string $canonicalUrl = '')
     {
         $this->canonicalUrl = $canonicalUrl;
+        $this->context = $context;
 
         if ($context instanceof CoreEntity) {
             $this->description = $context->getShortSynopsis();
             $this->image = $context->getImage();
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $this->coreEntityTitlePrefix($context);
-            $this->schemaType = $this->getSchemaTypeEquivalent($context);
 
             if ($context->getNetwork()) {
                 $this->showAdverts = $context->getNetwork()->isInternational();
@@ -75,9 +72,19 @@ class MetaContext
         return $this->canonicalUrl;
     }
 
+    public function context()
+    {
+        return $this->context;
+    }
+
     public function description(): string
     {
         return $this->description;
+    }
+
+    public function hasSchemaType(): bool
+    {
+        return $this->context instanceof CoreEntity;
     }
 
     public function image(): Image
@@ -93,15 +100,6 @@ class MetaContext
     public function titlePrefix(): string
     {
         return $this->titlePrefix;
-    }
-
-    public function getRdfaAttributes(): string
-    {
-        if (!$this->schemaType) {
-            return '';
-        }
-
-        return 'vocab="http://schema.org/" typeof=' . $this->schemaType;
     }
 
     public function showAdverts(): bool
@@ -123,28 +121,5 @@ class MetaContext
 
         $prefix .= implode(', ', $longerTitleParts);
         return $prefix;
-    }
-
-    private function getSchemaTypeEquivalent(CoreEntity $entity)
-    {
-        $type = $entity->isRadio() ? 'Radio' : 'TV';
-
-        if ($entity instanceof Episode) {
-            return $type . 'Episode';
-        }
-
-        if ($entity instanceof Series) {
-            return $type . 'Season';
-        }
-
-        if ($entity instanceof Brand) {
-            return $type . 'Series';
-        }
-
-        if ($entity instanceof Clip) {
-            return $type . 'Clip';
-        }
-
-        return '';
     }
 }

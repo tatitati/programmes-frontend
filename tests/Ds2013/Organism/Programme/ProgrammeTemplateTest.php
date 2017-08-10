@@ -27,7 +27,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $outerDiv = $crawler->filterXPath('//div');
         // Test outer div classes
         $this->assertHasClasses('programme programme--tv programme--episode block-link', $outerDiv, 'Outer div classes');
-        $this->assertSchemaOrgTypeOf('Episode', $outerDiv);
+        $this->assertSchemaOrgTypeOf('TVEpisode', $outerDiv);
         $this->assertEquals('p0000001', $outerDiv->attr('data-pid'));
 
         // Test image container and lazy loaded image
@@ -139,7 +139,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertCount(1, $subTitles, 'Programme has subtitles');
         // Check schema markup for series subtitle
         $schemaContainer = $subTitles->children()->first();
-        $this->assertEquals('Season', $schemaContainer->attr('typeof'));
+        $this->assertEquals('RadioSeason', $schemaContainer->attr('typeof'));
         $this->assertEquals('http://www.bbc.co.uk/programmes/b084ntjl', $schemaContainer->attr('resource'));
 
         // Make sure subtitles have correct text

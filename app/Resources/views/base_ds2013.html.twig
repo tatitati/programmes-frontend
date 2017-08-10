@@ -72,7 +72,7 @@
         </script>
         {{ adverts_head() }}
     </head>
-    <body {{ meta_context.rdfaAttributes }}>
+    <body {% if meta_context.hasSchemaType() %}vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(meta_context.context) }}"{% endif %}>
         {{ orb.bodyfirst|raw }}
         {{ branding.bodyFirst|raw }}
 

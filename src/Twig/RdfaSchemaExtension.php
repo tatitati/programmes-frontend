@@ -39,14 +39,14 @@ class RdfaSchemaExtension extends Twig_Extension
             case ($entity instanceof Brand):
                 return $entity->isRadio() ? 'RadioSeries' : 'TVSeries';
             case ($entity instanceof Series):
-                return $entity->isRadio() ? 'Season' : 'TVSeason';
+                return $entity->isRadio() ? 'RadioSeason' : 'TVSeason';
             case ($entity instanceof Episode):
-                return $entity->isRadio() ? 'RadioEpisode' : 'Episode';
+                return $entity->isRadio() ? 'RadioEpisode' : 'TVEpisode';
             case ($entity instanceof Clip):
-                return $entity->isRadio() ? 'RadioClip' : 'Clip';
+                return $entity->isRadio() ? 'RadioClip' : 'TVClip';
             default:
                 $type = is_object($entity) ? get_class($entity) : gettype($entity);
-                throw new InvalidArgumentException('cannot get rdfa schema type for entity of type ' . $type);
+                throw new InvalidArgumentException('Cannot get rdfa schema type for entity of type ' . $type);
         }
     }
 
@@ -57,7 +57,7 @@ class RdfaSchemaExtension extends Twig_Extension
                 return ($entity->isAudio() ? 'audio' : 'video');
             default:
                 $type = is_object($entity) ? get_class($entity) : gettype($entity);
-                throw new InvalidArgumentException('cannot get rdfa schema type for entity of type ' . $type);
+                throw new InvalidArgumentException('Cannot get rdfa schema type for entity of type ' . $type);
         }
     }
 
@@ -68,7 +68,7 @@ class RdfaSchemaExtension extends Twig_Extension
                 return ($entity->isAudio() ? 'AudioObject' : 'VideoObject');
             default:
                 $type = is_object($entity) ? get_class($entity) : gettype($entity);
-                throw new InvalidArgumentException('cannot get rdfa schema type for entity of type ' . $type);
+                throw new InvalidArgumentException('Cannot get rdfa schema type for entity of type ' . $type);
         }
     }
 }
