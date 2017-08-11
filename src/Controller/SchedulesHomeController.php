@@ -36,13 +36,35 @@ class SchedulesHomeController extends BaseController
 
         $decades = range($earliestDecade, $latestDecade, 10);
 
+        // https://jira.dev.bbc.co.uk/browse/PROGRAMMES-5792
+        $blacklist = [
+            'p00v5fbq', // BBC WORLD NEWS
+            'p00qvyk4', // BBC Radio Events Stream 1
+            'p00qvyjs', // BBC Radio Events Stream 2
+            'p03yncmk', // BBC Persian TV
+            'p05b88kr', // BBC Korean Radio
+            'p05b8bdk', // BBC Amharic
+            'p05b89mh', // BBC Omoro
+            'p05b8b67', // BBC Tigrinya
+            'p02yxxwj', // BBC World Service ANR
+            'p02yxxfc', // BBC World Service Core
+            'p02y9sgt', // BBC World Service News Internet
+            'p02yxy62', // BBC World Service US Public Radio
+            'p00hwfhp', // BBC WORLD NEWS Americas
+            'p00fzlgd', // Radio 10
+        ];
+
         foreach ($services as $service) {
+            /** @var Service $service */
             // We only care about services with a startDate
             if (!$service->getStartDate()) {
                 continue;
             }
 
-            /** @var Service $service */
+            if (in_array((string) $service->getPid(), $blacklist)) {
+                continue;
+            }
+
             $network = $service->getNetwork();
             $groupKey = $this->groupKeyForService($service);
 
