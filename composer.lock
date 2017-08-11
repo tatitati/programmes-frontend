@@ -345,12 +345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "0f51b43369dab5d7b144591297a25b67b070bec7"
+                "reference": "6dd4cebb931a67b098f0e609c8eb189017d45246"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/0f51b43369dab5d7b144591297a25b67b070bec7",
-                "reference": "0f51b43369dab5d7b144591297a25b67b070bec7",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/6dd4cebb931a67b098f0e609c8eb189017d45246",
+                "reference": "6dd4cebb931a67b098f0e609c8eb189017d45246",
                 "shasum": ""
             },
             "require": {
@@ -364,7 +364,7 @@
             "require-dev": {
                 "cakephp/chronos": "^1.1",
                 "doctrine/data-fixtures": "^1.2",
-                "escapestudios/symfony2-coding-standard": "^2.9",
+                "endouble/symfony3-custom-coding-standard": "^2.17",
                 "phpstan/phpstan": "^0.8.0",
                 "phpunit/phpunit": "^6.1",
                 "squizlabs/php_codesniffer": "^2.9",
@@ -392,7 +392,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-08-10 10:43:59"
+            "time": "2017-08-11 10:11:51"
         },
         {
             "name": "behat/transliterator",
