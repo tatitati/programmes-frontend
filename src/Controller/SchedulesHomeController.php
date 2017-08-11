@@ -118,7 +118,8 @@ class SchedulesHomeController extends BaseController
 
     private function groupKeyForService(Service $service): string
     {
-        if ($service->getEndDate()) {
+        $endDate = $service->getEndDate();
+        if ($endDate && $endDate->isPast()) {
             return 'Historic';
         }
 
