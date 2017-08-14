@@ -10,13 +10,13 @@ use App\Exception\InvalidOptionException;
 abstract class BasePresenter
 {
     /** @var array */
+    protected static $presenterNameCache = [];
+
+    /** @var array */
+    protected static $templatePathCache = [];
+
+    /** @var array */
     protected $options = [];
-
-    /** @var string */
-    protected $templatePath;
-
-    /** @var string */
-    private $templateVariableName;
 
     /** @var string */
     protected $uniqueId;
@@ -32,16 +32,17 @@ abstract class BasePresenter
      */
     public function getTemplatePath(): string
     {
-        if (!$this->templatePath) {
-            $classPath = str_replace('App\\Ds' . $this->getDesignSystem() . '\\', '', static::class);
+        if (!isset(self::$templatePathCache[static::class])) {
+            $designSystem = $this->getDesignSystem();
+            $classPath = str_replace('App\\Ds' . $designSystem . '\\', '', static::class);
 
             $parts = implode('/', explode('\\', $classPath, -1));
-            $pathPrefix = '@Ds' . $this->getDesignSystem() . '/' . $parts . ($parts ? '/' : '');
+            $pathPrefix = '@Ds' . $designSystem . '/' . $parts . ($parts ? '/' : '');
 
-            $this->templatePath = $pathPrefix . static::snakeCasePresenterName() . '.html.twig';
+            self::$templatePathCache[static::class] = $pathPrefix . static::snakeCasePresenterName() . '.html.twig';
         }
 
-        return $this->templatePath;
+        return self::$templatePathCache[static::class];
     }
 
     /**
@@ -52,11 +53,7 @@ abstract class BasePresenter
      */
     public function getTemplateVariableName(): string
     {
-        if (!$this->templateVariableName) {
-            $this->templateVariableName = static::snakeCasePresenterName();
-        }
-
-        return $this->templateVariableName;
+        return static::snakeCasePresenterName();
     }
 
     public function getOption($keyOption)
@@ -109,16 +106,19 @@ abstract class BasePresenter
      */
     protected static function snakeCasePresenterName(): string
     {
-        $namespaceEnd = strrpos(static::class, '\\');
-        $shortClassName = substr(static::class, $namespaceEnd + ($namespaceEnd ? 1: 0));
+        if (!isset(self::$presenterNameCache[static::class])) {
+            $namespaceEnd = strrpos(static::class, '\\');
+            $shortClassName = substr(static::class, $namespaceEnd + ($namespaceEnd ? 1: 0));
 
-        // Trim the class name from the word 'Presenter'
-        $presenterName = substr($shortClassName, 0, strpos($shortClassName, 'Presenter'));
+            // Trim the class name from the word 'Presenter'
+            $presenterName = substr($shortClassName, 0, strpos($shortClassName, 'Presenter'));
 
-        return strtolower(preg_replace(
-            ["/([A-Z]+)/", "/_([A-Z]+)([A-Z][a-z])/"],
-            ["_$1", "_$1_$2"],
-            lcfirst($presenterName)
-        ));
+            self::$presenterNameCache[static::class] = strtolower(preg_replace(
+                ["/([A-Z]+)/", "/_([A-Z]+)([A-Z][a-z])/"],
+                ["_$1", "_$1_$2"],
+                lcfirst($presenterName)
+            ));
+        }
+        return self::$presenterNameCache[static::class];
     }
 }
