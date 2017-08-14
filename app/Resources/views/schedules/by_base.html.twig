@@ -1,6 +1,6 @@
 {% extends 'base_ds2013.html.twig' %}
 
-{% block title %}{{ meta_context.titlePrefix }} - {{ tr('schedules') }}, {{ block('date') }}{% endblock %}
+{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('schedules') }}, {{ block('date') }}{% endblock %}
 
 {% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
 
@@ -10,7 +10,7 @@
         <h1>
             <span class="visually-hidden">
                 <span class="outlet">
-                    {{ tr('schedule_title', {'%1': service.name}) }}
+                    {{ tr('schedule_title', {'%1': service.getName()}) }}
                 </span>
             </span>
             <time class="date">

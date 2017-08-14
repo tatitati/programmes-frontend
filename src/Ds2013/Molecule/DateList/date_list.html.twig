@@ -1,5 +1,5 @@
-<ol class="nav nav--banner date-list {{ date_list.option('css_classes') }}">
+<ol class="nav nav--banner date-list {{ date_list.getOption('css_classes') }}">
     {%- for offset in -7..7 -%}
-        {{ ds2013_presenter(date_list.dateListItem(offset)) }}
+        {{ ds2013_presenter(date_list.getDateListItem(offset)) }}
     {%- endfor -%}
 </ol>

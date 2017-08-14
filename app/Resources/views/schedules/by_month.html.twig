@@ -10,17 +10,17 @@
 
 {%- block header_links -%}
     <p class="pull--right islet--vertical no-margin-vertical delta">
-        <a href="{{ path('schedules_by_year', {pid: service.pid, year: first_of_month|local_date('Y')}) }}">{{ tr('schedules_this_year') }}</a>
+        <a href="{{ path('schedules_by_year', {pid: service.getPid(), year: first_of_month|local_date('Y')}) }}">{{ tr('schedules_this_year') }}</a>
     </p>
 {%- endblock -%}
 
 {%- block schedule -%}
-    {%- if service.startDate and first_of_month.endOfMonth.lte(service.startDate) -%}
-        {%- set url = path('schedules_by_day', {pid: service.pid, date: service.startDate|local_date('Y-m-d')}) -%}
-        <p class="noschedule">{{ tr('schedule_begins_on', {'%1': '<a href="' ~ url ~ '">' ~ service.startDate|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
-    {%- elseif service.endDate and first_of_month.startOfMonth.gt(service.endDate) -%}
-        {%- set url = path('schedules_by_day', {pid: service.pid, date: service.endDate|local_date('Y-m-d')}) -%}
-        <p class="noschedule">{{ tr('schedule_ended_on', {'%1': '<a href="' ~ url ~ '">' ~ service.endDate|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
+    {%- if service.getStartDate() and first_of_month.endOfMonth().lte(service.getStartDate()) -%}
+        {%- set url = path('schedules_by_day', {pid: service.getPid(), date: service.getStartDate()|local_date('Y-m-d')}) -%}
+        <p class="noschedule">{{ tr('schedule_begins_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getStartDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
+    {%- elseif service.getEndDate() and first_of_month.startOfMonth().gt(service.getEndDate()) -%}
+        {%- set url = path('schedules_by_day', {pid: service.getPid(), date: service.getEndDate()|local_date('Y-m-d')}) -%}
+        <p class="noschedule">{{ tr('schedule_ended_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getEndDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
     {%- else -%}
         <p>{{ tr('schedules_calendar_note') }}</p>
         <div class="grid-wrapper">

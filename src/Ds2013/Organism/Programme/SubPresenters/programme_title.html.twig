@@ -1,15 +1,15 @@
 {% import _self as self %}
-{% set title_tag = programme_title.option('title_tag') %}
+{% set title_tag = programme_title.getOption('title_tag') %}
 {% spaceless %}
     <{{ title_tag }} class="programme__titles">
-        <a property="url" href="{{ programme_title.titleLinkUrl }}" resource="{{ programme_title.titleLinkUrl }}" class="br-blocklink__link block-link__target" data-linktrack="programmeobjectlink=title">
-            <span class="programme__title {{ programme_title.option('title_classes') }}">
-                {{ self.render_title(programme_title.mainTitleProgramme, programme_title) }}
+        <a property="url" href="{{ programme_title.getTitleLinkUrl() }}" resource="{{ programme_title.getTitleLinkUrl() }}" class="br-blocklink__link block-link__target" data-linktrack="programmeobjectlink=title">
+            <span class="programme__title {{ programme_title.getOption('title_classes') }}">
+                {{ self.render_title(programme_title.getMainTitleProgramme(), programme_title) }}
             </span>
-            {% if programme_title.option('show_subtitle') and programme_title.subTitlesProgrammes %}
+            {% if programme_title.getOption('show_subtitle') and programme_title.getSubTitlesProgrammes() %}
                 <span class="hidden">&mdash;</span>
                 <span class="programme__subtitle centi">
-                    {%- for subtitleProgramme in programme_title.subTitlesProgrammes -%}
+                    {%- for subtitleProgramme in programme_title.getSubTitlesProgrammes() -%}
                         {{ not loop.first ? ', ' }}{{ self.render_title(subtitleProgramme, programme_title) }}
                     {%- endfor -%}
                 </span>
@@ -20,12 +20,12 @@
 
 {% macro render_title(programme, presenter) %}
 {% spaceless %}
-    {%- if programme.pid != presenter.programme.pid -%} {# Do not print RDFa schema for current programme that already has it #}
-        <span property="isPartOf" typeof="{{ rdfa_schema_programme_typeof(programme) }}" resource="http://www.bbc.co.uk/programmes/{{ programme.pid }}" >
-            <span property="name">{{ truncate(programme.title, presenter.option('truncation_length'))}}</span>
+    {%- if programme.getPid() != presenter.getProgramme().getPid() -%} {# Do not print RDFa schema for current programme that already has it #}
+        <span property="isPartOf" typeof="{{ rdfa_schema_programme_typeof(programme) }}" resource="http://www.bbc.co.uk/programmes/{{ programme.getPid() }}" >
+            <span property="name">{{ truncate(programme.getTitle(), presenter.getOption('truncation_length'))}}</span>
         </span>
     {%- else -%}
-        <span property="name">{{ truncate(programme.title, presenter.option('truncation_length'))}}</span>
+        <span property="name">{{ truncate(programme.getTitle(), presenter.getOption('truncation_length'))}}</span>
     {%- endif -%}
 {% endspaceless %}
 {% endmacro %}

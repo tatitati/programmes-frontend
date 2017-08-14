@@ -1,12 +1,12 @@
 {% import _self as self %}
 
 <table class="calendar-table">
-    <caption class="br-box-highlight {{ calendar.option('hide_caption') ? 'visually-hidden' }}">
-        <span class="beta">{{ calendar.firstOfMonth|local_date_intl('MMMM yyyy') }}</span>
+    <caption class="br-box-highlight {{ calendar.getOption('hide_caption') ? 'visually-hidden' }}">
+        <span class="beta">{{ calendar.getFirstOfMonth()|local_date_intl('MMMM yyyy') }}</span>
     </caption>
     <thead>
     <tr>
-        {% set startOfCalendar = calendar.firstOfMonth.startOfWeek %}
+        {% set startOfCalendar = calendar.getFirstOfMonth().startOfWeek() %}
         {%- for offset in 0..6 -%}
             {% set day = startOfCalendar.addDays(offset) %}
             <th scope="col" class="days">
@@ -19,7 +19,7 @@
     {%- for week in 0..5 -%}
         <tr>
             {%- for day in 0..6 -%}
-                {{ self.dayCell(calendar.firstOfMonth, week, day, calendar.pid) }}
+                {{ self.dayCell(calendar.getFirstOfMonth(), week, day, calendar.getPid()) }}
             {%- endfor -%}
         </tr>
     {%- endfor -%}
@@ -27,7 +27,7 @@
 </table>
 
 {% macro dayCell(firstOfMonth, week, day, pid) %}
-    {% set date = firstOfMonth.startOfWeek.addDays((week*7) + day) %}
+    {% set date = firstOfMonth.startOfWeek().addDays((week*7) + day) %}
     <td class="{{ firstOfMonth.format('m') == date.format('m') ? 'br-box-highlight' : 'br-box-subtle' }} br-page-bg-onborder"
         datatype="xsd:date" content="{{ date|local_date('Y-m-d') }}">
         <a class="box-link"

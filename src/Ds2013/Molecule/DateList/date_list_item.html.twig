@@ -1,21 +1,21 @@
 {% spaceless %}
     {% set li_classes = build_css_classes({
         'date-list__page': true,
-        ('date-list__page--offset' ~ date_list_item.offset|abs): true,
-        'date-list__page--first': date_list_item.offset == -7,
-        'date-list__page--last': date_list_item.offset == 7,
-        'date-list__page--current': (date_list_item.offset == 0),
+        ('date-list__page--offset' ~ date_list_item.getOffset()|abs): true,
+        'date-list__page--first': date_list_item.getOffset() == -7,
+        'date-list__page--last': date_list_item.getOffset() == 7,
+        'date-list__page--current': (date_list_item.getOffset() == 0),
     }) %}
 
     {% set item_classes = build_css_classes({
-        'br-page-bg-onbg--hover br-page-linkhover-ontext--hover': date_list_item.isLink,
-        'br-box-page': date_list_item.offset == 0,
-        'text--faded': date_list_item.offset != 0 and not date_list_item.isLink,
+        'br-page-bg-onbg--hover br-page-linkhover-ontext--hover': date_list_item.isLink(),
+        'br-box-page': date_list_item.getOffset() == 0,
+        'text--faded': date_list_item.getOffset() != 0 and not date_list_item.isLink(),
     }) %}
 
     <li class="{{ li_classes }}">
-        {% if date_list_item.isLink %}
-            <a href="{{ date_list_item.link }}"
+        {% if date_list_item.isLink() %}
+            <a href="{{ date_list_item.getLink() }}"
                class="{{ item_classes }}" {{ item_attributes is defined ? item_attributes|raw : ''}}>
                 {{ block('date_lines') }}
             </a>

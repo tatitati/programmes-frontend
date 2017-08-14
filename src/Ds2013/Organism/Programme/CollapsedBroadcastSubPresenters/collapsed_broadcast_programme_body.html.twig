@@ -2,30 +2,30 @@
 {% import _self as self %}
 {%- block synopsis_extra -%}
     {# Add an indicator showing whether this is a repeat if we have a collapsed broadcast #}
-    {%- if programme_body.isRepeat -%}
+    {%- if programme_body.isRepeat() -%}
         <abbr class="repeat" title="{{ tr('repeats', 1) }}">({{ tr('repeat_abbr') }})</abbr>
     {%- endif -%}
 {%- endblock -%}
 {%- block body_extra -%}
     {# Add a rewind/watch live link if collapsed broadcast is watchable live #}
-    {%- if programme_body.isWatchableLive -%}
-        {%- if programme_body.programme.isTv -%}
-            {{ self.render_live_link(programme_body.rewindUrl, programme_body.translatePlayFromStart, 'live-restart', true) }}
-        {%- elseif programme_body.isWorldServiceForeignLanguage -%}
-            {{ self.render_live_link(programme_body.simulcastUrl, programme_body.translatePlayLive, 'listen', false) }}
-        {%- elseif programme_body.programme.isRadio -%}
-            {{ self.render_live_link(programme_body.simulcastUrl, programme_body.translatePlayLive, 'pop-out', true) }}
-            {% if programme_body.option('context_service') %}
+    {%- if programme_body.isWatchableLive() -%}
+        {%- if programme_body.getProgramme().isTv() -%}
+            {{ self.render_live_link(programme_body.getRewindUrl(), programme_body.translatePlayFromStart(), 'live-restart', true) }}
+        {%- elseif programme_body.isWorldServiceForeignLanguage() -%}
+            {{ self.render_live_link(programme_body.getSimulcastUrl(), programme_body.translatePlayLive(), 'listen', false) }}
+        {%- elseif programme_body.getProgramme().isRadio() -%}
+            {{ self.render_live_link(programme_body.getSimulcastUrl(), programme_body.translatePlayLive(), 'pop-out', true) }}
+            {% if programme_body.getOption('context_service') %}
                 <p class="programme__live hidden@bpw">
-                    <a href="/radio/stations/{{ programme_body.option('context_service').urlKey }}">
-                        {{ programme_body.translatePlayLive }}
-                    </a> ({{ tr('programme_homepage', {'%1' : programme_body.option('context_service').name }) }})
+                    <a href="/radio/stations/{{ programme_body.getOption('context_service').getUrlKey() }}">
+                        {{ programme_body.translatePlayLive() }}
+                    </a> ({{ tr('programme_homepage', {'%1' : programme_body.getOption('context_service').getName() }) }})
                 </p>
             {% endif %}
         {%- else -%}
             <p class="programme__live hidden visible@bpw">
-                <a href="{{ programme_body.simulcastUrl }}">
-                    {{ programme_body.translatePlayLive }}
+                <a href="{{ programme_body.getSimulcastUrl() }}">
+                    {{ programme_body.translatePlayLive() }}
                 </a>
             </p>
         {%- endif -%}

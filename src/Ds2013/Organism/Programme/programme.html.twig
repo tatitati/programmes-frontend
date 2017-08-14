@@ -1,11 +1,11 @@
-{% set outer_html_attributes = build_html_attributes(programme.option("outer_html_attributes")) %}
-<div class="{{ build_css_classes(programme.outerDivClasses) }}" typeof="{{ rdfa_schema_programme_typeof(programme.programme) }}" resource="{{ path('find_by_pid', {'pid': programme.programme.pid}) }}" {{ outer_html_attributes | raw}}>
+{% set outer_html_attributes = build_html_attributes(programme.getOption("outer_html_attributes")) %}
+<div class="{{ build_css_classes(programme.getOuterDivClasses()) }}" typeof="{{ rdfa_schema_programme_typeof(programme.getProgramme()) }}" resource="{{ path('find_by_pid', {'pid': programme.getProgramme().getPid()}) }}" {{ outer_html_attributes | raw}}>
     {# Render programme image and overlay #}
-    {{ ds2013_presenter(programme.programmeImagePresenter) }}
+    {{ ds2013_presenter(programme.getProgrammeImagePresenter()) }}
     <div class="programme__body">
         {# Render main title and subtitles with links and RDFa data #}
-        {{ ds2013_presenter(programme.programmeTitlePresenter) }}
+        {{ ds2013_presenter(programme.getProgrammeTitlePresenter()) }}
         {# Render additional body content #}
-        {{ ds2013_presenter(programme.programmeBodyPresenter) }}
+        {{ ds2013_presenter(programme.getProgrammeBodyPresenter()) }}
     </div>
 </div>

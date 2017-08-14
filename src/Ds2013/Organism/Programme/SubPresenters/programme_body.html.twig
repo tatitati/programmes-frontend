@@ -1,23 +1,23 @@
-{% if programme_body.option('show_synopsis') %}
+{% if programme_body.getOption('show_synopsis') %}
     <p class="programme__synopsis text--subtle centi">
-        {% if programme_body.hasDefinedPositionUnderParentProgramme %}
+        {% if programme_body.hasDefinedPositionUnderParentProgramme() %}
             {% set position_text = tr('episode_number', {
-                '%1': programme_body.programme.position,
-                '%2': programme_body.programme.parent.expectedChildCount,
+                '%1': programme_body.getProgramme().getPosition(),
+                '%2': programme_body.getProgramme().getParent().getExpectedChildCount(),
             }) %}
             {% spaceless %}
                 <abbr title="{{ position_text }}">
-                    <span property="position" datatype="xsd:int">{{ programme_body.programme.position }}</span>/<span class="programme__groupsize">{{ programme_body.programme.parent.expectedChildCount }}</span>
+                    <span property="position" datatype="xsd:int">{{ programme_body.getProgramme().getPosition() }}</span>/<span class="programme__groupsize">{{ programme_body.getProgramme().getParent().getExpectedChildCount() }}</span>
                 </abbr>
             {% endspaceless %}
         {% endif %}
-        <span property="description">{{ truncate(programme_body.programme.shortSynopsis, programme_body.synopsisTruncationLength) }}</span>
+        <span property="description">{{ truncate(programme_body.getProgramme().getShortSynopsis(), programme_body.getSynopsisTruncationLength()) }}</span>
         {% block synopsis_extra %}{% endblock %}
     </p>
 {% endif %}
-{% if programme_body.shouldShowDuration %}
+{% if programme_body.shouldShowDuration() %}
     <p class="programme__service micro">
-        {{ tr('duration', {'%1': programme_body.durationInWords }) }}
+        {{ tr('duration', {'%1': programme_body.getDurationInWords() }) }}
     </p>
 {% endif %}
 {# This exists solely to be extended. @TODO revisit once this is more fleshed out #}

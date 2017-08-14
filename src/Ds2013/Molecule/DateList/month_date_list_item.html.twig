@@ -2,9 +2,9 @@
 
 {%- block date_lines -%}
     <span class="date-list__item-line1">
-        {{ date_list_item.datetime|local_date_intl('MMM') }}
+        {{ date_list_item.getDatetime()|local_date_intl('MMM') }}
     </span>
     <span class="date-list__item-line2">
-        {{ date_list_item.datetime|local_date('Y') }}
+        {{ date_list_item.getDatetime()|local_date('Y') }}
     </span>
 {% endblock %}

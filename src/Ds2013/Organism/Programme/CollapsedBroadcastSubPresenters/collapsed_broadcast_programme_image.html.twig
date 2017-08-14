@@ -1,13 +1,13 @@
 {% extends "@Ds2013/Organism/Programme/SubPresenters/programme_image.html.twig" %}
 {# Note the the presenter here is programme_image to match the parent, this is overriden in BroadcastProgrammeImagePresetner->getTemplateVariableName() #}
 {% block overlay %}
-    {% if programme_image.option('show_overlay') and programme_image.isWatchableLive %}
-        {% set branding_context = programme_image.option('branding_context') %}
+    {% if programme_image.getOption('show_overlay') and programme_image.isWatchableLive() %}
+        {% set branding_context = programme_image.getOption('branding_context') %}
         {% spaceless %}
         <div class="programme__overlay programme__overlay--live">
-            <a href="{{ programme_image.simulcastUrl }}" class="programme__availability iplayer-icon--container" data-linktrack="programmeobjectlink=cta">
+            <a href="{{ programme_image.getSimulcastUrl() }}" class="programme__availability iplayer-icon--container" data-linktrack="programmeobjectlink=cta">
                 <div class="programme__icon br-box-{{ branding_context }} iplayer-icon iplayer-icon--boxed">
-                    {{ gelicon('audio-visual', programme_image.mediaIconName, 'half-container') }}
+                    {{ gelicon('audio-visual', programme_image.getMediaIconName(), 'half-container') }}
                 </div>
                 <div class="programme__overlay-data br-box-{{ branding_context }} br-{{ branding_context }}-bg-onbg080">
                     <div class="programme__time-remaining micro">{{ programme_image.translatePlayLive() }}</div>

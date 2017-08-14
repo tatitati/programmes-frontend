@@ -21,7 +21,7 @@
                         {# Network has only one service, so link directly to it, rather than showing a hierarchy #}
                         {{ self.row(network.services[0], "sch-network-name gamma")}}
                     {% else %}
-                        <div class="sch-network-name gamma">{{ network.network.name }}</div>
+                        <div class="sch-network-name gamma">{{ network.network.getName() }}</div>
                         {% for service in network.services %}
                             {{ self.row(service, "sch-service-name delta")}}
                         {% endfor %}
@@ -33,10 +33,10 @@
 {% endblock %}
 
 {% macro row(service, nameClasses) %}
-    <a class="sch-service-row deemphasize" href="{{ path('schedules_by_day', { pid : service.service.pid }) }}">
-        <div class="{{ nameClasses }}">{{ service.service.shortName }}</div>
+    <a class="sch-service-row deemphasize" href="{{ path('schedules_by_day', { pid : service.service.getPid() }) }}">
+        <div class="{{ nameClasses }}">{{ service.service.getShortName() }}</div>
         <div class="sch-duration">
-            <div class="sch-duration__bar" title="{{ service.service.startDate|local_date('Y-m-d') }} till {{ service.service.endDate ? service.service.endDate|local_date('Y-m-d') : 'present' }}" style="width:{{ service.width }}%; margin-left: {{ service.offset }}%"></div>
+            <div class="sch-duration__bar" title="{{ service.service.getStartDate()|local_date('Y-m-d') }} till {{ service.service.getEndDate() ? service.service.getEndDate()|local_date('Y-m-d') : 'present' }}" style="width:{{ service.width }}%; margin-left: {{ service.offset }}%"></div>
         </div>
     </a>
 {% endmacro %}

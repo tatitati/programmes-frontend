@@ -1,40 +1,40 @@
 {%- set title_classes = build_css_classes({
     'grid': true,
-    '1/2@bpw2 1/2@bpe': schedules_by_day_page.hasSiblingServiceLink,
+    '1/2@bpw2 1/2@bpe': schedules_by_day_page.hasSiblingServiceLink(),
 }) -%}
 
 <div class="grid-wrapper">
     <div class="{{ title_classes }}">
         <p class="beta">
-            {%- if schedules_by_day_page.hasSiblingServiceLink and schedules_by_day_page.service.name != schedules_by_day_page.service.network.name -%}
-                {{- tr('schedule_title', {'%1': schedules_by_day_page.service.shortName}) -}}
+            {%- if schedules_by_day_page.hasSiblingServiceLink() and schedules_by_day_page.getService().getName() != schedules_by_day_page.getService().getNetwork().getName() -%}
+                {{- tr('schedule_title', {'%1': schedules_by_day_page.getService().getShortName()}) -}}
             {% else %}
                 {{- tr('schedules', 1) -}}
             {%- endif -%}
         </p>
     </div>
-    {% if schedules_by_day_page.hasSiblingServiceLink %}
+    {% if schedules_by_day_page.hasSiblingServiceLink() %}
          <div class="grid 1/2@bpw2 1/2@bpe">
             <div class="bpw-text--right">
-                {% set link = schedules_by_day_page.twinServicePid ? path('schedules_by_day', {
-                    'pid': schedules_by_day_page.twinServicePid,
-                    'date': schedules_by_day_page.routeDate,
+                {% set link = schedules_by_day_page.getTwinServicePid() ? path('schedules_by_day', {
+                    'pid': schedules_by_day_page.getTwinServicePid(),
+                    'date': schedules_by_day_page.getRouteDate(),
                 }) : '#outlets' %}
-                <a href="{{ link }}" class="delta">{{ tr(schedules_by_day_page.siblingServicesLinkMessage, {'%1': schedules_by_day_page.siblingServicesLinkName}) }}</a>
+                <a href="{{ link }}" class="delta">{{ tr(schedules_by_day_page.getSiblingServicesLinkMessage(), {'%1': schedules_by_day_page.getSiblingServicesLinkName()}) }}</a>
             </div>
          </div>
     {% endif %}
 </div>
 
-{% if schedules_by_day_page.hasJumpLinks %}
+{% if schedules_by_day_page.hasJumpLinks() %}
     <div class="g-c-l">
         <div class="schedules-jump island micro">
             <span class="pull--left schedules-jump__title">{{ tr('skip_to') }}: </span>
             <ul class="schedules-jump__links nav nav--piped">
-                {%- if schedules_by_day_page.onAirBroadcast -%}
+                {%- if schedules_by_day_page.getOnAirBroadcast() -%}
                     <li><a href="#on-now">{{ tr('on_air') }}</a></li>
                 {%- endif -%}
-                {%- for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay -%}
+                {%- for period_name, broadcast_in_period in schedules_by_day_page.getBroadcastsGroupedByPeriodOfDay() -%}
                     {%- if broadcast_in_period -%}
                         <li><a href="#{{ period_name }}">{{ tr('schedules_period_' ~ period_name) }}</a></li>
                     {%- endif -%}
@@ -44,19 +44,19 @@
     </div>
 {% endif %}
 
-{% if schedules_by_day_page.hasBroadcasts %}
+{% if schedules_by_day_page.hasBroadcasts() %}
     <ol class="list-unstyled g-c-l">
         {% set onairshown = false %}
         {% set showBackToTop = false %}
-        {% for period_name, broadcast_in_period in schedules_by_day_page.BroadcastsGroupedByPeriodOfDay %}
+        {% for period_name, broadcast_in_period in schedules_by_day_page.getBroadcastsGroupedByPeriodOfDay() %}
             <li id="{{ period_name }}" class="schedule-skip-link">
                 {% if showBackToTop %}
                     <a class="pull--right micro link-complex"
                        href="#">{{ gelicon('basics', 'to-top', 'centi', 'leading') }}<span
                             class="link-complex__target">{{ tr('back_to_top_of_page') }}</span></a>
                 {% endif %}
-                {% set showBackToTop = schedules_by_day_page.hasJumpLinks %}
-                {% if schedules_by_day_page.hasPeriodHeadings %}
+                {% set showBackToTop = schedules_by_day_page.hasJumpLinks() %}
+                {% if schedules_by_day_page.hasPeriodHeadings() %}
                     <h2 class="delta text--shout island--horizontal component">{{ tr('schedules_period_' ~ period_name) }}</h2>
                 {% endif %}
                 <ol class="highlight-box-wrapper">
@@ -64,9 +64,9 @@
                     {% for broadcast in broadcast_in_period %}
                         {% set onairattributes = '' %}
                         {% set collapsed_broadcast = null %}
-                        {% if broadcast.isOnAir and not onairshown %}
+                        {% if broadcast.isOnAir() and not onairshown %}
                             {% set onairattributes = 'id=on-now class=schedule-skip-link-on-now' %}
-                            {% set collapsed_broadcast = schedules_by_day_page.liveCollapsedBroadcast %}
+                            {% set collapsed_broadcast = schedules_by_day_page.getLiveCollapsedBroadcast() %}
                             {% set onairshown = true %}
                         {% endif %}
                         <li {{ onairattributes }}>
@@ -81,30 +81,30 @@
     </ol>
 {% else %}
     <p class="noschedule">
-        {% if schedules_by_day_page.service.startDate and schedules_by_day_page.broadcastDayStart.endOfDay.lte(schedules_by_day_page.service.startDate) %}
-            {{ tr('schedule_begins_on', {'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': schedules_by_day_page.service.startDate|local_date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.service.startDate|local_date("l j F Y") ~ '</a>'})|raw }}
-        {% elseif schedules_by_day_page.service.endDate and schedules_by_day_page.broadcastDayStart.startOfDay.gt(schedules_by_day_page.service.endDate) %}
-            {{ tr('schedule_ended_on',{'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': schedules_by_day_page.service.endDate|local_date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.service.endDate|local_date("l j F Y") ~ '</a>'})|raw }}
+        {% if schedules_by_day_page.getService().getStartDate() and schedules_by_day_page.getBroadcastDayStart().endOfDay().lte(schedules_by_day_page.getService().getStartDate()) %}
+            {{ tr('schedule_begins_on', {'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': schedules_by_day_page.getService().getStartDate()|local_date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.getService().getStartDate()|local_date("l j F Y") ~ '</a>'})|raw }}
+        {% elseif schedules_by_day_page.getService().getEndDate() and schedules_by_day_page.getBroadcastDayStart().startOfDay().gt(schedules_by_day_page.getService().getEndDate()) %}
+            {{ tr('schedule_ended_on',{'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': schedules_by_day_page.getService().getEndDate()|local_date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.getService().getEndDate()|local_date("l j F Y") ~ '</a>'})|raw }}
         {% else %}
             {{ tr('schedules_no_result') }}
         {% endif %}
     </p>
 {% endif %}
 
-{% if schedules_by_day_page.service.isActiveAt(schedules_by_day_page.broadcastDayStart.addDay) %}
+{% if schedules_by_day_page.getService().isActiveAt(schedules_by_day_page.getBroadcastDayStart().addDay()) %}
     <div class="g-c-l">
         <p class="tomorrow-bar">
-            {%- set nextDay = schedules_by_day_page.BroadcastDayStart.addDays(1) -%}
-            {% if schedules_by_day_page.service.isInternational %}
+            {%- set nextDay = schedules_by_day_page.getBroadcastDayStart().addDays(1) -%}
+            {% if schedules_by_day_page.getService().isInternational() %}
                 {%- set attributes = build_html_attributes({'data-href-add-utcoffset' : 'true'}) -%}
             {% else %}
                 {%- set attributes = '' -%}
             {% endif %}
             <a class="tomorrow-bar--link island bpw-islet text--no-ul text--right br-page-linkhover-onbg015 br-page-linkhover-onbg--hover br-page-bg-ontext--hover"
-               href="{{ path('schedules_by_day', {'pid': schedules_by_day_page.service.pid, 'date': nextDay.format('Y-m-d')}) }}" {{ attributes }}>
-                {%- if nextDay.isTomorrow -%}
+               href="{{ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': nextDay.format('Y-m-d')}) }}" {{ attributes }}>
+                {%- if nextDay.isTomorrow() -%}
                     {{ tr('schedules_tomorrow') }}
-                {%- elseif nextDay.isToday -%}
+                {%- elseif nextDay.isToday() -%}
                     {{ tr('schedules_today') }}
                 {%- else -%}
                     {{ nextDay|local_date_intl('EEEE d MMMM yyyy') }}
@@ -116,24 +116,24 @@
 {% endif %}
 
 <div class="island--vertical">
-    {%- if schedules_by_day_page.otherNetworks -%}
+    {%- if schedules_by_day_page.getOtherNetworks() -%}
         <ul class="tv-channels component nav">
-            {%- for network in schedules_by_day_page.otherNetworks -%}
+            {%- for network in schedules_by_day_page.getOtherNetworks() -%}
                 {%- set classes = build_css_classes({
                     'tv-channels__item': true,
-                    ('tv-channels__item--' ~ network.nid) : true,
-                    'tv-channels__item--active' : (schedules_by_day_page.service.network.nid == network.nid)
+                    ('tv-channels__item--' ~ network.getNid()) : true,
+                    'tv-channels__item--active' : (schedules_by_day_page.getService().getNetwork().getNid() == network.getNid())
                 }) -%}
                 <li class="tv-channels__listitem">
                     <a class="{{ classes }}"
-                       href="{{ path('schedules_by_day', {'pid': network.defaultService.pid, 'date': schedules_by_day_page.routeDate}) }}">
-                        <span class="visually-hidden">{{ network.defaultService.name }}</span>
+                       href="{{ path('schedules_by_day', {'pid': network.getDefaultService().getPid(), 'date': schedules_by_day_page.getRouteDate()}) }}">
+                        <span class="visually-hidden">{{ network.getDefaultService().getName() }}</span>
                     </a>
                 </li>
             {%- endfor -%}
         </ul>
     {%- endif -%}
-    {%- if schedules_by_day_page.service.isTv -%}
+    {%- if schedules_by_day_page.getService().isTv() -%}
         <ul class="nav nav--piped text--right">
             <li>
                 <a class="deemphasize" href="/showsandtours/">Shows &amp; Tours</a>
@@ -145,19 +145,19 @@
     {%- endif -%}
 </div>
 
-{% if schedules_by_day_page.hasSiblingServiceList %}
+{% if schedules_by_day_page.hasSiblingServiceList() %}
     <div class="island--vertical">
-        <h2>{{ tr(schedules_by_day_page.servicesHeadingMessage) }}</h2>
+        <h2>{{ tr(schedules_by_day_page.getServicesHeadingMessage()) }}</h2>
         <div id="outlets" class="schedule-variant-outlets">
             <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
-                {%- for service in schedules_by_day_page.servicesInNetwork -%}
+                {%- for service in schedules_by_day_page.getServicesInNetwork() -%}
                     <li>
-                        {%- if service.pid == schedules_by_day_page.service.pid -%}
-                            <span class="box-link">{{ service.shortName }}</span>
+                        {%- if service.getPid() == schedules_by_day_page.getService().getPid() -%}
+                            <span class="box-link">{{ service.getShortName() }}</span>
                         {%- else -%}
-                            <a href="{{ path('schedules_by_day', {'pid': service.pid, 'date': schedules_by_day_page.routeDate}) }}"
+                            <a href="{{ path('schedules_by_day', {'pid': service.getPid(), 'date': schedules_by_day_page.getRouteDate()}) }}"
                                data-href-add-utcoffset="true"
-                               class="box-link">{{ service.shortName }}</a>
+                               class="box-link">{{ service.getShortName() }}</a>
                         {%- endif -%}
                     </li>
                 {%- endfor -%}

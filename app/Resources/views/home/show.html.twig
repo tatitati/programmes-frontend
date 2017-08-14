@@ -79,7 +79,7 @@
                 <h3 class="gamma--keyline br-keyline">{{ tr('television_abbr') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw columns--1@bpw2 columns--1@bpe" data-list="tv-networks">
                     {% for network in tv_networks %}
-                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name }}</a></li>
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.getDefaultService().getPid()}) }}">{{ network.getName() }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -87,7 +87,7 @@
                 <h3 class="gamma--keyline br-keyline">{{ tr('national_radio') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw" data-list="national-radio-networks">
                     {% for network in national_radio_networks %}
-                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name|replace({'BBC': ''})|trim }}</a></li>
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.getDefaultService().getPid()}) }}">{{ network.getName()|replace({'BBC': ''})|trim }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -95,7 +95,7 @@
                 <h3 class="gamma--keyline br-keyline">{{ tr('nations_radio') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw columns--1@bpw2 columns--1@bpe" data-list="regional-radio-networks">
                     {% for network in regional_radio_networks %}
-                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name|replace({'BBC': ''})|trim }}</a></li>
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.getDefaultService().getPid()}) }}">{{ network.getName()|replace({'BBC': ''})|trim }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -103,7 +103,7 @@
                 <h3 class="gamma--keyline br-keyline">{{ tr('local_radio') }}</h3>
                 <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw bpw2-columns--4 bpe-columns--4" data-list="local-radio-networks">
                     {% for network in local_radio_networks %}
-                        <li><a href="{{ path('schedules_by_day', {'pid': network.defaultService.pid}) }}">{{ network.name|replace({'BBC': ''})|trim }}</a></li>
+                        <li><a href="{{ path('schedules_by_day', {'pid': network.getDefaultService().getPid()}) }}">{{ network.getName()|replace({'BBC': ''})|trim }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

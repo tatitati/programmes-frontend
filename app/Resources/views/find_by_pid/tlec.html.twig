@@ -2,7 +2,7 @@
 
 {% block html_classes %}b-pw-1280{% endblock %}
 {% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
-{% block title %}{{ meta_context.titlePrefix }}{% endblock %}
+{% block title %}{{ meta_context.titlePrefix() }}{% endblock %}
 {% block adsToDisplay %}leaderboard mpu sponsor{% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
 
     {# TODO Priority Vote block #}
 
-    {% if mapPresenter.showMap %}
+    {% if mapPresenter.showMap() %}
         {{ ds_amen_presenter(mapPresenter) }}
     {% endif %}
 
