@@ -5,6 +5,7 @@ namespace Tests\App;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
 use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
+use App\DsShared\PresenterFactory as DsSharedPresenterFactory;
 use App\Translate\TranslateProvider;
 use App\Twig\DesignSystemPresenterExtension;
 use App\Twig\GelIconExtension;
@@ -35,6 +36,9 @@ class TwigEnvironmentProvider
 
     static private $dsAmenPresenterFactory;
 
+    /** @var DsSharedPresenterFactory */
+    static private $dsSharedPresenterFactory;
+
     public static function twig(): Twig_Environment
     {
         if (self::$twig === null) {
@@ -62,10 +66,20 @@ class TwigEnvironmentProvider
         return self::$dsAmenPresenterFactory;
     }
 
+    public static function dsSharedPresenterFactory(): DsSharedPresenterFactory
+    {
+        if (self::$dsSharedPresenterFactory === null) {
+            self::build();
+        }
+
+        return self::$dsSharedPresenterFactory;
+    }
+
     private static function build(): void
     {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../app/Resources');
         $loader->addPath(__DIR__ . '/../src/Ds2013', 'Ds2013');
+        $loader->addPath(__DIR__ . '/../src/DsShared', 'DsShared');
 
         $twig = new Twig_Environment($loader, ['strict_variables' => true]);
 
@@ -103,10 +117,12 @@ class TwigEnvironmentProvider
         // Set presenter factory for template tests to use.
         self::$ds2013PresenterFactory = new Ds2013PresenterFactory($translateProvider, $router, $helperFactory);
         self::$dsAmenPresenterFactory = new DsAmenPresenterFactory($translateProvider, $router, $helperFactory);
+        self::$dsSharedPresenterFactory = new DsSharedPresenterFactory($translateProvider, $router, $helperFactory);
 
         $twig->addExtension(new DesignSystemPresenterExtension(
             self::$ds2013PresenterFactory,
-            self::$dsAmenPresenterFactory
+            self::$dsAmenPresenterFactory,
+            self::$dsSharedPresenterFactory
         ));
 
         $twig->addExtension(new TranslateAndTimeExtension($translateProvider));

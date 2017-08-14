@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\Ds2013\Molecule\Image;
+namespace Tests\App\DsShared\Molecule\Image;
 
-use App\Ds2013\Molecule\Image\ImagePresenter;
+use App\DsShared\Molecule\Image\ImagePresenter;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

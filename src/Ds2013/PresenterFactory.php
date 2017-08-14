@@ -4,7 +4,6 @@ namespace App\Ds2013;
 
 use App\Ds2013\Molecule\Calendar\CalendarPresenter;
 use App\Ds2013\Molecule\DateList\DateListPresenter;
-use App\Ds2013\Molecule\Image\ImagePresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
@@ -13,7 +12,6 @@ use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\ChronosInterface;
@@ -81,20 +79,6 @@ class PresenterFactory
             $this->router,
             $datetime,
             $service,
-            $options
-        );
-    }
-
-    public function imagePresenter(
-        Image $image,
-        int $defaultWidth,
-        $sizes,
-        array $options = []
-    ): ImagePresenter {
-        return new ImagePresenter(
-            $image,
-            $defaultWidth,
-            $sizes,
             $options
         );
     }

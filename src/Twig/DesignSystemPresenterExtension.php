@@ -1,11 +1,14 @@
 <?php
 declare(strict_types = 1);
+
 namespace App\Twig;
 
 use App\Ds2013\Presenter as Ds2013Presenter;
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
 use App\DsAmen\Presenter as DsAmenPresenter;
 use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
+use App\DsShared\Presenter as DsSharedPresenter;
+use App\DsShared\PresenterFactory as DsSharedPresenterFactory;
 use Twig_Environment;
 use Twig_Extension;
 use Twig_Function;
@@ -18,12 +21,17 @@ class DesignSystemPresenterExtension extends Twig_Extension
     /** @var DsAmenPresenterFactory */
     private $dsAmenPresenterFactory;
 
+    /** @var DsSharedPresenterFactory */
+    private $dsSharedPresenterFactory;
+
     public function __construct(
         Ds2013PresenterFactory $ds2013PresenterFactory,
-        DsAmenPresenterFactory $dsAmenPresenterFactory
+        DsAmenPresenterFactory $dsAmenPresenterFactory,
+        DsSharedPresenterFactory $dsSharedPresenterFactory
     ) {
         $this->ds2013PresenterFactory = $ds2013PresenterFactory;
         $this->dsAmenPresenterFactory = $dsAmenPresenterFactory;
+        $this->dsSharedPresenterFactory = $dsSharedPresenterFactory;
     }
 
     /**
@@ -47,6 +55,15 @@ class DesignSystemPresenterExtension extends Twig_Extension
                 'needs_environment' => true,
             ]),
             new Twig_Function('ds_amen_presenter', [$this, 'dsAmenPresenter'], [
+                'is_safe' => ['html'],
+                'needs_environment' => true,
+            ]),
+            new Twig_Function('ds_shared', [$this, 'dsShared'], [
+                'is_safe' => ['html'],
+                'is_variadic' => true,
+                'needs_environment' => true,
+            ]),
+            new Twig_Function('ds_shared_presenter', [$this, 'dsSharedPresenter'], [
                 'is_safe' => ['html'],
                 'needs_environment' => true,
             ]),
@@ -85,6 +102,25 @@ class DesignSystemPresenterExtension extends Twig_Extension
     public function dsAmenPresenter(
         Twig_Environment $twigEnv,
         DsAmenPresenter $presenter
+    ) {
+        return $twigEnv->render(
+            $presenter->getTemplatePath(),
+            [$presenter->getTemplateVariableName() => $presenter]
+        );
+    }
+
+    public function dsShared(
+        Twig_Environment $twigEnv,
+        string $presenterName,
+        array $presenterArguments = []
+    ): string {
+        $presenter = $this->dsSharedPresenterFactory->{$presenterName . 'Presenter'}(...$presenterArguments);
+        return $this->dsSharedPresenter($twigEnv, $presenter);
+    }
+
+    public function dsSharedPresenter(
+        Twig_Environment $twigEnv,
+        DsSharedPresenter $presenter
     ) {
         return $twigEnv->render(
             $presenter->getTemplatePath(),

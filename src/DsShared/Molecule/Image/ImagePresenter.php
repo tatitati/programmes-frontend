@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace App\Ds2013\Molecule\Image;
+namespace App\DsShared\Molecule\Image;
 
-use App\Ds2013\Presenter;
+use App\DsShared\Presenter;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use InvalidArgumentException;

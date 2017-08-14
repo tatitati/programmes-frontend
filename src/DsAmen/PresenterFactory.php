@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\DsAmen;
 
-use App\DsAmen\Molecule\ResponsiveImage\ResponsiveImagePresenter;
 use App\DsAmen\Organism\Map\MapPresenter;
 use App\DsAmen\Organism\Programme\ProgrammePresenter;
 use App\DsShared\Helpers\HelperFactory;
