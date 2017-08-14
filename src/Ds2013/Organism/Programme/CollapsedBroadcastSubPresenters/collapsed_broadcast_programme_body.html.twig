@@ -10,7 +10,7 @@
     {# Add a rewind/watch live link if collapsed broadcast is watchable live #}
     {%- if programme_body.isWatchableLive() -%}
         {%- if programme_body.getProgramme().isTv() -%}
-            {{ self.render_live_link(programme_body.getRewindUrl(), programme_body.translatePlayFromStart(), 'live-restart', true) }}
+            {{ self.render_live_link(programme_body.rewindUrl(), programme_body.translatePlayFromStart(), 'live-restart', true) }}
         {%- elseif programme_body.isWorldServiceForeignLanguage() -%}
             {{ self.render_live_link(programme_body.getSimulcastUrl(), programme_body.translatePlayLive(), 'listen', false) }}
         {%- elseif programme_body.getProgramme().isRadio() -%}
