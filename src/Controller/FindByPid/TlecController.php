@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
-use App\DsAmen\Organism\Map\MapPresenter;
+use App\DsAmen\PresenterFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 class TlecController extends BaseController
 {
     public function __invoke(
+        PresenterFactory $presenterFactory,
         Request $request,
         ProgrammeContainer $programme,
         ProgrammesService $programmesService,
@@ -44,10 +45,13 @@ class TlecController extends BaseController
         $upcomingEpisodesCount = $collapsedBroadcastsService->countUpcomingByProgramme($programme);
         $mostRecentBroadcast = null;
         if ($upcomingEpisodesCount === 0) {
-            $mostRecentBroadcast = $collapsedBroadcastsService->findPastByProgramme($programme, 1)[0];
+            $pastBroadcasts = $collapsedBroadcastsService->findPastByProgramme($programme, 1);
+            if (!empty($pastBroadcasts)) {
+                $mostRecentBroadcast = $pastBroadcasts[0];
+            }
         }
 
-        $mapPresenter = new MapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast);
+        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast);
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,

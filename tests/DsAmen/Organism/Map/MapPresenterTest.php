@@ -9,6 +9,7 @@ use App\DsAmen\Organism\Map\SubPresenter\LastOnPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\OnDemandPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
+use App\DsShared\Helpers\HelperFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
@@ -21,7 +22,8 @@ class MapPresenterTest extends TestCase
     public function testMapShouldBeShown()
     {
         $programmeContainer = $this->createProgrammeWithEpisodes();
-        $presenter = new MapPresenter(new Request(), $programmeContainer, 0, null);
+        $helperFactor = $this->createMock(HelperFactory::class);
+        $presenter = new MapPresenter(new Request(), $helperFactor, $programmeContainer, 0, null);
         $this->assertTrue($presenter->showMap());
 
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
@@ -91,7 +93,8 @@ class MapPresenterTest extends TestCase
 
     private function createMapPresenter($programmeContainer, int $upcomingEpisodeCount = 0): MapPresenter
     {
-        return new MapPresenter(new Request(), $programmeContainer, $upcomingEpisodeCount, null);
+        $helperFactor = $this->createMock(HelperFactory::class);
+        return new MapPresenter(new Request(), $helperFactor, $programmeContainer, $upcomingEpisodeCount, null);
     }
 
     /**

@@ -35,7 +35,7 @@ class PresenterFactory
 
     public function mapPresenter(Request $request, Programme $programme, int $upcomingEpisodesCount, ?CollapsedBroadcast $mostRecentBroadcast): MapPresenter
     {
-        return new MapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast);
+        return new MapPresenter($request, $this->helperFactory, $programme, $upcomingEpisodesCount, $mostRecentBroadcast);
     }
 
     public function programmePresenter(Programme $programme, array $options = [])

@@ -1,1 +1,12 @@
-<h1>I Я ProgrammeInfo for {{ programme_info.programme.title }}</h1>
+{% if not programme_info.showMiniMap %}
+    {{ ds_shared('image', programme_info.programme.image, 320, programme_info.imagesSizes) }}
+{% endif %}
+<div class="island" vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(programme_info.programme) }}" resource="{{ path('find_by_pid', {'pid': programme_info.programme.pid}) }}">
+    <h1 class="invisible" property="name">{{ programme_info.programme.title }}</h1>
+    <meta property="image" content="{{ programme_info.programme.image.getUrl(480,270) }}"/>
+    {% if programme_info.programme.longestSynopsis %}
+        <div class="gel-long-primer" property="description">
+            {{ programme_info.synopsis|raw }}
+        </div>
+    {% endif %}
+</div>

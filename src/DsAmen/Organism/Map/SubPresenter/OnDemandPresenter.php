@@ -8,6 +8,11 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class OnDemandPresenter extends Presenter
 {
+    /** @var mixed[] */
+    protected $options = [
+        'must_show_tx_column' => false,
+    ];
+
     /** @var Programme */
     private $programme;
 
