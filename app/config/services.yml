@@ -26,6 +26,9 @@ services:
 
     ### Begin the services!
 
+    App\ValueObject\CosmosInfo:
+        arguments: ['%cosmos_component_release%', '%cosmos_environment%']
+
     App\Redis\RedisClusterFactory: ~
 
     App\Controller\ExceptionController:

@@ -11,6 +11,7 @@ class SchedulesByMonthController extends BaseController
 {
     public function __invoke(Service $service, string $date)
     {
+        $this->setIstatsProgsPageType('schedules_month');
         $this->setContext($service);
 
         $firstOfMonth = Chronos::createFromFormat('Y-m|', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();

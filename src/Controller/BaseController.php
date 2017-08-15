@@ -5,6 +5,9 @@ namespace App\Controller;
 
 use App\Branding\BrandingPlaceholderResolver;
 use App\Translate\TranslateProvider;
+use App\ValueObject\AnalyticsCounterName;
+use App\ValueObject\AnalyticsLabels;
+use App\ValueObject\CosmosInfo;
 use App\ValueObject\MetaContext;
 use BBC\BrandingClient\Branding;
 use BBC\BrandingClient\BrandingClient;
@@ -34,6 +37,10 @@ abstract class BaseController extends AbstractController
 
     private $response;
 
+    private $istatsExtraLabels;
+
+    private $istatsProgsPageType;
+
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -42,6 +49,7 @@ abstract class BaseController extends AbstractController
             BrandingPlaceholderResolver::class,
             OrbitClient::class,
             TranslateProvider::class,
+            CosmosInfo::class,
         ]);
     }
 
@@ -94,6 +102,7 @@ abstract class BaseController extends AbstractController
 
     protected function renderWithChrome(string $view, array $parameters = [])
     {
+        $appVersion = $this->container->get(CosmosInfo::class)->getAppVersion();
         $branding = $this->requestBranding();
 
         // We only need to change the translation language if it is different
@@ -103,12 +112,17 @@ abstract class BaseController extends AbstractController
 
         $translateProvider->setLocale($locale);
 
+        // use controller name if this isn't set
+        $this->istatsProgsPageType =  $this->istatsProgsPageType ?? $this->request()->attributes->get('_controller');
+
         $orb = $this->container->get(OrbitClient::class)->getContent([
             'variant' => $branding->getOrbitVariant(),
             'language' => $branding->getLanguage(),
         ], [
             'searchScope' => $branding->getOrbitSearchScope(),
             'skipLinkTarget' => 'programmes-content',
+            'analyticsCounterName' => (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo()),
+            'analyticsLabels' => (new AnalyticsLabels($this->context, $this->istatsProgsPageType, $appVersion, $this->istatsExtraLabels))->orbLabels(),
         ]);
 
         $parameters = array_merge([
@@ -148,6 +162,19 @@ abstract class BaseController extends AbstractController
     {
         $headers = $this->response->headers->all();
         return new RedirectResponse($url, $status, $headers);
+    }
+
+    /**
+     * @param mixed[] $labels associative array. example: ['schedule_offset' => '-3', 'schedule_context' => 'past']
+     */
+    protected function setIstatsExtraLabels(array $labels): void
+    {
+        $this->istatsExtraLabels = $labels;
+    }
+
+    protected function setIstatsProgsPageType(string $label): void
+    {
+        $this->istatsProgsPageType = $label;
     }
 
     private function requestBranding(): Branding

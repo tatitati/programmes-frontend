@@ -11,6 +11,7 @@ class SchedulesByYearController extends BaseController
 {
     public function __invoke(Service $service, string $year)
     {
+        $this->setIstatsProgsPageType('schedules_year');
         $this->setContext($service);
 
         $startOfYear = Chronos::createFromFormat('Y|', $year, ApplicationTime::getLocalTimeZone())->firstOfYear();

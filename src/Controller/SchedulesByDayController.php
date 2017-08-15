@@ -13,6 +13,7 @@ use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\NetworksService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
+use Cake\Chronos\Date;
 
 class SchedulesByDayController extends BaseController
 {
@@ -24,6 +25,7 @@ class SchedulesByDayController extends BaseController
         BroadcastsService $broadcastService,
         CollapsedBroadcastsService $collapsedBroadcastsService
     ) {
+        $this->setIstatsProgsPageType('schedules_day');
         $this->setContext($service);
 
         $dateTimeToShow = $this->dateTimeToShow($date, $service);
@@ -80,7 +82,70 @@ class SchedulesByDayController extends BaseController
         if (!$broadcasts) {
             $this->response()->setStatusCode(404);
         }
+
+        $this->setIstatsExtraLabels($this->getIstatsExtraLabels($date, $broadcastDay->start()->isYesterday()));
+
         return $this->renderWithChrome('schedules/by_day.html.twig', $viewData);
+    }
+
+    private function getIstatsExtraLabels(?string $date, bool $broadcastStartedYesterday): array
+    {
+        if (isset($date)) {
+            $tz = ApplicationTime::getLocalTimeZone();
+            $urlDate = Date::createFromFormat('Y-m-d', $date, $tz);
+            $diffInDays = Date::now($tz)->diffInDays($urlDate, false);
+            return [
+                'schedule_offset' => $this->getScheduleOffset($diffInDays),
+                'schedule_context' => $this->getScheduleContext($diffInDays),
+                'schedule_current_fortnight' => $this->getScheduleCurrentFortnight($diffInDays),
+            ];
+        }
+
+        // for TV if there is no date in the URL and is before 6:00 we are displaying yesterday schedule page.
+        // Send same iStats values as in v2 so it will be track as yesterday instead of today broadcast
+        // even when we know the today broadcast hasn't started yet
+        if ($broadcastStartedYesterday) {
+            return [
+                'schedule_offset' => '-1',
+                'schedule_context' => 'past',
+                'schedule_current_fortnight' => 'true',
+            ];
+        }
+
+        return [
+            'schedule_offset' => '0',
+            'schedule_context' => 'today',
+            'schedule_current_fortnight' => 'true',
+        ];
+    }
+
+    /**
+     * Returns a string representation of days between the current schedules page and today.
+     * Examples returned: "-5", "0", "+3"
+     */
+    private function getScheduleOffset(int $diffInDays): string
+    {
+        if ($diffInDays == 0) {
+            return (string) $diffInDays;
+        }
+
+        return sprintf("%+d", $diffInDays);
+    }
+
+    private function getScheduleContext(int $diffInDays): string
+    {
+        if ($diffInDays == 0) {
+            return 'today';
+        } elseif ($diffInDays < 0) {
+            return 'past';
+        } else {
+            return 'future';
+        }
+    }
+
+    private function getScheduleCurrentFortnight(int $diffInDays): string
+    {
+        return (abs($diffInDays) > 7) ? 'false' : 'true';
     }
 
     private function viewData(

@@ -9,6 +9,7 @@ class EpisodeController extends BaseController
 {
     public function __invoke(Episode $episode)
     {
+        $this->setIstatsProgsPageType('programmes_episode');
         $this->setContext($episode);
 
         return $this->renderWithChrome('find_by_pid/example_entity.html.twig', [

@@ -38,6 +38,17 @@ abstract class BaseWebTestCase extends WebTestCase
         }
     }
 
+    public function extractIstatsLabels($crawler)
+    {
+        $labels = [];
+        $extractedValues = $crawler->filter("orbit-template-params")->extract(['data-values']);
+        $labelsObject = json_decode($extractedValues[0]);
+        foreach ($labelsObject->analyticsLabels as $item) {
+            $labels[$item->key] = urldecode($item->value);
+        }
+        return $labels;
+    }
+
     protected function loadFixtures(array $fixtureNames, $omName = null, $registryName = 'doctrine', $purgeMode = null)
     {
         $classNames = array();

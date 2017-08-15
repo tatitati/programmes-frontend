@@ -9,6 +9,7 @@ class FranchiseController extends BaseController
 {
     public function __invoke(Franchise $franchise)
     {
+        $this->setIstatsProgsPageType('franchises_show');
         $this->setContext($franchise);
 
         return $this->renderWithChrome('find_by_pid/example_entity.html.twig', [

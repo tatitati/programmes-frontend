@@ -10,6 +10,7 @@ class HomeController extends BaseController
 {
     public function __invoke(EntityManagerInterface $em, NetworksService $networksService)
     {
+        $this->setIstatsProgsPageType('home_index');
         $programmeCount = $this->countProgrammesAndGroups($em);
 
         $serviceTypes = ['TV', 'National Radio', 'Regional Radio', 'Local Radio'];
