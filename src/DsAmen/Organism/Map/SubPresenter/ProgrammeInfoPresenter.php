@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\DsAmen\Organism\Map\SubPresenter;
 
 use App\DsAmen\Presenter;
-use App\DsShared\Helpers\ProseToParagraphsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class ProgrammeInfoPresenter extends Presenter
@@ -25,17 +24,13 @@ class ProgrammeInfoPresenter extends Presenter
     /** @var Programme */
     private $programme;
 
-    /** @var ProseToParagraphsHelper */
-    private $ptpHelper;
-
     /** @var bool */
     private $showMiniMap;
 
-    public function __construct(ProseToParagraphsHelper $ptpHelper, Programme $programme, array $options = [])
+    public function __construct(Programme $programme, array $options = [])
     {
         parent::__construct($options);
         $this->programme = $programme;
-        $this->ptpHelper = $ptpHelper;
         $this->showMiniMap = $this->getOption('show_mini_map');
 
         if ($this->getOption('is_three_column')) {
@@ -52,11 +47,6 @@ class ProgrammeInfoPresenter extends Presenter
     public function getProgramme(): Programme
     {
         return $this->programme;
-    }
-
-    public function getSynopsis(): string
-    {
-        return $this->ptpHelper->proseToParagraphs($this->programme->getLongestSynopsis(), 250);
     }
 
     public function showMiniMap(): bool

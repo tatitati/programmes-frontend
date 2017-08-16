@@ -3,12 +3,14 @@ declare(strict_types = 1);
 
 namespace App\DsAmen;
 
+use App\DsAmen\Molecule\Synopsis\SynopsisPresenter;
 use App\DsAmen\Organism\Map\MapPresenter;
 use App\DsAmen\Organism\Programme\ProgrammePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -35,11 +37,16 @@ class PresenterFactory
 
     public function mapPresenter(Request $request, Programme $programme, int $upcomingEpisodesCount, ?CollapsedBroadcast $mostRecentBroadcast): MapPresenter
     {
-        return new MapPresenter($request, $this->helperFactory, $programme, $upcomingEpisodesCount, $mostRecentBroadcast);
+        return new MapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast);
     }
 
     public function programmePresenter(Programme $programme, array $options = [])
     {
         return new ProgrammePresenter($programme, $options);
+    }
+
+    public function synopsisPresenter(Synopses $synopses, int $maxLength): SynopsisPresenter
+    {
+        return new SynopsisPresenter($synopses, $maxLength);
     }
 }

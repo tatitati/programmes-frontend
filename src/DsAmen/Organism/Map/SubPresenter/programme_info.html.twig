@@ -6,7 +6,7 @@
     <meta property="image" content="{{ programme_info.programme.image.getUrl(480,270) }}"/>
     {% if programme_info.programme.longestSynopsis %}
         <div class="gel-long-primer" property="description">
-            {{ programme_info.synopsis|raw }}
+            {{ ds_amen('synopsis', programme_info.getProgramme().getSynopses(), 250) }}
         </div>
     {% endif %}
 </div>

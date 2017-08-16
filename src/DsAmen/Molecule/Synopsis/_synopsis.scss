@@ -1,0 +1,34 @@
+$synopsis-toggle-fade-in-time: 0.4s;
+$synopsis-toggle-fade-out-time: 0.25s;
+
+.synopsis-toggle__button {
+    display: block;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    transition: margin-top 0s linear $synopsis-toggle-fade-out-time, margin-bottom 0s linear $synopsis-toggle-fade-out-time;
+}
+
+.synopsis-toggle__status {
+    display: none;
+
+    &:not(:checked) ~ .synopsis-toggle__short,
+    &:checked ~ .synopsis-toggle__long {
+        opacity: 0;
+        max-height: 0;
+        transition: opacity $synopsis-toggle-fade-out-time linear, max-height 0s linear $synopsis-toggle-fade-out-time;
+
+        .synopsis-toggle__button {
+            margin: 0;
+            transition: margin 0s linear $synopsis-toggle-fade-out-time;
+        }
+    }
+}
+
+.synopsis-toggle__short,
+.synopsis-toggle__long {
+    opacity: 1;
+    max-height: 2000px; // Can't transition auto heights, so set a massive max-height and toggle that, keeping height as auto
+    transition: opacity $synopsis-toggle-fade-in-time linear $synopsis-toggle-fade-out-time, max-height 0s linear $synopsis-toggle-fade-out-time;
+}

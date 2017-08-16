@@ -11,7 +11,6 @@ use App\DsAmen\Organism\Map\SubPresenter\PromoPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\SocialPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
-use App\DsShared\Helpers\HelperFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
@@ -27,9 +26,6 @@ class MapPresenter extends Presenter
 
     /** @var bool */
     public $isActive = false;
-
-    /** @var HelperFactory */
-    private $helperFactory;
 
     /** @var string */
     private $leftGridClasses = '1/2@gel3b';
@@ -57,7 +53,6 @@ class MapPresenter extends Presenter
 
     public function __construct(
         Request $request,
-        HelperFactory $helperFactory,
         ProgrammeContainer $programme,
         int $upcomingEpisodesCount,
         ?CollapsedBroadcast $mostRecentBroadcast,
@@ -66,7 +61,6 @@ class MapPresenter extends Presenter
         parent::__construct($options);
         $this->programme = $programme;
         $this->request = $request;
-        $this->helperFactory = $helperFactory;
         $hasComingSoon = $this->programme->getOption('coming_soon') || $this->programme->getOption('comingsoon_textonly');
         $programmeHasEpisodes = $programme->getAggregatedEpisodesCount() > 0;
         $this->showMap = $programmeHasEpisodes || $hasComingSoon;
@@ -120,7 +114,6 @@ class MapPresenter extends Presenter
     public function getProgrammeInfoPresenter(): ProgrammeInfoPresenter
     {
         return new ProgrammeInfoPresenter(
-            $this->helperFactory->getProseToParagraphsHelper(),
             $this->programme,
             [
                 'is_three_column' => $this->comingSoonTakeover || $this->isWorldNews() || $this->mustShowTxColumn,

@@ -44,14 +44,6 @@ class HelperFactory
         return $this->helpers[PlayTranslationsHelper::class];
     }
 
-    public function getProseToParagraphsHelper()
-    {
-        if (!isset($this->helpers[ProseToParagraphsHelper::class])) {
-            $this->helpers[ProseToParagraphsHelper::class] = new ProseToParagraphsHelper($this->translateProvider);
-        }
-        return $this->helpers[ProseToParagraphsHelper::class];
-    }
-
     public function getTitleLogicHelper()
     {
         if (!isset($this->helpers[TitleLogicHelper::class])) {
