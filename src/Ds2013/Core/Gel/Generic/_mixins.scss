@@ -6,23 +6,24 @@
 
 @mixin mq-range($name, $aliases: $mq-aliases) {
     @if map-has-key($aliases, $name) {
-       @include mq(map-get($aliases, $name)...) {
+        $alias-name: map-get($aliases, $name);
+        @include mq($alias-name...) {
             @content;
         }
     } @else {
-        @warn "Range '#{$name}' was not found in the list of defined ranges";
+        @warn 'Range \'#{$name}\' was not found in the list of defined ranges';
     }
 }
 
 // These mixins only exist to help the migration process. Give a helpful error when you attempt to use breakup-block
 // or breakup-breakpoint with information on how to fix it
 @mixin breakup-block($name) {
-    @error "You used breakup-block. Blocks with the name of 'basic' no longer need to be included within a mixin, their content can go directly the scss file";
+    @error 'You used breakup-block. Blocks with the name of \'basic\' no longer need to be included within a mixin, their content can go directly the scss file';
     @content;
 }
 
 @mixin breakup-breakpoint($name) {
-    @error "You used breakup-breakpoint(#{$name}). This has been superseeded by the mq-range mixin. Use mq-range(#{$name}) instead";
+    @error 'You used breakup-breakpoint(#{$name}). This has been superseeded by the mq-range mixin. Use mq-range(#{$name}) instead';
     @content;
 }
 

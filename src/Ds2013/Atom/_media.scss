@@ -49,25 +49,25 @@
     margin-bottom: 0;
 }
 
-
 /**
  * `.img`s in `.islet`s need an appropriately sized margin.
  */
 .islet .media__img {
     margin-right: $basic-half-spacing;
 }
+
 .islet .media__img--rev {
     margin-left: $basic-half-spacing;
 }
 
+@include mq-range('bpw') {
+    .media__img {
+        margin-right: $wide-spacing;
+    }
 
-
-.media__img {
-    margin-right: $wide-spacing;
-}
-
-.media__img--rev {
-    margin-left: $wide-spacing;
-    margin-right: 0;
+    .media__img--rev {
+        margin-left: $wide-spacing;
+        margin-right: 0;
+    }
 }
 

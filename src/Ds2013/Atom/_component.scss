@@ -1,4 +1,3 @@
-
 // Component
 //
 // A fundamental block on the page that changes its spacing dependent upon the
@@ -13,18 +12,21 @@
 .component {
     @extend %margin-bottom-1blh;
 }
+
 .component--borderedbookends {
     border-top-width: 1px;
     border-top-style: solid;
     border-bottom-width: 1px;
     border-bottom-style: solid;
 }
+
 .component--sibling {
     border-left-style: solid;
     border-left-width: 16px;
     padding-left: 16px;
     margin-top: 8px;
     margin-bottom: 16px;
+
     .programme .programme__body { // needs to be quite specific
         margin-bottom: 0; // cancel programme object margins
     }
@@ -33,7 +35,7 @@
 .component--box--primary {
     .component__header,
     .component__body {
-       @extend .prog-layout__primary;
+        @extend .prog-layout__primary;
     }
 
     // Mostly right, but we need to keep the margin at wide sizes (shall be done
@@ -55,13 +57,16 @@
     }
 }
 
-
 .component__header {
     padding-bottom: $basic-spacing;
     position: relative;
-    h2, h3, p {
+
+    h2,
+    h3,
+    p {
         margin: 0;
     }
+
     // if a stream is in here, line it up
     .stream__indicator-wrap {
         position: absolute;
@@ -181,8 +186,8 @@
     .component--box--primary,
     .component--box--secondary {
         .bpb1-highlight-box--grid {
-            margin: 0 0 $wide-spacing 0;
-            padding: 0 0;
+            margin: 0 0 $wide-spacing;
+            padding: 0;
 
             &:hover,
             &:active,
@@ -190,7 +195,7 @@
             &.highlight-box--active {
                 // -1px to because we want the total spacing to be $spacing,
                 // including the 1px border
-                margin: 0 0 $wide-spacing 0;
+                margin: 0 0 $wide-spacing;
                 padding: 0;
             }
         }
@@ -204,8 +209,8 @@
     .component--box--primary,
     .component--box--secondary {
         .bpb2-highlight-box--grid {
-            margin: 0 0 $wide-spacing 0;
-            padding: 0 0;
+            margin: 0 0 $wide-spacing;
+            padding: 0;
 
             &:hover,
             &:active,
@@ -213,7 +218,7 @@
             &.highlight-box--active {
                 // -1px to because we want the total spacing to be $spacing,
                 // including the 1px border
-                margin: 0 0 $wide-spacing 0;
+                margin: 0 0 $wide-spacing;
                 padding: 0;
             }
         }
@@ -246,7 +251,8 @@
         .component__body:first-child {
             padding: 0;
         }
-        .stream__indicator-wrap  {
+
+        .stream__indicator-wrap {
             right: 16px;
         }
     }
@@ -268,7 +274,7 @@
     }
 
     .component--sibling {
-      margin-top: 16px;
-      margin-bottom: 32px;
+        margin-top: 16px;
+        margin-bottom: 32px;
     }
 }

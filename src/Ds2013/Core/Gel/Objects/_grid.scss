@@ -50,24 +50,23 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
     margin-bottom: 0;
 
     // Kill whitespace spacing
-    letter-spacing:-0.31em;
-    *letter-spacing: normal; /* reset IE < 8 */
-    *word-spacing: -0.43em; /* IE < 8: collapse white-space between units */
+    letter-spacing: -0.31em;
     text-rendering: optimizeSpeed;
     text-align: left;
 
     // Clearfix
     zoom: 1;
-    &:before,
-    &:after {
-        content: " ";
+
+    &::before,
+    &::after {
+        content: ' ';
         display: table;
     }
-    &:after {
+
+    &::after {
         clear: both;
     }
 }
-
 
 // Opera as of 12 on Windows needs word-spacing. The ".opera" selector is
 // used to prevent actual prefocus styling and is not required in markup.
@@ -76,10 +75,8 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
     word-spacing: -0.43em;
 }
 
-
 #{$gel-class-prefix}grid {
     display: inline-block;
-    *display: inline; // IE < 8: fake inline-block
     zoom: 1;
     vertical-align: top;
 
@@ -101,7 +98,7 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 // Sometimes floated grids are preferable over inline-block grids. Useful if
 // we want to have a fixed width container next to a variable width one.
 #{$gel-class-prefix}grid-float {
-   float: left;
+    float: left;
 
     // Grid components have a default width so that you don't need to always
     // use the .one-whole class for mobile-first implementations
@@ -109,10 +106,10 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 }
 
 #{$gel-class-prefix}grid-wrapper--center {
-    text-align:center;
+    text-align: center;
 
     > #{$gel-class-prefix}grid {
-        text-align:left;
+        text-align: left;
     }
 }
 
@@ -128,6 +125,7 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 
 // Faux column pushdown
 $massive-pushdown: 50em;
+
 #{$gel-class-prefix}grid-wrapper--fauxcolumn {
     overflow: hidden;
 
@@ -136,6 +134,7 @@ $massive-pushdown: 50em;
         padding-bottom: $massive-pushdown;
     }
 }
+
 .fauxcolumn {
     margin-bottom: -$massive-pushdown;
     padding-bottom: $massive-pushdown;
@@ -144,16 +143,15 @@ $massive-pushdown: 50em;
 .grid-gutter-r {
     margin-right: $gel-grid-gutter-basic;
 }
+
 .grid-gutter-l {
     margin-left: $gel-grid-gutter-basic;
 }
-
 
 @include mq-range('bpw') {
     #{$gel-class-prefix}grid-wrapper {
         margin-left: -$gel-grid-gutter-wide;
     }
-
 
     #{$gel-class-prefix}grid {
         padding-left: $gel-grid-gutter-wide;
@@ -172,6 +170,7 @@ $massive-pushdown: 50em;
     .grid-gutter-r {
         margin-right: $gel-grid-gutter-wide;
     }
+
     .grid-gutter-l {
         margin-left: $gel-grid-gutter-wide;
     }

@@ -1,4 +1,4 @@
-$timebar-inactive: #444;
+$timebar-inactive: #444444;
 
 .timebar {
     // TODO check this math is good
@@ -27,6 +27,7 @@ $timebar-inactive: #444;
     margin-right: 1%;
     vertical-align: top;
 }
+
 .timebar-barbox--live {
     width: 32%;
 }
@@ -38,21 +39,27 @@ $timebar-inactive: #444;
 .timebar-barbox-lastchance,
 .timebar-barbox--live {
     background: $timebar-inactive;
+    animation: lastchance 3s infinite;
 }
 
 @keyframes lastchance {
-    0% {background-color: $timebar-inactive;}
-    50% {background-color: $iplayer-pink;}
-    80% {background-color: $timebar-inactive;}
-}
-.timebar-barbox-lastchance,
-.timebar-barbox--live {
-    animation:         lastchance 3s infinite;
+    0% {
+        background-color: $timebar-inactive;
+    }
+
+    50% {
+        background-color: $iplayer-pink;
+    }
+
+    80% {
+        background-color: $timebar-inactive;
+    }
 }
 
 .timebar-barbox--live:nth-child(2) {
     animation-delay: 1s;
 }
+
 .timebar-barbox--live:nth-child(3) {
     animation-delay: 2s;
 }

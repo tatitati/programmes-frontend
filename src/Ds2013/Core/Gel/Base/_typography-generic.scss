@@ -10,7 +10,7 @@
     $gel-root-font-size: 16px;
     // REMs, falling back to px
     font-size: $font-size;
-    font-size: ($font-size /  $gel-root-font-size) * 1rem;
+    font-size: ($font-size / $gel-root-font-size) * 1rem;
 
     // Make line-height be a unitless measurement instead of a pixel value
     line-height: $line-height / $font-size;
@@ -66,6 +66,7 @@
     %margin-bottom-1blh {
         margin-bottom: $base-line-height-em;
     }
+
     %padding-top-1blh {
         padding-top: $base-line-height-em;
     }
@@ -91,6 +92,7 @@
         }
         margin-bottom: $size * 1em;
     }
+
     .alpha--keyline {
         @include gel-font-size(nth($alpha, 1), nth($alpha, 2));
         margin-bottom: ((($base-line-height * 2) - nth($alpha, 2)) - 1px) / nth($alpha, 1) * 1em;
@@ -101,6 +103,7 @@
         @include gel-font-size(nth($beta, 1), nth($beta, 2));
         margin-bottom: (($base-line-height * 2) - nth($beta, 2)) / nth($beta, 1) * 1em;
     }
+
     .beta--keyline {
         @include gel-font-size(nth($beta, 1), nth($beta, 2));
         margin-bottom: ((($base-line-height * 2) - nth($beta, 2)) - 1px) / nth($beta, 1) * 1em;
@@ -111,6 +114,7 @@
         @include gel-font-size(nth($gamma, 1), nth($gamma, 2));
         margin-bottom: (($base-line-height * 2) - nth($gamma, 2)) / nth($gamma, 1) * 1em;
     }
+
     .gamma--keyline {
         @include gel-font-size(nth($gamma, 1), nth($gamma, 2));
         margin-bottom: ((($base-line-height * 2) - nth($gamma, 2)) - 1px) / nth($gamma, 1) * 1em;
@@ -122,12 +126,12 @@
         margin-bottom: $base-line-height / nth($delta, 1) * 1em;
 
     }
+
     .delta--keyline {
         @include gel-font-size(nth($delta, 1), nth($delta, 2));
         margin-bottom: ((($base-line-height * 2) - nth($delta, 2)) - 1px) / nth($delta, 1) * 1em;
         border-bottom: mq-px2em(1px, nth($delta, 1)) solid;
     }
-
 
     // Metadata styling
     .centi {
@@ -143,14 +147,16 @@
     }
 }
 
-@include gel-text-sizing('', map-get($gel-typography, 'basic')...);
+$basic-typography: map-get($gel-typography, 'basic');
+@include gel-text-sizing('', $basic-typography...);
 
 /**
  * Generate media-query scoped font sizings for each breakpoint name defined
  */
 @each $item in $gel-typography-breakpoints {
     @include mq-range($item) {
-        @include gel-text-sizing('#{$item}-', map-get($gel-typography, $item)...);
+        $item-typography: map-get($gel-typography, $item);
+        @include gel-text-sizing('#{$item}-', $item-typography...) ;
     }
 }
 

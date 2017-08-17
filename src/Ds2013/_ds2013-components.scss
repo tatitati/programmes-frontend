@@ -34,7 +34,7 @@
 // the move to the new world we should opt into using these utilities as and
 // when we require them, and place them in a relevant folder structure.
 //
-// These are batched into groups based on how "core" they are, for instance the
+// These are batched into groups based on how 'core' they are, for instance the
 // the programme object uses the media object for some of it's layout so media
 // should come before programme. Highlight box is used in conjunction with
 // programme and should take prescience when applying styling so it should come
@@ -48,13 +48,13 @@
 @import 'Atom/media';
 @import 'Atom/link-complex';
 @import 'Atom/nav';
-@import "Atom/iplayer-icon";
-@import "Atom/timebar";
+@import 'Atom/iplayer-icon';
+@import 'Atom/timebar';
 
 // @import 'objects/programme';
- @import 'Organism/Broadcast/broadcast';
+@import 'Organism/Broadcast/broadcast';
 // @import 'objects/promotion';
-@import "Organism/Programme/programme";
+@import 'Organism/Programme/programme';
 
 @import 'Molecule/DateList/date-list';
 // @import 'objects/icon-box';
@@ -65,8 +65,8 @@
 
 // These items are meant to be used in conjunction with objects higher up.
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
- @import 'Atom/box-link';
- @import 'Molecule/block-link';
+@import 'Atom/box-link';
+@import 'Molecule/block-link';
 // @import 'objects/broadcast-event';
 // @import 'objects/stream';
 // @import 'objects/feature';

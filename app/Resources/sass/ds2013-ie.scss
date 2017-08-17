@@ -10,11 +10,11 @@
 $mq-responsive: false;
 $mq-static-breakpoint: 'gel4';
 
-$ie : true;
+$ie: true;
 
 @import 'Ds2013/ds2013-components';
 
 /*ie fix for absolute link over img */
-.block-link__overlay-link{
+.block-link__overlay-link {
     background: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
 }

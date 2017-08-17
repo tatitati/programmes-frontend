@@ -10,46 +10,38 @@
     font-weight: bold;
 }
 
-.ml__button--faq, .ml__button--dropdown {
+.ml__button--faq,
+.ml__button--dropdown {
     display: block;
     margin: 0;
 }
 
-.ml__button--faq:before,
-.ml__button--dropdown:before {
-    content: "\e005";
+.ml__button--faq::before,
+.ml__button--dropdown::before {
+    content: '\e005';
     margin-right: 8px;
     font-family: 'gelicons-core';
     vertical-align: baseline;
     font-size: 16px;
     display: inline-block;
-    -webkit-transition: -webkit-transform 0.25s linear; // old safari
     transition: transform 0.25s linear; // all others don't need a prefix
 }
 
-.ml__button--faq-q .ml__button--faq:before {
-    -webkit-transform: rotate(90deg); // chrome, safari etc
-    -ms-transform: rotate(90deg); // ie9
+.ml__button--faq-q .ml__button--faq::before {
     transform: rotate(90deg); // all others don't need a prefix
 }
 
-.ml__status:checked + .ml__button--faq-q .ml__button--faq:before {
-    -webkit-transform: rotate(0); // chrome, safari etc
-    -ms-transform: rotate(0); // ie9
+.ml__status:checked + .ml__button--faq-q .ml__button--faq::before {
     transform: rotate(0); // all others don't need a prefix
 }
 
-.ml__button--dropdown-h .ml__button--dropdown:before,
-.ml__button--dropdown-up:before {
-    -webkit-transform: rotate(-90deg); // chrome, safari etc
-    -ms-transform: rotate(-90deg); // ie9
+.ml__button--dropdown-h .ml__button--dropdown::before,
+.ml__button--dropdown-up::before {
     transform: rotate(-90deg); // all others don't need a prefix
 }
 
-.ml__status:checked ~ .ml__button--dropdown-h .ml__button--dropdown:before,
-.ml__button--dropdown-down:before {
-    -webkit-transform: rotate(90deg); // chrome, safari etc
-    -ms-transform: rotate(90deg); // ie9
+.ml__status:checked ~ .ml__button--dropdown-h .ml__button--dropdown::before,
+.ml__button--dropdown-down::before {
     transform: rotate(90deg); // all others don't need a prefix
 }
 
@@ -59,6 +51,7 @@
 }
 
 $faq-answer-indent: 23px;
+
 .ml__button--faq__answer {
     padding: 0 $faq-answer-indent; // width of the icon + 8px;
 }
@@ -72,11 +65,12 @@ $faq-answer-indent: 23px;
         display: inherit;
     }
 
-    .#{$namespace}ml .ml__ellipsis:after {
-        content: "";
+    .#{$namespace}ml .ml__ellipsis::after {
+        content: '';
     }
-    .#{$namespace}ml .ml__status:checked ~ .ml__content .ml__ellipsis:after {
-        content: "\2026"; /* === &hellip; ISO in CSS content */
+
+    .#{$namespace}ml .ml__status:checked ~ .ml__content .ml__ellipsis::after {
+        content: '\2026'; /* === &hellip; ISO in CSS content */
     }
 
     .#{$namespace}ml .ml__label--sep,

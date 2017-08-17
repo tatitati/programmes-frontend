@@ -5,7 +5,6 @@
  * already provide a suitable mixin before writing, to save duplicating effort.
  */
 
-
 /*
  * Hide only visually, but have it available for screenreaders: h5bp.com/v
  *
@@ -34,22 +33,17 @@
 }
 
 @mixin inline-block() {
-    display: inline-block;
-
-    // IE7 fixes
-    *display: inline;
-    *vertical-align: auto;
-    zoom: 1;
+    display: inline-block; //@TODO now this mixin is just one line, remove the mixin
 }
 
 @mixin transform($transform) {
-    @warn "The use of the mixin tranform is deprecated. Please use the transform property directly"
+    @warn 'The use of the mixin tranform is deprecated. Please use the transform property directly';
 }
 
 @mixin transition($transition...) {
-    @warn "The use of the mixin transition is deprecated. Please use the transition property directly"
+    @warn 'The use of the mixin transition is deprecated. Please use the transition property directly';
 }
 
 @mixin transition-delay($transition-delay) {
-    @warn "The use of the mixin transition-delay is deprecated. Please use the transition-delay property directly"
+    @warn 'The use of the mixin transition-delay is deprecated. Please use the transition-delay property directly';
 }

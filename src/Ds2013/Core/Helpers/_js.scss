@@ -1,43 +1,48 @@
-
-
 // helpers for when the whole page has javascript
 .has-js {
     .js-hideme {
-        display: none!important;
+        display: none !important;
     }
+
     .js-showme {
-        display: block!important;
+        display: block !important;
     }
 }
 
 // helpers for when something is active
 .js-active {
     > .js-active-hideme { // direct child only
-        display: none!important;
+        display: none !important;
     }
+
     > .js-active-showme { // direct child only
-        display: block!important;
+        display: block !important;
     }
+
     .js-active-hideanyme { // any child
-        display: none!important;
+        display: none !important;
     }
+
     .js-active-showanyme { // any child
-        display: block!important;
+        display: block !important;
     }
 }
 
 // helpers for in progress
 .js-inprogress {
     > .js-inprogress-hideme {
-        display: none!important;
+        display: none !important;
     }
+
     > .js-inprogress-showme {
-        display: block!important;
+        display: block !important;
     }
+
     .js-inprogress-hideanyme {
-        display: none!important;
+        display: none !important;
     }
+
     .js-inprogress-showanyme {
-        display: block!important;
+        display: block !important;
     }
 }

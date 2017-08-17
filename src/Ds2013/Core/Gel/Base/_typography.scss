@@ -5,8 +5,15 @@
  */
 
 // Resets
-p, ul, ol,
-h1, h2, h3, h4, h5, h6 {
+p,
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin: 0;
 }
 
@@ -17,7 +24,6 @@ blockquote {
 
 // Define extends for typography at each GEL breakpoint
 @import 'typography-generic';
-
 
 p,
 ul,
@@ -47,7 +53,8 @@ h4 {
     @extend .delta;
 }
 
-h5, h6 {
+h5,
+h6 {
     @extend %margin-bottom-1blh;
 }
 

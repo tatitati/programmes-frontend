@@ -12,16 +12,20 @@
         overflow: auto; // Stop content peeking out underneath columns to the left
     }
 
-    .\31\/6\\@bpw { width: 976px * 0.16666; }
+    .\31\/6\\@bpw {
+        width: 976px * 0.16666;
+    }
 }
 
 // For letting you undo grid-unbounded at a given breakpoint
 @each $name in $gel-widths-breakpoints {
     @include mq-range($name) {
-           .grid--unbounded\\@#{$name} {
+        .grid--unbounded\\@#{$name} {
             max-width: none;
         }
     }
 }
 
-.push-one-twentyfourth { margin-left: (100% / 24); }
+.push-one-twentyfourth {
+    margin-left: (100% / 24);
+}

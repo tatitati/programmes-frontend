@@ -13,7 +13,7 @@
 .box-link__target.box-link__target {
     position: static;
 
-    &:before {
+    &::before {
         content: '';
         position: absolute;
         top: 0;

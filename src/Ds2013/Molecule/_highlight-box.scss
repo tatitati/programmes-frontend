@@ -41,8 +41,8 @@
     }
 
     .highlight-box--grid#{$suffix} {
-        margin: 0 0 $spacing 0;
-        padding: 0 0;
+        margin: 0 0 $spacing;
+        padding: 0;
 
         border-style: none;
 
@@ -57,7 +57,7 @@
             top: 0;
             z-index: 1;
 
-            margin: 0 0 $spacing 0;
+            margin: 0 0 $spacing;
             padding: 0;
 
 
@@ -136,13 +136,13 @@
     }
 
     .highlight-box--grid {
-        margin: 0 0 $wide-spacing 0;
+        margin: 0 0 $wide-spacing;
 
         &:hover,
         &:active,
         &:focus,
         &.highlight-box--active {
-            margin: 0 0 $wide-spacing 0;
+            margin: 0 0 $wide-spacing;
         }
     }
 

@@ -9,7 +9,7 @@
  * Defaults to being noisy.
  */
 $gel-use-silent-classes: true !default;
-$gel-class-prefix: unquote(if($gel-use-silent-classes, "%", "."));
+$gel-class-prefix: unquote(if($gel-use-silent-classes, '%', '.'));
 
 /**
  * Generic media query breakpoints, common useful breakpoints.
@@ -65,24 +65,21 @@ $mq-breakpoints: (
     gel5: 1280px
 ) !default;
 
-
 $mq-aliases: (
-  'bp1': (until: 'gel2'),
-  'bp2': (from: 'gel2', until: 'gel3'),
-  'bp3': (from: 'gel3', until: 'gel4'),
-  'bp4': (from: 'gel4'),
-
-  'bpb1': (from: 'gel1b', until: 'gel3'),
-  'bpb2': (from: 'gel2b', until: 'gel3'),
-  'bpw': (from: 'gel3'),
-  'bpw1': (from: 'gel3', until: 'gel4'),
-  'bpw2': (from: 'gel3b', until: 'gel4'),
-  'bpe': (from: 'gel4'),
+    'bp1': (until: 'gel2'),
+    'bp2': (from: 'gel2', until: 'gel3'),
+    'bp3': (from: 'gel3', until: 'gel4'),
+    'bp4': (from: 'gel4'),
+    'bpb1': (from: 'gel1b', until: 'gel3'),
+    'bpb2': (from: 'gel2b', until: 'gel3'),
+    'bpw': (from: 'gel3'),
+    'bpw1': (from: 'gel3', until: 'gel4'),
+    'bpw2': (from: 'gel3b', until: 'gel4'),
+    'bpe': (from: 'gel4'),
 );
 
 // Breakpoints that should have grid prefixes
 $gel-widths-breakpoints: ('bpb1' 'bpb2' 'bpw' 'bpw1' 'bpw2' 'bpe') !default;
-
 
 // Comparisons with GEL Typography Guidelines
 // $base: Index page body text
@@ -99,7 +96,7 @@ $gel-widths-breakpoints: ('bpb1' 'bpb2' 'bpw' 'bpw1' 'bpw2' 'bpe') !default;
 // equal to the font-size.
 //
 // Our base body size is set to be the size of index body text. This can be be
-// set to "delta" on pages or objects where a larger base size is desired
+// set to 'delta' on pages or objects where a larger base size is desired
 
 // GEL Standards
 //  $name   (($base)     ($alpha)    ($beta)     ($gamma)    ($delta)    ($centi)    ($milli)    ($micro))
@@ -109,22 +106,20 @@ $gel-widths-breakpoints: ('bpb1' 'bpb2' 'bpw' 'bpw1' 'bpw2' 'bpe') !default;
 //     'bpw'   ((16px 22px) (32px 36px) (24px 28px) (20px 24px) (16px 22px) (14px 18px) (13px 16px) (12px 16px))
 // );
 
-
 //  $name   (($base)     ($alpha)    ($beta)     ($gamma)    ($delta)    ($centi)    ($milli)    ($micro))
 $gel-typography: (
     'basic': ((15px 18px) (20px 24px) (20px 24px) (18px 20px) (15px 20px) (15px 18px) (14px 16px) (12px 16px)),
-    'bpb1':  ((14px 18px) (24px 28px) (20px 24px) (20px 24px) (16px 22px) (14px 18px) (14px 16px) (12px 16px)),
-    'bpw':   ((14px 18px) (32px 36px) (24px 28px) (20px 24px) (16px 22px) (14px 18px) (13px 16px) (12px 16px))
+    'bpb1': ((14px 18px) (24px 28px) (20px 24px) (20px 24px) (16px 22px) (14px 18px) (14px 16px) (12px 16px)),
+    'bpw': ((14px 18px) (32px 36px) (24px 28px) (20px 24px) (16px 22px) (14px 18px) (13px 16px) (12px 16px))
 );
 
 // Breakpoints that should have specific typography
 $gel-typography-breakpoints: ('bpb1' 'bpw') !default;
 
-
 // We are not currently implementing GEL's suggestion for a separate sizing
 // hierarchy for tablets as it would require device detection, which goes
 // against the principles of responsive design.
-// An alternative is use the "tablet" sizing as the standard sizing for >= 600px
+// An alternative is use the 'tablet' sizing as the standard sizing for >= 600px
 // screens due to it larger base font size.
 //
 //  $name (($base)     ($alpha)    ($beta)     ($gamma)    ($delta)    ($centi)    ($milli)    ($micro))

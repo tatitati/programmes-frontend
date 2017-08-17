@@ -1,3 +1,4 @@
+// sass-lint:disable class-name-format
 /**
  * TV channels nav
  *
@@ -27,7 +28,7 @@
 }
 
 .tv-channels__item--bbc_world_news {
-    display: none!important; // hide the international service
+    display: none !important; // hide the international service
 }
 
 .tv-channels__item--bbc_one {

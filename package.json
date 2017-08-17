@@ -15,11 +15,14 @@
         "gulp-sass-error": "^1.0.5",
         "gulp-sourcemaps": "^2.4.1",
         "lazysizes": "^3.0.0",
+        "sass-lint": "^1.10.2",
         "sass-mq": "^3.3.2"
     },
     "scripts": {
         "gulp": "gulp default",
         "gulp-ci": "gulp distribution",
+        "lint": "yarn run lint:sass",
+        "lint:sass": "node_modules/.bin/sass-lint --no-exit -v",
         "watch": "gulp watch"
     }
 }

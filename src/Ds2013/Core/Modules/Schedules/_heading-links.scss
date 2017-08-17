@@ -5,7 +5,6 @@
  * appear vertically centered with the heading text.
  */
 
-
 .heading-links {
     margin-top: 0;
     margin-bottom: 0;
@@ -36,7 +35,6 @@
     overflow: hidden;
 }
 
-
 @include mq-range('bpb1') {
     .heading-links {
         margin-top: 4px;
@@ -44,12 +42,12 @@
     }
 }
 
-
 @include mq-range('bpw') {
     .heading-links {
         margin-top: 7px;
         margin-bottom: 7px;
     }
+
     .schedules-jump__title {
         margin-right: $wide-spacing;
     }

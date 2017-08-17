@@ -9,15 +9,13 @@
 
 $mq-responsive: false;
 $mq-static-breakpoint: 'gel4';
-$ie : true;
-
-
+$ie: true;
 
 @import 'DsAmen/dsAmen-components';
 
 // @todo - move these classes somewhere more appropriate
 
 /*ie fix for absolute link over img */
-.block-link__overlay-link{
+.block-link__overlay-link {
     background: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
 }

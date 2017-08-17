@@ -19,15 +19,13 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     @extend .link-complex;
 }
 
-.programme__img {
-    position: relative;
-}
-
 .programme__body {
     @extend .media__body;
+    max-width: 464px;
 }
 
 .programme__img {
+    position: relative;
     float: left;
     margin-right: $basic-spacing;
     margin-bottom: 0;
@@ -46,8 +44,8 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
 }
 
 .programme__titles a {
-    @include inline-block();
     @extend .link-complex__target;
+    @include inline-block();
 }
 
 .programme__title {
@@ -56,43 +54,50 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
 }
 
 .programme__img-box {
-    background: #CCC;
-    background: rgba(204,204,204,0.5);
+    background: #cccccc;
+    background: rgba(204, 204, 204, 0.5);
 
     // Hidden by default
     display: none;
     visibility: hidden;
 }
+
 .programme__overlay {
     min-width: 100%;
     display: block;
     overflow: hidden;
     position: relative;
 }
+
 .programme__new {
     text-transform: uppercase;
     font-weight: bold;
     text-align: left;
 }
+
 .programme__overlay--live,
 .programme__overlay--available {
     min-width: 92.857142857142857%;
 }
+
 .programme__availability {
     display: block;
 }
+
 .programme__availability:hover,
 .programme__availability:active,
 .programme__availability:focus {
     .programme__icon {
         background: $iplayer-grey;
         filter: none;
-        color: #FFFFFF;
+        color: #ffffff;
     }
-};
+}
+
 .programme__overlay a.programme__availability:hover {
     text-decoration: none; // specific to override .programmes-page
 }
+
 .programme__icon {
     float: left;
     margin-right: 1px;
@@ -104,55 +109,60 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
 .programme__icon--translucent {
     background-color: rgb(38, 37, 37);
     background-color: rgba(38, 37, 37, 0.7);
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
 .programme__icon--orphaned {
     margin-left: $basic-spacing;
     float: right;
 }
+
 .programme__overlay-data {
     display: none;
     height: 24px;
     max-width: 274px;
     overflow: hidden;
 }
+
 .programme__time-remaining {
     font-weight: normal;
-    margin: 4px 8px 0 8px;
+    margin: 4px 8px 0;
     text-align: left;
     line-height: 1; // 12px
 }
 
-.programme__body {
-    max-width: 464px;
-}
 .programme__subtitle {
     display: block;
     margin-top: 0;
     font-weight: normal;
 }
+
 .programme__titles {
     margin: 0;
 }
+
 .programme__synopsis,
 .programme__service,
 .programme__favourites,
 .programme__live,
 .programme__child-availability {
     margin-top: 4px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
+
 .programme__broadcast-date {
     margin-top: 16px;
-    margin-bottom: 0px;
-    .timezone.timezone--date{
+    margin-bottom: 0;
+
+    .timezone.timezone--date {
         padding-right: 8px;
     }
 }
+
 .programme__synopsis {
     display: none;
 }
+
 .programme__service {
     font-weight: bold;
 
@@ -162,6 +172,7 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
         margin-top: 0;
     }
 }
+
 .programme__service .only,
 .programme__service .except {
     font-weight: normal;
@@ -186,11 +197,13 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     transition: opacity 0.3s ease-in, background-color 0.3s ease-in;
     opacity: 1;
 }
-.stream:not(.touched):not(.stream--alwaysvisible) .stream__i_hidden .programme__body,
-.stream:not(.touched):not(.stream--alwaysvisible) .stream__i_hidden .programme__overlay {
+
+.stream:not(.touched):not(.stream--alwaysvisible) .stream__i--hidden .programme__body,
+.stream:not(.touched):not(.stream--alwaysvisible) .stream__i--hidden .programme__overlay {
     opacity: 0;
 }
-.stream:not(.touched):not(.stream--alwaysvisible) .stream__i_hidden .programme {
+
+.stream:not(.touched):not(.stream--alwaysvisible) .stream__i--hidden .programme {
     background-color: transparent;
 }
 
@@ -200,19 +213,18 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     left: 0;
     background: $iplayer-pink;
     padding: 4px;
-    color: #fff;
+    color: #ffffff;
     font-size: 11px;
     font-weight: bold;
 }
 
 .programme__status--dull {
-    background: #222;
+    background: #222222;
 }
-
 
 @include mq-range('bpb1') {
     .programme__img-box {
-        display:block;
+        display: block;
         visibility: visible;
     }
 
@@ -221,26 +233,26 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
         bottom: 0;
         left: 0;
     }
+
     .has-js .programme__img--hasimage ~ .programme__new {
         top: 0;
         left: 0;
         position: absolute;
-        padding: 0px 4px;
+        padding: 0 4px;
         text-align: center;
     }
 }
-
 
 @include mq-range('bpb2') {
     .programme__icon {
         height: $programme-icon-bpb1-box-size;
         width: $programme-icon-bpb1-box-size;
     }
+
     .programme__icon--orphaned {
         top: -0.375em;
     }
 }
-
 
 @include mq-range('bpw') {
     .programme__img {
@@ -248,13 +260,15 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     }
 
     .programme__img-box {
-        display:block;
+        display: block;
         visibility: visible;
     }
+
     .programme__icon {
         height: $programme-icon-bpw-box-size;
         width: $programme-icon-bpw-box-size;
     }
+
     .programme__icon--orphaned {
         margin-left: $wide-half-spacing;
     }
@@ -266,19 +280,22 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
         bottom: 0;
         left: 0;
     }
+
     .has-js .programme__img--hasimage ~ .programme__new {
         top: 0;
         left: 0;
         position: absolute;
-        padding: 0px 4px;
+        padding: 0 4px;
         text-align: center;
     }
+
     .programme__overlay-data {
         height: $programme-icon-bpw-box-size;
         display: block;
     }
+
     .programme__time-remaining {
-        margin: 9px 8px 0 8px;
+        margin: 9px 8px 0;
         font-size: px-to-em(11px, gel-typography('bpw', 'base', 'font-size'));
         line-height: 1.1;
     }
@@ -293,10 +310,12 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
         min-width: 82.857143%;
     }
 }
+
 @include mq-range('bpe') {
     .programme__overlay--available {
         min-width: 82.857143%;
     }
+
     .programme__overlay--live {
         min-width: 70.857%;
     }
@@ -307,6 +326,7 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
         height: $programme-icon-bpb1-box-size;
         width: $programme-icon-bpb1-box-size;
     }
+
     .programme__icon--orphaned {
         top: -0.375em;
         margin-left: $wide-half-spacing;
@@ -315,11 +335,11 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     .programme__overlay-data {
         height: $programme-icon-bpb1-box-size;
     }
+
     .programme__time-remaining {
-        margin: 4px 8px 0 8px;
+        margin: 4px 8px 0;
     }
 }
-
 
 // Per breakpoint toggles for programme image top or left.
 // We need to overwrite each property to ensure that no phantom properties from
@@ -355,12 +375,14 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
             margin-bottom: $spacing;
             margin-right: $spacing;
         }
+
         .programme__service,
         .programme__child-availability {
             margin-top: 16px;
-            margin-bottom: 0px;
+            margin-bottom: 0;
 
         }
+
         .programme__broadcast-date ~ .programme__service {
             // If we're showing both the broadcast date and the service then have
             // them run into each other instead of being spaced out.
@@ -381,6 +403,7 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
             margin-left: $half-spacing;
             margin-right: $half-spacing;
         }
+
         .programme__body--flush {
             margin-left: 0;
             margin-right: 0;
@@ -390,7 +413,6 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
 
 @include programme-image-setup();
 
-
 @include mq-range('bpw') {
     .programme--list {
         .programme__img {
@@ -399,7 +421,7 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     }
 
     .programme--grid {
-        .programme__img  {
+        .programme__img {
             margin-bottom: $wide-half-spacing;
         }
 
@@ -408,6 +430,7 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
             margin-left: $wide-half-spacing;
             margin-right: $wide-half-spacing;
         }
+
         .programme__body--flush {
             margin-left: 0;
             margin-right: 0;

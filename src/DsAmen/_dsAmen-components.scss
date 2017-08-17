@@ -5,7 +5,7 @@
 $ie: false !default;
 
 // Vendor
-@import "Core/Vendor/normalize";
+@import 'Core/Vendor/normalize';
 // MQ needs to load after core/breakpoints
 @import 'Core/breakpoints';
 @import 'sass-mq/mq';

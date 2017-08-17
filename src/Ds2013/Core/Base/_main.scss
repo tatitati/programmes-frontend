@@ -1,17 +1,20 @@
 /**
  * Main
  */
-@-ms-viewport { width: device-width; }
+// sass-lint:disable no-vendor-prefixes
+@-ms-viewport {
+    width: device-width;
+}
 
 html {
     overflow-y: scroll;
     min-height: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased; // sass-lint:disable no-vendor-prefixes
+    -moz-osx-font-smoothing: grayscale; // sass-lint:disable no-vendor-prefixes
 }
 
 abbr[title] {
-    border-bottom: none;
+    border-bottom: 0;
 }
 
 .programmes-page a {
@@ -40,29 +43,35 @@ abbr[title] {
         padding-bottom: $wide-spacing;
     }
 }
+
 .programmes-page--stripe {
     padding-bottom: 0.1px; // hack to keep margins inside stripe
 }
+
 @include mq-range('bpw') {
     .programmes-page--topboxed {
         padding-top: $wide-spacing;
     }
 }
+
 .programmes-page--inset,
 .inset {
     padding-left: 8px;
     padding-right: 8px;
 }
+
 .programmes-page--flush {
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
+
 .programmes-page--clear {
     background: transparent;
 }
+
 .programmes-page--smallpush {
     padding-top: 2px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 // grid full limited (will match the width of the page)
@@ -71,12 +80,14 @@ abbr[title] {
     margin-left: auto;
     margin-right: auto;
 }
+
 // grid orb limited (will match the width of orb content)
 .g-o-l {
     max-width: 976px;
     margin-left: auto;
     margin-right: auto;
 }
+
 // grid column limited (limits single column pages to not be too wide)
 .g-c-l {
     max-width: 752px;
@@ -89,6 +100,7 @@ abbr[title] {
     display: block;
     font-size: mq-px2em(12px, gel-typography('basic', 'base', 'font-size'));
 }
+
 .context__item:first-child {
     @extend .visually-hidden;
 }
@@ -104,6 +116,7 @@ abbr[title] {
         padding-left: 16px;
         padding-right: 16px;
     }
+
     .pull-out {
         margin-left: -$wide-spacing;
         margin-right: -$wide-spacing;

@@ -63,10 +63,6 @@
     display: block;
 }
 
-.date-list__page--current .date-list__item-line2 {
-    font-weight: bold;
-}
-
 @include mq($from: 360px, $until: 599px) {
     .date-list {
         .date-list__page {

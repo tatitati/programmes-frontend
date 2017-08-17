@@ -37,7 +37,6 @@
     margin-bottom: $gel-unit-small;
 }
 
-
 @include mq($from: gel3) {
     .grid {
         margin-left: -$gel-unit-large;
@@ -67,7 +66,6 @@
         margin-bottom: 0;
     }
 }
-
 
 // include fractions unprefixed
 @include fractions();

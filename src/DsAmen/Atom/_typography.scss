@@ -71,7 +71,8 @@ $type-settings: (
 }
 
 @each $class-name, $groups in $type-settings {
-    @include _typography-group($class-name, map-get($groups, 'group-a')...);
+    $group-a: map-get($groups, 'group-a');
+    @include _typography-group($class-name, $group-a...);
 
     .gel-#{$class-name}-bold {
         @extend %gel-type-bold;
@@ -81,7 +82,8 @@ $type-settings: (
 @each $gel-group, $amen-mq in ('group-b': 'gel1b', 'group-d': 'gel3') {
     @include mq($from: $amen-mq) {
         @each $class-name, $groups in $type-settings {
-            @include _typography-group($class-name, map-get($groups, $gel-group)...)
+            $group: map-get($groups, $gel-group);
+            @include _typography-group($class-name, $group...);
         }
     }
 }

@@ -53,12 +53,12 @@
     padding-left: $basic-spacing;
     padding-right: $basic-spacing;
 }
-.prog-box:after {
+
+.prog-box::after {
     // prevent margin collapse making margins happen outside of prog-box
     content: '';
     display: table;
 }
-
 
 // prog-layout__primary is the most common layout. It is the one usually used for
 // the first column when we split our content into two columns.
@@ -80,7 +80,7 @@
     }
 }
 
- @include mq-range('bpw') {
+@include mq-range('bpw') {
     .prog-layout {
         padding-left: 16px;
         padding-right: 16px;

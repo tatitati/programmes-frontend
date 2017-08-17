@@ -10,3 +10,4 @@ fi
 
 vendor/bin/phpunit
 vendor/bin/phpcs
+yarn run lint

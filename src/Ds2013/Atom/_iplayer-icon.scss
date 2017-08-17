@@ -8,7 +8,8 @@
 
 .iplayer-icon--boxed {
     background: $iplayer-pink !important;
-    color: #fff !important;
+    color: #ffffff !important;
+
     &:hover,
     &:active,
     &:focus {
@@ -20,11 +21,12 @@
 .iplayer-icon--invert {
     background: $iplayer-grey !important;
     color: $iplayer-pink !important;
+
     &:hover,
     &:active,
     &:focus {
         background: $iplayer-pink !important;
-        color: #fff !important;
+        color: #ffffff !important;
     }
 }
 

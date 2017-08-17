@@ -9,7 +9,7 @@
     margin: -1px (-$basic-spacing) 0;
     padding: 4px ($basic-spacing - 1px);
     border: 1px solid transparent;
-    border-color: #ddd transparent;
+    border-color: #dddddd transparent;
 
     // Don't show a border for the first row immediately after a group title
     .sch-group__title + & {
@@ -19,8 +19,8 @@
     &:hover,
     &:active,
     &:focus {
-        background: #eee;
-        border-color: #ddd;
+        background: #eeeeee;
+        border-color: #dddddd;
     }
 }
 

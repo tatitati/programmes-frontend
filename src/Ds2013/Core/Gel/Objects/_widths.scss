@@ -1,3 +1,4 @@
+// sass-lint:disable space-around-operator
 /**
  * Widths.
  *
@@ -15,7 +16,6 @@
  * You'd never need to write odd these values anywhere else.
  * They are suffixed with the breakpoints. e.g. .1/3@bpw
  */
-
 
 /**
  * Grid width sizing ratios, these have grid-agnostic names as they can also
@@ -74,7 +74,6 @@
     .\43\/16#{$suffix} { width: (13/24) * 100%; } // 13/24
 }
 
-
 @include gel-widths-setup();
 
 /**
@@ -82,6 +81,6 @@
  */
 @each $name in $gel-widths-breakpoints {
     @include mq-range($name) {
-       @include gel-widths-setup('\\@#{$name}');
+        @include gel-widths-setup('\\@#{$name}');
     }
 }

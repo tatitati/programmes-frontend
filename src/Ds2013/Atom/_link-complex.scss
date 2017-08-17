@@ -6,7 +6,7 @@
 
 // Styling underline using ".programmes-page a" means we need increased specificity
 .link-complex,
-.programmes-page a.link-complex {
+.programmes-page .link-complex {
     &,
     &:hover,
     &:active,
@@ -17,7 +17,7 @@
     &:hover .link-complex__target,
     &:active .link-complex__target,
     &:focus .link-complex__target {
-        text-decoration:underline;
+        text-decoration: underline;
     }
 }
 
@@ -30,7 +30,7 @@
 // object in the schedules page. The watch from start text should not underline
 // if the main programme object is hovered over.
 .link-complex--sub,
-.programmes-page a.link-complex--sub {
+.programmes-page .link-complex--sub {
     &,
     &:hover,
     &:active,
@@ -41,7 +41,7 @@
     &:hover .link-complex--sub__target,
     &:active .link-complex--sub__target,
     &:focus .link-complex--sub__target {
-        text-decoration:underline;
+        text-decoration: underline;
     }
 }
 

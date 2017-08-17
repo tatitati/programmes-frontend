@@ -19,7 +19,7 @@
 .block-link__target.block-link__target {
     position: static;
 
-    &:before {
+    &::before {
         content: '';
         position: absolute;
         top: 0;

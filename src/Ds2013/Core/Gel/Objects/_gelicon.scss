@@ -1,8 +1,9 @@
-svg.gelicon  {
+svg.gelicon {
     display: inline-block;
     fill: currentColor;
     vertical-align: baseline;
 }
+
 .gelicons-source {
     width: 0;
     height: 0;
@@ -10,24 +11,36 @@ svg.gelicon  {
     visibility: hidden;
     speak: none;
 }
+
 .gelicon--half-container {
     width: 50%;
     height: 50%;
     margin: 25%;
 }
+
 .gelicon--fill-container {
     width: 100%;
     height: 100%;
 }
-svg.gelicon--alpha, svg.gelicon--beta, svg.gelicon--gamma, svg.gelicon--delta, svg.gelicon--centi, svg.gelicon--milli, svg.gelicon--micro {
+
+svg.gelicon--alpha,
+svg.gelicon--beta,
+svg.gelicon--gamma,
+svg.gelicon--delta,
+svg.gelicon--centi,
+svg.gelicon--milli,
+svg.gelicon--micro {
     vertical-align: text-top;
 }
+
 .gelicon--leading {
     margin-right: $basic-spacing;
 }
+
 .gelicon--trailing {
     margin-left: $basic-spacing;
 }
+
 /**
  * Arguments correspond to the text description in the GEL pdf as follows:
  * $base:     Article body text
@@ -76,14 +89,16 @@ svg.gelicon--alpha, svg.gelicon--beta, svg.gelicon--gamma, svg.gelicon--delta, s
     }
 }
 
-@include svg-sizing('', map-get($gel-typography, 'basic')...);
+$basic-typography: map-get($gel-typography, 'basic');
+@include svg-sizing('', $basic-typography...);
 
 /**
  * Generate media-query scoped gel-icon sizings that correspond to our font sizings for each breakpoint name defined
  */
 @each $item in $gel-typography-breakpoints {
     @include mq-range($item) {
-        @include svg-sizing('#{$item}-', map-get($gel-typography, $item)...);
+        $item-typography: map-get($gel-typography, $item);
+        @include svg-sizing('#{$item}-', $item-typography...);
     }
 }
 

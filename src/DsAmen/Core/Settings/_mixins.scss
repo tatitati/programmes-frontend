@@ -1,22 +1,21 @@
 // flexbox
 @mixin flexbox($fallback: block) {
     display: $fallback;
-    display: -ms-flexbox;      /* IE 10 */
-    display: -webkit-flex;     /* Chrome */
-    display: flex;             /* Spec  */
+    display: -ms-flexbox; /* IE 10 */
+    display: flex; /* Spec  */
 }
 
 @mixin inline-flexbox($fallback: inline-block) {
     display: $fallback;
-    display: -ms-inline-flexbox;      /* IE 10 */
-    display: -webkit-inline-flex;     /* Chrome */
-    display: inline-flex;             /* Spec  */
+    display: -ms-inline-flexbox; /* IE 10 */
+    display: -webkit-inline-flex; /* Chrome */
+    display: inline-flex; /* Spec  */
 }
 
 @mixin flex-grow($size) {
+    // sass-lint:disable no-vendor-prefixes
     // If you omit this line it will go properly mental in IE10
     -ms-flex: $size $size 0%;
-    -webkit-flex-grow: $size;
     flex-grow: $size;
 }
 
@@ -24,18 +23,23 @@
     &::-webkit-input-placeholder {
         @content;
     }
+
     &::-moz-placeholder {
         @content;
     }
+
     &:-ms-input-placeholder {
         @content;
     }
+
     &::-ms-input-placeholder {
         @content;
     }
+
     &:-moz-placeholder {
         @content;
     }
+
     &::placeholder {
         @content;
     }

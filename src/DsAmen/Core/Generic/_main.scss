@@ -1,10 +1,10 @@
+// sass-lint:disable no-ids, no-vendor-prefixes
 //
 // Base layout
 //
 *,
-*:before,
-*:after {
-    -webkit-box-sizing: border-box;
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -12,9 +12,8 @@
 #orb-banner,
 #orb-footer {
     *,
-    *:before,
-    *:after {
-        -webkit-box-sizing: content-box;
+    *::before,
+    *::after {
         box-sizing: content-box;
     }
 
@@ -25,7 +24,6 @@
 
 .b-g-p,
 .b-g-m {
-    -webkit-box-sizing: content-box;
     box-sizing: content-box;
 }
 
@@ -39,7 +37,6 @@ html {
 img {
     -ms-interpolation-mode: bicubic;
 }
-
 
 p,
 ul,
@@ -63,7 +60,6 @@ button {
     background: none;
     border: 0;
 }
-
 
 // links are scoped to .amen
 // add amen to your page section containing amen data
