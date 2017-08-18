@@ -1,24 +1,24 @@
 <div class="b-g-p no-margin-vertical">
     <div class="grid map">
-        <div class="grid__item map__item {{ map.LeftGridClasses }}">
-            {% if map.promo %}
+        <div class="grid__item map__item {{ map.getLeftGridClasses() }}">
+            {% if map.getPromo() %}
                 <div class="br-box-secondary" data-map-column="promo">
-                    {{ ds_amen_presenter(map.promoPresenter) }}
+                    {{ ds_amen_presenter(map.getPromoPresenter()) }}
                 </div>
             {% else %}
                 <div class="br-box-secondary" data-map-column="info2016">
-                    {{ ds_amen_presenter(map.programmeInfoPresenter) }}
+                    {{ ds_amen_presenter(map.getProgrammeInfoPresenter()) }}
                 </div>
             {% endif %}
         </div>
-        <div class="grid__item map__item {{ map.RightGridClasses }} map-grid__item">
+        <div class="grid__item map__item {{ map.getRightGridClasses() }} map-grid__item">
             <div class="grid map-grid">
                 <div class="map-grid__column-wrap 1/1">
-                    {% for column in map.rightColumns %}
+                    {% for column in map.getRightColumns() %}
                         {{ ds_amen_presenter(column) }}
                     {% endfor %}
                 </div>
-                {{ ds_amen_presenter(map.socialPresenter) }}
+                {{ ds_amen_presenter(map.getSocialPresenter()) }}
             </div>
         </div>
     </div>

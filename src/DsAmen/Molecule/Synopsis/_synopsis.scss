@@ -17,7 +17,8 @@ $synopsis-toggle-fade-out-time: 0.25s;
     &:checked ~ .synopsis-toggle__long {
         opacity: 0;
         max-height: 0;
-        transition: opacity $synopsis-toggle-fade-out-time linear, max-height 0s linear $synopsis-toggle-fade-out-time;
+        visibility: hidden;
+        transition: opacity $synopsis-toggle-fade-out-time linear, max-height 0s linear $synopsis-toggle-fade-out-time, visibility 0s linear $synopsis-toggle-fade-out-time;
 
         .synopsis-toggle__button {
             margin: 0;

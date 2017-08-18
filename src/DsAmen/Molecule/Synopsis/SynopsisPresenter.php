@@ -58,7 +58,7 @@ class SynopsisPresenter extends Presenter
 
     private function countWithoutTags(string $text): int
     {
-        return strlen(strip_tags($text));
+        return mb_strlen(strip_tags($text));
     }
 
     /**

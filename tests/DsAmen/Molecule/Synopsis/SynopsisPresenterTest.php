@@ -20,6 +20,17 @@ class SynopsisPresenterTest extends TestCase
         $this->assertFalse($presenter->needsShorterSynopsis());
     }
 
+    public function testNeedsShorterSynopsisMB()
+    {
+        $synopses = new Synopses('অ', 'অং', 'অংশ');
+
+        $presenter = new SynopsisPresenter($synopses, 2);
+        $this->assertTrue($presenter->needsShorterSynopsis());
+
+        $presenter = new SynopsisPresenter($synopses, 3);
+        $this->assertFalse($presenter->needsShorterSynopsis());
+    }
+
     public function testGetLongestSynopsis()
     {
         $synopses = new Synopses('a', 'ab', '');
