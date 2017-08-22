@@ -1,0 +1,266 @@
+// Media object
+// A pattern for image plus text which is fully responsive and can flip from row to column
+// Default view is as a row
+
+.media {
+    display: block;
+    display: flex;
+    flex-direction: row; // by default the object is displayed in rows
+    width: 100%;
+}
+
+.media__panel {
+    order: 1;
+    flex: 0 0 auto;
+
+    // inline-block will be overridden with flexbox
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.media__overlay-container {
+    position: relative;
+}
+
+// body padding
+.media__details {
+    padding: 0 0 0 $gel-unit-small;
+    flex: 1 1 auto; // make sure the details are the bulk of the object
+
+    @include mq($from: gel3) {
+        padding: 0 0 0 $gel-unit-large;
+    }
+}
+
+// adjust body padding/layout when a column
+.media--column {
+    flex-direction: column;
+
+    > .media__body > .media__details {
+        padding: $gel-unit-small 0 0; // padding only on top
+        @include mq($from: gel3) {
+            padding: $gel-unit-large 0 0;
+        }
+    }
+
+    > .media__body > .media__details--noimage {
+        padding-top: 0;
+    }
+}
+
+@mixin media-direction($suffix: '', $unit: $gel-unit-small) {
+    .media--row#{$suffix} {
+        flex-direction: row;
+
+        > .media__body > .media__details {
+            padding: 0 0 0 $unit; // padding only on left
+        }
+    }
+
+    .media--column#{$suffix} {
+        flex-direction: column;
+
+        > .media__body > .media__details {
+            padding: $unit 0 0; // padding only on top
+        }
+
+        > .media__body > .media__details--noimage {
+            padding-top: 0;
+        }
+    }
+}
+
+// allow the media to switch from rows to columns at breakpoints
+@each $breakpoint, $suffix in ($breakpoint-suffixes) {
+    @include mq($from: $breakpoint) {
+        @include media-direction($suffix, gel-unit($breakpoint));
+    }
+}
+
+// a card type will be boxed
+// adding extra padding as required
+// and making sure the image scales correctly
+.media--card {
+    > .media__body > .media__details {
+        padding: $gel-unit-small;
+
+        @include mq($from: gel3) {
+            padding: $gel-unit-large; // padding in all directions
+        }
+    }
+
+    > .media__body > .media__details--noimage {
+        padding-top: 0;
+    }
+
+    > .media__body > .media__details--flush {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.media__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.media__overlay--inline {
+    left: auto;
+    right: auto;
+    padding: ($gel-unit-small / 4) ($gel-unit-small / 2);
+}
+
+.media__overlay--top {
+    top: 0;
+    bottom: auto;
+}
+
+// body styles
+.media__body {
+    display: inline-block;
+    display: flex; // make sure the body is ready to contain flex items
+    flex: 1 1 auto; // make sure the body fills the remaining space
+    flex-direction: column; // item in the body will be stacked
+    order: 2; // make sure the body comes after the panel
+    vertical-align: top;
+}
+
+.media__meta-group {
+    display: block;
+    margin: 0 0 $gel-unit-small;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.media__meta-row {
+    display: block;
+    margin: 0 0 $gel-unit-small;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// typo remains for backwards compatibility
+.media__meta-row--seperator,
+.media__meta-row--separator {
+    border-top-width: 1px;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-style: solid;
+}
+
+// rows inside groups have smaller margins
+.media__meta-group .media__meta-row {
+    margin-bottom: $gel-unit-small / 4;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.media__meta-item {
+    display: inline-block;
+    white-space: nowrap;
+    margin: 0 16px 0 0;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+// short horizontal rule line to seperate content
+.media__seperator {
+    height: 1px;
+    border: 0;
+    margin: $gel-unit-large 0;
+}
+
+
+.media__actions {
+    display: block;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 1px;
+    z-index: 2; // ensure action bar sits above any block links
+    position: relative;
+}
+
+.media__actions-space {
+    display: block;
+    height: $cta-minimum-size;
+    float: left; // will be overridden with flexbox
+    flex: 1 1 0%;
+}
+
+.media__button {
+    float: left; // will be overridden with flexbox
+    height: $cta-minimum-size;
+    width: $cta-minimum-size;
+    text-align: center;
+    margin-left: 1px;
+    overflow: hidden;
+}
+
+.media__badge {
+    padding-left: $gel-unit-small;
+    padding-right: $gel-unit-small;
+
+    @include mq($from: gel3) {
+        padding-left: $gel-unit-large;
+        padding-right: $gel-unit-large;
+    }
+}
+
+.media__button--fill {
+    width: auto;
+}
+
+.media__button-icon {
+    line-height: $cta-minimum-size;
+}
+
+.media__footer {
+    display: block;
+    display: flex;
+    align-items: center;
+    margin-top: $gel-unit-large;
+    padding-top: $gel-unit-small;
+    border-top: 1px solid;
+}
+
+.media__footer-link {
+    margin-left: -$gel-unit-small;
+    margin-right: -$gel-unit-small;
+    margin-bottom: -$gel-unit-small;
+    padding-left: $gel-unit-small;
+    padding-right: $gel-unit-small;
+    padding-bottom: $gel-unit-small;
+    width: calc(100% + #{$gel-unit-small * 2});
+
+    @include mq($from: gel3) {
+        margin-left: -$gel-unit-large;
+        margin-right: -$gel-unit-large;
+        margin-bottom: -$gel-unit-large;
+        padding-left: $gel-unit-large;
+        padding-right: $gel-unit-large;
+        padding-bottom: $gel-unit-large;
+        width: calc(100% + #{$gel-unit-large * 2});
+    }
+
+    position: relative;
+    z-index: 1;
+}
+
+.media-title {
+    display: block;
+    position: relative;
+    z-index: 1;
+}
