@@ -46,43 +46,19 @@ class PresenterTest extends TestCase
         $presenter->getOption('garbage');
     }
 
-    public function testGetUniqueID()
+    public function testGetUniqueId()
     {
         $presenter = $this->getMockForAbstractClass(Presenter::class, [], 'TestAmenObjectPresenter');
-        $uniqueIdFn = $this->boundCall('getUniqueId', $presenter);
-
-        $initialId = $uniqueIdFn();
+        $initialId = $presenter->getUniqueId();
 
         // Assert format
         $this->assertRegExp('/^ds-amen-TestAmenObjectPresenter-[0-9]+$/', $initialId);
 
         // Assert we get the same value if we call uniqueID multiple times on the same Presenter
-        $this->assertSame($initialId, $uniqueIdFn());
+        $this->assertSame($initialId, $presenter->getUniqueId());
 
         // Assert a new presenter gets a different ID
         $secondPresenter = $this->getMockForAbstractClass(Presenter::class, [], 'TestAmenObjectPresenter');
-        $secondPresenterUniqueIdFn = $this->boundCall('getUniqueId', $secondPresenter);
-
-        $this->assertNotEquals($initialId, $secondPresenterUniqueIdFn());
-    }
-
-    /**
-     * This is funky. It generates a closure that has its scope bound to a
-     * presenter, which means it has access to call protected function names.
-     * Thus we can call boundCall('protectedFn') to create a function that
-     * calls $protectedFunction->protectedFn().
-     */
-    private function boundCall(string $protectedFunctionName, ?Presenter $presenter = null): callable
-    {
-        if (!$presenter) {
-            $presenter = $this->getMockForAbstractClass(Presenter::class);
-        }
-
-        // Define a closure that will call the protected method using "this".
-        $callable = function (...$args) use ($protectedFunctionName) {
-            return $this->{$protectedFunctionName}(...$args);
-        };
-        // Bind the closure to $presenter's scope.
-        return $callable->bindTo($presenter, $presenter);
+        $this->assertNotEquals($initialId, $secondPresenter->getUniqueId());
     }
 }

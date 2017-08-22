@@ -70,17 +70,10 @@ abstract class BasePresenter
     }
 
     /**
-     * The name of the design system
-     *
-     * @return string
-     */
-    abstract protected function getDesignSystem(): string;
-
-    /**
      * Get or generate a unique ID. Once generated once the same one will be used
      * Only used for unique references in a single render
      */
-    protected function getUniqueID(): string
+    public function getUniqueId(): string
     {
         if (!$this->uniqueId) {
             $parts = explode('\\', static::class);
@@ -90,6 +83,13 @@ abstract class BasePresenter
 
         return $this->uniqueId;
     }
+
+    /**
+     * The name of the design system
+     *
+     * @return string
+     */
+    abstract protected function getDesignSystem(): string;
 
     /**
      * Validate options. Should be overridden.
