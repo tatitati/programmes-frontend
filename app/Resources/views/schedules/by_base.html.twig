@@ -1,4 +1,4 @@
-{% extends 'base_ds2013.html.twig' %}
+{% extends with_chrome ? 'base_ds2013.html.twig' : 'base_ds2013_no_chrome.html.twig' %}
 
 {% block title %}{{ meta_context.titlePrefix() }} - {{ tr('schedules') }}, {{ block('date') }}{% endblock %}
 

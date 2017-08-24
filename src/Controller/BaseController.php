@@ -102,7 +102,6 @@ abstract class BaseController extends AbstractController
 
     protected function renderWithChrome(string $view, array $parameters = [])
     {
-        $appVersion = $this->container->get(CosmosInfo::class)->getAppVersion();
         $branding = $this->requestBranding();
 
         // We only need to change the translation language if it is different
@@ -115,21 +114,30 @@ abstract class BaseController extends AbstractController
         // use controller name if this isn't set
         $this->istatsProgsPageType =  $this->istatsProgsPageType ?? $this->request()->attributes->get('_controller');
 
-        $orb = $this->container->get(OrbitClient::class)->getContent([
-            'variant' => $branding->getOrbitVariant(),
-            'language' => $branding->getLanguage(),
-        ], [
-            'searchScope' => $branding->getOrbitSearchScope(),
-            'skipLinkTarget' => 'programmes-content',
-            'analyticsCounterName' => (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo()),
-            'analyticsLabels' => (new AnalyticsLabels($this->context, $this->istatsProgsPageType, $appVersion, $this->istatsExtraLabels))->orbLabels(),
-        ]);
-
         $parameters = array_merge([
-            'orb' => $orb,
             'branding' => $branding,
-            'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl()),
+            'with_chrome' => !$this->request()->query->has('no_chrome'),
         ], $parameters);
+
+        // No need to process the ORB or Meta information if the Chrome is not being rendered.
+        if ($parameters['with_chrome']) {
+            $appVersion = $this->container->get(CosmosInfo::class)->getAppVersion();
+
+            $orb = $this->container->get(OrbitClient::class)->getContent([
+                'variant' => $branding->getOrbitVariant(),
+                'language' => $branding->getLanguage(),
+            ], [
+                'searchScope' => $branding->getOrbitSearchScope(),
+                'skipLinkTarget' => 'programmes-content',
+                'analyticsCounterName' => (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo()),
+                'analyticsLabels' => (new AnalyticsLabels($this->context, $this->istatsProgsPageType, $appVersion, $this->istatsExtraLabels))->orbLabels(),
+            ]);
+
+            $parameters = array_merge([
+                'orb' => $orb,
+                'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl()),
+            ], $parameters);
+        }
 
         return $this->render($view, $parameters, $this->response);
     }
