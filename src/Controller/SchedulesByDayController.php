@@ -162,8 +162,10 @@ class SchedulesByDayController extends BaseController
 
     private function dateTimeToShow(?string $dateString, Service $service): Chronos
     {
-        // "International" services are UTC, all others are Europe/London (the default)
-        if ($service->isInternational()) {
+        if ($this->request()->query->has('utcoffset')) {
+            ApplicationTime::setLocalTimeZone($this->request()->query->get('utcoffset'));
+        } elseif ($service->isInternational()) {
+            // "International" services are UTC, all others are Europe/London (the default)
             ApplicationTime::setLocalTimeZone('UTC');
         }
         if (!$dateString) {

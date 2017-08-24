@@ -185,6 +185,11 @@ abstract class BaseController extends AbstractController
         $this->istatsProgsPageType = $label;
     }
 
+    protected function request(): Request
+    {
+        return $this->container->get('request_stack')->getCurrentRequest();
+    }
+
     private function requestBranding(): Branding
     {
         $brandingClient = $this->container->get(BrandingClient::class);
@@ -229,10 +234,5 @@ abstract class BaseController extends AbstractController
     private function logger(): LoggerInterface
     {
         return $this->container->get('logger');
-    }
-
-    private function request(): Request
-    {
-        return $this->container->get('request_stack')->getCurrentRequest();
     }
 }

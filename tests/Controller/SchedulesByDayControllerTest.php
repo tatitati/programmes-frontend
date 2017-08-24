@@ -47,6 +47,11 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
             'tv-no-date' => ['2017-05-22 09:00:00', 'p00fzl6p', null, ['2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
             'tv-no-date-tomorrow-before-6am' => ['2017-05-23 03:00:00', 'p00fzl6p', null, ['2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
             'tv-with-date' => [null, 'p00fzl6p', '2017-05-22', ['2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
+            'radio-no-date-and-utcoffset' => ['2017-05-22 00:00:00', 'p00fzl8v?utcoffset=%2B04%3A00', null, ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
+            'radio-with-date-and-utcoffset' => [null, 'p00fzl8v', '2017-05-22?utcoffset=%2B04%3A00', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
+            'tv-no-date-and-utcoffset' => ['2017-05-22 09:00:00', 'p00fzl6p?utcoffset=%2B04%3A00', null, ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
+            'tv-no-date-tomorrow-before-6am-and-utcoffset' => ['2017-05-23 03:00:00', 'p00fzl6p?utcoffset=%2B04%3A00', null, ['2017-05-23T03:45:00+01:00']],
+            'tv-with-date-and-utcoffset' => [null, 'p00fzl6p', '2017-05-22?utcoffset=%2B04%3A00', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
         ];
     }
 
@@ -203,5 +208,10 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
             $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($message));
             $this->assertHasRequiredResponseHeaders($client);
         }
+    }
+
+    protected function tearDown()
+    {
+        ApplicationTime::setLocalTimeZone();
     }
 }
