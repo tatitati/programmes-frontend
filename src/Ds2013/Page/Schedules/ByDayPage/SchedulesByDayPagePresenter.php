@@ -175,11 +175,6 @@ class SchedulesByDayPagePresenter extends Presenter
         return !!$this->broadcasts && !$this->service->isTv();
     }
 
-    public function hasPeriodHeadings()
-    {
-        return !$this->service->isInternational();
-    }
-
     public function hasSiblingServiceLink(): bool
     {
         return count($this->servicesInNetwork) > 1;
