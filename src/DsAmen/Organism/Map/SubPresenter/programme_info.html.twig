@@ -1,5 +1,5 @@
 {% if not programme_info.showMiniMap %}
-    {{ ds_shared('image', programme_info.programme.image, 320, programme_info.imagesSizes, {'is_lazy_loaded': false}) }}
+    {{ ds_shared('image', programme_info.programme.image, 896, programme_info.imagesSizes, {'is_lazy_loaded': false}) }}
 {% endif %}
 <div class="island" vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(programme_info.programme) }}" resource="{{ path('find_by_pid', {'pid': programme_info.programme.pid}) }}">
     <h1 class="invisible" property="name">{{ programme_info.programme.title }}</h1>
