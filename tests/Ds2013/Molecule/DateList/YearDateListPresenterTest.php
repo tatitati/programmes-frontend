@@ -27,7 +27,7 @@ class YearDateListPresenterTest extends TestCase
                 ['pid' => (string) $pid, 'year' => $now->addYears($offset)->format('Y')],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )->willReturn('aUrl');
-        $presenter = new YearDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset);
+        $presenter = new YearDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset, new Chronos('+90 days'));
         $presenter->getLink();
     }
 }

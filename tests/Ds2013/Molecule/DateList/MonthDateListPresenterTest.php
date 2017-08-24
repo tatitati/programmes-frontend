@@ -28,7 +28,7 @@ class MonthDateListPresenterTest extends TestCase
                 ['pid' => (string) $pid, 'date' => $now->addMonths($offset)->format('Y-m')],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )->willReturn('aUrl');
-        $presenter = new MonthDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset);
+        $presenter = new MonthDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset, new Chronos('+90 days'));
         $presenter->getLink();
     }
 
@@ -60,6 +60,6 @@ class MonthDateListPresenterTest extends TestCase
     private function createPresenter(Service $service, int $offset, array $options = [])
     {
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
-        return new MonthDateListItemPresenter($urlGeneratorInterface, Chronos::now(), $service, $offset, $options);
+        return new MonthDateListItemPresenter($urlGeneratorInterface, Chronos::now(), $service, $offset, new Chronos('+2 weeks'), $options);
     }
 }

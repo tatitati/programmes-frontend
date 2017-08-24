@@ -43,7 +43,7 @@ class DayDateListPresenterTest extends TestCase
                 ['pid' => (string) $pid, 'date' => $now->addDays($offset)->format('Y-m-d')],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )->willReturn('aUrl');
-        $presenter = new DayDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset);
+        $presenter = new DayDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset, new Chronos('+90 days'));
         $presenter->getLink();
     }
 
@@ -51,6 +51,6 @@ class DayDateListPresenterTest extends TestCase
     {
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
         $service = $this->createMock(Service::class);
-        return new DayDateListItemPresenter($urlGeneratorInterface, Chronos::now(), $service, $offset, $options);
+        return new DayDateListItemPresenter($urlGeneratorInterface, Chronos::now(), $service, $offset, new Chronos('+90 days'), $options);
     }
 }

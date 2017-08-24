@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Ds2013\Molecule\DateList;
 
 use App\ValueObject\BroadcastMonth;
+use App\ValueObject\BroadcastPeriod;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
@@ -11,9 +12,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MonthDateListItemPresenter extends AbstractDateListItemPresenter
 {
-    public function __construct(UrlGeneratorInterface $router, ChronosInterface $datetime, Service $service, int $offset, array $options = [])
+    public function __construct(UrlGeneratorInterface $router, ChronosInterface $datetime, Service $service, int $offset, Chronos $unavailableAfterDate, array $options = [])
     {
-        parent::__construct($router, $datetime->addMonths($offset), $service, $offset, $options);
+        parent::__construct($router, $datetime->addMonths($offset), $service, $offset, $unavailableAfterDate, $options);
     }
 
     public function getLink(): string
@@ -25,19 +26,8 @@ class MonthDateListItemPresenter extends AbstractDateListItemPresenter
         );
     }
 
-    public function isLink(): bool
+    protected function getBroadcastPeriod(string $medium): BroadcastPeriod
     {
-        // if the date is more than 2 weeks from now, then don't allow a link (page will still exist)
-        if ($this->offset === 0 || $this->datetime->gte(new Chronos('2 weeks'))) {
-            return false;
-        }
-
-        $network = $this->service->getNetwork();
-        if (is_null($network)) {
-            return false;
-        }
-
-        $broadcastMonth = new BroadcastMonth($this->datetime, $network->getMedium());
-        return $broadcastMonth->serviceIsActiveInThisPeriod($this->service);
+        return new BroadcastMonth($this->datetime, $medium);
     }
 }

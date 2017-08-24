@@ -6,6 +6,7 @@ namespace App\Ds2013\Molecule\DateList;
 use App\Ds2013\Presenter;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -27,12 +28,20 @@ class DateListPresenter extends Presenter
     /** @var Service */
     private $service;
 
+    /** @var Chronos  */
+    private $unavailableAfterDate;
+
     public function __construct(UrlGeneratorInterface $router, ChronosInterface $datetime, Service $service, array $options = [])
     {
         parent::__construct($options);
         $this->datetime = $datetime;
         $this->router = $router;
         $this->service = $service;
+        if ($this->getOption('format') === 'month') {
+            $this->unavailableAfterDate = new Chronos('+2 weeks');
+        } else {
+            $this->unavailableAfterDate = new Chronos('+90 days');
+        }
     }
 
     public function getDateListItem(int $offset): AbstractDateListItemPresenter
@@ -45,6 +54,7 @@ class DateListPresenter extends Presenter
             $this->datetime,
             $this->service,
             $offset,
+            $this->unavailableAfterDate,
             ['user_timezone' => $this->options['user_timezone']]
         );
         // @codingStandardsIgnoreEnd

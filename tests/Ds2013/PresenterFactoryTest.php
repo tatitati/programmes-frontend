@@ -44,6 +44,11 @@ class PresenterFactoryTest extends TestCase
         $this->factory = new PresenterFactory($translateProvider, $this->router, $this->helperFactory);
     }
 
+    public function tearDown()
+    {
+        Chronos::setTestNow();
+    }
+
     public function testOrganismBroadcast()
     {
         $mockBroadcast = $this->createMock(Broadcast::class);
@@ -80,6 +85,8 @@ class PresenterFactoryTest extends TestCase
     {
         $now = Chronos::now();
         $mockService = $this->createMock(Service::class);
+
+        Chronos::setTestNow($now);
 
         $this->assertEquals(
             new DateListPresenter($this->router, $now, $mockService),

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Molecule\DateList;
 
+use App\ValueObject\BroadcastPeriod;
 use App\ValueObject\BroadcastYear;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
@@ -11,9 +12,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class YearDateListItemPresenter extends AbstractDateListItemPresenter
 {
-    public function __construct(UrlGeneratorInterface $router, ChronosInterface $datetime, Service $service, int $offset, array $options = [])
+    public function __construct(UrlGeneratorInterface $router, ChronosInterface $datetime, Service $service, int $offset, Chronos $unavailableAfterDate, array $options = [])
     {
-        parent::__construct($router, $datetime->addYears($offset), $service, $offset, $options);
+        parent::__construct($router, $datetime->addYears($offset), $service, $offset, $unavailableAfterDate, $options);
     }
 
     public function getLink(): string
@@ -25,19 +26,10 @@ class YearDateListItemPresenter extends AbstractDateListItemPresenter
         );
     }
 
-    public function isLink(): bool
+
+
+    protected function getBroadcastPeriod(string $medium): BroadcastPeriod
     {
-        // if the date is more than 90 DAYS from now, then don't allow a link (page will still exist)
-        if ($this->offset === 0 || $this->datetime->gte(new Chronos('90 days'))) {
-            return false;
-        }
-
-        $network = $this->service->getNetwork();
-        if (is_null($network)) {
-            return false;
-        }
-
-        $broadcastYear = new BroadcastYear($this->datetime, $network->getMedium());
-        return $broadcastYear->serviceIsActiveInThisPeriod($this->service);
+        return new BroadcastYear($this->datetime, $medium);
     }
 }
