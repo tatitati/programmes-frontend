@@ -27,8 +27,14 @@ class ResponseSubscriber implements EventSubscriberInterface
     {
         $response = $event->getResponse();
 
-        // Always add the following varys to whatever is currently there
-        // The Vary header indicate what makes a HTTP object Vary so they can be cached separately
+        // Don't run on subrequests, such as when handling exceptions
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
+        // Always add the following headers to vary on, so that differences in
+        // these headers are cached separately. Add these to any already
+        // existing value rather than overwriting.
         $response->setVary(['X-CDN', 'X-BBC-Edge-Scheme'], false);
 
         // X-UA-Compatible header choose what version of Internet Explorer the page should be rendered as.

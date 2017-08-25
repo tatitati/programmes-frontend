@@ -17,6 +17,8 @@ class ExceptionControllerTest extends BaseWebTestCase
         // The test page for all errors, always returns a 200 status
         $this->assertResponseStatusCode($client, 200);
 
+        $this->assertHasRequiredResponseHeaders($client, 'max-age=60, public');
+
         $this->assertEquals(
             'Sorry, that page was not found',
             $crawler->filter('.programmes-page h1')->text()
@@ -35,6 +37,8 @@ class ExceptionControllerTest extends BaseWebTestCase
 
         // The test page for all errors, always returns a 200 status
         $this->assertResponseStatusCode($client, 200);
+
+        $this->assertHasRequiredResponseHeaders($client, 'no-cache, private');
 
         $this->assertEquals(
             'Internal server error',

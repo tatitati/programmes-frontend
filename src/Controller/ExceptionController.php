@@ -52,6 +52,21 @@ class ExceptionController extends BaseExceptionController
             ]);
         }
 
+        $headers = [
+            'Content-Type' => $request->getMimeType($request->getRequestFormat()) ?: 'text/html',
+            // The page can only be displayed in a frame on the same origin as the page itself.
+            'X-Frame-Options' => 'SAMEORIGIN',
+            // Blocks a request if the requested type is different from the MIME type
+            'X-Content-Type-Options' => 'nosniff',
+        ];
+
+        // In production, cache 4xx error codes for a little while
+        if (!$showException && $code >= 400 && $code <= 499) {
+            $headers['Cache-Control'] = 'public, max-age=60';
+        }
+
+        // The 200 status here is a misnomer, it is a default and shall be
+        // overridden later.
         return new Response($this->twig->render(
             (string) $this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
             [
@@ -64,6 +79,6 @@ class ExceptionController extends BaseExceptionController
                 'branding' => $branding,
                 'meta_context' => new MetaContext(null, ''),
             ]
-        ));
+        ), 200, $headers);
     }
 }
