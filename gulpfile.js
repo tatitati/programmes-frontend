@@ -27,7 +27,8 @@ gulp.task('js', ['js:clean'], function () {
 
     const modulesToOptimize = [
         staticPathSrc + '/js/**/rv-bootstrap.js',
-        staticPathSrc + '/js/**/dsAmen-bootstrap.js'
+        staticPathSrc + '/js/**/dsAmen-bootstrap.js',
+        staticPathSrc + '/js/**/timezone-notification.js'
     ];
 
     const config = {

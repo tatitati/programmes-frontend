@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
+use App\DsShared\Helpers\HelperFactory;
 use App\ValueObject\BroadcastDay;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -17,14 +18,19 @@ use Cake\Chronos\Date;
 
 class SchedulesByDayController extends BaseController
 {
+    /** @var HelperFactory */
+    protected $helperFactory;
+
     public function __invoke(
         Service $service,
         ?string $date,
         NetworksService $networksService,
         ServicesService $servicesService,
         BroadcastsService $broadcastService,
-        CollapsedBroadcastsService $collapsedBroadcastsService
+        CollapsedBroadcastsService $collapsedBroadcastsService,
+        HelperFactory $helperFactory
     ) {
+        $this->helperFactory = $helperFactory;
         $this->setIstatsProgsPageType('schedules_day');
         $this->setContext($service);
 
@@ -68,13 +74,15 @@ class SchedulesByDayController extends BaseController
             $date,
             $servicesInNetwork,
             $this->getOtherNetworks($service, $networksService, $broadcastDay),
-            $liveCollapsedBroadcast
+            $liveCollapsedBroadcast,
+            $this->helperFactory->getLocalisedDaysAndMonthsHelper()
         );
 
         $viewData = $this->viewData(
             $service,
             $broadcastDay->start(),
-            $pagePresenter
+            $pagePresenter,
+            $service->isInternational() && !$this->request()->query->has('utcoffset')
         );
 
         // If there are no broadcasts, then the status code should be 404, so
@@ -151,12 +159,14 @@ class SchedulesByDayController extends BaseController
     private function viewData(
         Service $service,
         Chronos $broadcastDayStart,
-        SchedulesByDayPagePresenter $pagePresenter
+        SchedulesByDayPagePresenter $pagePresenter,
+        bool $scheduleReload
     ): array {
         return [
             'service' => $service,
             'broadcast_day_start' => $broadcastDayStart,
             'page_presenter' => $pagePresenter,
+            'schedule_reload' => $scheduleReload,
         ];
     }
 

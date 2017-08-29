@@ -67,6 +67,7 @@
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
 @import 'Atom/box-link';
 @import 'Molecule/block-link';
+@import 'Molecule/lazyload';
 // @import 'objects/broadcast-event';
 // @import 'objects/stream';
 // @import 'objects/feature';
@@ -75,7 +76,6 @@
 @import 'Molecule/highlight-box';
 @import '../DsShared/Molecule/Image/image';
 
-// @import 'objects/lazyload';
 // @import 'objects/lazylink';
 // @import 'objects/smp';
 // @import 'objects/segments-list';

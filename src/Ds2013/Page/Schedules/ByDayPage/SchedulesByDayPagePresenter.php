@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Ds2013\Page\Schedules\ByDayPage;
 
 use App\Ds2013\Presenter;
+use App\DsShared\Helpers\LocalisedDaysAndMonthsHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
@@ -37,6 +38,9 @@ class SchedulesByDayPagePresenter extends Presenter
     /** @var CollapsedBroadcast|null */
     private $liveCollapsedBroadcast;
 
+    /** @var LocalisedDaysAndMonthsHelper */
+    private $localisedDaysAndMonthsHelper;
+
     /** @var Network[] */
     private $otherNetworks;
 
@@ -48,6 +52,7 @@ class SchedulesByDayPagePresenter extends Presenter
         array $servicesInNetwork,
         array $otherNetworks,
         ?CollapsedBroadcast $liveCollapsedBroadcast,
+        LocalisedDaysAndMonthsHelper $localisedDaysAndMonthsHelper,
         array $options = []
     ) {
         parent::__construct($options);
@@ -60,6 +65,7 @@ class SchedulesByDayPagePresenter extends Presenter
         $this->otherNetworks = $otherNetworks;
 
         $this->twinService = $this->twinService();
+        $this->localisedDaysAndMonthsHelper = $localisedDaysAndMonthsHelper;
     }
 
     public function getOtherNetworks()
@@ -75,6 +81,11 @@ class SchedulesByDayPagePresenter extends Presenter
     public function getBroadcastDayStart(): Chronos
     {
         return $this->broadcastDayStart;
+    }
+
+    public function getLocalisedDaysAndMonthsHelper(): LocalisedDaysAndMonthsHelper
+    {
+        return $this->localisedDaysAndMonthsHelper;
     }
 
     public function getRouteDate(): ?string

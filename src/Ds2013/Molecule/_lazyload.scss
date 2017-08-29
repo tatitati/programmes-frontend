@@ -1,0 +1,74 @@
+.lazy-module--loading--loader {
+    &.lazy-module--loading {
+        position: relative;
+    }
+
+    &.lazy-module--loading::after {
+        content: '';
+        background: url('../img/icons/loading.gif') center center no-repeat;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+    }
+}
+
+// @TODO make this work on non-white backgrounds and support positioning
+// changes when placed within a .component--box
+.lazy-module--loading--component {
+    &.lazy-module--loading {
+        position: relative;
+    }
+
+    &.lazy-module--loading::after {
+        position: absolute;
+        height: gel-typography('basic', 'beta', 'line-height');
+        width: 18px;
+        top: 0;
+        right: 0;
+        content: '';
+        background: url('../img/icons/loading_dark.gif') center right no-repeat;
+        pointer-events: none;
+    }
+}
+
+.lazy-module--loading--loader-transparent {
+    @extend .lazy-module--loading--loader;
+
+    &.lazy-module--loading::after {
+        background: transparent image-url('icons/loading_dark.gif') center center no-repeat;
+    }
+}
+
+.branding-contrast-dark .lazy-module--loading--loader-transparent {
+    &.lazy-module--loading::after {
+        background-image: image-url('icons/loading.gif');
+    }
+}
+
+.lazy-module--complete--fadein {
+    transition: opacity 0.5s ease-in-out;
+
+    &.lazy-module--loading {
+        opacity: 0;
+    }
+}
+
+@include mq-range('bpb1') {
+    .lazy-module--loading--component {
+        &.lazy-module--loading::after {
+            height: gel-typography('bpb1', 'beta', 'line-height');
+        }
+    }
+}
+
+@include mq-range('bpw') {
+    .lazy-module--loading--component {
+        &.lazy-module--loading::after {
+            height: gel-typography('bpw', 'beta', 'line-height');
+        }
+    }
+}

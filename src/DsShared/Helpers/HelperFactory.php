@@ -36,6 +36,14 @@ class HelperFactory
         return $this->helpers[LiveBroadcastHelper::class];
     }
 
+    public function getLocalisedDaysAndMonthsHelper(): LocalisedDaysAndMonthsHelper
+    {
+        if (!isset($this->helpers[LocalisedDaysAndMonthsHelper::class])) {
+            $this->helpers[LocalisedDaysAndMonthsHelper::class] = new LocalisedDaysAndMonthsHelper($this->translateProvider);
+        }
+        return $this->helpers[LocalisedDaysAndMonthsHelper::class];
+    }
+
     public function getPlayTranslationsHelper()
     {
         if (!isset($this->helpers[PlayTranslationsHelper::class])) {
