@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Page\Schedules\ByDayPage;
 
+use App\Ds2013\Molecule\SiblingService\SiblingServicePresenter;
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\LocalisedDaysAndMonthsHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
@@ -93,19 +94,9 @@ class SchedulesByDayPagePresenter extends Presenter
         return $this->routeDate;
     }
 
-    public function getServicesInNetwork(): array
-    {
-        return $this->servicesInNetwork;
-    }
-
     public function getLiveCollapsedBroadcast(): ?CollapsedBroadcast
     {
         return $this->liveCollapsedBroadcast;
-    }
-
-    public function getServicesHeadingMessage()
-    {
-        return $this->service->isTv() ? 'schedules_regional_note' : 'schedules_regional_note_radio';
     }
 
     public function getSiblingServicesLinkMessage(): string
@@ -119,6 +110,11 @@ class SchedulesByDayPagePresenter extends Presenter
     public function getSiblingServicesLinkName(): string
     {
         return $this->twinService ? $this->twinService->getShortName() : $this->service->getNetwork()->getName();
+    }
+
+    public function getSiblingServicePresenter(): SiblingServicePresenter
+    {
+        return new SiblingServicePresenter($this->service, 'schedules_by_day', $this->routeDate, $this->servicesInNetwork);
     }
 
     public function getTwinServicePid(): string
@@ -189,11 +185,6 @@ class SchedulesByDayPagePresenter extends Presenter
     public function hasSiblingServiceLink(): bool
     {
         return count($this->servicesInNetwork) > 1;
-    }
-
-    public function hasSiblingServiceList(): bool
-    {
-        return count($this->servicesInNetwork) > 2;
     }
 
     /**

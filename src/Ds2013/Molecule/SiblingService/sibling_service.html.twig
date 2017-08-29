@@ -1,0 +1,20 @@
+{% if sibling_service.hasSiblingServiceList() %}
+    <div class="island--vertical">
+        <h2>{{ tr(sibling_service.getServicesHeadingMessage()) }}</h2>
+        <div id="outlets" class="schedule-variant-outlets">
+            <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
+                {%- for service in sibling_service.getServicesInNetwork() -%}
+                    <li>
+                        {%- if service.getPid() == sibling_service.getService().getPid() -%}
+                            <span class="box-link">{{ service.getShortName() }}</span>
+                        {%- else -%}
+                            {% set url = path(sibling_service.getRouteName(), {pid: service.getPid(), date: sibling_service.getRouteDate()}) %}
+                            <a href="{{ url }}" data-href-add-utcoffset="true"
+                               class="box-link">{{ service.getShortName() }}</a>
+                        {%- endif -%}
+                    </li>
+                {%- endfor -%}
+            </ul>
+        </div>
+    </div>
+{% endif %}

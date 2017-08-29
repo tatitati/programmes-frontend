@@ -158,24 +158,4 @@
         </ul>
     {%- endif -%}
 </div>
-
-{% if schedules_by_day_page.hasSiblingServiceList() %}
-    <div class="island--vertical">
-        <h2>{{ tr(schedules_by_day_page.getServicesHeadingMessage()) }}</h2>
-        <div id="outlets" class="schedule-variant-outlets">
-            <ul class="list-unstyled columns columns--2@bpb2 columns--2@bpw delta">
-                {%- for service in schedules_by_day_page.getServicesInNetwork() -%}
-                    <li>
-                        {%- if service.getPid() == schedules_by_day_page.getService().getPid() -%}
-                            <span class="box-link">{{ service.getShortName() }}</span>
-                        {%- else -%}
-                            <a href="{{ path('schedules_by_day', {'pid': service.getPid(), 'date': schedules_by_day_page.getRouteDate()}) }}"
-                               data-href-add-utcoffset="true"
-                               class="box-link">{{ service.getShortName() }}</a>
-                        {%- endif -%}
-                    </li>
-                {%- endfor -%}
-            </ul>
-        </div>
-    </div>
-{% endif %}
+{{ ds2013_presenter(schedules_by_day_page.getSiblingServicePresenter()) }}
