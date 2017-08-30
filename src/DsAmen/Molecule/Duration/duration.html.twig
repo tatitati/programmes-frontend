@@ -1,0 +1,10 @@
+<{{ duration.getOptions().hTag }} class="{{ duration.getHeadingClass() }}">
+{{ tr(duration.getOptions().hTitle, {'%1':''}) }}
+</{{ duration.getOptions().hTag }}>
+
+{% if duration.getOptions().showIcon %}
+    <i class="gelicon gelicon--duration" aria-hidden="true"></i>
+{% endif %}
+<span aria-label="{{ duration.getAriaLabel() }}" class="duration {% if duration.getOptions().showIcon %}icon-label{% endif %} speak-duration">
+    {{ duration.getFormattedDuration() }}
+</span>
