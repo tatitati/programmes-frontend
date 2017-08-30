@@ -101,8 +101,8 @@ class DurationPresenter extends Presenter
 
     private function makeParts(int $seconds): void
     {
-        $this->hours = floor($seconds / 3600);
-        $this->minutes = floor(($seconds / 60) % 60);
-        $this->seconds = $seconds % 60;
+        $this->hours = (int) floor($seconds / 3600);
+        $this->minutes = (int) floor(($seconds / 60) % 60);
+        $this->seconds = (int) $seconds % 60;
     }
 }
