@@ -71,7 +71,7 @@ class DurationPresenter extends Presenter
         }
 
         // Under 1 minute e.g. (0:12)
-        return "0:" . $this->getSeconds();
+        return "0:" . sprintf('%02d', $this->getSeconds());
     }
 
     public function getHeadingClass(): string
