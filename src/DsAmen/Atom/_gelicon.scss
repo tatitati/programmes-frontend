@@ -31,10 +31,44 @@ svg.gelicon {
     padding: 0 $icon-horizontal-padding;
 }
 
+svg.gelicon--canon,
+svg.gelicon--trafalgar,
+svg.gelicon--double-pica,
+svg.gelicon--great-primer,
+svg.gelicon--pica,
+svg.gelicon--long-primer,
+svg.gelicon--brevier,
+svg.gelicon--minion,
+svg.gelicon--body-copy {
+    vertical-align: text-top;
+}
+
+
 .gelicon--leading {
     margin-right: $gel-unit-small;
 }
 
 .gelicon--trailing {
     margin-left: $gel-unit-small;
+}
+
+@each $class-name, $groups in $type-settings {
+    $group: map-get($groups, 'group-a');
+
+    .gelicon--#{$class-name} {
+        width: nth($group, 1);
+        height: nth($group, 1);
+    }
+}
+
+@each $gel-group, $amen-mq in ('group-b': 'gel1b', 'group-d': 'gel3') {
+    @include mq($from: $amen-mq) {
+        @each $class-name, $groups in $type-settings {
+            $group: map-get($groups, $gel-group);
+            .gelicon--#{$class-name} {
+                width: nth($group, 1);
+                height: nth($group, 1);
+            }
+        }
+    }
 }
