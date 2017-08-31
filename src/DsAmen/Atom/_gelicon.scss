@@ -1,0 +1,40 @@
+$icon-horizontal-padding: 12px;
+
+svg.gelicon {
+    display: inline-block;
+    fill: currentColor;
+    vertical-align: baseline;
+}
+
+.gelicons-source {
+    width: 0;
+    height: 0;
+    position: absolute;
+    visibility: hidden;
+    speak: none;
+}
+
+.gelicon--half-container {
+    width: 50%;
+    height: 50%;
+    margin: 25%;
+}
+
+.gelicon--fill-container {
+    width: 100%;
+    height: 100%;
+}
+
+.gelicon--programme {
+    width: $cta-minimum-size;
+    height: $cta-minimum-size;
+    padding: 0 $icon-horizontal-padding;
+}
+
+.gelicon--leading {
+    margin-right: $gel-unit-small;
+}
+
+.gelicon--trailing {
+    margin-left: $gel-unit-small;
+}
