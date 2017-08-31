@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bf7c7972801db35cf0f5144155c751f",
+    "content-hash": "f033980ce8da3946b0c0e8d2e68aceaa",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -133,6 +133,46 @@
                 "issues": "https://github.com/bbc/rmp-monitoringhandler/issues"
             },
             "time": "2017-03-31T14:03:20+00:00"
+        },
+        {
+            "name": "bbc-rmp/comscore",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:bbc/rmp-comscore.git",
+                "reference": "f5b1b0d57155593abb33ddaeb18607159ce0efc3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bbc/rmp-comscore/zipball/f5b1b0d57155593abb33ddaeb18607159ce0efc3",
+                "reference": "f5b1b0d57155593abb33ddaeb18607159ce0efc3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "~2.2",
+                "phpunit/phpunit": "~4.5.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "RMP\\Comscore\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "BBC Programmes"
+                }
+            ],
+            "description": "Small PHP library for integration of the new comscore analytics into PHP products",
+            "support": {
+                "source": "https://github.com/bbc/rmp-comscore/tree/1.0.3",
+                "issues": "https://github.com/bbc/rmp-comscore/issues"
+            },
+            "time": "2016-10-24T14:39:15+00:00"
         },
         {
             "name": "bbc-rmp/translate",

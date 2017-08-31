@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\DataFixtures\PagesService;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
+use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 
@@ -37,8 +38,8 @@ class BrandsFixtures
             null, //parent
             null, //position
             MasterBrandsFixtures::bbcOne(),
-            null, //genres
-            null, //formats
+            [], //genres
+            [], //formats
             null, //first broadcast date
             5 //expected child count
         );
@@ -76,6 +77,38 @@ class BrandsFixtures
             null, //formats
             null, //first broadcast date
             null //expected child count
+        );
+    }
+
+    public static function hardTalk(): Brand
+    {
+        return new Brand(
+            [3],
+            new Pid('p004t1s0'),
+            'HARDtalk',
+            'HARDtalk',
+            new Synopses(
+                'In-depth, hard-hitting interviews with newsworthy personalities.',
+                'In-depth, hard-hitting interviews with newsworthy personalities.'
+            ),
+            ImagesFixtures::hardTalk(),
+            0,
+            6,
+            false,
+            true,
+            false,
+            0,
+            0,
+            1005,
+            5,
+            297,
+            0,
+            false,
+            OptionsFixture::worldServiceRadio(),
+            null,
+            null,
+            MasterBrandsFixtures::worldService(),
+            []
         );
     }
 }

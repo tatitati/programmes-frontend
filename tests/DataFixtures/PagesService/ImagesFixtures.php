@@ -32,6 +32,18 @@ class ImagesFixtures
         );
     }
 
+    public static function worldServiceLogo(): Image
+    {
+        return new Image(
+            new Pid('p02wkrw1'),
+            'BBC World Service logo',
+            'BBC World Service logo',
+            'BBC World Service logo',
+            'standard',
+            'jpg'
+        );
+    }
+
     public static function bookOfTheWeek(): Image
     {
         return new Image(
@@ -63,6 +75,18 @@ class ImagesFixtures
             'Eastenders',
             'Image for Eastenders Brand',
             'Image for Eastenders Brand',
+            'standard',
+            'jpg'
+        );
+    }
+
+    public static function hardTalk(): Image
+    {
+        return new Image(
+            new Pid('p01tgdld'),
+            'Hardtalk',
+            'Hardtalk interviews newsmakers and personalities from across the globe.',
+            'Hardtalk interviews newsmakers and personalities from across the globe.',
             'standard',
             'jpg'
         );

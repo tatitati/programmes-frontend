@@ -8,7 +8,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 
-class AnalyticsLabels
+class IstatsAnalyticsLabels
 {
     /** @var string[] */
     private $labels = [];
@@ -46,6 +46,11 @@ class AnalyticsLabels
         }
 
         return $this->orbLabels;
+    }
+
+    public function getLabels(): array
+    {
+        return $this->labels;
     }
 
     /**

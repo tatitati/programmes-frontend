@@ -17,7 +17,8 @@
         { "type": "vcs", "url": "git@github.com:bbc/DoctrineExtensions.git" },
         { "type": "vcs", "url": "git@github.com:bbc/programmes-pages-service.git" },
         { "type": "vcs", "url": "git@github.com:bbc/rmp-translate.git" },
-        { "type": "vcs", "url": "git@github.com:bbc/rmp-monitoringhandler.git" }
+        { "type": "vcs", "url": "git@github.com:bbc/rmp-monitoringhandler.git" },
+        { "type": "vcs", "url": "git@github.com:bbc/rmp-comscore.git" }
     ],
     "require": {
         "php": ">=7.1.0",
@@ -28,6 +29,7 @@
         "bbc/branding-client": "^2.2.0",
         "bbc/gel-iconography-assets": "^1.2",
         "bbc/programmes-pages-service": "dev-master@dev",
+        "bbc-rmp/comscore": "^1.0.3",
         "cakephp/chronos": "^1.1",
         "csa/guzzle-bundle": "^2.2.1",
         "doctrine/doctrine-bundle": "^1.6.8",

@@ -78,6 +78,7 @@ class ExceptionController extends BaseExceptionController
                 'orb' => $orb,
                 'branding' => $branding,
                 'meta_context' => new MetaContext(null, ''),
+                'comscore' => null,
             ]
         ), 200, $headers);
     }

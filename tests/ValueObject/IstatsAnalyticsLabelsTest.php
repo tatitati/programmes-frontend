@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\ValueObject;
 
-use App\ValueObject\AnalyticsLabels;
+use App\ValueObject\IstatsAnalyticsLabels;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\MasterBrand;
@@ -13,7 +13,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
 
-class AnalyticsLabelsTest extends TestCase
+class IstatsAnalyticsLabelsTest extends TestCase
 {
     public function testService()
     {
@@ -106,7 +106,7 @@ class AnalyticsLabelsTest extends TestCase
     private function getAnalyticsLabels($context, string $controllerName, string $appVersion, array $extraLabels = [])
     {
         $labelsArray = [];
-        $analyticsLabels = new AnalyticsLabels($context, $controllerName, $appVersion, $extraLabels);
+        $analyticsLabels = new IstatsAnalyticsLabels($context, $controllerName, $appVersion, $extraLabels);
         $labels = $analyticsLabels->orbLabels();
         foreach ($labels as $label) {
             $labelsArray[$label['key']] =  urldecode($label['value']);

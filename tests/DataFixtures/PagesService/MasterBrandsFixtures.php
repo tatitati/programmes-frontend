@@ -29,4 +29,15 @@ class MasterBrandsFixtures
             null
         );
     }
+
+    public static function worldService(): MasterBrand
+    {
+        return new MasterBrand(
+            new Mid('bbc_world_service'),
+            'BBC World Service',
+            ImagesFixtures::worldServiceLogo(),
+            ServicesAndNetworksFixtures::networkWorldService(),
+            null
+        );
+    }
 }

@@ -127,6 +127,95 @@ class OptionsFixture
         );
     }
 
+    public static function worldServiceRadio()
+    {
+        return new Options(
+            [
+                'twitter_block' => '',
+                'ivote_block' => '',
+                'thingstodo_block' => '',
+                'comingsoon_block' => '',
+                'comments_clips_enabled' => false,
+                'comments_clips_id' => '',
+                'comments_episodes_enabled' => false,
+                'comments_episodes_id' => '',
+                'playlister_popularity_enabled' => 'no',
+                'bbc_site' => '',
+                'recipes_enabled' => '',
+                'live_stream_id' => '',
+                'live_stream_heading' => '',
+                'control-17' => '',
+                'projectId' => 'progs-worldservice',
+                'navigation_links' => [
+                    [
+                        "title" => "Online schedule",
+                        "url" => "http =>\/\/www.bbc.co.uk\/worldserviceradio\/programmes\/schedules",
+                    ],
+                    [
+                        "title" => "Programmes",
+                        "url" => "\/worldserviceradio\/programmes\/a-z",
+                    ],
+                    [
+                        "title" => "Downloads",
+                        "url" => "\/podcasts\/worldservice",
+                    ],
+                    [
+                        "title" => "Help & FAQs",
+                        "url" => "http =>\/\/www.bbc.co.uk\/worldserviceradio\/help\/faq",
+                    ],
+                    [
+                        "title" => "Contact us",
+                        "url" => "http =>\/\/www.bbc.co.uk\/worldserviceradio\/help\/contact",
+                    ],
+                    [
+                        "title" => "News in 28 languages",
+                        "url" => "http:\/\/www.bbc.co.uk\/worldservice\/languages\/index.shtml",
+                    ],
+                ],
+                'promoted_programmes' => [
+                    [
+                        "promoted_programmes_pid" => "p007dhp8",
+                    ],
+                    [
+                        "promoted_programmes_pid" => "p0299wgd",
+                    ],
+                    [
+                        "promoted_programmes_pid" => "p029399x",
+                    ],
+                    [
+                        "promoted_programmes_pid" => "p028z2z0",
+                    ],
+                    [
+                        "promoted_programmes_pid" => "p0290t8h",
+                    ],
+                    [
+                        "promoted_programmes_pid" => "p016tmfz",
+                    ],
+                ],
+                'branding_id' => 'br-00035',
+                'theme' => '',
+                'language' => 'en',
+                'nav_override' => 'no',
+                'brand_layout' => '',
+                'pulse_survey' => '',
+                'show_tracklist_inadvance' => false,
+                'show_tracklist_timings' => false,
+                'pid_override_url' => '',
+                'pid_override_code' => 'code-302',
+                'show_enhanced_navigation' => '',
+                'podcast_rss_redirect' => '',
+                'brand_2016_layout' => false,
+                'brand_2016_layout_use_minimap' => false,
+                'show_clip_cards' => true,
+                'show_gallery_cards' => true,
+                'double_width_first_promo' => false,
+                'pid_override' => null,
+                'ivote' => null,
+                'coming_soon' => null,
+            ]
+        );
+    }
+
     public static function eastEnders()
     {
         return new Options(

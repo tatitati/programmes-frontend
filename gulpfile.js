@@ -28,7 +28,8 @@ gulp.task('js', ['js:clean'], function () {
     const modulesToOptimize = [
         staticPathSrc + '/js/**/rv-bootstrap.js',
         staticPathSrc + '/js/**/dsAmen-bootstrap.js',
-        staticPathSrc + '/js/**/timezone-notification.js'
+        staticPathSrc + '/js/**/timezone-notification.js',
+        'vendor/bbc-rmp/comscore/js-modules/comscorews.js'
     ];
 
     const config = {
@@ -37,9 +38,13 @@ gulp.task('js', ['js:clean'], function () {
             "jquery-1.9": "empty:",
             "respimg": "../../../node_modules/lazysizes/plugins/respimg/ls.respimg",
             "lazysizes": "../../../node_modules/lazysizes/lazysizes-umd",
-            "eqjs": "../../../node_modules/eq.js/build/eq"
+            "eqjs": "../../../node_modules/eq.js/build/eq",
+            "comscorews" : "../../../vendor/bbc-rmp/comscore/js-modules/comscorews",
+            "rmpcomscore/base" : "../../../vendor/bbc-rmp/comscore/js-modules/base",
+            "orb/cookies": "empty:"
         },
         // @TODO do not optimise on sandbox
+        //"optimize": "none",
         "map": {
             "*": {
                 "jquery": "jquery-1.9"

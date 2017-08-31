@@ -23,6 +23,11 @@ class ServicesAndNetworksFixtures
         return self::internalServiceRadioFourFM(self::networkRadioFour());
     }
 
+    public static function serviceWorldService(): Service
+    {
+        return self::internalServiceWorldService(self::networkWorldService());
+    }
+
     public static function networkBbcOne(): Network
     {
         return new Network(
@@ -61,6 +66,25 @@ class ServicesAndNetworksFixtures
         );
     }
 
+    public static function networkWorldService(): Network
+    {
+        return new Network(
+            new Nid('bbc_world_service'),
+            'BBC World Service',
+            ImagesFixtures::worldServiceLogo(),
+            OptionsFixture::worldServiceRadio(),
+            'worldserviceradio',
+            'National Radio',
+            NetworkMediumEnum::RADIO,
+            self::internalServiceWorldService(),
+            true,
+            false,
+            true,
+            true,
+            false
+        );
+    }
+
 
     private static function intervalServiceBbcOneLondon(Network $network = null): Service
     {
@@ -90,6 +114,22 @@ class ServicesAndNetworksFixtures
             'fm',
             $network,
             new DateTimeImmutable('1967-09-30 05:30:00'),
+            null,
+            null
+        );
+    }
+
+    private static function internalServiceWorldService(Network $network = null): Service
+    {
+        return new Service(
+            300,
+            new Sid('bbc_world_service'),
+            new Pid('p00fzl9p'),
+            'BBC World Service Online',
+            'Online',
+            'bbc_world_service',
+            $network,
+            new DateTimeImmutable('2000-04-01 00:00:00'),
             null,
             null
         );

@@ -6,7 +6,8 @@ namespace App\Controller;
 use App\Branding\BrandingPlaceholderResolver;
 use App\Translate\TranslateProvider;
 use App\ValueObject\AnalyticsCounterName;
-use App\ValueObject\AnalyticsLabels;
+use App\ValueObject\ComscoreAnalyticsLabels;
+use App\ValueObject\IstatsAnalyticsLabels;
 use App\ValueObject\CosmosInfo;
 use App\ValueObject\MetaContext;
 use BBC\BrandingClient\Branding;
@@ -41,6 +42,8 @@ abstract class BaseController extends AbstractController
 
     private $istatsProgsPageType;
 
+    protected $canonicalUrl;
+
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -67,12 +70,15 @@ abstract class BaseController extends AbstractController
 
     protected function getCanonicalUrl(): string
     {
-        $requestAttributes = $this->container->get('request_stack')->getMasterRequest()->attributes;
-        return $this->generateUrl(
-            $requestAttributes->get('_route'),
-            $requestAttributes->get('_route_params'),
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+        if (!isset($this->canonicalUrl)) {
+            $requestAttributes = $this->container->get('request_stack')->getMasterRequest()->attributes;
+            $this->canonicalUrl = $this->generateUrl(
+                $requestAttributes->get('_route'),
+                $requestAttributes->get('_route_params'),
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+        }
+        return $this->canonicalUrl;
     }
 
     protected function setBrandingId(string $brandingId)
@@ -121,8 +127,8 @@ abstract class BaseController extends AbstractController
 
         // No need to process the ORB or Meta information if the Chrome is not being rendered.
         if ($parameters['with_chrome']) {
-            $appVersion = $this->container->get(CosmosInfo::class)->getAppVersion();
-
+            $cosmosInfo = $this->container->get(CosmosInfo::class);
+            $istatsAnalyticsLabels = new IstatsAnalyticsLabels($this->context, $this->istatsProgsPageType, $cosmosInfo->getAppVersion(), $this->istatsExtraLabels);
             $orb = $this->container->get(OrbitClient::class)->getContent([
                 'variant' => $branding->getOrbitVariant(),
                 'language' => $branding->getLanguage(),
@@ -130,12 +136,13 @@ abstract class BaseController extends AbstractController
                 'searchScope' => $branding->getOrbitSearchScope(),
                 'skipLinkTarget' => 'programmes-content',
                 'analyticsCounterName' => (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo()),
-                'analyticsLabels' => (new AnalyticsLabels($this->context, $this->istatsProgsPageType, $appVersion, $this->istatsExtraLabels))->orbLabels(),
+                'analyticsLabels' => $istatsAnalyticsLabels->orbLabels(),
             ]);
 
             $parameters = array_merge([
                 'orb' => $orb,
                 'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl()),
+                'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl()))->getComscore(),
             ], $parameters);
         }
 
