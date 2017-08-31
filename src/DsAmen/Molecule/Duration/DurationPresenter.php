@@ -20,14 +20,12 @@ class DurationPresenter extends Presenter
     /** @var TranslateProvider */
     private $translateProvider;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $options = [
-        'hTag' => 'h4',
-        'hTitle' => 'duration',
-        'showIcon' => true,
-        'showHeading' => false,
+        'h_tag' => 'h4',
+        'h_title' => 'duration',
+        'show_icon' => true,
+        'show_heading' => false,
     ];
 
     public function __construct(int $duration, TranslateProvider $translateProvider, array $options = [])
@@ -76,7 +74,7 @@ class DurationPresenter extends Presenter
 
     public function getHeadingClass(): string
     {
-        return ($this->options['showHeading'] ? '' : 'invisible');
+        return ($this->getOption('show_heading') ? '' : 'invisible');
     }
 
     public function getHours(): int
