@@ -65,6 +65,7 @@ svg.gelicon--body-copy {
     @include mq($from: $amen-mq) {
         @each $class-name, $groups in $type-settings {
             $group: map-get($groups, $gel-group);
+
             .gelicon--#{$class-name} {
                 width: nth($group, 1);
                 height: nth($group, 1);
