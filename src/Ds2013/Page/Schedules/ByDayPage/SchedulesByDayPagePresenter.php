@@ -107,14 +107,14 @@ class SchedulesByDayPagePresenter extends Presenter
         return $this->service->isTv() ? 'schedules_regional' : 'schedules_regional_change';
     }
 
-    public function getSiblingServicesLinkName(): string
-    {
-        return $this->twinService ? $this->twinService->getShortName() : $this->service->getNetwork()->getName();
-    }
-
     public function getSiblingServicePresenter(): SiblingServicePresenter
     {
         return new SiblingServicePresenter($this->service, 'schedules_by_day', $this->routeDate, $this->servicesInNetwork);
+    }
+
+    public function getSiblingServicesLinkName(): string
+    {
+        return $this->twinService ? $this->twinService->getShortName() : $this->service->getNetwork()->getName();
     }
 
     public function getTwinServicePid(): string

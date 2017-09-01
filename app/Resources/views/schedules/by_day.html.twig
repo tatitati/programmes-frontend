@@ -1,6 +1,6 @@
 {% extends 'schedules/by_base.html.twig' %}
 
-{% block date %}{{ broadcast_day_start|local_date_intl('eeee d MMMM Y') }}{% endblock %}
+{% block date %}{{ broadcast_day_start|local_date_intl('eeee d MMMM y') }}{% endblock %}
 
 {%- block date_nav -%}
     <div id="schedule-daynav" class="centi br-box-highlight g-f-l">
@@ -10,12 +10,19 @@
 
 {%- block header_links -%}
     {% if service.isRadio() %}
-        <p class="pull--right islet--vertical no-margin-vertical delta">
-            <a href="{{ path('schedules_by_month', {pid: service.getPid(), date: broadcast_day_start|local_date('Y-m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
-        </p>
+        <ul class="heading-links nav nav--piped pull--right delta">
+            <li class="hidden grid-visible@bpw">
+                <a href="{{ path('schedules_by_week', {pid: service.getPid(), date: broadcast_day_start|local_date('Y-\\wW')}) }}" class="introduction--switch-link" data-href-add-utcoffset="true">{{ tr('schedules_this_week') }}</a>
+            </li>
+            <li>
+                <a href="{{ path('schedules_by_month', {pid: service.getPid(), date: broadcast_day_start|local_date('Y-m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
+            </li>
+        </ul>
     {%- endif -%}
 {%- endblock -%}
 
 {%- block schedule -%}
-    {{ ds2013_presenter(page_presenter) }}
+    <div class="b-g-p br-box-page island--vertical">
+        {{ ds2013_presenter(page_presenter) }}
+    </div>
 {%- endblock -%}

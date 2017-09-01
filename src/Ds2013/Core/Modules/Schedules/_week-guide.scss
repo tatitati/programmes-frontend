@@ -1,0 +1,135 @@
+/**
+ * Schedules weekly guide
+ */
+
+.week-guide__alternative {
+    li {
+        margin: 0 1px 1px 0;
+    }
+}
+
+.week-guide__table {
+    width: 100%;
+    min-width: 1024px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    &,
+    tr,
+    th,
+    td {
+        border-style: solid;
+    }
+
+    .highlight-box--list {
+        padding: $basic-spacing;
+        margin: 0;
+        border: 0;
+        top: 0;
+        margin-bottom: $basic-spacing;
+    }
+
+    li:last-child .highlight-box--list {
+        margin-bottom: 0;
+    }
+
+    .programme__icon--orphaned {
+        display: none;
+    }
+
+    .broadcast__live {
+        margin-bottom: $basic-half-spacing;
+    }
+
+    .week-guide__table__gap {
+        padding: $basic-spacing;
+        font-style: italic;
+        font-size: 0.8em;
+
+        .delta {
+            margin: 0;
+        }
+    }
+
+    .week-guide__table__day {
+        width: 11.5%;
+
+        a {
+            height: 32px;
+        }
+    }
+
+    .day-0 {
+        border-width: 0 1px 0 0;
+    }
+
+    .day-1,
+    .day-2,
+    .day-3,
+    .day-4,
+    .day-5 {
+        border-width: 0 1px;
+    }
+
+    .day-6 {
+        border-width: 0 0 0 1px;
+    }
+}
+
+.week-guide__table__nav {
+    line-height: 32px; // purposely fixed using pixels
+
+    .gelicon {
+        line-height: 1;
+    }
+}
+
+.week-guide__table,
+.week-guide__table tr,
+.week-guide__table td,
+.week-guide__table th {
+    padding: 0;
+    vertical-align: top;
+}
+
+.week-guide__table,
+.week-guide__table thead .week-guide__table__days-row,
+.week-guide__table thead .week-guide__table__nav,
+.week-guide__table thead .week-guide__table__day,
+.week-guide__table tbody,
+.week-guide__table .trail,
+.week-guide__table .hour {
+    border-width: 0;
+}
+
+.week-guide__table__hour-row {
+    border-width: 0 0 1px;
+}
+
+.week-guide__table__hour {
+    padding: $basic-spacing 0;
+    display: block;
+    font-size: 1.3em;
+    font-weight: normal;
+}
+
+@include mq-range('bpw') {
+    .weeknav--tvschedule {
+        margin-top: -40px;
+    }
+
+    .week-guide__table {
+        min-width: 767px;
+    }
+}
+
+@include mq($from: 767px) {
+    .week-guide__alternative {
+        display: none;
+    }
+
+    .week-guide__table-box {
+        display: block !important;
+    }
+}

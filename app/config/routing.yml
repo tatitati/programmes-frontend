@@ -26,6 +26,11 @@ schedules_by_day:
     defaults: { _controller: App\Controller\SchedulesByDayController, date: null }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', date: '\d{4}-\d{2}-\d{2}' }
 
+schedules_by_week:
+    path: /schedules/{pid}/{date}
+    defaults: { _controller: App\Controller\SchedulesByWeekController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', date: '\d{4}-w([0-4][0-9]|[5][0-3])' }
+
 schedules_by_month:
     path: /schedules/{pid}/{date}
     defaults: { _controller: App\Controller\SchedulesByMonthController }

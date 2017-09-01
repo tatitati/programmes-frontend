@@ -1,0 +1,15 @@
+{% if time_slot_item.isToday() %}
+    <td class="day-{{ time_slot_item.getDay() }} br-box-page">
+{% else %}
+    <td class="day-{{ time_slot_item.getDay() }} br-box-page br-box-subtle br-subtle-bg-onbg080">
+{% endif %}
+    {% if time_slot_item.getGroupedBroadcasts() %}
+        <ol class="list-unstyled">
+            {% for broadcast in time_slot_item.getGroupedBroadcasts() %}
+                <li class="week-guide__table__item">
+                    {{ ds2013_presenter(time_slot_item.getBroadcastItem(broadcast)) }}
+                </li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+</td>

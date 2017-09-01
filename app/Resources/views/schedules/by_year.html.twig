@@ -9,20 +9,22 @@
 {%- endblock -%}
 
 {%- block schedule -%}
-    {% if service.getStartDate() and service.getStartDate() > start_of_year.endOfYear()%}
-        {% set url = path('schedules_by_day', {pid: service.getPid(), date: service.getStartDate()|local_date('Y-m-d')}) %}
-    <p class="noschedule">{{ tr('schedule_begins_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getStartDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
-    {% elseif service.getEndDate() and service.getEndDate() < start_of_year %}
-        {% set url = path('schedules_by_day', {pid: service.getPid(), date: service.getEndDate()|local_date('Y-m-d')}) %}
-    <p class="noschedule">{{ tr('schedule_ended_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getEndDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
-    {% else %}
-        <div class="grid-wrapper">
-            {%- for offset in 0..11 -%}
-                {% set first_of_month = start_of_year.addMonths(offset) %}
-                <div class="grid 1/2@bpw 1/3@bpw2 1/3@bpe">
-                    {{ ds2013('calendar', first_of_month, service) }}
-                </div>
-            {%- endfor -%}
-        </div>
-    {% endif %}
+    <div class="b-g-p br-box-page island--vertical">
+        {% if service.getStartDate() and service.getStartDate() > start_of_year.endOfYear()%}
+            {% set url = path('schedules_by_day', {pid: service.getPid(), date: service.getStartDate()|local_date('Y-m-d')}) %}
+        <p class="noschedule">{{ tr('schedule_begins_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getStartDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
+        {% elseif service.getEndDate() and service.getEndDate() < start_of_year %}
+            {% set url = path('schedules_by_day', {pid: service.getPid(), date: service.getEndDate()|local_date('Y-m-d')}) %}
+        <p class="noschedule">{{ tr('schedule_ended_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getEndDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
+        {% else %}
+            <div class="grid-wrapper">
+                {%- for offset in 0..11 -%}
+                    {% set first_of_month = start_of_year.addMonths(offset) %}
+                    <div class="grid 1/2@bpw 1/3@bpw2 1/3@bpe">
+                        {{ ds2013('calendar', first_of_month, service) }}
+                    </div>
+                {%- endfor -%}
+            </div>
+        {% endif %}
+    </div>
 {%- endblock -%}

@@ -1,0 +1,71 @@
+{% extends 'schedules/by_base.html.twig' %}
+
+{% block date %}
+    {% if broadcast_week.start().year != broadcast_week.end().year %}
+        {{ broadcast_week.start()|local_date_intl('d MMMM y') }} - {{ broadcast_week.end()|local_date_intl('d MMMM y') }}
+    {% elseif broadcast_week.start().month != broadcast_week.end().month %}
+        {{ broadcast_week.start()|local_date_intl('d MMMM') }} - {{ broadcast_week.end()|local_date_intl('d MMMM y') }}
+    {% else %}
+        {{ broadcast_week.start()|local_date_intl('d') }} - {{ broadcast_week.end()|local_date_intl('d MMMM y') }}
+    {% endif %}
+{% endblock %}
+
+{%- block date_nav -%}
+    {# Date nav is inside the same <table> as the rest of the schedule #}
+{%- endblock -%}
+
+{%- block header_links -%}
+    <div class="grid-wrapper">
+        <div class="grid 1/2@bpw2 1/2@bpe">
+            <p class="beta">
+                {% if service.getNetwork() and service.getNetwork().getName() != service.getShortName() %}
+                    {{ tr('schedule_title', {'%1': service.getShortName()})|ucwords }}
+                {% else %}
+                    {{ tr('schedules', 1) }}
+                {%- endif -%}
+            </p>
+        </div>
+
+        {% if number_of_services_in_network > 1 %}
+            <div class="grid 1/2@bpw2 1/2@bpe">
+                <div class="bpw-text--right">
+                    {% if number_of_services_in_network == 2 %}
+                        {% set url = path('schedules_by_week', {pid: twin_service.getPid(), date: broadcast_week.start()|local_date('Y-\\wW')}) %}
+                        <a href="{{ url }}" class="delta">{{ tr('schedules_regional_changeto', {'%1': twin_service.getShortName()}) }}</a>
+                    {% else %}
+                        {% set translation_key = service.isTv() ? 'schedules_regional' : 'schedules_regional_change' %}
+                        <a href="#outlets" class="delta">{{ tr(translation_key, {'%1': service.getNetwork().getName()}) }}</a>
+                    {%- endif -%}
+                </div>
+            </div>
+        {%- endif -%}
+    </div>
+    {% if service.isRadio() %}
+        <ul class="heading-links nav nav--piped pull--right delta">
+            <li class="hidden grid-visible@bpw">
+                <a href="{{ path('schedules_by_day', {pid: service.getPid()}) }}" class="introduction--switch-link" data-href-add-utcoffset="true">{{ tr('schedules_today')  }}</a>
+            </li>
+            <li>
+                <a href="{{ path('schedules_by_month', {pid: service.getPid(), date: broadcast_week.start()|local_date('Y-m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
+            </li>
+        </ul>
+    {%- endif -%}
+{%- endblock -%}
+
+{%- block schedule -%}
+    <div class="g-f-l br-box-page">
+        {{ ds2013_presenter(page_presenter) }}
+    </div>
+    <script>
+        require(['jquery-1.9'], function($) {
+            $(document).ready(function() {
+                var view_switch_link = '<div class="week-guide__switch text--center"><button class="br-box-highlight br-page-bg-onbg--hover br-page-linkhover-ontext--hover date-stack text--shout">{{ tr('schedules_week_show') }}</button> <p>({{ tr('schedules_week_disclaimer') }})</p></div>';
+                $('.week-guide__alternative__nav').after(view_switch_link);
+                $('.week-guide__switch button').click(function() {
+                    $('.week-guide__table-box').removeClass('hidden');
+                    $('.week-guide__alternative').addClass('hidden');
+                });
+            });
+        });
+    </script>
+{%- endblock -%}

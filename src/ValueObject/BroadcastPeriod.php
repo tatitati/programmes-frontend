@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\ValueObject;
 
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use Cake\Chronos\Chronos;
@@ -28,6 +29,11 @@ abstract class BroadcastPeriod
     public function end(): Chronos
     {
         return $this->end;
+    }
+
+    public function isNow(): bool
+    {
+        return ApplicationTime::getTime()->between($this->start, $this->end);
     }
 
     protected function validateNetworkMedium(string $networkMedium)

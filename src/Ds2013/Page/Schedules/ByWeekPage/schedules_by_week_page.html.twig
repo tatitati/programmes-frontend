@@ -1,0 +1,52 @@
+<div class="week-guide">
+    <div class="week-guide__table-box hidden visible@bpe">
+        <table class="week-guide__table br-box-page br-keyline--table">
+            <thead class="week-guide__table__head g-f-l text-base br-box-highlight">
+            <tr class="week-guide__table__days-row centi">
+                <th class="date-list__page week-guide__table__nav br-box-highlight">
+                    <a id="last-week" class="box-link br-page-bg-onbg--hover br-page-linkhover-ontext--hover text--no-ul text--shout" rel="prev" data-href-add-utcoffset="true" href="{{ path('schedules_by_week', {pid: schedules_by_week_page.getService().getPid(), date: schedules_by_week_page.getStartOfWeek().subWeek()|local_date('Y-\\wW')}) }}">
+                        {{ gelicon('basics', 'previous', 'centi', 'leading') }}{{ tr('last') }}
+                    </a>
+                </th>
+                {% for offset in 0..6 %}
+                    {{ ds2013_presenter(schedules_by_week_page.getDateListItem(offset)) }}
+                {% endfor %}
+                <th class="date-list__page box-link week-guide__table__nav br-box-highlight trail">
+                    <a id="next-week" class="br-page-bg-onbg--hover br-page-linkhover-ontext--hover text--no-ul text--shout" rel="next" data-href-add-utcoffset="true" href="{{ path('schedules_by_week', {pid: schedules_by_week_page.getService().getPid(), date: schedules_by_week_page.getStartOfWeek().addWeek()|local_date('Y-\\wW')}) }}">
+                        {{ tr('next') }}{{ gelicon('basics', 'next', 'centi', 'trailing') }}
+                    </a>
+                </th>
+            </tr>
+            </thead>
+            <tbody class="week-guide__table__body">
+            {% for hour in 0..23 %}
+                <tr class="week-guide__table__hour-row">
+                    <th class="hour" scope="row">
+                        <span class='week-guide__table__hour'>{{ "%02d"|format(hour)}}:00</span>
+                    </th>
+                    {% for day in 0..6 %}
+                        {{ ds2013_presenter(schedules_by_week_page.getTimeSlotItem(day, hour)) }}
+                    {% endfor %}
+                    <td class="trail"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="week-guide__alternative bpe-hidden">
+        <div class="b-g-p br-box-page programmes-page">
+            <p>{{ tr('schedules_calendar_note') }}</p>
+            <ul class="nav nav--banner week-guide__alternative__nav component">
+                {% for offset in 0..6 %}
+                    <li class="br-box-highlight">
+                        <a class="br-page-bg-onbg--hover br-page-linkhover-ontext--hover island--squashed date-stack text--no-ul text--shout" href="{{ path('schedules_by_day', {pid: schedules_by_week_page.getService().getPid(), date: schedules_by_week_page.getStartOfWeek().addDays(offset).format('Y-m-d')}) }}" data-href-add-utcoffset="true" >
+                            <span class="date-list__item-line1">{{ schedules_by_week_page.getStartOfWeek().addDays(offset)|local_date_intl('eee') }}</span>
+                            <span class="date-list__item-line2">{{ schedules_by_week_page.getStartOfWeek().addDays(offset)|local_date_intl('d MMM') }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{{ ds2013_presenter(schedules_by_week_page.getSiblingServicePresenter()) }}

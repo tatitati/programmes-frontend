@@ -81,7 +81,7 @@ class OptionsFixture
                 'navigation_links' => [
                     [
                         'title' => 'Schedule',
-                        'url' => '/radio4extra/programmes/schedules/this_week/grid/ataglance',
+                        'url' => '/radio4extra/programmes/schedules/this_week',
                     ],
                     [
                         'title' => 'Downloads',

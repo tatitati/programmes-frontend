@@ -31,6 +31,7 @@ class TranslateAndTimeExtension extends Twig_Extension
     public function getFilters(): array
     {
         return [
+            new Twig_SimpleFilter('ucwords', 'ucwords'),
             new Twig_SimpleFilter('local_date_intl', [$this, 'localDateIntlWrapper']),
             new Twig_SimpleFilter('local_date', [$this, 'localDate']),
             new Twig_SimpleFilter('time_zone_note', [$this, 'timeZoneNote'], [

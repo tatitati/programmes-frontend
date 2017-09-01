@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace App\ValueObject;
 
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use Cake\Chronos\Chronos;
 
@@ -41,10 +40,5 @@ class BroadcastDay extends BroadcastPeriod
             $this->start = $dateTime->setTime(0, 0, 0);
             $this->end = $this->start->addHours(30);
         }
-    }
-
-    public function isNow(): bool
-    {
-        return ApplicationTime::getTime()->between($this->start, $this->end);
     }
 }
