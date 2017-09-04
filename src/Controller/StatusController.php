@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
@@ -68,21 +69,21 @@ class StatusController extends Controller
         try {
             // Eastenders clip
             $clipPid = new Pid('p04r0jcv');
-            $programmesService->findByPidFull($clipPid);
+            $programmesService->findByPidFull($clipPid, 'Programme', CacheInterface::NONE);
 
             // Broadcast
             $fromDateTime = new DateTimeImmutable('2010-01-15 06:00:00');
             $toDatetime = new DateTimeImmutable('2017-10-16 06:00:00');
             $sid = new Sid('bbc_radio_two');
-            $broadcastsService->findByServiceAndDateRange($sid, $fromDateTime, $toDatetime, 1, 1);
+            $broadcastsService->findByServiceAndDateRange($sid, $fromDateTime, $toDatetime, 1, 1, CacheInterface::NONE);
 
             // Version
             $versionPid = new Pid('b00000p6');
-            $versionsService->findByPidFull($versionPid);
+            $versionsService->findByPidFull($versionPid, CacheInterface::NONE);
 
             // Segment event
             $segmentPid = new Pid('p002d80x');
-            $segmentEventsService->findByPidFull($segmentPid);
+            $segmentEventsService->findByPidFull($segmentPid, CacheInterface::NONE);
         } catch (ConnectionExceptionDBAL | ConnectionException $e) {
             return true;
         } catch (PDOException $e) {
