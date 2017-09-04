@@ -137,6 +137,9 @@ services:
 
     BBC\ProgrammesPagesService\Service\ServiceFactory: ~
 
+    BBC\ProgrammesPagesService\Service\SegmentEventsService:
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getSegmentEventsService']
+
     BBC\ProgrammesPagesService\Service\BroadcastsService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getBroadcastsService']
 
@@ -154,3 +157,6 @@ services:
 
     BBC\ProgrammesPagesService\Service\ServicesService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getServicesService']
+
+    BBC\ProgrammesPagesService\Service\VersionsService:
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getVersionsService']
