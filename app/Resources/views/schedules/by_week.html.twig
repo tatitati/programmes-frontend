@@ -1,13 +1,13 @@
 {% extends 'schedules/by_base.html.twig' %}
 
 {% block date %}
-    {% if broadcast_week.start().year != broadcast_week.end().year %}
+    {%- if broadcast_week.start().year != broadcast_week.end().year -%}
         {{ broadcast_week.start()|local_date_intl('d MMMM y') }} - {{ broadcast_week.end()|local_date_intl('d MMMM y') }}
-    {% elseif broadcast_week.start().month != broadcast_week.end().month %}
+    {%- elseif broadcast_week.start().month != broadcast_week.end().month -%}
         {{ broadcast_week.start()|local_date_intl('d MMMM') }} - {{ broadcast_week.end()|local_date_intl('d MMMM y') }}
-    {% else %}
+    {%- else -%}
         {{ broadcast_week.start()|local_date_intl('d') }} - {{ broadcast_week.end()|local_date_intl('d MMMM y') }}
-    {% endif %}
+    {%- endif -%}
 {% endblock %}
 
 {%- block date_nav -%}
