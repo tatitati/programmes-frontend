@@ -27,7 +27,7 @@ gulp.task('js', ['js:clean'], function () {
 
     const modulesToOptimize = [
         staticPathSrc + '/js/**/rv-bootstrap.js',
-        staticPathSrc + '/js/**/dsAmen-bootstrap.js',
+        staticPathSrc + '/js/**/dsamen-bootstrap.js',
         staticPathSrc + '/js/**/timezone-notification.js',
         'vendor/bbc-rmp/comscore/js-modules/comscorews.js'
     ];

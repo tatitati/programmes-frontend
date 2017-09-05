@@ -61,7 +61,9 @@
             requirejs.config({
                 "paths": {
                     'jquery-1.9': "https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1",
-                    'dsAmen-bootstrap': "{{ asset_js('js/dsAmen-bootstrap.js') }}"
+                    'dsamen-bootstrap': "{{ asset_js('js/dsamen-bootstrap.js') }}",
+                    'timezone-notification': "{{ asset_js('js/timezone-notification.js') }}",
+                    'comscorews': "{{ asset_js('js/comscorews.js') }}"
                 },
                 "priority": ['jquery-1.9', 'dsamen-bootstrap'],
                 "map": {
@@ -83,7 +85,7 @@
     {{ gelicons_source() }}
     <script>
         require(['https://static.bbci.co.uk/radio/player/script/popup.js']);
-        require(['dsAmen-bootstrap']);
+        require(['dsamen-bootstrap']);
     </script>
     {% block javascripts %}{% endblock %}
     {% if comscore %}
