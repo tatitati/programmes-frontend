@@ -1,0 +1,51 @@
+    <div class="promotion-card media box-link {{ promotion.getOption('media_variant') }}" id="{{ promotion.getUniqueId() }}">
+    <div class="media__body">
+        <div class="media__details {{ promotion.getBrandingBoxClass() }}">
+            <{{ promotion.getOption('h_tag') }} class="{{ promotion.getOption('title_size') }} media__meta-group" data-linktrack="{{ promotion.getOption('link_location_prefix') }}media">
+                <a class="box-link__target {{ promotion.getTextBrandingClass() }}" href="{{ promotion.getUrl() }}">
+                    {{- promotion.getTitle() -}}
+                </a>
+            </{{ promotion.getOption('h_tag') }}>
+            {%- if promotion.getOption('show_synopsis') -%}
+                <p class="gel-brevier media__meta-row">{{ promotion.getSynopsis() }}</p>
+            {%- endif -%}
+            {% if promotion.getOption('show_related_links') and promotion.getRelatedLinks() %}
+                <ul class="list-standard gel-brevier box-link__elevated">
+                    {%- for link in promotion.getRelatedLinks() -%}
+                        <li><a href="{{ link.getUri() }}" data-linktrack="{{ promotion.getOption('link_location_prefix') }}relatedlink">
+                            {{- link.getTitle() -}}
+                            {%- if promotion.isExternalLink(link.getUri()) -%}
+                                {{- gelicon('basics', 'external-link', 'gelicon--brevier gelicon--trailing') -}}
+                            {%- endif -%}
+                        </a></li>
+                    {%- endfor -%}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    {%- if promotion.getImage() -%}
+        <div class="media__panel {{ promotion.getOption('media_panel_class') }}">
+            <div class="media__overlay-container ratiobox">
+                {{- ds_shared('image', promotion.getImage(), 320, promotion.getOption('img_sizes'))-}}
+                {%- if promotion.getActionIcon() -%}
+                    <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
+                        <div class="icon-link {{ promotion.getOption('cta_class') }}">
+                            <a class="link-complex" href="{{ promotion.getUrl() }}" data-linktrack="{{ promotion.getOption('link_location_prefix') }}calltoaction">
+                                <div class="icon icon-cta">
+                                    {%- set action_icon = promotion.getActionIcon() -%}
+                                    {{- gelicon(action_icon.set, action_icon.icon, 'gelicon--programme') -}}
+
+                                    {%- if promotion.getDuration() -%}
+                                        <span class="icon-label gel-brevier">
+                                            {{ ds_amen('duration', promotion.getDuration()) }}
+                                        </span>
+                                    {%- endif -%}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {%- endif -%}
+            </div>
+        </div>
+    {%- endif -%}
+</div>

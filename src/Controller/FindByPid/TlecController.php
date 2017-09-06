@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use BBC\ProgrammesPagesService\Service\PromotionsService;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -26,6 +27,7 @@ class TlecController extends BaseController
         Request $request,
         ProgrammeContainer $programme,
         ProgrammesService $programmesService,
+        PromotionsService $promotionsService,
         CollapsedBroadcastsService $collapsedBroadcastsService,
         ProgrammesAggregationService $aggregationService
     ) {
@@ -34,6 +36,10 @@ class TlecController extends BaseController
         $promotions = [];
         $clips = [];
         $galleries = [];
+
+        // TODO check $programme->getPromotionsCount() once it is populated in
+        // Faucet to potentially save on a DB query
+        $promotions = $promotionsService->findActivePromotionsByContext($programme);
 
         if ($programme->getOption('show_clip_cards')) {
             $clips = $aggregationService->findDescendantClips($programme, 4);

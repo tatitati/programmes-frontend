@@ -30,8 +30,22 @@
             {# TODO Promos / Galleries list #}
             {%- if promotions or clips or galleries -%}
                 <ul class="grid">
+                    {%- for promotion in promotions -%}
+                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5">
+                            {# TODO Update image sizes for double width first promo #}
+                            {{- ds_amen('promotion', promotion, {
+                                media_variant: 'media--column media--card',
+                                cta_class: 'br-box-secondary',
+                                branding_name: 'secondary',
+                                link_location_prefix: 'promo_' ~ loop.index ~ '_',
+                                show_synopsis: false,
+                                img_sizes: { 600: 1/2, 768: 1/3, 1008: '315px', 1280: '300px' },
+                            }) -}}
+                        </li>
+                    {%- endfor -%}
+
                     {%- for clip in clips -%}
-                        <li class="1/4@gel5 1/3@gel3b 1/2@gel3 1/1 grid__item">
+                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5">
                             {{ ds_amen('programme', clip, {
                                 'context_programme': programme,
                                 'branding_name': 'secondary',
