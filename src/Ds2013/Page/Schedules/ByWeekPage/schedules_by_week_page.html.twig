@@ -5,7 +5,7 @@
             <tr class="week-guide__table__days-row centi">
                 <th class="date-list__page week-guide__table__nav br-box-highlight">
                     <a id="last-week" class="box-link br-page-bg-onbg--hover br-page-linkhover-ontext--hover text--no-ul text--shout" rel="prev" data-href-add-utcoffset="true" href="{{ path('schedules_by_week', {pid: schedules_by_week_page.getService().getPid(), date: schedules_by_week_page.getStartOfWeek().subWeek()|local_date('Y-\\wW')}) }}">
-                        {{ gelicon('basics', 'previous', 'centi', 'leading') }}{{ tr('last') }}
+                        {{ gelicon('basics', 'previous', 'gelicon--centi gelicon--leading') }}{{ tr('last') }}
                     </a>
                 </th>
                 {% for offset in 0..6 %}
@@ -13,7 +13,7 @@
                 {% endfor %}
                 <th class="date-list__page box-link week-guide__table__nav br-box-highlight trail">
                     <a id="next-week" class="br-page-bg-onbg--hover br-page-linkhover-ontext--hover text--no-ul text--shout" rel="next" data-href-add-utcoffset="true" href="{{ path('schedules_by_week', {pid: schedules_by_week_page.getService().getPid(), date: schedules_by_week_page.getStartOfWeek().addWeek()|local_date('Y-\\wW')}) }}">
-                        {{ tr('next') }}{{ gelicon('basics', 'next', 'centi', 'trailing') }}
+                        {{ tr('next') }}{{ gelicon('basics', 'next', 'gelicon--centi gelicon--trailing') }}
                     </a>
                 </th>
             </tr>

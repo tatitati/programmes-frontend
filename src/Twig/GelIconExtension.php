@@ -38,15 +38,12 @@ class GelIconExtension extends Twig_Extension
         return $iconsSource;
     }
 
-    public function gelIcon(string $set, string $icon, ...$extraClasses)
+    public function gelIcon(string $set, string $icon, string $extraClasses = '')
     {
         $set = preg_replace('/[^A-Za-z0-9_-]/', '', $set);
         $icon = preg_replace('/[^A-Za-z0-9_-]/', '', $icon);
         $this->addIcon($set, $icon);
-        $classes = 'gelicon';
-        foreach ($extraClasses as $extraClass) {
-            $classes .= " gelicon--$extraClass";
-        }
+        $classes = 'gelicon ' . $extraClasses;
         $iconId = "#gelicon--$set--$icon";
 
         return '<svg class="' . htmlspecialchars($classes, ENT_HTML5) . '"><use xlink:href="' . $iconId . '" /></svg>';

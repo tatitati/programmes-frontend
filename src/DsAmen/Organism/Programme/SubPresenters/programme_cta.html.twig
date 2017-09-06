@@ -2,7 +2,7 @@
     <a class="link-complex" href="{{ programme_cta.getPlayerUrl() }}"
        data-linktrack="{{ programme_cta.getLinkLocationPrefix() }}calltoaction">
         <div class="icon icon-cta icon--{{ programme_cta.getMediaIconName() }}">
-            {{ gelicon('audio-visual', programme_cta.getMediaIconName(), 'programme') }}
+            {{ gelicon('audio-visual', programme_cta.getMediaIconName(), 'gelicon--programme') }}
             <span class="invisible">{{ tr(programme_cta.getPlayTranslation()) }}</span>
             {% if programme_cta.getDuration() %}
                 <span class="icon-label gel-brevier">

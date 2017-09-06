@@ -40,7 +40,7 @@
                                    data-linktrack="programmeobjectlink=cta"
                                 >
                                     <div class="{{ programme_icon_classes }}">
-                                        {{ gelicon('audio-visual', programme_image.getMediaIconName(), 'half-container') }}
+                                        {{ gelicon('audio-visual', programme_image.getMediaIconName(), 'gelicon--half-container') }}
                                     </div>
                                     <meta property="description" content="{{ programme_image.getProgramme().getShortSynopsis() }}" />
                                     <meta property="thumbnailUrl" content="{{ programme_image.getImageUrl(1920, 1080) }}" />
@@ -58,7 +58,7 @@
                         {% else %}
                             {# If our available programme is NOT an episode, e.g. a clip #}
                             <div class="{{ programme_icon_classes }}">
-                                {{ gelicon('audio-visual', programme_image.getMediaIconName(), 'half-container') }}
+                                {{ gelicon('audio-visual', programme_image.getMediaIconName(), 'gelicon--half-container') }}
                             </div>
                             <meta property="description" content="{{ programme_image.getProgramme().getShortSynopsis() }}" />
                             <meta property="thumbnailUrl" content="{{ programme_image.getImageUrl(1920, 1080) }}" />
