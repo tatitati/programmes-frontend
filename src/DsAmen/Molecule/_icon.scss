@@ -1,0 +1,123 @@
+/**
+ * Standard icon behaviour. Used as a "cutout" on the bottom left of an image
+ * It will position and size itself appropriately.
+ * It is expecting a GEL icon inside it
+ * It uses element queries so you will need to use this exact attribute setup
+ * <div class="icon-container" data-eq-pts="medium: 280, large: 400, super: 656">
+ *    <div class="icon"></div>
+ * </div>
+ */
+
+$body-grey: #262525;
+
+.icon-container {
+    width: 100%;
+}
+
+.icon {
+    display: inline-block;
+    display: inline-flex;
+
+    text-align: center;
+    min-height: $cta-minimum-size;
+    line-height: $cta-minimum-size;
+    padding: 0;
+    align-items: center;
+}
+
+.icon--vmiddle {
+    vertical-align: middle;
+    align-items: center;
+}
+
+.icon-cta {
+    align-self: center;
+
+    > .icon-label {
+        margin: 0 $gel-unit-large 0 0;
+    }
+}
+
+.icon-cta--dark {
+    background-color: rgba($body-grey, 0.7);
+    color: #ffffff;
+
+    .icon--iplayer {
+        background-color: rgba($body-grey, 0.7);
+        color: #ffffff;
+
+        .gelicon {
+            color: #ffffff;
+            background-color: $iplayer-pink;
+        }
+    }
+
+    .icon--restart {
+        background-color: rgba($body-grey, 0.7);
+        color: #ffffff;
+
+        .gelicon {
+            color: #ffffff;
+            background-color: #424242;
+        }
+    }
+
+    .icon--iplayer-dark,
+    .icon--play,
+    .icon--iplayer-radio {
+        background-color: rgba($body-grey, 0.7);
+        color: #ffffff;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+        .icon--iplayer,
+        .icon--iplayer .gelicon,
+        .icon--restart,
+        .icon--restart .gelicon {
+            background-color: $body-grey;
+            color: #ffffff;
+        }
+
+        .icon--iplayer-dark,
+        .icon--play,
+        .icon--iplayer-radio {
+            color: #ffffff;
+            background-color: $iplayer-pink;
+        }
+    }
+}
+
+.icon-link {
+    display: inline-block;
+    display: inline-flex;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+
+        .icon--remove-background {
+            background-color: transparent;
+        }
+    }
+}
+
+// Icon label - for lining up something
+// next to an icon nicely
+.icon-label {
+    margin: auto $gel-unit-small;
+    text-align: left;
+    // line up nicer with the icon
+    position: relative;
+}
+
+// Added in due to specificity issues
+.icon--remove-background.icon--remove-background {
+    background-color: transparent;
+}
+
+.speak-duration {
+    speak: spell-out;
+}

@@ -44,7 +44,7 @@ class PresenterFactoryTest extends TestCase
         $mockProgramme = $this->createMock(Programme::class);
 
         $this->assertEquals(
-            new ProgrammePresenter($mockProgramme, ['opt' => 'foo']),
+            new ProgrammePresenter($this->router, $this->helperFactory, $mockProgramme, ['opt' => 'foo']),
             $this->factory->programmePresenter($mockProgramme, ['opt' => 'foo'])
         );
     }

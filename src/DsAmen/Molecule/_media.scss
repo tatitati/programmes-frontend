@@ -118,6 +118,10 @@
     bottom: auto;
 }
 
+.media__overlay--bottom {
+    line-height: 0; // Fix for mysterious 4px offset
+}
+
 // body styles
 .media__body {
     display: inline-block;
@@ -231,9 +235,22 @@
     display: block;
     display: flex;
     align-items: center;
-    margin-top: $gel-unit-large;
     padding-top: $gel-unit-small;
     border-top: 1px solid;
+
+    margin-left: $gel-unit-small;
+    margin-right: $gel-unit-small;
+    margin-bottom: $gel-unit-small;
+
+    @include mq($from: gel3) {
+        margin-left: $gel-unit-large;
+        margin-right: $gel-unit-large;
+        margin-bottom: $gel-unit-large;
+    }
+
+    svg.gelicon {
+        margin-left: -$icon-horizontal-padding;
+    }
 }
 
 .media__footer-link {

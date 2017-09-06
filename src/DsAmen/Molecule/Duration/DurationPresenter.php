@@ -24,7 +24,6 @@ class DurationPresenter extends Presenter
     protected $options = [
         'h_tag' => 'h4',
         'h_title' => 'duration',
-        'show_icon' => true,
         'show_heading' => false,
     ];
 
@@ -52,7 +51,7 @@ class DurationPresenter extends Presenter
             $ariaLabel .= ' ' . $tr->translate('time_seconds_long', ['%1' => $this->getSeconds()]);
         }
 
-        return $ariaLabel;
+        return trim($ariaLabel);
     }
 
     public function getFormattedDuration(): string

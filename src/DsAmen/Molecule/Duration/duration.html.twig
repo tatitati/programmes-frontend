@@ -2,9 +2,6 @@
     {{ tr(duration.getOption('h_title'), {'%1':''}) }}
 </{{ duration.getOption('h_tag') }}>
 
-{% if duration.getOption('show_icon') %}
-    {{ gelicon('basics', 'duration') }}
-{% endif %}
-<span aria-label="{{ duration.getAriaLabel() }}" class="duration {% if duration.getOptions('show_icon') %}icon-label{% endif %} speak-duration">
+<span aria-label="{{ duration.getAriaLabel() }}" class="duration speak-duration">
     {{ duration.getFormattedDuration() }}
 </span>
