@@ -10,12 +10,8 @@
 
 {%- block schedule -%}
     <div class="b-g-p br-box-page island--vertical">
-        {% if service.getStartDate() and service.getStartDate() > start_of_year.endOfYear()%}
-            {% set url = path('schedules_by_day', {pid: service.getPid(), date: service.getStartDate()|local_date('Y-m-d')}) %}
-        <p class="noschedule">{{ tr('schedule_begins_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getStartDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
-        {% elseif service.getEndDate() and service.getEndDate() < start_of_year %}
-            {% set url = path('schedules_by_day', {pid: service.getPid(), date: service.getEndDate()|local_date('Y-m-d')}) %}
-        <p class="noschedule">{{ tr('schedule_ended_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getEndDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
+        {%- if (service.getStartDate() and service.getStartDate() > start_of_year.endOfYear()) or (service.getEndDate() and service.getEndDate() < start_of_year) -%}
+            {{ ds2013('noSchedule', service, start_of_year, start_of_year.endOfYear()) }}
         {% else %}
             <div class="grid-wrapper">
                 {%- for offset in 0..11 -%}

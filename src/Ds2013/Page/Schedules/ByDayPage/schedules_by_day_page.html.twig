@@ -96,15 +96,7 @@
         {% endfor %}
     </ol>
 {% else %}
-    <p class="noschedule">
-        {% if schedules_by_day_page.getService().getStartDate() and schedules_by_day_page.getBroadcastDayStart().endOfDay().lte(schedules_by_day_page.getService().getStartDate()) %}
-            {{ tr('schedule_begins_on', {'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': schedules_by_day_page.getService().getStartDate()|local_date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.getService().getStartDate()|local_date("l j F Y") ~ '</a>'})|raw }}
-        {% elseif schedules_by_day_page.getService().getEndDate() and schedules_by_day_page.getBroadcastDayStart().startOfDay().gt(schedules_by_day_page.getService().getEndDate()) %}
-            {{ tr('schedule_ended_on',{'%1': '<a href="' ~ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': schedules_by_day_page.getService().getEndDate()|local_date('Y-m-d')}) ~ '">' ~ schedules_by_day_page.getService().getEndDate()|local_date("l j F Y") ~ '</a>'})|raw }}
-        {% else %}
-            {{ tr('schedules_no_result') }}
-        {% endif %}
-    </p>
+    {{ ds2013('noSchedule', schedules_by_day_page.getService(), schedules_by_day_page.getBroadcastDayStart().startOfDay(), schedules_by_day_page.getBroadcastDayStart().endOfDay()) }}
 {% endif %}
 
 {% if schedules_by_day_page.getService().isActiveAt(schedules_by_day_page.getBroadcastDayStart().addDay()) %}

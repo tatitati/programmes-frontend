@@ -8,6 +8,7 @@ use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use App\Ds2013\Page\Schedules\NoSchedule\NoSchedulePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
@@ -80,6 +81,20 @@ class PresenterFactory
             $this->router,
             $datetime,
             $service,
+            $options
+        );
+    }
+
+    public function noSchedulePresenter(
+        Service $service,
+        ChronosInterface $start,
+        ChronosInterface $end,
+        array $options = []
+    ): NoSchedulePresenter {
+        return new NoSchedulePresenter(
+            $service,
+            $start,
+            $end,
             $options
         );
     }

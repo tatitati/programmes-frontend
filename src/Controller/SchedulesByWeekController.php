@@ -52,6 +52,7 @@ class SchedulesByWeekController extends BaseController
         );
 
         $viewData = [
+            'broadcasts' => $daysOfBroadcasts,
             'broadcast_week' => $broadcastWeek,
             'service' => $service,
             'number_of_services_in_network' => count($servicesInNetwork),

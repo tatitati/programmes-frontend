@@ -16,12 +16,8 @@
 
 {%- block schedule -%}
     <div class="b-g-p br-box-page island--vertical">
-        {%- if service.getStartDate() and first_of_month.endOfMonth().lte(service.getStartDate()) -%}
-            {%- set url = path('schedules_by_day', {pid: service.getPid(), date: service.getStartDate()|local_date('Y-m-d')}) -%}
-            <p class="noschedule">{{ tr('schedule_begins_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getStartDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
-        {%- elseif service.getEndDate() and first_of_month.startOfMonth().gt(service.getEndDate()) -%}
-            {%- set url = path('schedules_by_day', {pid: service.getPid(), date: service.getEndDate()|local_date('Y-m-d')}) -%}
-            <p class="noschedule">{{ tr('schedule_ended_on', {'%1': '<a href="' ~ url ~ '">' ~ service.getEndDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}</p>
+        {%- if (service.getStartDate() and first_of_month.endOfMonth().lte(service.getStartDate())) or (service.getEndDate() and first_of_month.startOfMonth().gt(service.getEndDate())) -%}
+            {{ ds2013('noSchedule', service, first_of_month.startOfMonth(), first_of_month.endOfMonth()) }}
         {%- else -%}
             <p>{{ tr('schedules_calendar_note') }}</p>
             <div class="grid-wrapper">

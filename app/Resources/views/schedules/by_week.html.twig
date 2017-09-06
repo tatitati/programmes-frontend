@@ -53,19 +53,25 @@
 {%- endblock -%}
 
 {%- block schedule -%}
-    <div class="g-f-l br-box-page">
-        {{ ds2013_presenter(page_presenter) }}
-    </div>
-    <script>
-        require(['jquery-1.9'], function($) {
-            $(document).ready(function() {
-                var view_switch_link = '<div class="week-guide__switch text--center"><button class="br-box-highlight br-page-bg-onbg--hover br-page-linkhover-ontext--hover date-stack text--shout">{{ tr('schedules_week_show') }}</button> <p>({{ tr('schedules_week_disclaimer') }})</p></div>';
-                $('.week-guide__alternative__nav').after(view_switch_link);
-                $('.week-guide__switch button').click(function() {
-                    $('.week-guide__table-box').removeClass('hidden');
-                    $('.week-guide__alternative').addClass('hidden');
+    {%- if broadcasts is empty -%}
+        <div class="b-g-p br-box-page programmes-page">
+            {{ ds2013('noSchedule', service, broadcast_week.start(), broadcast_week.end()) }}
+        </div>
+    {%- else -%}
+        <div class="g-f-l br-box-page">
+            {{ ds2013_presenter(page_presenter) }}
+        </div>
+        <script>
+            require(['jquery-1.9'], function($) {
+                $(document).ready(function() {
+                    var view_switch_link = '<div class="week-guide__switch text--center"><button class="br-box-highlight br-page-bg-onbg--hover br-page-linkhover-ontext--hover date-stack text--shout">{{ tr('schedules_week_show') }}</button> <p>({{ tr('schedules_week_disclaimer') }})</p></div>';
+                    $('.week-guide__alternative__nav').after(view_switch_link);
+                    $('.week-guide__switch button').click(function() {
+                        $('.week-guide__table-box').removeClass('hidden');
+                        $('.week-guide__alternative').addClass('hidden');
+                    });
                 });
             });
-        });
-    </script>
+        </script>
+    {%- endif -%}
 {%- endblock -%}
