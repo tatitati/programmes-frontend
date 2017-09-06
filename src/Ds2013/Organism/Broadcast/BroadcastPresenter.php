@@ -6,6 +6,7 @@ use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
+use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use Cake\Chronos\Chronos;
 use InvalidArgumentException;
@@ -19,43 +20,27 @@ class BroadcastPresenter extends Presenter
         'show_date' => false,
         'show_image' => true,
         'show_overlay' => true,
+        'show_resume_at' => true,
         'steal_blocklink' => true,
     ];
 
-    /** @var Broadcast|BroadcastGap */
+    /** @var BroadcastInfoInterface */
     private $broadcast;
 
     /** @var CollapsedBroadcast */
     private $collapsedBroadcast;
 
-    /**
-     * BroadcastPresenter constructor.
-     * @param Broadcast|BroadcastGap $broadcast
-     * @param CollapsedBroadcast|null $collapsedBroadcast
-     * @param array $options
-     */
     public function __construct(
-        $broadcast,
+        BroadcastInfoInterface $broadcast,
         ?CollapsedBroadcast $collapsedBroadcast = null,
         array $options = []
     ) {
-        if (!($broadcast instanceof Broadcast || $broadcast instanceof BroadcastGap)) {
-            throw new InvalidArgumentException(sprintf(
-                'Expected $broadcast to be an instance of "%s" or "%s". Found instance of "%s"',
-                Broadcast::class,
-                BroadcastGap::class,
-                (is_object($broadcast) ? get_class($broadcast) : gettype($broadcast))
-            ));
-        }
         parent::__construct($options);
         $this->broadcast = $broadcast;
         $this->collapsedBroadcast = $collapsedBroadcast;
     }
 
-    /**
-     * @return Broadcast|BroadcastGap
-     */
-    public function getBroadcast()
+    public function getBroadcast(): BroadcastInfoInterface
     {
         return $this->broadcast;
     }
@@ -82,11 +67,11 @@ class BroadcastPresenter extends Presenter
 
     public function getProgrammeItem()
     {
-        if ($this->broadcast instanceof BroadcastGap) {
-            return null;
+        if ($this->broadcast instanceof Broadcast) {
+            return $this->broadcast->getProgrammeItem();
         }
 
-        return $this->broadcast->getProgrammeItem();
+        return null;
     }
 
     public function getOnAirMessage(): string

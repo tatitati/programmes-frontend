@@ -6,6 +6,7 @@ namespace App\Ds2013\Page\Schedules\ByWeekPage;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use Cake\Chronos\Chronos;
 
 class TimeSlotItemPresenter extends Presenter
@@ -56,7 +57,7 @@ class TimeSlotItemPresenter extends Presenter
         return $this->groupedBroadcasts[$this->dateTime->format('Y-m-d')][$this->hour] ?? null;
     }
 
-    public function getBroadcastItem(Broadcast $broadcast): BroadcastPresenter
+    public function getBroadcastItem(BroadcastInfoInterface $broadcast): BroadcastPresenter
     {
         //@TODO should this just come from the twig template/factory?
         return new BroadcastPresenter($broadcast, null, [
@@ -64,6 +65,7 @@ class TimeSlotItemPresenter extends Presenter
             'container_classes' => 'broadcast--grid',
             'show_image' => false,
             'show_overlay' => false,
+            'show_resume_at' => false,
             'is_stacked' => true,
         ]);
     }

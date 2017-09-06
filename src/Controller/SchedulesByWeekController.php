@@ -5,9 +5,14 @@ namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
 use App\ValueObject\BroadcastWeek;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
+use Cake\Chronos\Chronos;
+use DateTimeZone;
 
 class SchedulesByWeekController extends BaseController
 {
@@ -23,7 +28,7 @@ class SchedulesByWeekController extends BaseController
             $broadcastWeek->end()
         );
 
-        $broadcasts = [];
+        $daysOfBroadcasts = [];
 
         if ($broadcastWeek->serviceIsActiveInThisPeriod($service)) {
             // Get broadcasts in relevant period
@@ -33,12 +38,15 @@ class SchedulesByWeekController extends BaseController
                 $broadcastWeek->end(),
                 BroadcastsService::NO_LIMIT
             );
+
+            $daysOfBroadcasts = $this->groupBroadcasts($broadcasts);
+            $daysOfBroadcasts = $this->addInBroadcastGaps($daysOfBroadcasts, $service);
         }
 
         $pagePresenter = new SchedulesByWeekPagePresenter(
             $service,
             $broadcastWeek->start(),
-            $broadcasts,
+            $daysOfBroadcasts,
             $date,
             $servicesInNetwork
         );
@@ -57,6 +65,91 @@ class SchedulesByWeekController extends BaseController
             $this->response()->setStatusCode(404);
         }
         return $this->renderWithChrome('schedules/by_week.html.twig', $viewData);
+    }
+
+    /**
+     * @param Broadcast[][][] $daysOfBroadcasts
+     * @param Service $service
+     * @return Broadcast[][][]
+     */
+    private function addInBroadcastGaps(array $daysOfBroadcasts, Service $service): array
+    {
+        $tz = ApplicationTime::getLocalTimeZone();
+        $newList = [];
+        foreach ($daysOfBroadcasts as $date => $dayOfBroadcasts) {
+            $newList[$date] = $this->createDayOfBroadcastsAndGaps($dayOfBroadcasts, $service, $tz, $date);
+        }
+
+        return $newList;
+    }
+
+    /**
+     * @param Broadcast[][] $broadcastsToday
+     * @param Service $service
+     * @param DateTimeZone $tz
+     * @param string $date in format Y-m-d
+     * @return Broadcast[][]
+     */
+    private function addFinalBroadcastGapIfNecessary(array $broadcastsToday, Service $service, DateTimeZone $tz, string $date): array
+    {
+
+        $lastHour = end($broadcastsToday);
+        $lastBroadcast = end($lastHour);
+        $endOfDay = (new Chronos($date, $tz))->addDay()->startOfDay()->setTimezone(new DateTimeZone('UTC'));
+        if ($lastBroadcast->getEndAt()->lt($endOfDay)) {
+            $gap = new BroadcastGap($service, $lastBroadcast->getEndAt(), $endOfDay);
+            $broadcastsToday[$lastBroadcast->getEndAt()->setTimezone($tz)->format('G')][] = $gap;
+        }
+
+        return $broadcastsToday;
+    }
+
+    /**
+     * @param Broadcast[][] $dayOfBroadcasts
+     * @param Service $service
+     * @param DateTimeZone $tz
+     * @param string $date in format Y-m-d
+     * @return Broadcast[][]
+     */
+    private function createDayOfBroadcastsAndGaps(array $dayOfBroadcasts, Service $service, DateTimeZone $tz, string $date): array
+    {
+        $broadcastsToday = [];
+        $priorBroadcast = null;
+        foreach ($dayOfBroadcasts as $hour => $hourOfBroadcasts) {
+            foreach ($hourOfBroadcasts as $broadcast) {
+                // If there is space between the start of the current broadcast and
+                // the end of the prior broadcast then inject a broadcast gap
+                if ($priorBroadcast && $broadcast->getStartAt()->gt($priorBroadcast->getEndAt())) {
+                    $broadcastsToday[$priorBroadcast->getEndAt()->setTimezone($tz)->format('G')][] = new BroadcastGap(
+                        $service,
+                        $priorBroadcast->getEndAt(),
+                        $broadcast->getStartAt()
+                    );
+                }
+
+                $broadcastsToday[$hour][] = $broadcast;
+                $priorBroadcast = $broadcast;
+            }
+        }
+
+        return $this->addFinalBroadcastGapIfNecessary($broadcastsToday, $service, $tz, $date);
+    }
+
+    /**
+     * @param Broadcast[] $broadcasts
+     * @return Broadcast[][][]
+     */
+    private function groupBroadcasts(array $broadcasts): array
+    {
+        $groupedBroadcasts = [];
+        $tz = ApplicationTime::getLocalTimeZone();
+
+        foreach ($broadcasts as $broadcast) {
+            $start = $broadcast->getStartAt()->setTimezone($tz);
+            $groupedBroadcasts[$start->format('Y-m-d')][$start->format('G')][] = $broadcast;
+        }
+
+        return $groupedBroadcasts;
     }
 
     private function serviceIsActiveDuringWeek(Service $service, BroadcastWeek $broadcastWeek): bool

@@ -8,6 +8,7 @@ use App\DsShared\Helpers\LocalisedDaysAndMonthsHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
+use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -193,12 +194,8 @@ class SchedulesByDayPagePresenter extends Presenter
      * Afternoon - midday until 6pm
      * Evening - 6pm until midnight
      * Late - midnight until 6am the next day
-     *
-     * @param Broadcast|BroadcastGap $broadcast
-     * @param Chronos $selectedDate
-     * @return string
      */
-    private function getBroadcastPeriodWord($broadcast, Chronos $selectedDate): string
+    private function getBroadcastPeriodWord(BroadcastInfoInterface $broadcast, Chronos $selectedDate): string
     {
         $selectedDayEnd = $selectedDate->endOfDay();
 

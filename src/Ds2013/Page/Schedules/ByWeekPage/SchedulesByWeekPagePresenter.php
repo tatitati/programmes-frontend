@@ -12,7 +12,7 @@ use Cake\Chronos\Chronos;
 
 class SchedulesByWeekPagePresenter extends Presenter
 {
-    /** Broadcast[] */
+    /** Broadcast[][][] */
     private $broadcasts;
 
     /**
@@ -37,7 +37,7 @@ class SchedulesByWeekPagePresenter extends Presenter
      * SchedulesByWeekPagePresenter constructor.
      * @param Service $service
      * @param Chronos $startOfWeek
-     * @param Broadcast[] $broadcasts
+     * @param Broadcast[][][] $broadcasts
      * @param string $routeDate
      * @param Service[] $servicesInNetwork
      * @param mixed[] $options
@@ -75,22 +75,6 @@ class SchedulesByWeekPagePresenter extends Presenter
 
     public function getTimeSlotItem(int $day, int $hour): TimeSlotItemPresenter
     {
-        return new TimeSlotItemPresenter($day, $hour, $this->startOfWeek, $this->now, $this->groupedBroadcasts());
-    }
-
-    /**
-     * @return Broadcast[][][]
-     */
-    private function groupedBroadcasts(): array
-    {
-        $broadcasts = [];
-        $tz = ApplicationTime::getLocalTimeZone();
-
-        foreach ($this->broadcasts as $broadcast) {
-            $start = $broadcast->getStartAt()->setTimezone($tz);
-            $broadcasts[$start->format('Y-m-d')][$start->format('G')][] = $broadcast;
-        }
-
-        return $broadcasts;
+        return new TimeSlotItemPresenter($day, $hour, $this->startOfWeek, $this->now, $this->broadcasts);
     }
 }

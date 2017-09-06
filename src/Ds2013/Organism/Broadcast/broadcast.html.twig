@@ -63,7 +63,7 @@
                         }
                     },
                 }) }}
-            {%- else -%}
+            {%- elseif broadcast.getOption('show_resume_at') -%}
                 <p class="text--subtle centi" data-timezone="true" content="{{ broadcast.getEndAt()|date('c') }}">
                     {{- tr('programmes_resume_at', {'%1': '<span class="timezone--time">' ~ broadcast.getEndAt()|local_date('H:i') ~ '</span>'})|raw -}}
                 </p>
