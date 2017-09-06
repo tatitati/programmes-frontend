@@ -33,7 +33,7 @@ class SchedulesByDayPagePresenter extends Presenter
     /** @var Service */
     private $twinService;
 
-    /** @var Broadcast */
+    /** @var Broadcast|false|null */
     private $onAirBroadcast = false;
 
     /** @var CollapsedBroadcast|null */

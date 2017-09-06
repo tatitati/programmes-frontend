@@ -12,6 +12,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use Cake\Chronos\Chronos;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
@@ -19,10 +20,10 @@ use Symfony\Component\Routing\RouteCollectionBuilder;
 
 class LiveBroadcastHelperTest extends TestCase
 {
-    /** @var LiveBroadcastHelper */
+    /** @var LiveBroadcastHelper|PHPUnit_Framework_MockObject_MockObject */
     private $helper;
 
-    /** @var UrlGeneratorInterface */
+    /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject */
     private $router;
 
     public function setUp()

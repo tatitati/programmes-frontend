@@ -8,6 +8,7 @@ use App\DsShared\PresenterFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use RMP\Translate\Translate;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -16,13 +17,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class PresenterFactoryTest extends TestCase
 {
-    /** @var Translate */
+    /** @var Translate|PHPUnit_Framework_MockObject_MockObject. */
     private $translate;
 
-    /** @var UrlGeneratorInterface */
+    /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject */
     private $router;
 
-    /** @var HelperFactory */
+    /** @var HelperFactory|PHPUnit_Framework_MockObject_MockObject */
     private $helperFactory;
 
     /** @var PresenterFactory */
@@ -35,7 +36,7 @@ class PresenterFactoryTest extends TestCase
         $translateProvider->method('getTranslate')->willReturn($this->translate);
         $this->router = $this->createMock(UrlGeneratorInterface::class);
         $this->helperFactory = $this->createMock(HelperFactory::class);
-        $this->factory = new PresenterFactory($translateProvider, $this->router, $this->helperFactory);
+        $this->factory = new PresenterFactory();
     }
 
     public function testOrganismProgramme()

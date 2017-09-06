@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use Cake\Chronos\Chronos;
+use Cake\Chronos\Date;
 
 class SchedulesByMonthController extends BaseController
 {
@@ -14,7 +14,7 @@ class SchedulesByMonthController extends BaseController
         $this->setIstatsProgsPageType('schedules_month');
         $this->setContext($service);
 
-        $firstOfMonth = Chronos::createFromFormat('Y-m|', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();
+        $firstOfMonth = Date::createFromFormat('Y-m|', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();
         $viewData = ['first_of_month' => $firstOfMonth, 'service' => $service];
 
         // If the service is not active at all over the month, then the status code should be 404, so
@@ -25,7 +25,7 @@ class SchedulesByMonthController extends BaseController
         return $this->renderWithChrome('schedules/by_month.html.twig', $viewData);
     }
 
-    private function serviceIsActiveDuringMonth(Service $service, Chronos $firstOfMonth): bool
+    private function serviceIsActiveDuringMonth(Service $service, Date $firstOfMonth): bool
     {
         return (!$service->getStartDate() || $service->getStartDate() <= $firstOfMonth->endOfMonth()) && (!$service->getEndDate() || $firstOfMonth < $service->getEndDate());
     }

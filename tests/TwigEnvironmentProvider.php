@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace Tests\App;
 
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
+use App\Ds2013\PresenterFactory;
 use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\DsShared\PresenterFactory as DsSharedPresenterFactory;
@@ -117,7 +118,7 @@ class TwigEnvironmentProvider
         // Set presenter factory for template tests to use.
         self::$ds2013PresenterFactory = new Ds2013PresenterFactory($translateProvider, $router, $helperFactory);
         self::$dsAmenPresenterFactory = new DsAmenPresenterFactory($translateProvider, $router, $helperFactory);
-        self::$dsSharedPresenterFactory = new DsSharedPresenterFactory($translateProvider, $router, $helperFactory);
+        self::$dsSharedPresenterFactory = new DsSharedPresenterFactory();
 
         $twig->addExtension(new DesignSystemPresenterExtension(
             self::$ds2013PresenterFactory,

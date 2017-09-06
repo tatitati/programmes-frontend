@@ -11,6 +11,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BroadcastProgrammeBodyPresenterTest extends TestCase
@@ -37,7 +38,9 @@ class BroadcastProgrammeBodyPresenterTest extends TestCase
         $network->method('getNid')->willReturn(new Nid($nid));
         $network->method('isWorldServiceInternational')->willReturn($isWorldServiceInternational);
 
+        /** @var CollapsedBroadcast|PHPUnit_Framework_MockObject_MockObject $broadcast */
         $broadcast = $this->createMock(CollapsedBroadcast::class);
+        /** @var Programme|PHPUnit_Framework_MockObject_MockObject $programme */
         $programme = $this->createMock(Programme::class);
         $programme->method('getNetwork')->willReturn($network);
 

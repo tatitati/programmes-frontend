@@ -34,7 +34,7 @@ class ExceptionController extends BaseExceptionController
 
     public function __invoke(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null)
     {
-        $currentContent = $this->getAndCleanOutputBuffering($request->headers->get('X-Php-Ob-Level', -1));
+        $currentContent = $this->getAndCleanOutputBuffering((int) $request->headers->get('X-Php-Ob-Level', -1));
         $showException = $request->attributes->get('showException', $this->debug); // As opposed to an additional parameter, this maintains BC
 
         $code = $exception->getStatusCode();
@@ -68,7 +68,7 @@ class ExceptionController extends BaseExceptionController
         // The 200 status here is a misnomer, it is a default and shall be
         // overridden later.
         return new Response($this->twig->render(
-            (string) $this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
+            $this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
             [
                 'status_code' => $code,
                 'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',

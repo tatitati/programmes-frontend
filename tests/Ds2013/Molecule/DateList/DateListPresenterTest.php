@@ -11,6 +11,7 @@ use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DateListPresenterTest extends TestCase
@@ -45,7 +46,9 @@ class DateListPresenterTest extends TestCase
 
     private function createPresenter(array $options = [])
     {
+        /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject $urlGeneratorInterface */
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
 
         return new DateListPresenter($urlGeneratorInterface, Chronos::now(), $service, $options);

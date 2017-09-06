@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MonthDateListPresenterTest extends TestCase
@@ -18,8 +19,10 @@ class MonthDateListPresenterTest extends TestCase
         $now = Chronos::now();
         $offset = 3;
         $pid = new Pid('xxxxxxxx');
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
         $service->method('getPid')->willReturn($pid);
+        /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject $urlGeneratorInterface */
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
         $urlGeneratorInterface->expects($this->once())
             ->method('generate')
@@ -34,8 +37,10 @@ class MonthDateListPresenterTest extends TestCase
 
     public function testIsLink()
     {
+        /** @var Network|PHPUnit_Framework_MockObject_MockObject $network */
         $network = $this->createMock(Network::class);
         $network->method('getMedium')->willReturn('tv');
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
         $service->method('getStartDate')->willReturn(null);
         $service->method('getEndDate')->willReturn(null);
@@ -46,6 +51,7 @@ class MonthDateListPresenterTest extends TestCase
 
     public function testIsNotLink()
     {
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
         $service->method('isActiveAt')->willReturn(true);
         $presenter = $this->createPresenter($service, 0);

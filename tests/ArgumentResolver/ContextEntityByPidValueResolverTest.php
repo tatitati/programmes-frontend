@@ -13,6 +13,7 @@ use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -22,10 +23,10 @@ class ContextEntityByPidValueResolverTest extends TestCase
     /** @var ArgumentResolver */
     private $resolver;
 
-    /** @var CoreEntitiesService */
+    /** @var CoreEntitiesService|PHPUnit_Framework_MockObject_MockObject */
     private $coreEntitiesService;
 
-    /** @var ServicesService */
+    /** @var ServicesService|PHPUnit_Framework_MockObject_MockObject */
     private $servicesService;
 
     public function setUp()
@@ -33,6 +34,7 @@ class ContextEntityByPidValueResolverTest extends TestCase
         $this->coreEntitiesService = $this->createMock(CoreEntitiesService::class);
         $this->servicesService = $this->createMock(ServicesService::class);
 
+        /** @var ServiceFactory|PHPUnit_Framework_MockObject_MockObject $serviceFactory */
         $serviceFactory = $this->createMock(ServiceFactory::class);
         $serviceFactory->method('getCoreEntitiesService')->willReturn($this->coreEntitiesService);
         $serviceFactory->method('getServicesService')->willReturn($this->servicesService);

@@ -8,6 +8,7 @@ use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use RMP\Translate\Translate;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -16,13 +17,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class PresenterFactoryTest extends TestCase
 {
-    /** @var Translate */
+    /** @var Translate|PHPUnit_Framework_MockObject_MockObject. */
     private $translate;
 
-    /** @var UrlGeneratorInterface */
+    /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject */
     private $router;
 
-    /** @var HelperFactory */
+    /** @var HelperFactory|PHPUnit_Framework_MockObject_MockObject */
     private $helperFactory;
 
     /** @var PresenterFactory */

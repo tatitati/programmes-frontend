@@ -5,11 +5,13 @@ namespace Tests\App\DsAmen;
 use App\DsAmen\Presenter;
 use App\Exception\InvalidOptionException;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 class PresenterTest extends TestCase
 {
     public function testAbstractPresenter()
     {
+        /** @var Presenter|PHPUnit_Framework_MockObject_MockObject $presenter */
         $presenter = $this->getMockForAbstractClass(Presenter::class, [], 'TestAmenObjectPresenter');
 
         $this->assertAttributeEquals([], 'options', $presenter);
@@ -17,6 +19,7 @@ class PresenterTest extends TestCase
         $this->assertSame('@DsAmen/test_amen_object.html.twig', $presenter->getTemplatePath());
 
         // Assert each presenter generates their own template info
+        /** @var Presenter|PHPUnit_Framework_MockObject_MockObject $presenter */
         $presenter = $this->getMockForAbstractClass(Presenter::class, [], 'AnotherTestAmenObjectPresenter');
         $this->assertSame('another_test_amen_object', $presenter->getTemplateVariableName());
         $this->assertSame('@DsAmen/another_test_amen_object.html.twig', $presenter->getTemplatePath());
@@ -24,6 +27,7 @@ class PresenterTest extends TestCase
 
     public function testGetOption()
     {
+        /** @var Presenter|PHPUnit_Framework_MockObject_MockObject $presenter */
         $presenter = $this->getMockForAbstractClass(Presenter::class, [
             ['optionOne' => 1, 'optionTwo' => 2],
         ]);
@@ -34,6 +38,7 @@ class PresenterTest extends TestCase
 
     public function testGetOptionInvalid()
     {
+        /** @var Presenter|PHPUnit_Framework_MockObject_MockObject $presenter */
         $presenter = $this->getMockForAbstractClass(Presenter::class, [
             ['optionOne' => 1, 'optionTwo' => 2],
         ]);
@@ -48,6 +53,7 @@ class PresenterTest extends TestCase
 
     public function testGetUniqueId()
     {
+        /** @var Presenter|PHPUnit_Framework_MockObject_MockObject $presenter */
         $presenter = $this->getMockForAbstractClass(Presenter::class, [], 'TestAmenObjectPresenter');
         $initialId = $presenter->getUniqueId();
 
@@ -58,6 +64,7 @@ class PresenterTest extends TestCase
         $this->assertSame($initialId, $presenter->getUniqueId());
 
         // Assert a new presenter gets a different ID
+        /** @var Presenter|PHPUnit_Framework_MockObject_MockObject $secondPresenter */
         $secondPresenter = $this->getMockForAbstractClass(Presenter::class, [], 'TestAmenObjectPresenter');
         $this->assertNotEquals($initialId, $secondPresenter->getUniqueId());
     }

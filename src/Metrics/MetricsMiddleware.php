@@ -43,7 +43,7 @@ class MetricsMiddleware
                 // No response/timeout is logged as a 504 (gateway timeout). Which isn't correct. But whatever.
                 $responseCode = 504;
                 if ($stats->hasResponse()) {
-                    $responseCode = (int) $stats->getResponse()->getStatusCode();
+                    $responseCode = $stats->getResponse()->getStatusCode();
                 }
                 $this->metricsManager->addApiMetric($apiName, $responseTime, $responseCode);
             };

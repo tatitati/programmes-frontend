@@ -15,12 +15,15 @@ use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BroadcastProgrammePresenterTest extends TestCase
 {
+    /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject */
     private $mockRouter;
 
+    /** @var HelperFactory|PHPUnit_Framework_MockObject_MockObject */
     private $mockHelperFactory;
 
     public function setUp()

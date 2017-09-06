@@ -15,6 +15,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\ChronosInterface;
+use Cake\Chronos\Date;
 use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -59,12 +60,12 @@ class PresenterFactory
      * Molecules
      */
     public function calendarPresenter(
-        ChronosInterface $datetime,
+        Date $date,
         Service $service,
         array $options = []
     ): CalendarPresenter {
         return new CalendarPresenter(
-            $datetime,
+            $date,
             $service,
             $options
         );

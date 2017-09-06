@@ -17,7 +17,7 @@ class IstatsAnalyticsLabelsTest extends TestCase
 {
     public function testService()
     {
-        $context = $this->ServiceFactory('bbc_one', 'tv');
+        $context = $this->serviceFactory('bbc_one', 'tv');
         $labels = $this->getAnalyticsLabels(
             $context,
             'App\Controller\SchedulesByDayController',

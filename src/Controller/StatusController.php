@@ -12,7 +12,7 @@ use BBC\ProgrammesPagesService\Service\VersionsService;
 use DateTimeImmutable;
 use Doctrine\DBAL\ConnectionException as ConnectionExceptionDBAL;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOException;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\DriverException;

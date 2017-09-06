@@ -8,6 +8,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class YearDateListPresenterTest extends TestCase
@@ -17,8 +18,10 @@ class YearDateListPresenterTest extends TestCase
         $now = Chronos::now();
         $offset = 3;
         $pid = new Pid('xxxxxxxx');
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
         $service->method('getPid')->willReturn($pid);
+        /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject $urlGeneratorInterface */
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
         $urlGeneratorInterface->expects($this->once())
             ->method('generate')

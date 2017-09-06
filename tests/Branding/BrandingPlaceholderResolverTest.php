@@ -10,6 +10,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use RMP\Translate\Translate;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
@@ -37,6 +38,7 @@ class BrandingPlaceholderResolverTest extends TestCase
         $translate->method('translate')
             ->will($this->returnArgument(0));
 
+        /** @var TranslateProvider|PHPUnit_Framework_MockObject_MockObject $translateProvider */
         $translateProvider = $this->createMock(TranslateProvider::class);
         $translateProvider->method('getTranslate')->willReturn($translate);
 

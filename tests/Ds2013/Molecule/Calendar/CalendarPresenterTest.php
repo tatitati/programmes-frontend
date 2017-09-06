@@ -6,8 +6,9 @@ namespace Tests\App\Ds2013\Molecule\Calendar;
 use App\Ds2013\Molecule\Calendar\CalendarPresenter;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use Cake\Chronos\Chronos;
+use Cake\Chronos\Date;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 class CalendarPresenterTest extends TestCase
 {
@@ -20,8 +21,9 @@ class CalendarPresenterTest extends TestCase
 
     private function createPresenter(array $options = [])
     {
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
 
-        return new CalendarPresenter(Chronos::now(), $service, $options);
+        return new CalendarPresenter(Date::now(), $service, $options);
     }
 }

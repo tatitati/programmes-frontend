@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use DateTime;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use RMP\Translate\Translate;
 
 class TranslateAndTimeExtensionTest extends TestCase
@@ -21,6 +22,7 @@ class TranslateAndTimeExtensionTest extends TestCase
     public function setUp()
     {
         $this->mockTranslate = $this->createMock(Translate::class);
+        /** @var TranslateProvider|PHPUnit_Framework_MockObject_MockObject $translateProvider */
         $translateProvider = $this->createMock(TranslateProvider::class);
         $translateProvider->method('getTranslate')->willReturn($this->mockTranslate);
         $this->translateAndTimeExtension = new TranslateAndTimeExtension($translateProvider);

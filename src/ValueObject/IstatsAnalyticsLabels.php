@@ -13,7 +13,7 @@ class IstatsAnalyticsLabels
     /** @var string[] */
     private $labels = [];
 
-    /** @var string[] */
+    /** @var string[][] */
     private $orbLabels = [];
 
     public function __construct($context, string $progsPageType, string $appVersion, ?array $extraLabels)

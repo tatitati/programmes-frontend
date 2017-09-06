@@ -8,6 +8,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DayDateListPresenterTest extends TestCase
@@ -33,8 +34,10 @@ class DayDateListPresenterTest extends TestCase
         $now = Chronos::now();
         $offset = 2;
         $pid = new Pid('xxxxxxxx');
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
         $service->method('getPid')->willReturn($pid);
+        /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject $urlGeneratorInterface */
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
         $urlGeneratorInterface->expects($this->once())
             ->method('generate')
@@ -49,7 +52,9 @@ class DayDateListPresenterTest extends TestCase
 
     private function createPresenter(int $offset, array $options = [])
     {
+        /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject $urlGeneratorInterface */
         $urlGeneratorInterface = $this->createMock(UrlGeneratorInterface::class);
+        /** @var Service|PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock(Service::class);
         return new DayDateListItemPresenter($urlGeneratorInterface, Chronos::now(), $service, $offset, new Chronos('+90 days'), $options);
     }

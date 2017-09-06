@@ -4,12 +4,14 @@ namespace Tests\App\Twig;
 
 use App\Twig\HtmlUtilitiesExtension;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Asset\Packages;
 
 class HtmlUtilitiesExtensionTest extends TestCase
 {
     public function testAssetJs()
     {
+        /** @var Packages|PHPUnit_Framework_MockObject_MockObject $mockPackages */
         $mockPackages = $this->createMock(Packages::class);
         $mockPackages->expects($this->once())->method('getUrl')
             ->with('some/example/path.js')

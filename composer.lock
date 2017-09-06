@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f033980ce8da3946b0c0e8d2e68aceaa",
+    "content-hash": "07015acd611c4f4e62c9b9be7edec501",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -432,7 +432,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-08-11 10:11:51"
+            "time": "2017-08-11T10:11:51+00:00"
         },
         {
             "name": "behat/transliterator",
