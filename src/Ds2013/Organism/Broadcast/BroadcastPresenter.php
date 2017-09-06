@@ -18,6 +18,7 @@ class BroadcastPresenter extends Presenter
         'is_stacked' => false,
         'show_date' => false,
         'show_image' => true,
+        'show_overlay' => true,
         'steal_blocklink' => true,
     ];
 

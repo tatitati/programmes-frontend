@@ -63,6 +63,7 @@ class TimeSlotItemPresenter extends Presenter
             'highlight_box_classes' => 'highlight-box--list',
             'container_classes' => 'broadcast--grid',
             'show_image' => false,
+            'show_overlay' => false,
             'is_stacked' => true,
         ]);
     }
