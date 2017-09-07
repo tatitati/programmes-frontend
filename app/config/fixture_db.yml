@@ -1,0 +1,55 @@
+framework:
+    cache:
+        pools:
+            cache.null:
+                public: true
+                adapter: 'cache.adapter.psr6'
+                provider: cache.null_provider
+doctrine:
+    dbal:
+        connections:
+            fixture:
+                driver: pdo_mysql
+                host: '%fixture_database_host%'
+                port: '%fixture_database_port%'
+                dbname: '%scenario_database_name%'
+                user: '%fixture_database_user%'
+                password: '%fixture_database_password%'
+                server_version: '%database_server_version%'
+                charset: UTF8
+
+    orm:
+        entity_managers:
+            fixture:
+                connection: fixture
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+#                mappings:
+#                    FixturesService:
+#                        type: annotation
+#                        dir: '%kernel.project_dir%/src/Fixture/Doctrine/Entity'
+#                        is_bundle: false
+#                        prefix: App\Fixture\Doctrine\Entity
+services:
+    # Fixture stuff
+    App\EventSubscriber\FixtureSubscriber:
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: 'kernel.event_subscriber', priority: 2048 }
+
+    App\Fixture\ScenarioManagement\ScenarioNameManager:
+        public: true
+        arguments:
+            - '@App\ValueObject\CosmosInfo'
+
+    doctrine.dbal.connection_factory:
+        class: 'App\Fixture\Doctrine\ConnectionFactory'
+        arguments:
+            - '%doctrine.dbal.connection_factory.types%'
+            - '@App\Fixture\ScenarioManagement\ScenarioNameManager'
+            - '%fixture_database_host%'
+            - '%fixture_database_port%'
+            - '%fixture_database_name%'
+            - '%fixture_database_user%'
+            - '%fixture_database_password%'
+

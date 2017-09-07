@@ -1,5 +1,6 @@
 imports:
     - { resource: config_prod.yml }
+    - { resource: fixture_db.yml }
 
 parameters:
     app.feed_env.orbit: 'test'

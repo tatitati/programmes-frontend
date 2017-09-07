@@ -50,15 +50,15 @@ class MonitoringSubscriber implements EventSubscriberInterface
 
     private function sendMetrics(KernelEvent $event)
     {
-        $request = $event->getRequest();
-        $controllerName = $request->get('_controller');
-        $this->stopwatch->stop(self::REQUEST_TIMER);
         if (!$event->isMasterRequest()) {
             return;
         }
+        $request = $event->getRequest();
+        $controllerName = $request->get('_controller');
+        $this->stopwatch->stop(self::REQUEST_TIMER);
 
         $controllerPeriod = $this->getControllerPeriod();
-        if ($controllerPeriod) {
+        if ($controllerPeriod && $controllerName) {
             $this->metricsManager->addRouteMetric($controllerName, $controllerPeriod);
         }
 

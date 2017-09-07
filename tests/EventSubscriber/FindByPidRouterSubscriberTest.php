@@ -21,6 +21,7 @@ use BBC\ProgrammesPagesService\Service\SegmentsService;
 use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use BBC\ProgrammesPagesService\Service\VersionsService;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -137,7 +138,13 @@ class FindByPidRouterSubscriberTest extends TestCase
         $serviceFactory->method('getVersionsService')->willReturn($versionsService);
         $serviceFactory->method('getSegmentsService')->willReturn($segmentsService);
 
-        return new FindByPidRouterSubscriber($serviceFactory);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->expects($this->any())
+            ->method('get')
+            ->with(ServiceFactory::class)
+            ->willReturn($serviceFactory);
+
+        return new FindByPidRouterSubscriber($container);
     }
 
     private function request()

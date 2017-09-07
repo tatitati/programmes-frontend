@@ -38,8 +38,13 @@ def substitute_data(data):
         'cosmos_environment': data["environment"],
         'cosmos_component_release': data['release'],
         'redis_endpoint': data["configuration"]["redis_endpoint"],
+        'fixture_database_host': data["configuration"].get('fixture_database_host', 'blank'),
+        'fixture_database_user': data["configuration"].get('fixture_database_user', 'blank'),
+        'fixture_database_password': data["secure_configuration"].get('fixture_database_password', 'blank'),
+        'fixture_database_port': data["configuration"].get('fixture_database_port', '3306'),
+        'fixture_database_name': data["configuration"].get('fixture_database_name', 'blank'),
+        'scenario_database_name': data["configuration"].get('scenario_database_name', 'blank'),
     }
-
 
 def rewrite_application_parameters(config):
     appParamWriteFile = appRoot + "/app/config/parameters.yml"

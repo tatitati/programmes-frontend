@@ -1,5 +1,5 @@
 imports:
-    - { resource: config_dev.yml }
+    - { resource: config.yml }
 
 parameters:
     app.orbit_client.class: BBC\BrandingClient\OrbitStubClient
@@ -8,6 +8,9 @@ parameters:
     app.metric_cache.class: App\Metrics\Cache\MetricCacheNull
 
 framework:
+    router:
+        resource: '%kernel.project_dir%/app/config/routing_dev.yml'
+        strict_requirements: true
     test: ~
     session:
         storage_id: session.storage.mock_file
@@ -33,3 +36,4 @@ doctrine:
 
 liip_functional_test:
     cache_sqlite_db: true
+

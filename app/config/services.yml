@@ -16,7 +16,7 @@ services:
 
     # Autowire all necessary Twig, Argument resolver and Event Subscriber services
     App\:
-        resource: '../../src/{ArgumentResolver,Branding,EventSubscriber,Twig}'
+        resource: '../../src/{ArgumentResolver,Branding,Twig}'
 
     # Autowire controllers in the DI layer and make them public
     App\Controller\:
@@ -25,6 +25,14 @@ services:
 
 
     ### Begin the services!
+
+    # Event Subscribers
+    App\EventSubscriber\FindByPidRouterSubscriber: ~
+    App\EventSubscriber\ResponseSubscriber: ~
+    App\EventSubscriber\MonitoringSubscriber:
+        tags:
+            - { name: 'kernel.event_subscriber' }
+            - { name: 'monolog.logger', channel: 'app_access' }
 
     App\ValueObject\CosmosInfo:
         arguments: ['%cosmos_component_release%', '%cosmos_environment%']
@@ -94,11 +102,6 @@ services:
 
     ### Monitoring
 
-    App\EventSubscriber\MonitoringSubscriber:
-        tags:
-            - { name: 'kernel.event_subscriber' }
-            - { name: 'monolog.logger', channel: 'app_access' }
-
     App\Metrics\MetricsManager: ~
 
     App\Metrics\MetricsMiddleware:
@@ -135,7 +138,8 @@ services:
 
     BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory: ~
 
-    BBC\ProgrammesPagesService\Service\ServiceFactory: ~
+    BBC\ProgrammesPagesService\Service\ServiceFactory:
+        public: true
 
     BBC\ProgrammesPagesService\Service\SegmentEventsService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getSegmentEventsService']

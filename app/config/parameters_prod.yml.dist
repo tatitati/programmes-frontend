@@ -24,3 +24,10 @@ parameters:
     cache_provider: cache.default_redis_provider
 
     redis_endpoint: $redis_endpoint
+
+    fixture_database_host: $fixture_database_host
+    fixture_database_port: 3306
+    fixture_database_name: $fixture_database_name
+    scenario_database_name: $scenario_database_name
+    fixture_database_user: $fixture_database_user
+    fixture_database_password: $fixture_database_password

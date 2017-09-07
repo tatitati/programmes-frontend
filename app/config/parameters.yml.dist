@@ -24,3 +24,9 @@ parameters:
     cache_provider: cache.null_provider
 
     redis_endpoint: sandbox.bbc.co.uk:6379
+    fixture_database_host: 192.168.193.1
+    fixture_database_port: 3306
+    fixture_database_name: programmes
+    scenario_database_name: fixture
+    fixture_database_user: developer
+    fixture_database_password: developer
