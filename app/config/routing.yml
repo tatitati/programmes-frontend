@@ -17,6 +17,11 @@ find_by_pid:
     defaults: { _controller: '!find_by_pid' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+programme_clips:
+    path: /programmes/{pid}/clips
+    defaults: { _controller: App\Controller\ProgrammeClips }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 schedules_home:
     path: /schedules
     defaults: { _controller: App\Controller\SchedulesHomeController }

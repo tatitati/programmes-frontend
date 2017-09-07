@@ -1,7 +1,7 @@
 {% extends 'base_ds_amen.html.twig' %}
 
 {% block html_classes %}b-pw-1280{% endblock %}
-{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
+{% block page_classes %}gel-long-primer amen{% endblock %}
 {% block title %}{{ meta_context.titlePrefix() }}{% endblock %}
 {% block adsToDisplay %}leaderboard mpu sponsor{% endblock %}
 
@@ -27,12 +27,40 @@
 
             {# TODO Recipes block #}
 
-            {# TODO Promos / Clips / Galleries list #}
+            {# TODO Promos / Galleries list #}
+            {%- if promotions or clips or galleries -%}
+                <ul class="grid">
+                    {%- for clip in clips -%}
+                        <li class="1/4@gel5 1/3@gel3b 1/2@gel3 1/1 grid__item">
+                            {{ ds_amen('programme', clip, {
+                                'context_programme': programme,
+                                'branding_name': 'secondary',
+                                'title_options': {
+                                    'text_colour_on_title_link': true,
+                                    'title_size_small': 'gel-long-primer'
+                                },
+                                'cta_options': {
+                                    'cta_class': 'br-box-secondary'
+                                }
+                            })}}
 
+                            {%- if loop.last and programme.getAvailableClipsCount() > 4 -%}
+                                <div class="br-box-secondary">
+                                    <div class="media__footer br-keyline">
+                                        <a href="{{ path('programme_clips', { pid: programme.getPid() }) }}" class="icon-link link-complex 1/1 gel-pica-bold">
+                                            {{ gelicon('media', 'collection', 'gelicon--programme br-secondary-text-ontext') }}
+                                            <span class="link-complex__target icon-label">{{ tr('see_all_clips') }}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            {%- endif -%}
+                        </li>
+                    {%- endfor -%}
+                {%- endif -%}
+            </ul>
             {# TODO Supporting Content blocks #}
 
             {# TODO Regular Vote block #}
-            {{ ds_amen('programme', programme)}}
         </div>
     </div>
 
