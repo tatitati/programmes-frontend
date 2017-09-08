@@ -16,7 +16,7 @@ class BroadcastWeekTest extends TestCase
     public function testFirstWeekIsPartOfThePreviousYear()
     {
         $week = new BroadcastWeek('2009-w01');
-        
+
         $this->assertEquals('2008-12-29 00:00:00', $week->start()->toDateTimeString());
         $this->assertEquals('2009-01-04 23:59:59', $week->end()->toDateTimeString());
     }
