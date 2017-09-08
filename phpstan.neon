@@ -9,3 +9,4 @@ parameters:
         - '#RedisCluster#' #PHPStan does not play well with RedisCluster it seems
         - '#Call to an undefined method Tests\\App\\Translate\\TranslatableTraitTest::tr\(\).#'
         - '#Call to an undefined method Tests\\App\\Translate\\TranslatableTraitTest::localDateIntl\(\).#'
+        - '#Call to an undefined method Doctrine\\DBAL\\Driver\\Connection::isConnected\(\)#'

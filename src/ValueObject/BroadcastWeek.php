@@ -18,7 +18,7 @@ class BroadcastWeek extends BroadcastPeriod
         $week = (int) str_replace('w', '', $dateParts[1]);
         $blankChronos = ApplicationTime::getLocalTime()->startOfDay(); // Today at midnight
         $this->start = $blankChronos->setISODate($year, $week, 1); // Midnight on Monday
-        if ($this->start->year !== $year) {
+        if ($this->start->year > $year) {
             throw new InvalidArgumentException($year . ' does not have enough weeks in it.');
         }
         $this->end = $this->start->endOfWeek();

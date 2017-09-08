@@ -31,6 +31,7 @@ class TlecController extends BaseController
     ) {
         $this->setContext($programme);
 
+        $promotions = [];
         $clips = [];
         $galleries = [];
 
@@ -55,6 +56,7 @@ class TlecController extends BaseController
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
+            'promotions' => $promotions,
             'clips' => $clips,
             'galleries' => $galleries,
             'mapPresenter' => $mapPresenter,
