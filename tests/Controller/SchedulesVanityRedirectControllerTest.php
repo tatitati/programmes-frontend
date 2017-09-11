@@ -43,6 +43,9 @@ class SchedulesVanityRedirectControllerTest extends BaseWebTestCase
             'this_week' => ['this_week', '2017/w39'],
             'next_week' => ['next_week', '2017/w40'],
             'last_week' => ['last_week', '2017/w38'],
+            'this_month' => ['this_month', '2017/09'],
+            'next_month' => ['next_month', '2017/10'],
+            'last_month' => ['last_month', '2017/08'],
         ];
     }
 }

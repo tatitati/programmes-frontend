@@ -33,6 +33,16 @@ class SchedulesVanityRedirectController extends BaseController
             return $this->redirectToRoute('schedules_by_week', ['pid' => $service->getPid(), 'date' => $time->format('Y/\\wW')]);
         }
 
-        return $this->createNotFoundException('Vanity URL ' . $vanity . ' not recognised');
+        if (in_array($vanity, ['last_month', 'next_month', 'this_month'])) {
+            if ($vanity === 'next_month') {
+                $time = $time->addMonth();
+            } elseif ($vanity === 'last_month') {
+                $time = $time->subMonth();
+            }
+
+            return $this->redirectToRoute('schedules_by_month', ['pid' => $service->getPid(), 'date' => $time->format('Y/m')]);
+        }
+
+        throw $this->createNotFoundException('Vanity URL ' . $vanity . ' not recognised');
     }
 }

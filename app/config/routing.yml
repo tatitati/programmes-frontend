@@ -44,7 +44,7 @@ schedules_by_month:
 schedules_by_vanity:
     path: /schedules/{pid}/{vanity}
     defaults: { _controller: App\Controller\SchedulesVanityRedirectController }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', vanity: 'yesterday|today|tomorrow|(?:this|next|last)_week' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', vanity: 'yesterday|today|tomorrow|(?:this|next|last)_(?:week|month)' }
 
 schedules_by_year:
     path: /schedules/{pid}/{year}
