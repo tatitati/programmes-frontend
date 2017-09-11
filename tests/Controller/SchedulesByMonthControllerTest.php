@@ -13,9 +13,9 @@ class SchedulesByMonthControllerTest extends BaseWebTestCase
     /**
      * @dataProvider serviceActiveTestProvider
      * @param string $scheduleDate    The month the user is viewing the schedule for
-     * @param bool $serviceIsActive
+     * @param bool   $expectedResponseCode
      */
-    public function testResponseIs404IfServiceIsNotActive(string $scheduleDate, bool $serviceIsActive)
+    public function testResponseIs404IfServiceIsNotActive(string $scheduleDate, int $expectedResponseCode)
     {
         $this->loadFixtures(["NetworksAndServicesFixture"]);
 
@@ -24,21 +24,16 @@ class SchedulesByMonthControllerTest extends BaseWebTestCase
 
         $client->request('GET', $url);
 
-        if ($serviceIsActive) {
-            $this->assertResponseStatusCode($client, 200);
-        } else {
-            $this->assertResponseStatusCode($client, 404);
-        }
-
+        $this->assertResponseStatusCode($client, $expectedResponseCode);
         $this->assertHasRequiredResponseHeaders($client);
     }
 
     public function serviceActiveTestProvider(): array
     {
         return [
-            'not-active-in-month' => ['2012/06', false],
-            'starts-half-way-through-month' => ['2012/07', true],
-            'finishes-half-way-through-month' => ['2012/08', true],
+            'SERVICE IS ACTIVE: not-active-in-month' => ['2012/06', 404],
+            'SERVICE IS NOT ACTIVE: starts-half-way-through-month' => ['2012/07', 200],
+            'SERVICE IS NOT ACTIVE: finishes-half-way-through-month' => ['2012/08', 200],
         ];
     }
 

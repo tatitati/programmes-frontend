@@ -15,7 +15,7 @@ class SchedulesByYearControllerTest extends BaseWebTestCase
      * @param string $scheduleYear    The year the user is viewing the schedule for
      * @param bool $serviceIsActive
      */
-    public function testResponseIs404IfServiceIsNotActive(string $scheduleYear, bool $serviceIsActive)
+    public function testResponseIs404IfServiceIsNotActive(string $scheduleYear, int $expectedResponseCode)
     {
         $this->loadFixtures(["NetworksAndServicesFixture"]);
 
@@ -24,21 +24,16 @@ class SchedulesByYearControllerTest extends BaseWebTestCase
 
         $client->request('GET', $url);
 
-        if ($serviceIsActive) {
-            $this->assertResponseStatusCode($client, 200);
-        } else {
-            $this->assertResponseStatusCode($client, 404);
-        }
-
+        $this->assertResponseStatusCode($client, $expectedResponseCode);
         $this->assertHasRequiredResponseHeaders($client);
     }
 
     public function serviceActiveTestProvider(): array
     {
         return [
-            'not-active-in-year' => ['2011', false],
-            'starts-half-way-through-year' => ['2012', true],
-            'finishes-half-way-through-year' => ['2012', true],
+            'SERVICE IS ACTIVE: not-active-in-year' => ['2011', 404],
+            'SERVICE IS NOT ACTIVE: starts-half-way-through-year' => ['2012', 200],
+            'SERVICE IS NOT ACTIVE: finishes-half-way-through-year' => ['2012', 200],
         ];
     }
 
