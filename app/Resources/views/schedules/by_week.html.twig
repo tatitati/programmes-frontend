@@ -41,14 +41,16 @@
         {%- endif -%}
     </div>
     {% if service.isRadio() %}
-        <ul class="heading-links nav nav--piped pull--right delta">
-            <li class="hidden grid-visible@bpw">
-                <a href="{{ path('schedules_by_day', {pid: service.getPid()}) }}" class="introduction--switch-link" data-href-add-utcoffset="true">{{ tr('schedules_today')  }}</a>
-            </li>
-            <li>
-                <a href="{{ path('schedules_by_month', {pid: service.getPid(), date: broadcast_week.start()|local_date('Y/m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
-            </li>
-        </ul>
+        {% spaceless %}
+            <ul class="heading-links nav nav--piped pull--right delta">
+                <li class="hidden grid-visible@bpw">
+                    <a href="{{ path('schedules_by_day', {pid: service.getPid()}) }}" class="introduction--switch-link" data-href-add-utcoffset="true">{{ tr('schedules_today')  }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('schedules_by_month', {pid: service.getPid(), date: broadcast_week.start()|local_date('Y/m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
+                </li>
+            </ul>
+        {% endspaceless %}
     {%- endif -%}
 {%- endblock -%}
 

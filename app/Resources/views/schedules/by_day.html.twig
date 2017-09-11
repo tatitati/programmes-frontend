@@ -10,14 +10,16 @@
 
 {%- block header_links -%}
     {% if service.isRadio() %}
-        <ul class="heading-links nav nav--piped pull--right delta">
-            <li class="hidden grid-visible@bpw">
-                <a href="{{ path('schedules_by_vanity', {pid: service.getPid(), vanity: 'this_week'}) }}" class="introduction--switch-link" data-href-add-utcoffset="true">{{ tr('schedules_this_week') }}</a>
-            </li>
-            <li>
-                <a href="{{ path('schedules_by_month', {pid: service.getPid(), date: broadcast_day_start|local_date('Y/m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
-            </li>
-        </ul>
+        {% spaceless %}
+            <ul class="heading-links nav nav--piped pull--right delta">
+                <li class="hidden grid-visible@bpw">
+                    <a href="{{ path('schedules_by_vanity', {pid: service.getPid(), vanity: 'this_week'}) }}" class="introduction--switch-link" data-href-add-utcoffset="true">{{ tr('schedules_this_week') }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('schedules_by_month', {pid: service.getPid(), date: broadcast_day_start|local_date('Y/m')}) }}" class="introduction--calendar-link">{{ tr('schedules_calendar') }}</a>
+                </li>
+            </ul>
+        {% endspaceless %}
     {%- endif -%}
 {%- endblock -%}
 
