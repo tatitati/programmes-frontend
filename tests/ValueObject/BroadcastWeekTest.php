@@ -15,7 +15,7 @@ class BroadcastWeekTest extends TestCase
 {
     public function testFirstWeekIsPartOfThePreviousYear()
     {
-        $week = new BroadcastWeek('2009-w01');
+        $week = new BroadcastWeek('2009/w01');
 
         $this->assertEquals('2008-12-29 00:00:00', $week->start()->toDateTimeString());
         $this->assertEquals('2009-01-04 23:59:59', $week->end()->toDateTimeString());
@@ -23,7 +23,7 @@ class BroadcastWeekTest extends TestCase
 
     public function testFirstWeek()
     {
-        $week = new BroadcastWeek('2017-w01');
+        $week = new BroadcastWeek('2017/w01');
 
         $this->assertEquals('2017-01-02 00:00:00', $week->start()->toDateTimeString());
         $this->assertEquals('2017-01-08 23:59:59', $week->end()->toDateTimeString());
@@ -31,7 +31,7 @@ class BroadcastWeekTest extends TestCase
 
     public function testLastWeek()
     {
-        $week = new BroadcastWeek('2018-w53');
+        $week = new BroadcastWeek('2018/w53');
 
         $this->assertEquals('2018-12-31 00:00:00', $week->start()->toDateTimeString());
         $this->assertEquals('2019-01-06 23:59:59', $week->end()->toDateTimeString());
@@ -44,12 +44,12 @@ class BroadcastWeekTest extends TestCase
             '2017 does not have enough weeks in it.'
         );
 
-        new BroadcastWeek('2017-w53');
+        new BroadcastWeek('2017/w53');
     }
 
     public function testServiceIsActiveInThisPeriodWithin()
     {
-        $week = new BroadcastWeek('2017-w02');
+        $week = new BroadcastWeek('2017/w02');
 
         $service = $this->createService('2017-01-10 00:00:00', '2017-01-11 00:00:00');
         $this->assertTrue($week->serviceIsActiveInThisPeriod($service));
@@ -57,7 +57,7 @@ class BroadcastWeekTest extends TestCase
 
     public function testServiceIsActiveInThisPeriodOutside()
     {
-        $week = new BroadcastWeek('2017-w02');
+        $week = new BroadcastWeek('2017/w02');
 
         $service = $this->createService('2017-01-7 00:00:00', '2017-01-17 00:00:00');
         $this->assertTrue($week->serviceIsActiveInThisPeriod($service));
@@ -65,7 +65,7 @@ class BroadcastWeekTest extends TestCase
 
     public function testServiceIsActiveInThisPeriodAtStart()
     {
-        $week = new BroadcastWeek('2017-w02');
+        $week = new BroadcastWeek('2017/w02');
 
         $service = $this->createService('2017-01-07 00:00:00', '2017-01-10 00:00:00');
         $this->assertTrue($week->serviceIsActiveInThisPeriod($service));
@@ -73,7 +73,7 @@ class BroadcastWeekTest extends TestCase
 
     public function testServiceIsActiveInThisPeriodAtEnd()
     {
-        $week = new BroadcastWeek('2017-w02');
+        $week = new BroadcastWeek('2017/w02');
 
         $service = $this->createService('2017-01-10 00:00:00', '2017-01-17 00:00:00');
         $this->assertTrue($week->serviceIsActiveInThisPeriod($service));
@@ -81,7 +81,7 @@ class BroadcastWeekTest extends TestCase
 
     public function testServiceIsNotActiveInThisPeriod()
     {
-        $week = new BroadcastWeek('2017-w02');
+        $week = new BroadcastWeek('2017/w02');
 
         $service = $this->createService('2017-01-01 00:00:00', '2017-01-07 00:00:00');
         $this->assertFalse($week->serviceIsActiveInThisPeriod($service));

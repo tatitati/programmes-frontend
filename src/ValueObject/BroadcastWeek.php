@@ -13,7 +13,7 @@ class BroadcastWeek extends BroadcastPeriod
 {
     public function __construct(string $date)
     {
-        $dateParts = explode('-', $date);
+        $dateParts = explode('/', $date);
         $year = (int) $dateParts[0];
         $week = (int) str_replace('w', '', $dateParts[1]);
         $blankChronos = ApplicationTime::getLocalTime()->startOfDay(); // Today at midnight

@@ -43,15 +43,15 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
     {
         return [
             'radio-no-date' => ['2017-05-22 00:00:00', 'p00fzl8v', null, ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
-            'radio-with-date' => [null, 'p00fzl8v', '2017-05-22', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
+            'radio-with-date' => [null, 'p00fzl8v', '2017/05/22', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
             'tv-no-date' => ['2017-05-22 09:00:00', 'p00fzl6p', null, ['2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
             'tv-no-date-tomorrow-before-6am' => ['2017-05-23 03:00:00', 'p00fzl6p', null, ['2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
-            'tv-with-date' => [null, 'p00fzl6p', '2017-05-22', ['2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
+            'tv-with-date' => [null, 'p00fzl6p', '2017/05/22', ['2017-05-22T15:45:00+01:00', '2017-05-23T03:00:00+01:00', '2017-05-23T03:45:00+01:00']],
             'radio-no-date-and-utcoffset' => ['2017-05-22 00:00:00', 'p00fzl8v?utcoffset=%2B04%3A00', null, ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
-            'radio-with-date-and-utcoffset' => [null, 'p00fzl8v', '2017-05-22?utcoffset=%2B04%3A00', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
+            'radio-with-date-and-utcoffset' => [null, 'p00fzl8v', '2017/05/22?utcoffset=%2B04%3A00', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
             'tv-no-date-and-utcoffset' => ['2017-05-22 09:00:00', 'p00fzl6p?utcoffset=%2B04%3A00', null, ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
             'tv-no-date-tomorrow-before-6am-and-utcoffset' => ['2017-05-23 03:00:00', 'p00fzl6p?utcoffset=%2B04%3A00', null, ['2017-05-23T03:45:00+01:00']],
-            'tv-with-date-and-utcoffset' => [null, 'p00fzl6p', '2017-05-22?utcoffset=%2B04%3A00', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
+            'tv-with-date-and-utcoffset' => [null, 'p00fzl6p', '2017/05/22?utcoffset=%2B04%3A00', ['2017-05-22T03:45:00+01:00', '2017-05-22T15:00:00+01:00', '2017-05-22T15:45:00+01:00']],
         ];
     }
 
@@ -97,9 +97,9 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
     public function scheduleDateIstatsTestProvider(): array
     {
-        $dateTomorrow = Chronos::tomorrow()->toDateString();
-        $dateYesterday = Chronos::yesterday()->toDateString();
-        $dateTwentyDaysAgo = Chronos::today()->addDays(-20)->toDateString();
+        $dateTomorrow = Chronos::tomorrow()->format('Y/m/d');
+        $dateYesterday = Chronos::yesterday()->format('Y/m/d');
+        $dateTwentyDaysAgo = Chronos::today()->addDays(-20)->format('Y/m/d');
         return [
             'radio-no-date'   => ['p00fzl8v', null, 'iplayerradio-radio2', 'bbc_radio_two', '0', 'today', 'true'],
             'radio-tomorrow'  => ['p00fzl8v', $dateTomorrow, 'iplayerradio-radio2', 'bbc_radio_two', '+1', 'future', 'true'],
@@ -161,7 +161,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $this->loadFixtures(["BroadcastsFixture"]);
 
         $client = static::createClient();
-        $crawler = $client->request('GET', '/schedules/p00fzl6p/2017-03-04');
+        $crawler = $client->request('GET', '/schedules/p00fzl6p/2017/03/04');
 
         $this->assertResponseStatusCode($client, 404);
     }
@@ -171,7 +171,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $this->loadFixtures(["BroadcastsFixture"]);
 
         $client = static::createClient();
-        $url = '/schedules/p00rfdrb/2012-07-24';
+        $url = '/schedules/p00rfdrb/2012/07/24';
         $crawler = $client->request('GET', $url);
 
         $this->assertResponseStatusCode($client, 404);
@@ -185,7 +185,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $this->loadFixtures(["BroadcastsFixture"]);
 
         $client = static::createClient();
-        $url = '/schedules/p00rfdrb/2012-08-15';
+        $url = '/schedules/p00rfdrb/2012/08/15';
         $crawler = $client->request('GET', $url);
 
         $this->assertResponseStatusCode($client, 404);
@@ -198,7 +198,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
     {
         $this->loadFixtures(["BroadcastsFixture"]);
 
-        foreach (['2012-07-25', '2012-08-14'] as $date) {
+        foreach (['2012/07/25', '2012/08/14'] as $date) {
             $client = static::createClient();
             $url = '/schedules/p00rfdrb/' . $date;
             $crawler = $client->request('GET', $url);

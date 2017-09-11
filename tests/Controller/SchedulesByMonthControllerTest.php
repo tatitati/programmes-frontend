@@ -36,9 +36,9 @@ class SchedulesByMonthControllerTest extends BaseWebTestCase
     public function serviceActiveTestProvider(): array
     {
         return [
-            'not-active-in-month' => ['2012-06', false],
-            'starts-half-way-through-month' => ['2012-07', true],
-            'finishes-half-way-through-month' => ['2012-08', true],
+            'not-active-in-month' => ['2012/06', false],
+            'starts-half-way-through-month' => ['2012/07', true],
+            'finishes-half-way-through-month' => ['2012/08', true],
         ];
     }
 
@@ -48,7 +48,7 @@ class SchedulesByMonthControllerTest extends BaseWebTestCase
         $this->loadFixtures([]);
 
         $client = static::createClient();
-        $client->request('GET', '/schedules/zzzzzzzz/2012-12');
+        $client->request('GET', '/schedules/zzzzzzzz/2012/12');
 
         $this->assertResponseStatusCode($client, 404);
     }

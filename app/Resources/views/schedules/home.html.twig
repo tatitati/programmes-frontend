@@ -36,7 +36,7 @@
     <a class="sch-service-row deemphasize" href="{{ path('schedules_by_day', { pid : service.service.getPid() }) }}">
         <div class="{{ nameClasses }}">{{ service.service.getShortName() }}</div>
         <div class="sch-duration">
-            <div class="sch-duration__bar" title="{{ service.service.getStartDate()|local_date('Y-m-d') }} till {{ service.service.getEndDate() ? service.service.getEndDate()|local_date('Y-m-d') : 'present' }}" style="width:{{ service.width }}%; margin-left: {{ service.offset }}%"></div>
+            <div class="sch-duration__bar" title="{{ service.service.getStartDate()|local_date('Y/m/d') }} till {{ service.service.getEndDate() ? service.service.getEndDate()|local_date('Y-m-d') : 'present' }}" style="width:{{ service.width }}%; margin-left: {{ service.offset }}%"></div>
         </div>
     </a>
 {% endmacro %}

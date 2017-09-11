@@ -31,6 +31,6 @@
     <td class="{{ firstOfMonth.format('m') == date.format('m') ? 'br-box-highlight' : 'br-box-subtle' }} br-page-bg-onborder"
         datatype="xsd:date" content="{{ date|local_date('Y-m-d') }}">
         <a class="box-link"
-           href="{{ path('schedules_by_day', {pid: pid, date: date|local_date('Y-m-d')}) }}">{{ date|local_date('j') }}</a>
+           href="{{ path('schedules_by_day', {pid: pid, date: date|local_date('Y/m/d')}) }}">{{ date|local_date('j') }}</a>
     </td>
 {% endmacro %}

@@ -20,7 +20,7 @@ class SchedulesVanityRedirectController extends BaseController
                 $time = $time->yesterday();
             }
 
-            return $this->redirectToRoute('schedules_by_day', ['pid' => $service->getPid(), 'date' => $time->toDateString()]);
+            return $this->redirectToRoute('schedules_by_day', ['pid' => $service->getPid(), 'date' => $time->format('Y/m/d')]);
         }
 
         if (in_array($vanity, ['last_week', 'next_week', 'this_week'])) {
@@ -30,7 +30,7 @@ class SchedulesVanityRedirectController extends BaseController
                 $time = $time->subWeek();
             }
 
-            return $this->redirectToRoute('schedules_by_week', ['pid' => $service->getPid(), 'date' => $time->format('Y-\\wW')]);
+            return $this->redirectToRoute('schedules_by_week', ['pid' => $service->getPid(), 'date' => $time->format('Y/\\wW')]);
         }
 
         return $this->createNotFoundException('Vanity URL ' . $vanity . ' not recognised');

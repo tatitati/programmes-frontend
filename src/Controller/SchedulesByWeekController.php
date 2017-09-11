@@ -147,7 +147,7 @@ class SchedulesByWeekController extends BaseController
 
         foreach ($broadcasts as $broadcast) {
             $start = $broadcast->getStartAt()->setTimezone($tz);
-            $groupedBroadcasts[$start->format('Y-m-d')][$start->format('G')][] = $broadcast;
+            $groupedBroadcasts[$start->format('Y/m/d')][$start->format('G')][] = $broadcast;
         }
 
         return $groupedBroadcasts;

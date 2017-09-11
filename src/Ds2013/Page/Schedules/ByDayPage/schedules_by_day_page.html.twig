@@ -109,7 +109,7 @@
                 {%- set attributes = '' -%}
             {% endif %}
             <a class="tomorrow-bar--link island bpw-islet text--no-ul text--right br-page-linkhover-onbg015 br-page-linkhover-onbg--hover br-page-bg-ontext--hover"
-               href="{{ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': nextDay.format('Y-m-d')}) }}" {{ attributes }}>
+               href="{{ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': nextDay.format('Y/m/d')}) }}" {{ attributes }}>
                 {%- if nextDay.isTomorrow() -%}
                     {{ tr('schedules_tomorrow') }}
                 {%- elseif nextDay.isToday() -%}

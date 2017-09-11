@@ -1,9 +1,9 @@
 <p class="noschedule">
     {%- if no_schedule.notBegunYet() -%}
-        {%- set url = path('schedules_by_day', {pid: no_schedule.servicePid(), date: no_schedule.serviceStartDate()|local_date('Y-m-d')}) -%}
+        {%- set url = path('schedules_by_day', {pid: no_schedule.servicePid(), date: no_schedule.serviceStartDate()|local_date('Y/m/d')}) -%}
         {{ tr('schedule_begins_on', {'%1': '<a href="' ~ url ~ '">' ~ no_schedule.serviceStartDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}
     {%- elseif no_schedule.finished() -%}
-        {% set url = path('schedules_by_day', {pid: no_schedule.servicePid(), date: no_schedule.serviceEndDate()|local_date('Y-m-d')}) %}
+        {% set url = path('schedules_by_day', {pid: no_schedule.servicePid(), date: no_schedule.serviceEndDate()|local_date('Y/m/d')}) %}
         {{ tr('schedule_ended_on', {'%1': '<a href="' ~ url ~ '">' ~ no_schedule.serviceEndDate()|local_date_intl('EEEE d MMMM yyyy') ~ '</a>'})|raw }}
     {%- else -%}
         {{ tr('schedules_no_result') }}

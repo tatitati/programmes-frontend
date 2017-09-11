@@ -100,7 +100,7 @@ class SchedulesByDayController extends BaseController
     {
         if (isset($date)) {
             $tz = ApplicationTime::getLocalTimeZone();
-            $urlDate = Date::createFromFormat('Y-m-d', $date, $tz);
+            $urlDate = Date::createFromFormat('Y/m/d', $date, $tz);
             $diffInDays = Date::now($tz)->diffInDays($urlDate, false);
             return [
                 'schedule_offset' => $this->getScheduleOffset($diffInDays),
@@ -184,7 +184,7 @@ class SchedulesByDayController extends BaseController
         // Routing should ensure $dateString is in format \d{4}-\d{2}-\d{2}
         // If a date has been provided, use the broadcast date for midday on
         // the given date
-        return Chronos::createFromFormat('Y-m-d H:i:s', $dateString . ' 12:00:00', ApplicationTime::getLocalTimeZone());
+        return Chronos::createFromFormat('Y/m/d H:i:s', $dateString . ' 12:00:00', ApplicationTime::getLocalTimeZone());
     }
 
     private function findLiveCollapsedBroadcast(

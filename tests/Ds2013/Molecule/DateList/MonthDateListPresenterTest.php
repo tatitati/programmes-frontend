@@ -28,7 +28,7 @@ class MonthDateListPresenterTest extends TestCase
             ->method('generate')
             ->with(
                 'schedules_by_month',
-                ['pid' => (string) $pid, 'date' => $now->addMonths($offset)->format('Y-m')],
+                ['pid' => (string) $pid, 'date' => $now->addMonths($offset)->format('Y/m')],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )->willReturn('aUrl');
         $presenter = new MonthDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset, new Chronos('+90 days'));

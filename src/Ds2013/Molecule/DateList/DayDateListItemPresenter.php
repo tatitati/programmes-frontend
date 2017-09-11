@@ -22,7 +22,7 @@ class DayDateListItemPresenter extends AbstractDateListItemPresenter
     {
         return $this->router->generate(
             'schedules_by_day',
-            ['pid' => (string) $this->service->getPid(), 'date' => $this->datetime->format('Y-m-d')],
+            ['pid' => (string) $this->service->getPid(), 'date' => $this->datetime->format('Y/m/d')],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }

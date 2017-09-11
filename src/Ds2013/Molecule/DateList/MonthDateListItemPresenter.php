@@ -21,7 +21,7 @@ class MonthDateListItemPresenter extends AbstractDateListItemPresenter
     {
         return $this->router->generate(
             'schedules_by_month',
-            ['pid' => (string) $this->service->getPid(), 'date' => $this->datetime->format('Y-m')],
+            ['pid' => (string) $this->service->getPid(), 'date' => $this->datetime->format('Y/m')],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }

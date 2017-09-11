@@ -43,7 +43,7 @@ class DayDateListPresenterTest extends TestCase
             ->method('generate')
             ->with(
                 'schedules_by_day',
-                ['pid' => (string) $pid, 'date' => $now->addDays($offset)->format('Y-m-d')],
+                ['pid' => (string) $pid, 'date' => $now->addDays($offset)->format('Y/m/d')],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )->willReturn('aUrl');
         $presenter = new DayDateListItemPresenter($urlGeneratorInterface, $now, $service, $offset, new Chronos('+90 days'));

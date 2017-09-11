@@ -54,7 +54,7 @@ class TimeSlotItemPresenter extends Presenter
      */
     public function getGroupedBroadcasts(): ?array
     {
-        return $this->groupedBroadcasts[$this->dateTime->format('Y-m-d')][$this->hour] ?? null;
+        return $this->groupedBroadcasts[$this->dateTime->format('Y/m/d')][$this->hour] ?? null;
     }
 
     public function getBroadcastItem(BroadcastInfoInterface $broadcast): BroadcastPresenter

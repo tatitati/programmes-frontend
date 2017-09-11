@@ -37,12 +37,12 @@ class SchedulesVanityRedirectControllerTest extends BaseWebTestCase
     public function vanityTestProvider(): array
     {
         return [
-            'today' => ['today', '2017-09-27'],
-            'tomorrow' => ['tomorrow', '2017-09-28'],
-            'yesterday' => ['yesterday', '2017-09-26'],
-            'this_week' => ['this_week', '2017-w39'],
-            'next_week' => ['next_week', '2017-w40'],
-            'last_week' => ['last_week', '2017-w38'],
+            'today' => ['today', '2017/09/27'],
+            'tomorrow' => ['tomorrow', '2017/09/28'],
+            'yesterday' => ['yesterday', '2017/09/26'],
+            'this_week' => ['this_week', '2017/w39'],
+            'next_week' => ['next_week', '2017/w40'],
+            'last_week' => ['last_week', '2017/w38'],
         ];
     }
 }
