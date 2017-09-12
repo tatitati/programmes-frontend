@@ -10,6 +10,9 @@
         <meta name="theme-color" content="{{ branding.getColours().highlight.bg|default('#2B2B2B') }}">
         <meta name="description" content="{{ meta_context.description() }}">
 
+        {#- Facebook pages that are allowed to edit FB preview titles and descriptions -#}
+        <meta property="fb:pages" content="{{ meta_context.getBBCFacebookPageIds() }}">
+
         {#- OpenGraph tags for Facebook/Twitter -#}
         <meta property="og:site_name" content="BBC">
         <meta property="og:title" content="{{ block('title') }}">
