@@ -11,6 +11,10 @@ class SchedulesByYearController extends BaseController
 {
     public function __invoke(Service $service, string $year)
     {
+        if (!$this->isValidYear($year)) {
+            throw $this->createNotFoundException('Invalid date supplied');
+        }
+
         $this->setIstatsProgsPageType('schedules_year');
         $this->setContext($service);
 
@@ -28,5 +32,15 @@ class SchedulesByYearController extends BaseController
     private function serviceIsActiveDuringYear(Service $service, Date $startOfYear): bool
     {
         return (!$service->getStartDate() || $service->getStartDate() <= $startOfYear->endOfYear()) && (!$service->getEndDate() || $startOfYear < $service->getEndDate());
+    }
+
+    private function isValidYear(string $date): bool
+    {
+        // validate format
+        if (!preg_match('#\d{4}#', $date)) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -210,6 +210,41 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         }
     }
 
+    /**
+     * @dataProvider invalidFormatDatesProvider
+     * @dataProvider invalidDatesForControllerValidationProvider
+     */
+    public function testResponseIs404ForIncorrectDates(string $expectedMsgException, string $schedulesDateProvided)
+    {
+        $client = static::createClient();
+        $url = '/schedules/p00rfdrb/' . $schedulesDateProvided;
+
+        $crawler = $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 404);
+        $this->assertEquals($expectedMsgException, $crawler->filter('.exception-message-wrapper h1')->text());
+    }
+
+    public function invalidFormatDatesProvider(): array
+    {
+        // trigger INVALID ARGUMENT EXCEPTION
+        return [
+            'CASE 1: valid date but invalid format number' => ['No route found for "GET /schedules/p00rfdrb/2012/7/20"', '2012/7/20'],
+            'CASE 2: valid date but invalid format string' => ['No route found for "GET /schedules/p00rfdrb/2012-7-20"', '2012-7-20'],
+        ];
+    }
+
+    public function invalidDatesForControllerValidationProvider(): array
+    {
+        // trigger HTTP NOT FOUND EXCEPTION
+        return [
+            'CASE 1: nonexistent month' => ['Invalid date supplied', '2012/13/20'],
+            'CASE 2: nonexistent month' => ['Invalid date supplied', '2012/00/20'],
+            'CASE 3: nonexistent day' => ['Invalid date supplied', '2012/02/36'],
+            'CASE 4: nonexistent day' => ['Invalid date supplied', '2009/02/00'],
+        ];
+    }
+
     protected function tearDown()
     {
         ApplicationTime::setLocalTimeZone();

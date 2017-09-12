@@ -18,6 +18,10 @@ class SchedulesByWeekController extends BaseController
 {
     public function __invoke(Service $service, string $date, ServicesService $servicesService, BroadcastsService $broadcastService)
     {
+        if (!$this->isValidDate($date)) {
+            throw $this->createNotFoundException('Invalid date supplied');
+        }
+
         $this->setIstatsProgsPageType('schedules_week');
         $this->setContext($service);
 
@@ -175,5 +179,23 @@ class SchedulesByWeekController extends BaseController
         });
 
         return reset($otherServices);
+    }
+
+    private function isValidDate($date): bool
+    {
+        // validate format
+        if (!preg_match('#\d{4}/w\d{2}#', $date)) {
+            return false;
+        }
+
+        // validate content
+        list($year, $week) = explode('/', $date);
+        $week = (int) str_replace('w', '', $week);
+
+        if ($week < 1 || $week > 53) {
+            return false;
+        }
+
+        return true;
     }
 }

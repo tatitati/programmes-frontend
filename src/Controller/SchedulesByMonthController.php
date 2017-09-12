@@ -11,6 +11,10 @@ class SchedulesByMonthController extends BaseController
 {
     public function __invoke(Service $service, string $date)
     {
+        if (!$this->isValidDate($date)) {
+            throw $this->createNotFoundException('Invalid date supplied');
+        }
+
         $this->setIstatsProgsPageType('schedules_month');
         $this->setContext($service);
 
@@ -28,5 +32,22 @@ class SchedulesByMonthController extends BaseController
     private function serviceIsActiveDuringMonth(Service $service, Date $firstOfMonth): bool
     {
         return (!$service->getStartDate() || $service->getStartDate() <= $firstOfMonth->endOfMonth()) && (!$service->getEndDate() || $firstOfMonth < $service->getEndDate());
+    }
+
+    private function isValidDate(string $date): bool
+    {
+        // validate format
+        if (!preg_match('#\d{4}/\d{2}#', $date)) {
+            return false;
+        }
+
+        // validate content
+        list($year, $month) = explode('/', $date);
+
+        if ($month < 1 || $month > 12) {
+            return false;
+        }
+
+        return true;
     }
 }

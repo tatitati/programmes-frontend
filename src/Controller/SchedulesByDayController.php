@@ -30,6 +30,10 @@ class SchedulesByDayController extends BaseController
         CollapsedBroadcastsService $collapsedBroadcastsService,
         HelperFactory $helperFactory
     ) {
+        if (!$this->isValidDate($date)) {
+            throw $this->createNotFoundException('Invalid date supplied');
+        }
+
         $this->helperFactory = $helperFactory;
         $this->setIstatsProgsPageType('schedules_day');
         $this->setContext($service);
@@ -232,5 +236,19 @@ class SchedulesByDayController extends BaseController
             return in_array((string) $network->getNid(), $whitelistedNetworks) &&
                 $broadcastDay->serviceIsActiveInThisPeriod($network->getDefaultService());
         });
+    }
+
+    private function isValidDate(?string $date): bool
+    {
+        if (is_null($date)) {
+            return true;
+        }
+
+        if (!preg_match('#\d{4}/\d{2}/\d{2}#', $date)) {
+            return false;
+        }
+
+        list($year, $month, $day) = explode('/', $date);
+        return checkdate((int) $month, (int) $day, (int) $year);
     }
 }

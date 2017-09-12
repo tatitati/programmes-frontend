@@ -66,4 +66,37 @@ class SchedulesByMonthControllerTest extends BaseWebTestCase
         $this->assertEquals('bbc_radio_five_live_olympics_extra', $labels['event_master_brand']);
         $this->assertTrue(is_numeric($labels['app_version']));
     }
+
+    /**
+     * @dataProvider invalidFormatDatesProvider
+     * @dataProvider invalidDatesForControllerValidationProvider
+     */
+    public function testResponseIs404ForIncorrectMonths(string $expectedMsgException, string $schedulesDateProvided)
+    {
+        $client = static::createClient();
+        $url = '/schedules/p00rfdrb/' . $schedulesDateProvided;
+
+        $crawler = $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 404);
+        $this->assertEquals($expectedMsgException, $crawler->filter('.exception-message-wrapper h1')->text());
+    }
+
+    public function invalidFormatDatesProvider(): array
+    {
+        // trigger INVALID ARGUMENT EXCEPTION
+        return [
+            'CASE 3: valid month but invalid format number' => ['No route found for "GET /schedules/p00rfdrb/2012/7"', '2012/7'],
+            'CASE 4: valid month but invalid format string' => ['No route found for "GET /schedules/p00rfdrb/2012-7"', '2012-7'],
+        ];
+    }
+
+    public function invalidDatesForControllerValidationProvider(): array
+    {
+        // trigger HTTP NOT FOUND EXCEPTION
+        return [
+            'CASE 1: nonexistent month' => ['Invalid date supplied', '2012/13'],
+            'CASE 2: nonexistent month' => ['Invalid date supplied', '2012/00'],
+        ];
+    }
 }
