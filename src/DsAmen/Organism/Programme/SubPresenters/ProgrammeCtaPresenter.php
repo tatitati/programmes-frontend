@@ -70,11 +70,7 @@ class ProgrammeCtaPresenter extends Presenter
             return 'iplayer_play_episode';
         }
 
-        if ($this->programme instanceof Clip) {
-            return 'iplayer_play_clip';
-        }
-
-        return 'iplayer_play_now';
+        return 'iplayer_play_clip';
     }
 
     public function getPlayerUrl(): string
@@ -83,7 +79,6 @@ class ProgrammeCtaPresenter extends Presenter
         $routeArguments = ['pid' => $this->programme->getPid()];
 
         if ($this->programme->isRadio() || $this->programme->isAudio() || $this->programme instanceof Clip) {
-            // Radio programme. Link to programme page for now.
             $routeName = 'find_by_pid';
             $routeArguments['_fragment'] = 'play';
         }

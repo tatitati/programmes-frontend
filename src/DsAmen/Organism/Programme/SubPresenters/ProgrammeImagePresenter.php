@@ -4,12 +4,8 @@ declare(strict_types = 1);
 namespace App\DsAmen\Organism\Programme\SubPresenters;
 
 use App\DsAmen\Presenter;
-use BBC\ProgrammesPagesService\Domain\Entity\Clip;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProgrammeImagePresenter extends Presenter
 {

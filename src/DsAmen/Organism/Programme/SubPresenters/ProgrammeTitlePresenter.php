@@ -7,6 +7,7 @@ use App\DsAmen\Presenter;
 use App\DsShared\Helpers\TitleLogicHelper;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -90,7 +91,7 @@ class ProgrammeTitlePresenter extends Presenter
 
     public function getUrl(): string
     {
-        $isEpisode = ($this->programme->getType() === 'episode');
+        $isEpisode = $this->programme instanceof Episode;
 
         // video episodes play in iPlayer
         if ($this->getOption('force_iplayer_linking') || ($isEpisode && $this->programme->isTv())) {

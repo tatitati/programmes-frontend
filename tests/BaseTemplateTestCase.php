@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App;
 
-use App\Ds2013\Presenter;
+use App\DsShared\BasePresenter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Twig_Environment;
@@ -38,7 +38,7 @@ abstract class BaseTemplateTestCase extends TestCase
         );
     }
 
-    protected function presenterCrawler(Presenter $presenter): Crawler
+    protected function presenterCrawler(BasePresenter $presenter): Crawler
     {
         return $this->crawler($presenter->getTemplatePath(), [
             $presenter->getTemplateVariableName() => $presenter,

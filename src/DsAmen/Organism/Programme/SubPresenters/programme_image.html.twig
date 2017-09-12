@@ -1,23 +1,23 @@
-{% if programme_image.getImage() %}
+{%- if programme_image.getImage() -%}
     <div class="media__panel {{ programme_image.getOption('media_panel_class') }}">
         <div class="media__overlay-container ratiobox">
             {{ ds_shared('image', programme_image.getImage(), 320, []) }}
-            {% if programme_image.getOption('badge_text') %}
+            {%- if programme_image.getOption('badge_text') -%}
                 <div class="media__overlay media__overlay--top media__overlay--inline gel-minion-bold {{ programme_image.getOption('badge_class') }}">
-                    {{ programme_image.getOption('badge_text') }}
+                    {{- programme_image.getOption('badge_text') -}}
                 </div>
-            {% endif %}
-            {% if programme_image.getProgrammeCtaPresenter() %}
+            {%- endif -%}
+            {%- if programme_image.getProgrammeCtaPresenter() -%}
                 <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
                     {{ ds_amen_presenter(programme_image.getProgrammeCtaPresenter()) }}
                 </div>
-            {% endif %}
+            {%- endif -%}
         </div>
     </div>
-{% elseif programme_image.getOption('badge_text') %}
+{%- elseif programme_image.getOption('badge_text') -%}
     <div class="media__badge gel-minion-bold">
         <span class="media__overlay--inline {{ programme_image.getOption('badge_class') }}">
             {{ programme_image.getOption('badge_text') }}
         </span>
     </div>
-{% endif %}
+{%- endif -%}
