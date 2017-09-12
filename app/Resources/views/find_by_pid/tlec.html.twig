@@ -31,15 +31,14 @@
             {%- if promotions or clips or galleries -%}
                 <ul class="grid">
                     {%- for promotion in promotions -%}
-                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5">
-                            {# TODO Update image sizes for double width first promo #}
+                        {% set promo_widths = loop.first and has_double_width_first_promo ? '2/3@gel3b 1/2@gel5' : '1/2@gel3 1/3@gel3b 1/4@gel5' %}
+                        <li class="grid__item {{ promo_widths }}">
                             {{- ds_amen('promotion', promotion, {
-                                media_variant: 'media--column media--card',
-                                cta_class: 'br-box-secondary',
-                                branding_name: 'secondary',
-                                link_location_prefix: 'promo_' ~ loop.index ~ '_',
-                                show_synopsis: false,
-                                img_sizes: { 600: 1/2, 768: 1/3, 1008: '315px', 1280: '300px' },
+                                'media_variant': 'media--column media--card',
+                                'cta_class': 'br-box-secondary',
+                                'branding_name': 'secondary',
+                                'link_location_prefix': 'promo_' ~ loop.index ~ '_',
+                                'show_synopsis': false,
                             }) -}}
                         </li>
                     {%- endfor -%}

@@ -40,6 +40,8 @@ class TlecController extends BaseController
         // TODO check $programme->getPromotionsCount() once it is populated in
         // Faucet to potentially save on a DB query
         $promotions = $promotionsService->findActivePromotionsByContext($programme);
+        $hasDoubleWidthFirstPromo = $programme->getOption('double_width_first_promo');
+
 
         if ($programme->getOption('show_clip_cards')) {
             $clips = $aggregationService->findDescendantClips($programme, 4);
@@ -65,6 +67,7 @@ class TlecController extends BaseController
             'promotions' => $promotions,
             'clips' => $clips,
             'galleries' => $galleries,
+            'has_double_width_first_promo' => $hasDoubleWidthFirstPromo,
             'mapPresenter' => $mapPresenter,
         ]);
     }
