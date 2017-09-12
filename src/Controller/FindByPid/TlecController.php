@@ -42,7 +42,6 @@ class TlecController extends BaseController
         $promotions = $promotionsService->findActivePromotionsByContext($programme);
         $hasDoubleWidthFirstPromo = $programme->getOption('double_width_first_promo');
 
-
         if ($programme->getOption('show_clip_cards')) {
             $clips = $aggregationService->findDescendantClips($programme, 4);
         }
