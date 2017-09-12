@@ -59,7 +59,7 @@ class PromotionPresenter extends Presenter
         if ($promotedEntity instanceof ProgrammeItem && $promotedEntity->isStreamable()) {
             $this->actionIcon = ['set' => 'audio-visual', 'icon' => 'play'];
         } elseif ($this->isExternalLink($this->getUrl())) {
-            $this->actionIcon = ['set' => 'basics', 'icon' => 'external'];
+            $this->actionIcon = ['set' => 'basics', 'icon' => 'external-link'];
         }
 
         // Build Duration - only set for Clips and not-TV Episodes

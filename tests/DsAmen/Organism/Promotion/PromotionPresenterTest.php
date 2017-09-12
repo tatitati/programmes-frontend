@@ -109,7 +109,7 @@ class PromotionPresenterTest extends TestCase
 
         $this->assertSame('http://example.com', $presenter->getUrl());
         $this->assertSame($promotedEntity, $presenter->getImage());
-        $this->assertSame(['set' => 'basics', 'icon' => 'external'], $presenter->getActionIcon());
+        $this->assertSame(['set' => 'basics', 'icon' => 'external-link'], $presenter->getActionIcon());
 
         // Test internal link
 
