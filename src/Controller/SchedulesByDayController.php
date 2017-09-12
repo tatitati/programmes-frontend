@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\DsShared\Helpers\HelperFactory;
+use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\ValueObject\BroadcastDay;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -18,6 +19,8 @@ use Cake\Chronos\Date;
 
 class SchedulesByDayController extends BaseController
 {
+    use UtcOffsetValidatorTrait;
+
     /** @var HelperFactory */
     protected $helperFactory;
 
@@ -30,7 +33,7 @@ class SchedulesByDayController extends BaseController
         CollapsedBroadcastsService $collapsedBroadcastsService,
         HelperFactory $helperFactory
     ) {
-        if (!$this->isValidDate($date)) {
+        if (!$this->isValidDate($date) || !$this->isValidUtcOffset($this->request()->query->get('utcoffset'))) {
             throw $this->createNotFoundException('Invalid date supplied');
         }
 

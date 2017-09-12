@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
+use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\ValueObject\BroadcastWeek;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
@@ -16,9 +17,11 @@ use DateTimeZone;
 
 class SchedulesByWeekController extends BaseController
 {
+    use UtcOffsetValidatorTrait;
+
     public function __invoke(Service $service, string $date, ServicesService $servicesService, BroadcastsService $broadcastService)
     {
-        if (!$this->isValidDate($date)) {
+        if (!$this->isValidDate($date) || !$this->isValidUtcOffset($this->request()->query->get('utcoffset'))) {
             throw $this->createNotFoundException('Invalid date supplied');
         }
 

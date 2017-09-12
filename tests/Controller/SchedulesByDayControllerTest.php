@@ -245,6 +245,55 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         ];
     }
 
+    /**
+     * @dataProvider validsUtcOffsetsProvider
+     */
+    public function testUtcOffsetModifyTimezoneInSchedulesByDay(string $utcOffsetProvided)
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        $client = static::createClient();
+        $client->request('GET', '/schedules/p00fzl8v/2017/05/22?utcoffset=' . $utcOffsetProvided);
+
+        $this->assertResponseStatusCode($client, 200);
+    }
+
+    public function validsUtcOffsetsProvider(): array
+    {
+        // utc offset needs the symbol +/- always
+        return [
+            'CASE 1: by_day utcoffset can be positive' => [urlencode('+10:00')],
+            'CASE 2: by_day utcoffset can be negative' => [urlencode('-10:00')],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidsUtcOffsetsProvider
+     */
+    public function testUtcOffsetThrowExceptionWhenNoValidUtcOffsetModifyTimezoneInSchedulesByDay(string $utcOffsetProvided)
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/schedules/p00fzl8v/2017/05/22?utcoffset=' . $utcOffsetProvided);
+
+        $this->assertResponseStatusCode($client, 404);
+        $this->assertEquals('Invalid date supplied', $crawler->filter('.exception-message-wrapper h1')->text());
+    }
+
+    public function invalidsUtcOffsetsProvider(): array
+    {
+        return [
+            'CASE 1: by_day utcoffset without symbol +/- is not allowed' => [urlencode('10:00')],
+            'CASE 2: by_day utcoffset without urlencodeding is not allowed' => ['+10:00'],
+            'CASE 3: by_day utcoffset before -12h is invalid' => [urlencode('-13:00')],
+            'CASE 4: by_day utcoffset after +14h is invalid' => [urlencode('15:00')],
+            'CASE 5: by_day utcoffset with minutes different to 00, 15, 30, 45 are invalid' => [urlencode('10:05')],
+            'CASE 6: by_day utcoffset minutes are required' => [urlencode('+10')],
+            'CASE 3: by_day utcoffset cannot use hours digits with one number ' => [urlencode('-9:00')],
+        ];
+    }
+
     protected function tearDown()
     {
         ApplicationTime::setLocalTimeZone();
