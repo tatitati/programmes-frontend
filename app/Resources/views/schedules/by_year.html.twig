@@ -3,9 +3,11 @@
 {% block date %}{{ start_of_year|local_date('Y') }}{% endblock %}
 
 {%- block date_nav -%}
-    <div id="schedule-yearnav" class="centi br-box-highlight g-f-l">
-        {{ ds2013('dateList', start_of_year, service, {'format': 'year'}) }}
-    </div>
+    <nav class="schedule-nav-wrapper">
+        <div id="schedule-yearnav" class="centi br-box-highlight g-f-l">
+            {{ ds2013('dateList', start_of_year, service, {'format': 'year'}) }}
+        </div>
+    </nav>
 {%- endblock -%}
 
 {%- block schedule -%}

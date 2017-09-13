@@ -3,9 +3,11 @@
 {% block date %}{{ first_of_month|local_date_intl('MMMM y') }}{% endblock %}
 
 {%- block date_nav -%}
-    <div id="schedule-monthnav" class="centi br-box-highlight g-f-l">
-        {{ ds2013('dateList', first_of_month, service, {'format': 'month'}) }}
-    </div>
+    <nav class="schedule-nav-wrapper">
+        <div id="schedule-monthnav" class="centi br-box-highlight g-f-l">
+            {{ ds2013('dateList', first_of_month, service, {'format': 'month'}) }}
+        </div>
+    </nav>
 {%- endblock -%}
 
 {%- block header_links -%}
