@@ -8,10 +8,15 @@ use App\ValueObject\CosmosInfo;
 use App\ValueObject\IstatsAnalyticsLabels;
 use PHPUnit\Framework\TestCase;
 use Tests\App\DataFixtures\PagesService\BrandsFixtures;
-use Tests\App\DataFixtures\PagesService\EpisodesFixtures;
 
 class ComscoreAnalyticsLabelsTest extends TestCase
 {
+    /**
+     * How c7 and bc_7 work, please see next link
+     *
+     * @see https://github.com/bbc/rmp-comscore/blob/master/js-modules/comscorews.js#L71
+     * @see https://github.com/bbc/rmp-comscore/blob/master/js-modules/base.js#L149
+     */
     public function testProgramme()
     {
         $programme = BrandsFixtures::hardTalk();

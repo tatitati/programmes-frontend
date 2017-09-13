@@ -139,10 +139,13 @@ abstract class BaseController extends AbstractController
                 'analyticsLabels' => $istatsAnalyticsLabels->orbLabels(),
             ]);
 
+            $queryString = $this->request()->getQueryString();
+            $urlQueryString =  is_null($queryString) ? '' : '?' . $queryString;
+
             $parameters = array_merge([
                 'orb' => $orb,
                 'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl()),
-                'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl()))->getComscore(),
+                'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl() . $urlQueryString))->getComscore(),
             ], $parameters);
         }
 
