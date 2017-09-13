@@ -31,6 +31,7 @@ class TlecController extends BaseController
         CollapsedBroadcastsService $collapsedBroadcastsService,
         ProgrammesAggregationService $aggregationService
     ) {
+        $this->setIstatsProgsPageType('programmes_container');
         $this->setContext($programme);
 
         $promotions = [];
