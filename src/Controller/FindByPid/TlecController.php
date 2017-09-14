@@ -66,7 +66,7 @@ class TlecController extends BaseController
             }
         }
 
-        $promotion = $this->getPromotion($imagesService, $programme);
+        $promotion = $this->getComingSoonPromotion($imagesService, $programme);
 
         $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast, $promotion);
 
@@ -80,7 +80,7 @@ class TlecController extends BaseController
         ]);
     }
 
-    private function getPromotion(ImagesService $imagesService, ProgrammeContainer $programme): ?Promotion
+    private function getComingSoonPromotion(ImagesService $imagesService, ProgrammeContainer $programme): ?Promotion
     {
         $comingSoonBlock = $programme->getOption('comingsoon_block');
         if (empty($comingSoonBlock) || empty($comingSoonBlock['content']) || empty($comingSoonBlock['content']['promotions'])) {
