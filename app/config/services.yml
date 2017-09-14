@@ -150,6 +150,9 @@ services:
     BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService:
             factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getCollapsedBroadcastsService']
 
+    BBC\ProgrammesPagesService\Service\ImagesService:
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getImagesService']
+
     BBC\ProgrammesPagesService\Service\NetworksService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getNetworksService']
 

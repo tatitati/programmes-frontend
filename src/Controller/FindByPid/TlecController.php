@@ -6,10 +6,15 @@ namespace App\Controller\FindByPid;
 use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
+use BBC\ProgrammesPagesService\Service\ImagesService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -29,7 +34,8 @@ class TlecController extends BaseController
         ProgrammesService $programmesService,
         PromotionsService $promotionsService,
         CollapsedBroadcastsService $collapsedBroadcastsService,
-        ProgrammesAggregationService $aggregationService
+        ProgrammesAggregationService $aggregationService,
+        ImagesService $imagesService
     ) {
         $this->setIstatsProgsPageType('programmes_container');
         $this->setContext($programme);
@@ -60,7 +66,9 @@ class TlecController extends BaseController
             }
         }
 
-        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast);
+        $promotion = $this->getPromotion($imagesService, $programme);
+
+        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast, $promotion);
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
@@ -70,5 +78,36 @@ class TlecController extends BaseController
             'has_double_width_first_promo' => $hasDoubleWidthFirstPromo,
             'mapPresenter' => $mapPresenter,
         ]);
+    }
+
+    private function getPromotion(ImagesService $imagesService, ProgrammeContainer $programme): ?Promotion
+    {
+        $comingSoonBlock = $programme->getOption('comingsoon_block');
+        if (empty($comingSoonBlock) || empty($comingSoonBlock['content']) || empty($comingSoonBlock['content']['promotions'])) {
+            return null;
+        }
+
+        $comingSoon = $comingSoonBlock['content']['promotions'];
+        if (!array_key_exists('promotion_title', $comingSoon)) {
+            $comingSoon = reset($comingSoon);
+        }
+
+        $pid = new Pid($comingSoon['promoted_item_id']);
+        $image = $imagesService->findByPid($pid);
+        if (is_null($image)) {
+            return null; // This should never happen
+        }
+
+        $synopses = new Synopses($comingSoon['short_synopsis']);
+
+        return new Promotion(
+            $pid,
+            $image,
+            $comingSoon['promotion_title'],
+            $synopses,
+            $comingSoon['url'],
+            0,
+            filter_var($comingSoon['super_promo'], FILTER_VALIDATE_BOOLEAN)
+        );
     }
 }

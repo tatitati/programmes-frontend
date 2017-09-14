@@ -14,6 +14,7 @@ use App\DsAmen\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -49,12 +50,13 @@ class MapPresenter extends Presenter
         ProgrammeContainer $programme,
         int $upcomingEpisodesCount,
         ?CollapsedBroadcast $mostRecentBroadcast,
+        ?Promotion $promotion,
         array $options = []
     ) {
         parent::__construct($options);
         $this->programme = $programme;
         $this->request = $request;
-        $hasComingSoon = $this->programme->getOption('coming_soon') || $this->programme->getOption('comingsoon_textonly');
+        $hasComingSoon = $promotion || $this->programme->getOption('comingsoon_textonly');
         $programmeHasEpisodes = $programme->getAggregatedEpisodesCount() > 0;
         $this->showMap = $programmeHasEpisodes || $hasComingSoon;
         if (!$this->showMap) {
@@ -62,7 +64,7 @@ class MapPresenter extends Presenter
         }
 
         if ($this->showThirdColumn($hasComingSoon, $upcomingEpisodesCount, $mostRecentBroadcast)) {
-            $this->constructThreeColumnMap($hasComingSoon, $programmeHasEpisodes);
+            $this->constructThreeColumnMap($promotion, $hasComingSoon, $programmeHasEpisodes);
         } else {
             $this->constructTwoColumnMap();
         }
@@ -122,7 +124,7 @@ class MapPresenter extends Presenter
         return $this->showMap;
     }
 
-    private function constructThreeColumnMap(bool $hasComingSoon, bool $programmeHasEpisodes)
+    private function constructThreeColumnMap(?Promotion $promotion, bool $hasComingSoon, bool $programmeHasEpisodes)
     {
         $comingSoonTakeover = !$this->programme->getParent() && ($hasComingSoon && !$programmeHasEpisodes);
 
@@ -140,7 +142,7 @@ class MapPresenter extends Presenter
         }
 
         if ($hasComingSoon) {
-            $this->rightColumns[] = new ComingSoonPresenter($this->programme, ['show_mini_map' => $this->showMiniMap, 'show_synopsis' => $comingSoonTakeover]);
+            $this->rightColumns[] = new ComingSoonPresenter($this->programme, $promotion, ['show_mini_map' => $this->showMiniMap, 'show_synopsis' => $comingSoonTakeover]);
         } else {
             $this->rightColumns[] = new TxPresenter($this->programme);
         }

@@ -21,13 +21,12 @@ class MapPresenterTest extends TestCase
     public function testMapShouldBeShown()
     {
         $programmeContainer = $this->createProgrammeWithEpisodes();
-        $presenter = new MapPresenter(new Request(), $programmeContainer, 0, null);
+        $presenter = new MapPresenter(new Request(), $programmeContainer, 0, null, null);
         $this->assertTrue($presenter->showMap());
 
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
         $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(0);
-        $programmeContainer->expects($this->at(0))->method('getOption')->with('coming_soon')->willReturn(null);
-        $programmeContainer->expects($this->at(1))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
+        $programmeContainer->expects($this->at(0))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
         $presenter = $this->createMapPresenter($programmeContainer);
         $this->assertTrue($presenter->showMap());
     }
@@ -43,8 +42,7 @@ class MapPresenterTest extends TestCase
     {
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
         $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(0);
-        $programmeContainer->expects($this->at(0))->method('getOption')->with('coming_soon')->willReturn(null);
-        $programmeContainer->expects($this->at(1))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
+        $programmeContainer->expects($this->at(0))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
         $presenter = $this->createMapPresenter($programmeContainer);
         $this->assertColumns($presenter, [OnDemandPresenter::class, ComingSoonPresenter::class]);
     }
@@ -91,7 +89,7 @@ class MapPresenterTest extends TestCase
 
     private function createMapPresenter($programmeContainer, int $upcomingEpisodeCount = 0): MapPresenter
     {
-        return new MapPresenter(new Request(), $programmeContainer, $upcomingEpisodeCount, null);
+        return new MapPresenter(new Request(), $programmeContainer, $upcomingEpisodeCount, null, null);
     }
 
     /**

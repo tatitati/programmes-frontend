@@ -1,13 +1,24 @@
 <div class="grid__item map__item 1/2@gel1b">
-    {% if coming_soon.comingSoon %}
-        <div class="island">
-            <h2 class="map__heading gel-double-pica-bold">{{ tr('coming_soon') }}</h2>
-        </div>
-        <h1>I Я On Coming Soon for {{ coming_soon.programme.title }}</h1>
-    {% else %}
-        <div class="island">
-            <h2 class="map__heading gel-double-pica-bold">{{ tr('coming_soon') }}</h2>
-            <p>{{ coming_soon.comingSoonTextOnly }}</p>
-        </div>
-    {% endif %}
+    <div class="map-card-wrap br-box-secondary" data-map-column="coming-soon2016">
+        {% if coming_soon.getPromotion() %}
+            <div class="island">
+                <h2 class="map__heading gel-double-pica-bold">{{ tr('coming_soon') }}</h2>
+            </div>
+            {{- ds_amen('promotion', coming_soon.getPromotion(), {
+                'media_variant': 'media--column media--card',
+                'cta_class': 'br-box-secondary',
+                'branding_name': 'secondary',
+                'show_synopsis': coming_soon.showSynopsis(),
+                'title_size': 'gel-great-primer-bold',
+                'img_sizes': {768: 1/3, 1008: '324px', 1280: '414px'},
+                'show_image': not coming_soon.showMiniMap(),
+                'show_related_links': false,
+            }) -}}
+        {% else %}
+            <div class="island">
+                <h2 class="map__heading gel-double-pica-bold">{{ tr('coming_soon') }}</h2>
+                <p>{{ coming_soon.getComingSoonTextOnly() }}</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
