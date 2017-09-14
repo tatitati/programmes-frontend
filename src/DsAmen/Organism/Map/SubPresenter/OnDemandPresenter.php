@@ -10,31 +10,32 @@ class OnDemandPresenter extends Presenter
 {
     /** @var mixed[] */
     protected $options = [
-        'must_show_tx_column' => false,
+        'full_width' => false, // The full width of the right hand MAP column
     ];
+
+    /** @var string */
+    private $class = '1/2@gel1b';
 
     /** @var Programme */
     private $programme;
-
-    private $class = '1/1';
 
     public function __construct(Programme $programme, array $options = [])
     {
         parent::__construct($options);
         $this->programme = $programme;
 
-        if ($this->getOption('must_show_tx_column')) {
-            $this->class = '1/2@gel1b';
+        if ($this->getOption('full_width')) {
+            $this->class = '1/1';
         }
-    }
-
-    public function getProgramme(): Programme
-    {
-        return $this->programme;
     }
 
     public function getClass(): string
     {
         return $this->class;
+    }
+
+    public function getProgramme(): Programme
+    {
+        return $this->programme;
     }
 }

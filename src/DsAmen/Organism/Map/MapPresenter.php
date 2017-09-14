@@ -18,23 +18,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Media Availability Panel Presenter
+ * Default layout is 3 columns and no minimapping. Left column takes up 1/2 the page, the others the other half
+ * See docs/MAP.md for more info
  */
 class MapPresenter extends Presenter
 {
-    /** @var bool */
-    private $comingSoonTakeover;
-
-    /** @var bool */
-    public $isActive = false;
-
     /** @var string */
     private $leftGridClasses = '1/2@gel3b';
 
-    /** @var bool */
-    private $mustShowTxColumn = false;
-
     /** @var Programme */
     private $programme;
+
+    /** @var Request */
+    private $request;
 
     /** @var Presenter[] */
     private $rightColumns = [];
@@ -43,13 +39,10 @@ class MapPresenter extends Presenter
     private $rightGridClasses = '1/2@gel3b';
 
     /** @var bool */
-    private $showMiniMap = false;
-
-    /** @var bool */
     private $showMap;
 
-    /** @var Request */
-    private $request;
+    /** @var bool */
+    private $showMiniMap = false;
 
     public function __construct(
         Request $request,
@@ -68,36 +61,10 @@ class MapPresenter extends Presenter
             return;
         }
 
-        $this->comingSoonTakeover = !$this->programme->getParent() && ($hasComingSoon && !$programmeHasEpisodes);
-
-        if ($this->shouldShowMiniMap()) {
-            $this->showMiniMap = true;
-        }
-
-        // Add columns to map
-        if ($this->comingSoonTakeover) {
-            $this->rightColumns[] = new OnDemandPresenter($programme, ['must_show_tx_column' => false]); // I hope once the other columns are done, we won't need to pass in must_show_tx_column
-            $this->rightColumns[] = new ComingSoonPresenter($programme);
-        } elseif ($this->isWorldNews()) {
-            $this->rightColumns[] = new LastOnPresenter($programme);
-            $this->rightColumns[] = new TxPresenter($programme, ['must_show_tx_column' => false]);
-        } elseif ($this->mustShowTxColumn($hasComingSoon, $upcomingEpisodesCount, $mostRecentBroadcast)) {
-            $this->mustShowTxColumn = true;
-
-            // The other cases probably also need to take in to account the minimap option, but we will do that when we do each column.
-            // Minimap has a different set of widths
-            if ($this->showMiniMap) {
-                $this->leftGridClasses = '1/3@gel3b';
-                $this->rightGridClasses = '2/3@gel3b';
-            }
-
-            $this->rightColumns[] = new OnDemandPresenter($programme, ['must_show_tx_column' => true]);
-            $this->rightColumns[] = new TxPresenter($programme, ['must_show_tx_column' => true]);
+        if ($this->showThirdColumn($hasComingSoon, $upcomingEpisodesCount, $mostRecentBroadcast)) {
+            $this->constructThreeColumnMap($hasComingSoon, $programmeHasEpisodes);
         } else {
-            $this->leftGridClasses = '2/3@gel3b';
-            $this->rightGridClasses = '1/3@gel3b';
-
-            $this->rightColumns[] = new OnDemandPresenter($programme, ['must_show_tx_column' => false]);
+            $this->constructTwoColumnMap();
         }
     }
 
@@ -116,7 +83,7 @@ class MapPresenter extends Presenter
         return new ProgrammeInfoPresenter(
             $this->programme,
             [
-                'is_three_column' => $this->comingSoonTakeover || $this->isWorldNews() || $this->mustShowTxColumn,
+                'is_three_column' => $this->countTotalColumns() === 3,
                 'show_mini_map' => $this->showMiniMap,
             ]
         );
@@ -155,6 +122,49 @@ class MapPresenter extends Presenter
         return $this->showMap;
     }
 
+    private function constructThreeColumnMap(bool $hasComingSoon, bool $programmeHasEpisodes)
+    {
+        $comingSoonTakeover = !$this->programme->getParent() && ($hasComingSoon && !$programmeHasEpisodes);
+
+        if ($this->shouldShowMiniMap()) {
+            $this->showMiniMap = true;
+            $this->leftGridClasses = '1/3@gel3b';
+            $this->rightGridClasses = '2/3@gel3b';
+        }
+
+        // Add columns to map
+        if ($this->isWorldNews()) {
+            $this->rightColumns[] = new LastOnPresenter($this->programme);
+        } else {
+            $this->rightColumns[] = new OnDemandPresenter($this->programme, ['full_width' => false]);
+        }
+
+        if ($hasComingSoon) {
+            $this->rightColumns[] = new ComingSoonPresenter($this->programme, ['show_mini_map' => $this->showMiniMap, 'show_synopsis' => $comingSoonTakeover]);
+        } else {
+            $this->rightColumns[] = new TxPresenter($this->programme);
+        }
+    }
+
+    private function constructTwoColumnMap()
+    {
+        $this->leftGridClasses = '2/3@gel3b';
+        $this->rightGridClasses = '1/3@gel3b';
+
+        $this->rightColumns[] = new OnDemandPresenter($this->programme, ['full_width' => true]);
+    }
+
+    /**
+     * This is the left column and the main right columns
+     * The social column is ignored
+     *
+     * @return int
+     */
+    private function countTotalColumns()
+    {
+        return 1 + count($this->rightColumns);
+    }
+
     private function isWorldNews(): bool
     {
         $network = $this->programme->getNetwork();
@@ -164,13 +174,13 @@ class MapPresenter extends Presenter
         return ((string) $network->getNid()) === 'bbc_world_news';
     }
 
-    private function mustShowTxColumn(bool $hasComingSoon, int $upcomingEpisodesCount, ?CollapsedBroadcast $mostRecentBroadcast)
+    private function showThirdColumn(bool $hasComingSoon, int $upcomingEpisodesCount, ?CollapsedBroadcast $mostRecentBroadcast)
     {
         $existUpcomingBroadcasts = $upcomingEpisodesCount > 0;
 
         $hasBroadcastInLast18Months = $mostRecentBroadcast ? $mostRecentBroadcast->getStartAt()->wasWithinLast('18 months') : false;
 
-        return $existUpcomingBroadcasts || $hasBroadcastInLast18Months || $hasComingSoon;
+        return $existUpcomingBroadcasts || $hasBroadcastInLast18Months || $hasComingSoon || $this->isWorldNews();
     }
 
     private function shouldShowMiniMap(): bool

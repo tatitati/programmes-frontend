@@ -11,33 +11,17 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
  */
 class TxPresenter extends Presenter
 {
-    /** @var mixed[] */
-    protected $options = [
-        'must_show_tx_column' => false,
-    ];
-
     /** @var Programme */
     private $programme;
-
-    private $class = '1/1';
 
     public function __construct(Programme $programme, array $options = [])
     {
         parent::__construct($options);
         $this->programme = $programme;
-
-        if ($this->getOption('must_show_tx_column')) {
-            $this->class = '1/2@gel1b';
-        }
     }
 
     public function getProgramme(): Programme
     {
         return $this->programme;
-    }
-
-    public function getClass(): string
-    {
-        return $this->class;
     }
 }
