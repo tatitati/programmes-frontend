@@ -50,6 +50,7 @@ define('timezone-notification', ['jquery-1.9', 'rv-bootstrap'], function ($) {
                     'Sat'
                 ]
             },
+            attrTargetAddUtcOffset: 'data-href-add-utcoffset',
             cssSelectors: {
                 startDate: '[data-timezone]',
                 offsetReload: '[data-utcoffset-replace]',
@@ -189,6 +190,7 @@ define('timezone-notification', ['jquery-1.9', 'rv-bootstrap'], function ($) {
                 if (href) {
                     // append ?utcoffset=xx:yy to any relevant URLs to prevent a double load
                     $this.attr('href', _this.rewriteUrlWithUtcOffset(href));
+                    $this.removeAttr(_this.options.attrTargetAddUtcOffset);
                 }
             });
         }
