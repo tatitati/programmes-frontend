@@ -29,6 +29,11 @@ class SchedulesVanityRedirectControllerTest extends BaseWebTestCase
 
         $this->assertRedirectTo($client, 302, '/schedules/p00rfdrb/' . $urlSuffix);
         $this->assertHasRequiredResponseHeaders($client);
+
+        $client->request('GET', $url . '?utcoffset=%2B01%3A00');
+
+        $this->assertRedirectTo($client, 302, '/schedules/p00rfdrb/' . $urlSuffix . '?utcoffset=%2B01%3A00');
+        $this->assertHasRequiredResponseHeaders($client);
     }
 
     /**
