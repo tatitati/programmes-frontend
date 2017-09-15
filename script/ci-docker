@@ -42,7 +42,7 @@ vendor/bin/phpcs -n --report=checkstyle --report-file=build/reports/checkstyle.x
 yarn run lint || RESULT=1
 
 # Run PHPStan
-php -d memory_limit=256M vendor/bin/phpstan analyse -c phpstan.neon src --level=4 || RESULT=1
+vendor/bin/phpstan analyse -c phpstan.neon src --level=4 --memory-limit=256M || RESULT=1
 
 if [ "$RESULT" = "0" ]; then
     composer --no-ansi --no-interaction --no-dev --optimize-autoloader --prefer-dist install || RESULT=1
