@@ -252,6 +252,11 @@ class SchedulesByDayController extends BaseController
         }
 
         list($year, $month, $day) = explode('/', $date);
+
+        if ($year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
+            return false;
+        }
+
         return checkdate((int) $month, (int) $day, (int) $year);
     }
 }

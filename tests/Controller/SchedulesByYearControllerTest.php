@@ -37,6 +37,15 @@ class SchedulesByYearControllerTest extends BaseWebTestCase
         ];
     }
 
+    public function testResponseIs404FromRoutingForYearBefore1900()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/schedules/p00rfdrb/' . 1800);
+
+        $this->assertResponseStatusCode($client, 404);
+        $this->assertEquals('Invalid date supplied', $crawler->filter('.exception-message-wrapper h1')->text());
+    }
+
     public function testServiceIsNotFound()
     {
         // This empties the DB to ensure previous iterations are cleared

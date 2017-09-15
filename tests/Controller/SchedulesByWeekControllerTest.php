@@ -25,7 +25,7 @@ class SchedulesByWeekControllerTest extends BaseWebTestCase
 
     public function invalidFormatDatesProvider(): array
     {
-        // trigger INVALID ARGUMENT EXCEPTION
+        // trigger INVALID ARGUMENT EXCEPTION (routing exception)
         return [
             'CASE 1: nonexistent week' => ['No route found for "GET /schedules/p00rfdrb/2012/w54"', '2012/w54'],
             'CASE 3: valid week but invalid format number' => ['No route found for "GET /schedules/p00rfdrb/2012/w7"', '2012/w7'],
@@ -35,8 +35,9 @@ class SchedulesByWeekControllerTest extends BaseWebTestCase
 
     public function invalidDatesForControllerValidationProvider(): array
     {
-        // trigger HTTP NOT FOUND EXCEPTION
+        // trigger HTTP NOT FOUND EXCEPTION (validation exception)
         return [
+            'CASE 1: valid week but invalid year' => ['Invalid date supplied', '1800/w02'],
             'CASE 2: nonexistent week' => ['Invalid date supplied', '2012/w00'],
         ];
     }

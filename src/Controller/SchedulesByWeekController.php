@@ -195,7 +195,7 @@ class SchedulesByWeekController extends BaseController
         list($year, $week) = explode('/', $date);
         $week = (int) str_replace('w', '', $week);
 
-        if ($week < 1 || $week > 53) {
+        if ($week < 1 || $week > 53 || $year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
             return false;
         }
 

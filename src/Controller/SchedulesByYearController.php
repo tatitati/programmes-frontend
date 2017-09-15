@@ -9,6 +9,13 @@ use Cake\Chronos\Date;
 
 class SchedulesByYearController extends BaseController
 {
+    /**
+     * Value decided to avoid unusual values for the year like 0000, 0001, etc.
+     * This avoid the problem of having some negative years displayed in the UI, which
+     * in some cases might displays the selected year and years around of it.
+     */
+    const MINIMUM_VALID_YEAR = 1900;
+
     public function __invoke(Service $service, string $year)
     {
         if (!$this->isValidYear($year)) {
@@ -34,10 +41,10 @@ class SchedulesByYearController extends BaseController
         return (!$service->getStartDate() || $service->getStartDate() <= $startOfYear->endOfYear()) && (!$service->getEndDate() || $startOfYear < $service->getEndDate());
     }
 
-    private function isValidYear(string $date): bool
+    private function isValidYear(string $year): bool
     {
         // validate format
-        if (!preg_match('#\d{4}#', $date)) {
+        if (!preg_match('#\d{4}#', $year) || $year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
             return false;
         }
 

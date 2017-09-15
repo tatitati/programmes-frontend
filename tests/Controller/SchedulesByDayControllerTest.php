@@ -227,7 +227,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
     public function invalidFormatDatesProvider(): array
     {
-        // trigger INVALID ARGUMENT EXCEPTION
+        // trigger INVALID ARGUMENT EXCEPTION (routing exception)
         return [
             'CASE 1: valid date but invalid format number' => ['No route found for "GET /schedules/p00rfdrb/2012/7/20"', '2012/7/20'],
             'CASE 2: valid date but invalid format string' => ['No route found for "GET /schedules/p00rfdrb/2012-7-20"', '2012-7-20'],
@@ -236,12 +236,13 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
     public function invalidDatesForControllerValidationProvider(): array
     {
-        // trigger HTTP NOT FOUND EXCEPTION
+        // trigger HTTP NOT FOUND EXCEPTION (validation exception)
         return [
             'CASE 1: nonexistent month' => ['Invalid date supplied', '2012/13/20'],
             'CASE 2: nonexistent month' => ['Invalid date supplied', '2012/00/20'],
             'CASE 3: nonexistent day' => ['Invalid date supplied', '2012/02/36'],
             'CASE 4: nonexistent day' => ['Invalid date supplied', '2009/02/00'],
+            'CASE 5: invalid year, previous to 1900' => ['Invalid date supplied', '1800/02/20'],
         ];
     }
 

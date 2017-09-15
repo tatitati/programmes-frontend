@@ -44,7 +44,7 @@ class SchedulesByMonthController extends BaseController
         // validate content
         list($year, $month) = explode('/', $date);
 
-        if ($month < 1 || $month > 12) {
+        if ($month < 1 || $month > 12 || $year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
             return false;
         }
 
