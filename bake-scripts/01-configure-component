@@ -117,9 +117,8 @@ def fix_centos_networking_hopefully():
     # before all interfaces are brought up and have an IP. This attempts to fix that by forcing a wait
     # for network.online before network.target is triggered. See
     # https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget/#cutthecraphowdoimakenetwork.targetworkforme
-    # and note that you can't run systemctl from a bake script
-    subprocess.call(['mkdir', '-p' , '/etc/systemd/system/network-online.target.wants/'])
-    subprocess.call(['ln', '-s', '/usr/lib/systemd/system/NetworkManager-wait-online.service', '/etc/systemd/system/network-online.target.wants/NetworkManager-wait-online.service'])
+    subprocess.call(['systemctl', 'enable', 'NetworkManager-wait-online.service'])
+
 
 def create_monitoring_cronjob():
     print "Creating montitoring metrics cronjob to run every 5 minutes"
