@@ -111,14 +111,6 @@ def regenerate_cache(symfony_env):
     # Give the temp directory back to nginx
     subprocess.call(['chown', '-R', 'nginx:nginx', appTmpDir])
 
-def fix_centos_networking_hopefully():
-    subprocess.call(['chkconfig', '--del', 'network'])
-    # There is a bug in the Centos7 boot process where network.target can be shown ready
-    # before all interfaces are brought up and have an IP. This attempts to fix that by forcing a wait
-    # for network.online before network.target is triggered. See
-    # https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget/#cutthecraphowdoimakenetwork.targetworkforme
-    subprocess.call(['systemctl', 'enable', 'NetworkManager-wait-online.service'])
-
 
 def create_monitoring_cronjob():
     print "Creating montitoring metrics cronjob to run every 5 minutes"
@@ -137,7 +129,6 @@ def main():
     rewrite_application_front_controller(symfony_env)
     regenerate_cache(symfony_env)
     #create_monitoring_cronjob()
-    fix_centos_networking_hopefully()
     system_tweaks()
 
 if __name__ == '__main__':
