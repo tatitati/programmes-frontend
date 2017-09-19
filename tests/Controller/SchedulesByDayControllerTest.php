@@ -291,7 +291,10 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
             'CASE 4: by_day utcoffset after +14h is invalid' => [urlencode('15:00')],
             'CASE 5: by_day utcoffset with minutes different to 00, 15, 30, 45 are invalid' => [urlencode('10:05')],
             'CASE 6: by_day utcoffset minutes are required' => [urlencode('+10')],
-            'CASE 3: by_day utcoffset cannot use hours digits with one number ' => [urlencode('-9:00')],
+            'CASE 7: by_day utcoffset cannot use hours digits with one number ' => [urlencode('-9:00')],
+            'CASE 8: by_day utcoffset is invalid format' => [urlencode('-13:000')],
+            'CASE 9: by_day utcoffset is invalid format' => [urlencode('-+13:00')],
+            'CASE 10: by_day utcoffset is invalid format' => ['-' . urlencode('+10:00')],
         ];
     }
 

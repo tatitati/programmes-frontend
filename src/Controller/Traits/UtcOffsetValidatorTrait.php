@@ -13,7 +13,7 @@ trait UtcOffsetValidatorTrait
         // utc offset always needs the symbol +/-, otherwise you get
         // an "Unknown or bad timezone (<hour>:<minutes>)" exception
         // cause of this we validate that the symbol exits
-        if (!preg_match('/(?<SYMBOL>\+|-)(?<HOUR>\d{2}):(?<MINUTES>\d{2})/', $utcOffset, $utcMatches)) {
+        if (!preg_match('/^(?<SYMBOL>\+|-)(?<HOUR>\d{2}):(?<MINUTES>\d{2})$/', $utcOffset, $utcMatches)) {
             return false;
         }
 
