@@ -5,25 +5,25 @@
 {% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
 
 {% block body %}
-    {% if schedule_reload is defined and schedule_reload %}
-        <div class="schedule-reload-container lazy-module--loading--loader" data-utcoffset-replace="{{ path('schedules_by_day', {'pid' : service.getPid(), 'no_chrome' : '1'}) }}">
-    {% else %}
-        <div>
-    {% endif %}
-        <div class="b-g-p no-margin-vertical islet--vertical br-box-highlight br-highlight-bg-onbg080" id="schedule-header">
-            {%- block header_links -%}{%- endblock -%}
-            <h1>
-                <span class="visually-hidden">
-                    <span class="outlet">
-                        {{ tr('schedule_title', {'%1': service.getName()}) }}
-                    </span>
-                </span>
-                <time class="date">
-                    {{ block('date') }}
-                </time>
-            </h1>
-        </div>
-        {{ block('date_nav') }}
-        {{ block('schedule') }}
+    <div>
+        {{ block('body_inner') }}
     </div>
+{% endblock %}
+
+{% block body_inner %}
+    <div class="b-g-p no-margin-vertical islet--vertical br-box-highlight br-highlight-bg-onbg080" id="schedule-header">
+        {%- block header_links -%}{%- endblock -%}
+        <h1>
+            <span class="visually-hidden">
+                <span class="outlet">
+                    {{ tr('schedule_title', {'%1': service.getName()}) }}
+                </span>
+            </span>
+            <time class="date">
+                {{ block('date') }}
+            </time>
+        </h1>
+    </div>
+    {{ block('date_nav') }}
+    {{ block('schedule') }}
 {% endblock %}

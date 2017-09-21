@@ -1,5 +1,15 @@
 {% extends 'schedules/by_base.html.twig' %}
 
+{% block body %}
+    {% if schedule_reload is defined and schedule_reload %}
+        <div class="schedule-reload-container lazy-module--loading--loader" data-utcoffset-replace="{{ path('schedules_by_week', {'pid' : service.getPid(), date: broadcast_week.start()|local_date('Y/\\wW'), 'no_chrome' : '1'}) }}">
+    {% else %}
+        <div>
+    {% endif %}
+        {{ block('body_inner') }}
+    </div>
+{%- endblock -%}
+
 {% block date %}
     {%- if broadcast_week.start().year != broadcast_week.end().year -%}
         {{ broadcast_week.start()|local_date_intl('d MMMM y') }} - {{ broadcast_week.end()|local_date_intl('d MMMM y') }}
@@ -53,6 +63,24 @@
         {% endspaceless %}
     {%- endif -%}
 {%- endblock -%}
+
+{% block javascripts %}
+    {% if service.isInternational() %}
+        <script>
+            require(['timezone-notification'], function(timezoneNotification){
+                var localisedDaysAndMonths = {{ localised_date_helper.localisedDaysAndMonths()|raw }};
+                var options = {
+                    translations : {
+                        localTime: "{{ tr('local_time') }}",
+                        localDaysOfWeek: localisedDaysAndMonths['days'],
+                        localMonths: localisedDaysAndMonths['months']
+                    }
+                };
+                new timezoneNotification(options);
+            });
+        </script>
+    {% endif %}
+{% endblock %}
 
 {%- block schedule -%}
     {%- if broadcasts is empty -%}

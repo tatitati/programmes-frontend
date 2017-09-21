@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Ds2013\Page\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
+use App\DsShared\Helpers\HelperFactory;
 use App\ValueObject\BroadcastWeek;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
@@ -19,15 +20,27 @@ class SchedulesByWeekController extends BaseController
 {
     use UtcOffsetValidatorTrait;
 
-    public function __invoke(Service $service, string $date, ServicesService $servicesService, BroadcastsService $broadcastService)
-    {
-        if (!$this->isValidDate($date) || !$this->isValidUtcOffset($this->request()->query->get('utcoffset'))) {
+    public function __invoke(
+        Service $service,
+        string $date,
+        ServicesService $servicesService,
+        BroadcastsService $broadcastService,
+        HelperFactory $helperFactory
+    ) {
+        $utcOffset = $this->request()->query->get('utcoffset');
+        if (!$this->isValidDate($date) || !$this->isValidUtcOffset($utcOffset)) {
             throw $this->createNotFoundException('Invalid date supplied');
         }
 
         $this->setIstatsProgsPageType('schedules_week');
         $this->setContext($service);
 
+        if ($utcOffset) {
+            ApplicationTime::setLocalTimeZone($utcOffset);
+        } elseif ($service->isInternational()) {
+            // "International" services are UTC, all others are Europe/London (the default)
+            ApplicationTime::setLocalTimeZone('UTC');
+        }
         $broadcastWeek = new BroadcastWeek($date);
 
         $servicesInNetwork = $servicesService->findAllInNetworkActiveOn(
@@ -65,6 +78,8 @@ class SchedulesByWeekController extends BaseController
             'number_of_services_in_network' => count($servicesInNetwork),
             'twin_service' => $this->twinService($service, $servicesInNetwork),
             'page_presenter' => $pagePresenter,
+            'schedule_reload' => $service->isInternational() && !$utcOffset,
+            'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
         ];
 
         // If the service is not active at all over the month, then the status code should be 404, so

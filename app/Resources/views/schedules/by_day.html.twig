@@ -1,5 +1,15 @@
 {% extends 'schedules/by_base.html.twig' %}
 
+{% block body %}
+    {% if schedule_reload is defined and schedule_reload %}
+        <div class="schedule-reload-container lazy-module--loading--loader" data-utcoffset-replace="{{ path('schedules_by_day', {'pid' : service.getPid(), 'no_chrome' : '1'}) }}">
+    {% else %}
+        <div>
+    {% endif %}
+        {{ block('body_inner') }}
+    </div>
+{%- endblock -%}
+
 {% block date %}{{ broadcast_day_start|local_date_intl('eeee d MMMM y') }}{% endblock %}
 
 {%- block date_nav -%}
