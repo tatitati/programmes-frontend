@@ -126,8 +126,6 @@ class MapPresenter extends Presenter
 
     private function constructThreeColumnMap(?Promotion $promotion, bool $hasComingSoon, bool $programmeHasEpisodes)
     {
-        $comingSoonTakeover = !$this->programme->getParent() && ($hasComingSoon && !$programmeHasEpisodes);
-
         if ($this->shouldShowMiniMap()) {
             $this->showMiniMap = true;
             $this->leftGridClasses = '1/3@gel3b';
@@ -141,8 +139,8 @@ class MapPresenter extends Presenter
             $this->rightColumns[] = new OnDemandPresenter($this->programme, ['full_width' => false]);
         }
 
-        if ($hasComingSoon) {
-            $this->rightColumns[] = new ComingSoonPresenter($this->programme, $promotion, ['show_mini_map' => $this->showMiniMap, 'show_synopsis' => $comingSoonTakeover]);
+        if ($hasComingSoon && !$programmeHasEpisodes) {
+            $this->rightColumns[] = new ComingSoonPresenter($this->programme, $promotion, ['show_mini_map' => $this->showMiniMap, 'show_synopsis' => $this->programme->isTleo()]);
         } else {
             $this->rightColumns[] = new TxPresenter($this->programme);
         }
