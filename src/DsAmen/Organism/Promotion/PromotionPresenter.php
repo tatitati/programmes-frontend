@@ -32,7 +32,7 @@ class PromotionPresenter extends Presenter
         // display options
         'show_image' => true,
         'show_synopsis' => true,
-        'show_related_links' => true,
+        'related_links_count' => 999,
 
         // classes & elements
         'h_tag' => 'h4',
@@ -122,11 +122,7 @@ class PromotionPresenter extends Presenter
      */
     public function getRelatedLinks(): array
     {
-        if (!$this->options['show_related_links']) {
-            return [];
-        }
-
-        return $this->promotion->getRelatedLinks();
+        return array_slice($this->promotion->getRelatedLinks(), 0, $this->options['related_links_count']);
     }
 
     /**
@@ -175,8 +171,8 @@ class PromotionPresenter extends Presenter
             throw new InvalidOptionException('show_synopsis option must be a boolean');
         }
 
-        if (!is_bool($options['show_related_links'])) {
-            throw new InvalidOptionException('show_related_links option must be a boolean');
+        if (!is_int($options['related_links_count']) || $options['related_links_count'] < 0) {
+            throw new InvalidOptionException('related_links_count option must 0 or a positive integer');
         }
     }
 }

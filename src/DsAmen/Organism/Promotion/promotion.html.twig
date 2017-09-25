@@ -9,7 +9,7 @@
             {%- if promotion.getOption('show_synopsis') -%}
                 <p class="gel-brevier media__meta-row">{{ promotion.getSynopsis() }}</p>
             {%- endif -%}
-            {% if promotion.getOption('show_related_links') and promotion.getRelatedLinks() %}
+            {% if promotion.getRelatedLinks() %}
                 <ul class="list-standard gel-brevier box-link__elevated">
                     {%- for link in promotion.getRelatedLinks() -%}
                         <li><a href="{{ link.getUri() }}" data-linktrack="{{ promotion.getOption('link_location_prefix') }}relatedlink">

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\DsAmen\Organism\Promotion;
 
 use App\DsAmen\Organism\Promotion\PromotionPresenter;
+use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
@@ -123,6 +124,28 @@ class PromotionPresenterTest extends TestCase
         $this->assertSame([], $presenter->getActionIcon());
     }
 
+    public function testFilteringRelatedLinks()
+    {
+        $mockRelatedLinks = [
+            $this->createMock(RelatedLink::class),
+            $this->createMock(RelatedLink::class),
+            $this->createMock(RelatedLink::class),
+        ];
+
+        $promotion = $this->createConfiguredMock(Promotion::class, [
+            'getRelatedLinks' => $mockRelatedLinks,
+        ]);
+
+        $presenter = new PromotionPresenter($this->mockRouter, $promotion, [
+            'show_synopsis' => false,
+            'show_image' => false,
+            'related_links_count' => 1,
+        ]);
+
+        $this->assertSame('', $presenter->getSynopsis());
+        $this->assertSame([$mockRelatedLinks[0]], $presenter->getRelatedLinks());
+    }
+
     public function testDisabledOptions()
     {
         $promotion = $this->createConfiguredMock(Promotion::class, [
@@ -134,12 +157,24 @@ class PromotionPresenterTest extends TestCase
 
         $presenter = new PromotionPresenter($this->mockRouter, $promotion, [
             'show_synopsis' => false,
-            'show_related_links' => false,
             'show_image' => false,
+            'related_links_count' => 0,
         ]);
 
         $this->assertSame('', $presenter->getSynopsis());
         $this->assertSame([], $presenter->getRelatedLinks());
         $this->assertNull($presenter->getImage());
+    }
+
+    public function testInvalidRelatedLinksCount()
+    {
+        $promotion = $this->createMock(Promotion::class);
+
+        $this->expectException(InvalidOptionException::class);
+        $this->expectExceptionMessage('related_links_count option must 0 or a positive integer');
+
+        new PromotionPresenter($this->mockRouter, $promotion, [
+            'related_links_count' => -1,
+        ]);
     }
 }

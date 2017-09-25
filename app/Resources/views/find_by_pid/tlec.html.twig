@@ -34,6 +34,7 @@
                         {% set promo_widths = loop.first and has_double_width_first_promo ? '2/3@gel3b 1/2@gel5' : '1/2@gel3 1/3@gel3b 1/4@gel5' %}
                         <li class="grid__item {{ promo_widths }}">
                             {{- ds_amen('promotion', promotion, {
+                                'related_links_count': 2,
                                 'media_variant': 'media--column media--card',
                                 'cta_class': 'br-box-secondary',
                                 'branding_name': 'secondary',
