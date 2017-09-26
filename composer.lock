@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "46204b4de24b6c97ffa3b826aae3bdcc",
+    "content-hash": "81c3bc5029d8a5182189be7f21c58ead",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -222,16 +222,16 @@
         },
         {
             "name": "bbc/branding-client",
-            "version": "v2.2.0",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/branding-client.git",
-                "reference": "3d7171ef19fd60add5c7548ad8729b3db78d39db"
+                "reference": "c621ad75612213a1af6789cab2fd1c552d873450"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/branding-client/zipball/3d7171ef19fd60add5c7548ad8729b3db78d39db",
-                "reference": "3d7171ef19fd60add5c7548ad8729b3db78d39db",
+                "url": "https://api.github.com/repos/bbc/branding-client/zipball/c621ad75612213a1af6789cab2fd1c552d873450",
+                "reference": "c621ad75612213a1af6789cab2fd1c552d873450",
                 "shasum": ""
             },
             "require": {
@@ -262,10 +262,10 @@
             ],
             "description": "PHP Branding client",
             "support": {
-                "source": "https://github.com/bbc/branding-client/tree/v2.2.0",
+                "source": "https://github.com/bbc/branding-client/tree/v2.3.0",
                 "issues": "https://github.com/bbc/branding-client/issues"
             },
-            "time": "2017-08-02T15:26:38+00:00"
+            "time": "2017-09-25T14:10:37+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",
@@ -432,7 +432,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-09-13T13:53:21+00:00"
+            "time": "2017-09-13 13:53:21"
         },
         {
             "name": "behat/transliterator",

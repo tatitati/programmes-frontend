@@ -29,6 +29,7 @@ services:
     # Event Subscribers
     App\EventSubscriber\FindByPidRouterSubscriber: ~
     App\EventSubscriber\ResponseSubscriber: ~
+    App\EventSubscriber\CacheFlushSubscriber: ~
     App\EventSubscriber\MonitoringSubscriber:
         tags:
             - { name: 'kernel.event_subscriber' }
