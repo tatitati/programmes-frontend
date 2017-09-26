@@ -6,6 +6,7 @@ namespace Tests\App\DsAmen\Organism\Programme\SubPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -35,6 +36,7 @@ abstract class BaseProgrammeSubPresenterTest extends TestCase
         $mockTvEpisode->method('getDuration')->willReturn(20);
         $mockTvEpisode->method('getPid')->willReturn(new Pid('p0000002'));
         $mockTvEpisode->method('isAudio')->willReturn($isAudio);
+        $mockTvEpisode->method('getMediaType')->willReturn(MediaTypeEnum::VIDEO);
 
         return $mockTvEpisode;
     }
@@ -47,6 +49,7 @@ abstract class BaseProgrammeSubPresenterTest extends TestCase
         $mockRadioEpisode->method('isRadio')->willReturn(true);
         $mockRadioEpisode->method('getDuration')->willReturn(30);
         $mockRadioEpisode->method('getPid')->willReturn(new Pid('p0000003'));
+        $mockRadioEpisode->method('getMediaType')->willReturn(MediaTypeEnum::AUDIO);
 
         return $mockRadioEpisode;
     }

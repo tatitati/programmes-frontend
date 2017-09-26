@@ -7,6 +7,7 @@ use App\DsAmen\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProgrammeCtaPresenter extends Presenter
@@ -51,14 +52,12 @@ class ProgrammeCtaPresenter extends Presenter
 
     public function getMediaIconName(): string
     {
-        if ($this->programme instanceof ProgrammeItem) {
-            if ($this->programme->isRadio()) {
+        if ($this->programme instanceof Episode) {
+            if ($this->programme->getMediaType() === MediaTypeEnum::AUDIO) {
                 return 'iplayer-radio';
             }
 
-            if ($this->programme instanceof Episode) {
-                return 'iplayer';
-            }
+            return 'iplayer';
         }
 
         return 'play';
