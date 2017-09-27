@@ -1,0 +1,20 @@
+<div class="media box-link gel-long-primer {{ collapsed_broadcast.getOption('media_variant') }}" id="{{ collapsed_broadcast.getUniqueID() }}">
+    <div class="media__body">
+        <div class="{{ collapsed_broadcast.getMediaDetailsClass() }} {{ collapsed_broadcast.getBrandingClass() }}" data-eq-pts="actions-nowrap: 240">
+            {{ ds_amen_presenter(collapsed_broadcast.getProgrammeTitlePresenter()) }}
+            {{ ds_amen_presenter(collapsed_broadcast.getProgrammeBodyPresenter()) }}
+            {{ ds_amen_presenter(collapsed_broadcast.getCollapsedBroadcastDetailsPresenter()) }}
+
+            <div class="actions-wrapper 1/1">
+                {%- if not collapsed_broadcast.getOption('show_image') and collapsed_broadcast.getProgrammeCtaPresenter() -%}
+                    {{- ds_amen_presenter(collapsed_broadcast.getProgrammeCtaPresenter()) -}}
+                {%- endif -%}
+
+                {%- if collapsed_broadcast.showWatchFromStartCta() -%}
+                    {{- ds_amen_presenter(collapsed_broadcast.getWatchFromStartCollapsedBroadcastCtaPresenter()) -}}
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+    {{- ds_amen_presenter(collapsed_broadcast.getProgrammeImagePresenter()) -}}
+</div>

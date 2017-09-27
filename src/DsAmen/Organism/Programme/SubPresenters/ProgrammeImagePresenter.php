@@ -16,6 +16,9 @@ class ProgrammeImagePresenter extends Presenter
     private $programmeCtaPresenter;
 
     protected $options = [
+        'show_image' => true,
+        'force_iplayer_linking' => false,
+
         // classes & elements
         'media_panel_class' => '1/1',
 

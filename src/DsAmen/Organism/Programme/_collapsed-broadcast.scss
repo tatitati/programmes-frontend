@@ -1,0 +1,44 @@
+/**
+ * Classes specific to a collapsed broadcast object
+ */
+
+.broadcast-details__service {
+    span[property='name'] {
+        margin-right: $gel-unit-small / 2;
+    }
+}
+
+.actions-wrapper {
+    display: block;
+    display: flex;
+    flex-wrap: wrap;
+
+    vertical-align: middle;
+    align-items: center;
+
+    .gelicon {
+        flex: 0 0 44px;
+    }
+
+    .icon-link {
+        flex: 1 1 140px; // This fixes some bugs in IE11 and iOS Safari 9
+    }
+
+    .icon-link + .icon-link {
+        margin-top: $gel-unit-small;
+        margin-left: 0;
+    }
+}
+
+.media__details {
+    &[data-eq-state$='actions-nowrap'] {
+        .actions-wrapper {
+            flex-wrap: nowrap;
+
+            .icon-link + .icon-link {
+                margin-top: 0;
+                margin-left: $gel-unit-small;
+            }
+        }
+    }
+}

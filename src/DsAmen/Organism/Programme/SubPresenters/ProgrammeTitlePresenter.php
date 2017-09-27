@@ -37,6 +37,8 @@ class ProgrammeTitlePresenter extends Presenter
         'link_location_prefix' => 'programmeobject_',
         'title_size_large' => 'gel-pica-bold',
         'title_size_small' => 'gel-pica',
+        'branding_name' => 'subtle',
+        'force_iplayer_linking' => false,
     ];
 
     public function __construct(
@@ -127,7 +129,7 @@ class ProgrammeTitlePresenter extends Presenter
     {
         [$this->mainTitleProgramme, $this->subTitlesProgrammes] = $this->titleHelper->getOrderedProgrammesForTitle(
             $this->programme,
-            $this->options['context_programme'],
+            $this->options['context_programme'] ?? null,
             $this->options['title_format']
         );
     }

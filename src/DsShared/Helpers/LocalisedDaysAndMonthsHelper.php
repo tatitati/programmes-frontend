@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace App\DsShared\Helpers;
 
 use App\Translate\TranslateProvider;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use Cake\Chronos\Chronos;
 use DateTime;
 use IntlDateFormatter;
 use RMP\Translate\DateCorrection;
@@ -61,5 +63,56 @@ class LocalisedDaysAndMonthsHelper
         }
 
         return json_encode($localisedDaysAndMonths);
+    }
+
+    public function getFormatedDay(Chronos $date): string
+    {
+        /** @var Chronos $now */
+        $now = ApplicationTime::getLocalTime();
+        $date = $date->setTimezone(ApplicationTime::getLocalTimeZone());
+
+        $translate = $this->translateProvider->getTranslate();
+
+        if ($date->isSameDay($now)) {
+            return $translate->translate('schedules_today');
+        }
+
+        if ($date->isSameDay($now->addDay(1))) {
+            return $translate->translate('schedules_tomorrow');
+        }
+
+        if ($date->isSameDay($now->subDay(1))) {
+            return $translate->translate('schedules_yesterday');
+        }
+
+        if ($date->format('m-d') === '12-24') {
+            return $translate->translate('schedules_christmas_eve');
+        }
+
+        if ($date->format('m-d') === '12-25') {
+            return $translate->translate('schedules_christmas_day');
+        }
+
+        if ($date->format('m-d') === '12-26') {
+            return $translate->translate('schedules_boxing_day');
+        }
+
+        if ($date->format('m-d') === '01-01') {
+            return $translate->translate('schedules_new_years_day');
+        }
+
+        if ($date->isWithinNext('5 days')) {
+            return $translate->translate('schedules_next_weekday', ['%1' => $date->format('l')]);
+        }
+
+        if ($date->wasWithinLast('5 days')) {
+            return $translate->translate('schedules_last_weekday', ['%1' => $date->format('l')]);
+        }
+
+        if ($date->isWithinNext('8 days') || $date->wasWithinLast('8 days')) {
+            return $date->format('l'); // Monday|Tuesday|etc
+        }
+
+        return $date->format('D M d Y'); // Tue Mar 23 2017
     }
 }

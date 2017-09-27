@@ -13,14 +13,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ProgrammeCtaPresenter extends Presenter
 {
     /** @var ProgrammeItem */
-    private $programme;
+    protected $programme;
 
     /** @var UrlGeneratorInterface */
-    private $router;
+    protected $router;
 
     protected $options = [
         'cta_class' => 'icon-cta--dark',
         'link_location_prefix' => 'programmeobject_',
+        'force_iplayer_linking' => false,
     ];
 
     public function __construct(ProgrammeItem $programme, UrlGeneratorInterface $router, array $options = [])
@@ -63,7 +64,7 @@ class ProgrammeCtaPresenter extends Presenter
         return 'play';
     }
 
-    public function getPlayTranslation(): string
+    public function getLabelTranslation(): string
     {
         if ($this->programme instanceof Episode) {
             return 'iplayer_play_episode';
@@ -72,7 +73,7 @@ class ProgrammeCtaPresenter extends Presenter
         return 'iplayer_play_clip';
     }
 
-    public function getPlayerUrl(): string
+    public function getUrl(): string
     {
         $routeName = 'iplayer_play';
         $routeArguments = ['pid' => $this->programme->getPid()];

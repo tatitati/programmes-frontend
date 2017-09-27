@@ -28,6 +28,14 @@ class HelperFactory
         $this->router = $router;
     }
 
+    public function getBroadcastNetworksHelper()
+    {
+        if (!isset($this->helpers[BroadcastNetworksHelper::class])) {
+            $this->helpers[BroadcastNetworksHelper::class] = new BroadcastNetworksHelper($this->translateProvider);
+        }
+        return $this->helpers[BroadcastNetworksHelper::class];
+    }
+
     public function getLiveBroadcastHelper()
     {
         if (!isset($this->helpers[LiveBroadcastHelper::class])) {

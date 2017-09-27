@@ -17,16 +17,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ProgrammePresenter extends Presenter
 {
     /** @var UrlGeneratorInterface */
-    private $router;
+    protected $router;
 
     /** @var HelperFactory */
-    private $helperFactory;
+    protected $helperFactory;
 
     /** @var Programme */
-    private $programme;
+    protected $programme;
 
     /** @var ProgrammeCtaPresenter|null */
-    private $ctaPresenter;
+    protected $ctaPresenter;
 
     protected $options = [
         'branding_name' => 'subtle',
@@ -61,18 +61,12 @@ class ProgrammePresenter extends Presenter
         Programme $programme,
         array $options = []
     ) {
+
         parent::__construct($options);
         $this->router = $router;
         $this->helperFactory = $helperFactory;
         $this->programme = $programme;
-
-        if ($this->programme instanceof ProgrammeItem && $this->programme->isStreamable()) {
-            $this->ctaPresenter = new ProgrammeCtaPresenter(
-                $this->programme,
-                $this->router,
-                $this->subPresenterOptions('cta_options')
-            );
-        }
+        $this->ctaPresenter = $this->buildProgrammeCtaPresenter();
     }
 
     public function getBrandingClass(): string
@@ -105,11 +99,6 @@ class ProgrammePresenter extends Presenter
         );
     }
 
-    public function getProgrammeCtaPresenter(): ?ProgrammeCtaPresenter
-    {
-        return $this->ctaPresenter;
-    }
-
     public function getProgrammeImagePresenter(): ProgrammeImagePresenter
     {
         return new ProgrammeImagePresenter(
@@ -129,9 +118,28 @@ class ProgrammePresenter extends Presenter
         );
     }
 
+    public function getProgrammeCtaPresenter(): ?ProgrammeCtaPresenter
+    {
+        return $this->ctaPresenter;
+    }
+
     public function showStandaloneCta(): bool
     {
         return !$this->getOption('show_image') && $this->getProgrammeCtaPresenter();
+    }
+
+    protected function buildProgrammeCtaPresenter(): ?ProgrammeCtaPresenter
+    {
+        $ctaPresenter = null;
+        if ($this->programme instanceof ProgrammeItem && $this->programme->isStreamable()) {
+            $ctaPresenter = new ProgrammeCtaPresenter(
+                $this->programme,
+                $this->router,
+                $this->subPresenterOptions('cta_options')
+            );
+        }
+
+        return $ctaPresenter;
     }
 
     protected function validateOptions(array $options): void
@@ -153,7 +161,7 @@ class ProgrammePresenter extends Presenter
      * Sub-presenters require some of the same options as their parents, which options is defined
      * in $this->sharedOptions
      */
-    private function subPresenterOptions(string $optionsKey)
+    protected function subPresenterOptions(string $optionsKey)
     {
         $options = $this->options[$optionsKey];
 

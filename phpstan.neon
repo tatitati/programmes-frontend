@@ -3,7 +3,7 @@ parameters:
         - '#Call to an undefined method DateTimeImmutable::\w*\(\).#'
         - '#Access to an undefined property Cake\\Chronos\\ChronosInterface::\$month.#' # https://github.com/cakephp/chronos/issues/151
         - '#Access to an undefined property Cake\\Chronos\\ChronosInterface::\$year.#'
-        - '#Method App\\Controller\\SchedulesByDayController::dateTimeToShow\(\) should return Cake\\Chronos\\Chronos but returns DateTimeImmutable.#'
+        - '#Method (\w*\\?)*::\w*\(\) should return Cake\\Chronos\\Chronos but returns DateTimeImmutable.#'
         - '#Property App\\Ds2013\\Page\\Schedules\\ByWeekPage\\SchedulesByWeekPagePresenter::\$now \(Cake\\Chronos\\Chronos\) does not accept DateTimeImmutable.#'
         - '#Call to an undefined method DateTimeInterface::setTimezone\(\).#'
         - '#RedisCluster#' #PHPStan does not play well with RedisCluster it seems

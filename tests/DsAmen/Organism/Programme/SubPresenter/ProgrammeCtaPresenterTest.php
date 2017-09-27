@@ -83,7 +83,7 @@ class ProgrammeCtaPresenterTest extends BaseProgrammeSubPresenterTest
     public function testGetPlayTranslation(ProgrammeItem $programme, string $expected): void
     {
         $ctaPresenter = new ProgrammeCtaPresenter($programme, $this->router);
-        $this->assertSame($expected, $ctaPresenter->getPlayTranslation());
+        $this->assertSame($expected, $ctaPresenter->getLabelTranslation());
     }
 
     public function getPlayTranslationProvider(): array
@@ -103,7 +103,7 @@ class ProgrammeCtaPresenterTest extends BaseProgrammeSubPresenterTest
     public function testGetPlayerUrl(ProgrammeItem $programme, string $expected): void
     {
         $ctaPresenter = new ProgrammeCtaPresenter($programme, $this->router);
-        $this->assertSame($expected, $ctaPresenter->getPlayerUrl());
+        $this->assertSame($expected, $ctaPresenter->getUrl());
     }
 
     public function getPlayerUrlProvider(): array

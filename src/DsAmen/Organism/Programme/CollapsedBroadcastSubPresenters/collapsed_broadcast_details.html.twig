@@ -1,0 +1,29 @@
+<div class="media__meta-group">
+    <div class="broadcast-details programme__broadcast-date gel-minion"
+        data-timezone="true"
+        content="{{ collapsed_broadcast_details.getDateTimestamp() }}" >
+        {# Broadcast date #}
+        <span class="timezone timezone--date">
+            {{- collapsed_broadcast_details.getDay() -}}
+        </span>
+        <span class="timezone timezone--time">
+            {{- collapsed_broadcast_details.getTime()|local_date('H:i') -}}
+            {{- collapsed_broadcast_details.getTime()|time_zone_note() -}}
+        </span>
+
+        {# Service details #}
+        <div class="broadcast-details__service">
+            {%- for network, services in collapsed_broadcast_details.getNetworksAndServicesDetails() -%}
+                <span class="gel-minion-bold" property="name">
+                    {{- network -}}
+                </span>
+                {%- if services -%}
+                    <span>{{- services -}}</span>
+                {%- endif -%}
+            {%- endfor-%}
+        </div>
+    </div>
+</div>
+
+
+
