@@ -49,20 +49,23 @@ class ApiTimeMetric implements ProgrammesMetricInterface
             [ 'Name' => 'api', 'Value' => $this->apiName ],
             [ 'Name' => 'response_type', 'Value' => 'All'],
         ];
-        return [
-            [
+        $metricData = [];
+        $metricData[] = [
+            'MetricName' => 'api_count',
+            'Dimensions' => $dimensions,
+            'Value' => $this->count,
+            'Unit' => 'Count',
+        ];
+        if ($this->count > 0) {
+            // Do not return average response time if there are no responses
+            $metricData[] = [
                 'MetricName' => 'api_time',
                 'Dimensions' => $dimensions,
                 'Value' => $this->getAverageResponseTime(),
                 'Unit' => 'Milliseconds',
-            ],
-            [
-                'MetricName' => 'api_count',
-                'Dimensions' => $dimensions,
-                'Value' => $this->count,
-                'Unit' => 'Count',
-            ],
-        ];
+            ];
+        }
+        return $metricData;
     }
 
     private function cacheKey(string $type)

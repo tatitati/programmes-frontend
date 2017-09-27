@@ -58,8 +58,8 @@ class MetricCacheApcu implements MetricCacheInterface
     }
 
     /**
-     * Fetch all keys for supplied metrics from supplied bucket and
-     * reset their values to zero.
+     * Fetch all keys for supplied metrics from supplied bucket, reset their values
+     * to zero and return all the metric objects, with populated values where appropriate
      *
      * Must only be run once a lock has been obtained on that bucket's
      * "bucket_no_send" key
@@ -86,8 +86,8 @@ class MetricCacheApcu implements MetricCacheInterface
             }
             if ($found) {
                 $metric->setValuesFromCacheKeyValuePairs($keyValuePairs);
-                $metrics[] = $metric;
             }
+            $metrics[] = $metric;
         }
         return $metrics;
     }

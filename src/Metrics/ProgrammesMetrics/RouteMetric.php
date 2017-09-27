@@ -48,20 +48,23 @@ class RouteMetric implements ProgrammesMetricInterface
         $dimensions = [
             [ 'Name' => 'controller', 'Value' => $this->controllerName ],
         ];
-        return [
-            [
+        $metricData = [];
+        $metricData[] = [
+            'MetricName' => 'route_count',
+            'Dimensions' => $dimensions,
+            'Value' => $this->count,
+            'Unit' => 'Count',
+        ];
+        if ($this->count > 0) {
+            // Do not return average response time if there are no responses
+            $metricData[] = [
                 'MetricName' => 'route_time',
                 'Dimensions' => $dimensions,
                 'Value' => $this->getAverageResponseTime(),
                 'Unit' => 'Milliseconds',
-            ],
-            [
-                'MetricName' => 'route_count',
-                'Dimensions' => $dimensions,
-                'Value' => $this->count,
-                'Unit' => 'Count',
-            ],
-        ];
+            ];
+        }
+        return $metricData;
     }
 
     private function cacheKey(string $type)

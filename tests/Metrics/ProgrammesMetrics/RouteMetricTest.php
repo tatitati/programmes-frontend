@@ -16,17 +16,6 @@ class RouteMetricTest extends TestCase
         $metric = new RouteMetric('SchedulesByDayController', 1233);
         $this->assertEquals([
                 [
-                    'MetricName' => 'route_time',
-                    'Dimensions' => [
-                        [
-                            'Name' => 'controller',
-                            'Value' => 'SchedulesByDayController',
-                        ],
-                    ],
-                    'Value' => 1233,
-                    'Unit' => 'Milliseconds',
-                ],
-                [
                     'MetricName' => 'route_count',
                     'Dimensions' => [
                         [
@@ -36,6 +25,17 @@ class RouteMetricTest extends TestCase
                     ],
                     'Value' => 1,
                     'Unit' => 'Count',
+                ],
+                [
+                    'MetricName' => 'route_time',
+                    'Dimensions' => [
+                        [
+                            'Name' => 'controller',
+                            'Value' => 'SchedulesByDayController',
+                        ],
+                    ],
+                    'Value' => 1233,
+                    'Unit' => 'Milliseconds',
                 ],
             ], $metric->getMetricData());
     }
@@ -61,8 +61,16 @@ class RouteMetricTest extends TestCase
 
         $this->assertEquals(
             $timeMs/$count,
-            $metric->getMetricData()[0]['Value']
+            $metric->getMetricData()[1]['Value']
         );
+    }
+
+    public function testNoRequestsMeansNoAverageTimeSent()
+    {
+        $metric = new RouteMetric('SchedulesByDayController', 0, 0);
+        foreach ($metric->getMetricData() as $metricDatum) {
+            $this->assertNotEquals('route_time', $metricDatum['MetricName']);
+        }
     }
 
     public function testMetricCanSetCountFromCachedKey()
@@ -81,17 +89,6 @@ class RouteMetricTest extends TestCase
         $this->assertEquals(
             [
                 [
-                    'MetricName' => 'route_time',
-                    'Dimensions' => [
-                        [
-                            'Name' => 'controller',
-                            'Value' => 'SchedulesByDayController',
-                        ],
-                    ],
-                    'Value' => $timeMs/$count,
-                    'Unit' => 'Milliseconds',
-                ],
-                [
                     'MetricName' => 'route_count',
                     'Dimensions' => [
                         [
@@ -101,6 +98,17 @@ class RouteMetricTest extends TestCase
                     ],
                     'Value' => $count,
                     'Unit' => 'Count',
+                ],
+                [
+                    'MetricName' => 'route_time',
+                    'Dimensions' => [
+                        [
+                            'Name' => 'controller',
+                            'Value' => 'SchedulesByDayController',
+                        ],
+                    ],
+                    'Value' => $timeMs/$count,
+                    'Unit' => 'Milliseconds',
                 ],
             ],
             $metric->getMetricData()

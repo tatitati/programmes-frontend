@@ -16,21 +16,6 @@ class ApiTimeMetricTest extends TestCase
         $metric = new ApiTimeMetric('BRANDING', 1232);
         $this->assertEquals([
                 [
-                    'MetricName' => 'api_time',
-                    'Dimensions' => [
-                        [
-                            'Name' => 'api',
-                            'Value' => 'BRANDING',
-                        ],
-                        [
-                            'Name' => 'response_type',
-                            'Value' => 'All',
-                        ],
-                    ],
-                    'Value' => 1232,
-                    'Unit' => 'Milliseconds',
-                ],
-                [
                     'MetricName' => 'api_count',
                     'Dimensions' => [
                         [
@@ -45,6 +30,21 @@ class ApiTimeMetricTest extends TestCase
                     'Value' => 1,
                     'Unit' => 'Count',
                 ],
+                [
+                    'MetricName' => 'api_time',
+                    'Dimensions' => [
+                        [
+                            'Name' => 'api',
+                            'Value' => 'BRANDING',
+                        ],
+                        [
+                            'Name' => 'response_type',
+                            'Value' => 'All',
+                        ],
+                    ],
+                    'Value' => 1232,
+                    'Unit' => 'Milliseconds',
+                ],
             ], $metric->getMetricData());
     }
 
@@ -58,6 +58,14 @@ class ApiTimeMetricTest extends TestCase
             ],
             $metric->getCacheKeyValuePairs()
         );
+    }
+
+    public function testNoRequestsMeansNoAverageTimeSent()
+    {
+        $metric = new ApiTimeMetric('BRANDING', 0, 0);
+        foreach ($metric->getMetricData() as $metricDatum) {
+            $this->assertNotEquals('api_time', $metricDatum['MetricName']);
+        }
     }
 
     public function testMetricCanSetCountFromCachedKey()
@@ -75,21 +83,6 @@ class ApiTimeMetricTest extends TestCase
 
         $this->assertEquals([
                 [
-                    'MetricName' => 'api_time',
-                    'Dimensions' => [
-                        [
-                            'Name' => 'api',
-                            'Value' => 'BRANDING',
-                        ],
-                        [
-                            'Name' => 'response_type',
-                            'Value' => 'All',
-                        ],
-                    ],
-                    'Value' => $timeMs/$count,
-                    'Unit' => 'Milliseconds',
-                ],
-                [
                     'MetricName' => 'api_count',
                     'Dimensions' => [
                         [
@@ -103,6 +96,21 @@ class ApiTimeMetricTest extends TestCase
                     ],
                     'Value' => $count,
                     'Unit' => 'Count',
+                ],
+                [
+                    'MetricName' => 'api_time',
+                    'Dimensions' => [
+                        [
+                            'Name' => 'api',
+                            'Value' => 'BRANDING',
+                        ],
+                        [
+                            'Name' => 'response_type',
+                            'Value' => 'All',
+                        ],
+                    ],
+                    'Value' => $timeMs/$count,
+                    'Unit' => 'Milliseconds',
                 ],
             ], $metric->getMetricData());
     }
