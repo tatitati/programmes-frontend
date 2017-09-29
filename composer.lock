@@ -385,12 +385,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "dd30be96b8735044a0ddf8c21579dcf6608ba996"
+                "reference": "0e99754ab7ae8216def09d10e1e738d26cf0d728"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/dd30be96b8735044a0ddf8c21579dcf6608ba996",
-                "reference": "dd30be96b8735044a0ddf8c21579dcf6608ba996",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/0e99754ab7ae8216def09d10e1e738d26cf0d728",
+                "reference": "0e99754ab7ae8216def09d10e1e738d26cf0d728",
                 "shasum": ""
             },
             "require": {
@@ -429,7 +429,7 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/master",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/v2.7.4",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
             "time": "2017-09-13 13:53:21"

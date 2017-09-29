@@ -5,6 +5,7 @@ namespace App\ValueObject;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use InvalidArgumentException;
 
 class AnalyticsCounterName
 {
@@ -13,6 +14,11 @@ class AnalyticsCounterName
 
     public function __construct($context = null, string $relativePath = null)
     {
+        /*
+         * Build counter name variable with next pattern:
+         * programmes.<NID>.schedules.<[outlet]>.<[date]>.page
+         */
+
         // prefix
         $this->counterName = 'programmes';
 
@@ -33,20 +39,54 @@ class AnalyticsCounterName
         return $this->counterName;
     }
 
-    private function getServiceCounterNamePart(Service $context, string $relativePath): string
+    /**
+     *
+     * Examples:
+     * @see \Tests\App\ValueObject\AnalyticsCounterNameTest::testCounterNameValueIsBuiltProperlyForSomeRealServices
+     */
+    private function getServiceCounterNamePart(Service $service, string $relativePath): string
     {
-        // Example: programmes.schedules.bbc_one_cambridge.2017.07.17.page
-        $pid = $context->getPid();
-        $sid = $context->getSid();
-        $partialString = str_replace($pid, $sid, $relativePath);
-        $partialString = str_replace(['/', '-'], '.', $partialString);
-        $partialString = $this->replaceDisallowedCharacters($partialString);
-        return $partialString;
+        if (!preg_match('#(?<ROUTE_PREFIX>[a-z]+)\/(?<PID>[a-z0-9]+)(\/(?<DATE>.*))?#', $relativePath, $relativePathPieces)
+            || !$service->getNetwork()
+        ) {
+            throw new InvalidArgumentException('Invalid format url');
+        }
+        // NOTE: Currently all Service contexts are on schedules pages. IF THIS CHANGES YOUR COUTNERNAME
+        // WILL BE WRONG.
+        $counterNamePieces = [
+            $service->getNetwork()->getNid(),
+            'schedules',
+        ];
+
+        //Calculate outlet
+        $allServices = $service->getNetwork()->getServices();
+        $defaultService = $service->getNetwork()->getDefaultService();
+        $notOnDefaultServiceOfNetworkWithTwoServices = (count($allServices) === 2 && (string) $service->getPid() !== (string) $defaultService->getPid());
+        if (count($allServices) > 2 || $notOnDefaultServiceOfNetworkWithTwoServices) {
+            // We need to add the V2 outlet key. Which is hairy. Sorry.
+            $outlet = trim($service->getUrlKey(), '_');
+            if (!empty($outlet)) {
+                $counterNamePieces[] = $outlet;
+            }
+        }
+
+        if (!empty($relativePathPieces['DATE'])) {
+            $counterNamePieces[] = $relativePathPieces['DATE'];
+        }
+
+        $value = implode('.', $counterNamePieces);
+        $value = str_replace(['/', '-'], '.', $value);
+
+        return '.' . $this->replaceDisallowedCharacters($value);
     }
 
+    /**
+     * Examples:
+     * @see \Tests\App\ValueObject\AnalyticsCounterNameTest::testCounterNameValueIsBuiltProperlyWhenContextTypeIsProgramme
+     * @see \Tests\App\ValueObject\AnalyticsCounterNameTest::testCounterNameValueIsBuiltProperlyWhenContextTypeIsProgrammeAndHasParents
+     */
     private function getProgrammeCounterNamePart(Programme $context, string $relativePath): string
     {
-        // Example: programmes.doctor_who.brand.b006q2x0.page
         $partialString = $this->getParentTitlesRecursively($context);
         $partialString .= '.' . $context->getType();
         $partialString .= '.' . $context->getPid();
@@ -74,12 +114,14 @@ class AnalyticsCounterName
     /**
      * Build the counter name based on the URL or use a predefined one if there is any for this route
      *
+     * Examples:
+     * @see \Tests\App\ValueObject\AnalyticsCounterNameTest::testCounterNameIsBuildUsingDefaultBuilderForOtherContextTypes
+     *
      * @param string $relativePath
      * @return string
      */
     private function getDefaultCounterNamePart(string $relativePath): string
     {
-        // Example: programmes.home.schedules.page
         switch ($relativePath) {
             case '/programmes':
                 $partialString = '.home';

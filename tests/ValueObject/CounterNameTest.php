@@ -7,10 +7,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
-use BBC\ProgrammesPagesService\Domain\Entity\Service;
-use BBC\ProgrammesPagesService\Domain\Entity\Unfetched\UnfetchedProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -132,33 +129,6 @@ class CounterNameTest extends TestCase
         $clip = $this->clipFactory('b00ccccc', 'This is a clip', $episode);
         $counterName = new AnalyticsCounterName($clip, '/programmes/b00ccccc');
         $this->assertEquals('programmes.this_is_a_brand.this_is_a_series.this_is_an_episode.this_is_a_clip.clip.b00ccccc.page', $counterName);
-    }
-
-    public function testSchedules()
-    {
-        $sid = new Sid('bbc_two_england');
-        $pid = new Pid('p00fzl97');
-        $service = new Service(
-            0,
-            $sid,
-            $pid,
-            'Name'
-        );
-
-        $counterName = new AnalyticsCounterName(null, '/schedules');
-        $this->assertEquals('programmes.home.schedules.page', $counterName);
-
-        $counterName = new AnalyticsCounterName($service, '/schedules/p00fzl97');
-        $this->assertEquals('programmes.schedules.bbc_two_england.page', $counterName);
-
-        $counterName = new AnalyticsCounterName($service, '/schedules/p00fzl97/2017');
-        $this->assertEquals('programmes.schedules.bbc_two_england.2017.page', $counterName);
-
-        $counterName = new AnalyticsCounterName($service, '/schedules/p00fzl97/2017-07');
-        $this->assertEquals('programmes.schedules.bbc_two_england.2017.07.page', $counterName);
-
-        $counterName = new AnalyticsCounterName($service, '/schedules/p00fzl97/2017-07-06');
-        $this->assertEquals('programmes.schedules.bbc_two_england.2017.07.06.page', $counterName);
     }
 
     private function brandFactory($pid, $title)
