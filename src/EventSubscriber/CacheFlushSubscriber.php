@@ -20,7 +20,7 @@ class CacheFlushSubscriber implements EventSubscriberInterface, ServiceSubscribe
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => [['setupCacheFlush']],
+            KernelEvents::REQUEST => [['setupCacheFlush', 512]],
         ];
     }
 
