@@ -44,6 +44,7 @@ def substitute_data(data):
         'fixture_database_port': data["configuration"].get('fixture_database_port', '3306'),
         'fixture_database_name': data["configuration"].get('fixture_database_name', 'blank'),
         'scenario_database_name': data["configuration"].get('scenario_database_name', 'blank'),
+        'fixture_secure_key': data["secure_configuration"].get('fixture_secure_key', 'blank'),
     }
 
 def rewrite_application_parameters(config):
@@ -67,8 +68,8 @@ def rewrite_application_front_controller(symfony_env):
 
     content = open(appFrontControllerFile).read()
     content = content.replace(
-        "new AppKernel('prod', false)",
-        "new AppKernel('" + symfony_env + "', false)"
+        "$appEnv = 'prod';",
+        "$appEnv = '" + symfony_env + "';"
     )
 
     print "Overwriting " + appFrontControllerFile

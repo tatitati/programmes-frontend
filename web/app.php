@@ -5,7 +5,13 @@ use Symfony\Component\HttpFoundation\Request;
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require __DIR__.'/../vendor/autoload.php';
 
-$kernel = new AppKernel('prod', false);
+// Note that the following line is replaced by the bake script on a per-environment basis
+// for the INT and TEST environments
+$appEnv = 'prod';
+if (($appEnv === 'prod_int' || $appEnv === 'prod_test') && !empty($_GET['__scenario'])) {
+    $appEnv .= '_fixture';
+}
+$kernel = new AppKernel($appEnv, false);
 //$kernel = new AppCache($kernel);
 
 

@@ -22,7 +22,11 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 $loader = require __DIR__.'/../vendor/autoload.php';
 Debug::enable();
 
-$kernel = new AppKernel('dev', true);
+$appEnv = 'dev';
+if (!empty($_GET['__scenario'])) {
+    $appEnv .= '_fixture';
+}
+$kernel = new AppKernel($appEnv, true);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

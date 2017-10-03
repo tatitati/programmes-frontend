@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+function show_help {
+    echo "Usage: ./script/fixture SCENARIO_NAME PATH MODE TIME ENV"
+    echo "Parameters:"
+    echo "      SCENARIO_NAME: the name of your scenario. [A-Za-z0-9_-.]"
+    echo "      PATH: the path to your page, e.g. /programmes/b006m86d"
+    echo "      MODE: optional. generate, regenerate or delete. defaults to generate"
+    echo "      TIME: optional. The time in ISO8601 format, defaults to '2017-09-01T11:30:00Z'"
+    echo "      ENV: the environment to run against. (sandbox|test). Optional. Defaults to test"
+    exit 1
+}
+SCRIPT_PATH=$( cd $(dirname $0) ; pwd -P )
+if [ ! -f "$SCRIPT_PATH/fixture.ini" ]; then
+    echo "You must create script/fixture.ini according to the README.md"
+    exit 1
+fi
+source "$SCRIPT_PATH/fixture.ini"
+
+if [ -z "$PASSWORD" ]; then
+    echo "Password not found. You must create script/fixture.ini according to the README.md"
+    exit 1
+fi
+
+if [ -z "$1" -o -z "$2" ]; then
+    show_help
+fi
+SCENARIO_NAME="$1"
+# Ensure $PATH starts with a slash
+PATH_COMPONENT=/$(echo $2 | sed 's/^\///')
+MODE_STRING="__generate=1"
+if [ ! -z "$3" ]; then
+    if [ "$3" == "regenerate" ] ; then
+        MODE_STRING="__regenerate=1"
+    elif [ "$3" == "delete" ] ; then
+        MODE_STRING="__delete_scenario=1"
+    elif [ "$3" == "generate" ] ; then
+        MODE_STRING="__generate=1"
+    else
+        echo "$3 is not a valid mode"
+        exit 1
+    fi
+fi
+
+TIME=""
+if [ ! -z "$4" ] ; then
+    TIME="$4"
+fi
+
+BASE_URL="https://www.test.bbc.co.uk"
+DEV_CERT=""
+if [ ! -z "$5" ]; then
+    if [ "$5" == "test" -o "$5" == "TEST" ] ; then
+        BASE_URL="https://www.test.bbc.co.uk"
+    elif [ "$5" == "sandbox" -o "$5" == "SANDBOX" ] ; then
+        BASE_URL="http://sandbox.bbc.co.uk"
+        PASSWORD="developer"
+    elif [ "$5" == "int" -o "$5" == "INT" ] ; then
+        BASE_URL="https://www.int.bbc.co.uk"
+        DEV_CERT=" -E /etc/pki/dev.bbc.co.uk.pem "
+    else
+        echo "$5 is not a valid environment"
+        exit 1
+    fi
+fi
+
+#Construct query string
+SEP='?'
+if [[ "$PATH_COMPONENT" == *"?"* ]]; then
+  SEP="&"
+fi
+
+QUERY_STRING="${SEP}__scenario=${SCENARIO_NAME}&${MODE_STRING}"
+if [ ! -z "$TIME" ]; then
+    QUERY_STRING="${QUERY_STRING}&__scenario_time=${TIME}"
+fi
+URL="${BASE_URL}${PATH_COMPONENT}${QUERY_STRING}"
+
+
+CURL_CMD="curl $DEV_CERT -o- -w "'"\n%{http_code}\n"'" -H 'x-programmes-fixture-secure-key: ${PASSWORD}' '$URL'"
+echo "Running the following curl command: $CURL_CMD"
+OUTPUT="$(eval $CURL_CMD)"
+EXIT_CODE=$?
+PAGE_RESPONSE="$(echo "$OUTPUT" | sed '$d')"
+STATUS_CODE="$(echo "$OUTPUT" | tail -n 1)"
+if [ $EXIT_CODE -eq 0 ]; then
+    if [ "$STATUS_CODE" == "200" -o "$STATUS_CODE" == "301" -o "$STATUS_CODE" == "302" ]; then
+        echo "Fixture command ok (well, server returned ${STATUS_CODE} status code)"
+        if [ "$MODE_STRING" == "__delete_scenario=1" ]; then
+            echo "Scenario Deleted"
+        else
+            echo "Try browsing to ${BASE_URL}${PATH_COMPONENT}${SEP}__scenario=${SCENARIO_NAME} to see if it works"
+        fi
+        exit
+    fi
+fi
+echo $PAGE_RESPONSE
+echo "Fixture command experienced an error. Output shown above"
+
+

@@ -32,7 +32,7 @@ class MonitoringSubscriber implements EventSubscriberInterface
             // Start timer
             KernelEvents::REQUEST => [['requestStart', 512]],
             // Stop timer and log the duration
-            KernelEvents::TERMINATE => [['terminateEnd', 0]],
+            KernelEvents::TERMINATE => [['terminateEnd', 128]],
         ];
     }
 
@@ -55,7 +55,9 @@ class MonitoringSubscriber implements EventSubscriberInterface
         }
         $request = $event->getRequest();
         $controllerName = $request->get('_controller');
-        $this->stopwatch->stop(self::REQUEST_TIMER);
+        if ($this->stopwatch->isStarted(self::REQUEST_TIMER)) {
+            $this->stopwatch->stop(self::REQUEST_TIMER);
+        }
 
         $controllerPeriod = $this->getControllerPeriod();
         if ($controllerPeriod && $controllerName) {

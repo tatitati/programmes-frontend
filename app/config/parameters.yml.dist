@@ -30,3 +30,4 @@ parameters:
     scenario_database_name: fixture
     fixture_database_user: developer
     fixture_database_password: developer
+    fixture_secure_key: developer

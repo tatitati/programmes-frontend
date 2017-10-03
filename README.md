@@ -123,6 +123,26 @@ Load that at least 5 times to make sure that everything that should be cached is
 Now visit https://programmes-frontend.int.api.bbc.co.uk/xhprof/xhprof_html/index.php .
 You should see a list of your visits along with a load of metrics on execution. 
 
+Fixtures and scenarios
+-----------
+The codebase has the ability to switch to a fixture database and a set of fixtured HTTP calls dynamically on the
+INT and TEST environments. 
+
+To load a scenario, simply visit the fixtured page with the query string __scenario=scenario-name in the URL
+
+To view a page using the fixture database (but not fixtured HTTP calls) use the query string __scenario=browse
+
+To create a scenario/fixtures there are a few steps. Firstly you will need to create a file named "fixture.ini" in
+the script folder on your cloud sandbox. Populate it with the following
+```bash
+PASSWORD="the_password"
+```  
+you can obtain the password from the usual place.
+
+Now cd to the checkout out programmes frontend code and run ```./script/fixture```. The script can do 3 things, 
+documented in the help output. Generate a new scenario (the code will error if the scenario name already exits). 
+Regenerate an existing scenario (this basically uses all the existing HTTP fixtures, but creates new ones for any
+unfixtured URLs). Or delete a scenario. Have fun!
 
 License
 -------

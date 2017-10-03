@@ -31,3 +31,4 @@ parameters:
     scenario_database_name: $scenario_database_name
     fixture_database_user: $fixture_database_user
     fixture_database_password: $fixture_database_password
+    fixture_secure_key: $fixture_secure_key

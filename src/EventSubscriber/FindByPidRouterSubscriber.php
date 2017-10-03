@@ -39,15 +39,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * Resolver is triggered, which takes that _controller value and creates an
  * instance of the controller.
  */
-class FindByPidRouterSubscriber implements EventSubscriberInterface, ServiceSubscriberInterface
+class FindByPidRouterSubscriber implements EventSubscriberInterface
 {
-    /** @var ContainerInterface */
-    private $container;
-
-    public static function getSubscribedServices()
-    {
-        return [ServiceFactory::class];
-    }
+    /** @var ServiceFactory */
+    private $serviceFactory;
 
     public static function getSubscribedEvents()
     {
@@ -58,9 +53,9 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface, ServiceSubs
         ];
     }
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ServiceFactory $serviceFactory)
     {
-        $this->container = $container;
+        $this->serviceFactory = $serviceFactory;
     }
 
     public function updateController(GetResponseEvent $event)
@@ -70,7 +65,6 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface, ServiceSubs
         }
 
         $request = $event->getRequest();
-        $serviceFactory = $this->container->get(ServiceFactory::class);
 
         // Do nothing if this is not a find_by_pid route
         if ($request->attributes->get('_controller') !== '!find_by_pid') {
@@ -80,7 +74,7 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface, ServiceSubs
         $pid = new Pid($request->attributes->get('pid'));
 
         // Attempt to find a Programme or Group
-        $coreEntity = $serviceFactory->getCoreEntitiesService()->findByPidFull($pid);
+        $coreEntity = $this->serviceFactory->getCoreEntitiesService()->findByPidFull($pid);
         if ($coreEntity) {
             // Redirect if the options demand it
             if ($coreEntity && $coreEntity->getOptions()->getOption('pid_override_url') && $coreEntity->getOptions()->getOption('pid_override_code')) {
@@ -143,7 +137,7 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface, ServiceSubs
         }
 
         // Attempt to find a Version
-        $version = $serviceFactory->getVersionsService()->findByPidFull($pid);
+        $version = $this->serviceFactory->getVersionsService()->findByPidFull($pid);
         if ($version) {
             $request->attributes->set('version', $version);
             $request->attributes->set('_controller', \App\Controller\FindByPid\VersionController::class);
@@ -151,7 +145,7 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface, ServiceSubs
         }
 
         // Attempt to find a Segment
-        $segment = $serviceFactory->getSegmentsService()->findByPidFull($pid);
+        $segment = $this->serviceFactory->getSegmentsService()->findByPidFull($pid);
         if ($segment) {
             $request->attributes->set('segment', $segment);
             $request->attributes->set('_controller', \App\Controller\FindByPid\SegmentController::class);

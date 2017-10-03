@@ -1,6 +1,5 @@
 imports:
     - { resource: config.yml }
-    - { resource: fixture_db.yml }
 
 parameters:
     app.metric_backend.class: App\Metrics\Backend\LogMetricBackend
