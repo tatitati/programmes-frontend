@@ -423,6 +423,11 @@ msgstr ""
 msgid "coming_soon"
 msgstr "Prochainement"
 
+#. English: "Coming Up".
+#. Priority for: Programmes
+msgid "coming_up"
+msgstr ""
+
 #. English (no items): "Comments".
 #. English (one item): "Comment".
 #. English (2+ items): "Comments".

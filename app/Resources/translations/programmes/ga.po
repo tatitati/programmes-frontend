@@ -422,6 +422,11 @@ msgstr "Greann"
 msgid "coming_soon"
 msgstr "Le theacht gan mhoill"
 
+#. English: "Coming Up".
+#. Priority for: Programmes
+msgid "coming_up"
+msgstr ""
+
 #. English (no items): "Comments".
 #. English (one item): "Comment".
 #. English (2+ items): "Comments".
