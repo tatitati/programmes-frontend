@@ -3,6 +3,17 @@ declare(strict_types = 1);
 
 namespace App\Metrics\ProgrammesMetrics;
 
+/*
+    AWS metrics in namespace: api_count
+    +-----------+----------------+--------------------------+
+    |     #     | dimension: api | dimension: response_type |
+    +-----------+----------------+--------------------------+
+    | #metric 1 | ORB            |                      200 |
+    | #metric 2 | ORB            |                      301 |
+    | #metric 3 | Branding       |                      404 |
+    | #...      | ...            |                      ... |
+    +-----------+----------------+--------------------------+
+ */
 class ApiResponseMetric implements ProgrammesMetricInterface
 {
     /** @var string */
@@ -43,14 +54,13 @@ class ApiResponseMetric implements ProgrammesMetricInterface
 
     public function getMetricData(): array
     {
-        $dimensions = [
-            [ 'Name' => 'api', 'Value' => $this->apiName ],
-            [ 'Name' => 'response_type', 'Value' => $this->responseType],
-        ];
         return [
             [
                 'MetricName' => 'api_count',
-                'Dimensions' => $dimensions,
+                'Dimensions' => [
+                    [ 'Name' => 'api', 'Value' => $this->apiName ],
+                    [ 'Name' => 'response_type', 'Value' => $this->responseType],
+                ],
                 'Value' => $this->count,
                 'Unit' => 'Count',
             ],

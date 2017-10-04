@@ -3,6 +3,15 @@ declare(strict_types = 1);
 
 namespace App\Metrics\ProgrammesMetrics;
 
+/*
+    AWS metrics in namespaces: api_time and api_count
+    +-----------+----------------+--------------------------+
+    |     #     | dimension: api | dimension: response_type |
+    +-----------+----------------+--------------------------+
+    | #metric 1 | ORB            | ALL                      |
+    | #metric 2 | Branding       | ALL                      |
+    +-----------+----------------+--------------------------+
+ */
 class ApiTimeMetric implements ProgrammesMetricInterface
 {
     /** @var string */

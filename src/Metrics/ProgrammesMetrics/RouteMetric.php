@@ -3,6 +3,17 @@ declare(strict_types = 1);
 
 namespace App\Metrics\ProgrammesMetrics;
 
+/*
+    AWS metrics in namespaces: route_count and route_time
+    +-----------+-----------------------+
+    |     #     | dimension: controller |
+    +-----------+-----------------------+
+    | #metric 1 | findByPid             |
+    | #metric 2 | collapsedBroadcast    |
+    | #...      | ....                  |
+    +-----------+-----------------------+
+
+ */
 class RouteMetric implements ProgrammesMetricInterface
 {
     /** @var string */
