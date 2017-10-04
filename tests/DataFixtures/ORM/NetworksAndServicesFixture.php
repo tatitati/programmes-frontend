@@ -25,7 +25,7 @@ class NetworksAndServicesFixture extends AbstractFixture
     public function createNetworks()
     {
         // TV
-        $this->buildNetwork('bbc_one', 'BBC One', 'TV', NetworkMediumEnum::TV);
+        $this->buildNetwork('bbc_one', 'BBC One', 'TV', NetworkMediumEnum::TV, null, null, 'bbcone');
 
         // National Radio
         $this->buildNetwork('bbc_radio_two', 'BBC Radio 2', 'National Radio', NetworkMediumEnum::RADIO);
@@ -38,6 +38,8 @@ class NetworksAndServicesFixture extends AbstractFixture
 
         // Network with start and end
         $this->buildNetwork('bbc_radio_five_live_olympics_extra', '5 live Olympics Extra', 'National Radio', NetworkMediumEnum::RADIO, new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'));
+
+        $this->buildNetwork('bbc_radio_six', 'BBC radio six', 'National Radio', NetworkMediumEnum::RADIO, new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'), 'bbcsix');
 
         $this->manager->flush();
     }
@@ -117,16 +119,20 @@ class NetworksAndServicesFixture extends AbstractFixture
         string $type,
         string $medium,
         DateTime $startDate = null,
-        DateTime $endDate = null
+        DateTime $endDate = null,
+        string $urlKey = null
     ): Network {
-        $entity = new Network($nid, $title);
-        $entity->setPosition(1);
-        $entity->setType($type);
-        $entity->setMedium($medium);
-        $entity->setStartDate($startDate);
-        $entity->setEndDate($endDate);
-        $this->manager->persist($entity);
-        $this->addReference('network_' . $nid, $entity);
-        return $entity;
+        $networkEntity = new Network($nid, $title);
+        $networkEntity->setPosition(1);
+        $networkEntity->setType($type);
+        $networkEntity->setMedium($medium);
+        $networkEntity->setStartDate($startDate);
+        $networkEntity->setEndDate($endDate);
+        $networkEntity->setUrlKey($urlKey);
+
+        $this->manager->persist($networkEntity);
+        $this->addReference('network_' . $nid, $networkEntity);
+
+        return $networkEntity;
     }
 }
