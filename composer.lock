@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c25d28246a3c4e2c8302286fd5315f0",
+    "content-hash": "ef23b46b3ac9c6c4f5c662d907ccbce4",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -385,12 +385,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "0e99754ab7ae8216def09d10e1e738d26cf0d728"
+                "reference": "08564d670489154d9fa268588b839814fd2d4996"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/0e99754ab7ae8216def09d10e1e738d26cf0d728",
-                "reference": "0e99754ab7ae8216def09d10e1e738d26cf0d728",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/08564d670489154d9fa268588b839814fd2d4996",
+                "reference": "08564d670489154d9fa268588b839814fd2d4996",
                 "shasum": ""
             },
             "require": {
@@ -432,7 +432,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/v2.7.4",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-09-19T16:45:33+00:00"
+            "time": "2017-09-27T16:45:30+00:00"
         },
         {
             "name": "behat/transliterator",

@@ -36,7 +36,7 @@ class HelperFactory
         return $this->helpers[BroadcastNetworksHelper::class];
     }
 
-    public function getLiveBroadcastHelper()
+    public function getLiveBroadcastHelper(): LiveBroadcastHelper
     {
         if (!isset($this->helpers[LiveBroadcastHelper::class])) {
             $this->helpers[LiveBroadcastHelper::class] = new LiveBroadcastHelper($this->router);
@@ -52,7 +52,7 @@ class HelperFactory
         return $this->helpers[LocalisedDaysAndMonthsHelper::class];
     }
 
-    public function getPlayTranslationsHelper()
+    public function getPlayTranslationsHelper(): PlayTranslationsHelper
     {
         if (!isset($this->helpers[PlayTranslationsHelper::class])) {
             $this->helpers[PlayTranslationsHelper::class] = new PlayTranslationsHelper($this->translateProvider);
@@ -60,7 +60,7 @@ class HelperFactory
         return $this->helpers[PlayTranslationsHelper::class];
     }
 
-    public function getTitleLogicHelper()
+    public function getTitleLogicHelper(): TitleLogicHelper
     {
         if (!isset($this->helpers[TitleLogicHelper::class])) {
             $this->helpers[TitleLogicHelper::class] = new TitleLogicHelper();

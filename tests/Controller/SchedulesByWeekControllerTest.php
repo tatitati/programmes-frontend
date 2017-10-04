@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Controller;
 
 use Tests\App\BaseWebTestCase;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 
 /**
  * @covers App\Controller\SchedulesByWeekController
@@ -84,5 +85,10 @@ class SchedulesByWeekControllerTest extends BaseWebTestCase
             'CASE 6: by_week utcoffset minutes are required' => [urlencode('+10')],
             'CASE 3: by_week utcoffset cannot use hours digits with one number ' => [urlencode('-9:00')],
         ];
+    }
+
+    protected function tearDown()
+    {
+        ApplicationTime::blank();
     }
 }

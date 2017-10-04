@@ -17,79 +17,35 @@ class NetworksAndServicesFixture extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $this->manager = $manager;
-        $this->createNetworks();
-        $this->createServices();
-        $this->setNetworkDefaultServices();
-    }
-
-    public function createNetworks()
-    {
         // TV
-        $this->buildNetwork('bbc_one', 'BBC One', 'TV', NetworkMediumEnum::TV, null, null, 'bbcone');
+        $n1 = $this->buildNetwork('bbc_one', 'BBC One', 'TV', NetworkMediumEnum::TV, null, null, 'bbcone');
+        $s1 = $this->buildService('bbc_one_london', 'p00fzl6p', 'BBC One London', 'National TV', 'audio_video', $n1);
+        $n1->setDefaultService($s1);
+        $this->manager->persist($n1);
 
         // National Radio
-        $this->buildNetwork('bbc_radio_two', 'BBC Radio 2', 'National Radio', NetworkMediumEnum::RADIO);
+        $n2 = $this->buildNetwork('bbc_radio_two', 'BBC Radio 2', 'National Radio', NetworkMediumEnum::RADIO, null, null, 'radio2');
+        $s2 = $this->buildService('bbc_radio_two', 'p00fzl8v', 'BBC Radio 2', 'National Radio', 'audio', $n2);
+        $n2->setDefaultService($s2);
+        $this->manager->persist($n2);
 
         // Regional Radio
-        $this->buildNetwork('bbc_radio_cymru', 'BBC Radio Cymru', 'Regional Radio', NetworkMediumEnum::RADIO);
+        $n3 = $this->buildNetwork('bbc_radio_cymru', 'BBC Radio Cymru', 'Regional Radio', NetworkMediumEnum::RADIO, null, null, 'radiocymru');
+        $s3 = $this->buildService('bbc_radio_cymru', 'p00fzl7b', 'BBC Radio Cymru', 'Regional Radio', 'audio', $n3);
+        $n3->setDefaultService($s3);
+        $this->manager->persist($n3);
 
         // Local Radio
-        $this->buildNetwork('bbc_radio_berkshire', 'BBC Radio Berkshire', 'Local Radio', NetworkMediumEnum::RADIO);
+        $n4 = $this->buildNetwork('bbc_radio_berkshire', 'BBC Radio Berkshire', 'Local Radio', NetworkMediumEnum::RADIO, null, null, 'radioberkshire');
+        $s4 = $this->buildService('bbc_radio_berkshire', 'p00fzl74', 'BBC Radio Berkshire', 'Local Radio', 'audio', $n4);
+        $n4->setDefaultService($s4);
+        $this->manager->persist($n4);
 
         // Network with start and end
-        $this->buildNetwork('bbc_radio_five_live_olympics_extra', '5 live Olympics Extra', 'National Radio', NetworkMediumEnum::RADIO, new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'));
-
-        $this->buildNetwork('bbc_radio_six', 'BBC radio six', 'National Radio', NetworkMediumEnum::RADIO, new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'), 'bbcsix');
-
-        $this->manager->flush();
-    }
-
-    public function setNetworkDefaultServices()
-    {
-        $bbcOneService = $this->getReference('p00fzl6p');
-        $bbcOne = $this->getReference('network_bbc_one');
-        $bbcOne->setDefaultService($bbcOneService);
-        $this->manager->persist($bbcOne);
-
-        $radioTwoService = $this->getReference('p00fzl8v');
-        $radioTwo = $this->getReference('network_bbc_radio_two');
-        $radioTwo->setDefaultService($radioTwoService);
-        $this->manager->persist($radioTwo);
-
-        $cymruService = $this->getReference('p00fzl7b');
-        $cymru = $this->getReference('network_bbc_radio_cymru');
-        $cymru->setDefaultService($cymruService);
-        $this->manager->persist($cymru);
-
-        $localService = $this->getReference('p00fzl74');
-        $localNetwork = $this->getReference('network_bbc_radio_berkshire');
-        $localNetwork->setDefaultService($localService);
-        $this->manager->persist($localNetwork);
-
-        $olympicService = $this->getReference('p00rfdrb');
-        $olympicNetwork = $this->getReference('network_bbc_radio_five_live_olympics_extra');
-        $olympicNetwork->setDefaultService($olympicService);
-        $this->manager->persist($olympicNetwork);
-
-        $this->manager->flush();
-    }
-
-    public function createServices()
-    {
-        // TV
-        $this->buildService('bbc_one_london', 'p00fzl6p', 'BBC One London', 'National TV', 'audio_video', $this->getReference('network_bbc_one'));
-
-        // National Radio
-        $this->buildService('bbc_radio_two', 'p00fzl8v', 'BBC Radio 2', 'National Radio', 'audio', $this->getReference('network_bbc_radio_two'));
-
-        // Regional Radio
-        $this->buildService('bbc_radio_cymru', 'p00fzl7b', 'BBC Radio Cymru', 'Regional Radio', 'audio', $this->getReference('network_bbc_radio_cymru'));
-
-        // Local Radio
-        $this->buildService('bbc_radio_berkshire', 'p00fzl74', 'BBC Radio Berkshire', 'Local Radio', 'audio', $this->getReference('network_bbc_radio_berkshire'));
-
-        // Network with start and end
-        $this->buildService('bbc_radio_five_live_olympics_extra', 'p00rfdrb', '5 live Olympics Extra', 'National Radio', 'audio', $this->getReference('network_bbc_radio_five_live_olympics_extra'), new DateTime('2012-07-25 21:00:00'), new DateTime('2012-08-13 23:00:00'));
+        $n5 = $this->buildNetwork('bbc_radio_five_live_olympics_extra', '5 live Olympics Extra', 'National Radio', NetworkMediumEnum::RADIO, null, null, '5liveolympicsextra', new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'));
+        $s5 = $this->buildService('bbc_radio_five_live_olympics_extra', 'p00rfdrb', '5 live Olympics Extra', 'National Radio', 'audio', $n5, new DateTime('2012-07-25 21:00:00'), new DateTime('2012-08-13 23:00:00'));
+        $n5->setDefaultService($s5);
+        $this->manager->persist($n5);
 
         $this->manager->flush();
     }

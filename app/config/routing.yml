@@ -57,6 +57,10 @@ schedules_by_network_url_key:
     defaults: { _controller: App\Controller\SchedulesByNetworkUrlKeyController }
     requirements: { networkUrlKey: '[a-zA-Z]{2,35}' }
 
+schedules_on_now:
+    path: /schedules/network/{networkKey}/on-now
+    defaults: { _controller: App\Controller\SchedulesOnNowController }
+
 # Labs routes, for testing things
 
 cloud_labs_root:

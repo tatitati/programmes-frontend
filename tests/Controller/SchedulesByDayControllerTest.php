@@ -300,6 +300,6 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
     protected function tearDown()
     {
-        ApplicationTime::setLocalTimeZone();
+        ApplicationTime::blank();
     }
 }
