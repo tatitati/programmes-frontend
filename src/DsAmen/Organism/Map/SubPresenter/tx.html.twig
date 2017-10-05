@@ -1,5 +1,54 @@
 <div class="grid__item map__item 1/2@gel1b">
     <div class="map-card-wrap br-box-secondary" data-map-column="tx2016">
-        <h1>I Я TX for {{ tx.programme.title }}</h1>
+        {%- if tx.getCollapsedBroadcast() -%}
+            <div class="island">
+                <h2 class="map__heading gel-double-pica-bold">{{ tr(tx.getTitleTranslationString()) }}</h2>
+            </div>
+
+            {{- ds_amen('collapsedBroadcast', tx.getCollapsedBroadcast(), {
+                'context_programme': tx.getContextProgramme(),
+                'media_variant': 'media media--column media--card map-card',
+                'branding_name': 'secondary',
+                'show_image': tx.showImage(),
+                'title_options': {
+                    'title_size_large': 'gel-great-primer-bold',
+                    'title_size_small': 'gel-pica',
+                    'text_colour_on_title_link': false
+                },
+                'body_options': {
+                    'show_synopsis': false,
+                    'show_release_date': false,
+                },
+                'cta_options': {
+                    'link_location_prefix': 'map_tx_'
+                },
+                'image_options': {
+                    'badge_text': tr(tx.getBadgeTranslationString())
+                }
+            }) -}}
+        {%- else -%}
+            <div class="map__prose island">
+                <h2 class="map__heading gel-double-pica-bold">{{ tr(tx.getTitleTranslationString()) }}</h2>
+                <p>{{ tr('broadcasts_none_upcoming_short') }}</p>
+            </div>
+        {%- endif -%}
+
+        {# Trailing link #}
+        {%- if not tx.getOption('show_mini_map') -%}
+            <div class="map__additional-info gel-pica br-keyline media__meta-row--separator">
+                <p>
+                    <a data-linktrack="map_tx_all"
+                       title="{{ tr(tx.getLinkTitleTranslationString(), {'%1': tx.getProgrammeTitle()}) }}"
+                       href="{{ tx.getTrailingLinkHref() }}"
+                       class="gel-pica-bold">
+                        {{ tr(tx.getLinkTextTranslationString()) }}
+                    </a>
+
+                    {%- if tx.getCollapsedBroadcast() -%}
+                        <span class="gel-long-primer">({{ tx.getUpcomingBroadcastCount() }})</span>
+                    {%- endif -%}
+                </p>
+            </div>
+        {%- endif -%}
     </div>
 </div>

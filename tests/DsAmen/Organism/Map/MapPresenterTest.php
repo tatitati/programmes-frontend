@@ -9,19 +9,32 @@ use App\DsAmen\Organism\Map\SubPresenter\LastOnPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\OnDemandPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
+use App\DsShared\Helpers\HelperFactory;
+use App\Translate\TranslateProvider;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MapPresenterTest extends TestCase
 {
     public function testMapShouldBeShown()
     {
         $programmeContainer = $this->createProgrammeWithEpisodes();
-        $presenter = new MapPresenter(new Request(), $programmeContainer, 0, null, null);
+        $presenter = new MapPresenter(
+            new Request(),
+            $this->createMock(HelperFactory::class),
+            $this->createMock(TranslateProvider::class),
+            $this->createMock(UrlGeneratorInterface::class),
+            $programmeContainer,
+            [],
+            null,
+            null
+        );
         $this->assertTrue($presenter->showMap());
 
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
@@ -59,8 +72,9 @@ class MapPresenterTest extends TestCase
 
     public function testTxColumns()
     {
+        $cb = $this->createMock(CollapsedBroadcast::class);
         $programmeContainer = $this->createProgrammeWithEpisodes();
-        $presenter = $this->createMapPresenter($programmeContainer, 1);
+        $presenter = $this->createMapPresenter($programmeContainer, [$cb]);
         $this->assertColumns($presenter, [OnDemandPresenter::class, TxPresenter::class]);
     }
 
@@ -87,9 +101,18 @@ class MapPresenterTest extends TestCase
         }
     }
 
-    private function createMapPresenter($programmeContainer, int $upcomingEpisodeCount = 0): MapPresenter
+    private function createMapPresenter($programmeContainer, array $upcomingBroadcasts = []): MapPresenter
     {
-        return new MapPresenter(new Request(), $programmeContainer, $upcomingEpisodeCount, null, null);
+        return new MapPresenter(
+            new Request(),
+            $this->createMock(HelperFactory::class),
+            $this->createMock(TranslateProvider::class),
+            $this->createMock(UrlGeneratorInterface::class),
+            $programmeContainer,
+            $upcomingBroadcasts,
+            null,
+            null
+        );
     }
 
     /**

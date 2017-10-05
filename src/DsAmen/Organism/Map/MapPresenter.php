@@ -11,11 +11,15 @@ use App\DsAmen\Organism\Map\SubPresenter\PromoPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\SocialPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
+use App\DsShared\Helpers\HelperFactory;
+use App\Translate\TranslateProvider;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Media Availability Panel Presenter
@@ -29,6 +33,9 @@ class MapPresenter extends Presenter
 
     /** @var Programme */
     private $programme;
+
+    /** @var HelperFactory */
+    private $helperFactory;
 
     /** @var Request */
     private $request;
@@ -45,26 +52,47 @@ class MapPresenter extends Presenter
     /** @var bool */
     private $showMiniMap = false;
 
+    /** @var TranslateProvider */
+    private $translateProvider;
+
+    /** @var CollapsedBroadcast[] */
+    private $upcomingBroadcasts;
+
+    /** @var CollapsedBroadcast|null */
+    private $lastOn;
+
+    /** @var UrlGeneratorInterface */
+    private $router;
+
     public function __construct(
         Request $request,
+        HelperFactory $helperFactory,
+        TranslateProvider $translateProvider,
+        UrlGeneratorInterface $router,
         ProgrammeContainer $programme,
-        int $upcomingEpisodesCount,
-        ?CollapsedBroadcast $mostRecentBroadcast,
+        array $upcomingBroadcasts,
+        ?CollapsedBroadcast $lastOn,
         ?Promotion $promotion,
         array $options = []
     ) {
         parent::__construct($options);
-        $this->programme = $programme;
         $this->request = $request;
+        $this->helperFactory = $helperFactory;
+        $this->translateProvider = $translateProvider;
+        $this->router = $router;
+
+        $this->programme = $programme;
+        $this->upcomingBroadcasts = $upcomingBroadcasts;
+        $this->lastOn = $lastOn;
+
         $hasComingSoon = $promotion || $this->programme->getOption('comingsoon_textonly');
-        $programmeHasEpisodes = $programme->getAggregatedEpisodesCount() > 0;
-        $this->showMap = $programmeHasEpisodes || $hasComingSoon;
+        $this->showMap = $programme->getAggregatedEpisodesCount() || $hasComingSoon;
         if (!$this->showMap) {
             return;
         }
 
-        if ($this->showThirdColumn($hasComingSoon, $upcomingEpisodesCount, $mostRecentBroadcast)) {
-            $this->constructThreeColumnMap($promotion, $hasComingSoon, $programmeHasEpisodes);
+        if ($this->showThirdColumn($hasComingSoon)) {
+            $this->constructThreeColumnMap($promotion, $hasComingSoon);
         } else {
             $this->constructTwoColumnMap();
         }
@@ -124,7 +152,7 @@ class MapPresenter extends Presenter
         return $this->showMap;
     }
 
-    private function constructThreeColumnMap(?Promotion $promotion, bool $hasComingSoon, bool $programmeHasEpisodes)
+    private function constructThreeColumnMap(?Promotion $promotion, bool $hasComingSoon)
     {
         if ($this->shouldShowMiniMap()) {
             $this->showMiniMap = true;
@@ -139,10 +167,24 @@ class MapPresenter extends Presenter
             $this->rightColumns[] = new OnDemandPresenter($this->programme, ['full_width' => false]);
         }
 
-        if ($hasComingSoon && !$programmeHasEpisodes) {
-            $this->rightColumns[] = new ComingSoonPresenter($this->programme, $promotion, ['show_mini_map' => $this->showMiniMap, 'show_synopsis' => $this->programme->isTleo()]);
+        if ($hasComingSoon && !$this->upcomingBroadcasts) {
+            $this->rightColumns[] = new ComingSoonPresenter(
+                $this->programme,
+                $promotion,
+                [
+                    'show_synopsis' => $this->programme->isTleo(),
+                    'show_mini_map' => $this->showMiniMap,
+                ]
+            );
         } else {
-            $this->rightColumns[] = new TxPresenter($this->programme);
+            $this->rightColumns[] = new TxPresenter(
+                $this->helperFactory->getLiveBroadcastHelper(),
+                $this->translateProvider,
+                $this->router,
+                $this->programme,
+                $this->upcomingBroadcasts,
+                ['show_mini_map' => $this->showMiniMap]
+            );
         }
     }
 
@@ -174,13 +216,11 @@ class MapPresenter extends Presenter
         return ((string) $network->getNid()) === 'bbc_world_news';
     }
 
-    private function showThirdColumn(bool $hasComingSoon, int $upcomingEpisodesCount, ?CollapsedBroadcast $mostRecentBroadcast)
+    private function showThirdColumn(bool $hasComingSoon)
     {
-        $existUpcomingBroadcasts = $upcomingEpisodesCount > 0;
+        $hasBroadcastInLast18Months = $this->lastOn ? $this->lastOn->getStartAt()->wasWithinLast('18 months') : false;
 
-        $hasBroadcastInLast18Months = $mostRecentBroadcast ? $mostRecentBroadcast->getStartAt()->wasWithinLast('18 months') : false;
-
-        return $existUpcomingBroadcasts || $hasBroadcastInLast18Months || $hasComingSoon || $this->isWorldNews();
+        return $this->upcomingBroadcasts || $hasBroadcastInLast18Months || $hasComingSoon || $this->isWorldNews();
     }
 
     private function shouldShowMiniMap(): bool

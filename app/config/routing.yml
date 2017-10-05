@@ -22,6 +22,17 @@ programme_clips:
     defaults: { _controller: App\Controller\ProgrammeClips }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+#TODO implement slice and filter properly
+programme_broadcasts:
+    path: /programmes/{pid}/broadcasts
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+programme_episodes:
+    path: /programmes/{pid}/episodes
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 schedules_home:
     path: /schedules
     defaults: { _controller: App\Controller\SchedulesHomeController }

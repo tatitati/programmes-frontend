@@ -19,7 +19,7 @@ If the Social Bar exists, it will sit below the On-Demand column.
 ### "Three" column layout
 The MAP will display the Programme Info in the left hand column taking up 1/2 of the MAP. The other 1/2 of the MAP will display 2 other Columns.  
 If the page is a World News page, the middle column will be the Last On column, otherwise it will be the On Demand column.  
-If the page has a coming soon promo (and no episodes), the right hand column will be the Coming Soon column, otherwise it will be the Transmission (Tx) column.  
+If the page has a coming soon promo (and no upcoming broadcasts), the right hand column will be the Coming Soon column, otherwise it will be the Transmission (Tx) column.  
 If the Social Bar exists, it will sit below the two right hand columns.
 
 ### Mini Map

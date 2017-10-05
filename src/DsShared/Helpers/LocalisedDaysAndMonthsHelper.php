@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\DsShared\Helpers;
 
+use App\Translate\TranslatableTrait;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Cake\Chronos\Chronos;
@@ -21,6 +22,8 @@ use RMP\Translate\DateCorrection;
  */
 class LocalisedDaysAndMonthsHelper
 {
+    use TranslatableTrait;
+
     /** @var TranslateProvider */
     protected $translateProvider;
 
@@ -101,16 +104,16 @@ class LocalisedDaysAndMonthsHelper
             return $translate->translate('schedules_new_years_day');
         }
 
-        if ($date->isWithinNext('5 days')) {
-            return $translate->translate('schedules_next_weekday', ['%1' => $date->format('l')]);
+        if ($date->isWithinNext('5 days') || $date->wasWithinLast('5 days')) {
+            return $this->localDateIntl($date, 'EEEE'); // Monday|Tuesday|etc
         }
 
-        if ($date->wasWithinLast('5 days')) {
-            return $translate->translate('schedules_last_weekday', ['%1' => $date->format('l')]);
+        if ($date->isWithinNext('8 days')) {
+            return $translate->translate('schedules_next_weekday', ['%1' => $this->localDateIntl($date, 'EEEE')]);
         }
 
-        if ($date->isWithinNext('8 days') || $date->wasWithinLast('8 days')) {
-            return $date->format('l'); // Monday|Tuesday|etc
+        if ($date->wasWithinLast('8 days')) {
+            return $translate->translate('schedules_last_weekday', ['%1' => $this->localDateIntl($date, 'EEEE')]);
         }
 
         return $date->format('D M d Y'); // Tue Mar 23 2017

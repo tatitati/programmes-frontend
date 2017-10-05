@@ -12,15 +12,12 @@ use RMP\Translate\TranslateFactory;
 
 class LocalisedDaysAndMonthsHelperTest extends TestCase
 {
-    /** @var string */
-    private $now = '2017-7-21 12:00:00';
-
     /** @var LocalisedDaysAndMonthsHelper */
     private $helper;
 
     public function setup()
     {
-        ApplicationTime::setTime((new Chronos($this->now))->timestamp);
+        ApplicationTime::setTime((new Chronos('2017-7-21 12:00:00'))->timestamp);
         $this->helper = new LocalisedDaysAndMonthsHelper(new TranslateProvider(new TranslateFactory()));
     }
 
@@ -45,9 +42,9 @@ class LocalisedDaysAndMonthsHelperTest extends TestCase
             'Christmas Day' => [new Chronos('2017-12-25 12:00:00'), 'Christmas Day'],
             'Boxing Day' => [new Chronos('2017-12-26 12:00:00'), 'Boxing Day'],
             'New Years Day' => [new Chronos('2017-01-01 12:00:00'), 'New Year\'s Day'],
-            'Next weekday' => [new Chronos('2017-7-25 12:00:00'), 'Next Tuesday'],
-            'Last weekday' => [new Chronos('2017-7-17 12:00:00'), 'Last Monday'],
-            'Weekday' => [new Chronos('2017-7-28 12:00:00'), 'Friday'],
+            'Next weekday' => [new Chronos('2017-7-28 12:00:00'), 'Next Friday'],
+            'Last weekday' => [new Chronos('2017-7-14 12:00:00'), 'Last Friday'],
+            'Weekday' => [new Chronos('2017-7-24 12:00:00'), 'Monday'],
             'Date' => [new Chronos('2017-6-14 12:00:00'), 'Wed Jun 14 2017'],
         ];
     }

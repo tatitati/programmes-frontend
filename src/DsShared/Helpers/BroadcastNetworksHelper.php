@@ -70,12 +70,12 @@ class BroadcastNetworksHelper
             $broadcastOnServices = $networkBreakdown['on_services'];
             $notBroadcastOnServices = $networkBreakdown['not_on_services'];
 
-            if (count($broadcastOnServices) === 1 && $notBroadcastOnServices) {
-                // If the broadcast happens only in one service just use the name without the 'only' qualifier
-                $serviceNames[] = $broadcastOnServices[0]->getShortName();
-            } elseif (!$notBroadcastOnServices) {
+            if (empty($notBroadcastOnServices)) {
                 // If the broadcast is present in all services, we don't need to qualify it
                 $serviceNames[] = '';
+            } elseif (count($broadcastOnServices) === 1) {
+                // If the broadcast happens only in one service just use the name without the 'only' qualifier
+                $serviceNames[] = $broadcastOnServices[0]->getShortName();
             } else {
                 // Always use the smallest number of services possible
                 if (count($notBroadcastOnServices) < count($broadcastOnServices)) {
@@ -151,7 +151,7 @@ class BroadcastNetworksHelper
         // If there are more than 5 names, use only the first five names and attach an 'and X more' qualifier at the end
         if ($namesCount > 5) {
             $names = array_slice($names, 0, 5);
-            $names[] = $this->translateProvider->getTranslate()->translate('x_more', [], $namesCount - 5);
+            $names[] = $this->translateProvider->getTranslate()->translate('x_more', ['%count%' => $namesCount - 5], $namesCount - 5);
             $namesCount = 6;
         }
 

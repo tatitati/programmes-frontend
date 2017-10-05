@@ -5,6 +5,7 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -57,18 +58,17 @@ class TlecController extends BaseController
             $galleries = $aggregationService->findDescendantGalleries($programme, 4);
         }
 
-        $upcomingEpisodesCount = $collapsedBroadcastsService->countUpcomingByProgramme($programme);
-        $mostRecentBroadcast = null;
-        if ($upcomingEpisodesCount === 0) {
-            $pastBroadcasts = $collapsedBroadcastsService->findPastByProgramme($programme, 1);
-            if (!empty($pastBroadcasts)) {
-                $mostRecentBroadcast = $pastBroadcasts[0];
-            }
+        $upcomingBroadcasts = [];
+        if ($programme->getAggregatedEpisodesCount()) {
+            $upcomingBroadcasts = $collapsedBroadcastsService->findUpcomingByProgrammeWithFullServicesOfNetworksList($programme);
         }
+
+        $lastOn = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($programme, 1);
+        $lastOn = $lastOn[0] ?? null;
 
         $promotion = $this->getComingSoonPromotion($imagesService, $programme);
 
-        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingEpisodesCount, $mostRecentBroadcast, $promotion);
+        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingBroadcasts, $lastOn, $promotion);
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
