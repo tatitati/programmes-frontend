@@ -29,7 +29,18 @@ class BroadcastNetworksHelper
     public function getNetworksAndServicesDetails(CollapsedBroadcast $collapsedBroadcast): array
     {
         $networkBreakdowns = $this->getCollapsedBroadcastNetworkBreakdown($collapsedBroadcast);
-        return array_combine($this->buildNetworkNames($networkBreakdowns), $this->buildServicesNames($networkBreakdowns));
+
+        $networkNames = $this->buildNetworkNames($networkBreakdowns);
+        $servicesNames = $this->buildServicesNames($networkBreakdowns);
+
+        // If there are 6 elements in networkNames, we're showing the 'and X more...' message for the networks. So,
+        // we only use the first 5 services names and append an empty string at the end of the services names array
+        if (count($networkNames) === 6) {
+            $servicesNames = array_slice($servicesNames, 0, 5);
+            $servicesNames[] = '';
+        }
+
+        return array_combine($networkNames, $servicesNames);
     }
 
     /**
@@ -59,7 +70,7 @@ class BroadcastNetworksHelper
             $broadcastOnServices = $networkBreakdown['on_services'];
             $notBroadcastOnServices = $networkBreakdown['not_on_services'];
 
-            if (count($broadcastOnServices) === 1) {
+            if (count($broadcastOnServices) === 1 && $notBroadcastOnServices) {
                 // If the broadcast happens only in one service just use the name without the 'only' qualifier
                 $serviceNames[] = $broadcastOnServices[0]->getShortName();
             } elseif (!$notBroadcastOnServices) {
@@ -140,7 +151,7 @@ class BroadcastNetworksHelper
         // If there are more than 5 names, use only the first five names and attach an 'and X more' qualifier at the end
         if ($namesCount > 5) {
             $names = array_slice($names, 0, 5);
-            $names[] = $this->translateProvider->getTranslate()->translate('x_more', ['%1' => $namesCount - 5]) . '...';
+            $names[] = $this->translateProvider->getTranslate()->translate('x_more', [], $namesCount - 5);
             $namesCount = 6;
         }
 

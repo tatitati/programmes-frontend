@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\DsAmen\Organism\Programme\SubPresenter;
+namespace Tests\App\DsAmen\Organism\Programme;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -23,6 +23,7 @@ abstract class BaseProgrammeSubPresenterTest extends TestCase
         $mockClip->method('getTitle')->willReturn('Clip 1');
         $mockClip->method('getPid')->willReturn(new Pid('p0000001'));
         $mockClip->method('getDuration')->willReturn(10);
+        $mockClip->method('isAudio')->willReturn(false);
 
         return $mockClip;
     }
@@ -36,7 +37,6 @@ abstract class BaseProgrammeSubPresenterTest extends TestCase
         $mockTvEpisode->method('getDuration')->willReturn(20);
         $mockTvEpisode->method('getPid')->willReturn(new Pid('p0000002'));
         $mockTvEpisode->method('isAudio')->willReturn($isAudio);
-        $mockTvEpisode->method('getMediaType')->willReturn(MediaTypeEnum::VIDEO);
 
         return $mockTvEpisode;
     }
@@ -49,7 +49,7 @@ abstract class BaseProgrammeSubPresenterTest extends TestCase
         $mockRadioEpisode->method('isRadio')->willReturn(true);
         $mockRadioEpisode->method('getDuration')->willReturn(30);
         $mockRadioEpisode->method('getPid')->willReturn(new Pid('p0000003'));
-        $mockRadioEpisode->method('getMediaType')->willReturn(MediaTypeEnum::AUDIO);
+        $mockRadioEpisode->method('isAudio')->willReturn(true);
 
         return $mockRadioEpisode;
     }

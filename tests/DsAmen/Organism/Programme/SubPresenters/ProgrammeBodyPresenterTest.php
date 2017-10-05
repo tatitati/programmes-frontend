@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\DsAmen\Organism\Programme\SubPresenter;
+namespace Tests\App\DsAmen\Organism\Programme\SubPresenters;
 
 use App\DsAmen\Organism\Programme\SubPresenters\ProgrammeBodyPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
+use Tests\App\DsAmen\Organism\Programme\BaseProgrammeSubPresenterTest;
 
 class ProgrammeBodyPresenterTest extends BaseProgrammeSubPresenterTest
 {

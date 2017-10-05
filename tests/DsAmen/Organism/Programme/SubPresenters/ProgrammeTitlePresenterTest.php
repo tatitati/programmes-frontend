@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\DsAmen\Organism\Programme\SubPresenter;
+namespace Tests\App\DsAmen\Organism\Programme\SubPresenters;
 
 use App\DsAmen\Organism\Programme\SubPresenters\ProgrammeTitlePresenter;
 use App\DsShared\Helpers\TitleLogicHelper;
@@ -12,6 +12,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Tests\App\DsAmen\Organism\Programme\BaseProgrammeSubPresenterTest;
 
 class ProgrammeTitlePresenterTest extends BaseProgrammeSubPresenterTest
 {

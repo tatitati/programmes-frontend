@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\DsAmen\Organism\Programme\SubPresenter;
+namespace Tests\App\DsAmen\Organism\Programme\SubPresenters;
 
 use App\DsAmen\Organism\Programme\SubPresenters\ProgrammeCtaPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Tests\App\DsAmen\Organism\Programme\BaseProgrammeSubPresenterTest;
 
 class ProgrammeCtaPresenterTest extends BaseProgrammeSubPresenterTest
 {

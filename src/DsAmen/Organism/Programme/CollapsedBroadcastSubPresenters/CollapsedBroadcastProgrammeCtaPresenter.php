@@ -41,15 +41,11 @@ class CollapsedBroadcastProgrammeCtaPresenter extends ProgrammeCtaPresenter
             return 'iplayer_watch_from_start';
         }
 
-        if ($this->programme instanceof Episode || $this->programme instanceof Clip) {
-            if ($this->programme->isAudio()) {
-                return 'iplayer_listen_live';
-            } elseif ($this->programme->isVideo()) {
-                return 'iplayer_watch_live';
-            }
+        if ($this->programme->isAudio()) {
+            return 'iplayer_listen_live';
         }
 
-        return 'iplayer_play_live';
+        return 'iplayer_watch_live';
     }
 
     public function getMediaIconName(): string
@@ -71,7 +67,7 @@ class CollapsedBroadcastProgrammeCtaPresenter extends ProgrammeCtaPresenter
         return $this->liveBroadcastHelper->isWatchableLive($this->collapsedBroadcast);
     }
 
-    public function backgroundClass(): string
+    public function getBackgroundClass(): string
     {
         // We only remove the background for the 'watch from start cta'
         if (!$this->getOption('show_image')) {

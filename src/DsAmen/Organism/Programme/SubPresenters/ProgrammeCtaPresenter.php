@@ -54,7 +54,7 @@ class ProgrammeCtaPresenter extends Presenter
     public function getMediaIconName(): string
     {
         if ($this->programme instanceof Episode) {
-            if ($this->programme->getMediaType() === MediaTypeEnum::AUDIO) {
+            if ($this->programme->isAudio()) {
                 return 'iplayer-radio';
             }
 
