@@ -32,7 +32,7 @@ class BrandsFixtures
             5, // aggregated episodes count
             0, //available clips count
             1, //available episodes count
-            0, //available galleries count
+            0, //aggregated galleries count
             false,
             OptionsFixture::eastEnders(),
             null, //parent
@@ -67,7 +67,7 @@ class BrandsFixtures
             500, // aggregated episodes count
             0, //available clips count
             30, //available episodes count
-            0, //available galleries count
+            0, //aggregate galleries count
             false,
             OptionsFixture::empty(),
             null, //parent

@@ -131,7 +131,7 @@ class BrandingPlaceholderResolver
 
         if ($tleo instanceof ProgrammeContainer || $tleo instanceof Episode) {
             $hasClips = $tleo->getAvailableClipsCount() > 0;
-            $hasGalleries = $tleo->getAvailableGalleriesCount() > 0;
+            $hasGalleries = $tleo->getAggregatedGalleriesCount() > 0;
         }
 
         // Episodes link

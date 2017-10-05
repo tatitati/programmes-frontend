@@ -155,8 +155,8 @@ class BrandingPlaceholderResolverTest extends TestCase
             $tleo->method('getAvailableClipsCount')->willReturn($clipsCount);
         }
 
-        if (method_exists($tleo, 'getAvailableGalleriesCount')) {
-            $tleo->method('getAvailableGalleriesCount')->willReturn($galleriesCount);
+        if (method_exists($tleo, 'getAggregatedGalleriesCount')) {
+            $tleo->method('getAggregatedGalleriesCount')->willReturn($galleriesCount);
         }
 
         $context = $this->createMock(Episode::class);
