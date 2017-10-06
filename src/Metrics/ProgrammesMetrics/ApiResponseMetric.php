@@ -8,10 +8,8 @@ namespace App\Metrics\ProgrammesMetrics;
     +-----------+----------------+--------------------------+
     |     #     | dimension: api | dimension: response_type |
     +-----------+----------------+--------------------------+
-    | #metric 1 | ORB            |                      200 |
-    | #metric 2 | ORB            |                      301 |
-    | #metric 3 | Branding       |                      404 |
-    | #...      | ...            |                      ... |
+    | #metric 1 | ORB            |                    ERROR |
+    | #metric 2 | Branding       |                    ERROR |
     +-----------+----------------+--------------------------+
  */
 class ApiResponseMetric implements ProgrammesMetricInterface
