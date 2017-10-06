@@ -66,7 +66,7 @@ schedules_by_year:
 schedules_by_network_url_key:
     path: /schedules/network/{networkUrlKey}
     defaults: { _controller: App\Controller\SchedulesByNetworkUrlKeyController }
-    requirements: { networkUrlKey: '[a-zA-Z]{2,35}' }
+    requirements: { networkUrlKey: '[a-zA-Z0-9]{2,35}' }
 
 schedules_on_now:
     path: /schedules/network/{networkKey}/on-now

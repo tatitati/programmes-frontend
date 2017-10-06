@@ -19,20 +19,32 @@ class SchedulesByNetworkUrlKeyControllerTest extends BaseWebTestCase
         $this->loadFixtures(["NetworksAndServicesFixture"]);
     }
 
-    public function testCanRedirectFromNetworkUrlKeyToDefaultPidService()
+    /**
+     * @dataProvider validNetworkUrlKeyProvider
+     */
+    public function testCanRedirectFromNetworkUrlKeyToDefaultPidService($expectedRedirectUrl, $userUrlInput)
     {
-        $this->userRequestUrlUsingNetworkUrlKey('/schedules/network/bbcone');
+        $this->userRequestUrlUsingNetworkUrlKey($userUrlInput);
 
         $this->assertResponseStatusCode($this->client, 301);
-        $this->assertEquals('/schedules/p00fzl6p', $this->client->getResponse()->headers->get('location'));
+        $this->assertEquals($expectedRedirectUrl, $this->client->getResponse()->headers->get('location'));
+    }
+
+    public function validNetworkUrlKeyProvider()
+    {
+        return [
+            // redirected url, user requests url
+            'CASE 1: url key with only letters' => ['/schedules/p00fzl6p', '/schedules/network/bbcone'],
+            'CASE 2: url key can contains digits' => ['/schedules/p00fzl8v', '/schedules/network/radio2'],
+        ];
     }
 
     /**
-     * @dataProvider networkUrlKeyProvider
+     * @dataProvider invalidNetworkUrlKeyProvider
      */
-    public function test404ResponseIsGivenForInvalidUrlKeyNetwork($providedUrlKey)
+    public function test404ResponseIsGivenForInvalidUrlKeyNetwork($userUrlInput)
     {
-        $this->userRequestUrlUsingNetworkUrlKey('/schedules/network/' . $providedUrlKey);
+        $this->userRequestUrlUsingNetworkUrlKey($userUrlInput);
 
         $this->assertResponseStatusCode($this->client, 404);
         $this->assertEquals('Network not found', $this->crawler->filter('.exception-message-wrapper h1')->text());
@@ -41,11 +53,12 @@ class SchedulesByNetworkUrlKeyControllerTest extends BaseWebTestCase
     /**
      * @return string[]
      */
-    public function networkUrlKeyProvider(): array
+    public function invalidNetworkUrlKeyProvider(): array
     {
         return [
-            'CASE 1: network with specified url_key doesnt exist' => ['wrongurlkey'],
-            'CASE 2: network with specified url_key has not default service' => ['bbcsix'],
+            // user input url
+            'CASE 1: network with specified url_key doesnt exist' => ['/schedules/network/wrongurlkey'],
+            'CASE 2: network with specified url_key has not default service' => ['/schedules/network/bbcsix'],
         ];
     }
 
