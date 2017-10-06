@@ -107,7 +107,8 @@ class TlecController extends BaseController
             $synopses,
             $comingSoon['url'],
             0,
-            filter_var($comingSoon['super_promo'], FILTER_VALIDATE_BOOLEAN)
+            filter_var($comingSoon['super_promo'], FILTER_VALIDATE_BOOLEAN),
+            []
         );
     }
 }
