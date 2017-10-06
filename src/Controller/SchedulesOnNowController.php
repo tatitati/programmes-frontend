@@ -19,12 +19,12 @@ class SchedulesOnNowController extends BaseController
         NetworksService $networksService,
         HelperFactory $helperFactory,
         Request $request,
-        string $networkKey
+        string $networkUrlKey
     ) {
-        $network = $networksService->findByUrlKeyWithDefaultService($networkKey);
+        $network = $networksService->findByUrlKeyWithDefaultService($networkUrlKey);
 
         if (!$network || !$network->getDefaultService()) {
-            throw $this->createNotFoundException('No network or service found from network key ' . $networkKey);
+            throw $this->createNotFoundException('No network or service found from network key ' . $networkUrlKey);
         }
 
         $this->setTimeZone($network);
