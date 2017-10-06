@@ -59,10 +59,10 @@
 
                 <div class="grid-wrapper">
                     <div class="grid 1/2@bpb2 1/2@bpw">
-                        <p><a href="/iplayer"><img src="{{ asset('images/logos/iplayer.png') }}" class="rsp-img" alt="iPlayer" /></a></p>
+                        <p><a href="/iplayer"><img src="{{ asset('images/logos/iplayer.png') }}" class="image" alt="iPlayer" /></a></p>
                     </div>
                     <div class="grid 1/2@bpb2 1/2@bpw">
-                        <p><a href="/radio"><img src="{{ asset('images/logos/iplayer_radio.png') }}" class="rsp-img" alt="iPlayer Radio" /></a></p>
+                        <p><a href="/radio"><img src="{{ asset('images/logos/iplayer_radio.png') }}" class="image" alt="iPlayer Radio" /></a></p>
                     </div>
                 </div>
 
@@ -101,7 +101,7 @@
             </div>
             <div class="grid">
                 <h3 class="gamma--keyline br-keyline">{{ tr('local_radio') }}</h3>
-                <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw bpw2-columns--4 bpe-columns--4" data-list="local-radio-networks">
+                <ul class="list-unindented columns columns--2@bpb2 columns--2@bpw columns--4@bpw2 columns--4@bpe" data-list="local-radio-networks">
                     {% for network in local_radio_networks %}
                         <li><a href="{{ path('schedules_by_day', {'pid': network.getDefaultService().getPid()}) }}">{{ network.getName()|replace({'BBC': ''})|trim }}</a></li>
                     {% endfor %}
