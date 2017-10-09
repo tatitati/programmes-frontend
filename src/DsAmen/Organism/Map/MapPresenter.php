@@ -213,7 +213,10 @@ class MapPresenter extends Presenter
             $this->streamableEpisode,
             $this->upcomingEpisode,
             null,
-            ['full_width' => true]
+            [
+                'full_width' => true,
+                'show_mini_map' => $this->showMiniMap,
+            ]
         );
     }
 
