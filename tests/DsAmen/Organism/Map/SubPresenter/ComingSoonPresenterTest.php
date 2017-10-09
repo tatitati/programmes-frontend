@@ -24,8 +24,7 @@ class ComingSoonPresenterTest extends TestCase
     public function invalidOptionProvider(): array
     {
         return [
-            'invalid-show_mini_map' => [['show_mini_map' => 'bar', 'show_synopsis' => false], 'show_mini_map option must be a boolean'],
-            'invalid-show_synopsis' => [['show_mini_map' => true, 'show_synopsis' => 'baz'], 'show_synopsis option must be a boolean'],
+            'invalid-show_mini_map' => [['show_mini_map' => 'bar'], 'show_mini_map option must be a boolean'],
         ];
     }
 }

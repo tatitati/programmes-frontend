@@ -188,7 +188,6 @@ class MapPresenter extends Presenter
                 $this->programme,
                 $promotion,
                 [
-                    'show_synopsis' => $this->programme->isTleo(),
                     'show_mini_map' => $this->showMiniMap,
                 ]
             );
