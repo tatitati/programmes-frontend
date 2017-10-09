@@ -96,4 +96,9 @@ class BroadcastTemplateTest extends BaseTemplateTestCase
             false
         );
     }
+
+    protected function tearDown()
+    {
+        ApplicationTime::blank();
+    }
 }

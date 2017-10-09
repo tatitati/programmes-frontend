@@ -54,6 +54,15 @@ class TlecController extends BaseController
             $clips = $aggregationService->findDescendantClips($programme, 4);
         }
 
+        $upcomingEpisodes = null;
+        $streamableEpisodes = null;
+        if ($programme->getAggregatedEpisodesCount() > 0) {
+            $streamableEpisodes = $aggregationService->findStreamableDescendantEpisodes($programme, 1);
+            if (empty($streamableEpisodes)) {
+                $upcomingEpisodes = $aggregationService->findUpcomingStreamableDescendantEpisodes($programme, 1);
+            }
+        }
+
         if ($programme->getOption('show_gallery_cards')) {
             $galleries = $aggregationService->findDescendantGalleries($programme, 4);
         }
@@ -68,7 +77,7 @@ class TlecController extends BaseController
 
         $promotion = $this->getComingSoonPromotion($imagesService, $programme);
 
-        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingBroadcasts, $lastOn, $promotion);
+        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingBroadcasts, $lastOn, $promotion, $streamableEpisodes[0] ?? null, $upcomingEpisodes[0] ?? null);
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,

@@ -12,6 +12,7 @@ use App\DsAmen\Organism\Promotion\PromotionPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
@@ -45,9 +46,9 @@ class PresenterFactory
         return new DurationPresenter($duration, $this->translateProvider, $options);
     }
 
-    public function mapPresenter(Request $request, ProgrammeContainer $programme, array $upcomingBroadcasts, ?CollapsedBroadcast $lastOn, ?Promotion $promotion): MapPresenter
+    public function mapPresenter(Request $request, ProgrammeContainer $programme, array $upcomingBroadcasts, ?CollapsedBroadcast $lastOn, ?Promotion $promotion, ?Episode $streamableEpisode, ?Episode $upcomingEpisode): MapPresenter
     {
-        return new MapPresenter($request, $this->helperFactory, $this->translateProvider, $this->router, $programme, $upcomingBroadcasts, $lastOn, $promotion);
+        return new MapPresenter($request, $this->helperFactory, $this->translateProvider, $this->router, $programme, $upcomingBroadcasts, $lastOn, $promotion, $streamableEpisode, $upcomingEpisode);
     }
 
     public function collapsedBroadcastPresenter(CollapsedBroadcast $collapsedBroadcast, array $options = []): CollapsedBroadcastPresenter

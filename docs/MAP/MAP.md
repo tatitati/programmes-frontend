@@ -26,3 +26,7 @@ If the Social Bar exists, it will sit below the two right hand columns.
 The Mini Map is the MAP being displayed without images. This can be set at a TLEC level or forced via a URL param (?__2016minimap=1).  
 Because the programme info column is mainly an image, it makes no sense for it to take up 1/2 the map if the MAP is not displaying images. And so when in the Mini Map layout, the Programme Info column only takes up 1/3rd of the MAP with the other two columns also each taking up 1/3rd.  
 The "two" column layout column sizes are not affected by the Mini Map.
+
+### More Column Info
+* [On Demand Column](on-demand-column.md)
+* [TX Column](tx-column.md)

@@ -71,6 +71,6 @@ class SchedulesOnNowControllerTest extends BaseWebTestCase
 
     protected function tearDown()
     {
-        ApplicationTime::setLocalTimeZone();
+        ApplicationTime::blank();
     }
 }

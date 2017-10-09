@@ -13,8 +13,8 @@ use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
@@ -28,14 +28,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class MapPresenter extends Presenter
 {
+    /** @var HelperFactory */
+    private $helperFactory;
+
     /** @var string */
     private $leftGridClasses = '1/2@gel3b';
 
     /** @var Programme */
     private $programme;
-
-    /** @var HelperFactory */
-    private $helperFactory;
 
     /** @var Request */
     private $request;
@@ -64,6 +64,12 @@ class MapPresenter extends Presenter
     /** @var UrlGeneratorInterface */
     private $router;
 
+    /** @var Episode|null*/
+    private $streamableEpisode;
+
+    /** @var Episode|null */
+    private $upcomingEpisode;
+
     public function __construct(
         Request $request,
         HelperFactory $helperFactory,
@@ -73,6 +79,8 @@ class MapPresenter extends Presenter
         array $upcomingBroadcasts,
         ?CollapsedBroadcast $lastOn,
         ?Promotion $promotion,
+        ?Episode $streamableEpisode,
+        ?Episode $upcomingEpisode,
         array $options = []
     ) {
         parent::__construct($options);
@@ -85,6 +93,8 @@ class MapPresenter extends Presenter
         $this->upcomingBroadcasts = $upcomingBroadcasts;
         $this->lastOn = $lastOn;
 
+        $this->streamableEpisode = $streamableEpisode;
+        $this->upcomingEpisode = $upcomingEpisode;
         $hasComingSoon = $promotion || $this->programme->getOption('comingsoon_textonly');
         $this->showMap = $programme->getAggregatedEpisodesCount() || $hasComingSoon;
         if (!$this->showMap) {
@@ -164,7 +174,13 @@ class MapPresenter extends Presenter
         if ($this->isWorldNews()) {
             $this->rightColumns[] = new LastOnPresenter($this->programme);
         } else {
-            $this->rightColumns[] = new OnDemandPresenter($this->programme, ['full_width' => false]);
+            $this->rightColumns[] = new OnDemandPresenter(
+                $this->programme,
+                $this->streamableEpisode,
+                $this->upcomingEpisode,
+                $this->lastOn,
+                ['full_width' => false, 'show_mini_map' => $this->showMiniMap]
+            );
         }
 
         if ($hasComingSoon && !$this->upcomingBroadcasts) {
@@ -193,7 +209,13 @@ class MapPresenter extends Presenter
         $this->leftGridClasses = '2/3@gel3b';
         $this->rightGridClasses = '1/3@gel3b';
 
-        $this->rightColumns[] = new OnDemandPresenter($this->programme, ['full_width' => true]);
+        $this->rightColumns[] = new OnDemandPresenter(
+            $this->programme,
+            $this->streamableEpisode,
+            $this->upcomingEpisode,
+            null,
+            ['full_width' => true]
+        );
     }
 
     /**

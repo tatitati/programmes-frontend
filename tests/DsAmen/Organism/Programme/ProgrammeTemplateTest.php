@@ -211,4 +211,9 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertSame('30 minutes', $iconLabel->children()->eq(1)->attr('aria-label'));
         $this->assertSame('30:00', $iconLabel->children()->eq(1)->text());
     }
+
+    protected function tearDown()
+    {
+        ApplicationTime::blank();
+    }
 }

@@ -46,4 +46,9 @@ class BroadcastPresenterTest extends TestCase
             ['2017-05-18 08:00:00', '2017-05-18 09:00:00', true],
         ];
     }
+
+    protected function tearDown()
+    {
+        ApplicationTime::blank();
+    }
 }

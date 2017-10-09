@@ -159,4 +159,9 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
             'Short synopsis is correct'
         );
     }
+
+    protected function tearDown()
+    {
+        ApplicationTime::blank();
+    }
 }

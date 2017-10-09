@@ -33,6 +33,8 @@ class MapPresenterTest extends TestCase
             $programmeContainer,
             [],
             null,
+            null,
+            null,
             null
         );
         $this->assertTrue($presenter->showMap());
@@ -110,6 +112,8 @@ class MapPresenterTest extends TestCase
             $this->createMock(UrlGeneratorInterface::class),
             $programmeContainer,
             $upcomingBroadcasts,
+            null,
+            null,
             null,
             null
         );

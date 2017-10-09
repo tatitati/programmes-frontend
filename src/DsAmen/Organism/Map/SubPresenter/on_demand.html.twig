@@ -1,5 +1,75 @@
+{% import _self as self %}
+
 <div class="grid__item map__item {{ on_demand.getClass() }}">
     <div class="map-card-wrap br-box-secondary" data-map-column="on_demand2016">
-        <h1>I Я On Demand for {{ on_demand.programme.title }}</h1>
+        {%- if not on_demand.getStreamableEpisode() and not on_demand.getUpcomingEpisode() -%}
+            {%- if on_demand.getProgramme().isRadio() -%}
+                {{ self.message('on_demand', 'programme_availability_none_radio') }}
+            {%- else -%}
+                {{ self.message('available_on_iplayer_short', 'not_available_iplayer') }}
+            {%- endif -%}
+        {%- elseif on_demand.justMissed() -%}
+            {{ self.main_column(on_demand.getUpcomingEpisode(), on_demand) }}
+        {%- elseif on_demand.getStreamableEpisode() -%}
+            {{ self.main_column(on_demand.getStreamableEpisode(), on_demand) }}
+        {%- else -%}
+            {{ self.message('on_demand', 'available_shortly') }}
+        {%- endif -%}
     </div>
 </div>
+
+{% macro message(headingString, textString) %}
+    <div class="island">
+        <h2 class="map__heading gel-double-pica-bold">{{ tr(headingString) }}</h2>
+        <p>{{ tr(textString) }}</p>
+    </div>
+{% endmacro %}
+
+{% macro main_column(episode, presenter) %}
+    <div class="island">
+        {%- if presenter.getProgramme().isRadio() -%}
+            <h2 class="gel-double-pica-bold">{{ tr('on_demand') }}</h2>
+        {%- else -%}
+            <h2 class="gel-double-pica-bold">{{ tr('available_on_iplayer_short') }}</h2>
+        {%- endif -%}
+    </div>
+    {# @TODO sort link_location_prefix for radio #}
+    {{ ds_amen('programme', episode, {
+        'context_programme': presenter.getProgramme(),
+        'media_variant': 'media media--column media--card map-card',
+        'branding_name': 'secondary',
+        'show_image': not presenter.showMiniMap(),
+        'title_options': {
+            'text_colour_on_title_link': false,
+            'title_size_large': 'gel-great-primer-bold'
+        },
+        'cta_options': {
+            'cta_class': 'icon-cta--dark media__overlay--bottom',
+            'link_location_prefix': presenter.getProgramme().isTv() ? 'map_iplayer_' : '',
+        },
+        'image_options': {
+            'badge_text': tr(presenter.getBadgeTranslationString())
+        }
+    }) }}
+
+    {%- if presenter.getProgramme().getAvailableEpisodesCount() > 0 and not presenter.showMiniMap() -%}
+        <div class="map__additional-info gel-pica br-keyline media__meta-row--separator">
+            <p>
+                <a
+                    data-linktrack="{{ presenter.getAllLinkLocation() }}"
+                    {%- if presenter.getProgramme().isRadio() -%}
+                        title="{{ tr('all_episodes_iplayer_radio', {'%1': presenter.getProgramme().getTitle()}) }}"
+                    {%- else -%}
+                        title="{{ tr('all_episodes_iplayer', {'%1': presenter.getProgramme().getTitle()}) }}"
+                    {%- endif -%}
+                    href="{{ path('iplayer_episodes', {'pid': presenter.getProgramme().getPid()}) }}"
+                    class="gel-pica-bold istats--all-on-demand">
+                    {{ tr('all_available_episodes') }}
+                </a>
+                <span class="gel-long-primer">
+                    ({{ tr('x_total', {'%1': presenter.getProgramme().getAvailableEpisodesCount()}, presenter.getProgramme().getAvailableEpisodesCount()) }})
+                </span>
+            </p>
+        </div>
+    {%- endif -%}
+{% endmacro %}

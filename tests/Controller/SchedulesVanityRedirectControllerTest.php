@@ -53,4 +53,9 @@ class SchedulesVanityRedirectControllerTest extends BaseWebTestCase
             'last_month' => ['last_month', '2017/08'],
         ];
     }
+
+    protected function tearDown()
+    {
+        ApplicationTime::blank();
+    }
 }
