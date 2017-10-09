@@ -3,7 +3,7 @@
 # fall into one of two buckets:
 #
 # 1) A url to an external product, e.g. iplayer, iplayer radio
-# 2) A url to a /programme page we have not yet migrated. As we migrate pages,
+# 2) A url to a /programmes page we have not yet migrated. As we migrate pages,
 #    we shall move these routes into the main routing.yml.
 #
 # All routes in this file shall be configured with
@@ -58,6 +58,13 @@ programme_clips:
 
 programme_galleries:
     path: /programmes/{pid}/galleries
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+# TODO implement slice and filter parameters properly
+programme_broadcasts:
+    path: /programmes/{pid}/broadcasts
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
     schemes: [http]
