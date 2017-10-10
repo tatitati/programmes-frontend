@@ -2,22 +2,50 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Service\NetworksService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 class HomeController extends BaseController
 {
+    private const BLACKLISTED_NETWORKS = [
+        'bbc_amharic_radio' => true, // Amharic
+        'bbc_arabic_radio' => true, // Arabic
+        'bbc_bangla_radio' => true, // Bangla
+        'bbc_burmese_radio' => true, // Burmese
+        'bbc_cantonese_radio' => true, // Cantonese
+        'bbc_dari_radio' => true, // Dari
+        'bbc_hindi_radio' => true, // Hindi
+        'bbc_indonesian_radio' => true, // Indonesia
+        'bbc_korean_radio' => true, // Korean Radio
+        'bbc_kyrgyz_radio' => true, // Kyrgyz
+        'bbc_nepali_radio' => true, // Nepali
+        'bbc_oromo_radio' => true, // Oromo
+        'bbc_pashto_radio' => true, // Pashto
+        'bbc_persian_radio' => true, // Persian
+        'bbc_russian_radio' => true, // Russian
+        'bbc_sinhala_radio' => true, // Sinhala
+        'bbc_tamil_radio' => true, // Tamil
+        'bbc_tigrinya_radio' => true, // Tigrinya
+        'bbc_urdu_radio' => true, // Urdu
+        'bbc_uzbek_radio' => true, // Uzbek
+    ];
+
     public function __invoke(EntityManagerInterface $em, NetworksService $networksService)
     {
         $this->setIstatsProgsPageType('home_index');
         $programmeCount = $this->countProgrammesAndGroups($em);
 
         $serviceTypes = ['TV', 'National Radio', 'Regional Radio', 'Local Radio'];
-        $networks = $networksService->findPublishedNetworksByType(
+        $publishedNetworks = $networksService->findPublishedNetworksByType(
             $serviceTypes,
             NetworksService::NO_LIMIT
         );
+
+        $networks = array_filter($publishedNetworks, function (Network $n) {
+            return !isset(self::BLACKLISTED_NETWORKS[(string) $n->getNid()]);
+        });
 
         return $this->renderWithChrome('home/show.html.twig', [
             'programme_count' => $programmeCount,

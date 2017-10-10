@@ -9,6 +9,42 @@ use Cake\Chronos\Chronos;
 
 class SchedulesHomeController extends BaseController
 {
+    // Hide unwanted services and non-integrated language stations from listings
+    private const BLACKLISTED_SERVICES = [
+        'p00v5fbq' => true, // BBC WORLD NEWS
+        'p00qvyk4' => true, // BBC Radio Events Stream 1
+        'p00qvyjs' => true, // BBC Radio Events Stream 2
+        'p03yncmk' => true, // BBC Persian TV
+        'p02yxxwj' => true, // BBC World Service ANR
+        'p02yxxfc' => true, // BBC World Service Core
+        'p02y9sgt' => true, // BBC World Service News Internet
+        'p02yxy62' => true, // BBC World Service US Public Radio
+        'p00hwfhp' => true, // BBC WORLD NEWS Americas
+        'p00fzlgd' => true, // Radio 10
+
+        // World Service
+        'p05b8bdk' => true, // Amharic
+        'p02yxkk8' => true, // Arabic
+        'p02yvd0g' => true, // Bangla
+        'p02z1j40' => true, // Burmese
+        'p02ycxdc' => true, // Cantonese
+        'p02yxldk' => true, // Dari
+        'p02yvctm' => true, // Hindi
+        'p02yy2fq' => true, // Indonesia
+        'p05b88kr' => true, // Korean Radio
+        'p02ys1q2' => true, // Kyrgyz
+        'p02ys3q5' => true, // Nepali
+        'p05b89mh' => true, // Oromo
+        'p02yvd1m' => true, // Pashto
+        'p02yxlst' => true, // Persian
+        'p02yxfsh' => true, // Russian
+        'p02yq39l' => true, // Sinhala
+        'p02ys2pm' => true, // Tamil
+        'p05b8b67' => true, // Tigrinya
+        'p02yxk0h' => true, // Urdu
+        'p02yvcxr' => true, // Uzbek
+    ];
+
     public function __invoke(ServicesService $servicesService)
     {
         $this->setBrandingId('br-08368');
@@ -36,43 +72,6 @@ class SchedulesHomeController extends BaseController
 
         $decades = range($earliestDecade, $latestDecade, 10);
 
-        // https://jira.dev.bbc.co.uk/browse/PROGRAMMES-5792 and
-        // https://jira.dev.bbc.co.uk/browse/PROGRAMMES-5895
-        $blacklist = [
-            'p00v5fbq', // BBC WORLD NEWS
-            'p00qvyk4', // BBC Radio Events Stream 1
-            'p00qvyjs', // BBC Radio Events Stream 2
-            'p03yncmk', // BBC Persian TV
-            'p02yxxwj', // BBC World Service ANR
-            'p02yxxfc', // BBC World Service Core
-            'p02y9sgt', // BBC World Service News Internet
-            'p02yxy62', // BBC World Service US Public Radio
-            'p00hwfhp', // BBC WORLD NEWS Americas
-            'p00fzlgd', // Radio 10
-
-            // World Service
-            'p05b8bdk', // Amharic
-            'p02yxkk8', // Arabic
-            'p02yvd0g', // Bangla
-            'p02z1j40', // Burmese
-            'p02ycxdc', // Cantonese
-            'p02yxldk', // Dari
-            'p02yvctm', // Hindi
-            'p02yy2fq', // Indonesia
-            'p05b88kr', // Korean Radio
-            'p02ys1q2', // Kyrgyz
-            'p02ys3q5', // Nepali
-            'p05b89mh', // Omoro
-            'p02yvd1m', // Pashto
-            'p02yxlst', // Persian
-            'p02yxfsh', // Russian
-            'p02yq39l', // Sinhala
-            'p02ys2pm', // Tamil
-            'p05b8b67', // Tigrinya
-            'p02yxk0h', // Urdu
-            'p02yvcxr', // Uzbek
-        ];
-
         foreach ($services as $service) {
             /** @var Service $service */
             // We only care about services with a startDate
@@ -80,7 +79,7 @@ class SchedulesHomeController extends BaseController
                 continue;
             }
 
-            if (in_array((string) $service->getPid(), $blacklist)) {
+            if (isset(self::BLACKLISTED_SERVICES[(string) $service->getPid()])) {
                 continue;
             }
 
