@@ -33,7 +33,7 @@
     </div>
     {% if schedules_by_day_page.hasSiblingServiceLink() %}
          <div class="grid 1/2@bpw2 1/2@bpe">
-            <div class="bpw-text--right">
+            <div class="text--right@bpw">
                 {% set link = schedules_by_day_page.getTwinServicePid() ? path('schedules_by_day', {
                     'pid': schedules_by_day_page.getTwinServicePid(),
                     'date': schedules_by_day_page.getRouteDate(),
@@ -108,7 +108,7 @@
             {% else %}
                 {%- set attributes = '' -%}
             {% endif %}
-            <a class="tomorrow-bar--link island bpw-islet text--no-ul text--right br-page-linkhover-onbg015 br-page-linkhover-onbg--hover br-page-bg-ontext--hover"
+            <a class="tomorrow-bar--link island islet@bpw text--no-ul text--right br-page-linkhover-onbg015 br-page-linkhover-onbg--hover br-page-bg-ontext--hover"
                href="{{ path('schedules_by_day', {'pid': schedules_by_day_page.getService().getPid(), 'date': nextDay.format('Y/m/d')}) }}" {{ attributes }}>
                 {%- if nextDay.isTomorrow() -%}
                     {{ tr('schedules_tomorrow') }}

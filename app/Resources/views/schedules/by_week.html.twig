@@ -38,7 +38,7 @@
 
         {% if number_of_services_in_network > 1 %}
             <div class="grid 1/2@bpw2 1/2@bpe">
-                <div class="bpw-text--right">
+                <div class="text--right@bpw">
                     {% if number_of_services_in_network == 2 %}
                         {% set url = path('schedules_by_week', {pid: twin_service.getPid(), date: broadcast_week.start()|local_date('Y/\\wW')}) %}
                         <a href="{{ url }}" class="delta">{{ tr('schedules_regional_changeto', {'%1': twin_service.getShortName()}) }}</a>
