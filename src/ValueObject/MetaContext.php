@@ -30,6 +30,9 @@ class MetaContext
     /** @var bool */
     private $showAdverts = false;
 
+    /** @var string */
+    private $projectSpace = 'null';
+
     /** @var CoreEntity|Network */
     private $context;
 
@@ -43,6 +46,7 @@ class MetaContext
             $this->image = $context->getImage();
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $this->coreEntityTitlePrefix($context);
+            $this->projectSpace = $context->getOption('projectId') ?? 'null';
 
             if ($context->getNetwork()) {
                 $this->showAdverts = $context->getNetwork()->isInternational();
@@ -106,6 +110,11 @@ class MetaContext
     public function titlePrefix(): string
     {
         return $this->titlePrefix;
+    }
+
+    public function getProjectSpace(): string
+    {
+        return $this->projectSpace;
     }
 
     public function showAdverts(): bool

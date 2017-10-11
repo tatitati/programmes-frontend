@@ -40,7 +40,7 @@
         {% if meta_context.canonicalUrl() and meta_context.isRadio() %}
             <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ meta_context.canonicalUrl() }}?bbc_referrer={{ meta_context.canonicalUrl()|url_encode }}">
         {% endif %}
-
+        <!-- iSite2 Project (Tenant space): {{ meta_context.getProjectSpace() }} -->
         {#
             bbcdotcom adverts requires synchronous fig loading.
             See https://navigation.api.bbc.co.uk/docs/fig.md#using-a-blocking-fig
