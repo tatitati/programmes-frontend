@@ -11,7 +11,8 @@ class HomeController extends BaseController
 {
     private const BLACKLISTED_NETWORKS = [
         'bbc_amharic_radio' => true, // Amharic
-        'bbc_arabic_radio' => true, // Arabic
+        'bbc_arabic_radio' => true, // Arabic Radio
+        'bbc_arabic_tv' => true, // Arabic TV
         'bbc_bangla_radio' => true, // Bangla
         'bbc_burmese_radio' => true, // Burmese
         'bbc_cantonese_radio' => true, // Cantonese

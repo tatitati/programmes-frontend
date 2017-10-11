@@ -24,7 +24,8 @@ class SchedulesHomeController extends BaseController
 
         // World Service
         'p05b8bdk' => true, // Amharic
-        'p02yxkk8' => true, // Arabic
+        'p02yxkk8' => true, // Arabic Radio
+        'p05hggf6' => true, // Arabic TV
         'p02yvd0g' => true, // Bangla
         'p02z1j40' => true, // Burmese
         'p02ycxdc' => true, // Cantonese
