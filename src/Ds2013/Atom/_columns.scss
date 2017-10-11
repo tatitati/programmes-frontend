@@ -13,13 +13,13 @@
 
 .columns {
     /* no column count for the default as it is one column */
-    column-break-inside: avoid;
+    break-inside: avoid;
     column-gap: $wide-spacing;
 
     li,
     a {
         // list items and links inside columns should not split across column
-        column-break-inside: avoid;
+        break-inside: avoid;
     }
 }
 

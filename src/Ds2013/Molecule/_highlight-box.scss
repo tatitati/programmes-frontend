@@ -28,18 +28,6 @@
         margin-bottom: -$spacing !important;
     }
 
-    .highlight-box--grid#{$suffix},
-    .highlight-box--list#{$suffix} {
-        &:hover,
-        &:active,
-        &:focus,
-        &.highlight-box--active {
-            a {
-                // text-decoration: none; // this means links inside have no hover state?
-            }
-        }
-    }
-
     .highlight-box--grid#{$suffix} {
         margin: 0 0 $spacing;
         padding: 0;
