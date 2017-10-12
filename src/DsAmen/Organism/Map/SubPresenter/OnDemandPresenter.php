@@ -5,11 +5,11 @@ namespace App\DsAmen\Organism\Map\SubPresenter;
 
 use App\DsAmen\Presenter;
 use App\Exception\InvalidOptionException;
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
-use BBC\ProgrammesPagesService\Domain\Entity\Series;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use Exception;
 
 class OnDemandPresenter extends Presenter
 {
@@ -31,16 +31,12 @@ class OnDemandPresenter extends Presenter
     /** @var Episode|null */
     private $streamableEpisode;
 
-    /** @var Episode|null */
-    private $upcomingEpisode;
-
-    public function __construct(ProgrammeContainer $programmeContainer, ?Episode $streamableEpisode, ?Episode $upcomingEpisode, ?CollapsedBroadcast $lastOn, $options = [])
+    public function __construct(ProgrammeContainer $programmeContainer, ?Episode $streamableEpisode, ?CollapsedBroadcast $lastOn, $options = [])
     {
         parent::__construct($options);
         $this->lastOn = $lastOn;
         $this->programmeContainer = $programmeContainer;
         $this->streamableEpisode = $streamableEpisode;
-        $this->upcomingEpisode = $upcomingEpisode;
 
         if ($this->getOption('full_width')) {
             $this->class = '1/1';
@@ -72,13 +68,21 @@ class OnDemandPresenter extends Presenter
 
     public function getUpcomingEpisode(): ?Episode
     {
-        return $this->upcomingEpisode;
+        if ($this->lastOn === null) {
+            return null;
+        }
+
+        return $this->lastOn->getProgrammeItem();
     }
 
     public function getBadgeTranslationString(): string
     {
-        if ($this->streamableEpisode === null) {
-            return $this->upcomingEpisode->getStreamableFrom()->isFuture() ? 'coming_soon' : '';
+        if ($this->streamableEpisode === null && $this->lastOn === null) {
+            throw new Exception('Streamable or LastOn must be set in order to call ' . __FUNCTION__);
+        }
+
+        if ($this->lastOnNotAvailableYet()) {
+            return 'coming_soon';
         }
 
         // Coming soon can be displayed on Radio and TV pages.
@@ -87,7 +91,9 @@ class OnDemandPresenter extends Presenter
             return '';
         }
 
-        if (!$this->streamableEpisode->getParent() instanceof Series) {
+        // If the parent is the TLEO (e.g. Eastenders) we don't want to show a new badge for each episode
+        // Otherwise (e.g. Mongrels) the parent will be a series, which we do want badges for each episode.
+        if (!$this->streamableEpisode->getParent() || $this->streamableEpisode->getParent()->isTleo()) {
             return '';
         }
 
@@ -108,18 +114,40 @@ class OnDemandPresenter extends Presenter
         return $this->streamableEpisode;
     }
 
-    public function justMissed(): bool
+    /**
+     * This is when a programme has finished broadcasting, but is not available to stream yet.
+     * So instead of showing the old streamable episode, we show the just broadcast episode with a coming soon badge
+     *
+     * @return bool
+     */
+    public function lastOnNotAvailableYet(): bool
     {
-        if (!$this->lastOn) {
+        if (!$this->lastOn || !$this->lastOn->getProgrammeItem()) {
+            return false;
+        }
+        $hasFutureAvailablity = !($this->lastOn->getProgrammeItem()->getStreamableFrom() === null || $this->lastOn->getProgrammeItem()->isStreamable());
+        if (!$hasFutureAvailablity) {
             return false;
         }
 
-        if ($this->streamableEpisode && (string) $this->streamableEpisode->getPid() === (string) $this->lastOn->getProgrammeItem()->getPid()) {
+        // If the broadcast was over 7 days ago, but still isn't streamable, revert back to the previous episode
+        return $this->lastOn->getStartAt()->wasWithinLast('7 days');
+    }
+
+    public function shouldShowImage(): bool
+    {
+        if ($this->getOption('show_mini_map')) {
             return false;
         }
 
-        $sevenDaysAgo = ApplicationTime::getTime()->subDays(7);
-        return $this->lastOn->getStartAt()->lt($sevenDaysAgo) && $this->upcomingEpisode && !$this->streamableEpisode;
+        $item = $this->lastOnNotAvailableYet() ? $this->lastOn->getProgrammeItem() : $this->streamableEpisode;
+
+        if (null === $item) {
+            return false;
+        }
+
+        // Don't show the image if it's the same as the main image
+        return !$this->pidsMatch($this->programmeContainer->getImage()->getPid(), $item->getImage()->getPid());
     }
 
     public function showMiniMap(): bool
@@ -136,5 +164,10 @@ class OnDemandPresenter extends Presenter
         if (!is_bool($options['full_width'])) {
             throw new InvalidOptionException('full_width option must be a boolean');
         }
+    }
+
+    private function pidsMatch(Pid $firstPid, Pid $secondPid): bool
+    {
+        return (string) $firstPid === (string) $secondPid;
     }
 }

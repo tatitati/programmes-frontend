@@ -54,7 +54,6 @@ class PresenterFactory
         ?CollapsedBroadcast $lastOn,
         ?Promotion $promotion,
         ?Episode $streamableEpisode,
-        ?Episode $upcomingEpisode,
         int $debutsCount,
         int $repeatsCount
     ): MapPresenter {
@@ -68,7 +67,6 @@ class PresenterFactory
             $lastOn,
             $promotion,
             $streamableEpisode,
-            $upcomingEpisode,
             $debutsCount,
             $repeatsCount
         );

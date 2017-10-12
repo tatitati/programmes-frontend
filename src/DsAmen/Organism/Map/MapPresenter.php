@@ -67,9 +67,6 @@ class MapPresenter extends Presenter
     /** @var Episode|null*/
     private $streamableEpisode;
 
-    /** @var Episode|null */
-    private $upcomingEpisode;
-
     public function __construct(
         Request $request,
         HelperFactory $helperFactory,
@@ -80,7 +77,6 @@ class MapPresenter extends Presenter
         ?CollapsedBroadcast $lastOn,
         ?Promotion $comingSoonPromo,
         ?Episode $streamableEpisode,
-        ?Episode $upcomingEpisode,
         int $debutsCount,
         int $repeatsCount,
         array $options = []
@@ -94,7 +90,6 @@ class MapPresenter extends Presenter
         $this->upcomingBroadcast = $upcomingBroadcast;
         $this->lastOn = $lastOn;
         $this->streamableEpisode = $streamableEpisode;
-        $this->upcomingEpisode = $upcomingEpisode;
 
         $this->setShowMiniMap();
 
@@ -183,7 +178,6 @@ class MapPresenter extends Presenter
             $this->rightColumns[] = new OnDemandPresenter(
                 $this->programme,
                 $this->streamableEpisode,
-                $this->upcomingEpisode,
                 $this->lastOn,
                 ['full_width' => false, 'show_mini_map' => $this->showMiniMap]
             );
@@ -219,7 +213,6 @@ class MapPresenter extends Presenter
         $this->rightColumns[] = new OnDemandPresenter(
             $this->programme,
             $this->streamableEpisode,
-            $this->upcomingEpisode,
             null,
             [
                 'full_width' => true,

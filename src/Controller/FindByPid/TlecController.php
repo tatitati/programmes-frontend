@@ -56,9 +56,6 @@ class TlecController extends BaseController
         $streamableEpisodes = null;
         if ($programme->getAggregatedEpisodesCount() > 0) {
             $streamableEpisodes = $aggregationService->findStreamableDescendantEpisodes($programme, 1);
-            if (empty($streamableEpisodes)) {
-                $upcomingEpisodes = $aggregationService->findUpcomingStreamableDescendantEpisodes($programme, 1);
-            }
         }
 
         if ($programme->getOption('show_gallery_cards')) {
@@ -85,7 +82,6 @@ class TlecController extends BaseController
             $lastOn,
             $comingSoonPromo,
             $streamableEpisodes[0] ?? null,
-            $upcomingEpisodes[0] ?? null,
             $upcomingRepeatsAndDebutsCounts['debuts'],
             $upcomingRepeatsAndDebutsCounts['repeats']
         );

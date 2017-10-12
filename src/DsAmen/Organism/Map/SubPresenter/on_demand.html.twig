@@ -8,7 +8,7 @@
             {%- else -%}
                 {{ self.message('available_on_iplayer_short', 'not_available_iplayer') }}
             {%- endif -%}
-        {%- elseif on_demand.justMissed() -%}
+        {%- elseif on_demand.lastOnNotAvailableYet() -%}
             {{ self.main_column(on_demand.getUpcomingEpisode(), on_demand) }}
         {%- elseif on_demand.getStreamableEpisode() -%}
             {{ self.main_column(on_demand.getStreamableEpisode(), on_demand) }}
@@ -38,7 +38,7 @@
         'context_programme': presenter.getProgramme(),
         'media_variant': 'media media--column media--card map-card',
         'branding_name': 'secondary',
-        'show_image': not presenter.showMiniMap(),
+        'show_image': presenter.shouldShowImage(),
         'title_options': {
             'text_colour_on_title_link': false,
             'title_size_large': 'gel-great-primer-bold'

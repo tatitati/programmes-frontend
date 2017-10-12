@@ -35,7 +35,6 @@ class MapPresenterTest extends TestCase
             null,
             null,
             null,
-            null,
             0,
             0
         );
@@ -114,7 +113,6 @@ class MapPresenterTest extends TestCase
             $this->createMock(UrlGeneratorInterface::class),
             $programmeContainer,
             $upcomingBroadcasts,
-            null,
             null,
             null,
             null,
