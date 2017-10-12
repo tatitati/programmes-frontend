@@ -31,7 +31,7 @@ class MetaContext
     private $showAdverts = false;
 
     /** @var string */
-    private $projectSpace = 'null';
+    private $projectSpace = 'none';
 
     /** @var CoreEntity|Network */
     private $context;
@@ -46,7 +46,7 @@ class MetaContext
             $this->image = $context->getImage();
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $this->coreEntityTitlePrefix($context);
-            $this->projectSpace = $context->getOption('projectId') ?? 'null';
+            $this->projectSpace = $context->getOption('projectId') ?? 'none';
 
             if ($context->getNetwork()) {
                 $this->showAdverts = $context->getNetwork()->isInternational();
