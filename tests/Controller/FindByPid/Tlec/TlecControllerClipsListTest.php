@@ -21,7 +21,7 @@ class TlecControllerClipsListTest extends BaseWebTestCase
     {
         $crawler = $this->client->request('GET', '/programmes/prstdbrnd1');
         $grid = $crawler->filter(".grid");
-        $this->assertEquals(0, $grid->count());
+        $this->assertEquals(2, $grid->count());
     }
 
     /**

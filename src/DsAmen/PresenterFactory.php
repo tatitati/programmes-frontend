@@ -5,6 +5,7 @@ namespace App\DsAmen;
 
 use App\DsAmen\Molecule\Duration\DurationPresenter;
 use App\DsAmen\Molecule\Synopsis\SynopsisPresenter;
+use App\DsAmen\Organism\Footer\FooterPresenter;
 use App\DsAmen\Organism\Map\MapPresenter;
 use App\DsAmen\Organism\Programme\CollapsedBroadcastPresenter;
 use App\DsAmen\Organism\Programme\ProgrammePresenter;
@@ -69,5 +70,10 @@ class PresenterFactory
     public function synopsisPresenter(Synopses $synopses, int $maxLength): SynopsisPresenter
     {
         return new SynopsisPresenter($synopses, $maxLength);
+    }
+
+    public function footerPresenter(Programme $programme, array $options = [])
+    {
+        return new FooterPresenter($programme, $options);
     }
 }

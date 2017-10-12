@@ -1,0 +1,75 @@
+.footer {
+    padding: $gel-unit-small 0 0;
+}
+
+.footer__service,
+.footer__service-nav {
+    color: #ffffff;
+
+    a:link,
+    a:visited,
+    a:hover,
+    a:active,
+    a:focus {
+        color: #ffffff;
+    }
+}
+
+.footer-nav__item {
+    margin-bottom: $gel-unit-small;
+}
+
+.footer__heading {
+    padding-bottom: $gel-unit-small;
+}
+
+.footer__recommendations,
+.footer__programmes {
+    padding-top: 0;
+    padding-right: $gel-unit-small;
+    padding-bottom: $gel-unit-small;
+    padding-left: $gel-unit-small;
+}
+
+@include mq($from: gel2) {
+    .footer__recommendations,
+    .footer__programmes {
+        padding-right: $gel-unit-large;
+        padding-left: $gel-unit-large;
+        padding-bottom: $gel-unit-large;
+    }
+}
+
+// Make sure IE gets the right padding value
+@include mq($from: gel3) {
+    .footer__service-island {
+        padding-left: $gel-unit-large;
+        padding-right: $gel-unit-large;
+    }
+
+    .footer__recommendations,
+    .footer__programmes {
+        padding-bottom: $gel-unit-large;
+    }
+}
+
+@include mq($from: gel3b) {
+    .footer {
+        padding: $gel-unit-small $gel-unit-large;
+    }
+
+    .footer__recommendations {
+        border-right: solid 1px #000000;
+    }
+
+    .footer__recommendations,
+    .footer__programmes {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .footer__recommendations {
+        padding-right: $gel-unit-large;
+        padding-left: 0;
+    }
+}

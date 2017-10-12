@@ -1,0 +1,92 @@
+<div class="br-container br-box-subtle">
+    <div class="b-g-p footer">
+        <div class="grid grid--flush">
+            <!-- (Recommendations) You may also like -->
+            <div class="grid__item 5/12@gel3b 1/2@gel3">
+                <div class="grid grid--flush footer__recommendations br-keyline islet--horizontal">
+                    <p>TODO: You might also like</p>
+                </div>
+            </div>
+            <!-- Similar programmes -->
+            {%- if footer.getGenres() or footer.getFormats() -%}
+                <div class="grid__item 1/3@gel4 1/4@gel3b 1/2@gel3">
+                    <div class="islet--horizontal footer__programmes footer__service-island">
+                        <h2 class="gel-double-pica-bold">{{ tr('similar_programmes') }}</h2>
+                        {%- if footer.getGenres() -%}
+                            <div class="islet--vertical">
+                                <h3 class="gel-brevier-bold text--shout">{{ tr('by_genre') }}:</h3>
+                                <ul class="list-raw list-unstyled text--shout gel-brevier-bold">
+                                    {%- for genreTree in footer.getGenres() -%}
+                                        <li>
+                                            {%- for genre in genreTree.getAncestry()|reverse -%}
+                                                {%- if not loop.first -%}&#32;&#62;&#32;{%- endif -%}
+                                                <a href="{{ path('categories_show', {
+                                                    'categoryType': 'genres',
+                                                    'urlKeyHierarchy': genre.getUrlKeyHierarchy()
+                                                }) }}">{{ genre.getTitle() }}</a>
+                                            {%- endfor -%}
+                                        </li>
+                                    {%- endfor -%}
+                                </ul>
+                            </div>
+                        {%- endif -%}
+                        {%- if footer.getFormats() -%}
+                            <div class="islet--vertical">
+                                <h3 class="gel-brevier-bold text--shout">{{ tr('by_format') }}:</h3>
+                                <ul class="list-raw list-unstyled text--shout gel-brevier-bold">
+                                    {%- for format in footer.getFormats() -%}
+                                        <li>
+                                            <a href="{{ path( 'categories_show', {
+                                                'categoryType': 'formats',
+                                                'urlKeyHierarchy': format.getUrlKey()
+                                            }) }}">{{ format.getTitle() }}</a>
+                                        </li>
+                                    {%- endfor -%}
+                                </ul>
+                            </div>
+                        {%- endif -%}
+                    </div>
+                </div>
+            {%- endif -%}
+            <!-- Watch live -->
+            {%- if footer.hasNetwork() -%}
+                {%- if footer.getNetworkUrlKey() -%}
+                    <div class="grid__item 1/8@gel4 1/6@gel3b 1/2 footer__service">
+                        <div class="br-service-brand-box">
+                            <div class="text--center">
+                                <a href="{{ path('network', { 'networkUrlKey': footer.getNetworkUrlKey() }) }}">
+                                    <img alt="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}" src="{{ asset('images/logos/112x63/' ~ footer.getNid() ~ '.png') }}">
+                                </a>
+                            </div>
+                            <div class="hidden unhidden@gel3b island island--squashed">
+                                <p>TODO ONNOW</p>
+                            </div>
+                        </div>
+                    </div>
+                {%- endif -%}
+                <!-- Map links-->
+                <div class="grid__item 1/8@gel4 1/6@gel3b 1/2 footer__service-nav ">
+                    <div class="island br-service-brand-box--alt">
+                        {%-  set networkUrlKey = footer.getNetworkUrlKey() -%}
+                        {%-  if networkUrlKey or footer.getNavigationLinks() -%}
+                            <ul class="list-raw gel-long-primer-bold">
+                                {%-  if networkUrlKey -%}
+                                    <li class="footer-nav__item">
+                                        <a href="{{ path('network', { 'networkUrlKey': networkUrlKey }) }}" title="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}">
+                                            {{ tr('home') }}
+                                        </a>
+                                    </li>
+                                {%- endif -%}
+                                {%- for links in footer.getNavigationLinks() -%}
+                                    <li class="footer-nav__item">
+                                        <a href="{{ links['url'] }}" data-linktrack="programmes_global_footer_servicenav">{{ links['title'] }}</a>
+                                    </li>
+                                {%- endfor -%}
+                            </ul>
+                        {%- endif -%}
+                    </div>
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+</div>
