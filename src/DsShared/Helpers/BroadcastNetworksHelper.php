@@ -111,37 +111,37 @@ class BroadcastNetworksHelper
      */
     public function getCollapsedBroadcastNetworkBreakdown(CollapsedBroadcast $collapsedBroadcast): array
     {
-        $networksAndServices = [];
+        $breakdowns = [];
 
         // Build list of network and the services from that network where the broadcast happened
         foreach ($collapsedBroadcast->getServices() as $service) {
             if ($service->getNetwork()) {
                 $nid = (string) $service->getNetwork()->getNid();
-                if (!array_key_exists($nid, $networksAndServices)) {
-                    $networksAndServices[$nid] = [
+                if (!array_key_exists($nid, $breakdowns)) {
+                    $breakdowns[$nid] = [
                         'network' => $service->getNetwork(),
                         'on_services' => [],
                     ];
                 }
 
-                $networksAndServices[$nid]['on_services'][(string) $service->getSid()] = $service;
+                $breakdowns[$nid]['on_services'][(string) $service->getSid()] = $service;
             }
         }
 
         // Build a list of the services from a network where the broadcast didn't happen
-        foreach ($networksAndServices as $nid => $networkAndServices) {
-            $networksAndServices[$nid]['not_on_services'] = array_udiff(
-                $networkAndServices['network']->getServices(),
-                $networkAndServices['on_services'],
+        foreach ($breakdowns as $nid => $breakdown) {
+            $breakdowns[$nid]['not_on_services'] = array_udiff(
+                $breakdown['network']->getServices(),
+                $breakdown['on_services'],
                 function (Service $a, Service $b) {
                     return strcmp((string) $a->getSid(), (string) $b->getSid());
                 }
             );
 
-            $networksAndServices[$nid]['on_services'] = array_values($networksAndServices[$nid]['on_services']);
+            $breakdowns[$nid]['on_services'] = array_values($breakdowns[$nid]['on_services']);
         }
 
-        return array_values($networksAndServices);
+        return array_values($breakdowns);
     }
 
     private function prefixNames(array $names): array

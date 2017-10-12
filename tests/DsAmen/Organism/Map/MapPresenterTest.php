@@ -31,11 +31,13 @@ class MapPresenterTest extends TestCase
             $this->createMock(TranslateProvider::class),
             $this->createMock(UrlGeneratorInterface::class),
             $programmeContainer,
-            [],
             null,
             null,
             null,
-            null
+            null,
+            null,
+            0,
+            0
         );
         $this->assertTrue($presenter->showMap());
 
@@ -76,7 +78,7 @@ class MapPresenterTest extends TestCase
     {
         $cb = $this->createMock(CollapsedBroadcast::class);
         $programmeContainer = $this->createProgrammeWithEpisodes();
-        $presenter = $this->createMapPresenter($programmeContainer, [$cb]);
+        $presenter = $this->createMapPresenter($programmeContainer, $cb);
         $this->assertColumns($presenter, [OnDemandPresenter::class, TxPresenter::class]);
     }
 
@@ -103,7 +105,7 @@ class MapPresenterTest extends TestCase
         }
     }
 
-    private function createMapPresenter($programmeContainer, array $upcomingBroadcasts = []): MapPresenter
+    private function createMapPresenter($programmeContainer, ?CollapsedBroadcast $upcomingBroadcasts = null): MapPresenter
     {
         return new MapPresenter(
             new Request(),
@@ -115,7 +117,9 @@ class MapPresenterTest extends TestCase
             null,
             null,
             null,
-            null
+            null,
+            0,
+            0
         );
     }
 

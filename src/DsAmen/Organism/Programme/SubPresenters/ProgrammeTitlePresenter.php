@@ -7,8 +7,8 @@ use App\DsAmen\Presenter;
 use App\DsShared\Helpers\TitleLogicHelper;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -20,7 +20,7 @@ class ProgrammeTitlePresenter extends Presenter
     /** @var TitleLogicHelper */
     private $titleHelper;
 
-    /** @var Programme */
+    /** @var Programme|ProgrammeItem */
     private $programme;
 
     /** @var Programme */
@@ -93,23 +93,19 @@ class ProgrammeTitlePresenter extends Presenter
 
     public function getUrl(): string
     {
-        $isEpisode = $this->programme instanceof Episode;
+        $isEpisode = $this->programme instanceof ProgrammeItem;
 
-        // video episodes play in iPlayer
-        if ($this->getOption('force_iplayer_linking') || ($isEpisode && $this->programme->isTv())) {
+        if (!$this->getOption('force_iplayer_linking') || ($isEpisode && $this->programme->isAudio())) {
             return $this->router->generate(
-                'iplayer_play',
+                'find_by_pid',
                 ['pid' => $this->programme->getPid()],
                 UrlGenerator::ABSOLUTE_URL
             );
         }
 
         return $this->router->generate(
-            'find_by_pid',
-            [
-                'pid' => $this->programme->getPid(),
-                '_fragment' => $isEpisode ? 'live' : '',
-            ],
+            'iplayer_play',
+            ['pid' => $this->programme->getPid()],
             UrlGenerator::ABSOLUTE_URL
         );
     }

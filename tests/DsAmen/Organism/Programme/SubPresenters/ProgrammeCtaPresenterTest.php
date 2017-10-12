@@ -100,14 +100,14 @@ class ProgrammeCtaPresenterTest extends BaseProgrammeSubPresenterTest
         ];
     }
 
-    /** @dataProvider getPlayerUrlProvider */
-    public function testGetPlayerUrl(ProgrammeItem $programme, string $expected): void
+    /** @dataProvider getUrlProvider */
+    public function testGetUrl(ProgrammeItem $programme, string $expected): void
     {
         $ctaPresenter = new ProgrammeCtaPresenter($programme, $this->router);
         $this->assertSame($expected, $ctaPresenter->getUrl());
     }
 
-    public function getPlayerUrlProvider(): array
+    public function getUrlProvider(): array
     {
         $tvEpisode = $this->createMockTvEpisode();
         $audioTvEpisode = $this->createMockTvEpisode(true);
@@ -127,8 +127,8 @@ class ProgrammeCtaPresenterTest extends BaseProgrammeSubPresenterTest
                 $radioEpisode,
                 'http://localhost/programmes/' . $radioEpisode->getPid() . '#play',
             ],
-            'Clip links to find by pid with play anchor' => [
-                $clip, 'http://localhost/programmes/' . $clip->getPid() . '#play',
+            'Clip links to find by pid' => [
+                $clip, 'http://localhost/programmes/' . $clip->getPid(),
             ],
         ];
     }

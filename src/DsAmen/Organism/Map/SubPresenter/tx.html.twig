@@ -1,11 +1,10 @@
 <div class="grid__item map__item 1/2@gel1b">
     <div class="map-card-wrap br-box-secondary" data-map-column="tx2016">
-        {%- if tx.getCollapsedBroadcast() -%}
+        {%- if tx.getUpcomingBroadcast() -%}
             <div class="island">
                 <h2 class="map__heading gel-double-pica-bold">{{ tr(tx.getTitleTranslationString()) }}</h2>
             </div>
-
-            {{- ds_amen('collapsedBroadcast', tx.getCollapsedBroadcast(), {
+            {{- ds_amen('collapsedBroadcast', tx.getUpcomingBroadcast(), {
                 'context_programme': tx.getContextProgramme(),
                 'media_variant': 'media media--column media--card map-card',
                 'branding_name': 'secondary',
@@ -46,8 +45,7 @@
                        class="gel-pica-bold">
                         {{ tr(tx.getLinkTextTranslationString()) }}
                     </a>
-
-                    {%- if tx.getCollapsedBroadcast() -%}
+                    {%- if tx.getUpcomingBroadcast() -%}
                         <span class="gel-long-primer">({{ tx.getUpcomingBroadcastCount() }})</span>
                     {%- endif -%}
                 </p>

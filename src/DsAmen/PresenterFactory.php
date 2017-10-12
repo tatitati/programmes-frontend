@@ -47,9 +47,31 @@ class PresenterFactory
         return new DurationPresenter($duration, $this->translateProvider, $options);
     }
 
-    public function mapPresenter(Request $request, ProgrammeContainer $programme, array $upcomingBroadcasts, ?CollapsedBroadcast $lastOn, ?Promotion $promotion, ?Episode $streamableEpisode, ?Episode $upcomingEpisode): MapPresenter
-    {
-        return new MapPresenter($request, $this->helperFactory, $this->translateProvider, $this->router, $programme, $upcomingBroadcasts, $lastOn, $promotion, $streamableEpisode, $upcomingEpisode);
+    public function mapPresenter(
+        Request $request,
+        ProgrammeContainer $programme,
+        ?CollapsedBroadcast $upcomingBroadcast,
+        ?CollapsedBroadcast $lastOn,
+        ?Promotion $promotion,
+        ?Episode $streamableEpisode,
+        ?Episode $upcomingEpisode,
+        int $debutsCount,
+        int $repeatsCount
+    ): MapPresenter {
+        return new MapPresenter(
+            $request,
+            $this->helperFactory,
+            $this->translateProvider,
+            $this->router,
+            $programme,
+            $upcomingBroadcast,
+            $lastOn,
+            $promotion,
+            $streamableEpisode,
+            $upcomingEpisode,
+            $debutsCount,
+            $repeatsCount
+        );
     }
 
     public function collapsedBroadcastPresenter(CollapsedBroadcast $collapsedBroadcast, array $options = []): CollapsedBroadcastPresenter

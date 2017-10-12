@@ -76,7 +76,19 @@ programme_galleries:
 
 # TODO implement slice and filter parameters properly
 programme_broadcasts:
-    path: /programmes/{pid}/broadcasts
+    path: /programmes/{pid}/broadcasts/
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_upcoming_broadcasts:
+    path: /programmes/{pid}/broadcasts/upcoming
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_upcoming_debut_broadcasts:
+    path: /programmes/{pid}/broadcasts/upcoming/debut
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
     schemes: [http]

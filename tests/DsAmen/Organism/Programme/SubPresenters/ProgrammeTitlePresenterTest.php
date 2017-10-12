@@ -141,9 +141,8 @@ class ProgrammeTitlePresenterTest extends BaseProgrammeSubPresenterTest
         $brand = $this->createMockBrand();
 
         return [
-            'TV Episode links to iPlayer' => [$tvEpisode, false, 'http://localhost/iplayer/episode/p0000002'],
-            'Forcing iPlayer links to iPlayer' => [$radioEpisode, true, 'http://localhost/iplayer/episode/p0000003'],
-            'Radio episode link to live anchor in Find By Pid' => [$radioEpisode, false, 'http://localhost/programmes/p0000003#live'],
+            'Forcing TV Episode links to iPlayer' => [$tvEpisode, true, 'http://localhost/iplayer/episode/p0000002'],
+            'Forcing Radio Episodes doesn\'t link to iPlayer' => [$radioEpisode, true, 'http://localhost/programmes/p0000003'],
             'Clip links to Find By Pid' => [$clip, false, 'http://localhost/programmes/p0000001'],
             'Brand links to Find By Pid' => [$brand, false, 'http://localhost/programmes/br000001'],
         ];

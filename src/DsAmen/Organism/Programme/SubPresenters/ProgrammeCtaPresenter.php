@@ -75,14 +75,18 @@ class ProgrammeCtaPresenter extends Presenter
 
     public function getUrl(): string
     {
-        $routeName = 'iplayer_play';
-        $routeArguments = ['pid' => $this->programme->getPid()];
-
-        if ($this->programme->isRadio() || $this->programme->isAudio() || $this->programme instanceof Clip) {
-            $routeName = 'find_by_pid';
-            $routeArguments['_fragment'] = 'play';
+        if ($this->programme instanceof Episode && $this->programme->isVideo()) {
+            return $this->router->generate(
+                'iplayer_play',
+                ['pid' => $this->programme->getPid()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
         }
 
-        return $this->router->generate($routeName, $routeArguments, UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->router->generate(
+            'find_by_pid',
+            ['pid' => $this->programme->getPid(), '_fragment' => $this->programme instanceof Episode ? 'play' : ''],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 }

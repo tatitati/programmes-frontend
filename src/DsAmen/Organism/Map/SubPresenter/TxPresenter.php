@@ -8,6 +8,7 @@ use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class TxPresenter extends Presenter
 {
     /** @var CollapsedBroadcast|null */
-    private $collapsedBroadcast;
+    private $upcomingBroadcast;
 
     /** @var ProgrammeContainer */
     private $contextProgramme;
@@ -36,6 +37,12 @@ class TxPresenter extends Presenter
     /** @var UrlGeneratorInterface */
     private $router;
 
+    /** @var int */
+    private $debutsCount;
+
+    /** @var int */
+    private $repeatsCount;
+
     /** @var array */
     protected $options = [
         'show_mini_map' => false,
@@ -46,7 +53,9 @@ class TxPresenter extends Presenter
         TranslateProvider $translateProvider,
         UrlGeneratorInterface $router,
         ProgrammeContainer $contextProgramme,
-        array $upcomingBroadcasts,
+        ?CollapsedBroadcast $upcomingBroadcast,
+        int $debutsCount,
+        int $repeatsCount,
         array $options = []
     ) {
 
@@ -55,41 +64,28 @@ class TxPresenter extends Presenter
         $this->liveBroadcastHelper = $liveBroadcastHelper;
         $this->translateProvider = $translateProvider;
         $this->router = $router;
-
-        $this->upcomingRepeats = [];
-        $this->upcomingDebuts = [];
-
-        foreach ($upcomingBroadcasts as $broadcast) {
-            if ($broadcast->isRepeat()) {
-                $this->upcomingRepeats[] = $broadcast;
-            } else {
-                $this->upcomingDebuts[] = $broadcast;
-            }
-        }
-
-        // Prefer debuts over repeats
-        if ($this->upcomingDebuts) {
-            $this->collapsedBroadcast = reset($this->upcomingDebuts);
-        } elseif ($this->upcomingRepeats) {
-            $this->collapsedBroadcast = reset($this->upcomingRepeats);
-        }
-
+        $this->upcomingBroadcast = $upcomingBroadcast;
         $this->contextProgramme = $contextProgramme;
+        $this->debutsCount = $debutsCount;
+        $this->repeatsCount = $repeatsCount;
     }
 
     public function getBadgeTranslationString(): string
     {
-        // Radio brand pages and repeats don't have badges
-        if ($this->contextProgramme->isRadio() || $this->collapsedBroadcast->isRepeat()) {
+        // Radio brand pages, repeats and programmes direct TLEO children don't get badges
+        if ($this->contextProgramme->isRadio() ||
+            $this->upcomingBroadcast->isRepeat() ||
+            $this->upcomingBroadcast->getProgrammeItem()->getParent()->isTleo()
+        ) {
             return '';
         }
 
-        return $this->collapsedBroadcast->getProgrammeItem()->getPosition() === 1 ? 'new_series' : 'new';
+        return $this->upcomingBroadcast->getProgrammeItem()->getPosition() === 1 ? 'new_series' : 'new';
     }
 
-    public function getCollapsedBroadcast(): ?CollapsedBroadcast
+    public function getUpcomingBroadcast(): ?CollapsedBroadcast
     {
-        return $this->collapsedBroadcast;
+        return $this->upcomingBroadcast;
     }
 
     public function getContextProgramme(): ProgrammeContainer
@@ -104,12 +100,12 @@ class TxPresenter extends Presenter
 
     public function getLinkTitleTranslationString(): string
     {
-        return $this->collapsedBroadcast ? 'see_all_upcoming_of' : 'see_all_episodes_from';
+        return $this->upcomingBroadcast ? 'see_all_upcoming_of' : 'see_all_episodes_from';
     }
 
     public function getLinkTextTranslationString(): string
     {
-        return $this->collapsedBroadcast ? 'upcoming_episodes' : 'all_previous_episodes';
+        return $this->upcomingBroadcast ? 'upcoming_episodes' : 'all_previous_episodes';
     }
 
     public function getProgrammeTitle(): string
@@ -119,7 +115,7 @@ class TxPresenter extends Presenter
 
     public function getTitleTranslationString(): string
     {
-        $isWatchableLive = $this->collapsedBroadcast && $this->liveBroadcastHelper->isWatchableLive($this->collapsedBroadcast);
+        $isWatchableLive = $this->upcomingBroadcast && $this->liveBroadcastHelper->isWatchableLive($this->upcomingBroadcast);
 
         if ($this->contextProgramme->isRadio()) {
             return $isWatchableLive ? 'on_air' : 'coming_up';
@@ -129,7 +125,7 @@ class TxPresenter extends Presenter
             return 'on_now';
         }
 
-        if ($this->contextProgramme->getNetwork()->isInternational() || $this->collapsedBroadcast) {
+        if ($this->contextProgramme->getNetwork()->isInternational() || $this->upcomingBroadcast) {
             return 'next_on';
         }
 
@@ -138,8 +134,11 @@ class TxPresenter extends Presenter
 
     public function getTrailingLinkHref(): string
     {
-        if ($this->collapsedBroadcast) {
-            return $this->router->generate('programme_broadcasts', ['pid' => $this->contextProgramme->getPid()]);
+        if ($this->upcomingBroadcast) {
+            return $this->router->generate(
+                'programme_upcoming_broadcasts',
+                ['pid' => $this->contextProgramme->getPid()]
+            );
         }
 
         return $this->router->generate('programme_episodes', ['pid' => $this->contextProgramme->getPid()]);
@@ -147,31 +146,28 @@ class TxPresenter extends Presenter
 
     public function getUpcomingBroadcastCount(): string
     {
-        $debutsCount = count($this->upcomingDebuts);
-        $repeatsCount = count($this->upcomingRepeats);
-
         // Only radio pages split between repeats and debuts
         if ($this->contextProgramme->isRadio()) {
-            if ($repeatsCount > 0) {
+            if ($this->repeatsCount > 0) {
                 return $this->translateProvider->getTranslate()->translate(
                     'x_new_and_repeats',
-                    ['%1' => $debutsCount, '%count%' => $repeatsCount],
-                    $repeatsCount
+                    ['%1' => $this->debutsCount, '%count%' => $this->repeatsCount],
+                    $this->repeatsCount
                 );
             }
 
             return $this->translateProvider->getTranslate()->translate(
                 'x_new',
-                ['%count%' => $debutsCount],
-                $debutsCount
+                ['%count%' => $this->debutsCount],
+                $this->debutsCount
             );
         }
 
         // All other pages show episodes count
         return $this->translateProvider->getTranslate()->translate(
             'x_total',
-            ['%1' => $debutsCount + $repeatsCount],
-            $debutsCount + $repeatsCount
+            ['%1' => $this->debutsCount + $this->repeatsCount],
+            $this->debutsCount + $this->repeatsCount
         );
     }
 
@@ -179,7 +175,7 @@ class TxPresenter extends Presenter
     {
         // Only show image if it's not a minimap and the programme item image is different from the context programme image
         return !$this->getOption('show_mini_map') &&
-            (string) $this->collapsedBroadcast->getProgrammeItem()->getImage()->getPid() !==
+            (string) $this->upcomingBroadcast->getProgrammeItem()->getImage()->getPid() !==
             (string) $this->contextProgramme->getImage()->getPid();
     }
 

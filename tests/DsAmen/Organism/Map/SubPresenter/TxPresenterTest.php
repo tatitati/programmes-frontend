@@ -11,6 +11,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
 use RMP\Translate\TranslateFactory;
@@ -45,9 +46,17 @@ class TxPresenterTest extends TestCase
     }
 
     /** @dataProvider getBadgeTranslationStringProvider */
-    public function testGetBadgeTranslationStringReturnsEmptyForRepeatBroadcast(bool $isRepeat, bool $isRadio, int $position, string $expected)
-    {
-        $programmeItem = $this->createConfiguredMock(ProgrammeItem::class, ['getPosition' => $position]);
+    public function testGetBadgeTranslationString(
+        bool $isRepeat,
+        bool $isRadio,
+        int $position,
+        ?ProgrammeContainer $parent,
+        string $expected
+    ) {
+        $programmeItem = $this->createConfiguredMock(
+            ProgrammeItem::class,
+            ['getPosition' => $position, 'getParent' => $parent]
+        );
 
         $cb = $this->createConfiguredMock(
             CollapsedBroadcast::class,
@@ -56,17 +65,21 @@ class TxPresenterTest extends TestCase
 
         $context = $this->createConfiguredMock(Brand::class, ['isRadio' => $isRadio]);
 
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$cb]);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $cb, 0, 0);
         $this->assertSame($expected, $tx->getBadgeTranslationString());
     }
 
     public function getBadgeTranslationStringProvider(): array
     {
+        $brand = $this->createConfiguredMock(Brand::class, ['getType' => 'brand', 'isTleo' => true]);
+        $series = $this->createConfiguredMock(Series::class, ['getType' => 'series', 'isTleo' => false]);
+
         return [
-            'Repeat return empty badge' => [true, false, 1, ''],
-            'Radio brand returns empty badge' => [false, true, 1, ''],
-            'First position return new series' => [false, false, 1, 'new_series'],
-            'Other positions return new' => [false, false, 2, 'new'],
+            'Repeat returns empty badge' => [true, false, 1, $series, ''],
+            'Radio brand returns empty badge' => [false, true, 1, $series, ''],
+            'ProgrammeItem belonging to brand returns empty badge' => [false, false, 2, $brand, ''],
+            'First position return new series' => [false, false, 1, $series, 'new_series'],
+            'Other positions return new' => [false, false, 2, $series, 'new'],
         ];
     }
 
@@ -74,13 +87,13 @@ class TxPresenterTest extends TestCase
     {
         $context = $this->createMock(Brand::class);
 
-        // Upcoming broadcast present
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, []);
+        // Upcoming broadcast absent
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, null, 0, 0);
         $this->assertEquals('all_previous_episodes', $tx->getLinkTextTranslationString());
 
-        // Upcoming broadcast absent
+        // Upcoming broadcast present
         $repeat = $this->createMock(CollapsedBroadcast::class);
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$repeat]);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $repeat, 0, 0);
         $this->assertEquals('upcoming_episodes', $tx->getLinkTextTranslationString());
     }
 
@@ -88,58 +101,25 @@ class TxPresenterTest extends TestCase
     {
         $context = $this->createMock(Brand::class);
 
-        // Upcoming broadcast present
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, []);
+        // Upcoming broadcast absent
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, null, 0, 0);
         $this->assertEquals('see_all_episodes_from', $tx->getLinkTitleTranslationString());
 
-        // Upcoming broadcast absent
+        // Upcoming broadcast present
         $repeat = $this->createMock(CollapsedBroadcast::class);
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$repeat]);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $repeat, 0, 0);
         $this->assertEquals('see_all_upcoming_of', $tx->getLinkTitleTranslationString());
     }
 
-    public function testTxPresenterFavorsDisplayingDebuts()
-    {
-        $debutProgrammeItem = $this->createConfiguredMock(ProgrammeItem::class, ['getPid' => new Pid('dbtprgrmpd')]);
-
-        $debut = $this->createConfiguredMock(
-            CollapsedBroadcast::class,
-            ['getProgrammeItem' => $debutProgrammeItem, 'isRepeat' => false]
-        );
-
-        $repeatProgrammeItem = $this->createConfiguredMock(ProgrammeItem::class, ['getPid' => new Pid('rptprgrmpd')]);
-
-        $repeat = $this->createConfiguredMock(
-            CollapsedBroadcast::class,
-            ['getProgrammeItem' => $repeatProgrammeItem, 'isRepeat' => true]
-        );
-
-        $context = $this->createMock(Brand::class);
-
-        // Repeat is the first one in the upcoming broadcast array
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$repeat, $debut]);
-        $this->assertEquals('dbtprgrmpd', (string) $tx->getCollapsedBroadcast()->getProgrammeItem()->getPid());
-    }
-
-    public function testTxPresenterUsesRepeatWhenThereAreNoDebuts()
-    {
-        $repeatProgrammeItem = $this->createConfiguredMock(ProgrammeItem::class, ['getPid' => new Pid('rptprgrmpd')]);
-
-        $repeat = $this->createConfiguredMock(
-            CollapsedBroadcast::class,
-            ['getProgrammeItem' => $repeatProgrammeItem, 'isRepeat' => true]
-        );
-
-        $context = $this->createMock(Brand::class);
-
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$repeat]);
-        $this->assertEquals('rptprgrmpd', (string) $tx->getCollapsedBroadcast()->getProgrammeItem()->getPid());
-    }
-
     /** @dataProvider getUpcomingBroadcastCountProvider */
-    public function testGetUpcomingBroadcastCount(ProgrammeContainer $context, array $upcoming, string $expected)
-    {
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $upcoming);
+    public function testGetUpcomingBroadcastCount(
+        ProgrammeContainer $context,
+        int $debutsCount,
+        int $repeatsCount,
+        string $expected
+    ) {
+        $upcoming = $this->createMock(CollapsedBroadcast::class);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $upcoming, $debutsCount, $repeatsCount);
         $this->assertSame($expected, $tx->getUpcomingBroadcastCount());
     }
 
@@ -147,14 +127,12 @@ class TxPresenterTest extends TestCase
     {
         $radioBrand = $this->createConfiguredMock(ProgrammeContainer::class, ['isRadio' => true]);
         $tvBrand = $this->createConfiguredMock(ProgrammeContainer::class, ['isRadio' => false]);
-        $repeat = $this->createConfiguredMock(CollapsedBroadcast::class, ['isRepeat' => true]);
-        $debut = $this->createConfiguredMock(CollapsedBroadcast::class, ['isRepeat' => false]);
 
         return [
-            'Radio brand page with debut and repeat' => [$radioBrand, [$debut, $repeat], '1 new and 1 repeat'],
-            'Radio brand page without debut and repeat' => [$radioBrand, [$debut], '1 new'],
-            'TV brand page with 2 broadcasts' => [$tvBrand, [$debut, $repeat], '2 total'],
-            'TV brand page with only 1 repeat' => [$tvBrand, [$repeat], '1 total'],
+            'Radio brand page with debut and repeat' => [$radioBrand, 1, 1, '1 new and 1 repeat'],
+            'Radio brand page with one debut and no repeats' => [$radioBrand, 1, 0, '1 new'],
+            'TV brand page with 2 broadcasts' => [$tvBrand, 1, 1, '2 total'],
+            'TV brand page with only 1 repeat' => [$tvBrand, 0, 1, '1 total'],
         ];
     }
 
@@ -166,7 +144,7 @@ class TxPresenterTest extends TestCase
 
         $context = $this->createMock(Brand::class);
 
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$cb], ['show_mini_map' => true]);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $cb, 0, 0, ['show_mini_map' => true]);
         $this->assertEquals(false, $tx->showImage());
     }
 
@@ -179,7 +157,7 @@ class TxPresenterTest extends TestCase
 
         $context = $this->createConfiguredMock(Brand::class, ['getImage' => $image]);
 
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$cb]);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $cb, 0, 0);
         $this->assertEquals(false, $tx->showImage());
     }
 
@@ -192,7 +170,7 @@ class TxPresenterTest extends TestCase
         $image2 = $this->createConfiguredMock(Image::class, ['getPid' => new Pid('p0000000')]);
         $context = $this->createConfiguredMock(Brand::class, ['getImage' => $image2]);
 
-        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, [$cb]);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $cb, 0, 0);
         $this->assertEquals(true, $tx->showImage());
     }
 }

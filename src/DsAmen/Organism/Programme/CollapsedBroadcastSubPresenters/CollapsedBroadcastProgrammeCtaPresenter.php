@@ -77,6 +77,23 @@ class CollapsedBroadcastProgrammeCtaPresenter extends ProgrammeCtaPresenter
         return '';
     }
 
+    public function getUrl(): string
+    {
+        if ($this->liveBroadcastHelper->isWatchableLive($this->collapsedBroadcast, true)) {
+            if ($this->getOption('link_to_start') && $this->collapsedBroadcast->getProgrammeItem()->isVideo()) {
+                return $this->liveBroadcastHelper->simulcastUrl(
+                    $this->collapsedBroadcast,
+                    null,
+                    ['rewindTo' => 'current']
+                );
+            }
+
+            return $this->liveBroadcastHelper->simulcastUrl($this->collapsedBroadcast);
+        }
+
+        return parent::getUrl();
+    }
+
     protected function validateOptions(array $options): void
     {
         parent::validateOptions($options);

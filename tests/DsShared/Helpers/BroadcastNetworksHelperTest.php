@@ -11,6 +11,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
+use Cake\Chronos\Chronos;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -137,10 +138,10 @@ class BroadcastNetworksHelperTest extends TestCase
         );
     }
 
-    private function createCollapsedBroadcast(array $services): CollapsedBroadcast
+    private function createCollapsedBroadcast(array $services, string $startAt = ''): CollapsedBroadcast
     {
-        $start = new DateTimeImmutable();
-        $end = new DateTimeImmutable();
+        $start = new Chronos($startAt);
+        $end = new Chronos();
         $programmeItem = $this->createMock(ProgrammeItem::class);
 
         return new CollapsedBroadcast($programmeItem, $services, $start, $end, 30);

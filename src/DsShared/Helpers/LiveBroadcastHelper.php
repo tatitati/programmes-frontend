@@ -163,25 +163,31 @@ class LiveBroadcastHelper
         $this->router = $router;
     }
 
-    public function simulcastUrl(CollapsedBroadcast $collapsedBroadcast, ?Service $preferredService = null): string
-    {
+    public function simulcastUrl(
+        CollapsedBroadcast $collapsedBroadcast,
+        ?Service $preferredService = null,
+        array $additionalUrlParameters = []
+    ): string {
         $servicesBySid = $this->getServicesBySid($collapsedBroadcast);
         if ($preferredService) {
             $preferredServiceId = (string) $preferredService->getSid();
             if (isset($servicesBySid[$preferredServiceId]) && isset(self::LIVE_SERVICE_URLS[$preferredServiceId])) {
+                $params = array_merge(self::LIVE_SERVICE_URLS[$preferredServiceId][1], $additionalUrlParameters);
                 return $this->router->generate(
                     self::LIVE_SERVICE_URLS[$preferredServiceId][0],
-                    self::LIVE_SERVICE_URLS[$preferredServiceId][1],
+                    $params,
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
             }
         }
+
         // Go through our list in order. We prefer default service (e.g. bbc_one_london) over regional ones etc.
         foreach (self::LIVE_SERVICE_URLS as $sid => $parameters) {
             if (isset($servicesBySid[$sid])) {
+                $params = array_merge($parameters[1], $additionalUrlParameters);
                 return $this->router->generate(
                     $parameters[0],
-                    $parameters[1],
+                    $params,
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
             }

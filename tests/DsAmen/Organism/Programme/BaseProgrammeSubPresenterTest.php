@@ -37,6 +37,7 @@ abstract class BaseProgrammeSubPresenterTest extends TestCase
         $mockTvEpisode->method('getDuration')->willReturn(20);
         $mockTvEpisode->method('getPid')->willReturn(new Pid('p0000002'));
         $mockTvEpisode->method('isAudio')->willReturn($isAudio);
+        $mockTvEpisode->method('isVideo')->willReturn(!$isAudio);
 
         return $mockTvEpisode;
     }
@@ -69,6 +70,7 @@ abstract class BaseProgrammeSubPresenterTest extends TestCase
         $routeCollectionBuilder = new RouteCollectionBuilder();
         $routeCollectionBuilder->add('/programmes/{pid}', '', 'find_by_pid');
         $routeCollectionBuilder->add('/iplayer/episode/{pid}', '', 'iplayer_play');
+        $routeCollectionBuilder->add('/iplayer/live/{sid}', '', 'iplayer_live');
 
         return new UrlGenerator(
             $routeCollectionBuilder->build(),

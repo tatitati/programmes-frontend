@@ -55,8 +55,8 @@ class MapPresenter extends Presenter
     /** @var TranslateProvider */
     private $translateProvider;
 
-    /** @var CollapsedBroadcast[] */
-    private $upcomingBroadcasts;
+    /** @var CollapsedBroadcast|null */
+    private $upcomingBroadcast;
 
     /** @var CollapsedBroadcast|null */
     private $lastOn;
@@ -76,11 +76,13 @@ class MapPresenter extends Presenter
         TranslateProvider $translateProvider,
         UrlGeneratorInterface $router,
         ProgrammeContainer $programme,
-        array $upcomingBroadcasts,
+        ?CollapsedBroadcast $upcomingBroadcast,
         ?CollapsedBroadcast $lastOn,
         ?Promotion $comingSoonPromo,
         ?Episode $streamableEpisode,
         ?Episode $upcomingEpisode,
+        int $debutsCount,
+        int $repeatsCount,
         array $options = []
     ) {
         parent::__construct($options);
@@ -89,7 +91,7 @@ class MapPresenter extends Presenter
         $this->translateProvider = $translateProvider;
         $this->router = $router;
         $this->programme = $programme;
-        $this->upcomingBroadcasts = $upcomingBroadcasts;
+        $this->upcomingBroadcast = $upcomingBroadcast;
         $this->lastOn = $lastOn;
         $this->streamableEpisode = $streamableEpisode;
         $this->upcomingEpisode = $upcomingEpisode;
@@ -103,7 +105,7 @@ class MapPresenter extends Presenter
         }
 
         if ($this->showThirdColumn($hasComingSoon)) {
-            $this->constructThreeColumnMap($comingSoonPromo, $hasComingSoon);
+            $this->constructThreeColumnMap($comingSoonPromo, $hasComingSoon, $debutsCount, $repeatsCount);
         } else {
             $this->constructTwoColumnMap();
         }
@@ -163,8 +165,12 @@ class MapPresenter extends Presenter
         return $this->showMap;
     }
 
-    private function constructThreeColumnMap(?Promotion $comingSoonPromo, bool $hasComingSoon)
-    {
+    private function constructThreeColumnMap(
+        ?Promotion $comingSoonPromo,
+        bool $hasComingSoon,
+        int $debutsCount,
+        int $repeatsCount
+    ) {
         if ($this->showMiniMap) {
             $this->leftGridClasses = '1/3@gel3b';
             $this->rightGridClasses = '2/3@gel3b';
@@ -183,7 +189,7 @@ class MapPresenter extends Presenter
             );
         }
 
-        if ($hasComingSoon && !$this->upcomingBroadcasts) {
+        if ($hasComingSoon && !$this->upcomingBroadcast) {
             $this->rightColumns[] = new ComingSoonPresenter(
                 $this->programme,
                 $comingSoonPromo,
@@ -197,7 +203,9 @@ class MapPresenter extends Presenter
                 $this->translateProvider,
                 $this->router,
                 $this->programme,
-                $this->upcomingBroadcasts,
+                $this->upcomingBroadcast,
+                $debutsCount,
+                $repeatsCount,
                 ['show_mini_map' => $this->showMiniMap]
             );
         }
@@ -244,7 +252,7 @@ class MapPresenter extends Presenter
     {
         $hasBroadcastInLast18Months = $this->lastOn ? $this->lastOn->getStartAt()->wasWithinLast('18 months') : false;
 
-        return $this->upcomingBroadcasts || $hasBroadcastInLast18Months || $hasComingSoon || $this->isWorldNews();
+        return $this->upcomingBroadcast || $hasBroadcastInLast18Months || $hasComingSoon || $this->isWorldNews();
     }
 
     private function setShowMiniMap(): void
