@@ -26,7 +26,13 @@
     {%- if promotion.getImage() -%}
         <div class="media__panel {{ promotion.getOption('media_panel_class') }}">
             <div class="media__overlay-container ratiobox">
-                {{- ds_shared('image', promotion.getImage(), 320, promotion.getOption('img_sizes'))-}}
+                {{- ds_shared(
+                    'image',
+                    promotion.getImage(),
+                    promotion.getOption('img_default_width'),
+                    promotion.getOption('img_sizes'),
+                    { 'is_lazy_loaded': promotion.getOption('img_is_lazy_loaded') }
+                ) -}}
                 {%- if promotion.getActionIcon() -%}
                     <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
                         <div class="icon-link {{ promotion.getOption('cta_class') }}">

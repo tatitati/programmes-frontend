@@ -1,7 +1,13 @@
 {%- if programme_image.getImage() -%}
     <div class="media__panel {{ programme_image.getOption('media_panel_class') }}">
         <div class="media__overlay-container ratiobox">
-            {{ ds_shared('image', programme_image.getImage(), 320, []) }}
+            {{ ds_shared(
+                'image',
+                programme_image.getImage(),
+                programme_image.getOption('default_width'),
+                programme_image.getOption('sizes'),
+                { 'is_lazy_loaded' : programme_image.getOption('is_lazy_loaded') }
+            ) }}
             {%- if programme_image.getOption('badge_text') -%}
                 <div class="media__overlay media__overlay--top media__overlay--inline gel-minion-bold {{ programme_image.getOption('badge_class') }}">
                     {{- programme_image.getOption('badge_text') -}}

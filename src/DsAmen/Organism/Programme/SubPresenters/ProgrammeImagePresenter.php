@@ -17,8 +17,18 @@ class ProgrammeImagePresenter extends Presenter
 
     protected $options = [
         'show_image' => true,
+        'is_lazy_loaded' => true,
         'force_iplayer_linking' => false,
-
+        'default_width' => 320,
+        'sizes' => [
+            // @TODO confirm these are the right sizes
+            0 => '0vw',
+            320 => 1 / 4,
+            480 => 1 / 4,
+            600 => 1 / 3,
+            1008 => '336px',
+            1280 => '432px',
+        ],
         // classes & elements
         'media_panel_class' => '1/1',
 

@@ -37,7 +37,9 @@ class PromotionPresenter extends Presenter
         // classes & elements
         'h_tag' => 'h4',
         'title_size' => 'gel-pica-bold',
+        'img_default_width' => 320,
         'img_sizes' => [],
+        'img_is_lazy_loaded' => true,
         'media_variant' => 'media--column media--card',
         'cta_class' => 'icon-cta--dark',
         'media_panel_class' => '1/1',

@@ -31,10 +31,22 @@
             {%- if promotions or clips or galleries -%}
                 <ul class="grid">
                     {%- for promotion in promotions -%}
-                        {% set promo_widths = loop.first and has_double_width_first_promo ? '2/3@gel3b 1/2@gel5' : '1/2@gel3 1/3@gel3b 1/4@gel5' %}
+                        {# @TODO should this be moved out into a page presenter or something. It's fugly #}
+                        {%- if loop.first and programme.getOption('double_width_first_promo') -%}
+                            {%- set promo_widths = '2/3@gel3b 1/2@gel5' -%}
+                            {%- set img_sizes = { 600 : 1/2, 768 : 1/3, 1008 : '315px', 1280 : '300px'} -%}
+                            {%- set img_default_width = 315 -%}
+                        {%- else -%}
+                            {%- set promo_widths = '1/2@gel3 1/3@gel3b 1/4@gel5' -%}
+                            {%- set img_sizes = { 600 : 1/1, 768 : 2/3, 1008 : '645px', 1280 : '600px'} -%}
+                            {%- set img_default_width = 645 -%}
+                        {%- endif -%}
                         <li class="grid__item {{ promo_widths }}">
                             {{- ds_amen('promotion', promotion, {
                                 'related_links_count': 2,
+                                'img_sizes': img_sizes,
+                                'img_default_width': img_default_width,
+                                'img_is_lazy_loaded': false,
                                 'media_variant': 'media--column media--card',
                                 'cta_class': 'br-box-secondary',
                                 'branding_name': 'secondary',
@@ -51,10 +63,18 @@
                                 'branding_name': 'secondary',
                                 'title_options': {
                                     'text_colour_on_title_link': true,
-                                    'title_size_small': 'gel-long-primer'
+                                    'title_size_small': 'gel-long-primer',
+                                },
+                                'image_options': {
+                                    'sizes': {
+                                        600 : 1/2,
+                                        768 : 1/3,
+                                        1008 : '315px',
+                                        1280 : '300px',
+                                    },
                                 },
                                 'cta_options': {
-                                    'cta_class': 'br-box-secondary'
+                                    'cta_class': 'br-box-secondary',
                                 }
                             })}}
 

@@ -47,6 +47,19 @@ class OnDemandPresenter extends Presenter
         }
     }
 
+    public function getImageSizes(): array
+    {
+        if ($this->options['full_width']) {
+            return [768 => 1/3, 1008 => '324px', 1280 => '414px'];
+        }
+        return [320 => 1/2, 768 => 1/4, 1008 => '242px', 1280 => '310px'];
+    }
+
+    public function getDefaultImageSize(): int
+    {
+        return $this->options['full_width'] ? 324 : 242;
+    }
+
     public function getAllLinkLocation(): string
     {
         return $this->programmeContainer->isRadio() ? 'map_ondemand_all' : 'map_iplayer_all';

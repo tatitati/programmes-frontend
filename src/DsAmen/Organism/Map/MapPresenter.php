@@ -78,7 +78,7 @@ class MapPresenter extends Presenter
         ProgrammeContainer $programme,
         array $upcomingBroadcasts,
         ?CollapsedBroadcast $lastOn,
-        ?Promotion $promotion,
+        ?Promotion $comingSoonPromo,
         ?Episode $streamableEpisode,
         ?Episode $upcomingEpisode,
         array $options = []
@@ -88,21 +88,22 @@ class MapPresenter extends Presenter
         $this->helperFactory = $helperFactory;
         $this->translateProvider = $translateProvider;
         $this->router = $router;
-
         $this->programme = $programme;
         $this->upcomingBroadcasts = $upcomingBroadcasts;
         $this->lastOn = $lastOn;
-
         $this->streamableEpisode = $streamableEpisode;
         $this->upcomingEpisode = $upcomingEpisode;
-        $hasComingSoon = $promotion || $this->programme->getOption('comingsoon_textonly');
+
+        $this->setShowMiniMap();
+
+        $hasComingSoon = $comingSoonPromo || $this->programme->getOption('comingsoon_textonly');
         $this->showMap = $programme->getAggregatedEpisodesCount() || $hasComingSoon;
         if (!$this->showMap) {
             return;
         }
 
         if ($this->showThirdColumn($hasComingSoon)) {
-            $this->constructThreeColumnMap($promotion, $hasComingSoon);
+            $this->constructThreeColumnMap($comingSoonPromo, $hasComingSoon);
         } else {
             $this->constructTwoColumnMap();
         }
@@ -162,10 +163,9 @@ class MapPresenter extends Presenter
         return $this->showMap;
     }
 
-    private function constructThreeColumnMap(?Promotion $promotion, bool $hasComingSoon)
+    private function constructThreeColumnMap(?Promotion $comingSoonPromo, bool $hasComingSoon)
     {
-        if ($this->shouldShowMiniMap()) {
-            $this->showMiniMap = true;
+        if ($this->showMiniMap) {
             $this->leftGridClasses = '1/3@gel3b';
             $this->rightGridClasses = '2/3@gel3b';
         }
@@ -186,7 +186,7 @@ class MapPresenter extends Presenter
         if ($hasComingSoon && !$this->upcomingBroadcasts) {
             $this->rightColumns[] = new ComingSoonPresenter(
                 $this->programme,
-                $promotion,
+                $comingSoonPromo,
                 [
                     'show_mini_map' => $this->showMiniMap,
                 ]
@@ -247,13 +247,14 @@ class MapPresenter extends Presenter
         return $this->upcomingBroadcasts || $hasBroadcastInLast18Months || $hasComingSoon || $this->isWorldNews();
     }
 
-    private function shouldShowMiniMap(): bool
+    private function setShowMiniMap(): void
     {
         if ($this->request->query->has('__2016minimap')) {
-            return (bool) $this->request->query->get('__2016minimap');
+            $this->showMiniMap = (bool) $this->request->query->get('__2016minimap');
+            return;
         }
         // if ($this->is2016BrandPage() && $this->isVotePriority() ) return true;
 
-        return filter_var($this->programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
+        $this->showMiniMap = filter_var($this->programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
     }
 }

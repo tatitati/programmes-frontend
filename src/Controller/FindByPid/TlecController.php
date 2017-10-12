@@ -41,14 +41,12 @@ class TlecController extends BaseController
         $this->setIstatsProgsPageType('programmes_container');
         $this->setContext($programme);
 
-        $promotions = [];
         $clips = [];
         $galleries = [];
 
         // TODO check $programme->getPromotionsCount() once it is populated in
         // Faucet to potentially save on a DB query
         $promotions = $promotionsService->findActivePromotionsByContext($programme);
-        $hasDoubleWidthFirstPromo = $programme->getOption('double_width_first_promo');
 
         if ($programme->getOption('show_clip_cards')) {
             $clips = $aggregationService->findDescendantClips($programme, 4);
@@ -75,16 +73,23 @@ class TlecController extends BaseController
         $lastOn = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($programme, 1);
         $lastOn = $lastOn[0] ?? null;
 
-        $promotion = $this->getComingSoonPromotion($imagesService, $programme);
+        $comingSoonPromo = $this->getComingSoonPromotion($imagesService, $programme);
 
-        $mapPresenter = $presenterFactory->mapPresenter($request, $programme, $upcomingBroadcasts, $lastOn, $promotion, $streamableEpisodes[0] ?? null, $upcomingEpisodes[0] ?? null);
+        $mapPresenter = $presenterFactory->mapPresenter(
+            $request,
+            $programme,
+            $upcomingBroadcasts,
+            $lastOn,
+            $comingSoonPromo,
+            $streamableEpisodes[0] ?? null,
+            $upcomingEpisodes[0] ?? null
+        );
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
             'promotions' => $promotions,
             'clips' => $clips,
             'galleries' => $galleries,
-            'has_double_width_first_promo' => $hasDoubleWidthFirstPromo,
             'mapPresenter' => $mapPresenter,
         ]);
     }
@@ -92,7 +97,7 @@ class TlecController extends BaseController
     private function getComingSoonPromotion(ImagesService $imagesService, ProgrammeContainer $programme): ?Promotion
     {
         $comingSoonBlock = $programme->getOption('comingsoon_block');
-        if (empty($comingSoonBlock) || empty($comingSoonBlock['content']) || empty($comingSoonBlock['content']['promotions'])) {
+        if (empty($comingSoonBlock['content']['promotions'])) {
             return null;
         }
 

@@ -48,7 +48,10 @@
             'link_location_prefix': presenter.getProgramme().isTv() ? 'map_iplayer_' : '',
         },
         'image_options': {
-            'badge_text': tr(presenter.getBadgeTranslationString())
+            'badge_text': tr(presenter.getBadgeTranslationString()),
+            'is_lazy_loaded': false,
+            'sizes': presenter.getImageSizes(),
+            'default_width': presenter.getDefaultImageSize(),
         }
     }) }}
 

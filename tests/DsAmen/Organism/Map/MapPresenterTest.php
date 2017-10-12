@@ -41,7 +41,7 @@ class MapPresenterTest extends TestCase
 
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
         $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(0);
-        $programmeContainer->expects($this->at(0))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
+        $programmeContainer->expects($this->at(1))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
         $presenter = $this->createMapPresenter($programmeContainer);
         $this->assertTrue($presenter->showMap());
     }
@@ -57,7 +57,7 @@ class MapPresenterTest extends TestCase
     {
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
         $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(0);
-        $programmeContainer->expects($this->at(0))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
+        $programmeContainer->expects($this->at(1))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
         $presenter = $this->createMapPresenter($programmeContainer);
         $this->assertColumns($presenter, [OnDemandPresenter::class, ComingSoonPresenter::class]);
     }
