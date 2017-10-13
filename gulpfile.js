@@ -38,7 +38,7 @@ gulp.task('js', ['js:clean'], function () {
             "jquery-1.9": "empty:",
             "respimg": "../../../node_modules/lazysizes/plugins/respimg/ls.respimg",
             "lazysizes": "../../../node_modules/lazysizes/lazysizes-umd",
-            "eqjs": "../../../node_modules/eq.js/build/eq",
+            "eqjs": "../../../node_modules/eq.js/dist/eq.polyfilled.min",
             "comscorews" : "../../../vendor/bbc-rmp/comscore/js-modules/comscorews",
             "rmpcomscore/base" : "../../../vendor/bbc-rmp/comscore/js-modules/base",
             "orb/cookies": "empty:"
