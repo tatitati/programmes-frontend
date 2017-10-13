@@ -64,6 +64,7 @@ services:
         public: true
         arguments:
             - '@App\ValueObject\CosmosInfo'
+            - '@request_stack'
             - '%fixture_secure_key%'
 
     App\Fixture\ScenarioManagement\ScenarioManager:
