@@ -30,6 +30,7 @@ class LiveBroadcastHelperTest extends TestCase
     {
         $routeCollectionBuilder = new RouteCollectionBuilder();
         $routeCollectionBuilder->add('/iplayer/live/{sid}', '', 'iplayer_live');
+        $routeCollectionBuilder->add('/{networkUrlKey}', '', 'network');
 
         $router = new UrlGenerator(
             $routeCollectionBuilder->build(),
@@ -138,6 +139,20 @@ class LiveBroadcastHelperTest extends TestCase
 
         $result = $this->helper->simulcastUrl($collapsedBroadcast, $preferredService);
         $this->assertEquals('http://localhost/iplayer/live/bbcnews', $result);
+    }
+
+    public function testSimulcastGenerateTheCorrectLinkForNetworkUrls()
+    {
+        $collapsedBroadcast = $this->createCollapsedBroadcast(
+            ['bbc_radio_cornwall'],
+            new DateTimeImmutable(),
+            new DateTimeImmutable()
+        );
+
+        $this->assertEquals(
+            'http://localhost/radiocornwall',
+            $this->helper->simulcastUrl($collapsedBroadcast)
+        );
     }
 
     private function createCollapsedBroadcast(

@@ -14,12 +14,11 @@
         {%- elseif programme_body.isWorldServiceForeignLanguage() -%}
             {{ self.render_live_link(programme_body.getSimulcastUrl(), programme_body.translatePlayLive(), 'listen', false) }}
         {%- elseif programme_body.getProgramme().isRadio() -%}
-            {{ self.render_live_link(programme_body.getSimulcastUrl(), programme_body.translatePlayLive(), 'pop-out', true) }}
             {% if programme_body.getOption('context_service') %}
-                <p class="programme__live hidden@bpw">
-                    <a href="/radio/stations/{{ programme_body.getOption('context_service').getUrlKey() }}">
+                <p class="programme__live">
+                    <a href="{{ programme_body.getSimulcastUrl() }}">
                         {{ programme_body.translatePlayLive() }}
-                    </a> ({{ tr('programme_homepage', {'%1' : programme_body.getOption('context_service').getName() }) }})
+                    </a>
                 </p>
             {% endif %}
         {%- else -%}
