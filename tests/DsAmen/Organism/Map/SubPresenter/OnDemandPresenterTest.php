@@ -38,7 +38,7 @@ class OnDemandPresenterTest extends TestCase
     {
         $programme = $this->createProgramme();
         $this->expectExceptionMessage($expectedExceptionMessage);
-        new OnDemandPresenter($programme, null, null, $options);
+        new OnDemandPresenter($programme, null, false, null, $options);
     }
 
     public function invalidOptionProvider(): array
@@ -56,9 +56,8 @@ class OnDemandPresenterTest extends TestCase
     public function testDataLinktrackString(bool $isRadio)
     {
         $episode = $this->createEpisode();
-
         $programme = $this->createProgramme($isRadio);
-        $odPresenter = new OnDemandPresenter($programme, $episode, null);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, null);
         if ($isRadio) {
             $this->assertEquals('map_ondemand_all', $odPresenter->getAllLinkLocation());
         } else {
@@ -70,14 +69,14 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
-    public function testNoStreamableOrUpcomingEpisodes(bool $isRadio)
+    public function testNoStreamablePendingOrUpcomingEpisodes(bool $isRadio)
     {
         $programme = $this->createProgramme($isRadio);
-        $odPresenter = new OnDemandPresenter($programme, null, null);
+        $odPresenter = new OnDemandPresenter($programme, null, false, null);
         $this->assertNull($odPresenter->getStreamableEpisode());
-        $this->assertNull($odPresenter->getUpcomingEpisode());
+        $this->assertNull($odPresenter->getPendingEpisode());
         $this->assertFalse($odPresenter->shouldShowImage()); // Not that these are likely ever called
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet()); // Not that these are likely ever called
+        $this->assertFalse($odPresenter->episodeIsPending()); // Not that these are likely ever called
         $this->expectExceptionMessage('Streamable or LastOn must be set in order to call getBadgeTranslationString');
         $this->assertEmpty($odPresenter->getBadgeTranslationString());
     }
@@ -86,14 +85,14 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
-    public function testOldStreamableEpisodeNoUpcomingEpisode(bool $isRadio)
+    public function testOldStreamableEpisodeNoPendingEpisode(bool $isRadio)
     {
         $episode = $this->createEpisode(2, '+1 day', '-8 days');
         $programme = $this->createProgramme($isRadio);
-        $odPresenter = new OnDemandPresenter($programme, $episode, null);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, null);
         $this->assertSame($episode, $odPresenter->getStreamableEpisode());
-        $this->assertNull($odPresenter->getUpcomingEpisode());
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet());
+        $this->assertNull($odPresenter->getPendingEpisode());
+        $this->assertFalse($odPresenter->episodeIsPending());
         $this->assertEmpty($odPresenter->getBadgeTranslationString());
         $this->assertTrue($odPresenter->shouldShowImage());
     }
@@ -102,14 +101,14 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
-    public function testNewStreamableEpisodeNoUpcomingEpisode(bool $isRadio)
+    public function testNewStreamableEpisodeNoPendingEpisode(bool $isRadio)
     {
         $episode = $this->createEpisode(2, '+1 day', '-6 days');
         $programme = $this->createProgramme($isRadio);
-        $odPresenter = new OnDemandPresenter($programme, $episode, null);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, null);
         $this->assertSame($episode, $odPresenter->getStreamableEpisode());
-        $this->assertNull($odPresenter->getUpcomingEpisode());
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet());
+        $this->assertNull($odPresenter->getPendingEpisode());
+        $this->assertFalse($odPresenter->episodeIsPending());
         $this->assertTrue($odPresenter->shouldShowImage());
         if ($isRadio) {
             $this->assertEmpty($odPresenter->getBadgeTranslationString());
@@ -122,13 +121,13 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
-    public function testNewStreamableSeriesEpisodeNoUpcomingEpisode(bool $isRadio)
+    public function testNewStreamableSeriesEpisodeNoPendingEpisode(bool $isRadio)
     {
         $episode = $this->createEpisode(1, '+1 day', '-6 days');
         $programme = $this->createProgramme($isRadio);
-        $odPresenter = new OnDemandPresenter($programme, $episode, null);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, null);
         $this->assertSame($episode, $odPresenter->getStreamableEpisode());
-        $this->assertNull($odPresenter->getUpcomingEpisode());
+        $this->assertNull($odPresenter->getPendingEpisode());
         $this->assertTrue($odPresenter->shouldShowImage());
         if ($isRadio) {
             $this->assertEmpty($odPresenter->getBadgeTranslationString());
@@ -141,7 +140,7 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
-    public function testStreamableEpisodeAndUpcomingEpisode(bool $isRadio)
+    public function testStreamableEpisodeAndOldPendingEpisode(bool $isRadio)
     {
         $episode = $this->createEpisode(2, '-8 days', '-8 days', true);
         $programme = $this->createProgramme($isRadio);
@@ -150,10 +149,10 @@ class OnDemandPresenterTest extends TestCase
             ->willReturn(new Chronos('-8 days'));
         $collapsedBroadcast->method('getProgrammeItem')
             ->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, $episode, $collapsedBroadcast);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, $collapsedBroadcast);
         $this->assertSame($episode, $odPresenter->getStreamableEpisode());
-        $this->assertSame($episode, $odPresenter->getUpcomingEpisode());
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet());
+        $this->assertSame($episode, $odPresenter->getPendingEpisode());
+        $this->assertFalse($odPresenter->episodeIsPending());
         $this->assertEmpty($odPresenter->getBadgeTranslationString());
         $this->assertTrue($odPresenter->shouldShowImage());
     }
@@ -162,7 +161,7 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
-    public function testStreamableEpisodeAndUpcomingSoonEpisode(bool $isRadio)
+    public function testStreamableEpisodeAndPendingEpisode(bool $isRadio)
     {
         $episode = $this->createEpisode(2, '-6 days', '-6 days', false);
         $programme = $this->createProgramme($isRadio);
@@ -171,10 +170,10 @@ class OnDemandPresenterTest extends TestCase
             ->willReturn(new Chronos('-6 days'));
         $collapsedBroadcast->method('getProgrammeItem')
             ->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, $episode, $collapsedBroadcast);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, $collapsedBroadcast);
         $this->assertSame($episode, $odPresenter->getStreamableEpisode());
-        $this->assertSame($episode, $odPresenter->getUpcomingEpisode());
-        $this->assertTrue($odPresenter->lastOnNotAvailableYet());
+        $this->assertSame($episode, $odPresenter->getPendingEpisode());
+        $this->assertTrue($odPresenter->episodeIsPending());
         $this->assertEquals('coming_soon', $odPresenter->getBadgeTranslationString());
         $this->assertTrue($odPresenter->shouldShowImage());
     }
@@ -183,7 +182,7 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
-    public function testStreamableEpisodeAndUpcomingEpisodeIsTooOld(bool $isRadio)
+    public function testStreamableEpisodeAndPendingEpisodeIsTooOld(bool $isRadio)
     {
         $episode = $this->createEpisode(2, '-8 days', '-8 days', false);
         $programme = $this->createProgramme($isRadio);
@@ -192,12 +191,25 @@ class OnDemandPresenterTest extends TestCase
             ->willReturn(new Chronos('-8 days'));
         $collapsedBroadcast->method('getProgrammeItem')
             ->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, $episode, $collapsedBroadcast);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, $collapsedBroadcast);
         $this->assertSame($episode, $odPresenter->getStreamableEpisode());
-        $this->assertSame($episode, $odPresenter->getUpcomingEpisode());
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet());
+        $this->assertSame($episode, $odPresenter->getPendingEpisode());
+        $this->assertFalse($odPresenter->episodeIsPending());
         $this->assertEmpty($odPresenter->getBadgeTranslationString());
         $this->assertTrue($odPresenter->shouldShowImage());
+    }
+
+    public function testOnlyUpcomingEpisode()
+    {
+        $programme = $this->createProgramme(true);
+        $odPresenter = new OnDemandPresenter($programme, null, true, null);
+        $this->assertTrue($odPresenter->hasUpcomingEpisode());
+        $this->assertNull($odPresenter->getStreamableEpisode());
+        $this->assertNull($odPresenter->getPendingEpisode());
+        $this->assertFalse($odPresenter->shouldShowImage()); // Not that these are likely ever called
+        $this->assertFalse($odPresenter->episodeIsPending()); // Not that these are likely ever called
+        $this->expectExceptionMessage('Streamable or LastOn must be set in order to call getBadgeTranslationString');
+        $this->assertEmpty($odPresenter->getBadgeTranslationString());
     }
 
     /**
@@ -213,7 +225,7 @@ class OnDemandPresenterTest extends TestCase
             ->willReturn(new Chronos('-6 days'));
         $collapsedBroadcast->method('getProgrammeItem')
             ->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, null, $collapsedBroadcast);
+        $odPresenter = new OnDemandPresenter($programme, null, false, $collapsedBroadcast);
         $this->assertEquals('coming_soon', $odPresenter->getBadgeTranslationString());
     }
 
@@ -234,43 +246,43 @@ class OnDemandPresenterTest extends TestCase
         $episode->method('getPosition')
             ->willReturn(1);
         $programme = $this->createProgramme($isRadio);
-        $odPresenter = new OnDemandPresenter($programme, $episode, null);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, null);
         $this->assertEmpty($odPresenter->getBadgeTranslationString());
     }
 
-    public function testLastOnNotAvailableYet()
+    public function testEpisodeIsPending()
     {
         $episode = $this->createEpisode();
         $programme = $this->createProgramme();
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
         $collapsedBroadcast->method('getStartAt')->willReturn(new Chronos('-6 days'));
         $collapsedBroadcast->method('getProgrammeItem')->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, null, $collapsedBroadcast);
-        $this->assertTrue($odPresenter->lastOnNotAvailableYet());
+        $odPresenter = new OnDemandPresenter($programme, null, false, $collapsedBroadcast);
+        $this->assertTrue($odPresenter->episodeIsPending());
     }
 
     /**
      * @dataProvider trueFalseDataProvider
      * @param bool $isStreamable
      */
-    public function testLastOnNotAvailableYetWhenNoStreamableFromDate(bool $isStreamable)
+    public function testEpisodeIsPendingWhenNoStreamableFromDate(bool $isStreamable)
     {
         $episode = $this->createEpisode(1, null, '-1 day', $isStreamable);
         $programme = $this->createProgramme();
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
         $collapsedBroadcast->method('getProgrammeItem')->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, null, $collapsedBroadcast);
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet());
+        $odPresenter = new OnDemandPresenter($programme, null, false, $collapsedBroadcast);
+        $this->assertFalse($odPresenter->episodeIsPending());
     }
 
-    public function testLastOnNotAvailableYetWhenStreamable()
+    public function testEpisodeIsPendingWhenStreamable()
     {
         $episode = $this->createEpisode(1, '+1 day', '-1 day', true);
         $programme = $this->createProgramme();
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
         $collapsedBroadcast->method('getProgrammeItem')->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, null, $collapsedBroadcast);
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet());
+        $odPresenter = new OnDemandPresenter($programme, null, false, $collapsedBroadcast);
+        $this->assertFalse($odPresenter->episodeIsPending());
     }
 
     public function testLastOnNotAvailableYetWhenOver7DaysOld()
@@ -280,8 +292,8 @@ class OnDemandPresenterTest extends TestCase
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
         $collapsedBroadcast->method('getStartAt')->willReturn(new Chronos('-8 days'));
         $collapsedBroadcast->method('getProgrammeItem')->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, null, $collapsedBroadcast);
-        $this->assertFalse($odPresenter->lastOnNotAvailableYet());
+        $odPresenter = new OnDemandPresenter($programme, null, false, $collapsedBroadcast);
+        $this->assertFalse($odPresenter->episodeIsPending());
     }
 
     public function testShowImageWhenShowingMiniMap()
@@ -302,7 +314,7 @@ class OnDemandPresenterTest extends TestCase
         $collapsedBroadcast->method('getStartAt')->willReturn(new Chronos('-6 days'));
         $collapsedBroadcast->method('getProgrammeItem')
             ->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, $episode, $collapsedBroadcast, ['show_mini_map' => true]);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, $collapsedBroadcast, ['show_mini_map' => true]);
         $this->assertFalse($odPresenter->shouldShowImage());
     }
 
@@ -324,7 +336,7 @@ class OnDemandPresenterTest extends TestCase
         $collapsedBroadcast->method('getStartAt')->willReturn(new Chronos('-6 days'));
         $collapsedBroadcast->method('getProgrammeItem')
             ->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, $episode, $collapsedBroadcast);
+        $odPresenter = new OnDemandPresenter($programme, $episode, false, $collapsedBroadcast);
         $this->assertFalse($odPresenter->shouldShowImage());
     }
 
@@ -363,7 +375,6 @@ class OnDemandPresenterTest extends TestCase
         $programmeImage = $this->createMock(Image::class);
         $programmeImage->method('getPid')
             ->willReturn(new Pid('v0t3m1k3'));
-
         $programme = $this->createMock(ProgrammeContainer::class);
         $programme->method('isRadio')
             ->willReturn($isRadio);

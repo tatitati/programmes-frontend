@@ -175,9 +175,12 @@ class MapPresenter extends Presenter
         if ($this->isWorldNews()) {
             $this->rightColumns[] = new LastOnPresenter($this->programme);
         } else {
+            $hasAnUpcomingEpisode = $this->upcomingBroadcast && $this->upcomingBroadcast->getProgrammeItem()->getStreamableFrom() && !$this->upcomingBroadcast->getProgrammeItem()->isStreamable();
+
             $this->rightColumns[] = new OnDemandPresenter(
                 $this->programme,
                 $this->streamableEpisode,
+                $hasAnUpcomingEpisode,
                 $this->lastOn,
                 ['full_width' => false, 'show_mini_map' => $this->showMiniMap]
             );
@@ -213,6 +216,7 @@ class MapPresenter extends Presenter
         $this->rightColumns[] = new OnDemandPresenter(
             $this->programme,
             $this->streamableEpisode,
+            false,
             null,
             [
                 'full_width' => true,
