@@ -116,6 +116,64 @@ class ProgrammeTitlePresenterTest extends BaseProgrammeSubPresenterTest
         ];
     }
 
+    public function testLongerThan60CharacterLongMainAndSubTitles(): void
+    {
+        $mockSeries = $this->createMock(Series::class);
+        $mockSeries->method('getTitle')->willReturn('Very Very Very Very Long Series Name');
+
+        $mockEpisode = $this->createMock(Episode::class);
+        $mockEpisode->method('getTitle')->willReturn('Very Very Very Very Long Episode Name');
+
+        $mockClip = $this->createMock(Clip::class);
+        $mockClip->method('getTitle')->willReturn('Very Very Very Very Very Very Very Very Very Very Long Clip Name');
+
+        $this->mockTitleLogicHelper
+            ->method('getOrderedProgrammesForTitle')
+            ->with($mockClip, $this->mockContext, 'item::ancestry')
+            ->willReturn([$mockClip, [$mockSeries, $mockEpisode]]);
+
+        $titlePresenter = new ProgrammeTitlePresenter(
+            $this->mockClip,
+            $this->router,
+            $this->mockTitleLogicHelper,
+            [
+                'context_programme' => $this->mockContext,
+                'title_format' => 'item::ancestry',
+            ]
+        );
+
+        $this->assertSame('Very Very Very Very Very Very Very Very Very Very Long Clip…', $titlePresenter->getMainTitle());
+        $this->assertSame('Very Very Very Very Long Series Name, Very Very Very Very…', $titlePresenter->getSubTitle());
+    }
+
+    public function testLongerThan60CharacterLongMainTitleWithMultiByteString(): void
+    {
+        $mockClip = $this->createMock(Clip::class);
+        $mockClip->method('getTitle')->willReturn(
+            '王勃《送杜少府之任蜀州》城阙辅三秦, 风烟望五津. 与君离别意, 同是宦游人. 海内存知己, 天涯若比邻. 无为在岐路, 儿女共沾巾. 王勃《送杜少府之任蜀州》'
+        );
+
+        $this->mockTitleLogicHelper
+            ->method('getOrderedProgrammesForTitle')
+            ->with($mockClip, $this->mockContext, 'item::ancestry')
+            ->willReturn([$mockClip, []]);
+
+        $titlePresenter = new ProgrammeTitlePresenter(
+            $this->mockClip,
+            $this->router,
+            $this->mockTitleLogicHelper,
+            [
+                'context_programme' => $this->mockContext,
+                'title_format' => 'item::ancestry',
+            ]
+        );
+
+        $this->assertSame(
+            '王勃《送杜少府之任蜀州》城阙辅三秦, 风烟望五津. 与君离别意, 同是宦游人. 海内存知己, 天涯若比邻. 无为在岐路,…',
+            $titlePresenter->getMainTitle()
+        );
+    }
+
     /** @dataProvider getUrlProvider */
     public function testGetUrl(Programme $programme, bool $forceIplayerLinking, string $expected): void
     {

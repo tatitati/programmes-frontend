@@ -39,6 +39,7 @@ class ProgrammeTitlePresenter extends Presenter
         'title_size_small' => 'gel-pica',
         'branding_name' => 'subtle',
         'force_iplayer_linking' => false,
+        'max_title_length' => 60,
     ];
 
     public function __construct(
@@ -77,7 +78,7 @@ class ProgrammeTitlePresenter extends Presenter
             $this->setTitleProgrammes();
         }
 
-        return $this->mainTitleProgramme->getTitle();
+        return $this->truncate($this->mainTitleProgramme->getTitle());
     }
 
     public function getSubTitle(): string
@@ -86,9 +87,11 @@ class ProgrammeTitlePresenter extends Presenter
             $this->setTitleProgrammes();
         }
 
-        return implode(', ', array_map(function (CoreEntity $programme) {
-            return $programme->getTitle();
-        }, $this->subTitlesProgrammes));
+        return $this->truncate(
+            implode(', ', array_map(function (CoreEntity $programme) {
+                return $programme->getTitle();
+            }, $this->subTitlesProgrammes))
+        );
     }
 
     public function getUrl(): string
@@ -119,6 +122,22 @@ class ProgrammeTitlePresenter extends Presenter
         if (!is_bool($options['text_colour_on_title_link'])) {
             throw new InvalidOptionException('text_colour_on_title_link option must be a boolean');
         }
+
+        if (!is_int($options['max_title_length'])) {
+            throw new InvalidOptionException('max_title_length option must be an integer. HINT: use -1 for unlimited title length');
+        }
+    }
+
+    private function truncate(string $string, string $suffix = '…'): string
+    {
+        $length = mb_strlen($string);
+        $maxLength = $this->getOption('max_title_length');
+
+        if ($maxLength > 0 && $length > $maxLength) {
+            return mb_substr($string, 0, mb_strrpos($string, ' ', $maxLength - $length)) . $suffix;
+        }
+
+        return $string;
     }
 
     private function setTitleProgrammes(): void
