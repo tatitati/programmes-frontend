@@ -29,7 +29,7 @@ class SchedulesOnNowController extends BaseController
 
         $this->setTimeZone($network);
         $this->response()->headers->set('Access-Control-Allow-Origin', '*');
-        
+
         $broadcast = $broadcastsService->findOnNowByService($network->getDefaultService());
         if (!$broadcast) {
             throw $this->createNotFoundException('No broadcasts found.');
