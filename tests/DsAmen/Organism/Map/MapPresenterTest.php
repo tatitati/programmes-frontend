@@ -14,6 +14,7 @@ use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -35,6 +36,7 @@ class MapPresenterTest extends TestCase
             null,
             null,
             null,
+            null,
             0,
             0
         );
@@ -42,7 +44,10 @@ class MapPresenterTest extends TestCase
 
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
         $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(0);
-        $programmeContainer->expects($this->at(1))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
+        $programmeContainer->expects($this->atLeastOnce())->method('getOption')
+            ->will($this->returnValueMap([
+                ['comingsoon_textonly', 'Coming soon text'],
+            ]));
         $presenter = $this->createMapPresenter($programmeContainer);
         $this->assertTrue($presenter->showMap());
     }
@@ -58,7 +63,10 @@ class MapPresenterTest extends TestCase
     {
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
         $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(0);
-        $programmeContainer->expects($this->at(1))->method('getOption')->with('comingsoon_textonly')->willReturn('Coming Soon Text');
+        $programmeContainer->expects($this->atLeastOnce())->method('getOption')
+            ->will($this->returnValueMap([
+                ['comingsoon_textonly', 'Coming soon text'],
+            ]));
         $presenter = $this->createMapPresenter($programmeContainer);
         $this->assertColumns($presenter, [OnDemandPresenter::class, ComingSoonPresenter::class]);
     }
@@ -88,6 +96,21 @@ class MapPresenterTest extends TestCase
         $this->assertColumns($presenter, [OnDemandPresenter::class]);
     }
 
+    public function testShowPromoPriority()
+    {
+        $promo = $this->createMock(Promotion::class);
+        $programmeContainer = $this->createMock(ProgrammeContainer::class);
+        $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(1);
+        $programmeContainer->method('isTlec')->willReturn(true);
+        $programmeContainer->expects($this->atLeastOnce())->method('getOption')
+            ->will($this->returnValueMap([
+                ['brand_layout', 'promo'],
+                ['brand_2016_layout_use_minimap', false],
+            ]));
+        $presenter = $this->createMapPresenter($programmeContainer, null, $promo);
+        $this->assertTrue($presenter->isPromoPriority());
+    }
+
     /**
      * Asserts the correct number of columns exists in the correct order
      *
@@ -104,7 +127,7 @@ class MapPresenterTest extends TestCase
         }
     }
 
-    private function createMapPresenter($programmeContainer, ?CollapsedBroadcast $upcomingBroadcasts = null): MapPresenter
+    private function createMapPresenter($programmeContainer, ?CollapsedBroadcast $upcomingBroadcasts = null, ?Promotion $firstPromo = null): MapPresenter
     {
         return new MapPresenter(
             new Request(),
@@ -114,6 +137,7 @@ class MapPresenterTest extends TestCase
             $programmeContainer,
             $upcomingBroadcasts,
             null,
+            $firstPromo,
             null,
             null,
             0,

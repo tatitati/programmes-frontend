@@ -80,11 +80,18 @@ class TlecController extends BaseController
             $programme,
             $upcomingBroadcast,
             $lastOn,
+            $promotions[0] ?? null,
             $comingSoonPromo,
             $streamableEpisodes[0] ?? null,
             $upcomingRepeatsAndDebutsCounts['debuts'],
             $upcomingRepeatsAndDebutsCounts['repeats']
         );
+
+        // This is ugly but I don't know how else to do it. If promo priority is active the first promo moves
+        // into the MAP
+        if ($mapPresenter->isPromoPriority()) {
+            array_shift($promotions);
+        }
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,

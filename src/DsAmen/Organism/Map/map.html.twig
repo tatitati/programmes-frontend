@@ -1,15 +1,7 @@
 <div class="b-g-p no-margin-vertical">
     <div class="grid map">
         <div class="grid__item map__item {{ map.getLeftGridClasses() }}">
-            {% if map.getPromo() %}
-                <div class="br-box-secondary" data-map-column="promo">
-                    {{ ds_amen_presenter(map.getPromoPresenter()) }}
-                </div>
-            {% else %}
-                <div class="br-box-secondary" data-map-column="info2016">
-                    {{ ds_amen_presenter(map.getProgrammeInfoPresenter()) }}
-                </div>
-            {% endif %}
+            {{ ds_amen_presenter(map.getLeftColumn()) }}
         </div>
         <div class="grid__item map__item {{ map.getRightGridClasses() }} map-grid__item">
             <div class="grid map-grid">

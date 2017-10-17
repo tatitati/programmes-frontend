@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Organism\Map\SubPresenter;
 
+use App\DsAmen\Organism\Map\SubPresenter\Traits\RightColumnImageSizeTrait;
 use App\DsAmen\Presenter;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -13,6 +14,8 @@ use Exception;
 
 class OnDemandPresenter extends Presenter
 {
+    use RightColumnImageSizeTrait;
+
     /** @var mixed[] */
     protected $options = [
         'full_width' => false, // The full width of the right hand MAP column
@@ -54,19 +57,6 @@ class OnDemandPresenter extends Presenter
         if ($this->getOption('full_width')) {
             $this->class = '1/1';
         }
-    }
-
-    public function getImageSizes(): array
-    {
-        if ($this->options['full_width']) {
-            return [768 => 1/3, 1008 => '324px', 1280 => '414px'];
-        }
-        return [320 => 1/2, 768 => 1/4, 1008 => '242px', 1280 => '310px'];
-    }
-
-    public function getDefaultImageSize(): int
-    {
-        return $this->options['full_width'] ? 324 : 242;
     }
 
     public function getAllLinkLocation(): string

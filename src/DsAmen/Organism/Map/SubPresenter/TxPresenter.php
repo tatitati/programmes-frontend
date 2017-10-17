@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Organism\Map\SubPresenter;
 
+use App\DsAmen\Organism\Map\SubPresenter\Traits\RightColumnImageSizeTrait;
 use App\DsAmen\Presenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\Translate\TranslateProvider;
@@ -16,6 +17,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class TxPresenter extends Presenter
 {
+    use RightColumnImageSizeTrait;
+
     /** @var CollapsedBroadcast|null */
     private $upcomingBroadcast;
 

@@ -1,12 +1,14 @@
-{% if not programme_info.showMiniMap %}
-    {{ ds_shared('image', programme_info.programme.image, 487, programme_info.imagesSizes, {'is_lazy_loaded': false}) }}
-{% endif %}
-<div class="island" vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(programme_info.programme) }}" resource="{{ path('find_by_pid', {'pid': programme_info.programme.pid}) }}">
-    <h1 class="invisible" property="name">{{ programme_info.programme.title }}</h1>
-    <meta property="image" content="{{ programme_info.programme.image.getUrl(480,270) }}"/>
-    {% if programme_info.programme.longestSynopsis %}
-        <div class="gel-long-primer" property="description">
-            {{ ds_amen('synopsis', programme_info.getProgramme().getSynopses(), 250) }}
-        </div>
+<div class="br-box-secondary" data-map-column="info2016">
+    {% if not programme_info.showMiniMap %}
+        {{ ds_shared('image', programme_info.getProgramme().getImage(), programme_info.getDefaultImageSize(), programme_info.getImageSizes(), {'is_lazy_loaded': false}) }}
     {% endif %}
+    <div class="island" vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(programme_info.programme) }}" resource="{{ path('find_by_pid', {'pid': programme_info.programme.pid}) }}">
+        <h1 class="invisible" property="name">{{ programme_info.programme.title }}</h1>
+        <meta property="image" content="{{ programme_info.programme.image.getUrl(480,270) }}"/>
+        {% if programme_info.programme.longestSynopsis %}
+            <div class="gel-long-primer" property="description">
+                {{ ds_amen('synopsis', programme_info.getProgramme().getSynopses(), 250) }}
+            </div>
+        {% endif %}
+    </div>
 </div>

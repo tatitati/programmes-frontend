@@ -52,7 +52,8 @@ class PresenterFactory
         ProgrammeContainer $programme,
         ?CollapsedBroadcast $upcomingBroadcast,
         ?CollapsedBroadcast $lastOn,
-        ?Promotion $promotion,
+        ?Promotion $firstPromo,
+        ?Promotion $comingSoonPromo,
         ?Episode $streamableEpisode,
         int $debutsCount,
         int $repeatsCount
@@ -65,7 +66,8 @@ class PresenterFactory
             $programme,
             $upcomingBroadcast,
             $lastOn,
-            $promotion,
+            $firstPromo,
+            $comingSoonPromo,
             $streamableEpisode,
             $debutsCount,
             $repeatsCount

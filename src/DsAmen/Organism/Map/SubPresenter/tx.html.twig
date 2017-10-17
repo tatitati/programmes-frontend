@@ -24,8 +24,8 @@
                 'image_options': {
                     'badge_text': tr(tx.getBadgeTranslationString()),
                     'is_lazy_loaded': false,
-                    'sizes': {320 : 1/2, 768 : 1/4, 1008 : '242px', 1280 : '310px'},
-                    'default_width': 242,
+                    'sizes': tx.getImageSizes(),
+                    'default_width': tx.getDefaultImageSize(),
                 }
             }) -}}
         {%- else -%}

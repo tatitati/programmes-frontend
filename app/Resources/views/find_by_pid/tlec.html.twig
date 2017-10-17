@@ -34,12 +34,12 @@
                         {# @TODO should this be moved out into a page presenter or something. It's fugly #}
                         {%- if loop.first and programme.getOption('double_width_first_promo') -%}
                             {%- set promo_widths = '2/3@gel3b 1/2@gel5' -%}
-                            {%- set img_sizes = { 600 : 1/2, 768 : 1/3, 1008 : '315px', 1280 : '300px'} -%}
-                            {%- set img_default_width = 315 -%}
+                            {%- set img_sizes = { 600 : 1/1, 768 : 2/3, 1008 : '645px', 1280 : '600px'} -%}
+                            {%- set img_default_width = 640 -%}
                         {%- else -%}
                             {%- set promo_widths = '1/2@gel3 1/3@gel3b 1/4@gel5' -%}
-                            {%- set img_sizes = { 600 : 1/1, 768 : 2/3, 1008 : '645px', 1280 : '600px'} -%}
-                            {%- set img_default_width = 645 -%}
+                            {%- set img_sizes = { 600 : 1/2, 768 : 1/3, 1008 : '315px', 1280 : '300px'} -%}
+                            {%- set img_default_width = 320 -%}
                         {%- endif -%}
                         <li class="grid__item {{ promo_widths }}">
                             {{- ds_amen('promotion', promotion, {

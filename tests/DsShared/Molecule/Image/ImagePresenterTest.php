@@ -18,10 +18,10 @@ class ImagePresenterTest extends TestCase
         $this->assertEquals(true, $imagePresenter->getOption('is_lazy_loaded'));
         $this->assertEquals([80, 160, 320, 480, 640, 768, 896, 1008], $imagePresenter->getOption('srcsets'));
         $this->assertEquals('', $imagePresenter->getOption('alt'));
-        $this->assertNull($imagePresenter->getOption('ratio'));
+        $this->assertEquals((16 / 9), $imagePresenter->getOption('ratio'));
 
         // Test generating src url using the defaultWidth argument
-        $this->assertEquals('48 by n', $imagePresenter->getSrc());
+        $this->assertEquals('48 by 27', $imagePresenter->getSrc());
     }
 
     public function testSettingOptions(): void

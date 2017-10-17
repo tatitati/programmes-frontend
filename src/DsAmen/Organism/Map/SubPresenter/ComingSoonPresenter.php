@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Organism\Map\SubPresenter;
 
+use App\DsAmen\Organism\Map\SubPresenter\Traits\RightColumnImageSizeTrait;
 use App\DsAmen\Presenter;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -10,6 +11,8 @@ use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 
 class ComingSoonPresenter extends Presenter
 {
+    use RightColumnImageSizeTrait;
+
     /** @var Programme */
     private $programme;
 

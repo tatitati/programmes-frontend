@@ -13,7 +13,7 @@ class ImagePresenter extends Presenter
     protected $options = [
         'is_lazy_loaded' => true,
         'srcsets' => [80, 160, 320, 480, 640, 768, 896, 1008],
-        'ratio' => null,
+        'ratio' => (16 / 9),
         'alt' => '',
     ];
 
@@ -138,7 +138,8 @@ class ImagePresenter extends Presenter
     private function buildSrcUrl(?int $width): string
     {
         if ($this->getOption('ratio')) {
-            return $this->image->getUrl($width, $width / $this->getOption('ratio'));
+            $height = (int) round($width / $this->getOption('ratio'));
+            return $this->image->getUrl($width, $height);
         }
 
         return $this->image->getUrl($width);

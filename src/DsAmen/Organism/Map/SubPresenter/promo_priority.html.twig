@@ -1,0 +1,12 @@
+<div class="br-box-secondary" data-map-column="promo">
+    {{ ds_amen('promotion', promo_priority.getPromotion(), {
+        'branding_name' : 'secondary',
+        'show_synopsis' : true,
+        'related_links_count' : 2,
+        'img_sizes' : promo_priority.getImageSizes(),
+        'img_default_width' : promo_priority.getDefaultImageSize(),
+        'img_is_lazy_loaded': false,
+        'link_location_prefix' : 'promo_priority_',
+        'cta_class' : 'br-box-secondary',
+    }) }}
+</div>
