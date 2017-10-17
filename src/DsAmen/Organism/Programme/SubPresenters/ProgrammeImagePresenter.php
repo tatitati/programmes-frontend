@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace App\DsAmen\Organism\Programme\SubPresenters;
 
 use App\DsAmen\Presenter;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class ProgrammeImagePresenter extends Presenter
 {

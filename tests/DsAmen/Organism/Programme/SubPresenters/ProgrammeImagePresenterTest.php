@@ -6,7 +6,6 @@ namespace Tests\App\DsAmen\Organism\Programme\SubPresenters;
 use App\DsAmen\Organism\Programme\SubPresenters\ProgrammeCtaPresenter;
 use App\DsAmen\Organism\Programme\SubPresenters\ProgrammeImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Tests\App\DsAmen\Organism\Programme\BaseProgrammeSubPresenterTest;
 

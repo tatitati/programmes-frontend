@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace Tests\App\Controller;
 
-use Tests\App\BaseWebTestCase;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use Tests\App\BaseWebTestCase;
 
 /**
  * @covers App\Controller\SchedulesByWeekController

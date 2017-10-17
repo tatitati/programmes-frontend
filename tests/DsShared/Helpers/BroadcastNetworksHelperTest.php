@@ -12,9 +12,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use Cake\Chronos\Chronos;
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use RMP\Translate\TranslateFactory;
 
 class BroadcastNetworksHelperTest extends TestCase

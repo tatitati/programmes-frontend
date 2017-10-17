@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Tests\App\Fixture;
 
-use App\Fixture\Exception\ScenarioReadingException;
 use App\Fixture\ScenarioManagement\ScenarioState;
 use App\ValueObject\CosmosInfo;
 use PHPUnit\Framework\TestCase;

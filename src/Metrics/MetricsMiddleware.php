@@ -2,7 +2,6 @@
 
 namespace App\Metrics;
 
-use App\Fixture\Doctrine\EntityRepository\HttpFixtureRepository;
 use App\Fixture\ScenarioManager;
 use GuzzleHttp\TransferStats;
 use Psr\Http\Message\RequestInterface;

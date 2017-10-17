@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace App\Fixture\Doctrine\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use DateTime;
 
 /**
  * @ORM\Table(

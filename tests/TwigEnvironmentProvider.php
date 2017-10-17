@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace Tests\App;
 
 use App\Ds2013\PresenterFactory as Ds2013PresenterFactory;
-use App\Ds2013\PresenterFactory;
 use App\DsAmen\PresenterFactory as DsAmenPresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\DsShared\PresenterFactory as DsSharedPresenterFactory;
@@ -32,9 +31,10 @@ class TwigEnvironmentProvider
     /** @var Twig_Environment */
     static private $twig;
 
-    /** @var PresenterFactory */
+    /** @var Ds2013PresenterFactory */
     static private $ds2013PresenterFactory;
 
+    /** @var DsAmenPresenterFactory */
     static private $dsAmenPresenterFactory;
 
     /** @var DsSharedPresenterFactory */

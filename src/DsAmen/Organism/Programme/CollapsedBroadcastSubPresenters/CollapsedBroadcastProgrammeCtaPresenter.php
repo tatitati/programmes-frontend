@@ -5,9 +5,7 @@ namespace App\DsAmen\Organism\Programme\CollapsedBroadcastSubPresenters;
 
 use App\DsAmen\Organism\Programme\SubPresenters\ProgrammeCtaPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
-use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

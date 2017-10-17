@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Fixture\ScenarioManagement;
 
+use App\Fixture\Exception\ScenarioGenerationException;
 use App\Fixture\Exception\ScenarioReadingException;
 use App\ValueObject\CosmosInfo;
-use DateTimeImmutable;
 use DateTime;
-use App\Fixture\Exception\ScenarioGenerationException;
+use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ScenarioState

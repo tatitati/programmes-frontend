@@ -5,11 +5,9 @@ namespace App\Ds2013\Organism\Broadcast;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\BroadcastGap;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use Cake\Chronos\Chronos;
-use InvalidArgumentException;
 
 class BroadcastPresenter extends Presenter
 {

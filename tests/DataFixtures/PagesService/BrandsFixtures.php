@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Tests\App\DataFixtures\PagesService;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
-use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 

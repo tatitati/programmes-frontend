@@ -4,13 +4,11 @@ declare(strict_types = 1);
 namespace App\Fixture\Guzzle;
 
 use App\Fixture\ScenarioManagement\ScenarioManager;
-use App\Fixture\ScenarioManagement\ScenarioState;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 
 class HttpFixtureMiddleware
 {

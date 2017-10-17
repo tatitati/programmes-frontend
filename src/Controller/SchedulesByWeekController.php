@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
-use App\Ds2013\Page\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
+use App\Ds2013\Page\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ValueObject\BroadcastWeek;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;

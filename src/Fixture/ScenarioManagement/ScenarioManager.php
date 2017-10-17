@@ -15,7 +15,6 @@ use App\Fixture\UrlMatching\UrlReverseEvangelist;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ScenarioManager

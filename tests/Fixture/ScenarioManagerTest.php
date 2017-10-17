@@ -11,13 +11,13 @@ use App\Fixture\ScenarioManagement\ScenarioManager;
 use App\Fixture\ScenarioManagement\ScenarioState;
 use App\Fixture\UrlMatching\UrlReverseEvangelist;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
-use PHPUnit\Framework\TestCase;
-use DateTimeImmutable;
 use DateTime;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Request;
+use DateTimeImmutable;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ScenarioManagerTest extends TestCase
