@@ -9,7 +9,6 @@ use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Exception;
 
 class OnDemandPresenter extends Presenter
@@ -142,15 +141,7 @@ class OnDemandPresenter extends Presenter
 
     public function shouldShowImage(): bool
     {
-        if ($this->getOption('show_mini_map')) {
-            return false;
-        }
-        $item = $this->episodeIsPending() ? $this->lastOn->getProgrammeItem() : $this->streamableEpisode;
-        if (null === $item) {
-            return false;
-        }
-        // Don't show the image if it's the same as the main image
-        return !$this->pidsMatch($this->programmeContainer->getImage()->getPid(), $item->getImage()->getPid());
+        return !$this->getOption('show_mini_map');
     }
 
     public function showMiniMap(): bool
@@ -166,10 +157,5 @@ class OnDemandPresenter extends Presenter
         if (!is_bool($options['full_width'])) {
             throw new InvalidOptionException('full_width option must be a boolean');
         }
-    }
-
-    private function pidsMatch(Pid $firstPid, Pid $secondPid): bool
-    {
-        return (string) $firstPid === (string) $secondPid;
     }
 }

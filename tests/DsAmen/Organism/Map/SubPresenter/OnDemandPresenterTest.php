@@ -9,7 +9,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
@@ -75,7 +74,7 @@ class OnDemandPresenterTest extends TestCase
         $odPresenter = new OnDemandPresenter($programme, null, false, null);
         $this->assertNull($odPresenter->getStreamableEpisode());
         $this->assertNull($odPresenter->getPendingEpisode());
-        $this->assertFalse($odPresenter->shouldShowImage()); // Not that these are likely ever called
+        $this->assertTrue($odPresenter->shouldShowImage()); // Not that these are likely ever called
         $this->assertFalse($odPresenter->episodeIsPending()); // Not that these are likely ever called
         $this->expectExceptionMessage('Streamable or LastOn must be set in order to call getBadgeTranslationString');
         $this->assertEmpty($odPresenter->getBadgeTranslationString());
@@ -206,7 +205,7 @@ class OnDemandPresenterTest extends TestCase
         $this->assertTrue($odPresenter->hasUpcomingEpisode());
         $this->assertNull($odPresenter->getStreamableEpisode());
         $this->assertNull($odPresenter->getPendingEpisode());
-        $this->assertFalse($odPresenter->shouldShowImage()); // Not that these are likely ever called
+        $this->assertTrue($odPresenter->shouldShowImage()); // Not that these are likely ever called
         $this->assertFalse($odPresenter->episodeIsPending()); // Not that these are likely ever called
         $this->expectExceptionMessage('Streamable or LastOn must be set in order to call getBadgeTranslationString');
         $this->assertEmpty($odPresenter->getBadgeTranslationString());
@@ -315,28 +314,6 @@ class OnDemandPresenterTest extends TestCase
         $collapsedBroadcast->method('getProgrammeItem')
             ->willReturn($episode);
         $odPresenter = new OnDemandPresenter($programme, $episode, false, $collapsedBroadcast, ['show_mini_map' => true]);
-        $this->assertFalse($odPresenter->shouldShowImage());
-    }
-
-    public function testShowImageWhenPidsMatch()
-    {
-        $episodeImage = $this->createMock(Image::class);
-        $episodeImage->method('getPid')
-            ->willReturn(new Pid('v0t3m1k3'));
-        $programmeImage = $this->createMock(Image::class);
-        $programmeImage->method('getPid')
-            ->willReturn(new Pid('v0t3m1k3'));
-        $episode = $this->createEpisode(1, '-1 day');
-        $episode->method('getImage')
-            ->willReturn($episodeImage);
-        $programme = $this->createProgramme(true);
-        $programme->method('getImage')
-            ->willReturn($programmeImage);
-        $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
-        $collapsedBroadcast->method('getStartAt')->willReturn(new Chronos('-6 days'));
-        $collapsedBroadcast->method('getProgrammeItem')
-            ->willReturn($episode);
-        $odPresenter = new OnDemandPresenter($programme, $episode, false, $collapsedBroadcast);
         $this->assertFalse($odPresenter->shouldShowImage());
     }
 
