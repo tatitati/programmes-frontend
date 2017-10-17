@@ -43,10 +43,10 @@
                        title="{{ tr(tx.getLinkTitleTranslationString(), {'%1': tx.getProgrammeTitle()}) }}"
                        href="{{ tx.getTrailingLinkHref() }}"
                        class="gel-pica-bold">
-                        {{ tr(tx.getLinkTextTranslationString()) }}
+                        {{- tr(tx.getLinkTextTranslationString()) -}}
                     </a>
                     {%- if tx.getUpcomingBroadcast() -%}
-                        <span class="gel-long-primer">({{ tx.getUpcomingBroadcastCount() }})</span>
+                        <span class="gel-long-primer"> ({{ tx.getUpcomingBroadcastCount() }})</span>
                     {%- endif -%}
                 </p>
             </div>

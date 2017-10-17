@@ -14,12 +14,8 @@
         {# Service details #}
         <div class="broadcast-details__service">
             {%- for network, services in collapsed_broadcast_details.getNetworksAndServicesDetails() -%}
-                <span class="gel-minion-bold" property="name">
-                    {{- network -}}
-                </span>
-                {%- if services -%}
-                    <span>{{- services -}}</span>
-                {%- endif -%}
+                <span class="gel-minion-bold" property="name">{{ network }} </span>
+                {%- if services %}<span>{{ services }} </span>{% endif -%}
             {%- endfor-%}
         </div>
     </div>
