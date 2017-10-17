@@ -63,7 +63,13 @@ class FooterPresenter extends Presenter
      */
     public function getGenres(): array
     {
-        return $this->programme->getGenres();
+        $genres = $this->programme->getGenres();
+
+        usort($genres, function (Genre $a, Genre $b) {
+            return  $a->getUrlKeyHierarchy() <=> $b->getUrlKeyHierarchy();
+        });
+
+        return $genres;
     }
 
     /**
@@ -71,6 +77,12 @@ class FooterPresenter extends Presenter
      */
     public function getFormats(): array
     {
-        return $this->programme->getFormats();
+        $formats = $this->programme->getFormats();
+
+        usort($formats, function (Format $a, Format $b) {
+            return  $a->getUrlKey() <=> $b->getUrlKey();
+        });
+
+        return $formats;
     }
 }

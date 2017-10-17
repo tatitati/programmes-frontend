@@ -57,7 +57,7 @@ class FooterPresenterTest extends TestCase
         $this->mockProgramme->method('getGenres')->willReturn([$genre, $someOtherGenre]);
 
         $footerPresenter = new FooterPresenter($this->mockProgramme);
-        $this->assertEquals([$genre, $someOtherGenre], $footerPresenter->getGenres());
+        $this->assertEquals([$someOtherGenre, $genre], $footerPresenter->getGenres());
     }
 
     public function testRetrieveProgrammeFormats()
