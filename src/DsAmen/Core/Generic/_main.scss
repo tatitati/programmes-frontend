@@ -2,29 +2,11 @@
 //
 // Base layout
 //
+
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-}
-
-// correct the ORB layout
-#orb-banner,
-#orb-footer {
-    *,
-    *::before,
-    *::after {
-        box-sizing: content-box;
-    }
-
-    ul > li {
-        list-style-type: none;
-    }
-}
-
-.b-g-p,
-.b-g-m {
-    box-sizing: content-box;
+    box-sizing: inherit;
 }
 
 html {
@@ -32,6 +14,14 @@ html {
     min-height: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+}
+
+// correct the ORB layout
+// This can be removed once Orbit starts forcing their stuff to content-box
+#orb-banner,
+#orb-footer {
+    box-sizing: content-box;
 }
 
 img {

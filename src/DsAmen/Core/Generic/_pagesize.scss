@@ -1,0 +1,23 @@
+// p-g-p replaces barlesque's b-g-p because b-g-p assumes box-sizing: content-box
+// whereas we use box-sizing: border-box
+
+// p-g-p stands for programmes-group-padding
+
+.p-g-p {
+    padding: 0 8px;
+
+    @media screen and (min-width: 400px) {
+        padding: 0 16px;
+    }
+
+    @media screen and (min-width: 1008px) {
+        max-width: 1008px;
+        margin: 0 auto;
+    }
+
+    @media screen and (min-width: 1280px) {
+        .b-pw-1280 & {
+            max-width: 1280px;
+        }
+    }
+}
