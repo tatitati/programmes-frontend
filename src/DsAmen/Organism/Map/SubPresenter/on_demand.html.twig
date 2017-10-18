@@ -48,7 +48,8 @@
             'is_lazy_loaded': false,
             'sizes': presenter.getImageSizes(),
             'default_width': presenter.getDefaultImageSize(),
-        }
+        },
+        'force_iplayer_linking': true,
     }) }}
 
     {%- if presenter.getProgramme().getAvailableEpisodesCount() > 0 and not presenter.showMiniMap() -%}
