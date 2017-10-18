@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Metrics\ProgrammesMetrics;
 
-/*
+/**
     AWS metrics in namespaces: api_time and api_count
     +-----------+----------------+--------------------------+
     |     #     | dimension: api | dimension: response_type |

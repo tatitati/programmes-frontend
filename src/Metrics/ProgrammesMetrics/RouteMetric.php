@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Metrics\ProgrammesMetrics;
 
-/*
+/**
     AWS metrics in namespaces: route_count and route_time
     +-----------+-----------------------+
     |     #     | dimension: controller |

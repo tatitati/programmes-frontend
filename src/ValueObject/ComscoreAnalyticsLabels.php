@@ -11,8 +11,6 @@ use RMP\Comscore\Comscore;
  * Class ComscoreAnalyticsLabels
  *
  * Integration with BBC Worldwide "Comscore" analytics package via rmp/comscore composer package
- *
- * @package App\ValueObject
  */
 class ComscoreAnalyticsLabels
 {

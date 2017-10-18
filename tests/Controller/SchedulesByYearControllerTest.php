@@ -13,7 +13,7 @@ class SchedulesByYearControllerTest extends BaseWebTestCase
     /**
      * @dataProvider serviceActiveTestProvider
      * @param string $scheduleYear    The year the user is viewing the schedule for
-     * @param bool $serviceIsActive
+     * @param int $expectedResponseCode
      */
     public function testResponseIs404IfServiceIsNotActive(string $scheduleYear, int $expectedResponseCode)
     {
