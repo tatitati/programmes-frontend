@@ -73,6 +73,12 @@ class OnDemandPresenter extends Presenter
         if ($this->lastOn === null) {
             return null;
         }
+
+        // The episode has been and gone if streamable_from is null
+        if (!$this->lastOn->getProgrammeItem() || $this->lastOn->getProgrammeItem()->getStreamableFrom() === null) {
+            return null;
+        }
+
         return $this->lastOn->getProgrammeItem();
     }
 
@@ -91,7 +97,7 @@ class OnDemandPresenter extends Presenter
         }
         // If the parent is the TLEO (e.g. Eastenders) we don't want to show a new badge for each episode
         // Otherwise (e.g. Mongrels) the parent will be a series, which we do want badges for each episode.
-        if (!$this->streamableEpisode->getParent() || $this->streamableEpisode->getParent()->isTleo()) {
+        if ($this->streamableEpisode === null || !$this->streamableEpisode->getParent() || $this->streamableEpisode->getParent()->isTleo()) {
             return '';
         }
         if ($this->streamableEpisode->getFirstBroadcastDate() === null || !$this->streamableEpisode->getFirstBroadcastDate()->wasWithinLast('7 days')) {

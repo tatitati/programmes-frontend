@@ -215,6 +215,27 @@ class OnDemandPresenterTest extends TestCase
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio
      */
+    public function testOldLastOn(bool $isRadio)
+    {
+        $episode = $this->createEpisode(2, null, '-8 months');
+        $programme = $this->createProgramme($isRadio);
+        $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
+        $collapsedBroadcast->method('getStartAt')
+            ->willReturn(new Chronos('-8 months'));
+        $collapsedBroadcast->method('getProgrammeItem')
+            ->willReturn($episode);
+        $odPresenter = new OnDemandPresenter($programme, null, false, $collapsedBroadcast);
+        $this->assertNull($odPresenter->getStreamableEpisode());
+        $this->assertNull($odPresenter->getPendingEpisode());
+        $this->assertFalse($odPresenter->episodeIsPending());
+        $this->assertEmpty($odPresenter->getBadgeTranslationString());
+        $this->assertTrue($odPresenter->shouldShowImage());
+    }
+
+    /**
+     * @dataProvider trueFalseDataProvider
+     * @param bool $isRadio
+     */
     public function testComingSoonBadge(bool $isRadio)
     {
         $episode = $this->createEpisode(1, '-1 day');
