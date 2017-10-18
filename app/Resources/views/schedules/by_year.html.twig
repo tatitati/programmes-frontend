@@ -11,7 +11,7 @@
 {%- endblock -%}
 
 {%- block schedule -%}
-    <div class="p-g-p br-box-page island--vertical">
+    <div class="b-g-p br-box-page island--vertical">
         {%- if (service.getStartDate() and service.getStartDate() > start_of_year.endOfYear()) or (service.getEndDate() and service.getEndDate() < start_of_year) -%}
             {{ ds2013('noSchedule', service, start_of_year, start_of_year.endOfYear()) }}
         {% else %}

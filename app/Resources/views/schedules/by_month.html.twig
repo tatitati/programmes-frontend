@@ -17,7 +17,7 @@
 {%- endblock -%}
 
 {%- block schedule -%}
-    <div class="p-g-p br-box-page island--vertical">
+    <div class="b-g-p br-box-page island--vertical">
         {%- if (service.getStartDate() and first_of_month.endOfMonth().lte(service.getStartDate())) or (service.getEndDate() and first_of_month.startOfMonth().gt(service.getEndDate())) -%}
             {{ ds2013('noSchedule', service, first_of_month.startOfMonth(), first_of_month.endOfMonth()) }}
         {%- else -%}
