@@ -61,7 +61,9 @@ class DurationPresenter extends Presenter
             return $this->getHours() . ":"
                 . sprintf('%02d', $this->getMinutes()) . ":"
                 . sprintf('%02d', $this->getSeconds());
-        } elseif ($this->getMinutes() > 0) {
+        }
+
+        if ($this->getMinutes() > 0) {
             // 1+ minutes e.g. (1:23)
             return $this->getMinutes() . ":"
                 . sprintf('%02d', $this->getSeconds());

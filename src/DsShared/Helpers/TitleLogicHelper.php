@@ -47,7 +47,9 @@ class TitleLogicHelper
         $count = count($ancestryArray);
         if ($count === 0) {
             throw new RuntimeException("Programme::getAncestry appears to have returned nothing. This should not be possible");
-        } elseif ($count === 1) {
+        }
+
+        if ($count === 1) {
             // no ancestors. Title must be the item title
             $mainTitleProgramme = reset($ancestryArray);
         } elseif ($titleFormat === 'item::ancestry') {

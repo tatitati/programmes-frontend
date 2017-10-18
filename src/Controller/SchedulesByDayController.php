@@ -151,11 +151,13 @@ class SchedulesByDayController extends BaseController
     {
         if ($diffInDays == 0) {
             return 'today';
-        } elseif ($diffInDays < 0) {
-            return 'past';
-        } else {
-            return 'future';
         }
+
+        if ($diffInDays < 0) {
+            return 'past';
+        }
+
+        return 'future';
     }
 
     private function getScheduleCurrentFortnight(int $diffInDays): string

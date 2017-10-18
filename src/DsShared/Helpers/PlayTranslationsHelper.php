@@ -164,17 +164,28 @@ class PlayTranslationsHelper
     {
         if ($programmeItem->isAudio()) {
             return 'listen';
-        } elseif ($programmeItem->isVideo()) {
-            return 'watch';
-        } elseif ($programmeItem->isRadio()) {
-            return 'listen';
-        } elseif ($programmeItem->isTv()) {
-            return 'watch';
-        } elseif ($service && $service->isRadio()) {
-            return 'listen';
-        } elseif ($service && $service->isTv()) {
+        }
+
+        if ($programmeItem->isVideo()) {
             return 'watch';
         }
+
+        if ($programmeItem->isRadio()) {
+            return 'listen';
+        }
+
+        if ($programmeItem->isTv()) {
+            return 'watch';
+        }
+
+        if ($service && $service->isRadio()) {
+            return 'listen';
+        }
+
+        if ($service && $service->isTv()) {
+            return 'watch';
+        }
+
         return 'play';
     }
 }

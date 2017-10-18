@@ -102,10 +102,13 @@ class StatusController extends AbstractController
                 // way I can see to be specific to the case of "DB server went down"
                 // is to do a string compare on the error message.
                 return true;
-            } elseif ($e->getCode() == 2002) {
+            }
+
+            if ($e->getCode() == 2002) {
                 // Connection timeout
                 return true;
             }
+
             return false;
         } catch (DriverException $e) {
             if ($e->getErrorCode() == 1213 || $e->getErrorCode() == 1205) {
@@ -113,7 +116,9 @@ class StatusController extends AbstractController
                 // and exit with a zero exit status allowing the processor
                 // to restart
                 return true;
-            } elseif ($e->getErrorCode() == 2006) {
+            }
+
+            if ($e->getErrorCode() == 2006) {
                 // General error: 2006 MySQL server has gone away
                 return true;
             }
