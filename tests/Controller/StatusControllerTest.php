@@ -5,6 +5,7 @@ namespace Tests\App\Controller;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\SegmentEventsService;
+use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use BBC\ProgrammesPagesService\Service\VersionsService;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\DBALException;
@@ -50,24 +51,23 @@ class StatusControllerTest extends BaseWebTestCase
         // clip mock
         $mockProgrammeService = $this->createMock(ProgrammesService::class);
         $mockProgrammeService->expects($this->once())->method('findByPidFull');
-        $client->getContainer()->set(ProgrammesService::class, $mockProgrammeService);
 
         // broadcast service mock
         $mockBroadcastService = $this->createMock(BroadcastsService::class);
         $mockBroadcastService->expects($this->once())->method('findByServiceAndDateRange');
-        $client->getContainer()->set(BroadcastsService::class, $mockBroadcastService);
 
         // version mock
         $mockVersionService = $this->createMock(VersionsService::class);
         $mockVersionService->expects($this->once())->method('findByPidFull');
-        $client->getContainer()->set(VersionsService::class, $mockVersionService);
 
         // segment events mock. This one throw an exception and injects it into the container
         $mockSegmentEventsService = $this->createMock(SegmentEventsService::class);
         $mockSegmentEventsService->expects($this->once())
             ->method('findByPidFull')
             ->willThrowException(new DBALException("Something bad happened."));
-        $client->getContainer()->set(SegmentEventsService::class, $mockSegmentEventsService);
+
+        $mockServiceFactory = $this->mockServiceFactory($mockProgrammeService, $mockBroadcastService, $mockVersionService, $mockSegmentEventsService);
+        $client->getContainer()->set('null_cache_service_factory', $mockServiceFactory);
 
         $client->request('GET', '/status');
 
@@ -88,28 +88,44 @@ class StatusControllerTest extends BaseWebTestCase
         // clip mock
         $mockProgrammeService = $this->createMock(ProgrammesService::class);
         $mockProgrammeService->expects($this->once())->method('findByPidFull');
-        $client->getContainer()->set(ProgrammesService::class, $mockProgrammeService);
 
         // broadcast service mock
         $mockBroadcastService = $this->createMock(BroadcastsService::class);
         $mockBroadcastService->expects($this->once())->method('findByServiceAndDateRange');
-        $client->getContainer()->set(BroadcastsService::class, $mockBroadcastService);
 
         // version mock
         $mockVersionService = $this->createMock(VersionsService::class);
         $mockVersionService->expects($this->once())->method('findByPidFull');
-        $client->getContainer()->set(VersionsService::class, $mockVersionService);
 
         // segment events mock. This one throw an exception and injects it into the container
         $mockSegmentEventsService = $this->createMock(SegmentEventsService::class);
         $mockSegmentEventsService->expects($this->once())
             ->method('findByPidFull')
             ->willThrowException(new ConnectionException("Cannot Connect."));
-        $client->getContainer()->set(SegmentEventsService::class, $mockSegmentEventsService);
+
+        $mockServiceFactory = $this->mockServiceFactory($mockProgrammeService, $mockBroadcastService, $mockVersionService, $mockSegmentEventsService);
+        $client->getContainer()->set('null_cache_service_factory', $mockServiceFactory);
 
         $client->request('GET', '/status');
 
         $this->assertResponseStatusCode($client, 200);
         $this->assertEquals('OK', $client->getResponse()->getContent());
+    }
+
+    private function mockServiceFactory(
+        ProgrammesService $programmesService,
+        BroadcastsService $broadcastsService,
+        VersionsService $versionsService,
+        SegmentEventsService $segmentEventsService
+    ) {
+        return $this->createConfiguredMock(
+            ServiceFactory::class,
+            [
+                'getProgrammesService' => $programmesService,
+                'getBroadcastsService' => $broadcastsService,
+                'getVersionsService' => $versionsService,
+                'getSegmentEventsService' => $segmentEventsService,
+            ]
+        );
     }
 }

@@ -171,3 +171,22 @@ services:
 
     BBC\ProgrammesPagesService\Service\VersionsService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getVersionsService']
+
+    null_cache:
+        class: 'BBC\ProgrammesPagesService\Cache\Cache'
+        arguments:
+            - '@cache.null_provider'
+            - 'nullcache'
+
+    ### Cache null adapter for the status controller
+
+    null_cache_service_factory:
+        class: BBC\ProgrammesPagesService\Service\ServiceFactory
+        public: true
+        arguments:
+            $cache: '@null_cache'
+
+    App\Controller\StatusController:
+        public: true
+        arguments:
+            - '@null_cache_service_factory'

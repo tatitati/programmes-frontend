@@ -8,6 +8,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\SegmentEventsService;
+use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use BBC\ProgrammesPagesService\Service\VersionsService;
 use DateTimeImmutable;
 use Doctrine\DBAL\ConnectionException as ConnectionExceptionDBAL;
@@ -18,20 +19,29 @@ use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\DriverException;
 use ErrorException;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class StatusController extends Controller
+class StatusController extends AbstractController
 {
+    /** @var ServiceFactory */
+    private $serviceFactory;
+
+    public function __construct(ServiceFactory $serviceFactory)
+    {
+        $this->serviceFactory = $serviceFactory;
+    }
+
     public function __invoke(
         Request $request,
-        Connection $dbalConnection,
-        ProgrammesService $programmesService,
-        BroadcastsService $broadcastsService,
-        VersionsService $versionsService,
-        SegmentEventsService $segmentEventsService
+        Connection $dbalConnection
     ): Response {
+        $versionsService = $this->serviceFactory->getVersionsService();
+        $broadcastsService = $this->serviceFactory->getBroadcastsService();
+        $programmesService = $this->serviceFactory->getProgrammesService();
+        $segmentEventsService = $this->serviceFactory->getSegmentEventsService();
+
         // If the load balancer is pinging us then give them a plain OK
         $dbCacheIsOk = $this->verifyNoDatabaseCacheIssues($programmesService, $broadcastsService, $versionsService, $segmentEventsService);
         if ($request->headers->get('User-Agent') == 'ELB-HealthChecker/1.0') {
