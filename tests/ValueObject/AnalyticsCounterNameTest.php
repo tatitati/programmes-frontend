@@ -20,15 +20,23 @@ class AnalyticsCounterNameTest extends TestCase
     /**
      * @dataProvider urlWithDifferentParamsFormattedProvider
      */
-    public function testCounterNameValueCanBeGeneratedForDifferentParamsInTheUrl(string $expectedValueOutput, string $relativePathProvided)
+    public function testCounterNameValueCanBeGeneratedForDifferentParamsInTheUrl(string $expectedValueOutput, string $serviceUrlKey, string $relativePathProvided)
     {
         ApplicationTime::setTime((new Chronos('2017-09-12 12:00:00'))->getTimestamp()); // week 37
 
+        preg_match('/\/schedules\/(\w+)/', $relativePathProvided, $matches);
+        $servicePid = $matches[1];
+
         $serviceContext = $this->createConfiguredMock(Service::class, [
+            'getUrlKey' => $serviceUrlKey,
             'getNetwork' => $this->createConfiguredMock(Network::class, [
                 'getNid' => new Nid('bbc_world_service'),
-                'getServices' => [$this->createMock(Service::class)],
+                'getServices' => [$this->createMock(Service::class), $this->createMock(Service::class), $this->createMock(Service::class)],
+                'getDefaultService' => $this->createConfiguredMock(Service::class, [
+                    'getPid' => new Pid('p00fzl9p'),
+                ]),
             ]),
+            'getPid' => new Pid($servicePid),
         ]);
 
         $analyticsCounterName = new AnalyticsCounterName($serviceContext, $relativePathProvided);
@@ -39,15 +47,18 @@ class AnalyticsCounterNameTest extends TestCase
     public function urlWithDifferentParamsFormattedProvider(): array
     {
         return [
-            'CASE 1: schedules by day' => ['programmes.bbc_world_service.schedules.page', '/schedules/p02y9rgr'],
-            'CASE 2: schedules by day with slash in the end' => ['programmes.bbc_world_service.schedules.page', '/schedules/p02y9rgr/'],
-            'CASE 3: schedules by day' => ['programmes.bbc_world_service.schedules.2017.02.11.page', '/schedules/p02y9rgr/2017/02/11'],
-            'CASE 4: schedules by this week using words' => ['programmes.bbc_world_service.schedules.2017.this_week.page', '/schedules/p02y9rgr/2017/this_week'],
-            'CASE 5: schedules by this week using number' => ['programmes.bbc_world_service.schedules.2017.w37.page', '/schedules/p02y9rgr/2017/w37'],
-            'CASE 6: schedules by week' => ['programmes.bbc_world_service.schedules.2017.w38.page', '/schedules/p02y9rgr/2017/w38'],
-            'CASE 7: schedules by week work also for weeks with one digit' => ['programmes.bbc_world_service.schedules.2017.w01.page', '/schedules/p02y9rgr/2017/w01'],
-            'CASE 8: schedules by month' => ['programmes.bbc_world_service.schedules.2017.07.page', '/schedules/p02y9rgr/2017/07'],
-            'CASE 9: schedules by year' => ['programmes.bbc_world_service.schedules.2017.page', '/schedules/p02y9rgr/2017'],
+            'CASE 1: WS europe schedule by day' => ['programmes.bbc_world_service.schedules.europe.page', 'europe', '/schedules/p02y9rgr'],
+            'CASE 2: WS europe schedule by day with slash in the end' => ['programmes.bbc_world_service.schedules.europe.page', 'europe', '/schedules/p02y9rgr/'],
+            'CASE 3: WS europe schedule by day' => ['programmes.bbc_world_service.schedules.europe.2017.02.11.page', 'europe', '/schedules/p02y9rgr/2017/02/11'],
+            'CASE 4: WS europe schedule by this week using words' => ['programmes.bbc_world_service.schedules.europe.2017.this_week.page', 'europe', '/schedules/p02y9rgr/2017/this_week'],
+            'CASE 5: WS europe schedule by this week using number' => ['programmes.bbc_world_service.schedules.europe.2017.w37.page', 'europe', '/schedules/p02y9rgr/2017/w37'],
+            'CASE 6: WS europe schedule by week' => ['programmes.bbc_world_service.schedules.europe.2017.w38.page', 'europe', '/schedules/p02y9rgr/2017/w38'],
+            'CASE 7: WS europe schedule by week work also for weeks with one digit' => ['programmes.bbc_world_service.schedules.europe.2017.w01.page', 'europe', '/schedules/p02y9rgr/2017/w01'],
+            'CASE 8: WS europe schedule by month' => ['programmes.bbc_world_service.schedules.europe.2017.07.page', 'europe', '/schedules/p02y9rgr/2017/07'],
+            'CASE 9: WS europe schedule by year' => ['programmes.bbc_world_service.schedules.europe.2017.page', 'europe', '/schedules/p02y9rgr/2017'],
+            'CASE 10: WS online schedule by day' => ['programmes.bbc_world_service.schedules.2017.02.11.page', 'europe', '/schedules/p00fzl9p/2017/02/11'],
+            'CASE 11: WS online schedule by day' => ['programmes.bbc_world_service.schedules.page', 'europe', '/schedules/p00fzl9p'],
+            'CASE 11: WS africa schedule by day' => ['programmes.bbc_world_service.schedules.africa.page', 'africa', '/schedules/p00fzl9g'],
         ];
     }
 

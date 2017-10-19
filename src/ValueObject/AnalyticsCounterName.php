@@ -62,7 +62,10 @@ class AnalyticsCounterName
         $allServices = $service->getNetwork()->getServices();
         $defaultService = $service->getNetwork()->getDefaultService();
         $notOnDefaultServiceOfNetworkWithTwoServices = (count($allServices) === 2 && (string) $service->getPid() !== (string) $defaultService->getPid());
-        if (count($allServices) > 2 || $notOnDefaultServiceOfNetworkWithTwoServices) {
+        // World service online is a special case. It is the only V2 schedules page that had a disambiguation (list of services)
+        // On the same page as the schedule for the default outlet.
+        $isWorldServiceOnline = ('p00fzl9p' === (string) $service->getPid());
+        if ((count($allServices) > 2 || $notOnDefaultServiceOfNetworkWithTwoServices) && !$isWorldServiceOnline) {
             // We need to add the V2 outlet key. Which is hairy. Sorry.
             $outlet = trim($service->getUrlKey(), '_');
             if (!empty($outlet)) {
