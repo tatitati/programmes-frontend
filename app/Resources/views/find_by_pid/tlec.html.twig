@@ -21,11 +21,25 @@
 
     <div class="p-g-p">
         <div class="leading-gap cf">
-            {# TODO Priority text block #}
+            {#{%- if programme.getOption('prioritytext_block') or isbbcdotcom or hasrecipes -%} TODO #}
+            {%- if programme.getOption('prioritytext_block') -%}
+                <div class="grid">
+                    {%- if programme.getOption('prioritytext_block') -%}
+                        <div class="grid__item 1/1">
+                            <div class="br-box-secondary island">
+                                {%- if programme.getOption('prioritytext_block').content.title -%}
+                                    <h2 class="map__heading gel-great-primer-bold">{{ programme.getOption('prioritytext_block').content.title }}</h2>
+                                {%- endif -%}
+                                <p>{{ programme.getOption('prioritytext_block').content.text }}</p>
+                            </div>
+                        </div>
+                    {%- endif -%}
 
-            {# TODO MPU Advert #}
+                    {# TODO MPU Advert #}
 
-            {# TODO Recipes block #}
+                    {# TODO Recipes block #}
+                </div>
+            {%- endif -%}
 
             {# TODO Promos / Galleries list #}
             {%- if promotions or clips or galleries -%}
