@@ -1,7 +1,7 @@
 /**
  * DsAmen JS Bootstrap
  */
-define(['eqjs', 'respimg', 'lazysizes'], function(EQ) {
+define(['eqjs', 'lazyload', 'respimg', 'lazysizes'], function(EQ, Lazyload) {
         function init() {
             var selector = '[data-eq-pts]';
             EQ.query(document.querySelectorAll(selector));
@@ -10,6 +10,9 @@ define(['eqjs', 'respimg', 'lazysizes'], function(EQ) {
             window.addEventListener('lazyload-complete',function(e){
                 EQ.query(document.querySelectorAll(selector));
             },false);
+
+            var lazyload = new Lazyload();
+            lazyload.init();
         }
 
         // cut the mustard
