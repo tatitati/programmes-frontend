@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\DsShared\Helpers\HelperFactory;
+use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
@@ -27,6 +28,7 @@ class SchedulesOnNowController extends BaseController
             throw $this->createNotFoundException('No network or service found from network key ' . $networkUrlKey);
         }
 
+        $this->setContext($network);
         $this->setTimeZone($network);
         $this->response()->headers->set('Access-Control-Allow-Origin', '*');
 
@@ -46,10 +48,11 @@ class SchedulesOnNowController extends BaseController
         $cacheLifetime = $this->calculateCacheLifetime($broadcast->getEndAt());
         $this->response()->setPublic()->setMaxAge($cacheLifetime);
 
-        return $this->render('schedules/on_now_' . $designSystem . '.html.twig', [
+        return $this->renderWithChrome('schedules/on_now_' . $designSystem . '.html.twig', [
             'broadcast' => $broadcast,
             'simulcastUrl' => $simulcastUrl,
             'isRadio' => $network->isRadio(),
+            'with_chrome' => false, // This is to render the content without the ORB or Meta information
         ]);
     }
 
