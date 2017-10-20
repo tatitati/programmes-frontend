@@ -3,22 +3,19 @@
  */
 
 .actions-wrapper {
-    display: block;
-    display: flex;
+    display: inline-block;
+    display: inline-flex;
     flex-wrap: wrap;
 
-    vertical-align: middle;
-    align-items: center;
-
     .gelicon {
-        flex: 0 0 44px;
+        min-width: 44px;
     }
 
     .icon-link {
         flex: 1 1 140px; // This fixes some bugs in IE11 and iOS Safari 9
     }
 
-    .icon-link + .icon-link {
+    .actions-wrapper__item + .actions-wrapper__item {
         margin-top: $gel-unit-small;
         margin-left: 0;
     }
@@ -29,9 +26,9 @@
         .actions-wrapper {
             flex-wrap: nowrap;
 
-            .icon-link + .icon-link {
+            .actions-wrapper__item + .actions-wrapper__item {
                 margin-top: 0;
-                margin-left: $gel-unit-small;
+                margin-left: $gel-unit-large;
             }
         }
     }

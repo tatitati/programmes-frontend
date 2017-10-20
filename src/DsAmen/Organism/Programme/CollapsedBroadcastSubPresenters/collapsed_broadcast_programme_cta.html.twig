@@ -2,21 +2,19 @@
    Note the the presenter here is collapsed_broadcast_cta, this is overriden in
    CollapsedBroadcastProgrammeCtaPresenter->getTemplateVariableName()
 #}
-<div class="icon-link {{ collapsed_broadcast_cta.getOption('cta_class') }} icon--remove-background">
-    <a class="link-complex" href="{{ collapsed_broadcast_cta.getUrl() }}"
-       data-linktrack="{{ collapsed_broadcast_cta.getLinkLocationPrefix() }}calltoaction">
-        <div class="icon icon--vmiddle icon--{{ collapsed_broadcast_cta.getMediaIconName() }} {{ collapsed_broadcast_cta.getBackgroundClass() }}">
-            {{ gelicon('audio-visual', collapsed_broadcast_cta.getMediaIconName(), 'gelicon--programme') }}
-            <span class="invisible">{{ tr(collapsed_broadcast_cta.getLabelTranslation()) }}</span>
-            {%- if collapsed_broadcast_cta.showLiveMessage() -%}
-                <span class="icon-label gel-brevier link-complex__target">
-                    {{- tr(collapsed_broadcast_cta.getLabelTranslation()) | upper -}}
-                </span>
-            {%- elseif collapsed_broadcast_cta.getDuration() -%}
-                <span class="icon-label gel-brevier link-complex__target">
-                    {{- ds_amen('duration', collapsed_broadcast_cta.getDuration()) -}}
-                </span>
-            {%- endif -%}
-        </div>
-    </a>
-</div>
+<a class="link-complex icon-link {{ collapsed_broadcast_cta.getOption('cta_class') }} icon--remove-background" href="{{ collapsed_broadcast_cta.getUrl() }}"
+   data-linktrack="{{ collapsed_broadcast_cta.getLinkLocationPrefix() }}calltoaction">
+    <div class="icon icon--vmiddle icon--{{ collapsed_broadcast_cta.getMediaIconName() }} {{ collapsed_broadcast_cta.getBackgroundClass() }}">
+        {{ gelicon('audio-visual', collapsed_broadcast_cta.getMediaIconName(), 'gelicon--programme') }}
+        <span class="invisible">{{ tr(collapsed_broadcast_cta.getLabelTranslation()) }}</span>
+        {%- if collapsed_broadcast_cta.showLiveMessage() -%}
+            <span class="icon-label gel-brevier link-complex__target">
+                {{- tr(collapsed_broadcast_cta.getLabelTranslation()) | upper -}}
+            </span>
+        {%- elseif collapsed_broadcast_cta.getDuration() -%}
+            <span class="icon-label gel-brevier link-complex__target">
+                {{- ds_amen('duration', collapsed_broadcast_cta.getDuration()) -}}
+            </span>
+        {%- endif -%}
+    </div>
+</a>
