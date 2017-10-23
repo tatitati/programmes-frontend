@@ -13,7 +13,15 @@
 
     {# TODO BBC Live Promo #}
 
-    {# TODO Priority Vote block #}
+    {% if isVotePriority %}
+        <div class="p-g-p">
+            <div class="grid leading-gap">
+                <div class="grid__item">
+                    {{ dump(programme.getOption('brand_layout'), programme.getOption('ivote_block')) }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     {% if mapPresenter.showMap() %}
         {{ ds_amen_presenter(mapPresenter) }}

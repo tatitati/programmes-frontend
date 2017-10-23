@@ -75,6 +75,8 @@ class TlecController extends BaseController
 
         $comingSoonPromo = $this->getComingSoonPromotion($imagesService, $programme);
 
+        $isVotePriority = $programme->getOption('brand_layout') === 'vote' && $programme->getOption('ivote_block') !== null;
+
         $mapPresenter = $presenterFactory->mapPresenter(
             $request,
             $programme,
@@ -84,7 +86,8 @@ class TlecController extends BaseController
             $comingSoonPromo,
             $streamableEpisodes[0] ?? null,
             $upcomingRepeatsAndDebutsCounts['debuts'],
-            $upcomingRepeatsAndDebutsCounts['repeats']
+            $upcomingRepeatsAndDebutsCounts['repeats'],
+            $isVotePriority
         );
 
         // This is ugly but I don't know how else to do it. If promo priority is active the first promo moves
@@ -99,6 +102,7 @@ class TlecController extends BaseController
             'clips' => $clips,
             'galleries' => $galleries,
             'mapPresenter' => $mapPresenter,
+            'isVotePriority' => $isVotePriority,
         ]);
     }
 

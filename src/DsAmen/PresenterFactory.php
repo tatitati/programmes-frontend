@@ -56,7 +56,8 @@ class PresenterFactory
         ?Promotion $comingSoonPromo,
         ?Episode $streamableEpisode,
         int $debutsCount,
-        int $repeatsCount
+        int $repeatsCount,
+        bool $isVotePriority
     ): MapPresenter {
         return new MapPresenter(
             $request,
@@ -70,7 +71,8 @@ class PresenterFactory
             $comingSoonPromo,
             $streamableEpisode,
             $debutsCount,
-            $repeatsCount
+            $repeatsCount,
+            $isVotePriority
         );
     }
 

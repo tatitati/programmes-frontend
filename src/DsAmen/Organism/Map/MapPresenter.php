@@ -31,6 +31,9 @@ class MapPresenter extends Presenter
     /** @var HelperFactory */
     private $helperFactory;
 
+    /** @var bool */
+    private $isVotePriority;
+
     /** @var Presenter */
     private $leftColumn;
 
@@ -89,6 +92,7 @@ class MapPresenter extends Presenter
         ?Episode $streamableEpisode,
         int $debutsCount,
         int $repeatsCount,
+        bool $isVotePriority,
         array $options = []
     ) {
         // Set class properties
@@ -105,6 +109,7 @@ class MapPresenter extends Presenter
         $this->streamableEpisode = $streamableEpisode;
         $this->debutsCount = $debutsCount;
         $this->repeatsCount = $repeatsCount;
+        $this->isVotePriority = $isVotePriority;
 
         if (!$this->showMap()) {
             return;
@@ -288,9 +293,12 @@ class MapPresenter extends Presenter
     {
         if ($this->request->query->has('__2016minimap')) {
             return (bool) $this->request->query->get('__2016minimap');
-        } else {
-            // if ($this->is2016BrandPage() && $this->isVotePriority() ) return true;
-            return filter_var($this->programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
         }
+
+        if ($this->isVotePriority) {
+            return true;
+        }
+
+        return filter_var($this->programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
     }
 }

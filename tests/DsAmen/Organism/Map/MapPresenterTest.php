@@ -38,7 +38,8 @@ class MapPresenterTest extends TestCase
             null,
             null,
             0,
-            0
+            0,
+            false
         );
         $this->assertTrue($presenter->showMap());
 
@@ -141,7 +142,8 @@ class MapPresenterTest extends TestCase
             null,
             null,
             0,
-            0
+            0,
+            false
         );
     }
 
