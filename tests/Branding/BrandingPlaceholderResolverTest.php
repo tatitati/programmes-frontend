@@ -130,7 +130,7 @@ class BrandingPlaceholderResolverTest extends TestCase
     {
         return new Branding(
             '<branding-head/>',
-            '<branding-bodyfirst><!--BRANDING_PLACEHOLDER_TITLE-->||<!--BRANDING_PLACEHOLDER_NAV-->||<!--BRANDING_PLACEHOLDER_SPONSOR--></branding-bodyfirst>',
+            '<branding-bodyfirst><!--BRANDING_PLACEHOLDER_TITLE-->||<!--BRANDING_PLACEHOLDER_NAV--></branding-bodyfirst>',
             '<branding-bodylast/>',
             ['body' => ['bg' => '#eeeeee']],
             []

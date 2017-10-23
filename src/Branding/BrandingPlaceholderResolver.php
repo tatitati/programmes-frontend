@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * correct per-programme Title and Navigation?
  *
  * This is solved by the Branding Tool outputting templates that contain
- * placeholder sections such as  <!--BRANDING_PLACEHOLDER_TITLE--> and
- * <!--BRANDING_PLACEHOLDER_NAV--> when there is not programme set.
+ * placeholder sections such as <!--BRANDING_PLACEHOLDER_TITLE--> and
+ * <!--BRANDING_PLACEHOLDER_NAV--> when there is no programme set.
  *
  * This takes a Branding instance that contains those placeholders and a
  * "context" and replaces those placeholders with a title and default
@@ -28,7 +28,6 @@ class BrandingPlaceholderResolver
 {
     private const PLACEHOLDER_TITLE = '<!--BRANDING_PLACEHOLDER_TITLE-->';
     private const PLACEHOLDER_NAV = '<!--BRANDING_PLACEHOLDER_NAV-->';
-    private const PLACEHOLDER_SPONSOR = '<!--BRANDING_PLACEHOLDER_SPONSOR-->';
 
     /** @var UrlGeneratorInterface */
     private $router;
@@ -81,15 +80,6 @@ class BrandingPlaceholderResolver
             $haystack = str_replace(
                 self::PLACEHOLDER_NAV,
                 $this->buildNav($context, $branding),
-                $haystack
-            );
-        }
-
-        // Sponsor
-        if (strpos($haystack, self::PLACEHOLDER_SPONSOR) !== 0) {
-            $haystack = str_replace(
-                self::PLACEHOLDER_SPONSOR,
-                $this->buildSponsor($context),
                 $haystack
             );
         }
@@ -162,11 +152,5 @@ class BrandingPlaceholderResolver
         }
 
         return implode('', $navItems);
-    }
-
-    private function buildSponsor($context): string
-    {
-        // TODO
-        return '';
     }
 }
