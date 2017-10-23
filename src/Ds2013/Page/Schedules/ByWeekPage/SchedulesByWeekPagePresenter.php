@@ -58,6 +58,11 @@ class SchedulesByWeekPagePresenter extends Presenter
         return new WeekDateListItemPresenter($offset, $this->service, $this->startOfWeek, $this->now);
     }
 
+    public function getRouteDate(): string
+    {
+        return $this->routeDate;
+    }
+
     public function getService(): Service
     {
         return $this->service;

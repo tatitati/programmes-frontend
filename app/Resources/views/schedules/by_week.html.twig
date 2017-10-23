@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if schedule_reload is defined and schedule_reload %}
-        <div class="schedule-reload-container lazy-module--loading--loader" data-utcoffset-replace="{{ path('schedules_by_week', {'pid' : service.getPid(), date: broadcast_week.start()|local_date('Y/\\wW'), 'no_chrome' : '1'}) }}">
+        <div class="schedule-reload-container lazy-module--loading--loader" data-utcoffset-replace="{{ path('schedules_by_week', {'pid' : service.getPid(), date: page_presenter.getRouteDate(), 'no_chrome' : '1'}) }}">
     {% else %}
         <div>
     {% endif %}
