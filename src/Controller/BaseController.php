@@ -98,9 +98,6 @@ abstract class BaseController extends AbstractController
         } elseif ($context instanceof Service) {
             $this->setBrandingId($context->getNetwork()->getOption('branding_id'));
             $this->fallbackBrandingId = 'br-00002';
-        } elseif ($context instanceof Network) {
-            $this->setBrandingId($context->getOption('branding_id'));
-            $this->fallbackBrandingId = 'br-00002';
         }
     }
 
