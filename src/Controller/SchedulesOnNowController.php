@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\DsShared\Helpers\HelperFactory;
-use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Service\BroadcastsService;
