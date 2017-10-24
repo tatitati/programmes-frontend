@@ -18,6 +18,18 @@ class CalendarPresenter extends Presenter
     /** @var Date */
     private $date;
 
+    /**
+     * Don't show links before this date
+     * @var null|Date
+     */
+    private $lowerLinkCutOff;
+
+    /**
+     * Don't show links after this date
+     * @var Date
+     */
+    private $upperLinkCutOff;
+
     /** @var Service */
     private $service;
 
@@ -26,11 +38,24 @@ class CalendarPresenter extends Presenter
         parent::__construct($options);
         $this->date = $date;
         $this->service = $service;
+        $this->lowerLinkCutOff =  $service->getStartDate() ? new Date($service->getStartDate()) : null;
+        $cutOffDate = new Date('+35 days');
+        $this->upperLinkCutOff =  new Date($service->getEndDate() && $service->getEndDate()->lt($cutOffDate) ? $service->getEndDate() : $cutOffDate);
     }
 
     public function getFirstOfMonth(): Date
     {
         return $this->date;
+    }
+
+    public function getLowerLinkCutOff(): ?Date
+    {
+        return $this->lowerLinkCutOff;
+    }
+
+    public function getUpperLinkCutOff(): Date
+    {
+        return $this->upperLinkCutOff;
     }
 
     public function getPid(): string

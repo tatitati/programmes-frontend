@@ -19,18 +19,22 @@
     {%- for week in 0..5 -%}
         <tr>
             {%- for day in 0..6 -%}
-                {{ self.dayCell(calendar.getFirstOfMonth(), week, day, calendar.getPid()) }}
+                {{ self.dayCell(calendar.getFirstOfMonth(), week, day, calendar.getPid(), calendar.getLowerLinkCutOff(), calendar.getUpperLinkCutOff()) }}
             {%- endfor -%}
         </tr>
     {%- endfor -%}
     </tbody>
 </table>
 
-{% macro dayCell(firstOfMonth, week, day, pid) %}
+{% macro dayCell(firstOfMonth, week, day, pid, lowerCutOff, upperCutOff) %}
     {% set date = firstOfMonth.startOfWeek().addDays((week*7) + day) %}
     <td class="{{ firstOfMonth.format('m') == date.format('m') ? 'br-box-highlight' : 'br-box-subtle' }} br-page-bg-onborder"
         datatype="xsd:date" content="{{ date|local_date('Y-m-d') }}">
-        <a class="box-link"
-           href="{{ path('schedules_by_day', {pid: pid, date: date|local_date('Y/m/d')}) }}">{{ date|local_date('j') }}</a>
+        {% if date.lte(upperCutOff) and (lowerCutOff is null or date.gte(lowerCutOff)) %}
+            <a class="box-link"
+               href="{{ path('schedules_by_day', {pid: pid, date: date|local_date('Y/m/d')}) }}">{{ date|local_date('j') }}</a>
+        {% else %}
+            <span class="box-link">{{ date|local_date('j') }}</span>
+        {% endif %}
     </td>
 {% endmacro %}

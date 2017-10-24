@@ -92,9 +92,10 @@ class SchedulesByDayController extends BaseController
             $service->isInternational() && !$this->request()->query->has('utcoffset')
         );
 
-        // If there are no broadcasts, then the status code should be 404, so
-        // that search engines do not index thousands of empty pages
-        if (!$broadcasts) {
+        // If there are broadcasts, 200
+        // If there are no broadcasts, but the page is less than 35 days away, still 200
+        // This means the date nav won't link to 404 pages.
+        if (!$broadcasts && !$broadcastDay->start()->isWithinNext('+35 days')) {
             $this->response()->setStatusCode(404);
         }
 

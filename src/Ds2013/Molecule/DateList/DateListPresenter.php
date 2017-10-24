@@ -37,11 +37,7 @@ class DateListPresenter extends Presenter
         $this->datetime = $datetime;
         $this->router = $router;
         $this->service = $service;
-        if ($this->getOption('format') === 'month') {
-            $this->unavailableAfterDate = new Chronos('+2 weeks');
-        } else {
-            $this->unavailableAfterDate = new Chronos('+90 days');
-        }
+        $this->unavailableAfterDate = new Chronos('+35 days');
     }
 
     public function getDateListItem(int $offset): AbstractDateListItemPresenter
