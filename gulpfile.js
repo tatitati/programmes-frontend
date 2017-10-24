@@ -74,7 +74,7 @@ gulp.task('sass', ['sass:clean'], function() {
         .pipe(autoprefixer({
             browsers: ['last 3 versions'], cascade: false, remove: false
         }))
-        .pipe(sourcemaps.write())
+        // .pipe(sourcemaps.write())
         .pipe(gulp.dest(staticPathDist + '/css/'));
 });
 
