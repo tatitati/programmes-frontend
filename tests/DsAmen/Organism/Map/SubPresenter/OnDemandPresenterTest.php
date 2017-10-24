@@ -338,6 +338,25 @@ class OnDemandPresenterTest extends TestCase
         $this->assertFalse($odPresenter->shouldShowImage());
     }
 
+    public function testSizesWhenHalfWidth()
+    {
+        $programme = $this->createProgramme();
+        $odPresenter = new OnDemandPresenter($programme, null, false, null, ['full_width' => false]);
+        $this->assertSame('1/2@gel1b', $odPresenter->getClass());
+        $this->assertSame(240, $odPresenter->getDefaultImageSize());
+        $this->assertSame([320 => 1/2, 768 => 1/4, 1008 => '242px', 1280 => '310px'], $odPresenter->getImageSizes());
+    }
+
+    public function testSizesWhenFullWidth()
+    {
+        $programme = $this->createProgramme();
+        $odPresenter = new OnDemandPresenter($programme, null, false, null, ['full_width' => true]);
+        $this->assertSame('1/1', $odPresenter->getClass());
+        $this->assertSame(320, $odPresenter->getDefaultImageSize());
+        $this->assertSame([768 => 1/3, 1008 => '324px', 1280 => '414px'], $odPresenter->getImageSizes());
+    }
+
+
     /**
      * @param int $position
      * @param null|string $streamableFrom

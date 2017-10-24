@@ -48,7 +48,6 @@ class PresenterFactory
     }
 
     public function mapPresenter(
-        Request $request,
         ProgrammeContainer $programme,
         ?CollapsedBroadcast $upcomingBroadcast,
         ?CollapsedBroadcast $lastOn,
@@ -57,10 +56,10 @@ class PresenterFactory
         ?Episode $streamableEpisode,
         int $debutsCount,
         int $repeatsCount,
-        bool $isVotePriority
+        bool $isPromoPriority,
+        bool $showMiniMap
     ): MapPresenter {
         return new MapPresenter(
-            $request,
             $this->helperFactory,
             $this->translateProvider,
             $this->router,
@@ -72,7 +71,8 @@ class PresenterFactory
             $streamableEpisode,
             $debutsCount,
             $repeatsCount,
-            $isVotePriority
+            $isPromoPriority,
+            $showMiniMap
         );
     }
 

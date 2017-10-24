@@ -3,27 +3,20 @@
 <div class="grid__item map__item {{ on_demand.getClass() }}">
     <div class="map-card-wrap br-box-secondary" data-map-column="on_demand2016">
         {%- if not on_demand.getStreamableEpisode() and not on_demand.getPendingEpisode() and not on_demand.hasUpcomingEpisode() -%}
-            {%- if on_demand.getProgramme().isRadio() -%}
-                {{ self.message(on_demand.getTitleTranslationString(), 'programme_availability_none_radio') }}
+            {%- if on_demand.getProgrammeContainer().isRadio() -%}
+                {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('programme_availability_none_radio')} only %}
             {%- else -%}
-                {{ self.message(on_demand.getTitleTranslationString(), 'not_available_iplayer') }}
+                {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('not_available_iplayer')} only %}
             {%- endif -%}
         {%- elseif on_demand.episodeIsPending() -%}
             {{ self.main_column(on_demand.getPendingEpisode(), on_demand) }}
         {%- elseif on_demand.getStreamableEpisode() -%}
             {{ self.main_column(on_demand.getStreamableEpisode(), on_demand) }}
         {%- else -%}
-            {{ self.message(on_demand.getTitleTranslationString(), 'available_shortly') }}
+            {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('available_shortly')} only %}
         {%- endif -%}
     </div>
 </div>
-
-{% macro message(headingString, textString) %}
-    <div class="island">
-        <h2 class="map__heading gel-double-pica-bold">{{ tr(headingString) }}</h2>
-        <p>{{ tr(textString) }}</p>
-    </div>
-{% endmacro %}
 
 {% macro main_column(episode, presenter) %}
     <div class="island">
@@ -31,7 +24,7 @@
     </div>
     {# @TODO sort link_location_prefix for radio #}
     {{ ds_amen('programme', episode, {
-        'context_programme': presenter.getProgramme(),
+        'context_programme': presenter.getProgrammeContainer(),
         'media_variant': 'media media--column media--card map-card',
         'branding_name': 'secondary',
         'show_image': presenter.shouldShowImage(),
@@ -41,7 +34,7 @@
         },
         'cta_options': {
             'cta_class': 'icon-cta--dark media__overlay--bottom',
-            'link_location_prefix': presenter.getProgramme().isTv() ? 'map_iplayer_' : '',
+            'link_location_prefix': presenter.getProgrammeContainer().isTv() ? 'map_iplayer_' : '',
         },
         'image_options': {
             'badge_text': tr(presenter.getBadgeTranslationString()),
@@ -52,22 +45,22 @@
         'force_iplayer_linking': true,
     }) }}
 
-    {%- if presenter.getProgramme().getAvailableEpisodesCount() > 0 and not presenter.showMiniMap() -%}
+    {%- if presenter.getProgrammeContainer().getAvailableEpisodesCount() > 0 and not presenter.showMiniMap() -%}
         <div class="map__additional-info gel-pica br-keyline media__meta-row--separator">
             <p>
                 <a
                     data-linktrack="{{ presenter.getAllLinkLocation() }}"
-                    {%- if presenter.getProgramme().isRadio() -%}
-                        title="{{ tr('all_episodes_iplayer_radio', {'%1': presenter.getProgramme().getTitle()}) }}"
+                    {%- if presenter.getProgrammeContainer().isRadio() -%}
+                        title="{{ tr('all_episodes_iplayer_radio', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
                     {%- else -%}
-                        title="{{ tr('all_episodes_iplayer', {'%1': presenter.getProgramme().getTitle()}) }}"
+                        title="{{ tr('all_episodes_iplayer', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
                     {%- endif -%}
-                    href="{{ path('iplayer_episodes', {'pid': presenter.getProgramme().getPid()}) }}"
+                    href="{{ path('iplayer_episodes', {'pid': presenter.getProgrammeContainer().getPid()}) }}"
                     class="gel-pica-bold istats--all-on-demand">
                     {{ tr('all_available_episodes') }}
                 </a>
                 <span class="gel-long-primer">
-                    ({{ tr('x_total', {'%1': presenter.getProgramme().getAvailableEpisodesCount()}, presenter.getProgramme().getAvailableEpisodesCount()) }})
+                    ({{ tr('x_total', {'%1': presenter.getProgrammeContainer().getAvailableEpisodesCount()}, presenter.getProgrammeContainer().getAvailableEpisodesCount()) }})
                 </span>
             </p>
         </div>

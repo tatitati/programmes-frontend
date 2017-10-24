@@ -5,7 +5,6 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
-use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -15,7 +14,6 @@ use BBC\ProgrammesPagesService\Service\ImagesService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -52,33 +50,30 @@ class TlecController extends BaseController
             $clips = $aggregationService->findDescendantClips($programme, 4);
         }
 
-        $upcomingEpisodes = null;
+        $upcomingBroadcast = null;
         $streamableEpisodes = null;
+        $upcomingRepeatsAndDebutsCounts = ['debuts' => 0, 'repeats' => 0];
         if ($programme->getAggregatedEpisodesCount() > 0) {
             $streamableEpisodes = $aggregationService->findStreamableDescendantEpisodes($programme, 1);
+            $upcomingBroadcast = $collapsedBroadcastsService
+                ->findNextDebutOrRepeatOnByProgrammeWithFullServicesOfNetworksList($programme);
+            $upcomingRepeatsAndDebutsCounts = $collapsedBroadcastsService->countUpcomingRepeatsAndDebutsByProgramme($programme);
         }
 
         if ($programme->getOption('show_gallery_cards')) {
             $galleries = $aggregationService->findDescendantGalleries($programme, 4);
         }
 
-        $upcomingBroadcast = null;
-        if ($programme->getAggregatedEpisodesCount()) {
-            $upcomingBroadcast = $collapsedBroadcastsService
-                ->findNextDebutOrRepeatOnByProgrammeWithFullServicesOfNetworksList($programme);
-        }
-
-        $upcomingRepeatsAndDebutsCounts = $collapsedBroadcastsService->countUpcomingRepeatsAndDebutsByProgramme($programme);
-
         $lastOn = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($programme, 1);
         $lastOn = $lastOn[0] ?? null;
 
         $comingSoonPromo = $this->getComingSoonPromotion($imagesService, $programme);
 
-        $isVotePriority = $programme->getOption('brand_layout') === 'vote' && $programme->getOption('ivote_block') !== null;
+        $isVotePriority = $this->isVotePriority($programme);
+        $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority);
+        $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, $promotions !== null);
 
         $mapPresenter = $presenterFactory->mapPresenter(
-            $request,
             $programme,
             $upcomingBroadcast,
             $lastOn,
@@ -87,12 +82,13 @@ class TlecController extends BaseController
             $streamableEpisodes[0] ?? null,
             $upcomingRepeatsAndDebutsCounts['debuts'],
             $upcomingRepeatsAndDebutsCounts['repeats'],
-            $isVotePriority
+            $isPromoPriority,
+            $showMiniMap
         );
 
         // This is ugly but I don't know how else to do it. If promo priority is active the first promo moves
         // into the MAP
-        if ($mapPresenter->isPromoPriority()) {
+        if ($isPromoPriority) {
             array_shift($promotions);
         }
 
@@ -136,5 +132,28 @@ class TlecController extends BaseController
             filter_var($comingSoon['super_promo'], FILTER_VALIDATE_BOOLEAN),
             []
         );
+    }
+
+    private function isPromoPriority(ProgrammeContainer $programme, bool $showMiniMap, bool $hasPromotions): bool
+    {
+        return $programme->getOption('brand_layout') === 'promo' && $hasPromotions && $programme->isTlec() && !$showMiniMap;
+    }
+
+    private function isVotePriority(ProgrammeContainer $programme): bool
+    {
+        return $programme->getOption('brand_layout') === 'vote' && $programme->getOption('ivote_block') !== null;
+    }
+
+    private function showMiniMap(Request $request, ProgrammeContainer $programme, bool $isVotePriority): bool
+    {
+        if ($request->query->has('__2016minimap')) {
+            return (bool) $request->query->get('__2016minimap');
+        }
+
+        if ($isVotePriority) {
+            return true;
+        }
+
+        return filter_var($programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
     }
 }

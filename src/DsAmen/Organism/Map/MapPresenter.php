@@ -18,7 +18,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -28,11 +27,23 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class MapPresenter extends Presenter
 {
+    /** @var Promotion|null */
+    private $comingSoonPromo;
+
+    /** @var int */
+    private $debutsCount;
+
+    /** @var Promotion|null */
+    private $firstPromo;
+
     /** @var HelperFactory */
     private $helperFactory;
 
     /** @var bool */
-    private $isVotePriority;
+    private $isPromoPriority;
+
+    /** @var CollapsedBroadcast|null */
+    private $lastOn;
 
     /** @var Presenter */
     private $leftColumn;
@@ -43,8 +54,8 @@ class MapPresenter extends Presenter
     /** @var ProgrammeContainer */
     private $programme;
 
-    /** @var Request */
-    private $request;
+    /** @var int */
+    private $repeatsCount;
 
     /** @var Presenter[] */
     private $rightColumns = [];
@@ -52,35 +63,22 @@ class MapPresenter extends Presenter
     /** @var string */
     private $rightGridClasses = '1/2@gel3b';
 
+    /** @var UrlGeneratorInterface */
+    private $router;
+
+    /** @var bool */
+    private $showMiniMap;
+
+    /** @var Episode|null*/
+    private $streamableEpisode;
+
     /** @var TranslateProvider */
     private $translateProvider;
 
     /** @var CollapsedBroadcast|null */
     private $upcomingBroadcast;
 
-    /** @var CollapsedBroadcast|null */
-    private $lastOn;
-
-    /** @var Promotion|null */
-    private $comingSoonPromo;
-
-    /** @var UrlGeneratorInterface */
-    private $router;
-
-    /** @var Episode|null*/
-    private $streamableEpisode;
-
-    /** @var Promotion|null */
-    private $firstPromo;
-
-    /** @var int */
-    private $debutsCount;
-
-    /** @var int */
-    private $repeatsCount;
-
     public function __construct(
-        Request $request,
         HelperFactory $helperFactory,
         TranslateProvider $translateProvider,
         UrlGeneratorInterface $router,
@@ -92,12 +90,12 @@ class MapPresenter extends Presenter
         ?Episode $streamableEpisode,
         int $debutsCount,
         int $repeatsCount,
-        bool $isVotePriority,
+        bool $isPromoPriority,
+        bool $showMiniMap,
         array $options = []
     ) {
         // Set class properties
         parent::__construct($options);
-        $this->request = $request;
         $this->helperFactory = $helperFactory;
         $this->translateProvider = $translateProvider;
         $this->router = $router;
@@ -109,7 +107,8 @@ class MapPresenter extends Presenter
         $this->streamableEpisode = $streamableEpisode;
         $this->debutsCount = $debutsCount;
         $this->repeatsCount = $repeatsCount;
-        $this->isVotePriority = $isVotePriority;
+        $this->isPromoPriority = $isPromoPriority;
+        $this->showMiniMap = $showMiniMap;
 
         if (!$this->showMap()) {
             return;
@@ -157,18 +156,6 @@ class MapPresenter extends Presenter
         return new SocialPresenter($this->programme);
     }
 
-    public function isPromoPriority(): bool
-    {
-        if ($this->programme->getOption('brand_layout') === 'promo'
-            && $this->firstPromo
-            && $this->programme->isTlec()
-            && !$this->showMiniMap()
-        ) {
-            return true;
-        }
-        return false;
-    }
-
     public function showMap(): bool
     {
         return $this->programme->getAggregatedEpisodesCount() || $this->hasComingSoon();
@@ -176,7 +163,7 @@ class MapPresenter extends Presenter
 
     private function constructThreeColumnMap(): void
     {
-        if ($this->showMiniMap()) {
+        if ($this->showMiniMap) {
             $this->leftGridClasses = '1/3@gel3b';
             $this->rightGridClasses = '2/3@gel3b';
         }
@@ -192,17 +179,17 @@ class MapPresenter extends Presenter
                 $this->streamableEpisode,
                 $hasAnUpcomingEpisode,
                 $this->lastOn,
-                ['full_width' => false, 'show_mini_map' => $this->showMiniMap()]
+                ['full_width' => false, 'show_mini_map' => $this->showMiniMap]
             );
         }
+
+        $options = ['show_mini_map' => $this->showMiniMap];
 
         if ($this->hasComingSoon() && !$this->upcomingBroadcast) {
             $this->rightColumns[] = new ComingSoonPresenter(
                 $this->programme,
                 $this->comingSoonPromo,
-                [
-                    'show_mini_map' => $this->showMiniMap(),
-                ]
+                $options
             );
         } else {
             $this->rightColumns[] = new TxPresenter(
@@ -213,7 +200,7 @@ class MapPresenter extends Presenter
                 $this->upcomingBroadcast,
                 $this->debutsCount,
                 $this->repeatsCount,
-                ['show_mini_map' => $this->showMiniMap()]
+                $options
             );
         }
     }
@@ -230,7 +217,7 @@ class MapPresenter extends Presenter
             null,
             [
                 'full_width' => true,
-                'show_mini_map' => $this->showMiniMap(),
+                'show_mini_map' => $this->showMiniMap,
             ]
         );
     }
@@ -242,9 +229,9 @@ class MapPresenter extends Presenter
     {
         $leftColumnOptions = [
             'is_three_column' => $this->countTotalColumns() === 3,
-            'show_mini_map' => $this->showMiniMap(),
+            'show_mini_map' => $this->showMiniMap,
         ];
-        if ($this->isPromoPriority()) {
+        if ($this->isPromoPriority) {
             $this->leftColumn = new PromoPriorityPresenter(
                 $this->firstPromo,
                 $leftColumnOptions
@@ -287,18 +274,5 @@ class MapPresenter extends Presenter
     private function hasComingSoon(): bool
     {
         return $this->comingSoonPromo || $this->programme->getOption('comingsoon_textonly');
-    }
-
-    private function showMiniMap(): bool
-    {
-        if ($this->request->query->has('__2016minimap')) {
-            return (bool) $this->request->query->get('__2016minimap');
-        }
-
-        if ($this->isVotePriority) {
-            return true;
-        }
-
-        return filter_var($this->programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
     }
 }

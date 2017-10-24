@@ -18,7 +18,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MapPresenterTest extends TestCase
@@ -27,7 +26,6 @@ class MapPresenterTest extends TestCase
     {
         $programmeContainer = $this->createProgrammeWithEpisodes();
         $presenter = new MapPresenter(
-            new Request(),
             $this->createMock(HelperFactory::class),
             $this->createMock(TranslateProvider::class),
             $this->createMock(UrlGeneratorInterface::class),
@@ -39,6 +37,7 @@ class MapPresenterTest extends TestCase
             null,
             0,
             0,
+            false,
             false
         );
         $this->assertTrue($presenter->showMap());
@@ -97,21 +96,6 @@ class MapPresenterTest extends TestCase
         $this->assertColumns($presenter, [OnDemandPresenter::class]);
     }
 
-    public function testShowPromoPriority()
-    {
-        $promo = $this->createMock(Promotion::class);
-        $programmeContainer = $this->createMock(ProgrammeContainer::class);
-        $programmeContainer->method('getAggregatedEpisodesCount')->willReturn(1);
-        $programmeContainer->method('isTlec')->willReturn(true);
-        $programmeContainer->expects($this->atLeastOnce())->method('getOption')
-            ->will($this->returnValueMap([
-                ['brand_layout', 'promo'],
-                ['brand_2016_layout_use_minimap', false],
-            ]));
-        $presenter = $this->createMapPresenter($programmeContainer, null, $promo);
-        $this->assertTrue($presenter->isPromoPriority());
-    }
-
     /**
      * Asserts the correct number of columns exists in the correct order
      *
@@ -131,7 +115,6 @@ class MapPresenterTest extends TestCase
     private function createMapPresenter($programmeContainer, ?CollapsedBroadcast $upcomingBroadcasts = null, ?Promotion $firstPromo = null): MapPresenter
     {
         return new MapPresenter(
-            new Request(),
             $this->createMock(HelperFactory::class),
             $this->createMock(TranslateProvider::class),
             $this->createMock(UrlGeneratorInterface::class),
@@ -143,6 +126,7 @@ class MapPresenterTest extends TestCase
             null,
             0,
             0,
+            false,
             false
         );
     }

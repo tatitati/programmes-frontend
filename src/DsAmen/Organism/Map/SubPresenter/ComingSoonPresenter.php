@@ -3,36 +3,22 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Organism\Map\SubPresenter;
 
-use App\DsAmen\Organism\Map\SubPresenter\Traits\RightColumnImageSizeTrait;
-use App\DsAmen\Presenter;
-use App\Exception\InvalidOptionException;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 
-class ComingSoonPresenter extends Presenter
+class ComingSoonPresenter extends RightColumnPresenter
 {
-    use RightColumnImageSizeTrait;
-
-    /** @var Programme */
-    private $programme;
+    /** @var string */
+    private $comingSoonText;
 
     /** @var Promotion|null */
     private $promotion;
 
-    /** @var bool */
-    private $showMiniMap;
-
-    public function __construct(Programme $programme, ?Promotion $promotion, array $options = [])
+    public function __construct(ProgrammeContainer $programmeContainer, ?Promotion $promotion, array $options = [])
     {
-        parent::__construct($options);
-        $this->programme = $programme;
+        parent::__construct($programmeContainer, $options);
+        $this->comingSoonText = $programmeContainer->getOption('comingsoon_textonly');
         $this->promotion = $promotion;
-        $this->showMiniMap = $this->getOption('show_mini_map');
-    }
-
-    public function getProgramme(): Programme
-    {
-        return $this->programme;
     }
 
     public function getPromotion(): ?Promotion
@@ -42,18 +28,6 @@ class ComingSoonPresenter extends Presenter
 
     public function getComingSoonTextOnly(): string
     {
-        return $this->programme->getOption('comingsoon_textonly');
-    }
-
-    public function showMiniMap(): bool
-    {
-        return $this->showMiniMap;
-    }
-
-    protected function validateOptions(array $options): void
-    {
-        if (!is_bool($options['show_mini_map'])) {
-            throw new InvalidOptionException('show_mini_map option must be a boolean');
-        }
+        return $this->comingSoonText;
     }
 }

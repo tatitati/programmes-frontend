@@ -16,10 +16,7 @@
                 'show_related_links': false,
             }) -}}
         {% else %}
-            <div class="island">
-                <h2 class="map__heading gel-double-pica-bold">{{ tr('coming_soon') }}</h2>
-                <p>{{ coming_soon.getComingSoonTextOnly() }}</p>
-            </div>
+            {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr('coming_soon'), message:coming_soon.getComingSoonTextOnly()} only %}
         {% endif %}
     </div>
 </div>

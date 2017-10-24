@@ -4,27 +4,19 @@ declare(strict_types = 1);
 namespace Tests\App\DsAmen\Organism\Map\SubPresenter;
 
 use App\DsAmen\Organism\Map\SubPresenter\ComingSoonPresenter;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use PHPUnit\Framework\TestCase;
 
 class ComingSoonPresenterTest extends TestCase
 {
-    /**
-     * @dataProvider invalidOptionProvider
-     * @param mixed[] $options
-     * @param string $expectedExceptionMessage
-     */
-    public function testInvalidOptions(array $options, string $expectedExceptionMessage)
+    public function testComingSoonText()
     {
-        $programme = $this->createMock(Programme::class);
-        $this->expectExceptionMessage($expectedExceptionMessage);
-        new ComingSoonPresenter($programme, null, $options);
-    }
+        $programmeContainer = $this->createMock(ProgrammeContainer::class);
+        $programmeContainer->method('getOption')
+            ->with('comingsoon_textonly')
+            ->willReturn('some text');
 
-    public function invalidOptionProvider(): array
-    {
-        return [
-            'invalid-show_mini_map' => [['show_mini_map' => 'bar'], 'show_mini_map option must be a boolean'],
-        ];
+        $presenter = new ComingSoonPresenter($programmeContainer, null);
+        $this->assertSame('some text', $presenter->getComingSoonTextOnly());
     }
 }

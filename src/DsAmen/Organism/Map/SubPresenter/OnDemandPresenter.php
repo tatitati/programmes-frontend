@@ -3,18 +3,14 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Organism\Map\SubPresenter;
 
-use App\DsAmen\Organism\Map\SubPresenter\Traits\RightColumnImageSizeTrait;
-use App\DsAmen\Presenter;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use Exception;
 
-class OnDemandPresenter extends Presenter
+class OnDemandPresenter extends RightColumnPresenter
 {
-    use RightColumnImageSizeTrait;
-
     /** @var mixed[] */
     protected $options = [
         'full_width' => false, // The full width of the right hand MAP column
@@ -37,9 +33,6 @@ class OnDemandPresenter extends Presenter
      */
     private $lastOn;
 
-    /** @var ProgrammeContainer */
-    private $programmeContainer;
-
     /**
      * An streamable episode is an Episode that is streamable right now
      * @var Episode|null
@@ -48,13 +41,14 @@ class OnDemandPresenter extends Presenter
 
     public function __construct(ProgrammeContainer $programmeContainer, ?Episode $streamableEpisode, bool $hasUpcomingEpisode, ?CollapsedBroadcast $lastOn, $options = [])
     {
-        parent::__construct($options);
+        parent::__construct($programmeContainer, $options);
         $this->lastOn = $lastOn;
-        $this->programmeContainer = $programmeContainer;
         $this->streamableEpisode = $streamableEpisode;
         $this->hasUpcomingEpisode = $hasUpcomingEpisode;
         if ($this->getOption('full_width')) {
             $this->class = '1/1';
+            $this->defaultImageSize = 320;
+            $this->imageSizes = [768 => 1/3, 1008 => '324px', 1280 => '414px'];
         }
     }
 
@@ -106,11 +100,6 @@ class OnDemandPresenter extends Presenter
         return $this->streamableEpisode->getPosition() === 1 ? 'new_series' : 'new';
     }
 
-    public function getProgramme(): ProgrammeContainer
-    {
-        return $this->programmeContainer;
-    }
-
     public function getStreamableEpisode(): ?Episode
     {
         return $this->streamableEpisode;
@@ -150,16 +139,10 @@ class OnDemandPresenter extends Presenter
         return !$this->getOption('show_mini_map');
     }
 
-    public function showMiniMap(): bool
-    {
-        return $this->getOption('show_mini_map');
-    }
-
     protected function validateOptions(array $options): void
     {
-        if (!is_bool($options['show_mini_map'])) {
-            throw new InvalidOptionException('show_mini_map option must be a boolean');
-        }
+        parent::validateOptions($options);
+
         if (!is_bool($options['full_width'])) {
             throw new InvalidOptionException('full_width option must be a boolean');
         }
