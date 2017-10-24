@@ -1,0 +1,9 @@
+<div class="icon-link {{ cta.getOption('cta_class') }}">
+    <a class="link-complex" href="{{ cta.getUrl() }}"
+       data-linktrack="{{ cta.getLinkLocationPrefix() }}calltoaction">
+        <div class="icon icon-cta icon--{{ cta.getMediaIconName() }}">
+            {{ gelicon('media', cta.getMediaIconName(), 'gelicon--programme') }}
+            <span class="invisible">&mdash;</span>
+        </div>
+    </a>
+</div>

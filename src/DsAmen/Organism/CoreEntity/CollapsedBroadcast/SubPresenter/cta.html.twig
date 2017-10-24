@@ -1,0 +1,16 @@
+<a class="link-complex icon-link {{ cta.getOption('cta_class') }} icon--remove-background" href="{{ cta.getUrl() }}"
+   data-linktrack="{{ cta.getLinkLocationPrefix() }}calltoaction">
+    <div class="icon icon--vmiddle icon--{{ cta.getMediaIconName() }} {{ cta.getBackgroundClass() }}">
+        {{ gelicon('audio-visual', cta.getMediaIconName(), 'gelicon--programme') }}
+        <span class="invisible">{{ tr(cta.getLabelTranslation()) }}</span>
+        {%- if cta.showLiveMessage() -%}
+            <span class="icon-label gel-brevier link-complex__target">
+                {{- tr(cta.getLabelTranslation()) | upper -}}
+            </span>
+        {%- elseif cta.getDuration() -%}
+            <span class="icon-label gel-brevier link-complex__target">
+                {{- ds_amen('duration', cta.getDuration()) -}}
+            </span>
+        {%- endif -%}
+    </div>
+</a>

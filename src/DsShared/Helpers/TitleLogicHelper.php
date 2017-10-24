@@ -2,6 +2,7 @@
 
 namespace App\DsShared\Helpers;
 
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use InvalidArgumentException;
 use RuntimeException;
@@ -24,16 +25,16 @@ class TitleLogicHelper
      * it returns an array with two items. The first, mainTitle, contains the programme object that should be rendered
      * as the <h4>Title</h4> bit. The second, subTitles contains the programmes to show together underneath that.
      *
-     * @param Programme $programme
+     * @param CoreEntity $programme
      *      The programme being rendered
-     * @param Programme|null $context
+     * @param CoreEntity|null $context
      *      The "main" programme for the page if present and different to $programme
      * @param string $titleFormat
      *      see $this->acceptedTitleFormats
      * @return array
      *      [ Programme(or null) $mainTitleProgramme, array $subTitlesProgrammes ]
      */
-    public function getOrderedProgrammesForTitle(Programme $programme, ?Programme $context = null, string $titleFormat = 'tleo::ancestry:item')
+    public function getOrderedProgrammesForTitle(CoreEntity $programme, ?CoreEntity $context = null, string $titleFormat = 'tleo::ancestry:item')
     {
         if (!in_array($titleFormat, $this->acceptedTitleFormats)) {
             throw new InvalidArgumentException(

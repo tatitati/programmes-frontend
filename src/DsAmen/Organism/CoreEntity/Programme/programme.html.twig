@@ -1,0 +1,13 @@
+<div class="media box-link gel-long-primer {{ programme.getOption('media_variant') }}" id="{{ programme.getUniqueID() }}">
+    <div class="media__body">
+        <div class="{{ programme.getMediaDetailsClass() }} {{ programme.getBrandingClass() }}" data-eq-pts="actions-nowrap: 240">
+            {{ ds_amen_presenter(programme.getTitlePresenter()) }}
+            {{ ds_amen_presenter(programme.getBodyPresenter()) }}
+
+            {% if programme.showStandaloneCta() %}
+                {{ ds_amen_presenter(programme.getCtaPresenter()) }}
+            {% endif %}
+        </div>
+    </div>
+    {{ ds_amen_presenter(programme.getImagePresenter()) }}
+</div>

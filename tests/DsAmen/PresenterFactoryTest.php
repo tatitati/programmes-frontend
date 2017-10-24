@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\DsAmen;
 
-use App\DsAmen\Organism\Programme\ProgrammePresenter;
+use App\DsAmen\Organism\CoreEntity\Programme\ProgrammePresenter;
 use App\DsAmen\PresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
@@ -44,7 +44,7 @@ class PresenterFactoryTest extends TestCase
         $mockProgramme = $this->createMock(Programme::class);
 
         $this->assertEquals(
-            new ProgrammePresenter($this->router, $this->helperFactory, $mockProgramme, ['opt' => 'foo']),
+            new ProgrammePresenter($mockProgramme, $this->router, $this->helperFactory, ['opt' => 'foo']),
             $this->factory->programmePresenter($mockProgramme, ['opt' => 'foo'])
         );
     }

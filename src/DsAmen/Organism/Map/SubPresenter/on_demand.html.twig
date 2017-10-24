@@ -28,13 +28,13 @@
         'media_variant': 'media media--column media--card map-card',
         'branding_name': 'secondary',
         'show_image': presenter.shouldShowImage(),
+        'link_location_prefix': '',
         'title_options': {
             'text_colour_on_title_link': false,
             'title_size_large': 'gel-great-primer-bold'
         },
         'cta_options': {
             'cta_class': 'icon-cta--dark media__overlay--bottom',
-            'link_location_prefix': presenter.getProgrammeContainer().isTv() ? 'map_iplayer_' : '',
         },
         'image_options': {
             'badge_text': tr(presenter.getBadgeTranslationString()),
@@ -42,7 +42,7 @@
             'sizes': presenter.getImageSizes(),
             'default_width': presenter.getDefaultImageSize(),
         },
-        'force_iplayer_linking': true,
+        'force_iplayer_linking': true
     }) }}
 
     {%- if presenter.getProgrammeContainer().getAvailableEpisodesCount() > 0 and not presenter.showMiniMap() -%}

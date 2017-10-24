@@ -7,13 +7,15 @@ use App\DsAmen\Molecule\Duration\DurationPresenter;
 use App\DsAmen\Molecule\Synopsis\SynopsisPresenter;
 use App\DsAmen\Organism\Footer\FooterPresenter;
 use App\DsAmen\Organism\Map\MapPresenter;
-use App\DsAmen\Organism\Programme\CollapsedBroadcastPresenter;
-use App\DsAmen\Organism\Programme\ProgrammePresenter;
+use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\CollapsedBroadcastPresenter;
+use App\DsAmen\Organism\CoreEntity\Group\GroupPresenter;
+use App\DsAmen\Organism\CoreEntity\Programme\ProgrammePresenter;
 use App\DsAmen\Organism\Promotion\PromotionPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
@@ -81,9 +83,19 @@ class PresenterFactory
         return new CollapsedBroadcastPresenter($collapsedBroadcast, $this->router, $this->translateProvider, $this->helperFactory, $options);
     }
 
+    public function footerPresenter(Programme $programme, array $options = []): FooterPresenter
+    {
+        return new FooterPresenter($programme, $options);
+    }
+
+    public function groupPresenter(Group $group, array $options = []): GroupPresenter
+    {
+        return new GroupPresenter($group, $this->router, $this->helperFactory, $options);
+    }
+
     public function programmePresenter(Programme $programme, array $options = []): ProgrammePresenter
     {
-        return new ProgrammePresenter($this->router, $this->helperFactory, $programme, $options);
+        return new ProgrammePresenter($programme, $this->router, $this->helperFactory, $options);
     }
 
     public function promotionPresenter(Promotion $promotion, array $options = []): PromotionPresenter
@@ -94,10 +106,5 @@ class PresenterFactory
     public function synopsisPresenter(Synopses $synopses, int $maxLength): SynopsisPresenter
     {
         return new SynopsisPresenter($synopses, $maxLength);
-    }
-
-    public function footerPresenter(Programme $programme, array $options = [])
-    {
-        return new FooterPresenter($programme, $options);
     }
 }

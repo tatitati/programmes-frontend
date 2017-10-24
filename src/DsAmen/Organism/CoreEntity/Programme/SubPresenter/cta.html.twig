@@ -1,0 +1,14 @@
+<div class="icon-link {{ cta.getOption('cta_class') }}">
+    <a class="link-complex" href="{{ cta.getUrl() }}"
+       data-linktrack="{{ cta.getLinkLocationPrefix() }}calltoaction">
+        <div class="icon icon-cta icon--{{ cta.getMediaIconName() }}">
+            {{ gelicon('audio-visual', cta.getMediaIconName(), 'gelicon--programme') }}
+            <span class="invisible">{{ tr(cta.getLabelTranslation()) }}</span>
+            {%- if cta.getDuration() -%}
+                <span class="icon-label gel-brevier">
+                    {{- ds_amen('duration', cta.getDuration()) -}}
+                </span>
+            {%- endif -%}
+        </div>
+    </a>
+</div>

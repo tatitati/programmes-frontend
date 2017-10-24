@@ -130,6 +130,13 @@ $body-grey: #262525;
     position: relative;
 }
 
+.icon-label--trailing-link {
+    margin: auto 0;
+    text-align: left;
+    // line up nicer with the icon
+    position: relative;
+}
+
 // Added in due to specificity issues
 .icon--remove-background.icon--remove-background {
     background-color: transparent;
