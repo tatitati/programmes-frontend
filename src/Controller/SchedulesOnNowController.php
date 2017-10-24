@@ -33,7 +33,7 @@ class SchedulesOnNowController extends BaseController
 
         $broadcast = $broadcastsService->findOnNowByService($network->getDefaultService());
         if (!$broadcast) {
-            throw $this->createNotFoundException('No broadcasts found.');
+            return $this->response()->setMaxAge(300);
         }
 
         $designSystem = $request->query->get('partial');
