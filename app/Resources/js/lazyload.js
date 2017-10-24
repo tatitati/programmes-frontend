@@ -67,6 +67,9 @@ define(['jquery-1.9'], function ($) {
         },
         loadContents: function (context) {
             var contents = this.getLazyContents(context);
+            if (!contents) {
+                return;
+            }
             var _this = this;
 
             contents.each(function (i) {
