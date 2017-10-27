@@ -4,6 +4,7 @@ parameters:
     app.branding_client.class: BBC\BrandingClient\BrandingClient
     app.metric_cache.class: App\Metrics\Cache\MetricCacheApcu
     app.metric_backend.class: App\Metrics\Backend\CloudWatchMetricBackend
+    app.receng.service.class: App\RecEng\RecEngService
     frontend.aws.http_timeout: 15
     frontend.aws.http_connect_timeout: 5
 
@@ -190,3 +191,9 @@ services:
         public: true
         arguments:
             - '@null_cache_service_factory'
+
+    App\RecEng\RecEngService:
+        class: '%app.receng.service.class%'
+        arguments:
+            $audioKey: '%receng_audio_key%'
+            $videoKey: '%receng_video_key%'

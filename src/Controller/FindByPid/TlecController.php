@@ -5,6 +5,8 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
+use App\RecEng\RecEngService;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -34,7 +36,8 @@ class TlecController extends BaseController
         PromotionsService $promotionsService,
         CollapsedBroadcastsService $collapsedBroadcastsService,
         ProgrammesAggregationService $aggregationService,
-        ImagesService $imagesService
+        ImagesService $imagesService,
+        RecEngService $recEngService
     ) {
         $this->setIstatsProgsPageType('programmes_container');
         $this->setContext($programme);
@@ -92,6 +95,14 @@ class TlecController extends BaseController
             array_shift($promotions);
         }
 
+        $recommendations = $recEngService->getRecommendations(
+            $programme,
+            $streamableEpisodes[0] ?? null,
+            $upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null,
+            $lastOn ? $lastOn->getProgrammeItem() : null,
+            2
+        );
+
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
             'promotions' => $promotions,
@@ -99,6 +110,7 @@ class TlecController extends BaseController
             'galleries' => $galleries,
             'mapPresenter' => $mapPresenter,
             'isVotePriority' => $isVotePriority,
+            'recommendations' => $recommendations,
         ]);
     }
 

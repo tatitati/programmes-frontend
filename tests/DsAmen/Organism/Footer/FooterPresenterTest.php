@@ -39,7 +39,7 @@ class FooterPresenterTest extends TestCase
 
     public function testRetrieveNetworkData()
     {
-        $footerPresenter = new FooterPresenter($this->mockProgramme);
+        $footerPresenter = new FooterPresenter($this->mockProgramme, []);
 
         $this->assertEquals('BBC One', $footerPresenter->getNetworkName());
         $this->assertEquals('bbcone', $footerPresenter->getNetworkUrlKey());
@@ -56,7 +56,7 @@ class FooterPresenterTest extends TestCase
 
         $this->mockProgramme->method('getGenres')->willReturn([$genre, $someOtherGenre]);
 
-        $footerPresenter = new FooterPresenter($this->mockProgramme);
+        $footerPresenter = new FooterPresenter($this->mockProgramme, []);
         $this->assertEquals([$someOtherGenre, $genre], $footerPresenter->getGenres());
     }
 
@@ -67,7 +67,7 @@ class FooterPresenterTest extends TestCase
 
         $this->mockProgramme->method('getFormats')->willReturn([$format, $otherFormat]);
 
-        $footerPresenter = new FooterPresenter($this->mockProgramme);
+        $footerPresenter = new FooterPresenter($this->mockProgramme, []);
         $this->assertEquals([$format, $otherFormat], $footerPresenter->getFormats());
     }
 }

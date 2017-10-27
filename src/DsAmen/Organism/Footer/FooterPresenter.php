@@ -17,11 +17,15 @@ class FooterPresenter extends Presenter
     /** @var Network */
     private $network;
 
-    public function __construct(Programme $programme, array $options = [])
+    /** @var Programme[] */
+    private $recommendations;
+
+    public function __construct(Programme $programme, array $recommendations, array $options = [])
     {
         parent::__construct($options);
 
         $this->programme = $programme;
+        $this->recommendations = $recommendations;
         $this->network = $programme->getNetwork();
     }
 
@@ -84,5 +88,13 @@ class FooterPresenter extends Presenter
         });
 
         return $formats;
+    }
+
+    /**
+     * @return Programme[]
+     */
+    public function getRecommendations(): array
+    {
+        return $this->recommendations;
     }
 }

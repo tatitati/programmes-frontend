@@ -16,10 +16,12 @@ class MetricsManager
 {
     public const API_BRANDING = 'BRANDING';
     public const API_ORBIT = 'ORB';
+    public const API_RECOMMENDATIONS = 'RECOMMENDATIONS';
 
     private const API_TYPES = [
         self::API_BRANDING => self::API_BRANDING,
         self::API_ORBIT => self::API_ORBIT,
+        self::API_RECOMMENDATIONS => self::API_RECOMMENDATIONS,
     ];
 
     /** @var ProgrammesMetricInterface[] */

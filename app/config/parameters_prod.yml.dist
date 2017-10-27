@@ -32,3 +32,5 @@ parameters:
     fixture_database_user: $fixture_database_user
     fixture_database_password: $fixture_database_password
     fixture_secure_key: $fixture_secure_key
+    receng_video_key: $receng_video_key
+    receng_audio_key: $receng_audio_key

@@ -45,6 +45,8 @@ def substitute_data(data):
         'fixture_database_name': data["configuration"].get('fixture_database_name', 'blank'),
         'scenario_database_name': data["configuration"].get('scenario_database_name', 'blank'),
         'fixture_secure_key': data["secure_configuration"].get('fixture_secure_key', 'blank'),
+        'receng_video_key': data["secure_configuration"]["receng_video_key"],
+        'receng_audio_key': data["secure_configuration"]["receng_audio_key"],
     }
 
 def rewrite_application_parameters(config):

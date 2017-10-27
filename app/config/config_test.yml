@@ -6,6 +6,7 @@ parameters:
     app.branding_client.class: BBC\BrandingClient\BrandingStubClient
     app.metric_backend.class: App\Metrics\Backend\NullMetricBackend
     app.metric_cache.class: App\Metrics\Cache\MetricCacheNull
+    app.receng.service.class: App\RecEng\RecEngServiceStub
 
 framework:
     router:
