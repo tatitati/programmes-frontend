@@ -15,6 +15,7 @@ use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
 use DateTimeZone;
+use InvalidArgumentException;
 
 class SchedulesByWeekController extends BaseController
 {
@@ -41,7 +42,12 @@ class SchedulesByWeekController extends BaseController
             // "International" services are UTC, all others are Europe/London (the default)
             ApplicationTime::setLocalTimeZone('UTC');
         }
-        $broadcastWeek = new BroadcastWeek($date);
+
+        try {
+            $broadcastWeek = new BroadcastWeek($date);
+        } catch (InvalidArgumentException $e) {
+            throw $this->createNotFoundException('Invalid date');
+        }
 
         $servicesInNetwork = $servicesService->findAllInNetworkActiveOn(
             $service->getNetwork()->getNid(),

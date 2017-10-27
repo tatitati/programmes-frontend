@@ -29,8 +29,9 @@ class SchedulesByWeekControllerTest extends BaseWebTestCase
         // trigger INVALID ARGUMENT EXCEPTION (routing exception)
         return [
             'CASE 1: nonexistent week' => ['No route found for "GET /schedules/p00rfdrb/2012/w54"', '2012/w54'],
-            'CASE 3: valid week but invalid format number' => ['No route found for "GET /schedules/p00rfdrb/2012/w7"', '2012/w7'],
-            'CASE 4: valid week but invalid format string' => ['No route found for "GET /schedules/p00rfdrb/2012-w7"', '2012-w7'],
+            'CASE 2: valid week but invalid format number' => ['No route found for "GET /schedules/p00rfdrb/2012/w7"', '2012/w7'],
+            'CASE 3: valid week but invalid format string' => ['No route found for "GET /schedules/p00rfdrb/2012-w7"', '2012-w7'],
+            'CASE 4: valid route but invalid week'         => ['Invalid date', '2017/w53'],
         ];
     }
 
