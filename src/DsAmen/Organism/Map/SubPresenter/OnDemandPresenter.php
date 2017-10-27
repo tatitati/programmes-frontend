@@ -107,7 +107,7 @@ class OnDemandPresenter extends RightColumnPresenter
 
     public function getTitleTranslationString(): string
     {
-        return $this->programmeContainer->isRadio() ? 'on_demand' : 'available_on_iplayer_short';
+        return $this->programmeContainer->isRadio() ? 'available_now' : 'available_on_iplayer_short';
     }
 
     public function hasUpcomingEpisode(): bool
