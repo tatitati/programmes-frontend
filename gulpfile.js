@@ -10,6 +10,8 @@ const del = require('del');
 const requirejsOptimize = require('gulp-requirejs-optimize');
 const autoprefixer = require('gulp-autoprefixer');
 const override = require('gulp-rev-css-url');
+const gulpif = require('gulp-if');
+const runSequence = require('run-sequence');
 
 const staticPathSrc = 'app/Resources';
 const staticPathDist = 'web/assets';
@@ -18,6 +20,7 @@ const jsMatch = '/js/**/*.js';
 const imageMatch = '/images/*';
 
 var throwError = true;
+var isSandbox = false;
 
 gulp.task('js:clean', function () {
     return del([staticPathDist + '/js']);
@@ -43,8 +46,7 @@ gulp.task('js', ['js:clean'], function () {
             "rmpcomscore/base" : "../../../vendor/bbc-rmp/comscore/js-modules/base",
             "orb/cookies": "empty:"
         },
-        // @TODO do not optimise on sandbox
-        //"optimize": "none",
+        "optimize": 'uglify',
         "map": {
             "*": {
                 "jquery": "jquery-1.9"
@@ -53,7 +55,9 @@ gulp.task('js', ['js:clean'], function () {
     };
 
     return gulp.src(modulesToOptimize)
+        .pipe(gulpif(isSandbox, sourcemaps.init()))
         .pipe(requirejsOptimize(config))
+        .pipe(gulpif(isSandbox, sourcemaps.write('.')))
         .pipe(gulp.dest(staticPathDist + '/js'));
 });
 
@@ -65,7 +69,7 @@ gulp.task('sass:clean', function() {
 
 gulp.task('sass', ['sass:clean'], function() {
     return gulp.src(staticPathSrc + sassMatch)
-        .pipe(sourcemaps.init())
+        .pipe(gulpif(isSandbox, sourcemaps.init()))
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 8,
@@ -74,7 +78,7 @@ gulp.task('sass', ['sass:clean'], function() {
         .pipe(autoprefixer({
             browsers: ['last 3 versions'], cascade: false, remove: false
         }))
-        // .pipe(sourcemaps.write())
+        .pipe(gulpif(isSandbox, sourcemaps.write('.')))
         .pipe(gulp.dest(staticPathDist + '/css/'));
 });
 
@@ -119,5 +123,8 @@ gulp.task('watch',function() {
     gulp.watch([staticPathSrc + jsMatch], ['js']);
 });
 
-gulp.task('default', ['sass', 'images', 'js']);
+gulp.task('default', function(cb){
+    isSandbox = true;
+    runSequence(['sass', 'images', 'js']);
+});
 gulp.task('distribution', ['rev']);
