@@ -1,5 +1,41 @@
 <div class="grid__item map__item 1/2@gel1b">
-    <div class="map-card-wrap br-box-secondary" data-map-column="last_on2016">
-        <h1>I Я Last On for {{ last_on.getProgrammeContainer().title }}</h1>
+    <div class="map-card-wrap br-box-secondary">
+        {% if last_on.getLastOn() %}
+            <div class="island">
+                <h2 class="map__heading gel-double-pica-bold">{{ tr('last_on') }}</h2>
+            </div>
+            {{- ds_amen('collapsedBroadcast', last_on.getLastOn(), {
+                'context_programme': last_on.getProgrammeContainer(),
+                'media_variant': 'media media--column media--card map-card',
+                'branding_name': 'secondary',
+                'show_image': last_on.showImage(),
+                'link_location_prefix': 'map_laston_',
+                'title_options': {
+                    'title_size_large': 'gel-great-primer-bold',
+                    'title_size_small': 'gel-pica'
+                },
+                'body_options': {
+                    'show_synopsis': false,
+                    'show_release_date': false,
+                },
+                'image_options': {
+                    'is_lazy_loaded': false,
+                    'sizes': last_on.getImageSizes(),
+                    'default_width': last_on.getDefaultImageSize(),
+                }
+            }) -}}
+        {% else %}
+            {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr('last_on'), message:tr('broadcasts_none')} only %}
+        {% endif %}
+        <div class="map__additional-info br-keyline media__meta-row--separator gel-pica">
+            <p>
+                <a data-linktrack="map_laston_all"
+                   class="gel-pica-bold"
+                   title="{{ tr('see_all_previous_episodes_from',  {'%1': last_on.getProgrammeContainer().getTleo().getTitle()}) }}"
+                   href="{{ path('programme_episodes_guide', {'pid': last_on.getProgrammeContainer().getTleo().getPid()}) }}">
+                    {{ tr('all_previous_episodes') }}
+                </a>
+            </p>
+        </div>
     </div>
 </div>
