@@ -37,11 +37,6 @@ class SchedulesByDayController extends BaseController
             throw $this->createNotFoundException('Invalid date supplied');
         }
 
-        // @TODO remove this temporary hacky fix once PROGRAMMES-5981 goes live
-        if ((string) $service->getPid() === 'p00v5fbq') {
-            return $this->redirectToRoute('schedules_by_day', ['pid' => 'p00fzl9j', 'date' => $date], 302);
-        }
-
         $this->helperFactory = $helperFactory;
         $this->setIstatsProgsPageType('schedules_day');
         $this->setContext($service);
