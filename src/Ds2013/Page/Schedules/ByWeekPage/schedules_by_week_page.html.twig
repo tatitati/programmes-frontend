@@ -21,8 +21,8 @@
             <tbody class="week-guide__table__body">
             {% for hour in 0..23 %}
                 <tr class="week-guide__table__hour-row">
-                    <th class="hour" scope="row">
-                        <span class='week-guide__table__hour'>{{ "%02d"|format(hour)}}:00</span>
+                    <th class="hour" scope="row" data-timezone="true" content="{{ schedules_by_week_page.getStartOfWeek().addHours(hour)|date('c') }}">
+                        <span class='week-guide__table__hour timezone--time'>{{ "%02d"|format(hour)}}:00</span>
                     </th>
                     {% for day in 0..6 %}
                         {{ ds2013_presenter(schedules_by_week_page.getTimeSlotItem(day, hour)) }}
