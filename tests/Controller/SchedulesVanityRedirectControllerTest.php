@@ -54,6 +54,43 @@ class SchedulesVanityRedirectControllerTest extends BaseWebTestCase
         ];
     }
 
+    /**
+     * @dataProvider edgeDatesProvider
+     */
+    public function testEdgeCasesForNextWeek($vanityWord, $currentWeek, $expectedWeek)
+    {
+        $this->configureDateForTestsAtRuntime($currentWeek);
+
+        $this->loadFixtures(["NetworksAndServicesFixture"]);
+        $client = static::createClient();
+
+        $client->request('GET', '/schedules/p00rfdrb/' . $vanityWord);
+
+        $this->assertRedirectTo($client, 302, '/schedules/p00rfdrb/' . $expectedWeek);
+        $this->assertHasRequiredResponseHeaders($client);
+    }
+
+    public function edgeDatesProvider(): array
+    {
+        return [
+            // [ action, current week, expected next week ]
+            ['next_week', '2009/w53', '2010/w01'],
+            ['next_week', '2011/w52', '2012/w01'],
+            ['next_week', '2012/w52', '2013/w01'],
+        ];
+    }
+
+    private function configureDateForTestsAtRuntime($currentWeek)
+    {
+        $piecesDateUrl = explode("/", $currentWeek);
+        $year = $piecesDateUrl[0];
+        $weekNumberOfYear = str_replace('w', '', $piecesDateUrl[1]);
+        $chronos = new Chronos();
+        $date = $chronos->setISODate((int) $year, (int) $weekNumberOfYear, 1); //year , week num of year , day of week
+
+        ApplicationTime::setTime($date->getTimestamp());
+    }
+
     protected function tearDown()
     {
         ApplicationTime::blank();

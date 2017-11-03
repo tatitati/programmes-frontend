@@ -34,7 +34,7 @@ class SchedulesVanityRedirectController extends BaseController
                 $time = $time->subWeek();
             }
 
-            $params['date'] = $time->format('Y/\\wW');
+            $params['date'] = $time->format('o/\\wW');
             return $this->redirectToRoute('schedules_by_week', $params);
         }
 

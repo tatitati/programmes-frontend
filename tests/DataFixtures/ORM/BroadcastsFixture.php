@@ -91,5 +91,9 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
         $version = $this->getReference('p4000004');
         $programmeItem = $this->getReference('p3000004'); //Tomorrow Early Episode
         $this->buildBroadcast('p5100004', $version, new DateTime('2017-05-23 02:00:00'), new DateTime('2017-05-23 02:45:00'), $service, $programmeItem);
+
+        // edge week cases
+        $this->buildBroadcast('p5100005', $version, new DateTime('2009-12-29 14:00:00'), new DateTime('2010-01-10 14:45:00'), $service, $programmeItem);
+        $this->buildBroadcast('p5100006', $version, new DateTime('2011-12-29 02:00:00'), new DateTime('2012-01-10 02:45:00'), $service, $programmeItem);
     }
 }

@@ -88,6 +88,34 @@ class SchedulesByWeekControllerTest extends BaseWebTestCase
         ];
     }
 
+    /**
+     * @dataProvider yearAndWeeksUrlsProvider
+     */
+    public function testNextWeekGivesProperNextWeekLink($currentWeek, $expectedNextWeek)
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        $client = static::createClient();
+        $url = '/schedules/p00fzl6p';
+        $crawler = $client->request('GET', $url . $currentWeek);
+
+        $this->assertResponseStatusCode($client, 200);
+        $this->assertEquals(
+            $url . $expectedNextWeek,
+            $crawler->filter('a#next-week')->attr('href')
+        );
+    }
+
+    public function yearAndWeeksUrlsProvider(): array
+    {
+        return [
+            // [ current week, expected next week ]
+            ['/2017/w20', '/2017/w21'],
+            ['/2009/w53', '/2010/w01'],
+            ['/2011/w52', '/2012/w01'],
+        ];
+    }
+
     protected function tearDown()
     {
         ApplicationTime::blank();

@@ -12,7 +12,7 @@
                     {{ ds2013_presenter(schedules_by_week_page.getDateListItem(offset)) }}
                 {% endfor %}
                 <th class="date-list__page box-link week-guide__table__nav br-box-highlight trail">
-                    <a id="next-week" class="br-page-bg-onbg--hover br-page-linkhover-ontext--hover text--no-ul text--shout" rel="next" data-href-add-utcoffset="true" href="{{ path('schedules_by_week', {pid: schedules_by_week_page.getService().getPid(), date: schedules_by_week_page.getStartOfWeek().addWeek()|local_date('Y/\\wW')}) }}">
+                    <a id="next-week" class="br-page-bg-onbg--hover br-page-linkhover-ontext--hover text--no-ul text--shout" rel="next" data-href-add-utcoffset="true" href="{{ path('schedules_by_week', {pid: schedules_by_week_page.getService().getPid(), date: schedules_by_week_page.getStartOfWeek().addWeek()|local_date('o/\\wW')}) }}">
                         {{ tr('next') }}{{ gelicon('basics', 'next', 'gelicon--centi gelicon--trailing') }}
                     </a>
                 </th>
