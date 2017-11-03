@@ -37,6 +37,11 @@ worldservice_liveradio:
     requirements: { language: '[a-z]{1,}', sid: '[0-9a-z_]{1,}' }
     schemes: [http]
 
+network:
+    path: /{networkUrlKey}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { networkUrlKey: '[a-zA-Z0-9]{2,35}' }
+
 receng:
     host: "open.live.bbc.co.uk"
     path: /recommend/items
@@ -98,8 +103,3 @@ programme_upcoming_debut_broadcasts:
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
     schemes: [http]
-
-network:
-    path: /{networkUrlKey}
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-    requirements: { networkUrlKey: '[a-zA-Z0-9]{2,35}' }
