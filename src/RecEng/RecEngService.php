@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\RecEng;
 
@@ -23,7 +23,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * This class interfaces with the Recommendation Engine API to fetch recommendations based on a given episode
  * This is primarily used within the page footer
  */
-
 class RecEngService
 {
     /** @var Client */
@@ -40,17 +39,22 @@ class RecEngService
 
     /** @var UrlGeneratorInterface */
     private $router;
-    /**
-     * @var LoggerInterface
-     */
+
+    /** @var LoggerInterface */
     private $logger;
-    /**
-     * @var CacheInterface
-     */
+
+    /** @var CacheInterface */
     private $cache;
 
-    public function __construct(Client $client, string $audioKey, string $videoKey, ProgrammesService $programmesService, UrlGeneratorInterface $router, LoggerInterface $logger, CacheInterface $cache)
-    {
+    public function __construct(
+        Client $client,
+        string $audioKey,
+        string $videoKey,
+        ProgrammesService $programmesService,
+        UrlGeneratorInterface $router,
+        LoggerInterface $logger,
+        CacheInterface $cache
+    ) {
         $this->client = $client;
         $this->audioKey = $audioKey;
         $this->videoKey = $videoKey;
@@ -92,7 +96,6 @@ class RecEngService
             return $cacheItem->get();
         }
 
-
         $recEngKey = $programmeEpisode->isVideo() ? $this->videoKey : $this->audioKey;
 
         $requestUrl = $this->router->generate(
@@ -126,11 +129,15 @@ class RecEngService
     }
 
     /**
-     * recEng requires an episode pid, so this determines which to use based on the type of programme passed into it
+     * recEng requires an Episode pid, so this determines which to use based on the type of Programme passed into it
      * Takes nullable args of latest, upcoming and last on episodes as this is called in TLEC controller and these are already fetched
-     **/
-    private function getProgrammeEpisode(Programme $programme, ?Episode $latestEpisode, ?Episode $upcomingEpisode, ?Episode $lastOnEpisode): ?Episode
-    {
+     */
+    private function getProgrammeEpisode(
+        Programme $programme,
+        ?Episode $latestEpisode,
+        ?Episode $upcomingEpisode,
+        ?Episode $lastOnEpisode
+    ): ?Episode {
         if ($programme instanceof Episode) {
             return $programme;
         }

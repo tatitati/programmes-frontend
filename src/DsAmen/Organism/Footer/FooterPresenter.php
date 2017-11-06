@@ -54,7 +54,7 @@ class FooterPresenter extends Presenter
 
     public function getNid(): string
     {
-        return (string) $this->network->getNid();
+        return $this->network ? (string) $this->network->getNid() : "";
     }
 
     public function getNetworkImageUrl(): string
@@ -90,11 +90,21 @@ class FooterPresenter extends Presenter
         return $formats;
     }
 
+    public function getPid(): string
+    {
+        return (string) $this->programme->getPid();
+    }
+
     /**
      * @return Programme[]
      */
     public function getRecommendations(): array
     {
         return $this->recommendations;
+    }
+
+    public function isWorldNews(): bool
+    {
+        return ($this->getNid() === 'bbc_world_news');
     }
 }

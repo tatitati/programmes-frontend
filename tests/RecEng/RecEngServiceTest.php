@@ -7,6 +7,8 @@ use App\RecEng\RecEngService;
 use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
+use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use GuzzleHttp\Client;
@@ -76,9 +78,13 @@ class RecEngServiceTest extends TestCase
         $mockRecProgrammeTwo->method('getPid')->willReturn(new Pid('p0576pm5'));
 
         $programmesServiceResult = [$mockRecProgrammeOne, $mockRecProgrammeTwo];
-        $this->mockProgrammesService->expects($this->once())->method('findByPids')->with([new Pid('p04vjd23'), new Pid('p0576pm5')])->willReturn($programmesServiceResult);
+        $this->mockProgrammesService
+            ->expects($this->once())
+            ->method('findByPids')
+            ->with([new Pid('p04vjd23'), new Pid('p0576pm5')])
+            ->willReturn($programmesServiceResult);
 
-        $recEng = new RecEngService($this->client, 'imASecretAudioKey', 'imASecretVideoKey', $this->mockProgrammesService, $this->mockRouter, $this->mockLogger, $this->mockCache);
+        $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 2);
 
         $this->assertContainsOnlyInstancesOf(Programme::class, $result);
@@ -96,9 +102,13 @@ class RecEngServiceTest extends TestCase
         $mockEpisode->method('isVideo')->willReturn($isVideo);
 
         $this->mockProgrammesService->method('findByPids')->willReturn([$this->createMock(Programme::class)]);
-        $this->mockRouter->expects($this->once())->method('generate')->with('receng', array('key' => $expectedKey, 'id' => ''))->willReturn('http://somedomain.co.uk?key=' . $expectedKey);
+        $this->mockRouter
+            ->expects($this->once())
+            ->method('generate')
+            ->with('receng', array('key' => $expectedKey, 'id' => ''))
+            ->willReturn('http://somedomain.co.uk?key=' . $expectedKey);
 
-        $recEng = new RecEngService($this->client, 'imASecretAudioKey', 'imASecretVideoKey', $this->mockProgrammesService, $this->mockRouter, $this->mockLogger, $this->mockCache);
+        $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 2);
 
         $requestQueryString = $this->guzzleRequestContainer[0]['request']->getUri()->getQuery();
@@ -124,9 +134,13 @@ class RecEngServiceTest extends TestCase
         $mockRecProgrammeOne->method('getPid')->willReturn(new Pid('p04vjd23'));
 
         $programmesServiceResult = [$mockRecProgrammeOne];
-        $this->mockProgrammesService->expects($this->once())->method('findByPids')->with([new Pid('p04vjd23')])->willReturn($programmesServiceResult);
+        $this->mockProgrammesService
+            ->expects($this->once())
+            ->method('findByPids')
+            ->with([new Pid('p04vjd23')])
+            ->willReturn($programmesServiceResult);
 
-        $recEng = new RecEngService($this->client, 'imASecretAudioKey', 'imASecretVideoKey', $this->mockProgrammesService, $this->mockRouter, $this->mockLogger, $this->mockCache);
+        $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 1);
 
         $this->assertContainsOnlyInstancesOf(Programme::class, $result);
@@ -140,7 +154,7 @@ class RecEngServiceTest extends TestCase
         $mockEpisode = $this->createMock(Episode::class);
         $this->mockProgrammesService->method('findByPids')->willReturn([]);
 
-        $recEng = new RecEngService($this->client, 'imASecretAudioKey', 'imASecretVideoKey', $this->mockProgrammesService, $this->mockRouter, $this->mockLogger, $this->mockCache);
+        $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 2);
 
         $this->assertEquals([], $result);
@@ -153,7 +167,7 @@ class RecEngServiceTest extends TestCase
         $mockEpisode = $this->createMock(Episode::class);
         $this->mockProgrammesService->method('findByPids')->willReturn([]);
 
-        $recEng = new RecEngService($this->client, 'imASecretAudioKey', 'imASecretVideoKey', $this->mockProgrammesService, $this->mockRouter, $this->mockLogger, $this->mockCache);
+        $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 2);
 
         $this->assertEquals([], $result);
@@ -165,7 +179,7 @@ class RecEngServiceTest extends TestCase
         $this->queueMockResponse(200, [], json_encode($response));
 
         $mockEpisode = $this->createMock(Episode::class);
-        $recEng = new RecEngService($this->client, 'imASecretAudioKey', 'imASecretVideoKey', $this->mockProgrammesService, $this->mockRouter, $this->mockLogger, $this->mockCache);
+        $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 2);
 
         $this->assertEquals([], $result);
@@ -176,10 +190,23 @@ class RecEngServiceTest extends TestCase
         $this->queueMockResponse(404);
 
         $mockEpisode = $this->createMock(Episode::class);
-        $recEng = new RecEngService($this->client, 'imASecretAudioKey', 'imASecretVideoKey', $this->mockProgrammesService, $this->mockRouter, $this->mockLogger, $this->mockCache);
+        $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 2);
 
         $this->assertEquals([], $result);
+    }
+
+    private function createMockRecEng(): RecEngService
+    {
+        return new RecEngService(
+            $this->client,
+            'imASecretAudioKey',
+            'imASecretVideoKey',
+            $this->mockProgrammesService,
+            $this->mockRouter,
+            $this->mockLogger,
+            $this->mockCache
+        );
     }
 
     private function queueMockResponse($status, $headers = [], $body = "")

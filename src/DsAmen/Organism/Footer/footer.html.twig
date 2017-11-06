@@ -3,8 +3,12 @@
         <div class="grid grid--flush">
             <!-- (Recommendations) You may also like -->
             <div class="grid__item 5/12@gel3b 1/2@gel3">
-                <div class="grid grid--flush footer__recommendations br-keyline islet--horizontal">
-
+                <div class="footer__recommendations br-keyline islet--horizontal">
+                    {% if not footer.isWorldNews() %}
+                    <div class="gel-brevier-bold grid__item">
+                        {% include 'recommendations/dsamen_recommends_footer.html.twig' %}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <!-- Similar programmes -->

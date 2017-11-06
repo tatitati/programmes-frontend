@@ -1,0 +1,31 @@
+<h2 class="footer__heading gel-double-pica-bold">{{- tr('you_might_also_like') -}}</h2>
+{%- if footer.getRecommendations() | length > 0 -%}
+    <ul class="grid grid--flush-bottom">
+        {%- for prog in footer.getRecommendations() -%}
+            <li class="grid__item 1/2">
+                {{- ds_amen('programme', prog, {
+                    'branding_name': 'secondary',
+                    'title_options': {
+                        'text_colour_on_title_link': false,
+                        'title_size_large': 'gel-pica-bold',
+                        'title_size_small': 'gel-long-primer',
+                    },
+                    'image_options': {
+                        'sizes': {
+                            0 : 1/2,
+                            600 : 1/4,
+                            768 : 5/24,
+                            1008 : '182px',
+                            1280 : '238px',
+                        },
+                    },
+                    'cta_options': {
+                        'cta_class': 'br-box-secondary',
+                        'show_duration': false,
+                    }
+                }) -}}
+            </li>
+        {%- endfor -%}
+    </ul>
+    {# TODO some iStats tracking #}
+{%- endif -%}

@@ -70,4 +70,18 @@ class FooterPresenterTest extends TestCase
         $footerPresenter = new FooterPresenter($this->mockProgramme, []);
         $this->assertEquals([$format, $otherFormat], $footerPresenter->getFormats());
     }
+
+    public function testIsWorldNews()
+    {
+        $mockWorldNewsNetwork = $this->createConfiguredMock(Network::class, [
+            'getNid' => new Nid('bbc_world_news'),
+        ]);
+
+        $mockWorldProgramme = $this->createConfiguredMock(Programme::class, [
+            'getNetwork' => $mockWorldNewsNetwork,
+        ]);
+
+        $footerPresenter = new FooterPresenter($mockWorldProgramme, []);
+        $this->assertEquals(true, $footerPresenter->isWorldNews());
+    }
 }

@@ -20,8 +20,8 @@ class TlecControllerClipsListTest extends BaseWebTestCase
     public function testBrandWithNoClipsDoesntShowGrid()
     {
         $crawler = $this->client->request('GET', '/programmes/prstdbrnd1');
-        $grid = $crawler->filter(".grid");
-        $this->assertEquals(2, $grid->count());
+        $grid = $crawler->filter(".leading-gap")->filter(".grid");
+        $this->assertEquals(0, $grid->count());
     }
 
     /**
@@ -31,7 +31,7 @@ class TlecControllerClipsListTest extends BaseWebTestCase
     {
         $crawler = $this->client->request('GET', '/programmes/' . $pid);
 
-        $grid = $crawler->filter(".grid");
+        $grid = $crawler->filter(".leading-gap")->filter(".grid");
         $this->assertEquals($childrenCount, $grid->children()->count());
 
         $trailingLink = $grid->children()->last()->filter('.media__footer');
