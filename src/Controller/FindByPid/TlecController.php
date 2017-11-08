@@ -74,7 +74,7 @@ class TlecController extends BaseController
 
         $isVotePriority = $this->isVotePriority($programme);
         $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority);
-        $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, $promotions !== null);
+        $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
 
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,
