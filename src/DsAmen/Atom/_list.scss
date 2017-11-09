@@ -30,6 +30,11 @@ ul {
     }
 }
 
+// gets rid of 4px spacing below the items
+.list-inline--social-bar {
+    line-height: 0;
+}
+
 .list-inline--spaced {
     > * { // immediate children
         margin-right: 4px;

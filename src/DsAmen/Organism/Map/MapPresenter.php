@@ -8,7 +8,7 @@ use App\DsAmen\Organism\Map\SubPresenter\LastOnPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\OnDemandPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\ProgrammeInfoPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\PromoPriorityPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\SocialPresenter;
+use App\DsAmen\Organism\Map\SubPresenter\SocialBarPresenter;
 use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
 use App\DsShared\Helpers\HelperFactory;
@@ -151,9 +151,9 @@ class MapPresenter extends Presenter
         return $this->rightGridClasses;
     }
 
-    public function getSocialPresenter(): SocialPresenter
+    public function getSocialBarPresenter(): SocialBarPresenter
     {
-        return new SocialPresenter($this->programme);
+        return new SocialBarPresenter($this->programme);
     }
 
     public function showMap(): bool

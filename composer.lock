@@ -432,7 +432,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-11-08 15:51:06"
+            "time": "2017-11-08T15:51:06+00:00"
         },
         {
             "name": "behat/transliterator",

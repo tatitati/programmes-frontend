@@ -30,19 +30,21 @@ $map-gap: 2px;
 }
 
 .map-grid__column-wrap {
-    @include flexbox();
-    @include flex-grow(1);
+    display: block;
+    display: flex;
+
     flex: 1 1 auto;
 }
 
 .map-card-wrap {
-    @include flexbox();
+    display: block;
+    display: flex;
+
     flex-direction: column;
 }
 
 .map__prose,
 .map-card {
-    @include flex-grow(1);
     flex: 1 1 auto;
     overflow: hidden;
 }
@@ -62,10 +64,6 @@ $map-gap: 2px;
     margin-right: $gel-unit-small;
 }
 
-.map-social__icon {
-    font-size: 22px;
-}
-
 .map__heading {
     margin-bottom: $gel-unit-small;
 }
@@ -76,7 +74,9 @@ $map-gap: 2px;
 }
 
 .map__additional-info {
-    @include flexbox();
+    display: block;
+    display: flex;
+
     margin: 0 $gel-unit-small $gel-unit-small;
     padding-top: $gel-unit-small;
 
