@@ -189,6 +189,19 @@ class SchedulesByDayPagePresenter extends Presenter
     }
 
     /**
+     * Expected output in format data-page-time="2014/08/23"
+     * @return string
+     */
+    public function dataPageTimeAttr(): string
+    {
+        if (is_null($this->getRouteDate())) {
+            return '';
+        }
+
+        return 'data-page-time="' . htmlspecialchars($this->getRouteDate()) . '"';
+    }
+
+    /**
      * Early - midnight until 6am
      * Morning - 6am until midday
      * Afternoon - midday until 6pm

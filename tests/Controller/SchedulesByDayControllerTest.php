@@ -298,6 +298,33 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         ];
     }
 
+    public function testDataPageTimeIsSetProperlyInHtmlResponse()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/schedules/p00fzl8v/2017/05/22');
+
+        $this->assertResponseStatusCode($client, 200);
+        $this->assertEquals(1, $crawler->filter('[data-page-time]')->count());
+        $this->assertEquals('2017/05/22', $crawler->filter('[data-page-time]')->attr('data-page-time'));
+    }
+
+    public function testDataPageTimeIsNotAddedInHtmlWhenNoRouteDateIsPassedInUrl()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        $timeNow = '2017/05/22';
+        ApplicationTime::setTime((new Chronos($timeNow))->timestamp);
+
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/schedules/p00fzl8v');
+
+        $this->assertResponseStatusCode($client, 200);
+        $this->assertEquals(0, $crawler->filter('[data-page-time]')->count());
+    }
+
     protected function tearDown()
     {
         ApplicationTime::blank();

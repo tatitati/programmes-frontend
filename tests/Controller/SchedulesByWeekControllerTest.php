@@ -116,6 +116,19 @@ class SchedulesByWeekControllerTest extends BaseWebTestCase
         ];
     }
 
+    public function testDataPageTimeIsSetProperlyInHtmlResponseForWeek()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/schedules/p00fzl8v/2017/w20');
+
+        $this->assertResponseStatusCode($client, 200);
+        $this->assertEquals(1, $crawler->filter('[data-page-time]')->count());
+        // 1st day of 20th week = May-15 (Monday)
+        $this->assertEquals('2017/05/15', $crawler->filter('[data-page-time]')->attr('data-page-time'));
+    }
+
     protected function tearDown()
     {
         ApplicationTime::blank();

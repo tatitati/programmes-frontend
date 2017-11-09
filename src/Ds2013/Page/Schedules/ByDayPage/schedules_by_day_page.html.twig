@@ -63,7 +63,7 @@
 {% endif %}
 
 {% if schedules_by_day_page.hasBroadcasts() %}
-    <ol class="list-unstyled g-c-l">
+    <ol class="list-unstyled g-c-l" {{ schedules_by_day_page.dataPageTimeAttr()|raw }}>
         {% set onairshown = false %}
         {% set showBackToTop = false %}
         {% for period_name, broadcast_in_period in schedules_by_day_page.getBroadcastsGroupedByPeriodOfDay() %}

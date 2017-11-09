@@ -18,7 +18,7 @@
                 </th>
             </tr>
             </thead>
-            <tbody class="week-guide__table__body">
+            <tbody class="week-guide__table__body" data-page-time="{{ schedules_by_week_page.getStartOfWeek()|date('Y/m/d') }}">
             {% for hour in 0..23 %}
                 <tr class="week-guide__table__hour-row">
                     <th class="hour" scope="row" data-timezone="true" content="{{ schedules_by_week_page.getStartOfWeek().addHours(hour)|date('c') }}">
