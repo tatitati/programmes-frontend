@@ -89,19 +89,19 @@ class LocalisedDaysAndMonthsHelper
         }
 
         if ($date->format('m-d') === '12-24') {
-            return $translate->translate('schedules_christmas_eve');
+            return $translate->translate('schedules_christmas_eve') . ' ' . $date->format('Y');
         }
 
         if ($date->format('m-d') === '12-25') {
-            return $translate->translate('schedules_christmas_day');
+            return $translate->translate('schedules_christmas_day') . ' ' . $date->format('Y');
         }
 
         if ($date->format('m-d') === '12-26') {
-            return $translate->translate('schedules_boxing_day');
+            return $translate->translate('schedules_boxing_day') . ' ' . $date->format('Y');
         }
 
         if ($date->format('m-d') === '01-01') {
-            return $translate->translate('schedules_new_years_day');
+            return $translate->translate('schedules_new_years_day') . ' ' . $date->format('Y');
         }
 
         if ($date->isWithinNext('5 days') || $date->wasWithinLast('5 days')) {
@@ -116,6 +116,6 @@ class LocalisedDaysAndMonthsHelper
             return $translate->translate('schedules_last_weekday', ['%1' => $this->localDateIntl($date, 'EEEE')]);
         }
 
-        return $date->format('D M d Y'); // Tue Mar 23 2017
+        return $date->format('D d M Y'); // Tue 23 Mar 2017
     }
 }

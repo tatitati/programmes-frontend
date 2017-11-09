@@ -38,14 +38,14 @@ class LocalisedDaysAndMonthsHelperTest extends TestCase
             'Today' => [new Chronos('2017-7-21 12:00:00'), 'Today'],
             'Tomorrow' => [new Chronos('2017-7-22 12:00:00'), 'Tomorrow'],
             'Yesterday' => [new Chronos('2017-7-20 12:00:00'), 'Yesterday'],
-            'Christmas Eve' => [new Chronos('2017-12-24 12:00:00'), 'Christmas Eve'],
-            'Christmas Day' => [new Chronos('2017-12-25 12:00:00'), 'Christmas Day'],
-            'Boxing Day' => [new Chronos('2017-12-26 12:00:00'), 'Boxing Day'],
-            'New Years Day' => [new Chronos('2017-01-01 12:00:00'), 'New Year\'s Day'],
+            'Christmas Eve' => [new Chronos('2017-12-24 12:00:00'), 'Christmas Eve 2017'],
+            'Christmas Day' => [new Chronos('2017-12-25 12:00:00'), 'Christmas Day 2017'],
+            'Boxing Day' => [new Chronos('2017-12-26 12:00:00'), 'Boxing Day 2017'],
+            'New Years Day' => [new Chronos('2017-01-01 12:00:00'), 'New Year\'s Day 2017'],
             'Next weekday' => [new Chronos('2017-7-28 12:00:00'), 'Next Friday'],
             'Last weekday' => [new Chronos('2017-7-14 12:00:00'), 'Last Friday'],
             'Weekday' => [new Chronos('2017-7-24 12:00:00'), 'Monday'],
-            'Date' => [new Chronos('2017-6-14 12:00:00'), 'Wed Jun 14 2017'],
+            'Date' => [new Chronos('2017-6-14 12:00:00'), 'Wed 14 Jun 2017'],
         ];
     }
 }
