@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\RecEng;
+namespace Tests\App\ExternalApi\RecEng\Service;
 
-use App\RecEng\RecEngService;
+use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * @covers App\RecEng\RecEngService
+ * @covers App\ExternalApi\RecEng\Service\RecEngService
  */
 class RecEngServiceTest extends TestCase
 {

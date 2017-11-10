@@ -5,8 +5,8 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
-use App\RecEng\RecEngService;
-use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use App\ExternalApi\Electron\Service\ElectronService;
+use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -37,7 +37,8 @@ class TlecController extends BaseController
         CollapsedBroadcastsService $collapsedBroadcastsService,
         ProgrammesAggregationService $aggregationService,
         ImagesService $imagesService,
-        RecEngService $recEngService
+        RecEngService $recEngService,
+        ElectronService $electronService
     ) {
         $this->setIstatsProgsPageType('programmes_container');
         $this->setContext($programme);
@@ -75,6 +76,9 @@ class TlecController extends BaseController
         $isVotePriority = $this->isVotePriority($programme);
         $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority);
         $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
+
+        // @TODO uncomment once code to display supporting items is ready
+        //$supportingContentItems = $electronService->fetchSupportingContentItemsForProgramme($programme);
 
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,

@@ -4,7 +4,9 @@ parameters:
     app.branding_client.class: BBC\BrandingClient\BrandingClient
     app.metric_cache.class: App\Metrics\Cache\MetricCacheApcu
     app.metric_backend.class: App\Metrics\Backend\CloudWatchMetricBackend
-    app.receng.service.class: App\RecEng\RecEngService
+    app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
+    app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
+    app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
     frontend.aws.http_timeout: 15
     frontend.aws.http_connect_timeout: 5
 
@@ -110,6 +112,10 @@ services:
         tags:
             - { name: 'csa_guzzle.middleware', alias: 'metrics_middleware', pritority: 90 }
 
+    App\ExternalApi\CircuitBreaker\CircuitBreakerMiddleware:
+        tags:
+            - { name: 'csa_guzzle.middleware', alias: 'circuit_breaker_middleware', pritority: 100 }
+
     RMP\CloudwatchMonitoring\MonitoringHandler:
         arguments:
             $namespace: 'frontend'
@@ -173,13 +179,12 @@ services:
     BBC\ProgrammesPagesService\Service\VersionsService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getVersionsService']
 
+    ### Cache null adapter for the status controller
     null_cache:
         class: 'BBC\ProgrammesPagesService\Cache\Cache'
         arguments:
             - '@cache.null_provider'
             - 'nullcache'
-
-    ### Cache null adapter for the status controller
 
     null_cache_service_factory:
         class: BBC\ProgrammesPagesService\Service\ServiceFactory
@@ -192,7 +197,13 @@ services:
         arguments:
             - '@null_cache_service_factory'
 
-    App\RecEng\RecEngService:
+    # API services
+    App\ExternalApi\Electron\Service\ElectronService:
+        class: '%app.electron.service.class%'
+        arguments:
+            $baseUrl: '%app.electron.baseurl%'
+
+    App\ExternalApi\RecEng\Service\RecEngSerivice:
         class: '%app.receng.service.class%'
         arguments:
             $audioKey: '%receng_audio_key%'

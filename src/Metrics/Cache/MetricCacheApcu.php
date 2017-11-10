@@ -191,7 +191,7 @@ class MetricCacheApcu implements MetricCacheInterface
      * Okay. This one is kind of complicated. We want our class to do a specific thing
      * at most once every $timeout seconds.
      *
-     * This function sets an APCu key with an expiry after $timeout seconds.
+     * This function sets an Apcu key with an expiry after $timeout seconds.
      * Once that key expires, apcu_fetch will return false and we use the locking
      * function apcu_entry to ensure that only once process (no matter how many
      * concurrent processes are running) can acquire $lock. The callback

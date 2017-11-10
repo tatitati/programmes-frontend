@@ -9,3 +9,4 @@ parameters:
         - '#Call to an undefined method DateTimeInterface::setTimezone\(\).#'
         - '#RedisCluster#' #PHPStan does not play well with RedisCluster it seems
         - '#Call to an undefined method Doctrine\\DBAL\\Driver\\Connection::isConnected\(\)#'
+        - '#Access to an undefined property LibXMLError::.*#'

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\RecEng;
+namespace App\ExternalApi\RecEng\Service;
 
-use App\RecEng\Exception\ParseException;
+use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -12,6 +12,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -107,13 +108,12 @@ class RecEngService
         try {
             $response = $this->client->request('GET', $requestUrl);
         } catch (GuzzleException $e) {
+            if ($e instanceof ClientException && $e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
+                // 404s get cached for a shorter time
+                $this->cache->setItem($cacheItem, [], CacheInterface::NORMAL);
+            }
             return [];
         }
-
-        if ($response->getStatusCode() !== 200) {
-            return [];
-        }
-
         $recEngRespose = $response->getBody()->getContents();
 
         try {

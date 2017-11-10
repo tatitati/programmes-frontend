@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace App\Metrics;
 
+use App\ExternalApi\ApiType\ApiTypeEnum;
 use App\Metrics\Backend\MetricBackendInterface;
 use App\Metrics\Cache\MetricCacheInterface;
+use App\Metrics\ProgrammesMetrics\ApiBreakerMetric;
 use App\Metrics\ProgrammesMetrics\ApiResponseMetric;
 use App\Metrics\ProgrammesMetrics\ApiTimeMetric;
 use App\Metrics\ProgrammesMetrics\ProgrammesMetricInterface;
@@ -14,16 +16,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class MetricsManager
 {
-    public const API_BRANDING = 'BRANDING';
-    public const API_ORBIT = 'ORB';
-    public const API_RECOMMENDATIONS = 'RECOMMENDATIONS';
-
-    private const API_TYPES = [
-        self::API_BRANDING => self::API_BRANDING,
-        self::API_ORBIT => self::API_ORBIT,
-        self::API_RECOMMENDATIONS => self::API_RECOMMENDATIONS,
-    ];
-
     /** @var ProgrammesMetricInterface[] */
     private $metrics = [];
 
@@ -56,7 +48,7 @@ class MetricsManager
 
     public function addApiMetric(string $apiName, int $responseTimeMs, int $responseCode) : void
     {
-        if (!isset(self::API_TYPES[$apiName])) {
+        if (!ApiTypeEnum::isValid($apiName)) {
             throw new InvalidArgumentException("$apiName is not a valid API type");
         }
         $this->metrics[] = new ApiTimeMetric($apiName, $responseTimeMs);
@@ -66,7 +58,15 @@ class MetricsManager
         }
     }
 
-    public function send()
+    public function addApiCircuitBreakerOpenMetric(string $apiName): void
+    {
+        if (!ApiTypeEnum::isValid($apiName)) {
+            throw new InvalidArgumentException("$apiName is not a valid API type");
+        }
+        $this->metrics[] = new ApiBreakerMetric($apiName, true);
+    }
+
+    public function send(): void
     {
         $this->cache->cacheMetrics($this->metrics);
         /** @var ProgrammesMetricInterface[] $readyToSendMetrics */
@@ -86,14 +86,18 @@ class MetricsManager
             $allMetrics[] = new RouteMetric($routeName, 0, 0);
         }
 
-        foreach (self::API_TYPES as $api) {
+        foreach (ApiTypeEnum::validValues() as $api) {
             $allMetrics[] = new ApiTimeMetric($api, 0, 0);
             $allMetrics[] = new ApiResponseMetric($api, 'ERROR', 0);
+            $allMetrics[] = new ApiBreakerMetric($api, false);
         }
 
         return $allMetrics;
     }
 
+    /**
+     * @return string[]
+     */
     private function getAllPossibleRoutes() : array
     {
         if (!isset($this->validRouteControllers)) {

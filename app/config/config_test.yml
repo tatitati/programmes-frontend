@@ -6,7 +6,8 @@ parameters:
     app.branding_client.class: BBC\BrandingClient\BrandingStubClient
     app.metric_backend.class: App\Metrics\Backend\NullMetricBackend
     app.metric_cache.class: App\Metrics\Cache\MetricCacheNull
-    app.receng.service.class: App\RecEng\RecEngServiceStub
+    app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngStubService
+    app.electron.service.class: App\ExternalApi\Electron\Service\ElectronStubService
 
 framework:
     router:
@@ -37,4 +38,3 @@ doctrine:
 
 liip_functional_test:
     cache_sqlite_db: true
-

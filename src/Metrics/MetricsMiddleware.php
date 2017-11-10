@@ -2,6 +2,8 @@
 
 namespace App\Metrics;
 
+use App\ExternalApi\ApiType\ApiTypeEnum;
+use App\ExternalApi\ApiType\UriToApiTypeMapper;
 use App\Fixture\ScenarioManager;
 use GuzzleHttp\TransferStats;
 use Psr\Http\Message\RequestInterface;
@@ -16,16 +18,14 @@ class MetricsMiddleware
     /** @var LoggerInterface */
     private $logger;
 
-    private $apiDomainToApiName = [
-        MetricsManager::API_ORBIT => '/^navigation\.(int\.|test\.|stage\.)?api\.bbci\.co\.uk/i',
-        MetricsManager::API_BRANDING => '/^branding\.(int\.|test\.|stage\.)?files\.bbci\.co\.uk/i',
-        MetricsManager::API_RECOMMENDATIONS => '/^open.live.bbc.co.uk\/recommend\/items/i',
-    ];
+    /** @var UriToApiTypeMapper */
+    private $uriToApiTypeMapper;
 
-    public function __construct(MetricsManager $metricsManager, LoggerInterface $logger)
+    public function __construct(MetricsManager $metricsManager, LoggerInterface $logger, UriToApiTypeMapper $uriToApiTypeMapper)
     {
         $this->metricsManager = $metricsManager;
         $this->logger = $logger;
+        $this->uriToApiTypeMapper = $uriToApiTypeMapper;
     }
 
     public function __invoke(callable $handler)
@@ -35,7 +35,7 @@ class MetricsMiddleware
 
             $options['on_stats'] = function (TransferStats $stats) use (&$responseTime) {
                 $uri = $stats->getEffectiveUri();
-                $apiName = $this->getApiNameFromUrl($uri);
+                $apiName = $this->uriToApiTypeMapper->getApiNameFromUriInterface($uri);
                 if (!$apiName) {
                     return;
                 }
@@ -50,18 +50,5 @@ class MetricsMiddleware
 
             return $handler($request, $options);
         };
-    }
-
-    private function getApiNameFromUrl(UriInterface $uri) : ?string
-    {
-        $host = $uri->getHost();
-
-        foreach ($this->apiDomainToApiName as $apiName => $apiPattern) {
-            if (preg_match($apiPattern, $host)) {
-                return $apiName;
-            }
-        }
-
-        return null;
     }
 }

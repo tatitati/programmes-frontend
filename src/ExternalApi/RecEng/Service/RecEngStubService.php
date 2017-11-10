@@ -1,11 +1,11 @@
 <?php
 
-namespace App\RecEng;
+namespace App\ExternalApi\RecEng\Service;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
-class RecEngServiceStub extends RecEngService
+class RecEngStubService extends RecEngService
 {
     /** For use in controller unit tests */
     public function getRecommendations(
