@@ -20,7 +20,7 @@ class XmlParserTest extends TestCase
 
     /**
      * @expectedException \App\ExternalApi\Exception\ParseException
-     * @expectedExceptionMessage Unable to parse XML: String could not be parsed as XML. LIBXMLError: XML error: "expected '>' " (level 3) (Code 73) in file  on line 25 column 13
+     * @expectedExceptionMessageRegExp /Unable to parse XML: String could not be parsed as XML. LIBXMLError: XML error: "expected '>' " \(level 3\) \(Code 73\) on line 25/
      */
     public function testInvalidXml()
     {

@@ -46,11 +46,10 @@ class XmlParser
     private function libXmlErrorToString(LibXMLError $error)
     {
         return sprintf(
-            'XML error: "%s" (level %d) (Code %d) in file %s on line %d column %d',
+            'XML error: "%s" (level %d) (Code %d) on line %d column %d',
             str_replace("\n", " ", $error->message),
             $error->level,
             $error->code,
-            $error->file,
             $error->line,
             $error->column
         );
