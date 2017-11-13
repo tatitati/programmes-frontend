@@ -137,7 +137,13 @@
                     {%- endfor -%}
                 {%- endif -%}
             </ul>
-            {# TODO Supporting Content blocks #}
+            <ul class="grid">
+                {%- for supportingContentItem in supportingContentItems -%}
+                    <li class="1/1 1/2@gel5 grid__item">
+                        {{- ds_amen('supportingContent', supportingContentItem) -}}
+                    </li>
+                {%- endfor -%}
+            </ul>
 
             {# TODO Regular Vote block #}
         </div>

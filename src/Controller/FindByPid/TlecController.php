@@ -77,8 +77,7 @@ class TlecController extends BaseController
         $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority);
         $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
 
-        // @TODO uncomment once code to display supporting items is ready
-        //$supportingContentItems = $electronService->fetchSupportingContentItemsForProgramme($programme);
+        $supportingContentItems = $electronService->fetchSupportingContentItemsForProgramme($programme);
 
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,
@@ -115,6 +114,7 @@ class TlecController extends BaseController
             'mapPresenter' => $mapPresenter,
             'isVotePriority' => $isVotePriority,
             'recommendations' => $recommendations,
+            'supportingContentItems' => $supportingContentItems
         ]);
     }
 

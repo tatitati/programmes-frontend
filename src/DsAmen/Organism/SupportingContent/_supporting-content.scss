@@ -1,0 +1,21 @@
+.feature {
+    menu, ol, ul {
+        list-style-position: inside;
+    }
+    img {
+        width: 50%;
+        float: left;
+        overflow: hidden;
+        margin-right: $gel-unit-small;
+        margin-bottom: $gel-unit-small;
+        margin-left: -$gel-unit-large;
+        margin-top: -$gel-unit-large;
+    }
+}
+
+@include mq($from: gel3) {
+    .feature img {
+        margin-right: 16px;
+        margin-bottom: 16px;
+    }
+}

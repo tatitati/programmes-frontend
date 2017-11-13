@@ -1,0 +1,11 @@
+<div class="feature media media--row media--card br-box-secondary br-secondary-link">
+    <div class="media__body 1/2">
+        <div class="media__details text--prose">
+            {%- if supporting_content.showImage() -%}
+                {{- ds_shared('image', supporting_content.getSupportingContent().getImage(), 336, { 0: 1/2, 1280: 1/4 }, {'is_lazy_loaded': false}) -}}
+            {% endif %}
+            <h4 class="gel-pica-bold br-secondary-text-ontext">{{ supporting_content.getSupportingContent().getTitle() }}</h4>
+            {{ supporting_content.getSupportingContent().getHtmlContent() | raw }}
+        </div>
+    </div>
+</div>
