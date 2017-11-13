@@ -137,13 +137,15 @@
                     {%- endfor -%}
                 {%- endif -%}
             </ul>
-            <ul class="grid">
-                {%- for supportingContentItem in supportingContentItems -%}
-                    <li class="1/1 1/2@gel5 grid__item">
-                        {{- ds_amen('supportingContent', supportingContentItem) -}}
-                    </li>
-                {%- endfor -%}
-            </ul>
+            {%- if supportingContentItems -%}
+                <ul class="grid">
+                    {%- for supportingContentItem in supportingContentItems -%}
+                        <li class="1/2@gel4 grid__item">
+                            {{- ds_amen('supportingContent', supportingContentItem) -}}
+                        </li>
+                    {%- endfor -%}
+                </ul>
+            {%- endif -%}
 
             {# TODO Regular Vote block #}
         </div>

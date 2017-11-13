@@ -114,7 +114,7 @@ class TlecController extends BaseController
             'mapPresenter' => $mapPresenter,
             'isVotePriority' => $isVotePriority,
             'recommendations' => $recommendations,
-            'supportingContentItems' => $supportingContentItems
+            'supportingContentItems' => $supportingContentItems,
         ]);
     }
 
