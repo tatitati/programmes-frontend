@@ -75,3 +75,6 @@ cloud_labs:
 # Include any 3rd party routes. This should be the last thing in the file
 _3rd_party:
     resource: routing_3rd_party.yml
+
+styleguide:
+    resource: styleguide.yml

@@ -1,0 +1,47 @@
+{% extends 'styleguide/amen/base.html.twig' %}
+{% import _self as self %}
+
+{% block section_name %}Promotion{% endblock %}
+
+{% block content %}
+        <h2>Use cases: </h2>
+        <div class="grid">
+            {{ self.displayListOfRenderDescriptors(promosOfDifferentTypes) }}
+        </div>
+        <hr>
+        <h2>Display variations: </h2>
+        <div class="grid">
+            {{ self.displayListOfRenderDescriptors(promosWithDifferentDisplayOptions) }}
+        </div>
+        <hr>
+        <h2>Html variations: </h2>
+        <div class="grid">
+            {{ self.displayListOfRenderDescriptors(promotionsWithDifferentHtmlAttributes) }}
+        </div>
+{% endblock %}
+
+
+{% macro renderOptionsToString(renderOptions) %}
+    {% if renderOptions | length > 0 %}
+        <b>Render options:</b>
+        <ul>
+            {% for key, value in renderOptions %}
+                <li>{{ key }} = {{ value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{% macro displayListOfRenderDescriptors(listOfRenderDescriptorsDto) %}
+    {% import _self as self %}
+
+    {% for description, presenterArgs in listOfRenderDescriptorsDto %}
+        <ul class="grid__item 1/2">
+            <li><b>Description:</b> {{description}}</li>
+            <li>{{self.renderOptionsToString(presenterArgs['render_options'])}}</li>
+
+            {#Render item#}
+            <li>{{ds_amen('promotion', presenterArgs['item'], presenterArgs['render_options'])}}</li>
+        </ul>
+    {% endfor %}
+{% endmacro %}
