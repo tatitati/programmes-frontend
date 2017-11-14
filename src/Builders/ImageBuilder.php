@@ -31,7 +31,7 @@ class ImageBuilder implements BuilderInterface
         $this->title = 'Image title';
         $this->shortSynopsis = 'This is an image-short synopsis';
         $this->longestSynopsis = 'This is an image-long synopsis and is a little longer';
-        $this->type = 'this is the type';
+        $this->type = 'standard';
         $this->extension = 'jpg';
     }
 
