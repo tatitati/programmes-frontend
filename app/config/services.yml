@@ -82,7 +82,7 @@ services:
             - '@csa_guzzle.client.default'
             - '@cache.programmes'
             - env: '%app.feed_env.orbit%'
-              cacheKeyPrefix: 'frontend.%cosmos_component_release%.orbit'
+              cacheKeyPrefix: 'programmes-frontend.%cosmos_component_release%.orbit'
               mustache: { cache: '%kernel.cache_dir%/mustache' }
 
     BBC\BrandingClient\BrandingClient:
@@ -91,7 +91,7 @@ services:
             - '@csa_guzzle.client.default'
             - '@cache.programmes'
             - env: '%app.feed_env.branding%'
-              cacheKeyPrefix: 'frontend.%cosmos_component_release%.branding'
+              cacheKeyPrefix: 'programmes-frontend.%cosmos_component_release%.branding'
 
     ### Translations
 
@@ -142,7 +142,7 @@ services:
         alias: BBC\ProgrammesPagesService\Cache\Cache
 
     BBC\ProgrammesPagesService\Cache\Cache:
-        arguments: ['@cache.programmes', 'frontend.%cosmos_component_release%']
+        arguments: ['@cache.programmes', 'programmes-frontend.%cosmos_component_release%']
 
     BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory: ~
 
