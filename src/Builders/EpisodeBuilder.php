@@ -70,31 +70,31 @@ class EpisodeBuilder implements BuilderInterface
     /** @var Programme|null */
     private $parent;
 
-    /** @var int */
+    /** @var int|null */
     private $position;
 
     /** @var MasterBrand|null */
     private $masterBrand;
 
-    /** @var Genre[] */
+    /** @var Genre[]|null */
     private $genres;
 
-    /** @var Format[] */
+    /** @var Format[]|null */
     private $formats;
 
-    /** @var DateTimeImmutable */
+    /** @var DateTimeImmutable|null */
     private $firstBroadcastDate;
 
-    /** @var PartialDate */
+    /** @var PartialDate|null */
     private $releaseDate;
 
-    /** @var int */
+    /** @var int|null */
     private $duration;
 
-    /** @var DateTimeImmutable */
+    /** @var DateTimeImmutable|null */
     private $streamableFrom;
 
-    /** @var DateTimeImmutable */
+    /** @var DateTimeImmutable|null */
     private $streamableUntil;
 
     /** @var int */
@@ -109,7 +109,7 @@ class EpisodeBuilder implements BuilderInterface
         $this->pid = new Pid('d00744wz');
         $this->title = 'my episode title';
         $this->searchTitle = 'my search episode title';
-        $this->synopses = new Synopses('My short synopsis', 'my medium synopsis', 'my long synopsis');
+        $this->synopses = new Synopses('My short synopsis', 'my a very medium no too much synopsis', 'my extremely boring and endless text for my long synopsis');
         $this->image = ImageBuilder::default()->build();
         $this->promotionsCount = 10;
         $this->relatedLinksCount = 5;
@@ -121,17 +121,6 @@ class EpisodeBuilder implements BuilderInterface
         $this->segmentEventCount = 19;
         $this->aggregatedGalleriesCount = 2;
         $this->options = new Options();
-        // optionals
-        $this->parent = null;
-        $this->position = 3;
-        $this->masterBrand = null;
-        $this->genres = [new Genre([2], 'other_id', 'Other Title', 'other_url_key', null)];
-        $this->formats = [new Format([4], 'other_format_id', 'other_format_title', 'other_format_url_key')];
-        $this->firstBroadcastDate = new DateTimeImmutable('2012-06-05');
-        $this->releaseDate =  new PartialDate(2000, 10, 5);
-        $this->duration = 23;
-        $this->streamableFrom = new DateTimeImmutable('2012-06-03');
-        $this->streamableUntil = new DateTimeImmutable('2100-06-03');
         $this->aggregatedBroadcastsCount = 10;
         $this->availableClipsCount = 14;
     }
@@ -235,67 +224,61 @@ class EpisodeBuilder implements BuilderInterface
         return $this;
     }
 
-    public function withParent(Programme $parent)
+    public function withParent(?Programme $parent)
     {
         $this->parent = $parent;
         return $this;
     }
 
-    public function withPosition(int  $position)
+    public function withPosition(?int  $position)
     {
         $this->position = $position;
         return $this;
     }
 
-    public function withMasterBrand(MasterBrand $masterbrand)
+    public function withMasterBrand(?MasterBrand $masterbrand)
     {
         $this->masterBrand = $masterbrand;
         return $this;
     }
 
-    /**
-     * @param Genre[] $genres
-     */
-    public function withGenres(array $genres)
+    public function withGenres(?array $genres)
     {
         $this->genres = $genres;
         return $this;
     }
 
-    /**
-     * @param Format[] $formats
-     */
-    public function withFormats(array $formats)
+    public function withFormats(?array $formats)
     {
         $this->formats = $formats;
         return $this;
     }
 
-    public function withFirstBroadcastDate(DateTimeImmutable $firstBroadcastDate)
+    public function withFirstBroadcastDate(?DateTimeImmutable $firstBroadcastDate)
     {
         $this->firstBroadcastDate = $firstBroadcastDate;
         return $this;
     }
 
-    public function withReleaseDate(PartialDate $releaseDate)
+    public function withReleaseDate(?PartialDate $releaseDate)
     {
         $this->releaseDate = $releaseDate;
         return $this;
     }
 
-    public function withDuration(int $duration)
+    public function withDuration(?int $duration)
     {
         $this->duration = $duration;
         return $this;
     }
 
-    public function withStreamableFrom(DateTimeImmutable $streamableFrom)
+    public function withStreamableFrom(?DateTimeImmutable $streamableFrom)
     {
         $this->streamableFrom = $streamableFrom;
         return $this;
     }
 
-    public function withStremableUntil(DateTimeImmutable $streamableUntil)
+    public function withStremableUntil(?DateTimeImmutable $streamableUntil)
     {
         $this->streamableUntil = $streamableUntil;
         return $this;

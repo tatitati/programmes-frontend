@@ -33,7 +33,9 @@ class PromotionController extends BaseController
             ],
             'Promotion of core entity' => [
                 'item' => PromotionBuilder::default()
-                    ->withPromotedEntity(EpisodeBuilder::default()->build())
+                    ->withPromotedEntity(
+                        EpisodeBuilder::default()->withDuration(100)->build()
+                    )
                     ->build(),
                 'render_options' => [],
             ],
