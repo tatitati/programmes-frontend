@@ -6,7 +6,9 @@ parameters:
     app.metric_backend.class: App\Metrics\Backend\CloudWatchMetricBackend
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
+    app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesService
     app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
+    app.recipe.baseurl: 'https://api.live.bbc.co.uk/food/recipes'
     frontend.aws.http_timeout: 15
     frontend.aws.http_connect_timeout: 5
 
@@ -208,3 +210,8 @@ services:
         arguments:
             $audioKey: '%receng_audio_key%'
             $videoKey: '%receng_video_key%'
+
+    App\ExternalApi\Recipes\Service\RecipeService:
+        class: '%app.recipe.service.class%'
+        arguments:
+            $baseUrl: '%app.recipe.baseurl%'

@@ -21,9 +21,6 @@ class ElectronService
     /** @var ClientInterface */
     private $guzzleClient;
 
-    /** @var string */
-    private $env;
-
     /** @var CacheInterface */
     private $cache;
 

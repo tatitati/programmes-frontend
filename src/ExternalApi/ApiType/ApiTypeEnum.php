@@ -9,12 +9,14 @@ class ApiTypeEnum
     public const API_ORBIT = 'ORB';
     public const API_RECOMMENDATIONS = 'RECOMMENDATIONS';
     public const API_ELECTRON = 'ELECTRON';
+    public const API_RECIPE = 'RECIPE';
 
     private const API_TYPES = [
         self::API_BRANDING => true,
         self::API_ORBIT => true,
         self::API_RECOMMENDATIONS => true,
         self::API_ELECTRON => true,
+        self::API_RECIPE => true,
     ];
 
     public static function isValid(string $key)

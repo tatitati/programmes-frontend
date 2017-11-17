@@ -8,6 +8,7 @@ parameters:
     app.metric_cache.class: App\Metrics\Cache\MetricCacheNull
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngStubService
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronStubService
+    app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesStubService
 
 framework:
     router:
