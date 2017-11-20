@@ -87,6 +87,11 @@ class TxPresenter extends RightColumnPresenter
         return $this->upcomingBroadcast ? 'upcoming_episodes' : 'all_previous_episodes';
     }
 
+    public function getLinkLocationSuffix(): string
+    {
+        return $this->upcomingBroadcast ? 'upcoming' : 'previous';
+    }
+
     public function getProgrammeTitle(): string
     {
         return $this->programmeContainer->getTitle();

@@ -22,13 +22,12 @@
     <div class="island">
         <h2 class="gel-double-pica-bold">{{ tr(presenter.getTitleTranslationString()) }}</h2>
     </div>
-    {# @TODO sort link_location_prefix for radio #}
     {{ ds_amen('programme', episode, {
         'context_programme': presenter.getProgrammeContainer(),
         'media_variant': 'media media--column media--card map-card',
         'branding_name': 'secondary',
         'show_image': presenter.shouldShowImage(),
-        'link_location_prefix': '',
+        'link_location_prefix': 'map_ondemand_',
         'title_options': {
             'text_colour_on_title_link': false,
             'title_size_large': 'gel-great-primer-bold'

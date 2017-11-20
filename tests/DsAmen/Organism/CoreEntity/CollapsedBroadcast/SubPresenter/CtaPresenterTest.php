@@ -98,6 +98,32 @@ class CtaPresenterTest extends BaseSubPresenterTest
         ];
     }
 
+    public function testGetLinkLocation(): void
+    {
+        $tvEpisode = $this->createMockTvEpisode();
+        $collapsedBroadcast = $this->createMockCollapsedBroadcast($tvEpisode);
+
+        $ctaPresenter = new CtaPresenter(
+            $collapsedBroadcast,
+            $this->router,
+            $this->liveBroadcastHelper,
+            ['link_location_prefix' => 'programmes_map_tx_']
+        );
+
+        $ctaPresenterWithSuffix = new CtaPresenter(
+            $collapsedBroadcast,
+            $this->router,
+            $this->liveBroadcastHelper,
+            [
+                'link_location_prefix' => 'programmes_map_tx_',
+                'link_location_suffix' => '_start',
+            ]
+        );
+
+        $this->assertSame('programmes_map_tx_calltoaction', $ctaPresenter->getLinkLocation());
+        $this->assertSame('programmes_map_tx_calltoaction_start', $ctaPresenterWithSuffix->getLinkLocation());
+    }
+
     /** @dataProvider getBackgroundClassProvider */
     public function testGetBackgroundClass(array $options, string $expected): void
     {

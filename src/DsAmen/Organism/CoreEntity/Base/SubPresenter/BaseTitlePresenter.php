@@ -37,7 +37,6 @@ abstract class BaseTitlePresenter extends Presenter
         'title_size_small' => 'gel-pica',
         'branding_name' => 'subtle',
         'max_title_length' => 60,
-        'link_location_prefix' => 'programmeobject_',
     ];
 
     public function __construct(

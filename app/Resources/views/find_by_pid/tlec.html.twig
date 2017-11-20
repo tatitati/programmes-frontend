@@ -97,11 +97,12 @@
                                 },
                                 'cta_options': {
                                     'cta_class': 'br-box-secondary',
-                                }
+                                },
+                                'link_location_prefix': 'clip_' ~ loop.index ~ '_'
                             })}}
 
                             {%- if loop.last and programme.getAvailableClipsCount() > 4 -%}
-                                {{ this.trailing_link('programme_clips', 'see_all_clips', programme) }}
+                                {{ this.trailing_link('programme_clips', 'see_all_clips', programme, 'clip_see_all') }}
                             {%- endif -%}
                         </li>
                     {%- endfor -%}
@@ -127,11 +128,12 @@
                                 },
                                 'cta_options': {
                                     'cta_class': 'br-box-secondary'
-                                }
+                                },
+                                'link_location_prefix': 'gallery_' ~ loop.index ~ '_'
                             }) -}}
 
                             {%- if loop.last and programme.getAggregatedGalleriesCount() > 4 -%}
-                                {{- this.trailing_link('programme_galleries', 'see_all_galleries', programme) -}}
+                                {{- this.trailing_link('programme_galleries', 'see_all_galleries', programme, 'gallery_see_all') -}}
                             {%- endif -%}
                         </li>
                     {%- endfor -%}
@@ -156,10 +158,10 @@
     {{ ds_amen('footer', programme, recommendations) }}
 {% endblock %}
 
-{% macro trailing_link(route, translation, programme) %}
+{% macro trailing_link(route, translation, programme, link_location_prefix) %}
     <div class="br-box-secondary">
         <div class="media__footer br-keyline">
-            <a href="{{ path(route, { pid: programme.getPid() }) }}" class="icon-link link-complex 1/1 gel-pica-bold">
+            <a href="{{ path(route, { pid: programme.getPid() }) }}" class="icon-link link-complex 1/1 gel-pica-bold" data-linktrack="{{ link_location_prefix }}">
                 {{ gelicon('media', 'collection', 'gelicon--programme br-secondary-text-ontext') }}
                 <span class="link-complex__target icon-label--trailing-link">{{ tr(translation) }}</span>
             </a>

@@ -1,7 +1,7 @@
 /**
  * DsAmen JS Bootstrap
  */
-define(['eqjs', 'lazyload', 'respimg', 'lazysizes'], function(EQ, Lazyload) {
+define(['eqjs', 'lazyload', 'istats-tracking', 'jquery-1.9', 'respimg', 'lazysizes'], function(EQ, Lazyload, IstatsTracking, $) {
         function init() {
             var selector = '[data-eq-pts]';
             EQ.query(document.querySelectorAll(selector));
@@ -13,6 +13,14 @@ define(['eqjs', 'lazyload', 'respimg', 'lazysizes'], function(EQ, Lazyload) {
 
             var lazyload = new Lazyload();
             lazyload.init();
+
+            var tracking = new IstatsTracking();
+            tracking.init();
+            $('body').on('lazyloadComplete', function(e, context) {
+                if (context && context.content) {
+                    tracking.trackLinks(context.content);
+                }
+            });
         }
 
         // cut the mustard

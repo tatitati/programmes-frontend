@@ -21,7 +21,7 @@ class CtaPresenter extends BaseCtaPresenter
 
     protected $additionalOptions = [
         'link_to_start' => false,
-        'link_location_prefix' => 'programmeobject_',
+        'link_location_suffix' => '',
 
     ];
 
@@ -48,6 +48,11 @@ class CtaPresenter extends BaseCtaPresenter
         }
 
         return 'iplayer_watch_live';
+    }
+
+    public function getLinkLocation(): string
+    {
+        return $this->getOption('link_location_prefix') . 'calltoaction' . $this->getOption('link_location_suffix');
     }
 
     public function getMediaIconName(): string

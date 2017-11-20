@@ -97,6 +97,20 @@ class TxPresenterTest extends TestCase
         $this->assertEquals('upcoming_episodes', $tx->getLinkTextTranslationString());
     }
 
+    public function testLinkLocationSuffix()
+    {
+        $context = $this->createMock(Brand::class);
+
+        // Upcoming broadcast absent
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, null, 0, 0);
+        $this->assertEquals('previous', $tx->getLinkLocationSuffix());
+
+        // Upcoming broadcast present
+        $repeat = $this->createMock(CollapsedBroadcast::class);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $context, $repeat, 0, 0);
+        $this->assertEquals('upcoming', $tx->getLinkLocationSuffix());
+    }
+
     public function testLinkTitleTranslationString()
     {
         $context = $this->createMock(Brand::class);

@@ -47,7 +47,10 @@ class CtaPresenterTest extends BaseSubPresenterTest
         $ctaPresenter = new CtaPresenter(
             $mockClip,
             $this->router,
-            ['force_iplayer_linking' => $forceIplayerLinking]
+            [
+                'force_iplayer_linking' => $forceIplayerLinking,
+                'link_location_prefix' => 'programmeobject_',
+            ]
         );
 
         $this->assertSame($expected, $ctaPresenter->getLinkLocationPrefix());

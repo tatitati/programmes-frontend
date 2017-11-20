@@ -35,6 +35,7 @@ abstract class BaseCoreEntityPresenter extends Presenter
         'media_details_class' => 'media__details',
         'show_image' => true,
         'force_iplayer_linking' => false,
+        'link_location_prefix' => 'programmeobject_',
 
         // Subpresenter options
         'body_options' => [],

@@ -13,7 +13,8 @@
                 {%- if collapsed_broadcast.showWatchFromStartCta() -%}
                     {{- ds_amen_presenter(collapsed_broadcast.getCtaPresenter({
                         'link_to_start': true,
-                        'cta_class': ''
+                        'cta_class': '',
+                        'link_location_suffix': '_start'
                     })) -}}
                 {%- endif -%}
             </div>

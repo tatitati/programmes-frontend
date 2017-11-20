@@ -44,7 +44,8 @@ gulp.task('js', ['js:clean'], function () {
             "eqjs": "../../../node_modules/eq.js/dist/eq.polyfilled.min",
             "comscorews" : "../../../vendor/bbc-rmp/comscore/js-modules/comscorews",
             "rmpcomscore/base" : "../../../vendor/bbc-rmp/comscore/js-modules/base",
-            "orb/cookies": "empty:"
+            "orb/cookies": "empty:",
+            'istats-1': 'empty:'
         },
         "optimize": 'uglify',
         "map": {

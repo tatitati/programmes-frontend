@@ -34,7 +34,7 @@
         {%- if not tx.getOption('show_mini_map') -%}
             <div class="map__additional-info gel-pica br-keyline media__meta-row--separator">
                 <p>
-                    <a data-linktrack="map_tx_all"
+                    <a data-linktrack="map_tx_{{ tx.getLinkLocationSuffix() }}"
                        title="{{ tr(tx.getLinkTitleTranslationString(), {'%1': tx.getProgrammeTitle()}) }}"
                        href="{{ tx.getTrailingLinkHref() }}"
                        class="gel-pica-bold">

@@ -21,7 +21,6 @@ abstract class BaseCtaPresenter extends Presenter
     /** @var array */
     protected $options = [
         'cta_class' => 'icon-cta--dark',
-        'link_location_prefix' => 'programmeobject_',
         'show_duration' => true,
     ];
 

@@ -67,7 +67,10 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
-            ['force_iplayer_linking' => $forceIplayerLinking]
+            [
+                'force_iplayer_linking' => $forceIplayerLinking,
+                'link_location_prefix' => 'programmeobject_',
+            ]
         );
 
         $this->assertSame($expected, $titlePresenter->getLinkLocationPrefix());
