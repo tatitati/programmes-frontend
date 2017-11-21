@@ -13,7 +13,7 @@
                     {{- shared_image.getOption('badge_text') -}}
                 </div>
             {%- endif -%}
-            {%- if shared_image.getCtaPresenter() -%}
+            {%- if shared_image.showCta() -%}
                 <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
                     {{ ds_amen_presenter(shared_image.getCtaPresenter()) }}
                 </div>
