@@ -1,5 +1,5 @@
-<h2 class="footer__heading gel-double-pica-bold">{{- tr('you_might_also_like') -}}</h2>
-{%- if footer.getRecommendations() | length > 0 -%}
+{%- if footer.getRecommendations() -%}
+    <h2 class="footer__heading gel-double-pica-bold">{{- tr('you_might_also_like') -}}</h2>
     <ul class="grid grid--flush-bottom">
         {%- for prog in footer.getRecommendations() -%}
             <li class="grid__item 1/2">
@@ -9,6 +9,7 @@
                         'text_colour_on_title_link': false,
                         'title_size_large': 'gel-pica-bold',
                         'title_size_small': 'gel-long-primer',
+                        'title_format': 'tleo::ancestry:item'
                     },
                     'image_options': {
                         'sizes': {
@@ -20,7 +21,6 @@
                         },
                     },
                     'cta_options': {
-                        'cta_class': 'br-box-secondary',
                         'show_duration': false,
                     }
                 }) -}}
