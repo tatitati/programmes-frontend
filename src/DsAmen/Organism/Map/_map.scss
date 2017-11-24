@@ -53,8 +53,14 @@ $map-gap: 2px;
     align-items: center;
 }
 
-.map-social__icon:nth-child(n+4) {
-    display: none;
+.map-social__icon {
+    display: inline-block;
+
+    @include mq($until: gel4) {
+        &:nth-child(n+4) {
+            display: none;
+        }
+    }
 }
 
 .map-social__label {
@@ -92,8 +98,3 @@ $map-gap: 2px;
     }
 }
 
-@include mq($from: gel4) {
-    .map-social__icon:nth-child(n+4) {
-        display: inline-block;
-    }
-}

@@ -4,7 +4,7 @@
             <span class="map-social__label gel-long-primer">{{- tr('find_us_at') -}}</span>
             <ul class="list-inline list-inline--social-bar">
                 {%- for details in social_bar.getSocialMediaDetails() -%}
-                    <li class="br-secondary-link-onbg015--hover">
+                    <li class="map-social__icon br-secondary-link-onbg015--hover">
                         <a href="{{ details.getValue() }}" title="{{ details.getType()|capitalize }}">
                             {{ gelicon('social', details.getType(), 'gelicon--programme') }}
                             <span class="invisible">{{ details.getType() }}</span>
