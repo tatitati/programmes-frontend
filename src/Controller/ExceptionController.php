@@ -5,7 +5,9 @@ namespace App\Controller;
 
 use App\ValueObject\MetaContext;
 use BBC\BrandingClient\BrandingClient;
+use BBC\BrandingClient\BrandingException;
 use BBC\BrandingClient\OrbitClient;
+use BBC\BrandingClient\OrbitException;
 use Symfony\Bundle\TwigBundle\Controller\ExceptionController as BaseExceptionController;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,20 +38,30 @@ class ExceptionController extends BaseExceptionController
     {
         $currentContent = $this->getAndCleanOutputBuffering((int) $request->headers->get('X-Php-Ob-Level', -1));
         $showException = $request->attributes->get('showException', $this->debug); // As opposed to an additional parameter, this maintains BC
+        // base_ds2013 requires the ORB and Branding. If either of those fail
+        // we still need to be able to render an exception rather than just blow
+        // up with an empty response. There is a separate base template that does not
+        // require either of those things. It looks hideous, but meh.
+        $errorBaseTemplate = 'base_ds2013.html.twig';
 
         $code = $exception->getStatusCode();
         $orb = $branding = null; //No need for Orb or Branding when developing locally
 
         if (!$showException) {
-            $branding = $this->brandingClient->getContent('br-00001');
-
-            $orb = $this->orbitClient->getContent([
-                'variant' => $branding->getOrbitVariant(),
-                'language' => 'en_GB',
-            ], [
-                'searchScope' => $branding->getOrbitSearchScope(),
-                'skipLinkTarget' => 'programmes-content',
-            ]);
+            try {
+                $branding = $this->brandingClient->getContent('br-00001');
+                $orb = $this->orbitClient->getContent([
+                    'variant' => $branding->getOrbitVariant(),
+                    'language' => 'en_GB',
+                ], [
+                    'searchScope' => $branding->getOrbitSearchScope(),
+                    'skipLinkTarget' => 'programmes-content',
+                ]);
+            } catch (BrandingException | OrbitException $e) {
+                // Ignore exceptions from branding and ORB and override template
+                // not to require them
+                $errorBaseTemplate = '@Twig/Exception/base_no_orb.html.twig';
+            }
         }
 
         $headers = [
@@ -64,12 +76,12 @@ class ExceptionController extends BaseExceptionController
         if (!$showException && $code >= 400 && $code <= 499) {
             $headers['Cache-Control'] = 'public, max-age=60';
         }
-
         // The 200 status here is a misnomer, it is a default and shall be
         // overridden later.
         return new Response($this->twig->render(
             $this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
             [
+                'base_template' => $errorBaseTemplate,
                 'status_code' => $code,
                 'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
                 'exception' => $exception,

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html {% block html_classes %}{% endblock %}" lang="{{ tr('language_code') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon">
+
+    <!--[if (gt IE 8)|!(IE)]><!-->
+    <link rel="stylesheet" href="{{ asset('css/ds2013.css') }}" />
+    <!--<![endif]-->
+    <!--[if (lt IE 9)&(!IEMobile)]>
+    <link rel="stylesheet" href="{{ asset('css/ds2013-ie.css') }}" />
+    <![endif]-->
+    {% block inline_head %}{% endblock %}
+</head>
+<body>
+<div class="{% block page_classes %}programmes-page text-base g-f-l{% endblock %}" id="programmes-content" role="main">
+    {% block body %}{% endblock %}
+</div>
+{{ gelicons_source() }}
+{% block javascripts %}{% endblock %}
+</body>
+</html>
