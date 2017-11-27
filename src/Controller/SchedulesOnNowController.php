@@ -42,6 +42,11 @@ class SchedulesOnNowController extends BaseController
         }
 
         $collapsedBroadcast = $collapsedBroadcastsService->findByBroadcast($broadcast);
+        if (!$collapsedBroadcast) {
+            // if this happen, $broadcast is stale on redis and should be expired
+            $broadcastsService->flushOnNowByService($network->getDefaultService());
+            return $this->response()->setMaxAge(10);
+        }
         $simulcastUrl = $helperFactory->getLiveBroadcastHelper()->simulcastUrl($collapsedBroadcast);
 
         $cacheLifetime = $this->calculateCacheLifetime($broadcast->getEndAt());
