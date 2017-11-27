@@ -4,5 +4,5 @@ styleguide_intro:
     defaults: { _controller: App\Controller\Styleguide\Amen\IntroController}
 
 styleguide_promotions:
-    path: /programmes/styleguide/amen/promotion
-    defaults: { _controller: App\Controller\Styleguide\Amen\PromotionController}
+    path: /programmes/styleguide/amen/organism/promotion
+    defaults: { _controller: App\Controller\Styleguide\Amen\Organism\PromotionController}
