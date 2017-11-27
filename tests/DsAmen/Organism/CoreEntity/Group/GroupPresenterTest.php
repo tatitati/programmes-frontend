@@ -5,9 +5,10 @@ namespace Tests\App\DsAmen\Organism\CoreEntity\Group;
 
 use App\DsAmen\Organism\CoreEntity\Group\GroupPresenter;
 use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\CtaPresenter;
+use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\MediaIconCtaPresenter;
 use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\TitlePresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedBodyPresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedImagePresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\BodyPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\ImagePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use PHPUnit\Framework\TestCase;
@@ -32,22 +33,22 @@ class GroupPresenterTest extends TestCase
         $this->mockGroup = $this->createMock(Group::class);
     }
 
-    public function testGetCtaPresenterReturnsInstanceOfGroupCtaPresenter(): void
+    public function testGetCtaPresenterReturnsInstanceOfMediaItemCtaPresenter(): void
     {
         $groupPresenter = new GroupPresenter($this->mockGroup, $this->mockRouter, $this->mockHelperFactory);
-        $this->assertInstanceOf(CtaPresenter::class, $groupPresenter->getCtaPresenter());
+        $this->assertInstanceOf(MediaIconCtaPresenter::class, $groupPresenter->getCtaPresenter());
     }
 
     public function testGetBodyPresenterReturnsInstanceOfSharedBodyPresenter(): void
     {
         $groupPresenter = new GroupPresenter($this->mockGroup, $this->mockRouter, $this->mockHelperFactory);
-        $this->assertInstanceOf(SharedBodyPresenter::class, $groupPresenter->getBodyPresenter());
+        $this->assertInstanceOf(BodyPresenter::class, $groupPresenter->getBodyPresenter());
     }
 
     public function testGetImagePresenterReturnsInstanceOfSharedImagePresenter(): void
     {
         $groupPresenter = new GroupPresenter($this->mockGroup, $this->mockRouter, $this->mockHelperFactory);
-        $this->assertInstanceOf(SharedImagePresenter::class, $groupPresenter->getImagePresenter());
+        $this->assertInstanceOf(ImagePresenter::class, $groupPresenter->getImagePresenter());
     }
 
     public function testGetTitlePresenterReturnsInstanceOfGroupTitlePresenter(): void

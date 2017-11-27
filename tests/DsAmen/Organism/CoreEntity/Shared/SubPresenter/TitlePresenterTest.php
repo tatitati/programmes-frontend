@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Organism\CoreEntity\Shared\SubPresenter;
 
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedTitlePresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\TitlePresenter;
 use App\DsShared\Helpers\TitleLogicHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -14,7 +14,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\App\DsAmen\Organism\CoreEntity\BaseSubPresenterTest;
 
-class SharedTitlePresenterTest extends BaseSubPresenterTest
+class TitlePresenterTest extends BaseSubPresenterTest
 {
     /** @var Clip|PHPUnit_Framework_MockObject_MockObject */
     private $mockClip;
@@ -39,7 +39,7 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
     /** @dataProvider getBrandingClassProvider */
     public function testGetBrandingClass(string $brandingName, bool $textColourOnTitleLink, string $expected): void
     {
-        $titlePresenter = new SharedTitlePresenter(
+        $titlePresenter = new TitlePresenter(
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -63,7 +63,7 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
     {
         $this->mockClip->method('isTv')->willReturn($isTv);
 
-        $titlePresenter = new SharedTitlePresenter(
+        $titlePresenter = new TitlePresenter(
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -93,7 +93,7 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
             ->with($this->mockClip, $this->mockContext, 'item::ancestry')
             ->willReturn([$this->mockClip, $titleAncestry]);
 
-        $titlePresenter = new SharedTitlePresenter(
+        $titlePresenter = new TitlePresenter(
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -138,7 +138,7 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
             ->with($mockClip, $this->mockContext, 'item::ancestry')
             ->willReturn([$mockClip, [$mockSeries, $mockEpisode]]);
 
-        $titlePresenter = new SharedTitlePresenter(
+        $titlePresenter = new TitlePresenter(
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -164,7 +164,7 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
             ->with($mockClip, $this->mockContext, 'item::ancestry')
             ->willReturn([$mockClip, []]);
 
-        $titlePresenter = new SharedTitlePresenter(
+        $titlePresenter = new TitlePresenter(
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -183,7 +183,7 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
     /** @dataProvider getUrlProvider */
     public function testGetUrl(Programme $programme, bool $forceIplayerLinking, string $expected): void
     {
-        $titlePresenter = new SharedTitlePresenter(
+        $titlePresenter = new TitlePresenter(
             $programme,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -217,7 +217,7 @@ class SharedTitlePresenterTest extends BaseSubPresenterTest
      */
     public function testValidateOptions(array $options): void
     {
-        new SharedTitlePresenter(
+        new TitlePresenter(
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,

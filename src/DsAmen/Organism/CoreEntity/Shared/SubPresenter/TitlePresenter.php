@@ -5,6 +5,6 @@ namespace App\DsAmen\Organism\CoreEntity\Shared\SubPresenter;
 
 use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseTitlePresenter;
 
-class SharedTitlePresenter extends BaseTitlePresenter
+class TitlePresenter extends BaseTitlePresenter
 {
 }

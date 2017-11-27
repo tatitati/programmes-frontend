@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Organism\CoreEntity\Shared\SubPresenter;
 
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedBodyPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\BodyPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use Tests\App\DsAmen\Organism\CoreEntity\BaseSubPresenterTest;
 
-class SharedBodyPresenterTest extends BaseSubPresenterTest
+class BodyPresenterTest extends BaseSubPresenterTest
 {
     /** @dataProvider hasFullDetailsProvider */
     public function testHasFullDetails(Programme $programme, bool $showSynopsis, bool $expected): void
     {
-        $bodyPresenter = new SharedBodyPresenter(
+        $bodyPresenter = new BodyPresenter(
             $programme,
             ['show_release_date' => true, 'show_synopsis' => $showSynopsis]
         );
@@ -42,7 +42,7 @@ class SharedBodyPresenterTest extends BaseSubPresenterTest
     /** @dataProvider hasReleaseDateProvider */
     public function testHasReleaseDate(Programme $programme, bool $showReleaseDate, bool $expected): void
     {
-        $bodyPresenter = new SharedBodyPresenter($programme, ['show_release_date' => $showReleaseDate]);
+        $bodyPresenter = new BodyPresenter($programme, ['show_release_date' => $showReleaseDate]);
         $this->assertSame($expected, $bodyPresenter->hasReleaseDate());
     }
 

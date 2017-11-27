@@ -7,14 +7,14 @@
 
             <div class="actions-wrapper 1/1">
                 {%- if collapsed_broadcast.showStandaloneCta() -%}
-                    {{- ds_amen_presenter(collapsed_broadcast.getCtaPresenter()) -}}
+                    {{- ds_amen_presenter(collapsed_broadcast.getCtaPresenter({
+                        'cta_class': 'cta cta--dark cta--standalone'
+                    })) -}}
                 {%- endif -%}
 
                 {%- if collapsed_broadcast.showWatchFromStartCta() -%}
-                    {{- ds_amen_presenter(collapsed_broadcast.getCtaPresenter({
-                        'link_to_start': true,
-                        'cta_class': '',
-                        'link_location_suffix': '_start'
+                    {{- ds_amen_presenter(collapsed_broadcast.getShowFromStartCtaPresenter({
+                        'cta_class': 'cta cta--standalone'
                     })) -}}
                 {%- endif -%}
             </div>

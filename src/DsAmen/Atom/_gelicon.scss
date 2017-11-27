@@ -26,7 +26,10 @@ svg.gelicon {
 .gelicon--programme {
     width: $cta-minimum-size;
     height: $cta-minimum-size;
-    padding: 0 $icon-horizontal-padding;
+    // There is a bug in IOS9 that makes icons align left in their box
+    // without the 0.1px top padding. Go Figure. If we no longer care
+    // about IOS9, please fix to padding: 0 $icon-horizontal-padding;
+    padding: 0.1px $icon-horizontal-padding;
 }
 
 svg.gelicon--canon,

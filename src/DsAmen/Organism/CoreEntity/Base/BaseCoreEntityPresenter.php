@@ -12,6 +12,7 @@ use App\DsShared\Helpers\HelperFactory;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class BaseCoreEntityPresenter extends Presenter
@@ -139,5 +140,10 @@ abstract class BaseCoreEntityPresenter extends Presenter
         }
 
         return $this->subPresenterOptions('cta_options');
+    }
+
+    protected function isStreamable(): bool
+    {
+        return ($this->coreEntity instanceof ProgrammeItem && $this->coreEntity->isStreamable());
     }
 }

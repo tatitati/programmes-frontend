@@ -8,17 +8,17 @@ use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseTitlePresenter;
 use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseBodyPresenter;
 use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseCtaPresenter;
 use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseImagePresenter;
-use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\CtaPresenter;
+use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\MediaIconCtaPresenter;
 use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\TitlePresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedBodyPresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedImagePresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\BodyPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\ImagePresenter;
 
 class GroupPresenter extends BaseCoreEntityPresenter
 {
     public function getBodyPresenter(array $options = []): BaseBodyPresenter
     {
         $options = array_merge($this->subPresenterOptions('body_options'), $options);
-        return new SharedBodyPresenter(
+        return new BodyPresenter(
             $this->coreEntity,
             $options
         );
@@ -27,7 +27,7 @@ class GroupPresenter extends BaseCoreEntityPresenter
     public function getCtaPresenter(array $options = []): ?BaseCtaPresenter
     {
         $options = array_merge($this->subPresenterOptions('cta_options'), $options);
-        return new CtaPresenter(
+        return new MediaIconCtaPresenter(
             $this->coreEntity,
             $this->router,
             $options
@@ -39,7 +39,7 @@ class GroupPresenter extends BaseCoreEntityPresenter
         $options = array_merge($this->subPresenterOptions('image_options'), $options);
         $options['cta_options'] = $this->mergeWithSubPresenterOptions($options, 'cta_options');
 
-        return new SharedImagePresenter(
+        return new ImagePresenter(
             $this->coreEntity,
             $this->router,
             $this->getCtaPresenter(),

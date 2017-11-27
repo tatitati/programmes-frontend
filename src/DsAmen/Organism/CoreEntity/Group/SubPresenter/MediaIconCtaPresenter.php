@@ -5,10 +5,26 @@ namespace App\DsAmen\Organism\CoreEntity\Group\SubPresenter;
 
 use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseCtaPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Collection;
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CtaPresenter extends BaseCtaPresenter
+class MediaIconCtaPresenter extends BaseCtaPresenter
 {
+    private $additionalOptions = [
+        'cta_class' => 'cta br-box-secondary',
+    ];
+
+    public function __construct(CoreEntity $coreEntity, UrlGeneratorInterface $router, array $options = [])
+    {
+        $options = array_merge($this->additionalOptions, $options);
+        parent::__construct($coreEntity, $router, $options);
+    }
+
+    public function getMediaIconType(): string
+    {
+        return 'media';
+    }
+
     public function getMediaIconName(): string
     {
         if ($this->coreEntity instanceof Collection) {
@@ -30,5 +46,10 @@ class CtaPresenter extends BaseCtaPresenter
             ['pid' => $this->coreEntity->getPid()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
+    }
+
+    public function getLinkLocation(): string
+    {
+        return $this->getOption('link_location_prefix') . 'calltoaction';
     }
 }

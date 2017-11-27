@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\DsAmen\Organism\CoreEntity\Programme\SubPresenter;
+namespace Tests\App\DsAmen\Organism\CoreEntity\Shared\SubPresenter;
 
-use App\DsAmen\Organism\CoreEntity\Programme\SubPresenter\CtaPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\StreamableCtaPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\App\DsAmen\Organism\CoreEntity\BaseSubPresenterTest;
 
-class CtaPresenterTest extends BaseSubPresenterTest
+class StreamableCtaPresenterTest extends BaseSubPresenterTest
 {
     /** @var UrlGeneratorInterface */
     private $router;
@@ -21,7 +21,7 @@ class CtaPresenterTest extends BaseSubPresenterTest
     /** @dataProvider getDurationProvider */
     public function testGetDuration(ProgrammeItem $programme, int $expected): void
     {
-        $ctaPresenter = new CtaPresenter($programme, $this->router);
+        $ctaPresenter = new StreamableCtaPresenter($programme, $this->router);
         $this->assertSame($expected, $ctaPresenter->getDuration());
     }
 
@@ -44,7 +44,7 @@ class CtaPresenterTest extends BaseSubPresenterTest
         $mockClip = $this->createMockClip();
         $mockClip->method('isTv')->willReturn($isTv);
 
-        $ctaPresenter = new CtaPresenter(
+        $ctaPresenter = new StreamableCtaPresenter(
             $mockClip,
             $this->router,
             [
@@ -53,22 +53,22 @@ class CtaPresenterTest extends BaseSubPresenterTest
             ]
         );
 
-        $this->assertSame($expected, $ctaPresenter->getLinkLocationPrefix());
+        $this->assertSame($expected, $ctaPresenter->getLinkLocation());
     }
 
     public function getLinkLocationPrefixProvider(): array
     {
         return [
-            'Forcing iPlayer linking on TV Clip' => [true, true, 'map_iplayer_'],
-            'Not forcing iPlayer linking on TV Clip' => [false, true, 'programmeobject_'],
-            'Forcing iPlayer linking on non-TV Clip' => [true, false, 'programmeobject_'],
+            'Forcing iPlayer linking on TV Clip' => [true, true, 'map_iplayer_calltoaction'],
+            'Not forcing iPlayer linking on TV Clip' => [false, true, 'programmeobject_calltoaction'],
+            'Forcing iPlayer linking on non-TV Clip' => [true, false, 'programmeobject_calltoaction'],
         ];
     }
 
     /** @dataProvider getMediaIconNameProvider */
     public function testGetMediaIconName(ProgrammeItem $programme, string $expected): void
     {
-        $ctaPresenter = new CtaPresenter($programme, $this->router);
+        $ctaPresenter = new StreamableCtaPresenter($programme, $this->router);
         $this->assertSame($expected, $ctaPresenter->getMediaIconName());
     }
 
@@ -88,7 +88,7 @@ class CtaPresenterTest extends BaseSubPresenterTest
     /** @dataProvider getPlayTranslationProvider */
     public function testGetPlayTranslation(ProgrammeItem $programme, string $expected): void
     {
-        $ctaPresenter = new CtaPresenter($programme, $this->router);
+        $ctaPresenter = new StreamableCtaPresenter($programme, $this->router);
         $this->assertSame($expected, $ctaPresenter->getLabelTranslation());
     }
 
@@ -108,7 +108,7 @@ class CtaPresenterTest extends BaseSubPresenterTest
     /** @dataProvider getUrlProvider */
     public function testGetUrl(ProgrammeItem $programme, string $expected): void
     {
-        $ctaPresenter = new CtaPresenter($programme, $this->router);
+        $ctaPresenter = new StreamableCtaPresenter($programme, $this->router);
         $this->assertSame($expected, $ctaPresenter->getUrl());
     }
 

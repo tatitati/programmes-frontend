@@ -4,14 +4,14 @@ declare(strict_types = 1);
 namespace App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\SubPresenter;
 
 use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseCtaPresenter;
-use App\DsShared\Helpers\LiveBroadcastHelper;
-use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
-use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use App\DsShared\Helpers\LiveBroadcastHelper;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 
-class CtaPresenter extends BaseCtaPresenter
+class LiveCtaPresenter extends BaseCtaPresenter
 {
     /** @var  CollapsedBroadcast */
     protected $collapsedBroadcast;
@@ -21,8 +21,6 @@ class CtaPresenter extends BaseCtaPresenter
 
     protected $additionalOptions = [
         'link_to_start' => false,
-        'link_location_suffix' => '',
-
     ];
 
     public function __construct(
@@ -52,7 +50,11 @@ class CtaPresenter extends BaseCtaPresenter
 
     public function getLinkLocation(): string
     {
-        return $this->getOption('link_location_prefix') . 'calltoaction' . $this->getOption('link_location_suffix');
+        $linkLocation = $this->getOption('link_location_prefix') . 'calltoaction';
+        if ($this->getOption('link_to_start')) {
+            $linkLocation .= '_start';
+        }
+        return $linkLocation;
     }
 
     public function getMediaIconName(): string
@@ -72,9 +74,9 @@ class CtaPresenter extends BaseCtaPresenter
         return 'play';
     }
 
-    public function showLiveMessage(): bool
+    public function getMediaIconType(): string
     {
-        return $this->liveBroadcastHelper->isWatchableLive($this->collapsedBroadcast);
+        return 'audio-visual';
     }
 
     public function getBackgroundClass(): string
@@ -89,31 +91,14 @@ class CtaPresenter extends BaseCtaPresenter
 
     public function getUrl(): string
     {
-        if ($this->liveBroadcastHelper->isWatchableLive($this->collapsedBroadcast, true)) {
-            if ($this->getOption('link_to_start') && $this->collapsedBroadcast->getProgrammeItem()->isVideo()) {
-                return $this->liveBroadcastHelper->simulcastUrl(
-                    $this->collapsedBroadcast,
-                    null,
-                    ['rewindTo' => 'current']
-                );
-            }
-
-            return $this->liveBroadcastHelper->simulcastUrl($this->collapsedBroadcast);
-        }
-
-        if ($this->coreEntity instanceof Episode && $this->coreEntity->isVideo()) {
-            return $this->router->generate(
-                'iplayer_play',
-                ['pid' => $this->coreEntity->getPid()],
-                UrlGeneratorInterface::ABSOLUTE_URL
+        if ($this->getOption('link_to_start') && $this->collapsedBroadcast->getProgrammeItem()->isVideo()) {
+            return $this->liveBroadcastHelper->simulcastUrl(
+                $this->collapsedBroadcast,
+                null,
+                ['rewindTo' => 'current']
             );
         }
-
-        return $this->router->generate(
-            'find_by_pid',
-            ['pid' => $this->coreEntity->getPid(), '_fragment' => $this->coreEntity instanceof Episode ? 'play' : ''],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+        return $this->liveBroadcastHelper->simulcastUrl($this->collapsedBroadcast);
     }
 
     protected function validateOptions(array $options): void

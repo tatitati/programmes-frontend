@@ -89,7 +89,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         /* Icon link */
         $iconLink = $overlay->children();
         $this->assertSame(1, $iconLink->count());
-        $this->assertHasClasses('icon-link icon-cta--dark', $iconLink, 'Icon link classes');
+        $this->assertHasClasses('icon-link cta--dark', $iconLink, 'Icon link classes');
 
         $linkComplex = $iconLink->children();
         $this->assertSame(1, $linkComplex->count());
@@ -175,7 +175,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         /* Icon link */
         $iconLink = $mediaDetails->children()->eq(1);
         $this->assertSame(1, $iconLink->count());
-        $this->assertHasClasses('icon-link icon-cta--dark', $iconLink, 'Icon link classes');
+        $this->assertHasClasses('icon-link cta--dark', $iconLink, 'Icon link classes');
 
         $linkComplex = $iconLink->children();
         $this->assertSame(1, $linkComplex->count());

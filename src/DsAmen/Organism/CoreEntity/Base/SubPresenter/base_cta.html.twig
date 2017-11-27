@@ -1,0 +1,9 @@
+<div class="icon-link {{ cta.getOption('cta_class') }}">
+    <a class="link-complex" href="{{ cta.getUrl() }}" data-linktrack="{{ cta.getLinkLocation() }}">
+        <div class="icon icon-cta icon--{{ cta.getMediaIconName() }}">
+            {{ gelicon(cta.getMediaIconType(), cta.getMediaIconName(), 'gelicon--programme') }}
+            <span class="invisible">{{ tr(cta.getLabelTranslation()) }}</span>
+            {%- block message -%}{%- endblock -%}
+        </div>
+    </a>
+</div>

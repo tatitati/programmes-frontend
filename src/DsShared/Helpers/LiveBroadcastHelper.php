@@ -168,37 +168,22 @@ class LiveBroadcastHelper
         ?Service $preferredService = null,
         array $additionalUrlParameters = []
     ): string {
-        $servicesBySid = $this->getServicesBySid($collapsedBroadcast);
-        if ($preferredService) {
-            $preferredServiceId = (string) $preferredService->getSid();
-            if (isset($servicesBySid[$preferredServiceId]) && isset(self::LIVE_SERVICE_URLS[$preferredServiceId])) {
-                $params = array_merge(self::LIVE_SERVICE_URLS[$preferredServiceId][1], $additionalUrlParameters);
-                return $this->router->generate(
-                    self::LIVE_SERVICE_URLS[$preferredServiceId][0],
-                    $params,
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                );
-            }
+        $liveServiceSid = $this->calculateLiveServiceSid($collapsedBroadcast, $preferredService);
+        if (!$liveServiceSid) {
+            return '';
         }
-
-        // Go through our list in order. We prefer default service (e.g. bbc_one_london) over regional ones etc.
-        foreach (self::LIVE_SERVICE_URLS as $sid => $parameters) {
-            if (isset($servicesBySid[$sid])) {
-                $params = array_merge($parameters[1], $additionalUrlParameters);
-                return $this->router->generate(
-                    $parameters[0],
-                    $params,
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                );
-            }
-        }
-
-        return '';
+        $parameters = self::LIVE_SERVICE_URLS[$liveServiceSid];
+        $params = array_merge($parameters[1], $additionalUrlParameters);
+        return $this->router->generate(
+            $parameters[0],
+            $params,
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 
     public function isWatchableLive(CollapsedBroadcast $collapsedBroadcast, bool $advancedLive = false): bool
     {
-        if ($collapsedBroadcast->isBlanked() || !$this->simulcastUrl($collapsedBroadcast)) {
+        if ($collapsedBroadcast->isBlanked() || !$this->calculateLiveServiceSid($collapsedBroadcast)) {
             return false;
         }
 
@@ -235,5 +220,26 @@ class LiveBroadcastHelper
             $this->sixMinutesFromNow = ApplicationTime::getTime()->addMinutes(6);
         }
         return $this->sixMinutesFromNow;
+    }
+
+    private function calculateLiveServiceSid(
+        CollapsedBroadcast $collapsedBroadcast,
+        ?Service $preferredService = null
+    ): ?string {
+        $servicesBySid = $this->getServicesBySid($collapsedBroadcast);
+        if ($preferredService) {
+            $preferredServiceId = (string) $preferredService->getSid();
+            if (isset($servicesBySid[$preferredServiceId]) && isset(self::LIVE_SERVICE_URLS[$preferredServiceId])) {
+                return $preferredServiceId;
+            }
+        }
+        // Go through our list in order. We prefer default service (e.g. bbc_one_london) over regional ones etc.
+        foreach (self::LIVE_SERVICE_URLS as $sid => $parameters) {
+            if (isset($servicesBySid[$sid])) {
+                return $sid;
+            }
+        }
+
+        return null;
     }
 }

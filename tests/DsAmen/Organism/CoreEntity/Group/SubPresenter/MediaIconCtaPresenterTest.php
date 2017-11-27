@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Organism\CoreEntity\Group\SubPresenter;
 
-use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\CtaPresenter;
+use App\DsAmen\Organism\CoreEntity\Group\SubPresenter\MediaIconCtaPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Collection;
 use BBC\ProgrammesPagesService\Domain\Entity\Gallery;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\App\DsAmen\Organism\CoreEntity\BaseSubPresenterTest;
 
-class CtaPresenterTest extends BaseSubPresenterTest
+class MediaIconCtaPresenterTest extends BaseSubPresenterTest
 {
     /** @var UrlGeneratorInterface */
     private $router;
@@ -23,7 +23,7 @@ class CtaPresenterTest extends BaseSubPresenterTest
     /** @dataProvider getMediaIconNameProvider */
     public function testGetMediaIconName($group, string $expected)
     {
-        $ctaPresenter = new CtaPresenter($group, $this->router);
+        $ctaPresenter = new MediaIconCtaPresenter($group, $this->router);
         $this->assertSame($expected, $ctaPresenter->getMediaIconName());
     }
 
@@ -41,14 +41,14 @@ class CtaPresenterTest extends BaseSubPresenterTest
     public function testGetLabelTranslationReturnsEmptyString()
     {
         $gallery = $this->createMock(Gallery::class);
-        $ctaPresenter = new CtaPresenter($gallery, $this->router);
+        $ctaPresenter = new MediaIconCtaPresenter($gallery, $this->router);
         $this->assertSame('', $ctaPresenter->getLabelTranslation());
     }
 
     public function testGetUrlReturnsFindByPidRoute()
     {
         $gallery = $this->createConfiguredMock(Gallery::class, ['getPid' => new Pid('g0000001')]);
-        $ctaPresenter = new CtaPresenter($gallery, $this->router);
+        $ctaPresenter = new MediaIconCtaPresenter($gallery, $this->router);
         $this->assertSame('http://localhost/programmes/g0000001', $ctaPresenter->getUrl());
     }
 }

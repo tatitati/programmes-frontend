@@ -41,7 +41,7 @@ class PromotionPresenter extends Presenter
         'img_sizes' => [],
         'img_is_lazy_loaded' => true,
         'media_variant' => 'media--column media--card',
-        'cta_class' => 'icon-cta--dark',
+        'cta_class' => 'cta cta--dark',
         'media_panel_class' => '1/1',
         'branding_name' => 'subtle',
         'link_location_prefix' => 'promotionobject_',

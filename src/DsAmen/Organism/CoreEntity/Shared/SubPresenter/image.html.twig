@@ -1,0 +1,29 @@
+{%- if image.getImage() -%}
+    <div class="media__panel {{ image.getOption('media_panel_class') }}">
+        <div class="media__overlay-container ratiobox">
+            {{ ds_shared(
+                'image',
+                image.getImage(),
+                image.getOption('default_width'),
+                image.getOption('sizes'),
+                { 'is_lazy_loaded' : image.getOption('is_lazy_loaded') }
+            ) }}
+            {%- if image.getOption('badge_text') -%}
+                <div class="media__overlay media__overlay--top media__overlay--inline gel-minion-bold {{ image.getOption('badge_class') }}">
+                    {{- image.getOption('badge_text') -}}
+                </div>
+            {%- endif -%}
+            {%- if image.getCtaPresenter() -%}
+                <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
+                    {{ ds_amen_presenter(image.getCtaPresenter()) }}
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+{%- elseif image.getOption('badge_text') -%}
+    <div class="media__badge gel-minion-bold">
+        <span class="media__overlay--inline {{ image.getOption('badge_class') }}">
+            {{ image.getOption('badge_text') }}
+        </span>
+    </div>
+{%- endif -%}

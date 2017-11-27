@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Organism\CoreEntity\Shared\SubPresenter;
 
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedImagePresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\ImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -12,7 +12,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Tests\App\DsAmen\Organism\CoreEntity\BaseSubPresenterTest;
 
-class SharedImagePresenterTest extends BaseSubPresenterTest
+class ImagePresenterTest extends BaseSubPresenterTest
 {
     /** @var UrlGenerator|PHPUnit_Framework_MockObject_MockObject */
     private $mockRouter;
@@ -28,7 +28,7 @@ class SharedImagePresenterTest extends BaseSubPresenterTest
 
     public function testGetImageReturnsNullWhenOptionIsFalse(): void
     {
-        $imagePresenter = new SharedImagePresenter(
+        $imagePresenter = new ImagePresenter(
             $this->programme,
             $this->mockRouter,
             null,
@@ -39,7 +39,7 @@ class SharedImagePresenterTest extends BaseSubPresenterTest
 
     public function testGetImageReturnsImageWhenOptionIsTrue(): void
     {
-        $imagePresenter = new SharedImagePresenter(
+        $imagePresenter = new ImagePresenter(
             $this->programme,
             $this->mockRouter,
             null,
@@ -51,7 +51,7 @@ class SharedImagePresenterTest extends BaseSubPresenterTest
     /** @dataProvider showCtaProvider */
     public function testShowCta(CoreEntity $coreEntity, bool $expected): void
     {
-        $imagePresenter = new SharedImagePresenter(
+        $imagePresenter = new ImagePresenter(
             $coreEntity,
             $this->mockRouter,
             null

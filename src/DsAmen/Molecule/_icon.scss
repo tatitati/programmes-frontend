@@ -25,11 +25,6 @@ $body-grey: #262525;
     align-items: center;
 }
 
-.icon--vmiddle {
-    vertical-align: middle;
-    align-items: center;
-}
-
 .icon-cta {
     align-self: center;
 
@@ -38,17 +33,17 @@ $body-grey: #262525;
     }
 }
 
-.icon-cta--dark {
+.icon-cta.icon--iplayer > .icon-label {
+    margin: auto $gel-unit-small;
+}
+
+.cta--dark {
     background-color: rgba($body-grey, 0.7);
     color: #ffffff;
 
-    .icon--iplayer {
-        background-color: rgba($body-grey, 0.7);
-
-        .gelicon {
-            color: #ffffff;
-            background-color: $iplayer-pink;
-        }
+    .icon--iplayer .gelicon {
+        color: #ffffff;
+        background-color: $iplayer-pink;
     }
 
     .icon--live-restart {
@@ -88,7 +83,7 @@ $body-grey: #262525;
 }
 
 .media__overlay {
-    .icon-cta--dark {
+    .cta--dark {
         .icon--iplayer {
             color: #ffffff;
         }
@@ -144,4 +139,37 @@ $body-grey: #262525;
 
 .speak-duration {
     speak: spell-out;
+}
+
+// Overrides for "standalone" CTAs without background image
+.cta--dark.cta--standalone {
+    background-color: transparent;
+}
+
+.cta--standalone {
+    & > a.link-complex {
+        display: inline-flex;
+    }
+
+    .icon {
+        vertical-align: middle;
+        align-items: center;
+    }
+
+    .icon-cta {
+        align-self: inherit;
+
+        > .icon-label {
+            margin: auto $gel-unit-small;
+        }
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+        .icon--iplayer,
+        .icon--live-restart {
+            background: transparent;
+        }
+    }
 }

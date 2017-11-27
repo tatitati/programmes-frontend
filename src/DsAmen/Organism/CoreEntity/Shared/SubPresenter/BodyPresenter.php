@@ -5,6 +5,6 @@ namespace App\DsAmen\Organism\CoreEntity\Shared\SubPresenter;
 
 use App\DsAmen\Organism\CoreEntity\Base\SubPresenter\BaseBodyPresenter;
 
-class SharedBodyPresenter extends BaseBodyPresenter
+class BodyPresenter extends BaseBodyPresenter
 {
 }

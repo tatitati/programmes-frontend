@@ -6,14 +6,18 @@ namespace Tests\App\DsAmen\Organism\CoreEntity\CollapsedBroadcast;
 use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\CollapsedBroadcastPresenter;
 use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\SubPresenter\CtaPresenter;
 use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\SubPresenter\DetailsPresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedBodyPresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedImagePresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedTitlePresenter;
+use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\SubPresenter\LiveCtaPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\BodyPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\ImagePresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\StreamableCtaPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\TitlePresenter;
 use App\DsShared\Helpers\BroadcastNetworksHelper;
 use App\DsShared\Helpers\HelperFactory;
+use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use RMP\Translate\TranslateFactory;
@@ -32,6 +36,9 @@ class CollapsedBroadcastPresenterTest extends TestCase
 
     /** @var CollapsedBroadcast|PHPUnit_Framework_MockObject_MockObject */
     private $mockCollapsedBroadcast;
+
+    /** @var ProgrammeItem|PHPUnit_Framework_MockObject_MockObject */
+    private $mockProgrammeItem;
 
     public function setUp()
     {
@@ -53,18 +60,46 @@ class CollapsedBroadcastPresenterTest extends TestCase
             $this->translate,
             $this->mockHelperFactory
         );
-        $this->assertInstanceOf(SharedBodyPresenter::class, $cbPresenter->getBodyPresenter());
+        $this->assertInstanceOf(BodyPresenter::class, $cbPresenter->getBodyPresenter());
     }
 
-    public function testGetCtaPresenterReturnsInstanceOfCollapsedBroadcastCtaPresenter(): void
+    public function testGetCtaPresenterReturnsStreamableWhenStreamable(): void
     {
+        $this->setStreamableAndLiveExpectations(true, false);
+
         $cbPresenter = new CollapsedBroadcastPresenter(
             $this->mockCollapsedBroadcast,
             $this->mockRouter,
             $this->translate,
             $this->mockHelperFactory
         );
-        $this->assertInstanceOf(CtaPresenter::class, $cbPresenter->getCtaPresenter());
+        $this->assertInstanceOf(StreamableCtaPresenter::class, $cbPresenter->getCtaPresenter());
+    }
+
+    public function testGetCtaPresenterReturnsLiveWhenLive(): void
+    {
+        $this->setStreamableAndLiveExpectations(false, true);
+
+        $cbPresenter = new CollapsedBroadcastPresenter(
+            $this->mockCollapsedBroadcast,
+            $this->mockRouter,
+            $this->translate,
+            $this->mockHelperFactory
+        );
+        $this->assertInstanceOf(LiveCtaPresenter::class, $cbPresenter->getCtaPresenter());
+    }
+
+    public function testGetCtaPresenterReturnsNullWhenNotStreamableOrLive(): void
+    {
+        $this->setStreamableAndLiveExpectations(false, false);
+
+        $cbPresenter = new CollapsedBroadcastPresenter(
+            $this->mockCollapsedBroadcast,
+            $this->mockRouter,
+            $this->translate,
+            $this->mockHelperFactory
+        );
+        $this->assertNull($cbPresenter->getCtaPresenter());
     }
 
     public function testGetDetailsPresenterReturnsInstanceOfCollapsedBroadcastDetailsPresenter(): void
@@ -86,7 +121,7 @@ class CollapsedBroadcastPresenterTest extends TestCase
             $this->translate,
             $this->mockHelperFactory
         );
-        $this->assertInstanceOf(SharedImagePresenter::class, $cbPresenter->getImagePresenter());
+        $this->assertInstanceOf(ImagePresenter::class, $cbPresenter->getImagePresenter());
     }
 
     public function testGetTitlePresenterReturnsInstanceOfSharedTitlePresenter(): void
@@ -97,22 +132,16 @@ class CollapsedBroadcastPresenterTest extends TestCase
             $this->translate,
             $this->mockHelperFactory
         );
-        $this->assertInstanceOf(SharedTitlePresenter::class, $cbPresenter->getTitlePresenter());
+        $this->assertInstanceOf(TitlePresenter::class, $cbPresenter->getTitlePresenter());
     }
 
     /** @dataProvider showStandaloneCtaProvider */
     public function testShowStandaloneCta(bool $isOnAir, bool $isStreamable, array $options, bool $expected): void
     {
-        $cb = clone $this->mockCollapsedBroadcast;
-        $cb->method('isOnAir')->willReturn($isOnAir);
-
-        $episode = $this->createMock(Episode::class);
-        $episode->method('isStreamable')->willReturn($isStreamable);
-
-        $cb->method('getProgrammeItem')->willReturn($episode);
+        $this->setStreamableAndLiveExpectations($isStreamable, $isOnAir);
 
         $cbPresenter = new CollapsedBroadcastPresenter(
-            $cb,
+            $this->mockCollapsedBroadcast,
             $this->mockRouter,
             $this->translate,
             $this->mockHelperFactory,
@@ -135,16 +164,14 @@ class CollapsedBroadcastPresenterTest extends TestCase
     /** @dataProvider showWatchFromStartCtaProvider */
     public function testShowWatchFromStartCta(bool $isOnAir, bool $isRadio, bool $expected): void
     {
-        $cb = clone $this->mockCollapsedBroadcast;
-        $cb->method('isOnAir')->willReturn($isOnAir);
+        $this->setStreamableAndLiveExpectations(false, $isOnAir);
 
-        $episode = $this->createMock(Episode::class);
-        $episode->method('isRadio')->willReturn($isRadio);
-
-        $cb->method('getProgrammeItem')->willReturn($episode);
+        $this->mockProgrammeItem->expects($this->atLeastOnce())
+            ->method('isRadio')
+            ->willReturn($isRadio);
 
         $cbPresenter = new CollapsedBroadcastPresenter(
-            $cb,
+            $this->mockCollapsedBroadcast,
             $this->mockRouter,
             $this->translate,
             $this->mockHelperFactory
@@ -166,5 +193,28 @@ class CollapsedBroadcastPresenterTest extends TestCase
     {
         $cb = $this->createMock(CollapsedBroadcast::class);
         return $cb;
+    }
+
+    private function setStreamableAndLiveExpectations(bool $isStreamable, bool $isLive)
+    {
+        $this->mockProgrammeItem = $this->createMock(ProgrammeItem::class);
+
+        $this->mockProgrammeItem->expects($this->any())
+            ->method('isStreamable')
+            ->willReturn($isStreamable);
+
+        $this->mockCollapsedBroadcast->expects($this->atLeastOnce())
+            ->method('getProgrammeItem')
+            ->willReturn($this->mockProgrammeItem);
+
+        $mockLiveBroadcastHelper = $this->createMock(LiveBroadcastHelper::class);
+        $mockLiveBroadcastHelper->expects($this->any())
+            ->method('isWatchableLive')
+            ->with($this->mockCollapsedBroadcast, false)
+            ->willReturn($isLive);
+
+        $this->mockHelperFactory->expects($this->any())
+            ->method('getLiveBroadcastHelper')
+            ->willReturn($mockLiveBroadcastHelper);
     }
 }

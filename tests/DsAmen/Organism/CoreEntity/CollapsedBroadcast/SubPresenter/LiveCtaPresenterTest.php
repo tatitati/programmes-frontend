@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\SubPresenter;
 
-use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\SubPresenter\CtaPresenter;
+use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\SubPresenter\LiveCtaPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -16,7 +15,7 @@ use Cake\Chronos\Chronos;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\App\DsAmen\Organism\CoreEntity\BaseSubPresenterTest;
 
-class CtaPresenterTest extends BaseSubPresenterTest
+class LiveCtaPresenterTest extends BaseSubPresenterTest
 {
     /** @var UrlGeneratorInterface */
     private $router;
@@ -39,7 +38,7 @@ class CtaPresenterTest extends BaseSubPresenterTest
     /** @dataProvider getMediaIconNameProvider */
     public function testGetMediaIconName(CollapsedBroadcast $collapsedBroadcast, array $options, string $expected): void
     {
-        $ctaPresenter = new CtaPresenter(
+        $ctaPresenter = new LiveCtaPresenter(
             $collapsedBroadcast,
             $this->router,
             $this->liveBroadcastHelper,
@@ -52,25 +51,22 @@ class CtaPresenterTest extends BaseSubPresenterTest
     public function getMediaIconNameProvider(): array
     {
         $tvEpisode = $this->createMockTvEpisode();
-        $clip = $this->createMockClip();
         $radioEpisode = $this->createMockRadioEpisode();
 
         $cb1 = $this->createMockCollapsedBroadcast($tvEpisode);
-        $cb2 = $this->createMockCollapsedBroadcast($clip);
         $cb3 = $this->createMockCollapsedBroadcast($radioEpisode);
 
         return [
             'TV episode shows iPlayer CTA icon' => [$cb1, [], 'iplayer'],
-            'Clip shows play CTA icon' => [$cb2, [], 'play'],
             'Radio episode shows iPlayer Radio CTA icon' => [$cb3, [], 'iplayer-radio'],
-            'link_to_start option shows rewind button' => [$cb3, ['link_to_start' => true], 'live-restart'],
+            'link_to_start option shows rewind button' => [$cb1, ['link_to_start' => true], 'live-restart'],
         ];
     }
 
     /** @dataProvider getLabelTranslationProvider */
     public function testGetLabelTranslation(CollapsedBroadcast $collapsedBroadcast, array $options, string $expected): void
     {
-        $ctaPresenter = new CtaPresenter(
+        $ctaPresenter = new LiveCtaPresenter(
             $collapsedBroadcast,
             $this->router,
             $this->liveBroadcastHelper,
@@ -103,20 +99,20 @@ class CtaPresenterTest extends BaseSubPresenterTest
         $tvEpisode = $this->createMockTvEpisode();
         $collapsedBroadcast = $this->createMockCollapsedBroadcast($tvEpisode);
 
-        $ctaPresenter = new CtaPresenter(
+        $ctaPresenter = new LiveCtaPresenter(
             $collapsedBroadcast,
             $this->router,
             $this->liveBroadcastHelper,
             ['link_location_prefix' => 'programmes_map_tx_']
         );
 
-        $ctaPresenterWithSuffix = new CtaPresenter(
+        $ctaPresenterWithSuffix = new LiveCtaPresenter(
             $collapsedBroadcast,
             $this->router,
             $this->liveBroadcastHelper,
             [
                 'link_location_prefix' => 'programmes_map_tx_',
-                'link_location_suffix' => '_start',
+                'link_to_start' => true,
             ]
         );
 
@@ -124,33 +120,10 @@ class CtaPresenterTest extends BaseSubPresenterTest
         $this->assertSame('programmes_map_tx_calltoaction_start', $ctaPresenterWithSuffix->getLinkLocation());
     }
 
-    /** @dataProvider getBackgroundClassProvider */
-    public function testGetBackgroundClass(array $options, string $expected): void
-    {
-        $collapsedBroadcast = $this->createMockCollapsedBroadcast();
-
-        $ctaPresenter = new CtaPresenter(
-            $collapsedBroadcast,
-            $this->router,
-            $this->liveBroadcastHelper,
-            $options
-        );
-
-        $this->assertSame($expected, $ctaPresenter->getBackgroundClass());
-    }
-
-    public function getBackgroundClassProvider(): array
-    {
-        return [
-            'show_image option means no background class' => [['show_image' => true], ''],
-            'no show_image option means background class' => [['show_image' => false], 'icon--remove-background'],
-        ];
-    }
-
     /** @dataProvider getUrlProvider */
     public function testGetUrl(CollapsedBroadcast $cb, bool $linkToStart, string $expected)
     {
-        $cta = new CtaPresenter(
+        $cta = new LiveCtaPresenter(
             $cb,
             $this->router,
             $this->liveBroadcastHelper,
@@ -170,16 +143,6 @@ class CtaPresenterTest extends BaseSubPresenterTest
 
         $nonVideoProgrammeItem = $this->createConfiguredMock(
             ProgrammeItem::class,
-            ['isVideo' => false, 'getPid' => new Pid('p0000002')]
-        );
-
-        $videoEpisode = $this->createConfiguredMock(
-            Episode::class,
-            ['isVideo' => true, 'getPid' => new Pid('p0000002')]
-        );
-
-        $nonVideoEpisode = $this->createConfiguredMock(
-            Episode::class,
             ['isVideo' => false, 'getPid' => new Pid('p0000002')]
         );
 
@@ -203,43 +166,10 @@ class CtaPresenterTest extends BaseSubPresenterTest
             ]
         );
 
-        $nonLiveVideoCb = $this->createConfiguredMock(
-            CollapsedBroadcast::class,
-            [
-                'getProgrammeItem' => $nonVideoProgrammeItem,
-                'getServices' => [$service],
-                'getStartAt' => new Chronos('2017-06-01T10:30:00'),
-                'getEndAt' => new Chronos('2017-06-01T11:30:00'),
-            ]
-        );
-
-        $nonLiveNonVideoEpisodeCb = $this->createConfiguredMock(
-            CollapsedBroadcast::class,
-            [
-                'getProgrammeItem' => $nonVideoEpisode,
-                'getServices' => [$service],
-                'getStartAt' => new Chronos('2017-06-01T10:30:00'),
-                'getEndAt' => new Chronos('2017-06-01T11:30:00'),
-            ]
-        );
-
-        $nonLiveVideoEpisodeCb = $this->createConfiguredMock(
-            CollapsedBroadcast::class,
-            [
-                'getProgrammeItem' => $videoEpisode,
-                'getServices' => [$service],
-                'getStartAt' => new Chronos('2017-06-01T10:30:00'),
-                'getEndAt' => new Chronos('2017-06-01T11:30:00'),
-            ]
-        );
-
         return [
             'video programme item links to start when option is set' => [$liveVideoCb, true, 'http://localhost/iplayer/live/bbcone?rewindTo=current'],
             'video programme item does not link to start when option is not set' => [$liveVideoCb, false, 'http://localhost/iplayer/live/bbcone'],
             'non-video programme item does not link to start when option is set' => [$liveNonVideoCb, true, 'http://localhost/iplayer/live/bbcone'],
-            'video programme item does not link to start if it is not live' => [$nonLiveVideoCb, true, 'http://localhost/programmes/p0000002'],
-            'video episode links to iplayer if it is not live' => [$nonLiveVideoEpisodeCb, true, 'http://localhost/iplayer/episode/p0000002'],
-            'non-video episode links to find by pid with play anchor if it is not live' => [$nonLiveNonVideoEpisodeCb, true, 'http://localhost/programmes/p0000002#play'],
         ];
     }
 

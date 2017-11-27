@@ -5,9 +5,10 @@ namespace Tests\App\DsAmen\Organism\CoreEntity\Programme;
 
 use App\DsAmen\Organism\CoreEntity\Programme\ProgrammePresenter;
 use App\DsAmen\Organism\CoreEntity\Programme\SubPresenter\CtaPresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedBodyPresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedImagePresenter;
-use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\SharedTitlePresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\BodyPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\ImagePresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\StreamableCtaPresenter;
+use App\DsAmen\Organism\CoreEntity\Shared\SubPresenter\TitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -93,28 +94,34 @@ class ProgrammePresenterTest extends TestCase
         ];
     }
 
-    public function testGetCtaPresenterReturnsInstanceOfProgrammeCtaPresenter(): void
+    public function testGetCtaPresenterReturnsInstanceOfStreamableCtaPresenterWhenStreamable(): void
     {
-        $programmePresenter = new ProgrammePresenter($this->createMockClip(), $this->mockRouter, $this->mockHelperFactory);
-        $this->assertInstanceOf(CtaPresenter::class, $programmePresenter->getCtaPresenter());
+        $programmePresenter = new ProgrammePresenter($this->createMockClip(true), $this->mockRouter, $this->mockHelperFactory);
+        $this->assertInstanceOf(StreamableCtaPresenter::class, $programmePresenter->getCtaPresenter());
+    }
+
+    public function testGetCtaPresenterReturnsNullWhenNotStreamable(): void
+    {
+        $programmePresenter = new ProgrammePresenter($this->createMockClip(false), $this->mockRouter, $this->mockHelperFactory);
+        $this->assertNull($programmePresenter->getCtaPresenter());
     }
 
     public function testGetBodyPresenterReturnsInstanceOfSharedBodyPresenter(): void
     {
         $programmePresenter = new ProgrammePresenter($this->createMockClip(), $this->mockRouter, $this->mockHelperFactory);
-        $this->assertInstanceOf(SharedBodyPresenter::class, $programmePresenter->getBodyPresenter());
+        $this->assertInstanceOf(BodyPresenter::class, $programmePresenter->getBodyPresenter());
     }
 
     public function testGetImagePresenterReturnsInstanceOfSharedImagePresenter(): void
     {
         $programmePresenter = new ProgrammePresenter($this->createMockClip(), $this->mockRouter, $this->mockHelperFactory);
-        $this->assertInstanceOf(SharedImagePresenter::class, $programmePresenter->getImagePresenter());
+        $this->assertInstanceOf(ImagePresenter::class, $programmePresenter->getImagePresenter());
     }
 
     public function testGetTitlePresenterReturnsInstanceOfSharedTitlePresenter(): void
     {
         $programmePresenter = new ProgrammePresenter($this->createMockClip(), $this->mockRouter, $this->mockHelperFactory);
-        $this->assertInstanceOf(SharedTitlePresenter::class, $programmePresenter->getTitlePresenter());
+        $this->assertInstanceOf(TitlePresenter::class, $programmePresenter->getTitlePresenter());
     }
 
     /** @dataProvider showStandaloneCtaProvider */
@@ -132,19 +139,13 @@ class ProgrammePresenterTest extends TestCase
 
     public function showStandaloneCtaProvider(): array
     {
-        $clip = $this->createMockClip();
-        $clip->method('isStreamable')->willReturn(true);
-
-        $nonStreamableClip = $this->createMockClip();
-        $nonStreamableClip->method('isStreamable')->willReturn(false);
-
         $brand = $this->createMockBrand();
 
         return [
-            'Streamable Programme Item without image returns true' => [$clip, false, true],
-            'Non streamable Programme Item returns false' => [$nonStreamableClip, true, false],
+            'Streamable Programme Item without image returns true' => [$this->createMockClip(true), false, true],
+            'Non streamable Programme Item returns false' => [$this->createMockClip(false), true, false],
             'Brand return false' => [$brand, true, false],
-            'Show image true return false' => [$clip, true, false],
+            'Show image true return false' => [$this->createMockClip(true), true, false],
         ];
     }
 
@@ -174,12 +175,13 @@ class ProgrammePresenterTest extends TestCase
         ];
     }
 
-    private function createMockClip()
+    private function createMockClip(bool $isStreamable = false)
     {
         $mockClip = $this->createMock(Clip::class);
         $mockClip->method('getTitle')->willReturn('Clip 1');
         $mockClip->method('getPid')->willReturn(new Pid('p0000001'));
         $mockClip->method('getDuration')->willReturn(10);
+        $mockClip->method('isStreamable')->willReturn($isStreamable);
 
         return $mockClip;
     }
