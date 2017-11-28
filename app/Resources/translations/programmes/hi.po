@@ -1965,6 +1965,10 @@ msgstr "%1 से सभी पॉडकास्ट देखें"
 msgid "see_all_previous_episodes_from"
 msgstr "%1 के सभी पूर्वप्रसारित एपिसोड्स देखें"
 
+#. English: "See all recipes".
+msgid "see_all_recipes"
+msgstr ""
+
 #. English: "See all recipes from %1".
 msgid "see_all_recipes_from"
 msgstr ""

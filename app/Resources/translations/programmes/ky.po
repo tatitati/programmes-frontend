@@ -1964,6 +1964,10 @@ msgstr ""
 msgid "see_all_previous_episodes_from"
 msgstr "%1 буга чейинки эпизоддорун көрүү"
 
+#. English: "See all recipes".
+msgid "see_all_recipes"
+msgstr ""
+
 #. English: "See all recipes from %1".
 msgid "see_all_recipes_from"
 msgstr ""
