@@ -1,0 +1,26 @@
+{% extends 'base_ds_amen_partial.html.twig' %}
+
+{%- block body -%}
+    {%- for recipe in recipes -%}
+        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5 {{ loop.last ? 'grid__item--column' : ''}}">
+            {{ ds_amen('recipe', recipe, {
+                'show_image': showImage,
+                'branding_name': 'secondary',
+                'cta_class': 'br-box-secondary',
+                'img_sizes': { 600 : 1/2, 768 : 1/3, 1008 : '315px', 1280 : '300px'},
+                'img_is_lazy_loaded': false,
+                'link_location_prefix': 'programmes_recipe_' ~ loop.index ~ '_'
+            }) }}
+            {%- if loop.last and total > 4 -%}
+                <div class="trailing-link br-box-secondary">
+                    <div class="media__footer br-keyline">
+                        <a href="{{ path('programme_recipes', { pid: pid }) }}" class="icon-link link-complex 1/1 gel-pica-bold">
+                            {{ gelicon('media', 'collection', 'gelicon--programme br-secondary-text-ontext') }}
+                            <span class="link-complex__target icon-label--trailing-link">{{ tr('see_all_recipes') }}</span>
+                        </a>
+                    </div>
+                </div>
+            {%- endif -%}
+        </li>
+    {%- endfor -%}
+{%- endblock -%}

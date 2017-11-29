@@ -9,6 +9,10 @@
     width: 100%;
 }
 
+.grid__item--column .media {
+    flex: 1 0 auto;
+}
+
 .media__panel {
     order: 1;
     flex: 0 0 auto;
@@ -251,6 +255,10 @@
     svg.gelicon {
         margin-left: -$icon-horizontal-padding;
     }
+}
+
+.trailing-link {
+    flex: 0 1 auto;
 }
 
 .media__footer-link {

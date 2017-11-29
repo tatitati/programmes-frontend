@@ -1,0 +1,151 @@
+{
+    "byProgramme": {"b013pqnm": {
+        "count": 415,
+        "recipes": [
+            {
+                "hasImage": "true",
+                "isNull": 0,
+                "prepTime": "over 2 hours",
+                "servingsText": "Serves 10-12",
+                "lastModified": "2017-11-10 15:58:26.0",
+                "availabilityEnd": "2099-12-23 00:00:00.0",
+                "diets": [
+                    {"id": "egg_free"},
+                    {"id": "pregnancy_friendly"},
+                    {"id": "shellfish_free"},
+                    {"id": "vegetarian"}
+                ],
+                "isQuickAndEasy": "false",
+                "endTime": null,
+                "course": {
+                    "id": "afternoon_tea",
+                    "title": "Cakes and baking"
+                },
+                "id": "stollen_27553",
+                "startTime": null,
+                "title": "Stollen",
+                "seasons": [],
+                "food": null,
+                "description": "A delicious yeasted cake filled with dried fruit and a swirl of marzipan. It takes time to make but is well worth the effort.  \r\n\r\nEquipment and preparation: for this recipe you will need a large baking tray.",
+                "programmeEpisode": {"id": "b03mk0hm"},
+                "chef": {
+                    "id": "paul_hollywood",
+                    "hasImage": "true",
+                    "displayName": "Paul Hollywood"
+                }
+            },
+            {
+                "hasImage": "true",
+                "isNull": 0,
+                "prepTime": "1-2 hours",
+                "servingsText": "Serves 6-8",
+                "lastModified": "2017-11-09 12:38:36.0",
+                "availabilityEnd": "2017-12-06 00:00:00.0",
+                "diets": [
+                    {"id": "shellfish_free"},
+                    {"id": "vegetarian"}
+                ],
+                "isQuickAndEasy": "false",
+                "endTime": null,
+                "course": {
+                    "id": "desserts",
+                    "title": "Desserts"
+                },
+                "id": "traditional_christmas_38771",
+                "startTime": null,
+                "title": "Traditional Christmas pudding with brandy butter",
+                "seasons": [{
+                    "id": "december",
+                    "name": "December"
+                }],
+                "food": {
+                    "id": "christmas_pudding",
+                    "title": "Christmas pudding"
+                },
+                "description": "Loaded with big pieces of fruit, Mary Berry's Christmas pudding recipe will win over the harshest critics.\r\n\r\nEquipment and preparation: You will need a 1.4 litre/2½ pint pudding basin",
+                "programmeEpisode": {"id": "b01pgqw6"},
+                "chef": {
+                    "id": "mary_berry",
+                    "hasImage": "true",
+                    "displayName": "Mary Berry"
+                }
+            },
+            {
+                "hasImage": "true",
+                "isNull": 0,
+                "prepTime": "less than 30 mins",
+                "servingsText": "Makes about 50 biscuits",
+                "lastModified": "2017-10-18 15:32:35.0",
+                "availabilityEnd": null,
+                "diets": [
+                    {"id": "gluten_free"},
+                    {"id": "nut_free"},
+                    {"id": "pregnancy_friendly"},
+                    {"id": "shellfish_free"},
+                    {"id": "vegetarian"}
+                ],
+                "isQuickAndEasy": "false",
+                "endTime": null,
+                "course": {
+                    "id": "afternoon_tea",
+                    "title": "Cakes and baking"
+                },
+                "id": "gingerbread_biscuits_37157",
+                "startTime": null,
+                "title": "Gluten-free gingerbread biscuits",
+                "seasons": [],
+                "food": {
+                    "id": "gingerbread",
+                    "title": "gingerbread"
+                },
+                "description": "Howard made these gluten-free ginger biscuits to accompany his ginger cheesecakes, cutting out some of the dough into house-shaped biscuits. But the recipe is so good, you'll want to keep a box handy for nibbling.",
+                "programmeEpisode": {"id": "b0876646"},
+                "chef": {
+                    "id": "howard",
+                    "hasImage": "true",
+                    "displayName": "Howard Middleton"
+                }
+            },
+            {
+                "hasImage": "false",
+                "isNull": 0,
+                "prepTime": "1-2 hours",
+                "servingsText": "Makes 1 large cake",
+                "lastModified": "2017-10-02 16:09:41.0",
+                "availabilityEnd": "2099-09-09 00:00:00.0",
+                "diets": [
+                    {"id": "pregnancy_friendly"},
+                    {"id": "shellfish_free"},
+                    {"id": "vegetarian"}
+                ],
+                "isQuickAndEasy": "false",
+                "endTime": null,
+                "course": {
+                    "id": "afternoon_tea",
+                    "title": "Cakes and baking"
+                },
+                "id": "apple_and_cinnamon_79794",
+                "startTime": null,
+                "title": "Apple and cinnamon kugelhopf with honeyed apples",
+                "seasons": [],
+                "food": {
+                    "id": "cake",
+                    "title": "cake"
+                },
+                "description": "A sweet raisin-filled yeasted cake topped with caramelised apples. The recipe calls for a bundt tin, which makes a very pretty cake, but you could use a 900g/2lb loaf tin instead.",
+                "programmeEpisode": {"id": "b04hbwrc"},
+                "chef": {
+                    "id": "luis",
+                    "hasImage": "true",
+                    "displayName": "Luis Troyano"
+                }
+            }
+        ]
+    }},
+    "paging": {
+        "totalCount": 415,
+        "page": 1,
+        "pageSize": 4,
+        "isEnabled": true
+    }
+}

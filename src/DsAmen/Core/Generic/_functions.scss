@@ -1,0 +1,4 @@
+$image-url-path: '../images/' !default;
+@function image-url($url) {
+    @return url('#{$image-url-path}#{$url}');
+}

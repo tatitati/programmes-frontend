@@ -32,6 +32,10 @@
     width: auto;
 }
 
+.grid__item--column {
+    flex-direction: column;
+}
+
 .grid__item,
 .grid-unit {
     margin-bottom: $gel-unit-small;

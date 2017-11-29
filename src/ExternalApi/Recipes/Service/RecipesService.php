@@ -44,22 +44,22 @@ class RecipesService
         $this->baseUrl = $baseUrl;
     }
 
-    public function fetchRecipesByProgramme(Programme $programme, int $limit = 4, int $page = 1): RecipesApiResult
+    public function fetchRecipesByPid(string $pid, int $limit = 4, int $page = 1): RecipesApiResult
     {
-        $cacheKey = $this->cache->keyHelper(__CLASS__, __FUNCTION__, (string) $programme->getPid(), $limit, $page);
+        $cacheKey = $this->cache->keyHelper(__CLASS__, __FUNCTION__, $pid, $limit, $page);
         $cacheItem = $this->cache->getItem($cacheKey);
 
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
         }
 
-        $url = $this->baseUrl . '/by/programme/' . (string) $programme->getPid();
+        $url = $this->baseUrl . '/by/programme/' . urlencode($pid);
         $url .= '?page=' . $page . '&pageSize=' . $limit . '&sortBy=lastModified&sortSense=desc';
 
         try {
             $response = $this->client->request('GET', $url);
         } catch (GuzzleException $e) {
-            $this->logger->warning('Invalid response from Recipes API. Entity: ' . (string) $programme->getPid());
+            $this->logger->warning('Invalid response from Recipes API. Entity: ' . $pid);
 
             $emptyResult = new RecipesApiResult([], 0);
 
@@ -72,13 +72,14 @@ class RecipesService
         }
 
         $response = json_decode($response->getBody()->getContents());
-        $result = $this->mapItems($response, (string) $programme->getPid());
+
+        $result = $this->mapItems($response, $pid);
         $this->cache->setItem($cacheItem, $result, CacheInterface::MEDIUM);
 
         return $result;
     }
 
-    public function mapItems(stdClass $items, string $pid): RecipesApiResult
+    public function mapItems(?stdClass $items, string $pid): RecipesApiResult
     {
         $recipes = [];
         $total = 0;

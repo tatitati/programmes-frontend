@@ -91,6 +91,12 @@ programme_galleries:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
     schemes: [http]
 
+programme_recipes:
+    path: /programmes/{pid}/recipes
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
 # TODO implement slice and filter parameters properly
 programme_broadcasts:
     path: /programmes/{pid}/broadcasts/

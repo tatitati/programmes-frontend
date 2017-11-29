@@ -1,0 +1,41 @@
+<div class="media box-link gel-long-primer {{ recipe.getOption('media_variant') }}" id="{{ recipe.getUniqueID() }}">
+    <div class="media__body">
+        <div class="media__details {{ recipe.getBrandingBoxClass() }}" data-eq-pts="actions-nowrap: 240">
+            <{{ recipe.getOption('h_tag') }} class="{{ recipe.getOption('title_size') }} media__meta-group">
+                <a class="box-link__target {{ recipe.getTextBrandingClass() }}"
+                   href="{{ recipe.getRecipe().getUrl() }}"
+                   data-linktrack="{{ recipe.getOption('link_location_prefix') }}title">
+                    {{ recipe.getRecipe().getTitle() }}
+                </a>
+            </{{ recipe.getOption('h_tag') }}>
+            <p class="recipe-chef gel-pica">
+                {%- if recipe.getChef().getImage() -%}
+                    <img class="recipe-chef__img hidden unhidden@gel2b" src="{{ recipe.getChef().getImage().getUrl('50') }}">
+                {%- endif -%}
+                {{ recipe.getChef().getName() }}
+            </p>
+        </div>
+    </div>
+    {%- if recipe.getOption('show_image') and recipe.getRecipe().getImage() -%}
+        <div class="media__panel {{ recipe.getOption('media_panel_class') }}">
+            <div class="media__overlay-container ratiobox">
+                {{ ds_shared(
+                    'image',
+                    recipe.getRecipe().getImage(),
+                    recipe.getOption('img_default_width'),
+                    recipe.getOption('img_sizes'),
+                    { 'is_lazy_loaded' : recipe.getOption('img_is_lazy_loaded'), 'srcsets': recipe.getOption('srcsets') }
+                ) }}
+                <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
+                    <div class="icon-link {{ recipe.getOption('cta_class') }}">
+                        <a class="link-complex" href="{{ recipe.getRecipe().getUrl() }}" data-linktrack="{{ recipe.getOption('link_location_prefix') }}media">
+                            <div class="icon icon-cta">
+                                {{- gelicon('food', 'western-food', 'gelicon--recipe') -}}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%- endif -%}
+</div>

@@ -25,7 +25,7 @@ define(['jquery-1.9'], function ($) {
             context: $('body'),
             lazy_module_css: 'lazy-module',
             lazy_css_state: {
-                loading: 'lazy-module--loading',
+                loading: 'lazy-module--loading lazy-module--loading--loader',
                 complete: 'lazy-module--complete',
                 error: 'lazy-module--error'
             },
@@ -54,13 +54,13 @@ define(['jquery-1.9'], function ($) {
         },
         isOverThreshold : function (lazyloaded_object) {
             var minimum_render_threshold = lazyloaded_object.getAttribute(this.options.data_threshold);
-            return (minimum_render_threshold) ? ($(window).width() >= minimum_render_threshold) : false;
+            return (minimum_render_threshold) ? ($(window).width() >= minimum_render_threshold) : true;
         },
         alwaysLoadContent: function (context) {
-            return (context.getAttribute(this.options.data_always_lazyload) == "true") ? true : false;
+            return (context.getAttribute(this.options.data_always_lazyload) === "true");
         },
         isDelayed : function (lazyloaded_object) {
-            return (lazyloaded_object.getAttribute(this.options.data_delay_lazyload) == "true");
+            return (lazyloaded_object.getAttribute(this.options.data_delay_lazyload) === "true");
         },
         shouldBeRenderedNow : function (element) {
             return ((this.isOverThreshold(element) || this.alwaysLoadContent(element)) && (!this.isDelayed(element) || this.isInViewport(element)));

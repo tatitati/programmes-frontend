@@ -1,7 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace App\Controller;
+namespace App\Controller\Partial;
 
+use App\Controller\BaseController;
 use App\DsShared\Helpers\HelperFactory;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
@@ -52,7 +53,7 @@ class SchedulesOnNowController extends BaseController
         $cacheLifetime = $this->calculateCacheLifetime($broadcast->getEndAt());
         $this->response()->setPublic()->setMaxAge($cacheLifetime);
 
-        return $this->renderWithChrome('schedules/on_now_' . $designSystem . '.html.twig', [
+        return $this->renderWithChrome('partial/on_now_' . $designSystem . '.html.twig', [
             'broadcast' => $broadcast,
             'simulcastUrl' => $simulcastUrl,
             'isRadio' => $network->isRadio(),

@@ -16,10 +16,12 @@ $ie: false !default;
 @import 'Core/Settings/colors';
 
 // Core
+@import 'Core/Generic/functions';
 @import 'Core/Generic/main';
 @import 'Core/Generic/pagesize';
 @import 'Core/Generic/clearfix';
 @import 'Core/fractions';
+@import 'Core/lazyload';
 
 // Settings
 // Atoms
@@ -45,6 +47,7 @@ $ie: false !default;
 
 // Molecules
 @import 'Molecule/moreless';
+@import 'Organism/Recipe/recipes';
 //@import 'Molecule/Badge/badge';
 //@import 'Molecule/Card/card';
 //@import 'Molecule/Cover/cover';

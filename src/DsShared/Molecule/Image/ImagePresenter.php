@@ -139,9 +139,9 @@ class ImagePresenter extends Presenter
     {
         if ($this->getOption('ratio')) {
             $height = (int) round($width / $this->getOption('ratio'));
-            return $this->image->getUrl($width, $height);
+            return $this->image->getUrl((string) $width, $height);
         }
 
-        return $this->image->getUrl($width);
+        return $this->image->getUrl((string) $width);
     }
 }

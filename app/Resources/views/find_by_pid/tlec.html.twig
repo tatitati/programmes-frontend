@@ -32,26 +32,43 @@
         <div class="leading-gap cf">
             {#{%- if programme.getOption('prioritytext_block') or isbbcdotcom or hasrecipes -%} TODO #}
             {%- if programme.getOption('prioritytext_block') -%}
-                <div class="grid">
+                <ul class="grid">
                     {%- if programme.getOption('prioritytext_block') -%}
-                        <div class="grid__item 1/1">
+                        <li class="grid__item 1/1">
                             <div class="br-box-secondary island">
                                 {%- if programme.getOption('prioritytext_block').content.title -%}
                                     <h2 class="map__heading gel-great-primer-bold">{{ programme.getOption('prioritytext_block').content.title }}</h2>
                                 {%- endif -%}
                                 <p>{{ programme.getOption('prioritytext_block').content.text }}</p>
                             </div>
-                        </div>
+                        </li>
                     {%- endif -%}
 
                     {# TODO MPU Advert #}
-
-                    {# TODO Recipes block #}
-                </div>
+                </ul>
             {%- endif -%}
 
             {%- if promotions or clips or galleries -%}
                 <ul class="grid">
+                    {%- if programme.getOption('recipes_enabled') -%}
+                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5 gel-brevier-bold lazy-module box-link"
+                             data-lazyload-inc="{{ path('partial_programme_recipes', {'pid': programme.getPid()}) }}"
+                             data-lazyload-threshold="320"
+                             data-lazyload-delay="true">
+                            <div class="br-box-secondary">
+                                    <div class="island">
+                                        <h4 class="gel-pica-bold media__meta-group">
+                                            <a class="br-secondary-text-ontext box-link__target" href="{{ path('programme_recipes', {'pid': programme.getPid()}) }}">
+                                                {{ tr('recipes') }}
+                                            </a>
+                                        </h4>
+                                        <p class="gel-long-primer">{{ tr('see_all_recipes_from', {'%1': programme.getTitle()}) }}</p>
+                                        <br/>
+                                        {{ gelicon('food', 'western-food', 'gelicon--placeholder br-pseudolink') }}
+                                    </div>
+                            </div>
+                        </li>
+                    {%- endif -%}
                     {%- for promotion in promotions -%}
                         {# @TODO should this be moved out into a page presenter or something. It's fugly #}
                         {%- if loop.first and programme.getOption('double_width_first_promo') -%}
@@ -79,7 +96,7 @@
                     {%- endfor -%}
 
                     {%- for clip in clips -%}
-                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5">
+                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5 {{ loop.last ? 'grid__item--column' : ''}}">
                             {{ ds_amen('programme', clip, {
                                 'context_programme': programme,
                                 'branding_name': 'secondary',
@@ -109,7 +126,7 @@
 
 
                     {%- for gallery in galleries -%}
-                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5">
+                        <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5 {{ loop.last ? 'grid__item--column' : ''}}">
                             {{- ds_amen('group', gallery, {
                                 'context_programme': programme,
                                 'branding_name': 'secondary',
@@ -159,7 +176,7 @@
 {% endblock %}
 
 {% macro trailing_link(route, translation, programme, link_location_prefix) %}
-    <div class="br-box-secondary">
+    <div class="trailing-link br-box-secondary">
         <div class="media__footer br-keyline">
             <a href="{{ path(route, { pid: programme.getPid() }) }}" class="icon-link link-complex 1/1 gel-pica-bold" data-linktrack="{{ link_location_prefix }}">
                 {{ gelicon('media', 'collection', 'gelicon--programme br-secondary-text-ontext') }}

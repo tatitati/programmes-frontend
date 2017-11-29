@@ -1,0 +1,12 @@
+{
+    "byProgramme": {"b006q2x0": {
+        "count": 0,
+        "recipes": []
+    }},
+    "paging": {
+        "totalCount": 0,
+        "page": 1,
+        "pageSize": 0,
+        "isEnabled": false
+    }
+}

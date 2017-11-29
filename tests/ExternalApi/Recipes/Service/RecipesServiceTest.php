@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\ExternalApi\Electron\Service;
+namespace Tests\App\ExternalApi\Recipes\Service;
 
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
@@ -37,9 +37,7 @@ class RecipesServiceTest extends TestCase
         $response = new Response(200, [], $json);
         $client = $this->makeGuzzleClientToRespondWith($response);
         $recipesService = $this->makeRecipesService($client);
-        $programme = $this->createMock(Brand::class);
-        $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b013pqnm'));
-        $items = $recipesService->fetchRecipesByProgramme($programme);
+        $items = $recipesService->fetchRecipesByPid('b013pqnm');
         $this->assertCount(4, $items->getRecipes());
         $this->assertEquals('Stollen', $items->getRecipes()[0]->getTitle());
     }
@@ -65,9 +63,7 @@ class RecipesServiceTest extends TestCase
             ->method('getItem')
             ->willReturn($mockCacheItem);
 
-        $programme = $this->createMock(Brand::class);
-        $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));
-        $result = $recipesService->fetchRecipesByProgramme($programme);
+        $result = $recipesService->fetchRecipesByPid('b006m86d');
         $this->assertEquals($expectedContent, $result);
     }
 
@@ -76,9 +72,7 @@ class RecipesServiceTest extends TestCase
         $response = new Response(500, [], 'An Error');
         $client = $this->makeGuzzleClientToRespondWith($response);
         $recipesService = $this->makeRecipesService($client);
-        $programme = $this->createMock(Brand::class);
-        $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));
-        $result = $recipesService->fetchRecipesByProgramme($programme);
+        $result = $recipesService->fetchRecipesByPid('b006m86d');
         $this->assertEquals(0, $result->getTotal());
         $this->assertEquals([], $result->getRecipes());
     }
@@ -88,9 +82,6 @@ class RecipesServiceTest extends TestCase
         $response = new Response(404, [], 'An Error');
         $client = $this->makeGuzzleClientToRespondWith($response);
         $recipesService = $this->makeRecipesService($client);
-        $programme = $this->createMock(Brand::class);
-        $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));
-
         $mockCacheItem = $this->createMock(CacheItemInterface::class);
         $mockCacheItem->expects($this->once())
             ->method('isHit')
@@ -105,7 +96,7 @@ class RecipesServiceTest extends TestCase
             ->method('setItem')
             ->with($mockCacheItem, $empty, CacheInterface::NORMAL);
 
-        $result = $recipesService->fetchRecipesByProgramme($programme);
+        $result = $recipesService->fetchRecipesByPid('b006m86d');
         $this->assertEquals([], $result->getRecipes());
         $this->assertEquals(0, $result->getTotal());
     }

@@ -22,6 +22,11 @@ find_by_pid:
     defaults: { _controller: '!find_by_pid' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+partial_programme_recipes:
+    path: /programmes/{pid}/recipes.ameninc
+    defaults: { _controller: App\Controller\Partial\RecipesController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 schedules_home:
     path: /schedules
     defaults: { _controller: App\Controller\SchedulesHomeController }
@@ -59,7 +64,7 @@ schedules_by_network_url_key:
 
 schedules_on_now:
     path: /schedules/network/{networkUrlKey}/on-now
-    defaults: { _controller: App\Controller\SchedulesOnNowController }
+    defaults: { _controller: App\Controller\Partial\SchedulesOnNowController }
     requirements: { networkUrlKey: '[a-zA-Z0-9]{2,35}' }
 
 # Labs routes, for testing things

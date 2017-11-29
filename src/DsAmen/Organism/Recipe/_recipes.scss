@@ -1,0 +1,42 @@
+.recipes {
+    padding-left: $gel-unit-small;
+}
+
+.recipes-all {
+    margin-left: $gel-unit-small;
+    margin-right: $gel-unit-small;
+}
+
+.recipe {
+    padding-top: $gel-unit-small;
+}
+
+.recipe-chef {
+    display: inline-block;
+    display: flex;
+    align-items: center;
+}
+
+.recipe-chef__img {
+    margin-right: $gel-unit-small;
+    border-radius: 50%;
+}
+
+@include mq($from: gel3) {
+    .recipes {
+        padding-left: $gel-unit-large;
+    }
+
+    .recipes-all {
+        margin-left: $gel-unit-large;
+        margin-right: $gel-unit-large;
+    }
+
+    .recipe {
+        padding-top: $gel-unit-large;
+    }
+
+    .recipe-chef__img {
+        margin-right: $gel-unit-large;
+    }
+}

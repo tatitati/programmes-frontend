@@ -32,6 +32,17 @@ svg.gelicon {
     padding: 0.1px $icon-horizontal-padding;
 }
 
+.gelicon--recipe {
+    width: $cta-minimum-size;
+    height: $cta-minimum-size;
+    padding: 0 $gel-unit-small;
+}
+
+.gelicon--placeholder {
+    width: 32px;
+    height: 32px;
+}
+
 svg.gelicon--canon,
 svg.gelicon--trafalgar,
 svg.gelicon--double-pica,

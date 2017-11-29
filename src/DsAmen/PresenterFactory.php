@@ -11,9 +11,11 @@ use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\CollapsedBroadcastPresente
 use App\DsAmen\Organism\CoreEntity\Group\GroupPresenter;
 use App\DsAmen\Organism\CoreEntity\Programme\ProgrammePresenter;
 use App\DsAmen\Organism\Promotion\PromotionPresenter;
+use App\DsAmen\Organism\Recipe\RecipePresenter;
 use App\DsAmen\Organism\SupportingContent\SupportingContentPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
+use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -113,5 +115,10 @@ class PresenterFactory
     public function synopsisPresenter(Synopses $synopses, int $maxLength): SynopsisPresenter
     {
         return new SynopsisPresenter($synopses, $maxLength);
+    }
+
+    public function recipePresenter(Recipe $recipe, array $options = []): RecipePresenter
+    {
+        return new RecipePresenter($recipe, $options);
     }
 }

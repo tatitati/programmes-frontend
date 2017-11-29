@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\Controller;
+namespace Tests\App\Controller\Partial;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Cake\Chronos\Chronos;

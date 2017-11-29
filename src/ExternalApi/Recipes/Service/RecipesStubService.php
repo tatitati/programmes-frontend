@@ -8,8 +8,8 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class RecipesStubService extends RecipesService
 {
-    public function fetchRecipesByProgramme(Programme $programme, int $limit = 4, int $page = 1): RecipesApiResult
+    public function fetchRecipesByPid(string $pid, int $limit = 4, int $page = 1): RecipesApiResult
     {
-        return new RecipesApiResult([], null);
+        return new RecipesApiResult([], 0);
     }
 }
