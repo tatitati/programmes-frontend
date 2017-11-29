@@ -1,5 +1,5 @@
 <div class="supporting-content br-box-secondary br-secondary-link media media--column media--card media--row@gel2b">
-    <div class="media__body">
+    <div class="media__body {{ supporting_content.showImage ? '1/2@gel2b' : '' }}">
         <div class="text--prose media__details">
             <h4 class="gel-pica-bold br-secondary-text-ontext">{{ supporting_content.getSupportingContent().getTitle() }}</h4>
             {{ supporting_content.getSupportingContent().getHtmlContent() | raw }}
