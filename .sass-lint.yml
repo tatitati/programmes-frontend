@@ -3,9 +3,10 @@ options:
 files:
     include: ['app/Resources/sass/*.scss', 'src/Ds*/**/*.scss']
     ignore:
-        - 'src/Ds*/Core/Vendor/*'
+        - 'src/Ds2013/Css/Core/Vendor/*'
+        - 'src/DsAmen/Core/Vendor/*'
         # Ignore as there sass-lint thinks this file is invalid but it isn't
-        - 'src/Ds2013/Core/Helpers/_widths.scss'
+        - 'src/Ds2013/Css/Core/Helpers/_widths.scss'
 rules:
     # Name Formats
     function-name-format: [2, {convention: hyphenatedlowercase}]
