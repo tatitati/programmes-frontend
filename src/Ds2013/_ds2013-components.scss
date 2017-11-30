@@ -8,23 +8,23 @@
 // NEVER PUT ANY AMEN OBJECTS IN HERE
 
 // Variables come first, as these are referenced in Libraries
-@import 'Core/Generic/variables';
-@import 'Core/Gel/Generic/variables';
+@import 'Css/Core/Generic/variables';
+@import 'Css/Core/Gel/Generic/variables';
 
 // Libraries - MQ, Normalize v1 and GEL
 @import 'sass-mq/mq';
-@import 'Core/Vendor/normalize';
-@import 'Core/Gel/gel';
+@import 'Css/Core/Vendor/normalize';
+@import 'Css/Core/Gel/gel';
 
 // Generics - common variables, mixins and helpers
-@import 'Core/Generic/functions';
-@import 'Core/Generic/mixins';
-@import 'Core/Generic/extends';
-@import 'Core/Generic/extends_classes';
+@import 'Css/Core/Generic/functions';
+@import 'Css/Core/Generic/mixins';
+@import 'Css/Core/Generic/extends';
+@import 'Css/Core/Generic/extends_classes';
 
 // Base - common styles including typography
-@import 'Core/Base/main';
-@import 'Core/Base/prog-layout';
+@import 'Css/Core/Base/main';
+@import 'Css/Core/Base/prog-layout';
 
 // Objects - Reusable abstractions
 // TODO these objects should be split into Atoms, Molecules, Organisms and
@@ -40,16 +40,16 @@
 // programme and should take prescience when applying styling so it should come
 // after programme.
 
-@import 'Atom/columns';
-@import 'Atom/component';
-@import 'Atom/island';
+@import 'Css/Components/columns';
+@import 'Css/Components/component';
+@import 'Css/Components/island';
 
 // Core objects
-@import 'Atom/media';
-@import 'Atom/link-complex';
-@import 'Atom/nav';
-@import 'Atom/iplayer-icon';
-@import 'Atom/timebar';
+@import 'Css/Components/media';
+@import 'Css/Components/link-complex';
+@import 'Css/Components/nav';
+@import 'Css/Components/iplayer-icon';
+@import 'Css/Components/timebar';
 
 // @import 'objects/programme';
 @import 'Organism/Broadcast/broadcast';
@@ -65,7 +65,7 @@
 
 // These items are meant to be used in conjunction with objects higher up.
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
-@import 'Atom/box-link';
+@import 'Css/Components/box-link';
 @import 'Molecule/block-link';
 @import 'Molecule/lazyload';
 // @import 'objects/broadcast-event';
@@ -89,7 +89,7 @@
 // @import 'objects/related-links-primary';
 
 // Helpers
-@import 'Core/Helpers/js';
+@import 'Css/Core/Helpers/js';
 
 // Modules
 // @import 'modules/shared/buy-online-module';
@@ -99,13 +99,13 @@
 // @import 'modules/atoz/atoz-grid';
 // @import 'modules/atoz/atoz-loader';
 // @import 'modules/atoz/navigation';
-@import 'Core/Modules/Atoz/search';
+@import 'Css/PageSpecfic/Atoz/search';
 // @import 'modules/clips/clips-grid';
-@import 'Core/Modules/Schedules/week-guide';
-@import 'Core/Modules/Schedules/tv-channels';
-@import 'Core/Modules/Schedules/fixed-nav';
-@import 'Core/Modules/Schedules/heading-links';
-@import 'Core/Modules/Schedules/lazyload';
+@import 'Css/PageSpecfic/Schedules/week-guide';
+@import 'Css/PageSpecfic/Schedules/tv-channels';
+@import 'Css/PageSpecfic/Schedules/fixed-nav';
+@import 'Css/PageSpecfic/Schedules/heading-links';
+@import 'Css/PageSpecfic/Schedules/lazyload';
 // @import 'modules/global/footer';
 // @import 'modules/programmes/map';
 // @import 'modules/programmes/episode-panel';
