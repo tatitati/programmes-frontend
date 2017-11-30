@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Page\Schedules\ByWeekPage;
 
-use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
+use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;

@@ -4,10 +4,10 @@ namespace App\Ds2013;
 
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
-use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
-use App\Ds2013\Organism\Programme\BroadcastProgrammePresenter;
-use App\Ds2013\Organism\Programme\CollapsedBroadcastProgrammePresenter;
-use App\Ds2013\Organism\Programme\ProgrammePresenter;
+use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
+use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
+use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
+use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
 use App\Ds2013\Page\Schedules\NoSchedule\NoSchedulePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
