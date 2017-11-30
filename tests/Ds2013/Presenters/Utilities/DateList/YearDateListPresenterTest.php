@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Ds2013\Molecule\DateList;
+namespace Tests\App\Ds2013\Presenters\Utilities\DateList;
 
-use App\Ds2013\Molecule\DateList\YearDateListItemPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\YearDateListItemPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;

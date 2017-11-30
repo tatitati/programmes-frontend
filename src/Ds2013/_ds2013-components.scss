@@ -56,7 +56,7 @@
 // @import 'objects/promotion';
 @import 'Organism/Programme/programme';
 
-@import 'Molecule/DateList/date-list';
+@import 'Presenters/Utilities/DateList/date-list';
 // @import 'objects/icon-box';
 // @import 'objects/iplayer-icon';
 // @import 'objects/letters';
@@ -66,14 +66,14 @@
 // These items are meant to be used in conjunction with objects higher up.
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
 @import 'Css/Components/box-link';
-@import 'Molecule/block-link';
-@import 'Molecule/lazyload';
+@import 'Presenters/Utilities/block-link';
+@import 'Presenters/Utilities/lazyload';
 // @import 'objects/broadcast-event';
 // @import 'objects/stream';
 // @import 'objects/feature';
-@import 'Molecule/Calendar/calendar-table';
+@import 'Presenters/Utilities/Calendar/calendar-table';
 // @import 'objects/contact-detail';
-@import 'Molecule/highlight-box';
+@import 'Presenters/Utilities/highlight-box';
 @import '../DsShared/Molecule/Image/image';
 
 // @import 'objects/lazylink';

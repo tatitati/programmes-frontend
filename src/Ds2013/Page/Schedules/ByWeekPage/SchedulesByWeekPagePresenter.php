@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Page\Schedules\ByWeekPage;
 
-use App\Ds2013\Molecule\SiblingService\SiblingServicePresenter;
+use App\Ds2013\Presenters\Utilities\SiblingService\SiblingServicePresenter;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;

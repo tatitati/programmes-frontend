@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Ds2013\Molecule\Calendar;
+namespace App\Ds2013\Presenters\Utilities\Calendar;
 
 use App\Ds2013\Presenter;
 use App\Exception\InvalidOptionException;

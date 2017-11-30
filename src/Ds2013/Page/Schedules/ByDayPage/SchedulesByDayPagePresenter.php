@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Page\Schedules\ByDayPage;
 
-use App\Ds2013\Molecule\SiblingService\SiblingServicePresenter;
+use App\Ds2013\Presenters\Utilities\SiblingService\SiblingServicePresenter;
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\LocalisedDaysAndMonthsHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;

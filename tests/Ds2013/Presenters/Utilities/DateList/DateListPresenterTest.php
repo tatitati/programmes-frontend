@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Ds2013\Molecule\DateList;
+namespace Tests\App\Ds2013\Presenters\Utilities\DateList;
 
-use App\Ds2013\Molecule\DateList\DateListPresenter;
-use App\Ds2013\Molecule\DateList\DayDateListItemPresenter;
-use App\Ds2013\Molecule\DateList\MonthDateListItemPresenter;
-use App\Ds2013\Molecule\DateList\YearDateListItemPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\DayDateListItemPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\MonthDateListItemPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\YearDateListItemPresenter;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;

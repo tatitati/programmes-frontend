@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Ds2013\Molecule\DateList;
+namespace Tests\App\Ds2013\Presenters\Utilities\DateList;
 
-use App\Ds2013\Molecule\DateList\MonthDateListItemPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\MonthDateListItemPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;

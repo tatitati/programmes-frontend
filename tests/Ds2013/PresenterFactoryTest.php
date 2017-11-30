@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
-use App\Ds2013\Molecule\Calendar\CalendarPresenter;
-use App\Ds2013\Molecule\DateList\DateListPresenter;
+use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\Ds2013\Organism\Broadcast\BroadcastPresenter;
 use App\Ds2013\Organism\Programme\ProgrammePresenter;
 use App\Ds2013\PresenterFactory;

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Ds2013\Molecule\DateList;
+namespace App\Ds2013\Presenters\Utilities\DateList;
 
 use App\Ds2013\Presenter;
 use App\Exception\InvalidOptionException;
