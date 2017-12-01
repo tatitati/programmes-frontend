@@ -5,45 +5,45 @@
 $ie: false !default;
 
 // Vendor
-@import 'Core/Vendor/normalize';
+@import 'Css/Core/Vendor/normalize';
 // MQ needs to load after core/breakpoints
-@import 'Core/breakpoints';
+@import 'Css/Core/breakpoints';
 @import 'sass-mq/mq';
 
 // Settings
-@import 'Core/Settings/variables';
-@import 'Core/Settings/mixins';
-@import 'Core/Settings/colors';
+@import 'Css/Core/Settings/variables';
+@import 'Css/Core/Settings/mixins';
+@import 'Css/Core/Settings/colors';
 
 // Core
-@import 'Core/Generic/functions';
-@import 'Core/Generic/main';
-@import 'Core/Generic/pagesize';
-@import 'Core/Generic/clearfix';
-@import 'Core/fractions';
-@import 'Core/lazyload';
+@import 'Css/Core/Generic/functions';
+@import 'Css/Core/Generic/main';
+@import 'Css/Core/Generic/pagesize';
+@import 'Css/Core/Generic/clearfix';
+@import 'Css/Core/fractions';
+@import 'Css/Core/lazyload';
 
 // Settings
 // Atoms
 
-@import 'Atom/core-layout';
-@import 'Atom/box-link';
-@import 'Atom/context';
-@import 'Atom/images';
-@import 'Atom/island';
-@import 'Atom/layout';
-@import 'Atom/link';
-@import 'Atom/list';
+@import 'Css/Components/core-layout';
+@import 'Css/Components/box-link';
+@import 'Css/Components/context';
+@import 'Css/Components/images';
+@import 'Css/Components/island';
+@import 'Css/Components/layout';
+@import 'Css/Components/link';
+@import 'Css/Components/list';
 //@import 'Atom/loading-spinner';
 //@import 'Atom/page-limit-separator';
-@import 'Atom/text';
-@import 'Atom/typography';
-@import 'Atom/hidden';
-@import 'Atom/cta-box';
+@import 'Css/Components/text';
+@import 'Css/Components/typography';
+@import 'Css/Components/hidden';
+@import 'Css/Components/cta-box';
 //@import 'Atom/package-title';
 //@import 'Atom/shadow';
 //@import 'Atom/avatar-images';
-@import 'Atom/gelicon';
+@import 'Css/Components/gelicon';
 
 // Molecules
 @import 'Molecule/moreless';
