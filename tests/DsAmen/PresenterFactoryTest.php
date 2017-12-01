@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\DsAmen;
 
-use App\DsAmen\Organism\CoreEntity\Programme\ProgrammePresenter;
+use App\DsAmen\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
 use App\DsAmen\PresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;

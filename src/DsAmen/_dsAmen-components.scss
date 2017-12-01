@@ -47,7 +47,7 @@ $ie: false !default;
 
 // Molecules
 @import 'Css/Components/moreless';
-@import 'Organism/Recipe/recipes';
+@import 'Presenters/Domain/Recipe/recipes';
 //@import 'Molecule/Badge/badge';
 //@import 'Molecule/Card/card';
 //@import 'Molecule/Cover/cover';
@@ -63,7 +63,7 @@ $ie: false !default;
 //@import 'Organism/Atoz/atoz';
 //@import 'Organism/MusicTrack/musictrack';
 //@import 'Organism/Pagination/pagination';
-@import 'Organism/CoreEntity/CollapsedBroadcast/collapsed-broadcast';
+@import 'Presenters/Domain/CoreEntity/CollapsedBroadcast/collapsed-broadcast';
 //@import 'Organism/Podcast/podcast';
 //@import 'Organism/Promotion/promotion';
 //@import 'Organism/PromotionCard/promotioncard';
@@ -71,4 +71,4 @@ $ie: false !default;
 //@import 'Organism/RmpCard/rmpcard';
 @import 'Organism/Map/map';
 @import 'Organism/Footer/footer';
-@import 'Organism/SupportingContent/supporting-content';
+@import 'Presenters/Domain/SupportingContent/supporting-content';

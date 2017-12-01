@@ -1,8 +1,0 @@
-{% extends "@DsAmen/Organism/CoreEntity/Base/SubPresenter/base_cta.html.twig" %}
-{%- block message -%}
-    {%- if cta.getDuration() -%}
-        <span class="icon-label gel-brevier">
-            {{- ds_amen('duration', cta.getDuration()) -}}
-        </span>
-    {%- endif -%}
-{%- endblock -%}
