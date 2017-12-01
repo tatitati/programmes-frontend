@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace App\Controller;
 
 use App\Controller\Traits\UtcOffsetValidatorTrait;
-use App\Ds2013\Page\Schedules\ByDayPage\SchedulesByDayPagePresenter;
+use App\Ds2013\Presenters\Pages\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ValueObject\BroadcastDay;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;

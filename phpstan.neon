@@ -5,7 +5,7 @@ parameters:
         - '#Access to an undefined property Cake\\Chronos\\ChronosInterface::\$year.#'
         - '#Method [\w\\]*\w::\w*\(\) should return Cake\\Chronos\\Chronos but returns DateTimeImmutable.#'
         - '#Method App\\DsAmen\\Organism\\Map\\SubPresenter\\OnDemandPresenter::getUpcomingEpisode\(\) should return BBC\\ProgrammesPagesService\\Domain\\Entity\\Episode|null but returns BBC\\ProgrammesPagesService\\Domain\\Entity\\ProgrammeItem.#'
-        - '#Property App\\Ds2013\\Page\\Schedules\\ByWeekPage\\SchedulesByWeekPagePresenter::\$now \(Cake\\Chronos\\Chronos\) does not accept DateTimeImmutable.#'
+        - '#Property App\\Ds2013\\Presenters\\Pages\\Schedules\\ByWeekPage\\SchedulesByWeekPagePresenter::\$now \(Cake\\Chronos\\Chronos\) does not accept DateTimeImmutable.#'
         - '#Call to an undefined method DateTimeInterface::setTimezone\(\).#'
         - '#RedisCluster#' #PHPStan does not play well with RedisCluster it seems
         - '#Call to an undefined method Doctrine\\DBAL\\Driver\\Connection::isConnected\(\)#'

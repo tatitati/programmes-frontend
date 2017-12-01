@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Ds2013\Page\Schedules\NoSchedule;
+namespace App\Ds2013\Presenters\Pages\Schedules\NoSchedule;
 
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;

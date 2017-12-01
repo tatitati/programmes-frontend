@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace App\Ds2013\Page\Schedules\ByDayPage;
+namespace App\Ds2013\Presenters\Pages\Schedules\ByDayPage;
 
 use App\Ds2013\Presenters\Utilities\SiblingService\SiblingServicePresenter;
 use App\Ds2013\Presenter;
