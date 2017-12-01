@@ -5,6 +5,7 @@ namespace App\ValueObject;
 
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 
@@ -26,6 +27,7 @@ class IstatsAnalyticsLabels
             'app_version'        => $appVersion,
         ];
 
+        $this->setAccetLanguage();
         $this->setProgsPageTypeLabel($progsPageType);
         $this->setProgrammeLabels($context);
         $this->setBbcSiteLabel($context);
@@ -78,6 +80,12 @@ class IstatsAnalyticsLabels
             $this->labels['rec_v'] = '2'; // The version of RecEng being used
             $this->labels['rec_app_id'] = 'programmes'; // The app id of the client calling RecEng
             $this->labels['rec_p'] = $this->getMediaTypeLabel($context);
+        }
+
+        if ($context instanceof ProgrammeContainer) {
+            $this->labels['container_is'] = $context->getType();
+            // technically this should be called is_tlec but this is for legacy labelling reasons
+            $this->labels['is_tleo'] = $context->isTleo() ? 'true' : 'false';
         }
     }
 
@@ -169,6 +177,16 @@ class IstatsAnalyticsLabels
             $type = $context->getType();
             $this->labels[$type . '_id'] = (string) $context->getPid();
             $this->labels[$type . '_title'] = $context->getTitle();
+        }
+    }
+
+    private function setAccetLanguage()
+    {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 50);
+            $this->labels['accept_language'] = preg_replace('/[^a-zA-Z\d\s\-\,\;\=\.\*:]/i', '', $lang);
+        } else {
+            $this->labels['accept_language'] = '';
         }
     }
 }

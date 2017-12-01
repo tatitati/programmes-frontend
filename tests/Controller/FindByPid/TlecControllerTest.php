@@ -5,11 +5,11 @@ namespace Tests\App\Controller\FindByPid;
 
 use App\Controller\FindByPid\TlecController;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
-use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\BaseWebTestCase;
 
-class TlecControllerTest extends TestCase
+class TlecControllerTest extends BaseWebTestCase
 {
     public function testIsVotePriority()
     {
@@ -73,6 +73,38 @@ class TlecControllerTest extends TestCase
             ->with('brand_layout')
             ->willReturn('promo');
         $this->assertTrue($this->invokeMethod($controller, 'isPromoPriority', [$programmeContainer, false, true]));
+    }
+
+    public function testTlecIstatsLabels()
+    {
+        $this->loadFixtures(["FindByPid\Tlec\TlecClipsFixture"]);
+
+        $client = static::createClient();
+
+        for ($i = 1; $i <= 4; $i++) {
+            $url = '/programmes/prstdbrnd' . $i;
+            $crawler = $client->request('GET', $url);
+            $labels = $this->extractIstatsLabels($crawler);
+
+            $this->assertSame('programmes', $labels['app_name']);
+            $this->assertSame('programmes', $labels['prod_name']);
+            $this->assertTrue(is_numeric($labels['app_version']));
+            $this->assertSame('programmes_container', $labels['progs_page_type']);
+            $this->assertTrue(!empty($labels['programme_title']));
+            $this->assertTrue(!empty($labels['brand_title']));
+            $this->assertTrue(isset($labels['pips_genre_group_ids']));
+            $this->assertSame('prstdbrnd' . $i, $labels['brand_id']);
+            $this->assertSame('2', $labels['rec_v']);
+            $this->assertSame('programmes', $labels['rec_app_id']);
+            $this->assertSame('null_null_2', $labels['rec_p']);
+            $this->assertSame('brand', $labels['container_is']);
+            $this->assertSame('true', $labels['is_tleo']);
+            $this->assertTrue(in_array($labels['availability'], ['true', 'false']));
+            $this->assertTrue(in_array($labels['upcoming'], ['true', 'false']));
+            $this->assertTrue(in_array($labels['live_episode'], ['true', 'false']));
+            $this->assertTrue(in_array($labels['past_broadcast'], ['true', 'false']));
+            $this->assertTrue(in_array($labels['just_missed'], ['true', 'false']));
+        }
     }
 
     private function invokeMethod($object, string $methodName, array $parameters = [])

@@ -32,6 +32,7 @@ class IstatsAnalyticsLabelsTest extends TestCase
             'bbc_site' => 'tvandiplayer',
             'event_master_brand' => 'bbc_one',
             'extraLabel' => 'extraValue',
+            'accept_language' => '',
         ];
         $this->assertEquals($expectedLabels, $labels);
     }
@@ -54,6 +55,9 @@ class IstatsAnalyticsLabelsTest extends TestCase
             'pips_genre_group_ids' => 'C00035',
             'brand_id' => 'b006q2x0',
             'rec_p' => 'null_null_2',
+            'container_is' => 'brand',
+            'is_tleo' => 'true',
+            'accept_language' => '',
         ];
         $this->assertEquals($expectedLabels, $labels);
     }
@@ -87,6 +91,7 @@ class IstatsAnalyticsLabelsTest extends TestCase
         $brand->method('getPid')->willReturn(new Pid($pid));
         $brand->method('getNetwork')->willReturn($this->networkFactory($networkId, $networkMedium));
         $brand->method('getType')->willReturn('brand');
+        $brand->method('isTleo')->willReturn(true);
 
         return $brand;
     }

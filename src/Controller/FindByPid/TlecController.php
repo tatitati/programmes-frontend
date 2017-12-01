@@ -7,6 +7,7 @@ use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\RecEng\Service\RecEngService;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -106,6 +107,8 @@ class TlecController extends BaseController
             2
         );
 
+        $this->setIstatsLabelsForTlec($streamableEpisodes, $upcomingBroadcast, $lastOn);
+
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
             'promotions' => $promotions,
@@ -171,5 +174,67 @@ class TlecController extends BaseController
         }
 
         return filter_var($programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
+    }
+
+    private function setIstatsAvailabilityLabel(?array $streamableEpisodes): void
+    {
+        if (empty($streamableEpisodes)) {
+            $this->setIstatsExtraLabels(['availability' => 'false']);
+        } else {
+            $this->setIstatsExtraLabels(['availability' => 'true']);
+        }
+    }
+
+    private function setIstatsUpcomingLabel(?CollapsedBroadcast $upcomingBroadcast): void
+    {
+        if (empty($upcomingBroadcast)) {
+            $this->setIstatsExtraLabels(['upcoming' => 'false']);
+        } else {
+            $this->setIstatsExtraLabels(['upcoming' => 'true']);
+        }
+    }
+
+    private function setIstatsLiveEpisode(?CollapsedBroadcast $upcomingBroadcast): void
+    {
+        if (!empty($upcomingBroadcast) && $upcomingBroadcast->isOnAir()) {
+            $this->setIstatsExtraLabels(['live_episode' => 'true']);
+        } else {
+            $this->setIstatsExtraLabels(['live_episode' => 'false']);
+        }
+    }
+
+    private function setIstatsPastBroadcastLabel(?CollapsedBroadcast $lastOn) :void
+    {
+        $hasBroadcastInLast18Months = $lastOn ? $lastOn->getStartAt()->wasWithinLast('18 months') : false;
+        if ($hasBroadcastInLast18Months) {
+            $this->setIstatsExtraLabels(['past_broadcast' => 'true']);
+        } else {
+            $this->setIstatsExtraLabels(['past_broadcast' => 'false']);
+        }
+    }
+
+    private function setIstatsJustMissedLabel(?CollapsedBroadcast $lastOn): void
+    {
+        if (empty($lastOn)
+            || $lastOn->getProgrammeItem()->getStreamableFrom() === null
+            || $lastOn->getProgrammeItem()->isStreamable()
+        ) {
+            $this->setIstatsExtraLabels(['just_missed' => 'false']);
+        } elseif ($lastOn->getStartAt()->wasWithinLast('7 days')) {
+            // If the broadcast was within the last 7 days but still isn't streamable
+            $this->setIstatsExtraLabels(['just_missed' => 'true']);
+        }
+    }
+
+    private function setIstatsLabelsForTlec(
+        ?array $streamableEpisodes,
+        ?CollapsedBroadcast $upcomingBroadcast,
+        ?CollapsedBroadcast $lastOn
+    ) {
+        $this->setIstatsAvailabilityLabel($streamableEpisodes);
+        $this->setIstatsUpcomingLabel($upcomingBroadcast);
+        $this->setIstatsLiveEpisode($upcomingBroadcast);
+        $this->setIstatsPastBroadcastLabel($lastOn);
+        $this->setIstatsJustMissedLabel($lastOn);
     }
 }

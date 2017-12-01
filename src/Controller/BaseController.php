@@ -38,7 +38,7 @@ abstract class BaseController extends AbstractController
 
     private $response;
 
-    private $istatsExtraLabels;
+    private $istatsExtraLabels = [];
 
     private $istatsProgsPageType;
 
@@ -187,7 +187,7 @@ abstract class BaseController extends AbstractController
      */
     protected function setIstatsExtraLabels(array $labels): void
     {
-        $this->istatsExtraLabels = $labels;
+        $this->istatsExtraLabels = array_replace($this->istatsExtraLabels, $labels);
     }
 
     protected function setIstatsProgsPageType(string $label): void
