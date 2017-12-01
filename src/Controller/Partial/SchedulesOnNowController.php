@@ -24,8 +24,13 @@ class SchedulesOnNowController extends BaseController
     ) {
         $network = $networksService->findByUrlKeyWithDefaultService($networkUrlKey);
 
-        if (!$network || !$network->getDefaultService()) {
+        if (!$network) {
             throw $this->createNotFoundException('No network or service found from network key ' . $networkUrlKey);
+        }
+
+        if (!$network->getDefaultService()) {
+            // networks like "news" will request this partial and we don't want to display a 404 for that
+            return $this->response()->setMaxAge(300);
         }
 
         $this->setContext($network);

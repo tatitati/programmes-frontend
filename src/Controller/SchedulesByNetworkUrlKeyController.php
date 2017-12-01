@@ -9,7 +9,7 @@ class SchedulesByNetworkUrlKeyController extends BaseController
     {
         $network = $networkService->findByUrlKeyWithDefaultService($networkUrlKey);
 
-        if (is_null($network)) {
+        if (is_null($network) || !$network->getDefaultService()) {
             throw $this->createNotFoundException('Network not found');
         }
 
