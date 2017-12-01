@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Organism\Map\SubPresenter;
+namespace App\DsAmen\Presenters\Section\Map\SubPresenter;
 
-use App\DsAmen\Organism\Map\SubPresenter\Traits\LeftColumnImageSizeTrait;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\Traits\LeftColumnImageSizeTrait;
 use App\DsAmen\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 

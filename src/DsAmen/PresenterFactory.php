@@ -5,8 +5,8 @@ namespace App\DsAmen;
 
 use App\DsAmen\Presenters\Utilities\Duration\DurationPresenter;
 use App\DsAmen\Presenters\Utilities\Synopsis\SynopsisPresenter;
-use App\DsAmen\Organism\Footer\FooterPresenter;
-use App\DsAmen\Organism\Map\MapPresenter;
+use App\DsAmen\Presenters\Section\Footer\FooterPresenter;
+use App\DsAmen\Presenters\Section\Map\MapPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\CollapsedBroadcast\CollapsedBroadcastPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;

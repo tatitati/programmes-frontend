@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\DsAmen\Organism\Map\SubPresenter;
+namespace Tests\App\DsAmen\Presenters\Section\Map\SubPresenter;
 
-use App\DsAmen\Organism\Map\SubPresenter\OnDemandPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\OnDemandPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;

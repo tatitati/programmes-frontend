@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\DsAmen\Organism\Map\SubPresenter;
+namespace Tests\App\DsAmen\Presenters\Section\Map\SubPresenter;
 
-use App\DsAmen\Organism\Map\SubPresenter\SocialBarPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\SocialBarPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Enumeration\ContactMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\ContactDetails;

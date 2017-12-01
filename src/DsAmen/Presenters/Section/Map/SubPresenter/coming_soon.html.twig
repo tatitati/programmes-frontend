@@ -16,7 +16,7 @@
                 'show_related_links': false,
             }) -}}
         {% else %}
-            {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr('coming_soon'), message:coming_soon.getComingSoonTextOnly()} only %}
+            {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr('coming_soon'), message:coming_soon.getComingSoonTextOnly()} only %}
         {% endif %}
     </div>
 </div>

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Organism\Map\SubPresenter;
+namespace App\DsAmen\Presenters\Section\Map\SubPresenter;
 
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\Translate\TranslateProvider;

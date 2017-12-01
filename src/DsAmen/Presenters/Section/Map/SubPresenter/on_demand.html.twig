@@ -4,16 +4,16 @@
     <div class="map-card-wrap br-box-secondary" data-map-column="on_demand2016">
         {%- if not on_demand.getStreamableEpisode() and not on_demand.getPendingEpisode() and not on_demand.hasUpcomingEpisode() -%}
             {%- if on_demand.getProgrammeContainer().isRadio() -%}
-                {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('programme_availability_none_radio')} only %}
+                {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('programme_availability_none_radio')} only %}
             {%- else -%}
-                {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('not_available_iplayer')} only %}
+                {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('not_available_iplayer')} only %}
             {%- endif -%}
         {%- elseif on_demand.episodeIsPending() -%}
             {{ self.main_column(on_demand.getPendingEpisode(), on_demand) }}
         {%- elseif on_demand.getStreamableEpisode() -%}
             {{ self.main_column(on_demand.getStreamableEpisode(), on_demand) }}
         {%- else -%}
-            {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('available_shortly')} only %}
+            {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:tr('available_shortly')} only %}
         {%- endif -%}
     </div>
 </div>

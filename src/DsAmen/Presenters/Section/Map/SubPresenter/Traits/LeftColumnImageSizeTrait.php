@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Organism\Map\SubPresenter\Traits;
+namespace App\DsAmen\Presenters\Section\Map\SubPresenter\Traits;
 
 trait LeftColumnImageSizeTrait
 {

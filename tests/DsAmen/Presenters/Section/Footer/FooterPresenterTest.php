@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\DsAmen\Organism\Footer;
+namespace Tests\App\DsAmen\Presenters\Section\Footer;
 
-use App\DsAmen\Organism\Footer\FooterPresenter;
+use App\DsAmen\Presenters\Section\Footer\FooterPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Format;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;

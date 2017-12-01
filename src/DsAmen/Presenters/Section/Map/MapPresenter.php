@@ -1,15 +1,15 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Organism\Map;
+namespace App\DsAmen\Presenters\Section\Map;
 
-use App\DsAmen\Organism\Map\SubPresenter\ComingSoonPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\LastOnPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\OnDemandPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\ProgrammeInfoPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\PromoPriorityPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\SocialBarPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\ComingSoonPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\LastOnPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\OnDemandPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\ProgrammeInfoPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\PromoPriorityPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\SocialBarPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;

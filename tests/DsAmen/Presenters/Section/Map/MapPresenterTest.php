@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\DsAmen\Organism\Map;
+namespace Tests\App\DsAmen\Presenters\Section\Map;
 
-use App\DsAmen\Organism\Map\MapPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\ComingSoonPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\LastOnPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\OnDemandPresenter;
-use App\DsAmen\Organism\Map\SubPresenter\TxPresenter;
+use App\DsAmen\Presenters\Section\Map\MapPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\ComingSoonPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\LastOnPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\OnDemandPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\TxPresenter;
 use App\DsAmen\Presenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;

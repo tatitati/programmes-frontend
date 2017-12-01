@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Organism\Footer;
+namespace App\DsAmen\Presenters\Section\Footer;
 
 use App\DsAmen\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Format;

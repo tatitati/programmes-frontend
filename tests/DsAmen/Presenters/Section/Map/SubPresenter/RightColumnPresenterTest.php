@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\DsAmen\Organism\Map\SubPresenter;
+namespace Tests\App\DsAmen\Presenters\Section\Map\SubPresenter;
 
-use App\DsAmen\Organism\Map\SubPresenter\RightColumnPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\RightColumnPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use PHPUnit\Framework\TestCase;
 
