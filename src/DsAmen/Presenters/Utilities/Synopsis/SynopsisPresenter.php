@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Molecule\Synopsis;
+namespace App\DsAmen\Presenters\Utilities\Synopsis;
 
 use App\DsAmen\Presenter;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;

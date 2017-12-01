@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\DsAmen;
 
-use App\DsAmen\Molecule\Duration\DurationPresenter;
-use App\DsAmen\Molecule\Synopsis\SynopsisPresenter;
+use App\DsAmen\Presenters\Utilities\Duration\DurationPresenter;
+use App\DsAmen\Presenters\Utilities\Synopsis\SynopsisPresenter;
 use App\DsAmen\Organism\Footer\FooterPresenter;
 use App\DsAmen\Organism\Map\MapPresenter;
 use App\DsAmen\Organism\CoreEntity\CollapsedBroadcast\CollapsedBroadcastPresenter;

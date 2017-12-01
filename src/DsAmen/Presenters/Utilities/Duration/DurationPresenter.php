@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Molecule\Duration;
+namespace App\DsAmen\Presenters\Utilities\Duration;
 
 use App\DsAmen\Presenter;
 use App\Translate\TranslateProvider;

@@ -46,17 +46,17 @@ $ie: false !default;
 @import 'Css/Components/gelicon';
 
 // Molecules
-@import 'Molecule/moreless';
+@import 'Css/Components/moreless';
 @import 'Organism/Recipe/recipes';
 //@import 'Molecule/Badge/badge';
 //@import 'Molecule/Card/card';
 //@import 'Molecule/Cover/cover';
-@import 'Molecule/icon';
+@import 'Css/Components/icon';
 //@import 'Molecule/Letterbox/letterbox';
-@import 'Molecule/media';
+@import 'Css/Components/media';
 //@import 'Molecule/ProgressBar/progressbar';
 //@import 'Molecule/Tabs/tabs';
-@import 'Molecule/Synopsis/synopsis';
+@import 'Presenters/Utilities/Synopsis/synopsis';
 @import '../DsShared/Molecule/Image/image';
 
 // Organisms
