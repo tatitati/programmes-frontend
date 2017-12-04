@@ -27,7 +27,7 @@
                 }
             }) -}}
         {%- else -%}
-            {% include '@DsAmen/Organism/Map/SubPresenter/message.html.twig' with {heading:tr(tx.getTitleTranslationString()), message:tr('broadcasts_none_upcoming_short')} only %}
+            {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr(tx.getTitleTranslationString()), message:tr('broadcasts_none_upcoming_short')} only %}
         {%- endif -%}
 
         {# Trailing link #}

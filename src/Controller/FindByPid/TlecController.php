@@ -9,6 +9,7 @@ use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
@@ -52,14 +53,15 @@ class TlecController extends BaseController
         $promotions = $promotionsService->findActivePromotionsByContext($programme);
 
         if ($programme->getOption('show_clip_cards')) {
-            $clips = $aggregationService->findDescendantClips($programme, 4);
+            $clips = $aggregationService->findStreamableDescendantClips($programme, 4);
         }
 
         $upcomingBroadcast = null;
-        $streamableEpisodes = null;
+        $onDemandEpisode = null;
         $upcomingRepeatsAndDebutsCounts = ['debuts' => 0, 'repeats' => 0];
         if ($programme->getAggregatedEpisodesCount() > 0) {
-            $streamableEpisodes = $aggregationService->findStreamableDescendantEpisodes($programme, 1);
+            $onDemandEpisodes = $aggregationService->findStreamableOnDemandEpisodes($programme, 1);
+            $onDemandEpisode = $onDemandEpisodes[0] ?? null;
             $upcomingBroadcast = $collapsedBroadcastsService
                 ->findNextDebutOrRepeatOnByProgrammeWithFullServicesOfNetworksList($programme);
             $upcomingRepeatsAndDebutsCounts = $collapsedBroadcastsService->countUpcomingRepeatsAndDebutsByProgramme($programme);
@@ -86,7 +88,7 @@ class TlecController extends BaseController
             $lastOn,
             $promotions[0] ?? null,
             $comingSoonPromo,
-            $streamableEpisodes[0] ?? null,
+            $onDemandEpisode,
             $upcomingRepeatsAndDebutsCounts['debuts'],
             $upcomingRepeatsAndDebutsCounts['repeats'],
             $isPromoPriority,
@@ -101,13 +103,13 @@ class TlecController extends BaseController
 
         $recommendations = $recEngService->getRecommendations(
             $programme,
-            $streamableEpisodes[0] ?? null,
+            $onDemandEpisode,
             $upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null,
             $lastOn ? $lastOn->getProgrammeItem() : null,
             2
         );
 
-        $this->setIstatsLabelsForTlec($streamableEpisodes, $upcomingBroadcast, $lastOn);
+        $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
@@ -176,9 +178,9 @@ class TlecController extends BaseController
         return filter_var($programme->getOption('brand_2016_layout_use_minimap'), FILTER_VALIDATE_BOOLEAN);
     }
 
-    private function setIstatsAvailabilityLabel(?array $streamableEpisodes): void
+    private function setIstatsAvailabilityLabel(?ProgrammeItem $onDemandEpisode): void
     {
-        if (empty($streamableEpisodes)) {
+        if ($onDemandEpisode) {
             $this->setIstatsExtraLabels(['availability' => 'false']);
         } else {
             $this->setIstatsExtraLabels(['availability' => 'true']);
@@ -227,11 +229,11 @@ class TlecController extends BaseController
     }
 
     private function setIstatsLabelsForTlec(
-        ?array $streamableEpisodes,
+        ?ProgrammeItem $onDemandEpisode,
         ?CollapsedBroadcast $upcomingBroadcast,
         ?CollapsedBroadcast $lastOn
     ) {
-        $this->setIstatsAvailabilityLabel($streamableEpisodes);
+        $this->setIstatsAvailabilityLabel($onDemandEpisode);
         $this->setIstatsUpcomingLabel($upcomingBroadcast);
         $this->setIstatsLiveEpisode($upcomingBroadcast);
         $this->setIstatsPastBroadcastLabel($lastOn);
