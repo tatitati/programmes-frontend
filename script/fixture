@@ -5,7 +5,7 @@ function show_help {
     echo "      SCENARIO_NAME: the name of your scenario. [A-Za-z0-9_-.]"
     echo "      PATH: the path to your page, e.g. /programmes/b006m86d"
     echo "      MODE: optional. generate, regenerate or delete. defaults to generate"
-    echo "      TIME: optional. The time in ISO8601 format, defaults to '2017-09-01T11:30:00Z'"
+    echo "      TIME: optional. The time in ISO8601 format, defaults to '2017-12-06T17:00:00Z'"
     echo "      ENV: the environment to run against. (sandbox|test). Optional. Defaults to test"
     exit 1
 }

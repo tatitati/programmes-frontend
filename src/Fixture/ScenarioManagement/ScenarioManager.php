@@ -20,9 +20,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ScenarioManager
 {
     /**
-     * The time the fixture DB was created, 2017-09-01T11:30:00+00:00
+     * The time the fixture DB was created, 2017-12-06T17:00:00+00:00
      */
-    public const DEFAULT_SCENARIO_TIME = 1504265400;
+    public const DEFAULT_SCENARIO_TIME = 1512579600;
 
     /**  @var ScenarioState */
     private $scenarioState;
