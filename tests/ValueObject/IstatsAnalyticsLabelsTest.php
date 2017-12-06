@@ -7,6 +7,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\MasterBrand;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Mid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
@@ -62,6 +63,61 @@ class IstatsAnalyticsLabelsTest extends TestCase
         $this->assertEquals($expectedLabels, $labels);
     }
 
+    public function testIstatSetProperBbcSiteTagMatchinOptionValue()
+    {
+        $context = $this->brandFactory('b01mwvng', 'Doctor Who', 'bbc_one', 'bbc_one', 'tv', 'C00035', ['bbc_site' => 'arts']);
+
+        $labels = new IstatsAnalyticsLabels($context, 'App\Controller\FindByPid\TlecController', '123', []);
+        $expectedLabels = [
+            'app_name' => 'programmes',
+            'prod_name' => 'programmes',
+            'app_version' => '123',
+            'accept_language' => '',
+            'progs_page_type' => 'App\Controller\FindByPid\TlecController',
+            'programme_title' => 'Doctor Who',
+            'brand_title' => 'Doctor Who',
+            'pips_genre_group_ids' => 'C00035',
+            'rec_v' => '2',
+            'rec_app_id' => 'programmes',
+            'rec_p' => 'null_null_2',
+            // we found options regarding to bbc_site, so we set them
+            'container_is' => 'brand',
+            'is_tleo' => 'true',
+            'bbc_site' => 'arts',
+            'event_master_brand' => 'bbc_one',
+            'brand_id' => 'b01mwvng',
+        ];
+        $this->assertEquals($expectedLabels, $labels->getLabels());
+    }
+
+    public function testIstatSetProperBbcSiteTagMatchinNetworkMediumWhenThereIsNoValueStored()
+    {
+        $context = $this->brandFactory('b01mwvng', 'Doctor Who', 'bbc_one', 'bbc_one', 'tv', 'C00035', []);
+
+        $labels = new IstatsAnalyticsLabels($context, 'App\Controller\FindByPid\TlecController', '123', []);
+        $expectedLabels = [
+            'app_name' => 'programmes',
+            'prod_name' => 'programmes',
+            'app_version' => '123',
+            'accept_language' => '',
+            'progs_page_type' => 'App\Controller\FindByPid\TlecController',
+            'programme_title' => 'Doctor Who',
+            'brand_title' => 'Doctor Who',
+            'pips_genre_group_ids' => 'C00035',
+            'rec_v' => '2',
+            'rec_app_id' => 'programmes',
+            'rec_p' => 'null_null_2',
+            'container_is' => 'brand',
+            'is_tleo' => 'true',
+            // not found options regarding to bbc_site, so we set value
+            // checking network/masterbrand
+            'bbc_site' => 'tvandiplayer',
+            'event_master_brand' => 'bbc_one',
+            'brand_id' => 'b01mwvng',
+        ];
+        $this->assertEquals($expectedLabels, $labels->getLabels());
+    }
+
     private function serviceFactory(string $networkId, string $networkMedium)
     {
         $service = $this->createMock(Service::class);
@@ -73,7 +129,7 @@ class IstatsAnalyticsLabelsTest extends TestCase
         return $service;
     }
 
-    private function brandFactory($pid, $title, $mid, $networkId, $networkMedium, $genreId)
+    private function brandFactory($pid, $title, $mid, $networkId, $networkMedium, $genreId, $options = [])
     {
         $genre = $this->createMock(Genre::class);
         $genre->method('getId')->willReturn($genreId);
@@ -92,6 +148,12 @@ class IstatsAnalyticsLabelsTest extends TestCase
         $brand->method('getNetwork')->willReturn($this->networkFactory($networkId, $networkMedium));
         $brand->method('getType')->willReturn('brand');
         $brand->method('isTleo')->willReturn(true);
+        $brand->method('getOptions')->willReturn(new Options($options));
+        $brand->method('getOption')->will(
+            $this->returnCallback(function ($o) use ($brand) {
+                return $brand->getOptions()->getOption($o);
+            })
+        );
 
         return $brand;
     }

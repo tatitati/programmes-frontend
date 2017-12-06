@@ -156,6 +156,11 @@ class IstatsAnalyticsLabels
                 $this->labels['bbc_site'] = 'iplayerradio';
             }
         }
+
+        if ($context instanceof CoreEntity && !empty($context->getOption('bbc_site'))) {
+            // isite has an specific value for this core entity, override it
+            $this->labels['bbc_site'] = $context->getOption('bbc_site');
+        }
     }
 
     private function setEventMasterBrand($context): void
