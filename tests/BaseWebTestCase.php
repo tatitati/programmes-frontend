@@ -38,6 +38,13 @@ abstract class BaseWebTestCase extends WebTestCase
         }
     }
 
+    /**
+     * The crawler can't do the ajax request to check the labels so as a way around in the OrbitStubClient.php
+     * we inject this values inside the HTML, this only gets injected when running unitest. This function extracts those values
+     *
+     * @param $crawler
+     * @return array
+     */
     public function extractIstatsLabels($crawler)
     {
         $labels = [];
