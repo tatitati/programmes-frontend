@@ -8,13 +8,14 @@ abstract class BaseWebTestCase extends WebTestCase
 {
     const FIXTURES_PATH = 'Tests\App\DataFixtures\ORM\\';
 
-    public function assertResponseStatusCode($client, $expectedCode)
+    public function assertResponseStatusCode($client, $expectedCode, string $assertNotifyText = '')
     {
         $actualCode = $client->getResponse()->getStatusCode();
         $this->assertEquals($expectedCode, $actualCode, sprintf(
-            'Failed asserting that the response status code "%s" matches expected "%s"',
+            'Failed asserting that the response status code "%s" matches expected "%s". %s',
             $actualCode,
-            $expectedCode
+            $expectedCode,
+            $assertNotifyText
         ));
     }
 

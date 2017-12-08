@@ -25,7 +25,7 @@ class NetworksAndServicesFixture extends AbstractFixture
 
         // National Radio
         $n2 = $this->buildNetwork('bbc_radio_two', 'BBC Radio 2', 'National Radio', NetworkMediumEnum::RADIO, null, null, 'radio2');
-        $s2 = $this->buildService('bbc_radio_two', 'p00fzl8v', 'BBC Radio 2', 'National Radio', 'audio', $n2);
+        $s2 = $this->buildService('bbc_radio_two', 'p00fzl8v', 'BBC Radio 2', 'National Radio', 'audio', $n2, new DateTime('2000-04-08 02:03:04'), new DateTime('3000-04-08 02:03:05'));
         $n2->setDefaultService($s2);
         $this->manager->persist($n2);
 

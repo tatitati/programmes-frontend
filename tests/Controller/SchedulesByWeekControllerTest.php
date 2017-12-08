@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use Cake\Chronos\Chronos;
 use Tests\App\BaseWebTestCase;
 
 /**
@@ -127,6 +128,68 @@ class SchedulesByWeekControllerTest extends BaseWebTestCase
         $this->assertEquals(1, $crawler->filter('[data-page-time]')->count());
         // 1st day of 20th week = May-15 (Monday)
         $this->assertEquals('2017/05/15', $crawler->filter('[data-page-time]')->attr('data-page-time'));
+    }
+
+    public function testForInactiveServiceMetatagIsNotAdded()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/schedules/p00fzl8v/1980/w01');
+
+        $this->assertResponseStatusCode($client, 404, 'Expected 404 when service is not active in specified week');
+        $this->assertEquals('Broadcast schedule begins on Saturday 8 April 2000', trim($crawler->filter(".noschedule")->text()));
+        $this->assertEquals(0, $crawler->filter(".week-guide__table__hour-row")->count());
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'For 404 responses we dont set any meta tag noindex');
+    }
+
+    public function testForPastWeeksWithNoBroadcastsMetatagIsAdded()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/schedules/p00fzl8v/2000/w20');
+        $this->assertResponseStatusCode($client, 200, "Expected 200 because the service is active the specified week, but no broadcasts were found");
+        $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($crawler->filter(".noschedule")->text()));
+        $this->assertEquals(0, $crawler->filter(".week-guide__table__hour-row")->count());
+        $this->assertTrue($this->isAddedMetaNoIndex($crawler), 'Meta tag shouldnt be added because for past dates, if no broadcats are found, then is set');
+    }
+
+    public function testForFutureInsideNext35DaysWithNoBroadcastsDonIncludeMetatag()
+    {
+        $timeNow = '2000/05/10';
+        ApplicationTime::setTime((new Chronos($timeNow))->timestamp);
+
+        $this->loadFixtures(["BroadcastsFixture"]);
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/schedules/p00fzl8v/2000/w20');
+
+        $this->assertResponseStatusCode($client, 200, "Even if we havent broadcasts, in the period of +35 days we return 200");
+        $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($crawler->filter(".noschedule")->text()));
+        $this->assertEquals(0, $crawler->filter(".week-guide__table__hour-row")->count());
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'Meta tag should be added because for past dates, if no broadcats are found, then is set');
+    }
+
+    public function testForFutureBeyond35DaysWithNoBroadcastsDonIncludeMetatag()
+    {
+        $timeNow = '2000/03/15';
+        ApplicationTime::setTime((new Chronos($timeNow))->timestamp);
+
+        $this->loadFixtures(["BroadcastsFixture"]);
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/schedules/p00fzl8v/2000/w20');
+
+        $this->assertResponseStatusCode($client, 404, "Expected 404 is beyond +35 days and there is no broadcasts");
+        $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($crawler->filter(".noschedule")->text()));
+        $this->assertEquals(0, $crawler->filter(".week-guide__table__hour-row")->count());
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'Meta tag should be added because for past dates, if no broadcats are found, then is set');
+    }
+
+    private function isAddedMetaNoIndex($crawler): bool
+    {
+        return ($crawler->filter('meta[name="robots"]')->count() > 0 && $crawler->filter('meta[name="robots"]')->first()->attr('content') === 'noindex');
     }
 
     protected function tearDown()

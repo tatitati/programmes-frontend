@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\DsShared\Helpers\HelperFactory;
@@ -20,6 +21,7 @@ use Cake\Chronos\Date;
 class SchedulesByDayController extends BaseController
 {
     use UtcOffsetValidatorTrait;
+    use SchedulesPageResponseCodeTrait;
 
     /** @var HelperFactory */
     protected $helperFactory;
@@ -57,7 +59,8 @@ class SchedulesByDayController extends BaseController
         $broadcasts = [];
 
         $liveCollapsedBroadcast = null;
-        if ($broadcastDay->serviceIsActiveInThisPeriod($service)) {
+        $serviceIsActiveInThisPeriod = $broadcastDay->serviceIsActiveInThisPeriod($service);
+        if ($serviceIsActiveInThisPeriod) {
             // Get broadcasts in relevant period
             $broadcasts = $broadcastService->findByServiceAndDateRange(
                 $service->getSid(),
@@ -92,12 +95,9 @@ class SchedulesByDayController extends BaseController
             $service->isInternational() && !$this->request()->query->has('utcoffset')
         );
 
-        // If there are broadcasts, 200
-        // If there are no broadcasts, but the page is less than 35 days away, still 200
-        // This means the date nav won't link to 404 pages.
-        if (!$broadcasts && !$broadcastDay->start()->isWithinNext('+35 days')) {
-            $this->response()->setStatusCode(404);
-        }
+        // This is from a trait and sets a 404 status code or noindex on the controller
+        // as appropriate when we have no broadcasts
+        $this->setResponseCodeAndNoIndexProperties($serviceIsActiveInThisPeriod, $broadcasts, $broadcastDay);
 
         $this->setIstatsExtraLabels($this->getIstatsExtraLabels($date, $broadcastDay->start()->isYesterday()));
 

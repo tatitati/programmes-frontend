@@ -153,7 +153,7 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/schedules/p00fzl6p');
 
-        $this->assertResponseStatusCode($client, 404);
+        $this->assertResponseStatusCode($client, 404, "Expected 404 when pid specified is not found");
     }
 
     public function testScheduleForDateIsNotFound()
@@ -163,10 +163,13 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/schedules/p00fzl6p/2017/03/04');
 
-        $this->assertResponseStatusCode($client, 404);
+        $this->assertResponseStatusCode($client, 200, "We expect 200 for dates before +35 days, no matter if they have broadcasts");
+        $message = $crawler->filter(".noschedule")->text();
+        $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($message));
+        $this->assertEquals(0, $crawler->filter('.broadcast')->count());
     }
 
-    public function testNoScheduleBeginsOn()
+    public function testNoScheduleByDayBeginsOn()
     {
         $this->loadFixtures(["BroadcastsFixture"]);
 
@@ -174,13 +177,14 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $url = '/schedules/p00rfdrb/2012/07/24';
         $crawler = $client->request('GET', $url);
 
-        $this->assertResponseStatusCode($client, 404);
+        $this->assertResponseStatusCode($client, 404, "We expect 404 when the service is not active");
         $message = $crawler->filter(".noschedule")->text();
         $this->assertEquals('Broadcast schedule begins on Wednesday 25 July 2012', trim($message));
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'when 404 is not added');
         $this->assertHasRequiredResponseHeaders($client);
     }
 
-    public function testNoScheduleEndedOn()
+    public function testNoScheduleByDayEndedOn()
     {
         $this->loadFixtures(["BroadcastsFixture"]);
 
@@ -188,26 +192,97 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
         $url = '/schedules/p00rfdrb/2012/08/15';
         $crawler = $client->request('GET', $url);
 
-        $this->assertResponseStatusCode($client, 404);
+        $this->assertResponseStatusCode($client, 404, "We expect 404 when the service is not active");
         $message = $crawler->filter(".noschedule")->text();
         $this->assertEquals('Broadcast schedule ended on Tuesday 14 August 2012', trim($message));
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'When 404 is not added');
         $this->assertHasRequiredResponseHeaders($client);
     }
 
-    public function testNoScheduleNoResult()
+    /**
+     * @dataProvider datesProvider
+     */
+    public function testNoScheduleByDayNoResults(string $date, $expectedResponseCode)
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+        $client = static::createClient();
+
+        $url = '/schedules/p00rfdrb/' . $date;
+        $crawler = $client->request('GET', $url);
+
+        $this->assertEquals(0, $crawler->filter('.broadcast')->count());
+        $message = $crawler->filter(".noschedule")->text();
+        $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($message));
+        $this->assertResponseStatusCode($client, $expectedResponseCode);
+        $this->assertHasRequiredResponseHeaders($client);
+    }
+
+    public function datesProvider()
+    {
+        return [
+            // Service active between [2012-07-25 21:00:00, 2012-08-13 23:00:00]
+            'CASE 1: Edge case of service active period. The service is active at this period' => ['2012/07/25', 200],
+            'CASE 2: Edge case of service active period. The service is not active at this date' => ['2012/08/14', 404],
+        ];
+    }
+
+    public function testNoMetaHeaderIsAddedWhenExistBroadcastsInPast()
     {
         $this->loadFixtures(["BroadcastsFixture"]);
 
-        foreach (['2012/07/25', '2012/08/14'] as $date) {
-            $client = static::createClient();
-            $url = '/schedules/p00rfdrb/' . $date;
-            $crawler = $client->request('GET', $url);
+        $client = static::createClient();
 
-            $this->assertResponseStatusCode($client, 404);
-            $message = $crawler->filter(".noschedule")->text();
-            $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($message));
-            $this->assertHasRequiredResponseHeaders($client);
-        }
+        $url = '/schedules/p00fzl8v/2017/05/22';
+        $crawler = $client->request('GET', $url);
+        $this->assertResponseStatusCode($client, 200);
+        $this->assertHasRequiredResponseHeaders($client);
+        $this->assertEquals(5, $crawler->filter('.broadcast')->count());
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'When broadcasts are found is not added');
+    }
+
+    public function testMetaTagIsAddedWhenServiceWhenNoBroadcastsInThePast()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        $client = static::createClient();
+        $url = '/schedules/p00fzl8v/2012/06/14';
+        $crawler = $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 200, "The service is active on that period but there is no broadcasts");
+        $this->assertEquals(0, $crawler->filter('.broadcast')->count());
+        $message = $crawler->filter(".noschedule")->text();
+        $this->assertEquals('There is no schedule for today. Please choose another day from the calendar', trim($message));
+        $this->assertHasRequiredResponseHeaders($client);
+        $this->assertTrue($this->isAddedMetaNoIndex($crawler), 'When 404 is not added');
+    }
+
+    public function testMetaTagIsNotAddedWhenRequestedNext35Days()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+        ApplicationTime::setTime((new Chronos('2017/06/01'))->timestamp);
+
+        $client = static::createClient();
+        $url = '/schedules/p00fzl8v/2017/06/14';
+        $crawler = $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 200, "We requested a day in the future but before +35 days, so we expect a 200, no matter if we have broadcasts");
+        $this->assertHasRequiredResponseHeaders($client);
+        $this->assertEquals(0, $crawler->filter('.broadcast')->count());
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'We return 200 for this period before +35, so we dont set the meta tag');
+    }
+
+    public function testBeyong35DaysMetatagIsNotAdded()
+    {
+        $this->loadFixtures(["BroadcastsFixture"]);
+
+        ApplicationTime::setTime((new Chronos('2017/06/01'))->timestamp);
+        $client = static::createClient();
+        $url = '/schedules/p00fzl8v/2017/08/14';
+        $crawler = $client->request('GET', $url);
+        $this->assertResponseStatusCode($client, 404, "We expect 404 for days with no broadcasts and beyond +35 days");
+        $this->assertHasRequiredResponseHeaders($client);
+        $this->assertEquals(0, $crawler->filter('.broadcast')->count());
+        $this->assertFalse($this->isAddedMetaNoIndex($crawler), 'Beyond +35 days we dont set any meta tag');
     }
 
     /**
@@ -323,6 +398,11 @@ class SchedulesByDayControllerTest extends BaseWebTestCase
 
         $this->assertResponseStatusCode($client, 200);
         $this->assertEquals(0, $crawler->filter('[data-page-time]')->count());
+    }
+
+    private function isAddedMetaNoIndex($crawler): bool
+    {
+        return ($crawler->filter('meta[name="robots"]')->count() > 0 && $crawler->filter('meta[name="robots"]')->first()->attr('content') === 'noindex');
     }
 
     protected function tearDown()

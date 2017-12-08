@@ -44,6 +44,9 @@ abstract class BaseController extends AbstractController
 
     protected $canonicalUrl;
 
+    /** @var bool */
+    protected $metaNoIndex;
+
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -144,7 +147,7 @@ abstract class BaseController extends AbstractController
 
             $parameters = array_merge([
                 'orb' => $orb,
-                'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl()),
+                'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl(), $this->getMetaNoIndex()),
                 'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl() . $urlQueryString))->getComscore(),
             ], $parameters);
         }
@@ -244,5 +247,14 @@ abstract class BaseController extends AbstractController
     private function logger(): LoggerInterface
     {
         return $this->container->get('logger');
+    }
+
+    private function getMetaNoIndex(): bool
+    {
+        if (!isset($this->metaNoIndex)) {
+            $this->metaNoIndex = false;
+        }
+
+        return $this->metaNoIndex;
     }
 }

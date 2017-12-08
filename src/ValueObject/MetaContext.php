@@ -36,10 +36,14 @@ class MetaContext
     /** @var CoreEntity|Network */
     private $context;
 
-    public function __construct($context = null, string $canonicalUrl = '')
+    /** @var  bool */
+    private $metaNoIndex;
+
+    public function __construct($context = null, string $canonicalUrl = '', bool $metaNoIndex = false)
     {
         $this->canonicalUrl = $canonicalUrl;
         $this->context = $context;
+        $this->metaNoIndex = $metaNoIndex;
 
         if ($context instanceof CoreEntity) {
             $this->description = $context->getShortSynopsis();
@@ -120,6 +124,11 @@ class MetaContext
     public function showAdverts(): bool
     {
         return $this->showAdverts;
+    }
+
+    public function metaNoIndex(): bool
+    {
+        return $this->metaNoIndex;
     }
 
     /**

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
 use App\DsShared\Helpers\HelperFactory;
@@ -20,6 +21,7 @@ use InvalidArgumentException;
 class SchedulesByWeekController extends BaseController
 {
     use UtcOffsetValidatorTrait;
+    use SchedulesPageResponseCodeTrait;
 
     public function __invoke(
         Service $service,
@@ -56,6 +58,7 @@ class SchedulesByWeekController extends BaseController
 
         $daysOfBroadcasts = [];
 
+        $broadcasts = [];
         if ($broadcastWeek->serviceIsActiveInThisPeriod($service)) {
             // Get broadcasts in relevant period
             $broadcasts = $broadcastService->findByServiceAndDateRange(
@@ -88,11 +91,12 @@ class SchedulesByWeekController extends BaseController
             'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
         ];
 
-        // If the service is not active at all over the month, then the status code should be 404, so
-        // that search engines do not index thousands of empty pages
-        if (!$this->serviceIsActiveDuringWeek($service, $broadcastWeek)) {
-            $this->response()->setStatusCode(404);
-        }
+        $serviceIsActiveInThisPeriod = $this->serviceIsActiveDuringWeek($service, $broadcastWeek);
+
+        // This is from a trait and sets a 404 status code or noindex on the controller
+        // as appropriate when we have no broadcasts
+        $this->setResponseCodeAndNoIndexProperties($serviceIsActiveInThisPeriod, $broadcasts, $broadcastWeek);
+
         return $this->renderWithChrome('schedules/by_week.html.twig', $viewData);
     }
 
