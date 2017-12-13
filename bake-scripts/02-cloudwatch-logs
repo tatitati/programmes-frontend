@@ -35,15 +35,6 @@ log_group_name = $environment-frontend/app-error
 log_stream_name = $component_name-{instance_id}
 datetime_format = %Y-%m-%d %H:%M:%S
 
-[frontend/app-access]
-file = /var/www/programmes-frontend/tmp/logs/prod-access.log
-log_group_name = $environment-frontend/app-access
-log_stream_name = $component_name-{instance_id}
-datetime_format = %Y-%m-%d %H:%M:%S
-batch_count = 10000
-batch_size = 1048576
-buffer_duration = 30000
-
 [frontend/haproxy]
 file = /var/log/haproxy.log
 log_group_name = $environment-frontend/haproxy
