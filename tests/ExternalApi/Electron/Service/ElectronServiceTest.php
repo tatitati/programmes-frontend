@@ -16,9 +16,9 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
-use Tests\App\ExternalApi\HttpApiTestBase;
+use Tests\App\ExternalApi\BaseServiceTestCase;
 
-class ElectronServiceTest extends HttpApiTestBase
+class ElectronServiceTest extends BaseServiceTestCase
 {
     private $mockCache;
 
@@ -34,7 +34,7 @@ class ElectronServiceTest extends HttpApiTestBase
     {
         $xml = file_get_contents(dirname(dirname(__DIR__)) . '/XmlParser/electron_eastenders.xml');
         $response = new Response(200, [], $xml);
-        $client = $this->makeGuzzleClientToRespondWith($response);
+        $client = $this->client([$response]);
         $electronService = $this->makeElectronService($client);
         $programme = $this->createMock(Brand::class);
         $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));
@@ -73,7 +73,7 @@ class ElectronServiceTest extends HttpApiTestBase
     public function testExceptionsAreHandled()
     {
         $response = new Response(500, [], 'An Error');
-        $client = $this->makeGuzzleClientToRespondWith($response);
+        $client = $this->client([$response]);
         $electronService = $this->makeElectronService($client);
         $programme = $this->createMock(Brand::class);
         $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));
@@ -85,7 +85,7 @@ class ElectronServiceTest extends HttpApiTestBase
     {
         $xml = file_get_contents(dirname(dirname(__DIR__)) . '/XmlParser/invalid.xml');
         $response = new Response(200, [], $xml);
-        $client = $this->makeGuzzleClientToRespondWith($response);
+        $client = $this->client([$response]);
         $electronService = $this->makeElectronService($client);
         $programme = $this->createMock(Brand::class);
         $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));
@@ -97,7 +97,7 @@ class ElectronServiceTest extends HttpApiTestBase
     public function test404sAreCached()
     {
         $response = new Response(404, [], 'An Error');
-        $client = $this->makeGuzzleClientToRespondWith($response);
+        $client = $this->client([$response]);
         $electronService = $this->makeElectronService($client);
         $programme = $this->createMock(Brand::class);
         $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));

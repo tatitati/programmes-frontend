@@ -5,16 +5,20 @@ namespace Tests\App\ExternalApi\Client;
 
 use App\ExternalApi\Client\HttpApiClient;
 use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
-use Tests\App\ExternalApi\HttpApiTestBase;
 
 /**
  * The majority of the functionality of this class is tested in the *ServiceTest tests, this is quite basic
  */
-class HttpApiClientTest extends HttpApiTestBase
+class HttpApiClientTest extends TestCase
 {
     private $mockCache;
 
@@ -178,5 +182,18 @@ class HttpApiClientTest extends HttpApiTestBase
             $standardCache,
             $notFoundCache
         );
+    }
+
+    private function makeGuzzleClientToRespondWith(Response $response): Client
+    {
+        $mockHandler = new MockHandler();
+        $container = [];
+        $stack = HandlerStack::create($mockHandler);
+        $history = Middleware::history($container);
+        $stack->push($history);
+
+        $client = new Client(['handler' => $stack]);
+        $mockHandler->append($response);
+        return $client;
     }
 }

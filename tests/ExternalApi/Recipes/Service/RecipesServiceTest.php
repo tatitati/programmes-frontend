@@ -13,9 +13,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
-use Tests\App\ExternalApi\HttpApiTestBase;
+use Tests\App\ExternalApi\BaseServiceTestCase;
 
-class RecipesServiceTest extends HttpApiTestBase
+class RecipesServiceTest extends BaseServiceTestCase
 {
     private $mockCache;
 
@@ -29,7 +29,7 @@ class RecipesServiceTest extends HttpApiTestBase
     {
         $json = file_get_contents(dirname(__DIR__) . '/JSON/bakeoff.json');
         $response = new Response(200, [], $json);
-        $client = $this->makeGuzzleClientToRespondWith($response);
+        $client = $this->client([$response]);
         $recipesService = $this->makeRecipesService($client);
         $items = $recipesService->fetchRecipesByPid('b013pqnm');
         $this->assertCount(4, $items->getRecipes());
@@ -64,7 +64,7 @@ class RecipesServiceTest extends HttpApiTestBase
     public function testExceptionsAreHandled()
     {
         $response = new Response(500, [], 'An Error');
-        $client = $this->makeGuzzleClientToRespondWith($response);
+        $client = $this->client([$response]);
         $recipesService = $this->makeRecipesService($client);
         $result = $recipesService->fetchRecipesByPid('b006m86d');
         $this->assertEquals(0, $result->getTotal());
@@ -74,7 +74,7 @@ class RecipesServiceTest extends HttpApiTestBase
     public function test404sAreCached()
     {
         $response = new Response(404, [], 'An Error');
-        $client = $this->makeGuzzleClientToRespondWith($response);
+        $client = $this->client([$response]);
         $recipesService = $this->makeRecipesService($client);
         $mockCacheItem = $this->createMock(CacheItemInterface::class);
         $mockCacheItem->expects($this->once())

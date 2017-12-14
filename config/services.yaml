@@ -18,6 +18,8 @@ parameters:
     frontend.aws.http_connect_timeout: 5
 
     # External Apis
+    app.ada.baseurl: 'https://ada.api.bbci.co.uk'
+    app.ada.class_service.class: App\ExternalApi\Ada\Service\AdaClassService
     app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
     app.receng.baseurl: 'https://open.live.bbc.co.uk/recommend/items'
@@ -223,6 +225,12 @@ services:
             - '@null_cache_service_factory'
 
     # API services
+
+    App\ExternalApi\Ada\Service\AdaClassService:
+        class: '%app.ada.class_service.class%'
+        arguments:
+            $baseUrl: '%app.ada.baseurl%'
+
     App\ExternalApi\Electron\Service\ElectronService:
         class: '%app.electron.service.class%'
         arguments:

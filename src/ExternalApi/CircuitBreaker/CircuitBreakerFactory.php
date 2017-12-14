@@ -26,6 +26,7 @@ class CircuitBreakerFactory
      * Anything not added, doesn't.
      */
     private const BREAKER_PARAMETERS = [
+        ApiTypeEnum::API_ADA                => ['maxFailsPerMinute' => 12, 'secondsToOpenWhenFailed' => 60],
         ApiTypeEnum::API_ELECTRON           => ['maxFailsPerMinute' => 12, 'secondsToOpenWhenFailed' => 60],
         ApiTypeEnum::API_ORBIT              => ['maxFailsPerMinute' => 40, 'secondsToOpenWhenFailed' => 20],
         ApiTypeEnum::API_RECIPE             => ['maxFailsPerMinute' => 12, 'secondsToOpenWhenFailed' => 60],

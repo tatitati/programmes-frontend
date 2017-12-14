@@ -5,6 +5,7 @@ namespace App\ExternalApi\ApiType;
 
 class ApiTypeEnum
 {
+    public const API_ADA = 'ADA';
     public const API_BRANDING = 'BRANDING';
     public const API_ELECTRON = 'ELECTRON';
     public const API_ORBIT = 'ORB';
@@ -12,6 +13,7 @@ class ApiTypeEnum
     public const API_RECOMMENDATIONS = 'RECOMMENDATIONS';
 
     private const API_TYPES = [
+        self::API_ADA => true,
         self::API_BRANDING => true,
         self::API_ELECTRON => true,
         self::API_ORBIT => true,

@@ -3,8 +3,9 @@ parameters:
     app.branding_client.class: BBC\BrandingClient\BrandingStubClient
     app.metric_backend.class: App\Metrics\Backend\NullMetricBackend
     app.metric_cache.class: App\Metrics\Cache\MetricCacheNull
-    app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngStubService
+    app.ada.class_service.class: App\ExternalApi\Ada\Service\AdaClassStubService
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronStubService
+    app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngStubService
     app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesStubService
 
 

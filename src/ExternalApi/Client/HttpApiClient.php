@@ -135,7 +135,7 @@ class HttpApiClient
             array_unshift($args, $response);
             $result = call_user_func_array($this->parseResponseCallable, $args);
         } catch (ParseException $e) {
-            $this->logger->error("Error parsing feed for $this->requestUrl . Error was: " . $e->getMessage());
+            $this->logger->error('Error parsing feed for "{0}". Error was: {1}', [$this->requestUrl, $e->getMessage()]);
             return $this->nullResult;
         }
         $this->cache->setItem($this->cacheItem, $result, $this->standardTTL);

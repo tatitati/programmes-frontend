@@ -17,12 +17,12 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Log\LoggerInterface;
-use Tests\App\ExternalApi\HttpApiTestBase;
+use Tests\App\ExternalApi\BaseServiceTestCase;
 
 /**
  * @covers \App\ExternalApi\RecEng\Service\RecEngService
  */
-class RecEngServiceTest extends HttpApiTestBase
+class RecEngServiceTest extends BaseServiceTestCase
 {
     /** @var Client */
     private $client;

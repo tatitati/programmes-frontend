@@ -6,6 +6,7 @@ namespace App\Controller\FindByPid;
 use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
+use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
@@ -44,6 +45,7 @@ class TlecController extends BaseController
         ImagesService $imagesService,
         RecEngService $recEngService,
         ElectronService $electronService,
+        AdaClassService $adaClassService,
         HelperFactory $helperFactory,
         RelatedLinksService $relatedLinksService
     ) {
@@ -96,6 +98,14 @@ class TlecController extends BaseController
 
         $supportingContentItems = $electronService->fetchSupportingContentItemsForProgramme($programme);
 
+        $relatedTopics = [];
+        // TODO uncomment me when it is time to render ADA content
+        // if ($programme->getOption('show_enhanced_navigation')) {
+        //     // Less than 50 episodes (through ancestry)...
+        //     $usePerContainerValues = $programme->getAggregatedEpisodesCount() >= 50;
+        //     $relatedTopics = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
+        // }
+
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,
             $upcomingBroadcast,
@@ -134,6 +144,7 @@ class TlecController extends BaseController
             'isVotePriority' => $isVotePriority,
             'recommendations' => $recommendations,
             'supportingContentItems' => $supportingContentItems,
+            'relatedTopics' => $relatedTopics,
             'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
             'relatedLinks' => $relatedLinks,
         ]);
