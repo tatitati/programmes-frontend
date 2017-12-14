@@ -11,7 +11,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class RecEngService
 {
-    /** @var Client */
+    /** @var ClientInterface */
     private $client;
 
     /** @var string */
@@ -48,7 +48,7 @@ class RecEngService
     private $cache;
 
     public function __construct(
-        Client $client,
+        ClientInterface $client,
         string $audioKey,
         string $videoKey,
         ProgrammesService $programmesService,

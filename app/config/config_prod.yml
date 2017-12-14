@@ -38,6 +38,7 @@ monolog:
 csa_guzzle:
     clients:
         default:
+            alias: 'GuzzleHttp\ClientInterface'
             config:
                 cert: '/etc/pki/tls/certs/client.crt'
                 ssl_key: '/etc/pki/tls/private/client.key'

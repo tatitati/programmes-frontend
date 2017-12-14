@@ -105,6 +105,7 @@ csa_guzzle:
     logger: true
     clients:
         default:
+            alias: 'GuzzleHttp\ClientInterface'
             config:
                 cert: '/etc/pki/dev.bbc.co.uk.pem'
                 ssl_key: '/etc/pki/dev.bbc.co.uk.pem'
