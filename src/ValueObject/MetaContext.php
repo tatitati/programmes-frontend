@@ -50,7 +50,7 @@ class MetaContext
             $this->image = $context->getImage();
             $this->isRadio = $context->isRadio();
             $this->titlePrefix = $this->coreEntityTitlePrefix($context);
-            $this->projectSpace = $context->getOption('projectId') ?? 'none';
+            $this->projectSpace = $context->getOption('project_space') ?? 'none';
 
             if ($context->getNetwork()) {
                 $this->showAdverts = $context->getNetwork()->isInternational();
