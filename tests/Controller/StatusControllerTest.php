@@ -38,10 +38,6 @@ class StatusControllerTest extends BaseWebTestCase
         $this->assertHasRequiredResponseHeaders($client, 'no-cache, private');
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation Setting the "%s" private service is deprecated since Symfony 3.2 and won't be supported anymore in Symfony 4.0
-     */
     public function testNonConnectionDBErrorFromElb()
     {
         $client = static::createClient([], [
@@ -75,10 +71,6 @@ class StatusControllerTest extends BaseWebTestCase
         $this->assertEquals('ERROR', $client->getResponse()->getContent());
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation Setting the "%s" private service is deprecated since Symfony 3.2 and won't be supported anymore in Symfony 4.0
-     */
     public function testConnectionDBErrorFromElb()
     {
         $client = static::createClient([], [

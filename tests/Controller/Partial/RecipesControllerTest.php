@@ -13,10 +13,6 @@ use Tests\App\BaseWebTestCase;
 
 class RecipesControllerTest extends BaseWebTestCase
 {
-    /**
-     * @group legacy
-     * @expectedDeprecation Setting the "csa_guzzle.client.default" pre-defined service is deprecated since Symfony 3.3 and won't be supported anymore in Symfony 4.0: 4x
-     */
     public function testValidResponseFromFoodApi()
     {
         $json = file_get_contents(__DIR__ . '/JSON/bakeoff.json');
@@ -32,10 +28,6 @@ class RecipesControllerTest extends BaseWebTestCase
         $this->assertEquals('Apple and cinnamon kugelhopf with honeyed apples', trim($crawler->filter('[data-linktrack="programmes_recipe_4_title"]')->text()));
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation Setting the "csa_guzzle.client.default" pre-defined service is deprecated since Symfony 3.3 and won't be supported anymore in Symfony 4.0: 4x
-     */
     public function testEmptyResponseFromFoodApi()
     {
         $client = $this->createClientWithMockedGuzzleResponse(new Response(200, [], ''));
@@ -43,10 +35,6 @@ class RecipesControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 404);
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation Setting the "csa_guzzle.client.default" pre-defined service is deprecated since Symfony 3.3 and won't be supported anymore in Symfony 4.0: 4x
-     */
     public function testProgrammeIsNotFoundInFoodApi()
     {
         $client = $this->createClientWithMockedGuzzleResponse(new Response(404, [], null));
@@ -54,10 +42,6 @@ class RecipesControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 404);
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation Setting the "csa_guzzle.client.default" pre-defined service is deprecated since Symfony 3.3 and won't be supported anymore in Symfony 4.0: 4x
-     */
     public function testProgrammeHasNoRecipesInFoodApi()
     {
         $json = file_get_contents(__DIR__ . '/JSON/drwho.json');

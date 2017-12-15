@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dee5a474ea9f56c573b3b37e3ac912d9",
+    "content-hash": "49a59628305c1e14e8d64f1a312a5398",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.47.1",
+            "version": "3.48.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a08d11a8fda59f1e6a21f1676ccd66c97e43aa11"
+                "reference": "f5aef5671cd7f6e3b9ede0a3ff17c131cc05f4d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a08d11a8fda59f1e6a21f1676ccd66c97e43aa11",
-                "reference": "a08d11a8fda59f1e6a21f1676ccd66c97e43aa11",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f5aef5671cd7f6e3b9ede0a3ff17c131cc05f4d3",
+                "reference": "f5aef5671cd7f6e3b9ede0a3ff17c131cc05f4d3",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-12-14T21:45:01+00:00"
+            "time": "2017-12-15T19:49:31+00:00"
         },
         {
             "name": "bbc-rmp/cloudwatch-monitoringhandler",
@@ -432,7 +432,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/v.3.5.1",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-12-05T13:00:46+00:00"
+            "time": "2017-12-05 13:00:46"
         },
         {
             "name": "behat/transliterator",
@@ -593,34 +593,35 @@
         },
         {
             "name": "csa/guzzle-bundle",
-            "version": "v2.2.2",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/csarrazi/CsaGuzzleBundle.git",
-                "reference": "d0b2776e6be9a0308d7ba27d2b62c043dc780195"
+                "reference": "de4d86fcc473cdc2e4dfdfa9e72de7f91a0b8332"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/csarrazi/CsaGuzzleBundle/zipball/d0b2776e6be9a0308d7ba27d2b62c043dc780195",
-                "reference": "d0b2776e6be9a0308d7ba27d2b62c043dc780195",
+                "url": "https://api.github.com/repos/csarrazi/CsaGuzzleBundle/zipball/de4d86fcc473cdc2e4dfdfa9e72de7f91a0b8332",
+                "reference": "de4d86fcc473cdc2e4dfdfa9e72de7f91a0b8332",
                 "shasum": ""
             },
             "require": {
+                "csa/guzzle-cache-middleware": "^1.0.0",
+                "csa/guzzle-history-middleware": "^1.0.0",
+                "csa/guzzle-stopwatch-middleware": "^1.0.0",
                 "guzzlehttp/guzzle": "^6.1",
-                "php": ">=5.6.0,<7.2",
-                "symfony/dependency-injection": "^2.7|^3.0",
-                "symfony/filesystem": "^2.7|^3.0",
-                "symfony/framework-bundle": "^2.7|^3.0",
-                "symfony/stopwatch": "^2.7|^3.0",
+                "php": "^7.1",
+                "symfony/dependency-injection": "^2.7|^3.0|^4.0",
+                "symfony/filesystem": "^2.7|^3.0|^4.0",
+                "symfony/framework-bundle": "^2.7|^3.0|^4.0",
                 "twig/twig": "^1.12|^2.0"
             },
             "require-dev": {
-                "doctrine/cache": "^1.1",
                 "namshi/cuzzle": "^2.0",
-                "phpunit/phpunit": "^5.5",
-                "psr/cache": "^1.0",
-                "symfony/phpunit-bridge": "^2.7|^3.0",
-                "symfony/web-profiler-bundle": "^2.3|^3.0"
+                "phpunit/phpunit": "^6.5",
+                "symfony/phpunit-bridge": "^2.7|^3.0|^4.0",
+                "symfony/web-profiler-bundle": "^2.3|^3.0|^4.0",
+                "symfony/yaml": "^2.7|^3.0|^4.0"
             },
             "suggest": {
                 "doctrine/cache": "Allows caching of responses",
@@ -651,7 +652,155 @@
                 }
             ],
             "description": "A bundle integrating GuzzleHttp >= 4.0",
-            "time": "2017-12-07T17:33:13+00:00"
+            "time": "2017-12-13T16:34:53+00:00"
+        },
+        {
+            "name": "csa/guzzle-cache-middleware",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/csarrazi/guzzle-cache-middleware.git",
+                "reference": "a6a8716849b02d7597f815d0f6be7255a24c9c95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/csarrazi/guzzle-cache-middleware/zipball/a6a8716849b02d7597f815d0f6be7255a24c9c95",
+                "reference": "a6a8716849b02d7597f815d0f6be7255a24c9c95",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.1",
+                "php": ">=5.6.0",
+                "symfony/filesystem": "^2.7|^3.0|^4.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "^1.1",
+                "phpunit/phpunit": "^4.8",
+                "psr/cache": "^1.0",
+                "symfony/phpunit-bridge": "^2.7|^3.0|^4.0"
+            },
+            "suggest": {
+                "doctrine/cache": "Allows caching of responses",
+                "namshi/cuzzle": "Output command to repeat request in command line",
+                "psr/cache": "Allows caching of responses",
+                "tolerance/tolerance": "Allows retrying failed requests"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Csa\\GuzzleHttp\\Middleware\\Cache\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Charles Sarrazin",
+                    "email": "charles@sarraz.in"
+                }
+            ],
+            "description": "A Cache middleware for GuzzleHttp >= 6.0",
+            "time": "2017-12-01T11:45:31+00:00"
+        },
+        {
+            "name": "csa/guzzle-history-middleware",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/csarrazi/guzzle-history-middleware.git",
+                "reference": "70c0a20b7ce5f19c8ec7ea8097e987c5d3340327"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/csarrazi/guzzle-history-middleware/zipball/70c0a20b7ce5f19c8ec7ea8097e987c5d3340327",
+                "reference": "70c0a20b7ce5f19c8ec7ea8097e987c5d3340327",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.1",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8",
+                "symfony/phpunit-bridge": "^2.7|^3.0|^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Csa\\GuzzleHttp\\Middleware\\History\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Charles Sarrazin",
+                    "email": "charles@sarraz.in"
+                }
+            ],
+            "description": "A History middleware for GuzzleHttp >= 6.0",
+            "time": "2017-12-01T11:48:15+00:00"
+        },
+        {
+            "name": "csa/guzzle-stopwatch-middleware",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/csarrazi/guzzle-stopwatch-middleware.git",
+                "reference": "1612a9c87eb3c6167d38c4ea79ef3055cf50e93e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/csarrazi/guzzle-stopwatch-middleware/zipball/1612a9c87eb3c6167d38c4ea79ef3055cf50e93e",
+                "reference": "1612a9c87eb3c6167d38c4ea79ef3055cf50e93e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.1",
+                "php": ">=5.6.0",
+                "symfony/stopwatch": "^2.7|^3.0|^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8",
+                "symfony/phpunit-bridge": "^2.7|^3.0|^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Csa\\GuzzleHttp\\Middleware\\Stopwatch\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Charles Sarrazin",
+                    "email": "charles@sarraz.in"
+                }
+            ],
+            "description": "A Stopwatch middleware for GuzzleHttp >= 6.0",
+            "time": "2017-12-01T11:52:02+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1358,16 +1507,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.5.13",
+            "version": "v2.5.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "93103f44a3e36e7b48165b6e6b736833f33b18ef"
+                "reference": "810a7baf81462a5ddf10e8baa8cb94b6eec02754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/93103f44a3e36e7b48165b6e6b736833f33b18ef",
-                "reference": "93103f44a3e36e7b48165b6e6b736833f33b18ef",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/810a7baf81462a5ddf10e8baa8cb94b6eec02754",
+                "reference": "810a7baf81462a5ddf10e8baa8cb94b6eec02754",
                 "shasum": ""
             },
             "require": {
@@ -1430,7 +1579,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2017-11-27T23:25:55+00:00"
+            "time": "2017-12-17T02:57:51+00:00"
         },
         {
             "name": "fig/link-util",
@@ -2506,6 +2655,62 @@
             "time": "2017-11-06T16:02:17+00:00"
         },
         {
+            "name": "symfony/polyfill-apcu",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-apcu.git",
+                "reference": "04f62674339602def515bff4bc6901fc1d4951e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/04f62674339602def515bff4bc6901fc1d4951e8",
+                "reference": "04f62674339602def515bff4bc6901fc1d4951e8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Apcu\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting apcu_* functions to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "apcu",
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2017-10-11T12:05:26+00:00"
+        },
+        {
             "name": "symfony/polyfill-intl-icu",
             "version": "v1.6.0",
             "source": {
@@ -2791,16 +2996,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.3.8",
+            "version": "v3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "645d24a119bc7b8326bb01e7b5b696bc3be337ec"
+                "reference": "29961b693fa2157a3f349d1a801f9f8742be4e03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/645d24a119bc7b8326bb01e7b5b696bc3be337ec",
-                "reference": "645d24a119bc7b8326bb01e7b5b696bc3be337ec",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/29961b693fa2157a3f349d1a801f9f8742be4e03",
+                "reference": "29961b693fa2157a3f349d1a801f9f8742be4e03",
                 "shasum": ""
             },
             "require": {
@@ -2813,21 +3018,23 @@
                 "psr/link": "^1.0",
                 "psr/log": "~1.0",
                 "psr/simple-cache": "^1.0",
+                "symfony/polyfill-apcu": "~1.1",
                 "symfony/polyfill-intl-icu": "~1.0",
                 "symfony/polyfill-mbstring": "~1.0",
                 "symfony/polyfill-php56": "~1.0",
-                "symfony/polyfill-php70": "~1.0",
+                "symfony/polyfill-php70": "~1.6",
                 "symfony/polyfill-util": "~1.0",
-                "twig/twig": "~1.34|~2.4"
+                "twig/twig": "^1.35|^2.4.4"
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0||>=3.2.0,<3.2.2",
-                "phpdocumentor/type-resolver": "<0.2.0",
+                "phpdocumentor/type-resolver": "<0.2.1",
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
             },
             "provide": {
                 "psr/cache-implementation": "1.0",
                 "psr/container-implementation": "1.0",
+                "psr/log-implementation": "1.0",
                 "psr/simple-cache-implementation": "1.0"
             },
             "replace": {
@@ -2855,6 +3062,7 @@
                 "symfony/inflector": "self.version",
                 "symfony/intl": "self.version",
                 "symfony/ldap": "self.version",
+                "symfony/lock": "self.version",
                 "symfony/monolog-bridge": "self.version",
                 "symfony/options-resolver": "self.version",
                 "symfony/process": "self.version",
@@ -2884,6 +3092,7 @@
             },
             "require-dev": {
                 "cache/integration-tests": "dev-master",
+                "doctrine/annotations": "~1.0",
                 "doctrine/cache": "~1.6",
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.4",
@@ -2894,15 +3103,13 @@
                 "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
                 "phpdocumentor/reflection-docblock": "^3.0|^4.0",
                 "predis/predis": "~1.0",
-                "sensio/framework-extra-bundle": "^3.0.2",
-                "symfony/phpunit-bridge": "~3.2",
-                "symfony/polyfill-apcu": "~1.1",
+                "symfony/phpunit-bridge": "~3.4|~4.0",
                 "symfony/security-acl": "~2.8|~3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -2940,7 +3147,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-08-28T22:35:20+00:00"
+            "time": "2017-12-15T02:05:35+00:00"
         },
         {
             "name": "symfony/translation",
@@ -4630,16 +4837,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.4",
+            "version": "6.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c"
+                "reference": "83d27937a310f2984fd575686138597147bdc7df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83d27937a310f2984fd575686138597147bdc7df",
+                "reference": "83d27937a310f2984fd575686138597147bdc7df",
                 "shasum": ""
             },
             "require": {
@@ -4710,7 +4917,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-12-10T08:06:19+00:00"
+            "time": "2017-12-17T06:31:19+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5332,16 +5539,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6"
+                "reference": "4064632daf602552d40dcff30a1658ab76fc1621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/ba816f2e1bacc16278792c78b67c730dfff064a6",
-                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4064632daf602552d40dcff30a1658ab76fc1621",
+                "reference": "4064632daf602552d40dcff30a1658ab76fc1621",
                 "shasum": ""
             },
             "require": {
@@ -5379,20 +5586,20 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-12-12T21:36:10+00:00"
+            "time": "2017-12-18T00:24:01+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.4.1",
+            "version": "v3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "9ecf83a2628b4668f02e680f65357c62600749fc"
+                "reference": "074c2e205c849a5fb37b1c24ade03cc975ac8079"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/9ecf83a2628b4668f02e680f65357c62600749fc",
-                "reference": "9ecf83a2628b4668f02e680f65357c62600749fc",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/074c2e205c849a5fb37b1c24ade03cc975ac8079",
+                "reference": "074c2e205c849a5fb37b1c24ade03cc975ac8079",
                 "shasum": ""
             },
             "require": {
@@ -5441,7 +5648,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-12-04T20:23:06+00:00"
+            "time": "2017-12-14T19:40:10+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -5542,12 +5749,12 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.0",
+        "php": ">=7.1.3",
         "ext-intl": "*",
         "ext-redis": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.1.0"
+        "php": "7.1.3"
     }
 }
