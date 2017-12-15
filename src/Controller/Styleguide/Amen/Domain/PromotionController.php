@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace App\Controller\Styleguide\Amen\Organism;
+namespace App\Controller\Styleguide\Amen\Domain;
 
 use App\Builders\EpisodeBuilder;
 use App\Builders\ImageBuilder;
@@ -11,7 +11,7 @@ class PromotionController extends BaseController
 {
     public function __invoke()
     {
-        return $this->renderWithChrome('styleguide/amen/organism/promotion.html.twig', [
+        return $this->renderWithChrome('styleguide/amen/domain/promotion.html.twig', [
             'promosOfDifferentTypes' => $this->buildPromotionsOfDifferentTypes(),
             'promosWithDifferentDisplayOptions' => $this->buildPromotionsWithDifferentDisplays(),
             'promotionsWithDifferentHtmlAttributes' => $this->buildPromotionsWithDifferentHtmlAttributes(),
