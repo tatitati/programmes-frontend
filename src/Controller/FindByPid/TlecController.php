@@ -5,8 +5,10 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\DsAmen\PresenterFactory;
+use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\RecEng\Service\RecEngService;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -40,8 +42,14 @@ class TlecController extends BaseController
         ProgrammesAggregationService $aggregationService,
         ImagesService $imagesService,
         RecEngService $recEngService,
-        ElectronService $electronService
+        ElectronService $electronService,
+        HelperFactory $helperFactory
     ) {
+        if ($programme->getNetwork() && $programme->getNetwork()->isInternational()) {
+            // "International" services are UTC, all others are Europe/London (the default)
+            ApplicationTime::setLocalTimeZone('UTC');
+        }
+
         $this->setIstatsProgsPageType('programmes_container');
         $this->setContext($programme);
 
@@ -120,6 +128,7 @@ class TlecController extends BaseController
             'isVotePriority' => $isVotePriority,
             'recommendations' => $recommendations,
             'supportingContentItems' => $supportingContentItems,
+            'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
         ]);
     }
 

@@ -7,8 +7,7 @@
             {{- details.getDay() -}}
         </span>
         <span class="timezone timezone--time">
-            {{- details.getTime()|local_date('H:i') -}}
-            {{- details.getTime()|time_zone_note() -}}
+            {{- details.getTime()|local_date('H:i') -}}&nbsp;{{- details.getTime()|time_zone_note() -}}
         </span>
 
         {# Service details #}
