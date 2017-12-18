@@ -22,6 +22,10 @@ find_by_pid:
     defaults: { _controller: '!find_by_pid' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+episodes_player:
+    path: /programmes/{pid}/episodes/player
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 partial_programme_recipes:
     path: /programmes/{pid}/recipes.ameninc
     defaults: { _controller: App\Controller\Partial\RecipesController }

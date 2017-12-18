@@ -48,10 +48,11 @@
                     data-linktrack="{{ presenter.getAllLinkLocation() }}"
                     {%- if presenter.getProgrammeContainer().isRadio() -%}
                         title="{{ tr('all_episodes_iplayer_radio', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
+                        href="{{ path('episodes_player', {'pid': presenter.getProgrammeContainer().getPid()}) }}"
                     {%- else -%}
                         title="{{ tr('all_episodes_iplayer', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
+                        href="{{ path('iplayer_episodes', {'pid': presenter.getProgrammeContainer().getPid()}) }}"
                     {%- endif -%}
-                    href="{{ path('iplayer_episodes', {'pid': presenter.getProgrammeContainer().getPid()}) }}"
                     class="gel-pica-bold istats--all-on-demand">
                     {{ tr('all_available_episodes') }}
                 </a>
