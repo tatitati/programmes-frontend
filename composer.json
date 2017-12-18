@@ -39,7 +39,6 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "symfony/monolog-bundle": "^3.1",
         "symfony/symfony": "3.4.2",
-        "symfony/translation": "3.1.0",
         "twig/twig": "^2.0"
     },
     "require-dev": {
