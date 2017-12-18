@@ -93,9 +93,7 @@ abstract class BaseTitlePresenter extends Presenter
 
     public function getUrl(): string
     {
-        $isEpisode = $this->coreEntity instanceof ProgrammeItem;
-
-        if (!$this->getOption('force_iplayer_linking') || ($isEpisode && $this->coreEntity->isAudio())) {
+        if (!$this->getOption('force_iplayer_linking') || ($this->coreEntity instanceof ProgrammeItem && $this->coreEntity->isAudio())) {
             return $this->router->generate(
                 'find_by_pid',
                 ['pid' => $this->coreEntity->getPid()],

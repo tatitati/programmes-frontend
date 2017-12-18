@@ -137,7 +137,7 @@ class CollapsedBroadcastPresenter extends BaseCoreEntityPresenter
 
     protected function isPlayableLive(): bool
     {
-        if (is_null($this->playableLive)) {
+        if ($this->playableLive === null) {
             $this->playableLive = $this->helperFactory->getLiveBroadcastHelper()->isWatchableLive(
                 $this->collapsedBroadcast,
                 $this->options['advanced_live']
