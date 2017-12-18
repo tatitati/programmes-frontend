@@ -48,12 +48,6 @@ popup_player:
     requirements: { sid: '[0-9a-z_]{1,}' }
     schemes: [http]
 
-receng:
-    host: "open.live.bbc.co.uk"
-    path: /recommend/items
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-    schemes: [https]
-
 ### /programmes v2
 
 atoz_list_all:

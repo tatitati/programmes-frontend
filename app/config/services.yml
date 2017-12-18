@@ -4,13 +4,16 @@ parameters:
     app.branding_client.class: BBC\BrandingClient\BrandingClient
     app.metric_cache.class: App\Metrics\Cache\MetricCacheApcu
     app.metric_backend.class: App\Metrics\Backend\CloudWatchMetricBackend
-    app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
-    app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
-    app.recipes.service.class: App\ExternalApi\Recipes\Service\RecipesService
-    app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
-    app.recipes.baseurl: 'https://api.live.bbc.co.uk/food/recipes'
     frontend.aws.http_timeout: 15
     frontend.aws.http_connect_timeout: 5
+
+    # External Apis
+    app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
+    app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
+    app.receng.baseurl: 'https://open.live.bbc.co.uk/recommend/items'
+    app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
+    app.recipes.baseurl: 'https://api.live.bbc.co.uk/food/recipes'
+    app.recipes.service.class: App\ExternalApi\Recipes\Service\RecipesService
 
 services:
 
@@ -208,6 +211,7 @@ services:
     App\ExternalApi\RecEng\Service\RecEngService:
         class: '%app.receng.service.class%'
         arguments:
+            $baseUrl: '%app.receng.baseurl%'
             $audioKey: '%receng_audio_key%'
             $videoKey: '%receng_video_key%'
 

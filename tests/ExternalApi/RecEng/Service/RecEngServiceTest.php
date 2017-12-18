@@ -19,7 +19,6 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @covers App\ExternalApi\RecEng\Service\RecEngService
@@ -35,9 +34,6 @@ class RecEngServiceTest extends TestCase
     /** @var ProgrammesService|PHPUnit_Framework_MockObject_MockObject */
     private $mockProgrammesService;
 
-    /** @var UrlGeneratorInterface */
-    private $mockRouter;
-
     private $guzzleRequestContainer;
 
     /** @var LoggerInterface */
@@ -48,8 +44,6 @@ class RecEngServiceTest extends TestCase
 
     public function setUp()
     {
-        $this->mockRouter = $this->createMock(UrlGeneratorInterface::class);
-
         $this->guzzleRequestContainer = [];
 
         $this->mockHandler = new MockHandler();
@@ -102,11 +96,6 @@ class RecEngServiceTest extends TestCase
         $mockEpisode->method('isVideo')->willReturn($isVideo);
 
         $this->mockProgrammesService->method('findByPids')->willReturn([$this->createMock(Programme::class)]);
-        $this->mockRouter
-            ->expects($this->once())
-            ->method('generate')
-            ->with('receng', array('key' => $expectedKey, 'id' => ''))
-            ->willReturn('http://somedomain.co.uk?key=' . $expectedKey);
 
         $recEng = $this->createMockRecEng();
         $result = $recEng->getRecommendations($mockEpisode, null, null, null, 2);
@@ -200,12 +189,12 @@ class RecEngServiceTest extends TestCase
     {
         return new RecEngService(
             $this->client,
+            $this->mockCache,
             'imASecretAudioKey',
             'imASecretVideoKey',
             $this->mockProgrammesService,
-            $this->mockRouter,
             $this->mockLogger,
-            $this->mockCache
+            'https://api.example.com/'
         );
     }
 

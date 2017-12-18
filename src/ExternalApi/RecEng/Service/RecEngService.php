@@ -16,7 +16,6 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Recommendation Engine
@@ -29,6 +28,9 @@ class RecEngService
     /** @var ClientInterface */
     private $client;
 
+    /** @var CacheInterface */
+    private $cache;
+
     /** @var string */
     private $audioKey;
 
@@ -38,31 +40,28 @@ class RecEngService
     /** @var ProgrammesService */
     private $programmesService;
 
-    /** @var UrlGeneratorInterface */
-    private $router;
+    /** @var string */
+    private $baseUrl;
 
     /** @var LoggerInterface */
     private $logger;
 
-    /** @var CacheInterface */
-    private $cache;
-
     public function __construct(
         ClientInterface $client,
+        CacheInterface $cache,
         string $audioKey,
         string $videoKey,
         ProgrammesService $programmesService,
-        UrlGeneratorInterface $router,
         LoggerInterface $logger,
-        CacheInterface $cache
+        string $baseUrl
     ) {
         $this->client = $client;
+        $this->cache = $cache;
         $this->audioKey = $audioKey;
         $this->videoKey = $videoKey;
         $this->programmesService = $programmesService;
-        $this->router = $router;
+        $this->baseUrl = $baseUrl;
         $this->logger = $logger;
-        $this->cache = $cache;
     }
 
     /**
@@ -99,11 +98,7 @@ class RecEngService
 
         $recEngKey = $programmeEpisode->isVideo() ? $this->videoKey : $this->audioKey;
 
-        $requestUrl = $this->router->generate(
-            'receng',
-            array('key' => $recEngKey, 'id' => (string) $programmePid),
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+        $requestUrl = $this->baseUrl . '?key=' . $recEngKey . '&id=' . (string) $programmePid;
 
         try {
             $response = $this->client->request('GET', $requestUrl);

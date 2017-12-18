@@ -19,7 +19,7 @@ use SimpleXMLElement;
 class ElectronService
 {
     /** @var ClientInterface */
-    private $guzzleClient;
+    private $client;
 
     /** @var CacheInterface */
     private $cache;
@@ -37,14 +37,14 @@ class ElectronService
     private $baseUrl;
 
     public function __construct(
-        ClientInterface $guzzleClient,
+        ClientInterface $client,
         CacheInterface $cache,
         XmlParser $xmlParser,
         SupportingContentMapper $supportingContentMapper,
         LoggerInterface $logger,
         string $baseUrl
     ) {
-        $this->guzzleClient = $guzzleClient;
+        $this->client = $client;
         $this->cache = $cache;
         $this->xmlParser = $xmlParser;
         $this->supportingContentMapper = $supportingContentMapper;
@@ -65,7 +65,7 @@ class ElectronService
         }
         $url = $this->makeSupportingContentUrlForProgramme($programme->getPid());
         try {
-            $response = $this->guzzleClient->request('GET', $url);
+            $response = $this->client->request('GET', $url);
         } catch (GuzzleException $e) {
             if ($e instanceof ClientException && $e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
                 // 404s get cached for a shorter time
