@@ -13,7 +13,7 @@ const override = require('gulp-rev-css-url');
 const gulpif = require('gulp-if');
 const runSequence = require('run-sequence');
 
-const staticPathSrc = 'app/Resources';
+const staticPathSrc = 'assets';
 const staticPathDist = 'web/assets';
 const sassMatch = '/sass/**/*.scss';
 const jsMatch = '/js/**/*.js';
@@ -36,14 +36,14 @@ gulp.task('js', ['js:clean'], function () {
     ];
 
     const config = {
-        "baseUrl": "app/Resources/js",
+        "baseUrl": "assets/js",
         "paths": {
             "jquery-1.9": "empty:",
-            "respimg": "../../../node_modules/lazysizes/plugins/respimg/ls.respimg",
-            "lazysizes": "../../../node_modules/lazysizes/lazysizes-umd",
-            "eqjs": "../../../node_modules/eq.js/dist/eq.polyfilled.min",
-            "comscorews" : "../../../vendor/bbc-rmp/comscore/js-modules/comscorews",
-            "rmpcomscore/base" : "../../../vendor/bbc-rmp/comscore/js-modules/base",
+            "respimg": "../../node_modules/lazysizes/plugins/respimg/ls.respimg",
+            "lazysizes": "../../node_modules/lazysizes/lazysizes-umd",
+            "eqjs": "../../node_modules/eq.js/dist/eq.polyfilled.min",
+            "comscorews" : "../../vendor/bbc-rmp/comscore/js-modules/comscorews",
+            "rmpcomscore/base" : "../../vendor/bbc-rmp/comscore/js-modules/base",
             "orb/cookies": "empty:",
             'istats-1': 'empty:'
         },

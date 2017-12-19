@@ -5,7 +5,7 @@ declare(strict_types = 1);
 $rootPath = dirname(__DIR__);
 
 $vendorPath = $rootPath . join(DIRECTORY_SEPARATOR, ['', 'vendor', 'bbc', 'gel-iconography-assets', 'dist']);
-$outputPath = $rootPath . join(DIRECTORY_SEPARATOR, ['', 'app', 'Resources', 'gelicons']);
+$outputPath = $rootPath . join(DIRECTORY_SEPARATOR, ['', 'assets', 'gelicons']);
 
 $update = new UpdateGelicons($vendorPath, $outputPath);
 $update->fixAllSvgs();

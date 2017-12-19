@@ -8,6 +8,6 @@
 /web/assets/
 /web/bundles/
 /composer.phar
-/app/Resources/gelicons/
+/assets/gelicons/
 /script/fixture.ini
 yarn-error.log

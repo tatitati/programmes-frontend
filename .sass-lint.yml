@@ -1,7 +1,7 @@
 options:
     formatter: stylish
 files:
-    include: ['app/Resources/sass/*.scss', 'src/Ds*/**/*.scss']
+    include: ['assets/sass/*.scss', 'src/Ds*/**/*.scss']
     ignore:
         - 'src/Ds*/Css/Core/Vendor/*'
         # Ignore as there sass-lint thinks this file is invalid but it isn't

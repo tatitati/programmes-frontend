@@ -59,7 +59,7 @@ class GelIconExtension extends Twig_Extension
 
     private function loadSvgSymbol(string $set, string $icon)
     {
-        $path = dirname(dirname(__DIR__)) . join(DIRECTORY_SEPARATOR, ['', 'app', 'Resources', 'gelicons', $set, $icon]) . '.svg';
+        $path = dirname(dirname(__DIR__)) . join(DIRECTORY_SEPARATOR, ['', 'assets', 'gelicons', $set, $icon]) . '.svg';
         $contents = file_get_contents($path);
         if (!$contents) {
             throw new InvalidArgumentException("$path does not contain a valid svg");
