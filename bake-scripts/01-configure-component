@@ -97,7 +97,7 @@ def system_tweaks():
 
 
 def regenerate_cache(symfony_env):
-    appTmpDir = appRoot + "/tmp"
+    appTmpDir = appRoot + "/var"
     appConsoleFile = appRoot + "/app/console"
 
     print "Regenerating cache..."

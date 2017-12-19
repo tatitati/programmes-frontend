@@ -3,7 +3,7 @@
 /build/
 /node_modules/
 /phpunit.xml
-/tmp/
+/var/
 /vendor/
 /web/assets/
 /web/bundles/

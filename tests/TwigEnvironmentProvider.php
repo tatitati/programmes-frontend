@@ -87,7 +87,7 @@ class TwigEnvironmentProvider
 
         $translateFactory = new TranslateFactory([
             'fallback_locale' => 'en_GB',
-            'cachepath' => __DIR__ . '/../tmp/cache/test/translations',
+            'cachepath' => __DIR__ . '/../var/cache/test/translations',
             'domains' => ['programmes'],
             'default_domain' => 'programmes',
             'debug' => true,
