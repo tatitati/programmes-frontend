@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace App\DsShared\Molecule\Image;
+namespace App\DsShared\Utilities\Image;
 
 use App\DsShared\Presenter;
 use App\Exception\InvalidOptionException;

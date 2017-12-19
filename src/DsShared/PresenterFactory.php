@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\DsShared;
 
-use App\DsShared\Molecule\Image\ImagePresenter;
+use App\DsShared\Utilities\Image\ImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 
 /**

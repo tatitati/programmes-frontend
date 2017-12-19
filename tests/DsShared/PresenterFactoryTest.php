@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace Tests\App\DsShared;
 
 use App\DsShared\Helpers\HelperFactory;
-use App\DsShared\Molecule\Image\ImagePresenter;
+use App\DsShared\Utilities\Image\ImagePresenter;
 use App\DsShared\PresenterFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
