@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1); // php 7 strict mode
+
+use App\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,7 +28,7 @@ $appEnv = 'dev';
 if (!empty($_GET['__scenario'])) {
     $appEnv .= '_fixture';
 }
-$kernel = new AppKernel($appEnv, true);
+$kernel = new Kernel($appEnv, true);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1); // php 7 strict mode
+
+use App\Kernel;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @var \Composer\Autoload\ClassLoader $loader */
@@ -11,7 +13,7 @@ $appEnv = 'prod';
 if (($appEnv === 'prod_int' || $appEnv === 'prod_test') && !empty($_GET['__scenario'])) {
     $appEnv .= '_fixture';
 }
-$kernel = new AppKernel($appEnv, false);
+$kernel = new Kernel($appEnv, false);
 //$kernel = new AppCache($kernel);
 
 

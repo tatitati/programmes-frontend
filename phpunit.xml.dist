@@ -10,7 +10,7 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <ini name="memory_limit" value="2048M"/>
-        <server name="KERNEL_CLASS" value="AppKernel" />
+        <server name="KERNEL_CLASS" value="App\Kernel" />
         <server name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
     </php>
 
