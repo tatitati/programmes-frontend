@@ -78,7 +78,7 @@ class TwigEnvironmentProvider
 
     private static function build(): void
     {
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../app/Resources');
+        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../templates');
         $loader->addPath(__DIR__ . '/../src/Ds2013', 'Ds2013');
         $loader->addPath(__DIR__ . '/../src/DsShared', 'DsShared');
         $loader->addPath(__DIR__ . '/../src/DsAmen', 'DsAmen');
