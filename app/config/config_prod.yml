@@ -40,6 +40,8 @@ csa_guzzle:
         default:
             alias: 'GuzzleHttp\ClientInterface'
             config:
+                headers:
+                    user-agent: 'bbc.co.uk-programmes/%cosmos_component_release% (%cosmos_environment%)'
                 cert: '/etc/pki/tls/certs/client.crt'
                 ssl_key: '/etc/pki/tls/private/client.key'
                 verify: false

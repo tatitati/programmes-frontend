@@ -107,6 +107,8 @@ csa_guzzle:
         default:
             alias: 'GuzzleHttp\ClientInterface'
             config:
+                headers:
+                    user-agent: 'bbc.co.uk-programmes/%cosmos_component_release% (%cosmos_environment%)'
                 cert: '/etc/pki/dev.bbc.co.uk.pem'
                 ssl_key: '/etc/pki/dev.bbc.co.uk.pem'
                 verify: false
