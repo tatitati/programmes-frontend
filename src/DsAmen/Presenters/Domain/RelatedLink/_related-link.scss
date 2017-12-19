@@ -1,0 +1,32 @@
+.related-links {
+    margin-left: $gel-unit-small;
+    margin-right: $gel-unit-small;
+    margin-bottom: $gel-unit-small;
+    padding-bottom: $gel-unit-small;
+}
+
+.related-links__item {
+    display: inline-block;
+    vertical-align: top;
+
+    padding-top: $gel-unit-small;
+    padding-right: $gel-unit-small;
+
+    &:last-child {
+        padding-right: 0;
+    }
+}
+
+@include mq($from: gel3) {
+    .related-links {
+        margin-left: $gel-unit-large;
+        margin-right: $gel-unit-large;
+        margin-bottom: $gel-unit-large;
+        padding-bottom: $gel-unit-large;
+
+        > .related-links__item {
+            padding-top: $gel-unit-large;
+            padding-right: $gel-unit-large;
+        }
+    }
+}

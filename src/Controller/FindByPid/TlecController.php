@@ -20,6 +20,7 @@ use BBC\ProgrammesPagesService\Service\ImagesService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
+use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -43,7 +44,8 @@ class TlecController extends BaseController
         ImagesService $imagesService,
         RecEngService $recEngService,
         ElectronService $electronService,
-        HelperFactory $helperFactory
+        HelperFactory $helperFactory,
+        RelatedLinksService $relatedLinksService
     ) {
         if ($programme->getNetwork() && $programme->getNetwork()->isInternational()) {
             // "International" services are UTC, all others are Europe/London (the default)
@@ -62,6 +64,11 @@ class TlecController extends BaseController
 
         if ($programme->getOption('show_clip_cards')) {
             $clips = $aggregationService->findStreamableDescendantClips($programme, 4);
+        }
+
+        $relatedLinks = [];
+        if ($programme->getRelatedLinksCount() > 0) {
+            $relatedLinks = $relatedLinksService->findByRelatedToProgramme($programme);
         }
 
         $upcomingBroadcast = null;
@@ -129,6 +136,7 @@ class TlecController extends BaseController
             'recommendations' => $recommendations,
             'supportingContentItems' => $supportingContentItems,
             'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
+            'relatedLinks' => $relatedLinks,
         ]);
     }
 

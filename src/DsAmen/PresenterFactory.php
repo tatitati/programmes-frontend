@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\DsAmen;
 
+use App\DsAmen\Presenters\Domain\RelatedLink\RelatedLinkPresenter;
 use App\DsAmen\Presenters\Utilities\Duration\DurationPresenter;
 use App\DsAmen\Presenters\Utilities\Synopsis\SynopsisPresenter;
 use App\DsAmen\Presenters\Section\Footer\FooterPresenter;
@@ -23,6 +24,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
+use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -105,6 +107,11 @@ class PresenterFactory
     public function promotionPresenter(Promotion $promotion, array $options = []): PromotionPresenter
     {
         return new PromotionPresenter($this->router, $promotion, $options);
+    }
+
+    public function relatedLinkPresenter(RelatedLink $supportingContent, array $options = []): RelatedLinkPresenter
+    {
+        return new RelatedLinkPresenter($supportingContent, $options);
     }
 
     public function supportingContentPresenter(SupportingContentItem $supportingContent, array $options = []): SupportingContentPresenter

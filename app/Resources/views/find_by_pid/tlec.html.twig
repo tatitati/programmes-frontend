@@ -173,7 +173,18 @@
         </div>
     </div>
 
-    {# TODO Related links block #}
+    {% if relatedLinks %}
+        <div class="p-g-p">
+            <div class="br-box-secondary">
+                <h2 class="gel-double-pica-bold island">{{ tr('related_links') }}</h2>
+                <div class="related-links br-keyline media__meta-row--separator">
+                    {%- for link in relatedLinks -%}
+                        {{ ds_amen('relatedLink', link)|trim|raw }}
+                    {%- endfor -%}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     {{ ds_amen('footer', programme, recommendations) }}
 {% endblock %}

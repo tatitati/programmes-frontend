@@ -178,6 +178,9 @@ services:
     BBC\ProgrammesPagesService\Service\PromotionsService:
          factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getPromotionsService']
 
+    BBC\ProgrammesPagesService\Service\RelatedLinksService:
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getRelatedLinksService']
+
     BBC\ProgrammesPagesService\Service\ServicesService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getServicesService']
 
