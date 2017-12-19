@@ -91,7 +91,7 @@ class TwigEnvironmentProvider
             'domains' => ['programmes'],
             'default_domain' => 'programmes',
             'debug' => true,
-            'basepath' => __DIR__ . '/../app/Resources/translations',
+            'basepath' => __DIR__ . '/../translations',
         ]);
 
         $translateProvider = new TranslateProvider($translateFactory);

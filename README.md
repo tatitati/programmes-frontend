@@ -51,7 +51,7 @@ to work.
 
 #### To add an entry
 
-Open `app/Resources/translations/programmes/programmes.pot` and add your new
+Open `translations/programmes/programmes.pot` and add your new
 entry.
 
 ```

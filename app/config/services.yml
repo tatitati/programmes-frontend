@@ -107,7 +107,7 @@ services:
               domains: ['programmes']
               default_domain: 'programmes'
               debug: '%kernel.debug%'
-              basepath: '%kernel.project_dir%/app/Resources/translations'
+              basepath: '%kernel.project_dir%/translations'
 
     ### Monitoring
 

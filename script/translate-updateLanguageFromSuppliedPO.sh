@@ -21,7 +21,7 @@ fi
 
 SCRIPTPATH=$( cd $(dirname $0) ; pwd -P )
 
-TRPATH="${SCRIPTPATH}/../app/Resources/translations/${2}"
+TRPATH="${SCRIPTPATH}/../translations/${2}"
 
 
 if [ ! -e "$TRPATH/$3.po" ]; then
