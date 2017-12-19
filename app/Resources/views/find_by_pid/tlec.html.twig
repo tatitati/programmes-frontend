@@ -90,7 +90,7 @@
                                 'cta_class': 'cta br-box-secondary',
                                 'branding_name': 'secondary',
                                 'link_location_prefix': 'promo_' ~ loop.index ~ '_',
-                                'show_synopsis': false,
+                                'show_synopsis': programme.isRadio(),
                             }) -}}
                         </li>
                     {%- endfor -%}
@@ -98,7 +98,7 @@
                     {%- for clip in clips -%}
                         <li class="grid__item 1/2@gel3 1/3@gel3b 1/4@gel5 {{ loop.last ? 'grid__item--column' : ''}}">
                             {{ ds_amen('programme', clip, {
-                                'context_programme': programme,
+                                'context_programme': programme.isRadio() ? clip : programme,
                                 'branding_name': 'secondary',
                                 'title_options': {
                                     'text_colour_on_title_link': true,
@@ -115,7 +115,10 @@
                                 'cta_options': {
                                     'cta_class': 'cta br-box-secondary',
                                 },
-                                'link_location_prefix': 'clip_' ~ loop.index ~ '_'
+                                'link_location_prefix': 'clip_' ~ loop.index ~ '_',
+                                'body_options': {
+                                    'show_synopsis': programme.isRadio(),
+                                },
                             })}}
 
                             {%- if loop.last and programme.getAvailableClipsCount() > 4 -%}
