@@ -71,14 +71,14 @@
         "sort-packages": true
     },
     "extra": {
-        "symfony-app-dir": "app",
+        "symfony-app-dir": "src",
         "symfony-bin-dir": "bin",
         "symfony-var-dir": "var",
         "symfony-web-dir": "web",
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "config/parameters.yml"
         },
         "branch-alias": {
             "dev-master": "3.3-dev"

@@ -50,8 +50,8 @@ def substitute_data(data):
     }
 
 def rewrite_application_parameters(config):
-    appParamWriteFile = appRoot + "/app/config/parameters.yml"
-    appParamReadFile = appRoot + "/app/config/parameters_prod.yml.dist"
+    appParamWriteFile = appRoot + "/config/parameters.yml"
+    appParamReadFile = appRoot + "/config/parameters_prod.yml.dist"
 
     print "Reading parameter template file..."
     if not os.path.isfile(appParamReadFile):

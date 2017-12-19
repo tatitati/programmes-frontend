@@ -99,7 +99,7 @@ class TwigEnvironmentProvider
         $assetPackages = new Packages(new Package(new EmptyVersionStrategy()));
 
         $routeCollectionBuilder = new RouteCollectionBuilder(new YamlFileLoader(
-            new FileLocator([__DIR__ . '/../app/config'])
+            new FileLocator([__DIR__ . '/../config'])
         ));
         $routeCollectionBuilder->import('routing.yml');
 
