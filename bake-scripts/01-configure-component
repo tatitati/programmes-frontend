@@ -98,7 +98,7 @@ def system_tweaks():
 
 def regenerate_cache(symfony_env):
     appTmpDir = appRoot + "/var"
-    appConsoleFile = appRoot + "/app/console"
+    appConsoleFile = appRoot + "/bin/console"
 
     print "Regenerating cache..."
     # Steal the ownership of the tmp directory for a moment, so we can write

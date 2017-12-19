@@ -73,7 +73,7 @@
     },
     "extra": {
         "symfony-app-dir": "app",
-        "symfony-bin-dir": "app",
+        "symfony-bin-dir": "bin",
         "symfony-var-dir": "var",
         "symfony-web-dir": "web",
         "symfony-tests-dir": "tests",

@@ -3,7 +3,8 @@
 /build/
 /node_modules/
 /phpunit.xml
-/var/
+/var/*
+!/var/.gitignore
 /vendor/
 /web/assets/
 /web/bundles/

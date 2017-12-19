@@ -25,7 +25,7 @@ Composer and cache:clear
 ------------------------
 
 **The problem:** If you run composer install then will be executed a group of 
-console commands. One of these is `app/console cache:clear`. This command try 
+console commands. One of these is `bin/console cache:clear`. This command try 
 to connect to Redis server in localhost, so composer consider that redis 
 server is in the environment in which is executed, but is only inside the 
 VM, giving errors. Neither Composer nor `cache:clear` accept options to 

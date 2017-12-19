@@ -8,4 +8,4 @@ if ! (php --version | grep -q "PHP 7.1.") ; then
     fi
 fi
 
-php app/console server:run 0.0.0.0:8000 $@
+php bin/console server:run 0.0.0.0:8000 $@
