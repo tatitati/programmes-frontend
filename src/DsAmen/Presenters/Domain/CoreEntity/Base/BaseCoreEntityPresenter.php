@@ -101,6 +101,11 @@ abstract class BaseCoreEntityPresenter extends Presenter
         return $this->getOption('media_details_class');
     }
 
+    public function getType(): string
+    {
+        return $this->coreEntity->getType();
+    }
+
     protected function validateOptions(array $options): void
     {
         if (isset($options['context_programme']) && !($options['context_programme'] instanceof Programme)) {
