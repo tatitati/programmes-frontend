@@ -103,7 +103,7 @@ class MetricsManager
         if (!isset($this->validRouteControllers)) {
             $this->validRouteControllers = [];
             foreach ($this->router->getRouteCollection()->all() as $routeName => $routeInfo) {
-                $controllerName = $this->controllerName($routeInfo->getDefault('_controller'));
+                $controllerName = $this->controllerName($routeInfo->getDefault('_controller') ?? '');
                 if ($controllerName) {
                     $this->validRouteControllers[$controllerName] = $controllerName;
                 }
