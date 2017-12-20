@@ -27,15 +27,17 @@
         {% else %}
             {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr('last_on'), message:tr('broadcasts_none')} only %}
         {% endif %}
-        <div class="map__additional-info br-keyline media__meta-row--separator gel-pica">
-            <p>
-                <a data-linktrack="map_laston_all"
-                   class="gel-pica-bold"
-                   title="{{ tr('see_all_previous_episodes_from',  {'%1': last_on.getProgrammeContainer().getTleo().getTitle()}) }}"
-                   href="{{ path('programme_episodes_guide', {'pid': last_on.getProgrammeContainer().getTleo().getPid()}) }}">
-                    {{ tr('all_previous_episodes') }}
-                </a>
-            </p>
-        </div>
+        {%- if not last_on.getOption('show_mini_map') -%}
+            <div class="map__additional-info br-keyline media__meta-row--separator gel-pica">
+                <p>
+                    <a data-linktrack="map_laston_all"
+                       class="gel-pica-bold"
+                       title="{{ tr('see_all_previous_episodes_from',  {'%1': last_on.getProgrammeContainer().getTleo().getTitle()}) }}"
+                       href="{{ path('programme_episodes_guide', {'pid': last_on.getProgrammeContainer().getTleo().getPid()}) }}">
+                        {{ tr('all_previous_episodes') }}
+                    </a>
+                </p>
+            </div>
+        {% endif %}
     </div>
 </div>

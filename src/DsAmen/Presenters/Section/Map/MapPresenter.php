@@ -170,7 +170,7 @@ class MapPresenter extends Presenter
 
         // Add columns to map
         if ($this->isWorldNews()) {
-            $this->rightColumns[] = new LastOnPresenter($this->programme, $this->lastOn);
+            $this->rightColumns[] = new LastOnPresenter($this->programme, $this->lastOn, ['show_mini_map' => $this->showMiniMap]);
         } else {
             $hasAnUpcomingEpisode = $this->upcomingBroadcast && $this->upcomingBroadcast->getProgrammeItem()->getStreamableFrom() && !$this->upcomingBroadcast->getProgrammeItem()->isStreamable();
 
