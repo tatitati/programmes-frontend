@@ -4,87 +4,23 @@ namespace App\Builders;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use Faker;
 
-class ImageBuilder implements BuilderInterface
+class ImageBuilder extends AbstractBuilder
 {
-    /** @var Pid */
-    private $pid;
-
-    /** @var string */
-    private $title;
-
-    /** @var string */
-    private $shortSynopsis;
-
-    /** @var string */
-    protected $longestSynopsis;
-
-    /** @var string */
-    private $type;
-
-    /** @var string */
-    private $extension;
-
-    private function __construct()
+    protected function __construct()
     {
-        $this->pid = new Pid('b00755wz');
-        $this->title = 'Image title';
-        $this->shortSynopsis = 'This is an image-short synopsis';
-        $this->longestSynopsis = 'This is an image-long synopsis and is a little longer';
-        $this->type = 'standard';
-        $this->extension = 'jpg';
-    }
+        $faker = Faker\Factory::create();
 
-    public function withPid(string $pid)
-    {
-        $this->pid = new Pid($pid);
-        return $this;
-    }
-
-    public function withTitle(string $title)
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    public function withShortSynopses(string $shortSynopses)
-    {
-        $this->shortSynopsis = $shortSynopses;
-        return $this;
-    }
-
-    public function withLongestSynopsis(string $longestSynopses)
-    {
-        $this->shortSynopsis = $longestSynopses;
-        return $this;
-    }
-
-    public function withType(string $type)
-    {
-        $this->type = $type;
-        return $this;
-    }
-
-    public function withExtension(string $extension)
-    {
-        $this->extension = $extension;
-        return $this;
-    }
-
-    public static function default()
-    {
-        return new self();
-    }
-
-    public function build(): Image
-    {
-        return new Image(
-            $this->pid,
-            $this->title,
-            $this->shortSynopsis,
-            $this->longestSynopsis,
-            $this->type,
-            $this->extension
-        );
+        $this->classTarget = Image::class;
+        // configure order of params to use Image constructor. You are free to choose the key names, but no the order.
+        $this->blueprintConstructorTarget = [
+            'pid' => new Pid($faker->regexify('[0-9b-df-hj-np-tv-z]{8,15}')),
+            'title' => $faker->sentence(3),
+            'shortSynopsis' => $faker->sentence(5),
+            'longestSynopsis' => $faker->sentence(30),
+            'type' => 'standard',
+            'extension' => 'jpg',
+        ];
     }
 }

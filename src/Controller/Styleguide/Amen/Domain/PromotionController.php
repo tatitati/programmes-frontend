@@ -26,18 +26,12 @@ class PromotionController extends BaseController
     {
         return [
             'Promotion Image' => [
-                'item' => PromotionBuilder::default()
-                    ->withPromotedEntity(ImageBuilder::default()->build())
-                    ->build(),
+                'item' => PromotionBuilder::ofImage(),
                 'render_options' => [],
             ],
             'Promotion of core entity' => [
-                'item' => PromotionBuilder::default()
-                    ->withPromotedEntity(
-                        EpisodeBuilder::default()->withDuration(100)->build()
-                    )
-                    ->build(),
-                'render_options' => [],
+                    'item' => PromotionBuilder::ofCoreEntity(),
+                    'render_options' => [],
             ],
         ];
     }
@@ -50,7 +44,7 @@ class PromotionController extends BaseController
      */
     private function buildPromotionsWithDifferentDisplays()
     {
-        $defaultPromotion = PromotionBuilder::default()->build();
+        $defaultPromotion = PromotionBuilder::any();
 
         return [
             'Promotion displaying 3 maximum related links' => [
@@ -80,7 +74,7 @@ class PromotionController extends BaseController
      */
     private function buildPromotionsWithDifferentHtmlAttributes()
     {
-        $defaultPromotion = PromotionBuilder::default()->build();
+        $defaultPromotion = PromotionBuilder::any();
 
         return [
             'Promotion of image not showing synopsis' => [
