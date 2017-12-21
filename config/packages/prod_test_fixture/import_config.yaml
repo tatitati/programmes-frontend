@@ -1,0 +1,6 @@
+# The prod_test_fixture package configuration is the same as prod_test, but it
+# customizes fixture configuration.
+# This imports all files from the prod_test folder:
+imports:
+    - { resource: ../prod_test/ }
+    - { resource: ../../fixture_db.yaml }

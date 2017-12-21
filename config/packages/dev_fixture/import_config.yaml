@@ -1,0 +1,9 @@
+# The dev_fixture package configuration is the same as dev, but it customizes
+# fixture configuration.
+# This imports all files from the dev folder:
+imports:
+    - { resource: ../dev/ }
+    - { resource: ../../fixture_db.yaml }
+
+web_profiler:
+    toolbar: false

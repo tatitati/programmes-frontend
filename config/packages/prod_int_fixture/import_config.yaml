@@ -1,0 +1,6 @@
+# The prod_int_fixture package configuration is the same as prod_int, but it
+# customizes fixture configuration.
+# This imports all files from the prod_int folder:
+imports:
+    - { resource: ../prod_int/ }
+    - { resource: ../../fixture_db.yaml }

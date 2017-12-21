@@ -1,0 +1,18 @@
+framework:
+    secret: '%secret%'
+    trusted_hosts: ~
+    http_method_override: false
+    assets:
+        base_path: 'assets'
+    php_errors:
+        log: true
+    cache:
+        pools:
+            cache.programmes:
+                # symfony support many adapters for different cache providers. cache.adapter.psr6 is a proxy adapter,
+                # using cache.adapter.psr6 we can use any adapter class which implements the AdapterInterface
+                adapter: 'cache.adapter.psr6'
+                provider: 'cache.default_redis_provider'
+                # the only aim of default_lifetime is to prevent setting permanent keys, please don't use the default_lifetime in the code.
+                # PSR-6 consider "0" or NULL value as a way to store the key for as long as the implementation allows.
+                default_lifetime: 120

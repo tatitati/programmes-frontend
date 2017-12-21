@@ -1,14 +1,23 @@
-/.web-server-pid
-/config/parameters.yml
 /build/
 /node_modules/
-/phpunit.xml
-/var/*
-!/var/.gitignore
-/vendor/
 /web/assets/
-/web/bundles/
 /composer.phar
 /assets/gelicons/
 /script/fixture.ini
 yarn-error.log
+
+###> symfony/framework-bundle ###
+config/parameters.yaml
+/web/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+.web-server-pid
+###< symfony/web-server-bundle ###

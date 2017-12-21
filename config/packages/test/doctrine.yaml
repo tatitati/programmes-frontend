@@ -1,0 +1,8 @@
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                dbname: programmesdb
+                driver: pdo_sqlite
+                path: "%kernel.cache_dir%/test.db"

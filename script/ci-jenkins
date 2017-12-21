@@ -18,7 +18,6 @@ echo $JOB_NAME:$branch $WORKSPACE
 
 # clear old build files and var folder
 rm -rf RPMS SOURCES SPECS SRPMS var
-mkdir var
 
 echo "Pulling latest Docker image version"
 docker pull registry.ci.rmp.api.bbci.co.uk/programmes-docker-centos7:latest
@@ -28,6 +27,10 @@ docker_run script/ci-docker
 
 echo "Fixing permissions"
 docker_run sudo chown -R jenkins:jenkins /mnt
+
+# Empty the var directory so it isn't included in the RPM
+rm -rf var
+mkdir var
 
 if [ "$BUILD_TYPE" = "pull-request" ]
 then

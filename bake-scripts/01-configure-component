@@ -50,8 +50,8 @@ def substitute_data(data):
     }
 
 def rewrite_application_parameters(config):
-    appParamWriteFile = appRoot + "/config/parameters.yml"
-    appParamReadFile = appRoot + "/config/parameters_prod.yml.dist"
+    appParamWriteFile = appRoot + "/config/parameters.yaml"
+    appParamReadFile = appRoot + "/config/parameters_prod.yaml.dist"
 
     print "Reading parameter template file..."
     if not os.path.isfile(appParamReadFile):
@@ -66,12 +66,12 @@ def rewrite_application_parameters(config):
 
 
 def rewrite_application_front_controller(symfony_env):
-    appFrontControllerFile = appRoot + "/web/app.php"
+    appFrontControllerFile = appRoot + "/web/index.php"
 
     content = open(appFrontControllerFile).read()
     content = content.replace(
-        "$appEnv = 'prod';",
-        "$appEnv = '" + symfony_env + "';"
+        "$env = $_SERVER['APP_ENV'] ?? 'dev';",
+        "$env = '" + symfony_env + "';"
     )
 
     print "Overwriting " + appFrontControllerFile

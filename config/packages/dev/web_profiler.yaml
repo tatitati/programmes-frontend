@@ -1,0 +1,8 @@
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+    excluded_ajax_paths: ^/bundles|^/_wdt|^https://ssl(?:\.test)?.bbc.co.uk/idcta/init
+
+
+framework:
+    profiler: { only_exceptions: false }

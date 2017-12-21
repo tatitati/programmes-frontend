@@ -101,7 +101,8 @@ class TwigEnvironmentProvider
         $routeCollectionBuilder = new RouteCollectionBuilder(new YamlFileLoader(
             new FileLocator([__DIR__ . '/../config'])
         ));
-        $routeCollectionBuilder->import('routing.yml');
+        $routeCollectionBuilder->import('routes.yaml');
+        $routeCollectionBuilder->import('routes/3rd_party.yaml');
 
         // Symfony extensions
 

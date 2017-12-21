@@ -1,0 +1,117 @@
+# This file shall contain routes used to build URLs that we want to reference
+# within the application, but are not part of the application. These routes
+# fall into one of two buckets:
+#
+# 1) A url to an external product, e.g. iplayer, iplayer radio
+# 2) A url to a /programmes page we have not yet migrated. As we migrate pages,
+#    we shall move these routes into the main routes.yaml.
+#
+# All routes in this file shall be configured with
+# defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+# This means that the url can be routed by this application but throws a 404.
+
+### External Products
+
+iplayer_play:
+    path: /iplayer/episode/{pid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+iplayer_episodes:
+    path: /iplayer/episodes/{pid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+iplayer_live:
+    path: /iplayer/live/{sid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { sid: '[0-9a-z_]{1,}' }
+    schemes: [http]
+
+worldservice_liveradio:
+    host: "bbc.com"
+    path: /{language}/{sid}/liveradio
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { language: '[a-z]{1,}', sid: '[0-9a-z_]{1,}' }
+    schemes: [http]
+
+network:
+    path: /{networkUrlKey}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { networkUrlKey: '[a-zA-Z0-9]{2,35}' }
+
+popup_player:
+    path: /radio/player/{sid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { sid: '[0-9a-z_]{1,}' }
+    schemes: [http]
+
+### /programmes v2
+
+atoz_list_all:
+    path: /programmes/a-z/all
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    schemes: [http]
+
+categories_show:
+    path: /programmes/{categoryType}/{urlKeyHierarchy}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { categoryType: 'formats|genres', urlKeyHierarchy: '.+' }
+    schemes: [http]
+
+programme_episodes:
+    path: /programmes/{pid}/episodes
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_episodes_guide:
+    path: /programmes/{pid}/episodes/guide
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_episodes_player:
+    path: /programmes/{pid}/episodes/player
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_clips:
+    path: /programmes/{pid}/clips
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_galleries:
+    path: /programmes/{pid}/galleries
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_recipes:
+    path: /programmes/{pid}/recipes
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+# TODO implement slice and filter parameters properly
+programme_broadcasts:
+    path: /programmes/{pid}/broadcasts/
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_upcoming_broadcasts:
+    path: /programmes/{pid}/broadcasts/upcoming
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_upcoming_debut_broadcasts:
+    path: /programmes/{pid}/broadcasts/upcoming/debut
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]

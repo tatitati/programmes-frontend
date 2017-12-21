@@ -1,0 +1,26 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host:     127.0.0.1
+    database_port:     3306
+    database_name:     programmesdb
+    database_user:     developer
+    database_password: developer
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: ThisTokenIsNotSoSecretChangeIt
+
+    cosmos_environment: sandbox
+    cosmos_component_release: 0
+
+    redis_endpoint: sandbox.bbc.co.uk:6379
+    fixture_database_host: 192.168.193.1
+    fixture_database_port: 3306
+    fixture_database_name: programmes
+    scenario_database_name: fixture
+    fixture_database_user: developer
+    fixture_database_password: developer
+    fixture_secure_key: developer
+    receng_video_key: 'videokey'
+    receng_audio_key: 'audiokey'

@@ -1,0 +1,42 @@
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver: pdo_mysql
+                host: '%database_host%'
+                port: '%database_port%'
+                dbname: '%database_name%'
+                user: '%database_user%'
+                password: '%database_password%'
+                server_version: '5.6'
+                charset: UTF8
+        types:
+            date_partial: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\DatePartialType
+            datetime: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\UtcDateTimeType
+            datetimetz: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\UtcDateTimeType
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        default_entity_manager: default
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+                mappings:
+                    ProgrammesPagesService:
+                        type: annotation
+                        dir: '%kernel.project_dir%/vendor/bbc/programmes-pages-service/src/Data/ProgrammesDb/Entity'
+                        is_bundle: false
+                        prefix: BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity
+                filters:
+                    embargoed_filter:
+                        class: BBC\ProgrammesPagesService\Data\ProgrammesDb\Filter\EmbargoedFilter
+                        enabled: true
+                dql:
+                    string_functions:
+                        MATCH_AGAINST: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\MatchAgainst
+                        GROUP_CONCAT: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\GroupConcat
+                    datetime_functions:
+                        YEAR: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Year
+                        MONTH: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Month
+                        DAY: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Day

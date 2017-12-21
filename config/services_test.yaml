@@ -1,0 +1,26 @@
+parameters:
+    app.orbit_client.class: BBC\BrandingClient\OrbitStubClient
+    app.branding_client.class: BBC\BrandingClient\BrandingStubClient
+    app.metric_backend.class: App\Metrics\Backend\NullMetricBackend
+    app.metric_cache.class: App\Metrics\Cache\MetricCacheNull
+    app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngStubService
+    app.electron.service.class: App\ExternalApi\Electron\Service\ElectronStubService
+    app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesStubService
+
+
+framework:
+    cache:
+        pools:
+            cache.programmes:
+                provider: cache.null_provider
+
+services:
+    _defaults:
+        public: true
+
+    # If you need to access services in a test, create an alias
+    # and then fetch that alias from the container. As a convention,
+    # aliases are prefixed with test. For example:
+    #
+    # test.App\Service\MyService: '@App\Service\MyService'
+

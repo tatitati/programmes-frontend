@@ -18,7 +18,7 @@
         ],
         "conf": {
             "comment": "We're targeting c4.xlarge instances",
-            "front_controller": "app.php",
+            "front_controller": "index.php",
 
             "opcache.max_accelerated_files": 7963,
             "opcache.memory_consumption": 64,

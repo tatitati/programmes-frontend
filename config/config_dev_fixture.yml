@@ -1,6 +1,0 @@
-imports:
-    - { resource: config_dev.yml }
-    - { resource: fixture_db.yml }
-
-web_profiler:
-    toolbar: false

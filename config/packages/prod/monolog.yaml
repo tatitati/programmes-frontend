@@ -1,0 +1,21 @@
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            channels: ['!app_access']
+            action_level: error
+            handler: nested
+            excluded_404s:
+                - ^/
+        app_access:
+            type: stream
+            channels: ['app_access']
+            path: '%kernel.logs_dir%/prod-access.log'
+            level: info
+        nested:
+            type: stream
+            path: '%kernel.logs_dir%/prod.log'
+            level: debug
+        console:
+            type: console
+            process_psr_3_messages: false
