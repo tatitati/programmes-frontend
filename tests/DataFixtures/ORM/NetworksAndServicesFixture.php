@@ -42,7 +42,7 @@ class NetworksAndServicesFixture extends AbstractFixture
         $this->manager->persist($n4);
 
         // Network with start and end
-        $n5 = $this->buildNetwork('bbc_radio_five_live_olympics_extra', '5 live Olympics Extra', 'National Radio', NetworkMediumEnum::RADIO, null, null, '5liveolympicsextra', new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'));
+        $n5 = $this->buildNetwork('bbc_radio_five_live_olympics_extra', '5 live Olympics Extra', 'National Radio', NetworkMediumEnum::RADIO, new DateTime('2012-07-25 00:00:00'), new DateTime('2012-08-13 22:59:59'), '5liveolympicsextra');
         $s5 = $this->buildService('bbc_radio_five_live_olympics_extra', 'p00rfdrb', '5 live Olympics Extra', 'National Radio', 'audio', $n5, new DateTime('2012-07-25 21:00:00'), new DateTime('2012-08-13 23:00:00'));
         $n5->setDefaultService($s5);
         $this->manager->persist($n5);

@@ -21,7 +21,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
- * @covers App\ExternalApi\RecEng\Service\RecEngService
+ * @covers \App\ExternalApi\RecEng\Service\RecEngService
  */
 class RecEngServiceTest extends TestCase
 {

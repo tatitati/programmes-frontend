@@ -8,7 +8,7 @@ use Cake\Chronos\Chronos;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers App\Controller\SchedulesVanityRedirectController
+ * @covers \App\Controller\SchedulesVanityRedirectController
  */
 class SchedulesVanityRedirectControllerTest extends BaseWebTestCase
 {

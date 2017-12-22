@@ -148,7 +148,7 @@ class ScenarioStateTest extends TestCase
     ) {
         //returnValueMap b0rks horribly here for no reason I can name
         $this->request->expects($this->any())->method('get')
-            ->will($this->returnCallback(function () use ($scenarioName, $generate, $regenerate, $headerKey, $delete, $scenarioTime) {
+            ->will($this->returnCallback(function () use ($scenarioName, $generate, $regenerate, $delete, $scenarioTime) {
                 $args = func_get_args();
                 $paramName = $args[0];
                 $map = [

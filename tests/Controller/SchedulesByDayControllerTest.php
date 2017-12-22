@@ -7,7 +7,7 @@ use Cake\Chronos\Chronos;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers App\Controller\SchedulesByDayController
+ * @covers \App\Controller\SchedulesByDayController
  */
 class SchedulesByDayControllerTest extends BaseWebTestCase
 {

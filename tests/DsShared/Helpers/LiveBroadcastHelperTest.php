@@ -20,7 +20,7 @@ use Symfony\Component\Routing\RouteCollectionBuilder;
 
 class LiveBroadcastHelperTest extends TestCase
 {
-    /** @var LiveBroadcastHelper|PHPUnit_Framework_MockObject_MockObject */
+    /** @var LiveBroadcastHelper */
     private $helper;
 
     /** @var UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject */

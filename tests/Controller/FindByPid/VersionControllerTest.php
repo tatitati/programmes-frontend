@@ -5,7 +5,7 @@ namespace Tests\App\Controller\FindByPid;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers App\Controller\FindByPid\VersionController
+ * @covers \App\Controller\FindByPid\VersionController
  */
 class VersionControllerTest extends BaseWebTestCase
 {

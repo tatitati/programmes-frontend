@@ -12,7 +12,7 @@ use Doctrine\DBAL\DBALException;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers App\Controller\StatusController
+ * @covers \App\Controller\StatusController
  */
 class StatusControllerTest extends BaseWebTestCase
 {

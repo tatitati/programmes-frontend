@@ -25,6 +25,8 @@ class SupportingContentMapperTest extends TestCase
         $pages = $this->simpleXml->content->pages;
         $supportingContentMapper = new SupportingContentMapper();
 
+        $items = [];
+
         foreach ($pages->page as $page) {
             $item = $supportingContentMapper->mapItem($page);
             if ($item) {

@@ -5,7 +5,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers App\Controller\SchedulesByNetworkUrlKeyController
+ * @covers \App\Controller\SchedulesByNetworkUrlKeyController
  */
 class SchedulesByNetworkUrlKeyControllerTest extends BaseWebTestCase
 {
@@ -51,7 +51,7 @@ class SchedulesByNetworkUrlKeyControllerTest extends BaseWebTestCase
     }
 
     /**
-     * @return string[]
+     * @return string[][]
      */
     public function invalidNetworkUrlKeyProvider(): array
     {

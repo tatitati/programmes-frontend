@@ -13,7 +13,7 @@ use RMP\Translate\Translate;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * @covers App\DsAmen\PresenterFactory
+ * @covers \App\DsAmen\PresenterFactory
  */
 class PresenterFactoryTest extends TestCase
 {

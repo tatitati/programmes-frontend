@@ -22,10 +22,10 @@ class TitlePresenterTest extends BaseSubPresenterTest
     /** @var Brand|PHPUnit_Framework_MockObject_MockObject */
     private $mockContext;
 
-    /** @var  UrlGeneratorInterface|PHPUnit_Framework_MockObject_MockObject */
+    /** @var UrlGeneratorInterface */
     private $router;
 
-    /** @var  TitleLogicHelper|PHPUnit_Framework_MockObject_MockObject */
+    /** @var TitleLogicHelper|PHPUnit_Framework_MockObject_MockObject */
     private $mockTitleLogicHelper;
 
     protected function setUp()

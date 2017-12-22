@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Test\App\ExternalApi\XmlParser;
+namespace Tests\App\ExternalApi\XmlParser;
 
 use App\ExternalApi\XmlParser\XmlParser;
 use PHPUnit\Framework\TestCase;

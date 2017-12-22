@@ -46,6 +46,7 @@
         "fzaninotto/faker": "^1.7",
         "liip/functional-test-bundle": "^1.7",
         "phpstan/phpstan": "^0.9.1",
+        "phpstan/phpstan-phpunit": "^0.9.2",
         "phpunit/phpunit": "^6.1",
         "squizlabs/php_codesniffer": "^3.0",
         "symfony/phpunit-bridge": "^3.4.2"

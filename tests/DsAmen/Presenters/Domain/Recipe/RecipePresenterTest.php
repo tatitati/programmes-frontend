@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\DsAmen\Organism\Recipe;
+namespace Tests\App\DsAmen\Presenters\Domain\Recipe;
 
 use App\DsAmen\Presenters\Domain\Recipe\RecipePresenter;
 use App\ExternalApi\Recipes\Domain\Recipe;

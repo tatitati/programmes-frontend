@@ -6,14 +6,14 @@ namespace Tests\App\Controller;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers App\Controller\SchedulesByMonthController
+ * @covers \App\Controller\SchedulesByMonthController
  */
 class SchedulesByMonthControllerTest extends BaseWebTestCase
 {
     /**
      * @dataProvider serviceActiveTestProvider
      * @param string $scheduleDate    The month the user is viewing the schedule for
-     * @param bool   $expectedResponseCode
+     * @param int $expectedResponseCode
      */
     public function testResponseIs404IfServiceIsNotActive(string $scheduleDate, int $expectedResponseCode)
     {

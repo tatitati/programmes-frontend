@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Controller\Styleguide\Amen;
 
-use GuzzleHttp\Client;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Tests\App\BaseWebTestCase;
 
 class IntroControllerTest extends BaseWebTestCase

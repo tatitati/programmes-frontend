@@ -5,7 +5,7 @@ namespace Tests\App\Controller;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers App\Controller\ExceptionController
+ * @covers \App\Controller\ExceptionController
  */
 class ExceptionControllerTest extends BaseWebTestCase
 {

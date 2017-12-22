@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\DsAmen\Organism\Promotion;
+namespace Tests\App\DsAmen\Presenters\Domain\Promotion;
 
 use App\DsAmen\Presenters\Domain\Promotion\PromotionPresenter;
 use App\Exception\InvalidOptionException;
