@@ -1,20 +1,21 @@
 <?php
-declare(strict_types = 1);
+
 namespace App\Builders;
 
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Options;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use Faker\Factory;
 
-class EpisodeBuilder extends AbstractBuilder
+class ClipBuilder extends AbstractBuilder
 {
     protected function __construct()
     {
         $faker = Factory::create();
 
-        $this->classTarget = Episode::class;
+        $this->classTarget = Clip::class;
         // configure order of params to use Episode constructor. You are free to choose the key names, but no the order.
         $this->blueprintConstructorTarget = [
             'dbAncestryIds' => [$faker->randomNumber()],
@@ -29,10 +30,8 @@ class EpisodeBuilder extends AbstractBuilder
             'isStreamable' => $faker->boolean,
             'isStreamableAlternate' => $faker->boolean,
             'contributionsCount' => $faker->numberBetween(0, 5),
-            'mediaType' => 'audio',
+            'mediaType' => $faker->randomElement(MediaTypeEnum::validValues()),
             'segmentEventCount' => $faker->numberBetween(0, 8),
-            'aggregatedBroadcastsCount' => $faker->numberBetween(1, 5),
-            'availableClipsCount' => $faker->numberBetween(1, 5),
             'aggregatedGalleriesCount' => $faker->numberBetween(1, 5),
             'options' => new Options(),
             // optional
@@ -43,7 +42,7 @@ class EpisodeBuilder extends AbstractBuilder
             'formats' => null,
             'firstBroadcastDate' => null,
             'releaseDate' => null,
-            'duration' => $faker->numberBetween(500, 1000),
+            'duration' => null,
             'streamableFrom' => null,
             'streamableUntil' => null,
         ];

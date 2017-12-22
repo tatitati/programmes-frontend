@@ -1,20 +1,20 @@
 <?php
-declare(strict_types = 1);
+
 namespace App\Builders;
 
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use Faker\Factory;
 
-class EpisodeBuilder extends AbstractBuilder
+class BrandBuilder extends AbstractBuilder
 {
     protected function __construct()
     {
         $faker = Factory::create();
 
-        $this->classTarget = Episode::class;
+        $this->classTarget = Brand::class;
         // configure order of params to use Episode constructor. You are free to choose the key names, but no the order.
         $this->blueprintConstructorTarget = [
             'dbAncestryIds' => [$faker->randomNumber()],
@@ -29,11 +29,12 @@ class EpisodeBuilder extends AbstractBuilder
             'isStreamable' => $faker->boolean,
             'isStreamableAlternate' => $faker->boolean,
             'contributionsCount' => $faker->numberBetween(0, 5),
-            'mediaType' => 'audio',
-            'segmentEventCount' => $faker->numberBetween(0, 8),
-            'aggregatedBroadcastsCount' => $faker->numberBetween(1, 5),
-            'availableClipsCount' => $faker->numberBetween(1, 5),
+            'aggregatedBroadcastsCount' => $faker->numberBetween(0, 5),
+            'aggregatedEpisodesCount' => $faker->numberBetween(0, 5),
+            'availableClipsCount' => $faker->numberBetween(0, 5),
+            'availableEpisodesCount' => $faker->numberBetween(0, 5),
             'aggregatedGalleriesCount' => $faker->numberBetween(1, 5),
+            'isPodcastable' => $faker->boolean,
             'options' => new Options(),
             // optional
             'parent' => null,
@@ -42,10 +43,7 @@ class EpisodeBuilder extends AbstractBuilder
             'genres' => null,
             'formats' => null,
             'firstBroadcastDate' => null,
-            'releaseDate' => null,
-            'duration' => $faker->numberBetween(500, 1000),
-            'streamableFrom' => null,
-            'streamableUntil' => null,
+            'expectedChildCount' => null,
         ];
     }
 }

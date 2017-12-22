@@ -14,7 +14,7 @@ class EpisodesFixtures
 {
     public static function eastendersAvailable(): Episode
     {
-        return EpisodeBuilder::anyWith([
+        return EpisodeBuilder::any()->with([
                 'pid' => new Pid('p0000001'),
                 'dbAncestryIds' => [1],
                 'title' => 'An Episode of Eastenders',
@@ -27,12 +27,12 @@ class EpisodesFixtures
                 'isStreamable' => true,
                 'masterBrand' => MasterBrandsFixtures::bbcOne(),
                 'streamableUntil' => new DateTimeImmutable('2017-07-01 20:00:00'),
-            ]);
+            ])->build();
     }
 
     public static function beyondSpaceAndTimeAvailable()
     {
-        return EpisodeBuilder::anyWith([
+        return EpisodeBuilder::any()->with([
             'dbAncestryIds' => [2, 17, 222],
             'pid' => new Pid('b0849ccf'),
             'title' => 'Beyond Space and Time',
@@ -49,6 +49,6 @@ class EpisodesFixtures
             'isStreamable' => true,
             'masterBrand' => MasterBrandsFixtures::radioFour(),
             'streamableFrom' => new DateTimeImmutable('2017-06-01 20:00:00'),
-        ]);
+        ])->build();
     }
 }

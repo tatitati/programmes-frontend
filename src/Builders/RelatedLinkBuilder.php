@@ -2,13 +2,13 @@
 namespace App\Builders;
 
 use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
-use Faker;
+use Faker\Factory;
 
 class RelatedLinkBuilder extends AbstractBuilder
 {
     protected function __construct()
     {
-        $faker = Faker\Factory::create();
+        $faker = Factory::create();
 
         $this->classTarget = RelatedLink::class;
         // configure order of params to use RelatedLink constructor. You are free to choose the key names, but no the order.
@@ -18,14 +18,14 @@ class RelatedLinkBuilder extends AbstractBuilder
             'shortSynopsis' => $faker->sentence(5),
             'longestSynopsis' => $faker->sentence(30),
             'type' => $faker->text,
-            'isExternal' => true,
+            'isExternal' => $faker->boolean,
         ];
     }
 
     public static function internalLink()
     {
         $self = new self();
-        return $self->anyWith([
+        return $self->with([
             'uri' => 'https://www.bbc.co.uk/something',
             'isExternal' => false,
         ]);
@@ -33,10 +33,10 @@ class RelatedLinkBuilder extends AbstractBuilder
 
     public static function externalLink()
     {
-        $faker = Faker\Factory::create();
+        $faker = Factory::create();
 
         $self = new self();
-        return $self->anyWith([
+        return $self->with([
             'uri' => $faker->url,
             'isExternal' => true,
         ]);

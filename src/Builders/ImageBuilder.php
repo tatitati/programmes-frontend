@@ -4,13 +4,13 @@ namespace App\Builders;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use Faker;
+use Faker\Factory;
 
 class ImageBuilder extends AbstractBuilder
 {
     protected function __construct()
     {
-        $faker = Faker\Factory::create();
+        $faker = Factory::create();
 
         $this->classTarget = Image::class;
         // configure order of params to use Image constructor. You are free to choose the key names, but no the order.

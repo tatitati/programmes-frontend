@@ -12,21 +12,17 @@ abstract class AbstractBuilder
 
     public static function any()
     {
-        $self = new static();
-        return $self->build();
+        return new static();
     }
 
-    public static function anyWith(array $withValues)
+    public function with(array $withValues)
     {
-        $self = new static();
-        $self->validateKeys($withValues);
-
-        $self->blueprintConstructorTarget = array_merge($self->blueprintConstructorTarget, $withValues);
-
-        return $self->build();
+        $this->validateKeys($withValues);
+        $this->blueprintConstructorTarget = array_merge($this->blueprintConstructorTarget, $withValues);
+        return $this;
     }
 
-    protected function build()
+    public function build()
     {
         $class = new ReflectionClass($this->classTarget);
         return $class->newInstanceArgs($this->blueprintConstructorTarget);
