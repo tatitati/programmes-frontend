@@ -81,14 +81,16 @@
                             <ul class="list-raw gel-long-primer-bold">
                                 {%-  if networkUrlKey -%}
                                     <li class="footer-nav__item">
-                                        <a href="{{ path('network', { 'networkUrlKey': networkUrlKey }) }}" title="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}">
+                                        <a href="{{ path('network', { 'networkUrlKey': networkUrlKey }) }}"
+                                           title="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}"
+                                           data-linktrack="global_footer_servicenav">
                                             {{ tr('home') }}
                                         </a>
                                     </li>
                                 {%- endif -%}
                                 {%- for links in footer.getNavigationLinks() -%}
                                     <li class="footer-nav__item">
-                                        <a href="{{ links['url'] }}" data-linktrack="programmes_global_footer_servicenav">{{ links['title'] }}</a>
+                                        <a href="{{ links['url'] }}" data-linktrack="global_footer_servicenav">{{ links['title'] }}</a>
                                     </li>
                                 {%- endfor -%}
                             </ul>
