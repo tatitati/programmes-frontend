@@ -144,6 +144,23 @@ documented in the help output. Generate a new scenario (the code will error if t
 Regenerate an existing scenario (this basically uses all the existing HTTP fixtures, but creates new ones for any
 unfixtured URLs). Or delete a scenario. Have fun!
 
+
+Developing on fixtures and scenarios
+---------------------------------
+
+If you're developing on the scenario and fixture mechanisms you should make sure all DB writes go to your local
+database. Make sure all fixture_database_* parameters are pointing at your local database.
+
+The following parameters are especially important: 
+* scenario_database_name - This is where HTTP fixtures and scenario name/time/URLs are written. It must be writable by 
+fixture_database_user.
+* fixture_database_name - Your local copy of the /programmes database
+
+In order to create and populate the scenario datbase, run the following command (will update scenario_database_name, be careful)  
+```
+php bin/console doctrine:schema:update --em fixture --dump-sql --env dev_fixture
+```
+
 License
 -------
 
