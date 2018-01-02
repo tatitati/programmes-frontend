@@ -158,7 +158,7 @@ fixture_database_user.
 
 In order to create and populate the scenario datbase, run the following command (will update scenario_database_name, be careful)  
 ```
-php bin/console doctrine:schema:update --em fixture --dump-sql --env dev_fixture
+php bin/console doctrine:schema:update --em fixture --env dev_fixture
 ```
 
 License
