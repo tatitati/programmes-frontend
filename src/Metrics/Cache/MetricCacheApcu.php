@@ -207,17 +207,14 @@ class MetricCacheApcu implements MetricCacheInterface
     {
         $lock = false;
         if (!apcu_fetch($key)) {
-            // Avoid the locking apcu_entry unless we have to...
-            apcu_entry(
-                $key,
-                function ($key) use (&$lock) {
-                    $lock = true;
-                    return 1;
-                },
-                $timeout
-            );
+            /**
+             * apcu_entry is broken (horribly) in APCu >= 5.1.8 . That actually supports locking.
+             * This doesn't really. There's a slight risk of more than one request getting hold of this lock.
+             * however, i've tested this with high concurrency levels and not seen it in practice.
+             * Once apcu_entry is fixed ( https://github.com/krakjoe/apcu/issues/246 ) consider reverting this.
+             */
+            $lock = apcu_add($key, 1, $timeout);
         }
-        // If $lock
         return $lock;
     }
 }
