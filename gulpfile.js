@@ -35,7 +35,7 @@ gulp.task('js', ['js:clean'], function () {
         'vendor/bbc-rmp/comscore/js-modules/comscorews.js'
     ];
 
-    const config = {
+    const baseConfig = {
         "baseUrl": "assets/js",
         "paths": {
             "jquery-1.9": "empty:",
@@ -54,6 +54,18 @@ gulp.task('js', ['js:clean'], function () {
             }
         }
     };
+
+    // Some files have specific config, such as they depend upon rv-bootstrap,
+    // but don't want to include that file in the compiled output
+    // Key is the filename relative to the js folder
+    const perFileOptions = {
+        'timezone-notification.js': { exclude: ['rv-bootstrap'] },
+    };
+
+    const config = function(file) {
+        const fileOptions = perFileOptions[file.relative] || {};
+        return Object.assign({}, baseConfig, fileOptions);
+    }
 
     return gulp.src(modulesToOptimize)
         .pipe(gulpif(isSandbox, sourcemaps.init()))
