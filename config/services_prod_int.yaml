@@ -1,0 +1,4 @@
+parameters:
+    app.feed_env.orbit: 'test'
+    app.feed_env.branding: 'live'
+    app.electron.baseurl: 'https://api.test.bbc.co.uk/electron'

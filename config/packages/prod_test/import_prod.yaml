@@ -1,9 +1,0 @@
-# The prod_test package configuration is the same as prod.
-# This imports all files from the prod folder
-imports:
-    - { resource: '../prod/' }
-
-parameters:
-    app.feed_env.orbit: 'test'
-    app.feed_env.branding: 'test'
-    app.electron.baseurl: 'https://api.test.bbc.co.uk/electron'

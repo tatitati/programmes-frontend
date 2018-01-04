@@ -1,6 +1,0 @@
-# The prod_fixture package configuration is the same as prod, but it customizes
-# fixture configuration.
-# This imports all files from the prod folder:
-imports:
-    - { resource: ../prod/ }
-    - { resource: ../../fixture_db.yaml }
