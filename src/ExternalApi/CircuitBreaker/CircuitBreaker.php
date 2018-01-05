@@ -64,7 +64,7 @@ class CircuitBreaker
     public function logFailure(): void
     {
         if ($this->apcu->fetch($this->makeApcKey('is_open'))) {
-            $this->logger->warning('CircuitBreaker logFailure called when breaker open. Something is wrong in calling code');
+            $this->logger->error('CircuitBreaker logFailure called when breaker open. Something is wrong in calling code');
             return;
         }
         $failureCountKey = $this->makeApcKey('failure_count');

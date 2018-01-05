@@ -59,7 +59,7 @@ class RecipesService
         try {
             $response = $this->client->request('GET', $url);
         } catch (GuzzleException $e) {
-            $this->logger->warning('Invalid response from Recipes API. Entity: ' . $pid);
+            $this->logger->error('Invalid response from Recipes API. Entity: ' . $pid);
 
             $emptyResult = new RecipesApiResult([], 0);
 

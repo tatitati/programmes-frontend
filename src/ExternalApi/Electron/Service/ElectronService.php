@@ -76,7 +76,7 @@ class ElectronService
         try {
             $result = $this->parseResponseBody($response->getBody()->getContents());
         } catch (ParseException $e) {
-            $this->logger->warning("Error parsing Electron XML for $url . Error was: " . $e->getMessage());
+            $this->logger->error("Error parsing Electron XML for $url . Error was: " . $e->getMessage());
             return [];
         }
         $this->cache->setItem($cacheItem, $result, CacheInterface::MEDIUM);

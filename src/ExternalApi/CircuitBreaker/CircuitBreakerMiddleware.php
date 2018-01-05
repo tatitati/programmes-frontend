@@ -38,7 +38,7 @@ class CircuitBreakerMiddleware
             $apiName = $this->urlToApiTypeMapper->getApiNameFromUriInterface($uri);
             if ($apiName && ($circuitBreaker = $this->circuitBreakerFactory->getBreakerFor($apiName))) {
                 if ($circuitBreaker->isOpen()) {
-                    $this->logger->warning("Circuit breaker for $apiName open. Not making HTTP call");
+                    $this->logger->error("Circuit breaker for $apiName open. Not making HTTP call");
                     $reason = new CircuitBreakerClosedException("Circuit breaker is open", $request);
                     return \GuzzleHttp\Promise\rejection_for($reason);
                 }

@@ -114,7 +114,7 @@ class RecEngService
         try {
             $pids = $this->parseResult($recEngRespose, $limit);
         } catch (ParseException $e) {
-            $this->logger->warning($e->getMessage() . "Url was: " . $requestUrl);
+            $this->logger->error($e->getMessage() . "Url was: " . $requestUrl);
             return [];
         }
 
