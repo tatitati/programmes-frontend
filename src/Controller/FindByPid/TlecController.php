@@ -86,7 +86,7 @@ class TlecController extends BaseController
             $galleries = $aggregationService->findDescendantGalleries($programme, 4);
         }
 
-        $lastOn = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($programme, 1);
+        $lastOn = $collapsedBroadcastsService->findPastByProgramme($programme, 1);
         $lastOn = $lastOn[0] ?? null;
 
         $comingSoonPromo = $this->getComingSoonPromotion($imagesService, $programme);
