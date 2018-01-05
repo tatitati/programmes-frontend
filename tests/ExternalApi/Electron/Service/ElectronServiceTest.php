@@ -88,7 +88,7 @@ class ElectronServiceTest extends TestCase
         $electronService = $this->makeElectronService($client);
         $programme = $this->createMock(Brand::class);
         $programme->expects($this->atLeastOnce())->method('getPid')->willReturn(new Pid('b006m86d'));
-        $this->mockLogger->expects($this->once())->method('warning');
+        $this->mockLogger->expects($this->once())->method('error');
         $items = $electronService->fetchSupportingContentItemsForProgramme($programme);
         $this->assertEquals([], $items);
     }
