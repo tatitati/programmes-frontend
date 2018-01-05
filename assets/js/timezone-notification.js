@@ -1,5 +1,4 @@
-define('timezone-notification', ['jquery-1.9', 'rv-bootstrap'], function ($) {
-    // Cheating as we don't need any code from rv-bootstrap, but we do trigger an event that it defines
+define('timezone-notification', ['jquery-1.9'], function ($) {
     "use strict";
 
     /**
