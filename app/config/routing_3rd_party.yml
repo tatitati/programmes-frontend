@@ -48,6 +48,11 @@ popup_player:
     requirements: { sid: '[0-9a-z_]{1,}' }
     schemes: [http]
 
+playspace_player:
+    path: /radio/play/live:{networkUrlKey}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { networkUrlKey: '[a-zA-Z0-9]{2,35}' }
+
 receng:
     host: "open.live.bbc.co.uk"
     path: /recommend/items
