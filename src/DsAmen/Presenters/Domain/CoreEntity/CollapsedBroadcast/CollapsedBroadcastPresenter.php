@@ -126,7 +126,7 @@ class CollapsedBroadcastPresenter extends BaseCoreEntityPresenter
     public function getShowFromStartCtaPresenter(array $options = [])
     {
         $defaultOptions = ['link_to_start' =>  true];
-        $options = array_merge($defaultOptions, $options);
+        $options = array_merge($defaultOptions, $this->subPresenterOptions('cta_options'), $options);
         return new LiveCtaPresenter(
             $this->collapsedBroadcast,
             $this->router,
