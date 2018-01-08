@@ -198,9 +198,9 @@ class TlecController extends BaseController
     private function setIstatsAvailabilityLabel(?ProgrammeItem $onDemandEpisode): void
     {
         if ($onDemandEpisode) {
-            $this->setIstatsExtraLabels(['availability' => 'false']);
-        } else {
             $this->setIstatsExtraLabels(['availability' => 'true']);
+        } else {
+            $this->setIstatsExtraLabels(['availability' => 'false']);
         }
     }
 
