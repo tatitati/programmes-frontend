@@ -10,6 +10,13 @@
     </div>
 {%- endblock -%}
 
+{% block inline_head %}
+    {{ parent() }}
+    {% if service.isInternational() %}
+        {% do preload(asset('js/timezone-notification.js'), { as: 'script', nopush: true }) %}
+    {% endif %}
+{% endblock %}
+
 {% block date %}{{ broadcast_day_start|local_date_intl('eeee d MMMM y') }}{% endblock %}
 
 {%- block date_nav -%}

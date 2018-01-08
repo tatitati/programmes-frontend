@@ -52,12 +52,18 @@
 
 
         <!--[if (gt IE 9)|!(IE)]><!-->
-        <link rel="stylesheet" href="{{ asset('css/dsAmen.css') }}" />
+        <link rel="stylesheet" href="{{ preload(asset('css/dsAmen.css'), { as: 'style', nopush: true }) }}" />
         <!--<![endif]-->
         <!--[if (lte IE 9)&(!IEMobile)]>
         <link rel="stylesheet" href="{{ asset('css/dsAmen-ie.css') }}" />
         <![endif]-->
         {% block inline_head %}{% endblock %}
+
+        {% do preload(asset('https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1.js'), { as: 'script', nopush: true }) %}
+        {% do preload(asset('js/dsamen-bootstrap.js'), { as: 'script', nopush: true }) %}
+        {% if comscore %}
+            {% do preload(asset('js/comscorews.js'), { as: 'script', nopush: true }) %}
+        {% endif %}
 
         <script>document.documentElement.className += ' has-js';</script>
         <script>

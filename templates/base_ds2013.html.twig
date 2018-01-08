@@ -52,12 +52,18 @@
         {{ branding.getHead()|raw }}
 
         <!--[if (gt IE 8)|!(IE)]><!-->
-            <link rel="stylesheet" href="{{ asset('css/ds2013.css') }}" />
+            <link rel="stylesheet" href="{{ preload(asset('css/ds2013.css'), { as: 'style', nopush: true }) }}" />
         <!--<![endif]-->
         <!--[if (lt IE 9)&(!IEMobile)]>
             <link rel="stylesheet" href="{{ asset('css/ds2013-ie.css') }}" />
         <![endif]-->
         {% block inline_head %}{% endblock %}
+
+        {% do preload(asset('https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1.js'), { as: 'script', nopush: true }) %}
+        {% do preload(asset('js/rv-bootstrap.js'), { as: 'script', nopush: true }) %}
+        {% if comscore %}
+            {% do preload(asset('js/comscorews.js'), { as: 'script', nopush: true }) %}
+        {% endif %}
 
         <script>document.documentElement.className += ' has-js';</script>
         <script>

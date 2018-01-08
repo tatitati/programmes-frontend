@@ -6,6 +6,13 @@
 {% block title %}{{ meta_context.titlePrefix() }}{% endblock %}
 {% block adsToDisplay %}leaderboard mpu{% endblock %}
 
+{% block inline_head %}
+    {{ parent() }}
+    {% if programme.getNetwork() and programme.getNetwork().isInternational() %}
+        {% do preload(asset('js/timezone-notification.js'), { as: 'script', nopush: true }) %}
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     {# TODO Leaderboard Advert #}
     <div class="p-g-p">

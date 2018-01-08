@@ -1,5 +1,12 @@
 {% extends 'schedules/by_base.html.twig' %}
 
+{% block inline_head %}
+    {{ parent() }}
+    {% if service.isInternational() %}
+        {% do preload(asset('js/timezone-notification.js'), { as: 'script', nopush: true }) %}
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     {% if schedule_reload is defined and schedule_reload %}
         <div class="schedule-reload-container lazy-module--loading--loader" data-utcoffset-replace="{{ path('schedules_by_week', {'pid' : service.getPid(), date: page_presenter.getRouteDate(), 'no_chrome' : '1'}) }}">
