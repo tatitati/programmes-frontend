@@ -31,6 +31,24 @@ class MetricsManager
     /** @var array */
     private $validRouteControllers;
 
+    /**
+     * As these controllers are not listed in the routes file (they're all findByPid)
+     * they cannot be discovered by looking at that file, as all other routes are.
+     * Hence we list them here.
+     */
+    private const PROGRAMMES_FINDBYPID_ROUTE_CONTROLLERS = [
+        'ClipController' => 'ClipController',
+        'CollectionController' => 'CollectionController',
+        'EpisodeController' => 'EpisodeController',
+        'FranchiseController' => 'FranchiseController',
+        'GalleryController' => 'GalleryController',
+        'SeasonController' => 'SeasonController',
+        'SegmentController' => 'SegmentController',
+        'SeriesController' => 'SeriesController',
+        'TlecController' => 'TlecController',
+        'VersionController' => 'VersionController',
+    ];
+
     public function __construct(RouterInterface $router, MetricCacheInterface $cache, MetricBackendInterface $backend)
     {
         $this->router = $router;
@@ -101,7 +119,7 @@ class MetricsManager
     private function getAllPossibleRoutes() : array
     {
         if (!isset($this->validRouteControllers)) {
-            $this->validRouteControllers = [];
+            $this->validRouteControllers = self::PROGRAMMES_FINDBYPID_ROUTE_CONTROLLERS;
             foreach ($this->router->getRouteCollection()->all() as $routeName => $routeInfo) {
                 $controllerName = $this->controllerName($routeInfo->getDefault('_controller') ?? '');
                 if ($controllerName) {
