@@ -22,10 +22,10 @@ class RecipesControllerTest extends BaseWebTestCase
         $crawler = $client->request('GET', 'programmes/b013pqnm/recipes.ameninc');
         $this->assertCount(4, $crawler->filter('li'));
 
-        $this->assertEquals('Stollen', trim($crawler->filter('[data-linktrack="programmes_recipe_1_title"]')->text()));
-        $this->assertEquals('Traditional Christmas pudding with brandy butter', trim($crawler->filter('[data-linktrack="programmes_recipe_2_title"]')->text()));
-        $this->assertEquals('Gluten-free gingerbread biscuits', trim($crawler->filter('[data-linktrack="programmes_recipe_3_title"]')->text()));
-        $this->assertEquals('Apple and cinnamon kugelhopf with honeyed apples', trim($crawler->filter('[data-linktrack="programmes_recipe_4_title"]')->text()));
+        $this->assertEquals('Stollen', trim($crawler->filter('[data-linktrack="recipe_1_title"]')->text()));
+        $this->assertEquals('Traditional Christmas pudding with brandy butter', trim($crawler->filter('[data-linktrack="recipe_2_title"]')->text()));
+        $this->assertEquals('Gluten-free gingerbread biscuits', trim($crawler->filter('[data-linktrack="recipe_3_title"]')->text()));
+        $this->assertEquals('Apple and cinnamon kugelhopf with honeyed apples', trim($crawler->filter('[data-linktrack="recipe_4_title"]')->text()));
     }
 
     public function testEmptyResponseFromFoodApi()
