@@ -1527,6 +1527,7 @@ msgstr "This programme is not currently available on BBC iPlayer"
 #. English: "This programme is not currently available on BBC iPlayer Radio".
 #. Example URL: http://www.bbc.co.uk/programmes/b03kpkyz .
 #. Priority for: Programmes
+#. The only use of this key was replaced for the available_count key
 msgid "programme_availability_none_radio"
 msgstr "This programme is not currently available on BBC iPlayer Radio"
 

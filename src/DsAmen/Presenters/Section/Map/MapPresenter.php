@@ -175,6 +175,7 @@ class MapPresenter extends Presenter
             $hasAnUpcomingEpisode = $this->upcomingBroadcast && $this->upcomingBroadcast->getProgrammeItem()->getStreamableFrom() && !$this->upcomingBroadcast->getProgrammeItem()->isStreamable();
 
             $this->rightColumns[] = new OnDemandPresenter(
+                $this->translateProvider,
                 $this->programme,
                 $this->streamableEpisode,
                 $hasAnUpcomingEpisode,
@@ -211,6 +212,7 @@ class MapPresenter extends Presenter
         $this->rightGridClasses = '1/3@gel3b';
 
         $this->rightColumns[] = new OnDemandPresenter(
+            $this->translateProvider,
             $this->programme,
             $this->streamableEpisode,
             false,

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\DsAmen\Presenters\Section\Map\SubPresenter;
 
 use App\Exception\InvalidOptionException;
+use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
@@ -39,12 +40,18 @@ class OnDemandPresenter extends RightColumnPresenter
      */
     private $streamableEpisode;
 
-    public function __construct(ProgrammeContainer $programmeContainer, ?Episode $streamableEpisode, bool $hasUpcomingEpisode, ?CollapsedBroadcast $lastOn, $options = [])
+    /**
+     * @var TranslateProvider
+     */
+    private $translateProvider;
+
+    public function __construct(TranslateProvider $translateProvider, ProgrammeContainer $programmeContainer, ?Episode $streamableEpisode, bool $hasUpcomingEpisode, ?CollapsedBroadcast $lastOn, $options = [])
     {
         parent::__construct($programmeContainer, $options);
         $this->lastOn = $lastOn;
         $this->streamableEpisode = $streamableEpisode;
         $this->hasUpcomingEpisode = $hasUpcomingEpisode;
+        $this->translateProvider = $translateProvider;
         if ($this->getOption('full_width')) {
             $this->class = '1/1';
             $this->defaultImageSize = 320;
@@ -108,6 +115,12 @@ class OnDemandPresenter extends RightColumnPresenter
     public function getTitleTranslationString(): string
     {
         return $this->programmeContainer->isRadio() ? 'available_now' : 'available_on_iplayer_short';
+    }
+
+    public function getTranslatedStringForOnDemandNotAvailable(): string
+    {
+        $tr = $this->translateProvider->getTranslate();
+        return $this->programmeContainer->isRadio() ? $tr->translate('available_count', [], 0) : $tr->translate('not_available_iplayer');
     }
 
     public function hasUpcomingEpisode(): bool
