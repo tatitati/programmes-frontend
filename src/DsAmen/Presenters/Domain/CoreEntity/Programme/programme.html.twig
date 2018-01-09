@@ -4,9 +4,11 @@
             {{ ds_amen_presenter(programme.getTitlePresenter()) }}
             {{ ds_amen_presenter(programme.getBodyPresenter()) }}
 
-            {% if programme.showStandaloneCta() %}
-                {{ ds_amen_presenter(programme.getCtaPresenter()) }}
-            {% endif %}
+            {%- if programme.showStandaloneCta() -%}
+                {{- ds_amen_presenter(programme.getCtaPresenter({
+                    'cta_class': 'cta cta--dark cta--standalone'
+                })) -}}
+            {%- endif -%}
         </div>
     </div>
     {{ ds_amen_presenter(programme.getImagePresenter()) }}
