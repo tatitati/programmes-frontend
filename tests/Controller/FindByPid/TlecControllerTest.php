@@ -4,7 +4,9 @@ declare(strict_types = 1);
 namespace Tests\App\Controller\FindByPid;
 
 use App\Controller\FindByPid\TlecController;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
 use Tests\App\BaseWebTestCase;
@@ -24,6 +26,42 @@ class TlecControllerTest extends BaseWebTestCase
             ]));
 
         $this->assertTrue($this->invokeMethod($controller, 'isVotePriority', [$programmeContainer]));
+    }
+
+    /** @dataProvider listOfNetworksIsFetchedOnlyForWorldNewsLastOnProvider */
+    public function testListOfNetworksIsFetchedOnlyForWorldNewsLastOn(
+        bool $isWorldNews,
+        int $fullListCalls,
+        int $regularCalls
+    ) {
+        $programme = $this->createConfiguredMock(
+            ProgrammeContainer::class,
+            [
+                'getNetwork' => $this->createConfiguredMock(
+                    Network::class,
+                    ['isWorldNews' => $isWorldNews]
+                ),
+            ]
+        );
+
+        $collapsedBroadcastService = $this->createMock(CollapsedBroadcastsService::class);
+        $collapsedBroadcastService
+            ->expects($this->exactly($fullListCalls))
+            ->method('findPastByProgrammeWithFullServicesOfNetworksList');
+        $collapsedBroadcastService
+            ->expects($this->exactly($regularCalls))
+            ->method('findPastByProgramme');
+
+        $controller = $this->createMock(TlecController::class);
+        $this->invokeMethod($controller, 'getLastOn', [$programme, $collapsedBroadcastService]);
+    }
+
+    public function listOfNetworksIsFetchedOnlyForWorldNewsLastOnProvider(): array
+    {
+        return [
+            'World News' => [true, 1, 0],
+            'Non World News' => [false, 0, 1],
+        ];
     }
 
     /**

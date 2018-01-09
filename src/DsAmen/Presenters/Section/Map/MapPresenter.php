@@ -169,6 +169,11 @@ class MapPresenter extends Presenter
         }
 
         // Add columns to map
+
+        // The Last On column requires the collapsed broadcast to have a full list of the services of the networks
+        // that had this programme broadcast. If something other than World News starts using the Last On column, the
+        // controllers that fetch this collapsed broadcast will have to be updated to fetch the full list of services
+        // as well. The TlecController is one of them (L#93).
         if ($this->isWorldNews()) {
             $this->rightColumns[] = new LastOnPresenter($this->programme, $this->lastOn, ['show_mini_map' => $this->showMiniMap]);
         } else {
@@ -259,11 +264,7 @@ class MapPresenter extends Presenter
 
     private function isWorldNews(): bool
     {
-        $network = $this->programme->getNetwork();
-        if (is_null($network)) {
-            return false;
-        }
-        return ((string) $network->getNid()) === 'bbc_world_news';
+        return $this->programme->getNetwork() && $this->programme->getNetwork()->isWorldNews();
     }
 
     private function showThirdColumn(): bool

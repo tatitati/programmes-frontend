@@ -86,8 +86,7 @@ class TlecController extends BaseController
             $galleries = $aggregationService->findDescendantGalleries($programme, 4);
         }
 
-        $lastOn = $collapsedBroadcastsService->findPastByProgramme($programme, 1);
-        $lastOn = $lastOn[0] ?? null;
+        $lastOn = $this->getLastOn($programme, $collapsedBroadcastsService);
 
         $comingSoonPromo = $this->getComingSoonPromotion($imagesService, $programme);
 
@@ -170,6 +169,23 @@ class TlecController extends BaseController
             filter_var($comingSoon['super_promo'], FILTER_VALIDATE_BOOLEAN),
             []
         );
+    }
+
+    private function getLastOn(
+        ProgrammeContainer $programme,
+        CollapsedBroadcastsService $collapsedBroadcastsService
+    ): ?CollapsedBroadcast {
+        // World News brand pages are the only ones that show the Last On column in the MAP. The Last On column
+        // shows a collapsed broadcast, which has a list of networks and services of the broadcasts, which means
+        // it needs the full list of services for the networks. If something else starts using the Last On
+        // column, this has to be updated, as does the MAP, or else stuff will blow up.
+        if ($programme->getNetwork() && $programme->getNetwork()->isWorldNews()) {
+            $lastOn = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($programme, 1);
+        } else {
+            $lastOn = $collapsedBroadcastsService->findPastByProgramme($programme, 1);
+        }
+
+        return $lastOn[0] ?? null;
     }
 
     private function isPromoPriority(ProgrammeContainer $programme, bool $showMiniMap, bool $hasPromotions): bool

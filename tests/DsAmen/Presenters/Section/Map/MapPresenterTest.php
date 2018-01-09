@@ -74,7 +74,7 @@ class MapPresenterTest extends TestCase
     public function testWorldNewsColumns()
     {
         $network = $this->createMock(Network::class);
-        $network->method('getNid')->willReturn(new Nid('bbc_world_news'));
+        $network->method('isWorldNews')->willReturn(true);
         $programmeContainer = $this->createProgrammeWithEpisodes();
         $programmeContainer->method('getNetwork')->willReturn($network);
         $presenter = $this->createMapPresenter($programmeContainer);
