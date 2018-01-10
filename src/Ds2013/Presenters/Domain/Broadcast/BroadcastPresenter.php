@@ -5,7 +5,7 @@ namespace App\Ds2013\Presenters\Domain\Broadcast;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
+use BBC\ProgrammesPagesService\Domain\Entity\SingleServiceBroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use Cake\Chronos\Chronos;
 
@@ -22,14 +22,14 @@ class BroadcastPresenter extends Presenter
         'steal_blocklink' => true,
     ];
 
-    /** @var BroadcastInfoInterface */
+    /** @var SingleServiceBroadcastInfoInterface */
     private $broadcast;
 
     /** @var CollapsedBroadcast */
     private $collapsedBroadcast;
 
     public function __construct(
-        BroadcastInfoInterface $broadcast,
+        SingleServiceBroadcastInfoInterface $broadcast,
         ?CollapsedBroadcast $collapsedBroadcast = null,
         array $options = []
     ) {
@@ -38,7 +38,7 @@ class BroadcastPresenter extends Presenter
         $this->collapsedBroadcast = $collapsedBroadcast;
     }
 
-    public function getBroadcast(): BroadcastInfoInterface
+    public function getBroadcast(): SingleServiceBroadcastInfoInterface
     {
         return $this->broadcast;
     }
