@@ -3,7 +3,9 @@ declare(strict_types = 1);
 namespace App\Ds2013\Presenters\Domain\Programme;
 
 use App\Ds2013\Presenters\Domain\Programme\BroadcastSubPresenters\BroadcastProgrammeBodyPresenter;
+use App\Ds2013\Presenters\Domain\Programme\BroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeBodyPresenter;
+use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -38,6 +40,17 @@ class BroadcastProgrammePresenter extends ProgrammePresenter
         $this->sharedOptions = array_merge($this->sharedOptions, $this->additionalSharedOptions);
         parent::__construct($router, $helperFactory, $programme, $options);
         $this->broadcast = $broadcast;
+    }
+
+    public function getProgrammeTitlePresenter(): ProgrammeTitlePresenter
+    {
+        return new BroadcastProgrammeTitlePresenter(
+            $this->router,
+            $this->helperFactory->getTitleLogicHelper(),
+            $this->broadcast,
+            $this->programme,
+            $this->subPresenterOptions('title_options')
+        );
     }
 
     public function getProgrammeBodyPresenter(): ProgrammeBodyPresenter

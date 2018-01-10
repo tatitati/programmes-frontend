@@ -97,13 +97,14 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('link-complex', $linkComplex, 'Icon Link classes');
         $this->assertSame('programmeobject_calltoaction', $linkComplex->attr('data-linktrack'));
         $this->assertSame('http://localhost/programmes/clp00001', $linkComplex->attr('href'));
+        $this->assertSame('Play clip', $linkComplex->attr('aria-label'));
 
         $iconCta = $linkComplex->children();
         $this->assertSame(1, $iconCta->count());
         $this->assertHasClasses('icon icon-cta icon--play', $iconCta, 'Icon CTA classes');
 
         $iconElements = $iconCta->children();
-        $this->assertSame(3, $iconElements->count());
+        $this->assertSame(2, $iconElements->count());
 
         $this->assertHasClasses('gelicon gelicon--programme', $iconElements->eq(0), 'Gelicon classes');
         $this->assertSame(
@@ -112,11 +113,8 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
             'SVG use statemente'
         );
 
-        $this->assertHasClasses('invisible', $iconElements->eq(1), 'Invisible span');
-        $this->assertSame('Play clip', $iconElements->eq(1)->text());
-
         /* Duration */
-        $iconLabel = $iconElements->eq(2);
+        $iconLabel = $iconElements->eq(1);
         $this->assertHasClasses('icon-label gel-brevier', $iconLabel, 'Icon Label');
         $this->assertSame(2, $iconLabel->children()->count());
         $this->assertHasClasses('invisible', $iconLabel->children()->eq(0), 'Invisible span');
@@ -183,13 +181,14 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('link-complex', $linkComplex, 'Icon Link classes');
         $this->assertSame('programmeobject_calltoaction', $linkComplex->attr('data-linktrack'));
         $this->assertSame('http://localhost/programmes/clp00001', $linkComplex->attr('href'));
+        $this->assertSame('Play clip', $linkComplex->attr('aria-label'));
 
         $iconCta = $linkComplex->children();
         $this->assertSame(1, $iconCta->count());
         $this->assertHasClasses('icon icon-cta icon--play', $iconCta, 'Icon CTA classes');
 
         $iconElements = $iconCta->children();
-        $this->assertSame(3, $iconElements->count());
+        $this->assertSame(2, $iconElements->count());
 
         $this->assertHasClasses('gelicon gelicon--programme', $iconElements->eq(0), 'Gelicon classes');
         $this->assertSame(
@@ -198,11 +197,8 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
             'SVG use statemente'
         );
 
-        $this->assertHasClasses('invisible', $iconElements->eq(1), 'Invisible span');
-        $this->assertSame('Play clip', $iconElements->eq(1)->text());
-
         /* Duration */
-        $iconLabel = $iconElements->eq(2);
+        $iconLabel = $iconElements->eq(1);
         $this->assertHasClasses('icon-label gel-brevier', $iconLabel, 'Icon Label');
         $this->assertSame(2, $iconLabel->children()->count());
         $this->assertHasClasses('invisible', $iconLabel->children()->eq(0), 'Invisible span');

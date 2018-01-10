@@ -46,7 +46,7 @@ class GelIconExtension extends Twig_Extension
         $classes = 'gelicon ' . $extraClasses;
         $iconId = "#gelicon--$set--$icon";
 
-        return '<svg class="' . htmlspecialchars($classes, ENT_HTML5) . '"><use xlink:href="' . $iconId . '" /></svg>';
+        return '<svg tabindex="-1" class="' . htmlspecialchars($classes, ENT_HTML5) . '"><use xlink:href="' . $iconId . '" /></svg>';
     }
 
     private function addIcon(string $set, string $icon): void

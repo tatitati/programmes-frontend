@@ -2,11 +2,12 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Presenters\Domain\Programme;
 
-use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
+use App\Ds2013\Presenters\Domain\Programme\BroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeBodyPresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -64,6 +65,17 @@ class CollapsedBroadcastProgrammePresenter extends ProgrammePresenter
             $this->collapsedBroadcast,
             $this->programme,
             $this->subPresenterOptions('image_options')
+        );
+    }
+
+    public function getProgrammeTitlePresenter(): ProgrammeTitlePresenter
+    {
+        return new BroadcastProgrammeTitlePresenter(
+            $this->router,
+            $this->helperFactory->getTitleLogicHelper(),
+            $this->collapsedBroadcast,
+            $this->programme,
+            $this->subPresenterOptions('title_options')
         );
     }
 

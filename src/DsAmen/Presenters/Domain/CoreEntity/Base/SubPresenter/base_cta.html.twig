@@ -1,8 +1,7 @@
 <div class="icon-link {{ cta.getOption('cta_class') }}">
-    <a class="link-complex" href="{{ cta.getUrl() }}" data-linktrack="{{ cta.getLinkLocation() }}">
+    <a class="link-complex" href="{{ cta.getUrl() }}" data-linktrack="{{ cta.getLinkLocation() }}" aria-label="{{ tr(cta.getLabelTranslation()) }}">
         <div class="icon icon-cta icon--{{ cta.getMediaIconName() }}">
             {{ gelicon(cta.getMediaIconType(), cta.getMediaIconName(), 'gelicon--programme') }}
-            <span class="invisible">{{ tr(cta.getLabelTranslation()) }}</span>
             {%- block message -%}{%- endblock -%}
         </div>
     </a>

@@ -5,7 +5,7 @@
         {% set branding_context = programme_image.getOption('branding_context') %}
         {% spaceless %}
         <div class="programme__overlay programme__overlay--live">
-            <a href="{{ programme_image.getSimulcastUrl() }}" class="programme__availability iplayer-icon--container" data-linktrack="programmeobjectlink=cta">
+            <a href="{{ programme_image.getSimulcastUrl() }}" class="programme__availability iplayer-icon--container" data-linktrack="programmeobjectlink=cta" tabindex="-1">
                 <div class="programme__icon br-box-{{ branding_context }} iplayer-icon iplayer-icon--boxed">
                     {{ gelicon('audio-visual', programme_image.getMediaIconName(), 'gelicon--half-container') }}
                 </div>
