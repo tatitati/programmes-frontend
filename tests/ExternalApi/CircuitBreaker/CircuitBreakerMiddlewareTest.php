@@ -229,8 +229,7 @@ class CircuitBreakerMiddlewareTest extends TestCase
      */
     private function createGuzzleClient($responseOrException)
     {
-        $guzzleMock = new MockHandler([$responseOrException]);
-        $stack = \GuzzleHttp\HandlerStack::create($guzzleMock);
+        $stack = MockHandler::createWithMiddleware([$responseOrException]);
         $stack->push($this->circuitBreakerMiddleware);
         return new Client(['handler' => $stack]);
     }

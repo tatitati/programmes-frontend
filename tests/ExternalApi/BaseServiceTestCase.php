@@ -6,7 +6,6 @@ namespace Tests\App\ExternalApi;
 use BBC\ProgrammesPagesService\Cache\Cache;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
@@ -41,11 +40,10 @@ abstract class BaseServiceTestCase extends TestCase
         );
     }
 
-    protected function client(array $mockResponses = [], &$historyContainer = null)
+    protected function client(array $mockResponses = [], &$historyContainer = null): Client
     {
         // Mock Requests
-        $mockHandler = new MockHandler($mockResponses);
-        $handler = HandlerStack::create($mockHandler);
+        $handler = MockHandler::createWithMiddleware($mockResponses);
         // History
         if (!is_null($historyContainer)) {
             $handler->push(Middleware::history($historyContainer));

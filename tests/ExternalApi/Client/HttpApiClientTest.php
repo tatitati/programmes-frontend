@@ -7,7 +7,6 @@ use App\ExternalApi\Client\HttpApiClient;
 use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
@@ -186,14 +185,8 @@ class HttpApiClientTest extends TestCase
 
     private function makeGuzzleClientToRespondWith(Response $response): Client
     {
-        $mockHandler = new MockHandler();
-        $container = [];
-        $stack = HandlerStack::create($mockHandler);
-        $history = Middleware::history($container);
-        $stack->push($history);
-
+        $stack = MockHandler::createWithMiddleware([$response]);
         $client = new Client(['handler' => $stack]);
-        $mockHandler->append($response);
         return $client;
     }
 }

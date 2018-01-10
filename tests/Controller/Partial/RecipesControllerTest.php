@@ -6,7 +6,6 @@ namespace Tests\App\Controller\Partial;
 use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Bundle\FrameworkBundle\Client;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Tests\App\BaseWebTestCase;
@@ -54,14 +53,8 @@ class RecipesControllerTest extends BaseWebTestCase
 
     private function createClientWithMockedGuzzleResponse(Response $response): Client
     {
-        $mockHandler = new MockHandler();
-        $container = [];
-        $stack = HandlerStack::create($mockHandler);
-        $history = Middleware::history($container);
-        $stack->push($history);
-
+        $stack = MockHandler::createWithMiddleware([$response]);
         $client = new GuzzleClient(['handler' => $stack]);
-        $mockHandler->append($response);
 
         $c = static::createClient();
         $c->getContainer()->set('csa_guzzle.client.default', $client);
