@@ -3,12 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\App\ExternalApi\RecEng\Service;
 
+use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
-use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use GuzzleHttp\Client;
@@ -16,14 +15,14 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Psr\Log\LoggerInterface;
+use Tests\App\ExternalApi\HttpApiTestBase;
 
 /**
  * @covers \App\ExternalApi\RecEng\Service\RecEngService
  */
-class RecEngServiceTest extends TestCase
+class RecEngServiceTest extends HttpApiTestBase
 {
     /** @var Client */
     private $client;
@@ -41,6 +40,8 @@ class RecEngServiceTest extends TestCase
 
     /** @var CacheInterface */
     private $mockCache;
+
+    private $httpApiClientFactory;
 
     public function setUp()
     {
@@ -187,13 +188,16 @@ class RecEngServiceTest extends TestCase
 
     private function createMockRecEng(): RecEngService
     {
-        return new RecEngService(
+        $this->httpApiClientFactory = new HttpApiClientFactory(
             $this->client,
             $this->mockCache,
+            $this->mockLogger
+        );
+        return new RecEngService(
+            $this->httpApiClientFactory,
             'imASecretAudioKey',
             'imASecretVideoKey',
             $this->mockProgrammesService,
-            $this->mockLogger,
             'https://api.example.com/'
         );
     }

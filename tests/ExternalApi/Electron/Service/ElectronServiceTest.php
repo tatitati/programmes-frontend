@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\ExternalApi\Electron\Service;
 
+use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Electron\Mapper\SupportingContentMapper;
@@ -11,15 +12,13 @@ use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
+use Tests\App\ExternalApi\HttpApiTestBase;
 
-class ElectronServiceTest extends TestCase
+class ElectronServiceTest extends HttpApiTestBase
 {
     private $mockCache;
 
@@ -28,6 +27,8 @@ class ElectronServiceTest extends TestCase
     private $contentMapper;
 
     private $mockLogger;
+
+    private $httpApiClientFactory;
 
     public function testFetchSupportingContentItemsForProgrammeEndToEnd()
     {
@@ -124,26 +125,15 @@ class ElectronServiceTest extends TestCase
         $this->xmlParser = new XmlParser();
         $this->contentMapper = new SupportingContentMapper();
         $this->mockLogger = $this->createMock(LoggerInterface::class);
+        // Okay. So this is more of an integration test than a unit test at this point.
+        // We're testing both ElectronService and HttpApiClient. This does not seem unreasonable to me however.
+        $this->httpApiClientFactory = new HttpApiClientFactory($client, $this->mockCache, $this->mockLogger);
+
         return new ElectronService(
-            $client,
-            $this->mockCache,
+            $this->httpApiClientFactory,
             $this->xmlParser,
             $this->contentMapper,
-            $this->mockLogger,
             'https://api.example.com'
         );
-    }
-
-    private function makeGuzzleClientToRespondWith(Response $response): Client
-    {
-        $mockHandler = new MockHandler();
-        $container = [];
-        $stack = HandlerStack::create($mockHandler);
-        $history = Middleware::history($container);
-        $stack->push($history);
-
-        $client = new Client(['handler' => $stack]);
-        $mockHandler->append($response);
-        return $client;
     }
 }

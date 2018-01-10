@@ -18,7 +18,7 @@ class RecipeMapperTest extends TestCase
 
     public function setUp()
     {
-        $this->json = json_decode(file_get_contents(dirname(__DIR__) . '/JSON/bakeoff.json'));
+        $this->json = json_decode(file_get_contents(dirname(__DIR__) . '/JSON/bakeoff.json'), true);
     }
 
     public function testMapItem()
@@ -27,7 +27,7 @@ class RecipeMapperTest extends TestCase
         $recipeMapper = new RecipeMapper();
 
         $items = [];
-        foreach ($pages->byProgramme->b013pqnm->recipes as $recipe) {
+        foreach ($pages['byProgramme']['b013pqnm']['recipes'] as $recipe) {
             $items[] = $recipeMapper->mapItem($recipe);
         }
 

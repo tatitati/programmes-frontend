@@ -3,94 +3,72 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\Recipes\Service;
 
+use App\ExternalApi\Client\HttpApiClientFactory;
+use App\ExternalApi\Exception\ParseException;
+use App\ExternalApi\HttpApiService;
 use App\ExternalApi\Recipes\Domain\RecipesApiResult;
 use App\ExternalApi\Recipes\Mapper\RecipeMapper;
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
-use Psr\Log\LoggerInterface;
-use stdClass;
+use GuzzleHttp\Psr7\Response;
+use Closure;
 
 class RecipesService
 {
-    /** @var ClientInterface */
-    private $client;
-
-    /** @var CacheInterface */
-    private $cache;
-
     /** @var RecipeMapper */
     private $mapper;
-
-    /** @var LoggerInterface */
-    private $logger;
 
     /** @var string */
     private $baseUrl;
 
+    /** @var HttpApiClientFactory */
+    private $clientFactory;
+
     public function __construct(
-        ClientInterface $client,
-        CacheInterface $cache,
+        HttpApiClientFactory $clientFactory,
         RecipeMapper $mapper,
-        LoggerInterface $logger,
         string $baseUrl
     ) {
-        $this->client = $client;
-        $this->cache = $cache;
         $this->mapper = $mapper;
-        $this->logger = $logger;
         $this->baseUrl = $baseUrl;
+        $this->clientFactory = $clientFactory;
     }
 
     public function fetchRecipesByPid(string $pid, int $limit = 4, int $page = 1): RecipesApiResult
     {
-        $cacheKey = $this->cache->keyHelper(__CLASS__, __FUNCTION__, $pid, $limit, $page);
-        $cacheItem = $this->cache->getItem($cacheKey);
-
-        if ($cacheItem->isHit()) {
-            return $cacheItem->get();
-        }
+        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $pid, $limit, $page);
 
         $url = $this->baseUrl . '/by/programme/' . urlencode($pid);
         $url .= '?page=' . $page . '&pageSize=' . $limit . '&sortBy=lastModified&sortSense=desc';
 
-        try {
-            $response = $this->client->request('GET', $url);
-        } catch (GuzzleException $e) {
-            $this->logger->error('Invalid response from Recipes API. Entity: ' . $pid);
+        $emptyResult = new RecipesApiResult([], 0);
 
-            $emptyResult = new RecipesApiResult([], 0);
+        $client = $this->clientFactory->getHttpApiClient(
+            $cacheKey,
+            $url,
+            Closure::fromCallable([$this, 'parseResponse']),
+            [$pid],
+            $emptyResult
+        );
 
-            if ($e instanceof ClientException && $e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
-                // 404s get cached for a shorter time
-                $this->cache->setItem($cacheItem, $emptyResult, CacheInterface::NORMAL);
-            }
-
-            return $emptyResult;
-        }
-
-        $response = json_decode($response->getBody()->getContents());
-
-        $result = $this->mapItems($response, $pid);
-        $this->cache->setItem($cacheItem, $result, CacheInterface::MEDIUM);
-
-        return $result;
+        return $client->makeCachedRequest();
     }
 
-    public function mapItems(?stdClass $items, string $pid): RecipesApiResult
+    protected function parseResponse(Response $response, string $pid): RecipesApiResult
+    {
+        $items = json_decode($response->getBody()->getContents(), true);
+        if (!$items || !isset($items['byProgramme'][$pid])) {
+            throw new ParseException("Invalid Recipes API JSON");
+        }
+        return $this->mapItems($items['byProgramme'][$pid]);
+    }
+
+    private function mapItems(array $items): RecipesApiResult
     {
         $recipes = [];
-        $total = 0;
-        $byProgramme = $items->byProgramme ?? null;
 
-        if ($byProgramme && isset($byProgramme->{$pid})) {
-            $total = $byProgramme->{$pid}->count ?? 0;
+        $total = $items['count'] ?? 0;
 
-            foreach (($byProgramme->{$pid}->recipes ?? []) as $recipe) {
-                $recipes[] = $this->mapper->mapItem($recipe);
-            }
+        foreach (($items['recipes'] ?? []) as $recipe) {
+            $recipes[] = $this->mapper->mapItem($recipe);
         }
 
         return new RecipesApiResult($recipes, $total);

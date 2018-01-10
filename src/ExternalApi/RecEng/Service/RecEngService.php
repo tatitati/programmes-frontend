@@ -3,19 +3,17 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\RecEng\Service;
 
-use App\ExternalApi\Exception\ParseException;
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use App\ExternalApi\Client\HttpApiClientFactory;
+use Closure;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
+use App\ExternalApi\Exception\ParseException;
+use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Recommendation Engine
@@ -25,11 +23,8 @@ use Psr\Log\LoggerInterface;
  */
 class RecEngService
 {
-    /** @var ClientInterface */
-    private $client;
-
-    /** @var CacheInterface */
-    private $cache;
+    /** @var HttpApiClientFactory */
+    private $clientFactory;
 
     /** @var string */
     private $audioKey;
@@ -43,25 +38,18 @@ class RecEngService
     /** @var string */
     private $baseUrl;
 
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
-        ClientInterface $client,
-        CacheInterface $cache,
+        HttpApiClientFactory $clientFactory,
         string $audioKey,
         string $videoKey,
         ProgrammesService $programmesService,
-        LoggerInterface $logger,
         string $baseUrl
     ) {
-        $this->client = $client;
-        $this->cache = $cache;
+        $this->clientFactory = $clientFactory;
         $this->audioKey = $audioKey;
         $this->videoKey = $videoKey;
         $this->programmesService = $programmesService;
         $this->baseUrl = $baseUrl;
-        $this->logger = $logger;
     }
 
     /**
@@ -89,38 +77,18 @@ class RecEngService
         }
 
         $programmePid = $programmeEpisode->getPid();
-
-        $key = $this->cache->keyHelper(__CLASS__, __FUNCTION__, (string) $programmePid);
-        $cacheItem = $this->cache->getItem($key);
-        if ($cacheItem->isHit()) {
-            return $cacheItem->get();
-        }
-
+        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programmePid);
         $recEngKey = $programmeEpisode->isVideo() ? $this->videoKey : $this->audioKey;
-
         $requestUrl = $this->baseUrl . '?key=' . $recEngKey . '&id=' . (string) $programmePid;
 
-        try {
-            $response = $this->client->request('GET', $requestUrl);
-        } catch (GuzzleException $e) {
-            if ($e instanceof ClientException && $e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
-                // 404s get cached for a shorter time
-                $this->cache->setItem($cacheItem, [], CacheInterface::NORMAL);
-            }
-            return [];
-        }
-        $recEngRespose = $response->getBody()->getContents();
+        $client = $this->clientFactory->getHttpApiClient(
+            $cacheKey,
+            $requestUrl,
+            Closure::fromCallable([$this, 'parseResponse']),
+            [$limit]
+        );
 
-        try {
-            $pids = $this->parseResult($recEngRespose, $limit);
-        } catch (ParseException $e) {
-            $this->logger->error($e->getMessage() . "Url was: " . $requestUrl);
-            return [];
-        }
-
-        $result = ($pids === []) ? [] : $this->programmesService->findByPids($pids);
-        $this->cache->setItem($cacheItem, $result, CacheInterface::MEDIUM);
-        return $result;
+        return $client->makeCachedRequest();
     }
 
     /**
@@ -163,19 +131,30 @@ class RecEngService
     /**
      * Returns an array of at most limit Pid objects from the given response
      *
-     * @param string $response
+     * @param Response $response
      * @param int $limit
-     * @return Pid[]
+     * @return Programme[]
      */
-    private function parseResult(string $response, int $limit): array
+    private function parseResponse(Response $response, int $limit): array
     {
-        $results = json_decode($response);
+        $responseBody = $response->getBody()->getContents();
+        $results = json_decode($responseBody, true);
 
-        if (!isset($results->recommendations)) {
+        if (!isset($results['recommendations'])) {
             throw new ParseException("Invalid data from Recommendations API");
         }
 
-        $recommendations = $results->recommendations;
+        $pids = $this->getPidsFromRecommendations($results['recommendations'], $limit);
+
+        $result = [];
+        if ($pids) {
+            $result = $this->programmesService->findByPids($pids);
+        }
+        return $result;
+    }
+
+    private function getPidsFromRecommendations(array $recommendations, int $limit)
+    {
         $pids = [];
         $numResults = 0;
 
@@ -184,7 +163,7 @@ class RecEngService
         }
 
         foreach ($recommendations as $recItem) {
-            $recommendation = str_replace('urn:bbc:pips:', '', $recItem->ref);
+            $recommendation = str_replace('urn:bbc:pips:', '', $recItem['ref']);
 
             try {
                 $pid = new Pid($recommendation);
@@ -197,7 +176,6 @@ class RecEngService
                 return $pids;
             }
         }
-
         return $pids;
     }
 }
