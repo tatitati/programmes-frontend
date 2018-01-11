@@ -8,3 +8,8 @@
         &nbsp;
     </span>
 {% endblock %}
+
+{%- block aria_date -%}
+    {{ date_list_item.getDatetime()|local_date_intl('Y') }}
+{% endblock %}
+

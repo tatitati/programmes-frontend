@@ -7,7 +7,11 @@
     </th>
 {% else %}
     <th scope="col" class="date-list__page week-guide__table__day day-{{ week_date_list_item.getOffset() }}">
-        <a class="box-link br-page-bg-onbg--hover br-page-linkhover-ontext--hover date-list text--no-ul text--shout" href="{{ path('schedules_by_day', {pid: week_date_list_item.getService().getPid(), date: week_date_list_item.getDatetime().format('Y/m/d')}) }}" data-href-add-utcoffset="true" >
+        <a class="box-link br-page-bg-onbg--hover br-page-linkhover-ontext--hover date-list text--no-ul text--shout"
+           href="{{ path('schedules_by_day', {pid: week_date_list_item.getService().getPid(), date: week_date_list_item.getDatetime().format('Y/m/d')}) }}"
+           data-href-add-utcoffset="true"
+           aria-label="{{ week_date_list_item.getDatetime()|local_date_intl('eeee d MMMM') }}"
+        >
             <span class="date-list__item-line1">{{ week_date_list_item.getDatetime()|local_date_intl('eee') }}</span>
             <span class="date-list__item-line2">{{ week_date_list_item.getDatetime()|local_date_intl('d MMM') }}</span>
         </a>

@@ -16,7 +16,9 @@
     <li class="{{ li_classes }}">
         {% if date_list_item.isLink() %}
             <a href="{{ date_list_item.getLink() }}"
-               class="{{ item_classes }}" {{ item_attributes is defined ? item_attributes|raw : ''}}>
+               class="{{ item_classes }}" {{ item_attributes is defined ? item_attributes|raw : ''}}
+               aria-label="{{ block('aria_date') }}"
+            >
                 {{ block('date_lines') }}
             </a>
         {% else %}

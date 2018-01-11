@@ -10,3 +10,7 @@
         {{ date_list_item.getDatetime()|local_date_intl('d MMM') }}
     </span>
 {% endblock %}
+
+{%- block aria_date -%}
+    {{ date_list_item.getDatetime().isToday() ? tr('schedules_today') : date_list_item.getDatetime()|local_date_intl('eeee d MMMM') }}
+{% endblock %}
