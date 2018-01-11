@@ -2,12 +2,10 @@
 
 namespace App\Metrics;
 
-use App\ExternalApi\ApiType\ApiTypeEnum;
 use App\ExternalApi\ApiType\UriToApiTypeMapper;
 use App\Fixture\ScenarioManager;
 use GuzzleHttp\TransferStats;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
 
 class MetricsMiddleware

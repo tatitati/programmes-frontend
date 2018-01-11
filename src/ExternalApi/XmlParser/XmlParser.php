@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace App\ExternalApi\XmlParser;
 
 use App\ExternalApi\Exception\ParseException;
-use SimpleXMLElement;
 use LibXMLError;
+use SimpleXMLElement;
 
 class XmlParser
 {

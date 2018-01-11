@@ -2,11 +2,11 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
-use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
-use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
+use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
-use App\Ds2013\PresenterFactory;
+use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
+use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;

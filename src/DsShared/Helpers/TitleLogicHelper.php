@@ -3,7 +3,6 @@
 namespace App\DsShared\Helpers;
 
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use InvalidArgumentException;
 use RuntimeException;
 

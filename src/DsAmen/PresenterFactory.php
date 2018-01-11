@@ -3,17 +3,17 @@ declare(strict_types = 1);
 
 namespace App\DsAmen;
 
-use App\DsAmen\Presenters\Domain\RelatedLink\RelatedLinkPresenter;
-use App\DsAmen\Presenters\Utilities\Duration\DurationPresenter;
-use App\DsAmen\Presenters\Utilities\Synopsis\SynopsisPresenter;
-use App\DsAmen\Presenters\Section\Footer\FooterPresenter;
-use App\DsAmen\Presenters\Section\Map\MapPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\CollapsedBroadcast\CollapsedBroadcastPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
 use App\DsAmen\Presenters\Domain\Promotion\PromotionPresenter;
 use App\DsAmen\Presenters\Domain\Recipe\RecipePresenter;
+use App\DsAmen\Presenters\Domain\RelatedLink\RelatedLinkPresenter;
 use App\DsAmen\Presenters\Domain\SupportingContent\SupportingContentPresenter;
+use App\DsAmen\Presenters\Section\Footer\FooterPresenter;
+use App\DsAmen\Presenters\Section\Map\MapPresenter;
+use App\DsAmen\Presenters\Utilities\Duration\DurationPresenter;
+use App\DsAmen\Presenters\Utilities\Synopsis\SynopsisPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Recipes\Domain\Recipe;
@@ -26,7 +26,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**

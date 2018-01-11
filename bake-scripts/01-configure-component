@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import os
 import json
+import os
 import subprocess
 from string import Template
 

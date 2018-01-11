@@ -5,7 +5,6 @@ namespace App\ExternalApi\CircuitBreaker;
 use App\ExternalApi\ApiType\UriToApiTypeMapper;
 use App\ExternalApi\Exception\CircuitBreakerClosedException;
 use App\Fixture\ScenarioManager;
-use GuzzleHttp\Promise\RejectedPromise;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
