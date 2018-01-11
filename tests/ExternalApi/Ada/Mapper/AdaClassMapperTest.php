@@ -27,9 +27,33 @@ class AdaClassMapperTest extends TestCase
             'Fellows_of_the_Royal_Society',
             'Fellows of the Royal Society',
             16,
+            new Pid('b0000001'),
             new Image(new Pid('p01l7xx5'), '', '', '', '', 'jpg')
         );
 
-        $this->assertEquals($expectedEntity, $mapper->mapItem($adaEntity));
+        $this->assertEquals($expectedEntity, $mapper->mapItem($adaEntity, 'b0000001'));
+    }
+
+    public function testMapItemWithNullContext()
+    {
+        $adaEntity = [
+            'id' => 'Fellows_of_the_Royal_Society',
+            'type' => 'category',
+            'title' => 'Fellows of the Royal Society',
+            'image' => 'ichef.bbci.co.uk/images/ic/$recipe/p01l7xx5.jpg',
+            'programme_items_count' => 16,
+        ];
+
+        $mapper = new AdaClassMapper();
+
+        $expectedEntity = new AdaClass(
+            'Fellows_of_the_Royal_Society',
+            'Fellows of the Royal Society',
+            16,
+            null,
+            new Image(new Pid('p01l7xx5'), '', '', '', '', 'jpg')
+        );
+
+        $this->assertEquals($expectedEntity, $mapper->mapItem($adaEntity, null));
     }
 }

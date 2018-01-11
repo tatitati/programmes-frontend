@@ -12,12 +12,14 @@ class AdaClassTest extends TestCase
 {
     public function testConstructor()
     {
+        $pid = new Pid('b0000001');
         $image = $this->createMock(Image::class);
-        $adaClass = new AdaClass('id', 'title', 1, $image);
+        $adaClass = new AdaClass('id', 'title', 1, $pid, $image);
 
         $this->assertEquals('id', $adaClass->getId());
         $this->assertEquals('title', $adaClass->getTitle());
-        $this->assertEquals(1, $adaClass->getEpisodeCount());
+        $this->assertEquals(1, $adaClass->getProgrammeItemCount());
+        $this->assertEquals($pid, $adaClass->getProgrammeItemCountContext());
         $this->assertEquals($image, $adaClass->getImage());
     }
 }

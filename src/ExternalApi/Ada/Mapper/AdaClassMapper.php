@@ -9,12 +9,13 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 
 class AdaClassMapper
 {
-    public function mapItem(array $adaClass): AdaClass
+    public function mapItem(array $adaClass, ?string $countContextPid): AdaClass
     {
         return new AdaClass(
             $adaClass['id'],
             $adaClass['title'],
             $adaClass['programme_items_count'],
+            $countContextPid ? new Pid($countContextPid) : null,
             $this->getImageModel($adaClass['image'])
         );
     }

@@ -86,7 +86,7 @@ class AdaClassService
             $cacheKey,
             $url,
             Closure::fromCallable([$this, 'parseResponse']),
-            [$limit]
+            [$contextPid, $limit]
         );
 
         return $client->makeCachedRequest();
@@ -116,13 +116,17 @@ class AdaClassService
     /**
      * @return AdaClass[]
      */
-    private function parseResponse(Response $response, int $limit): array
+    private function parseResponse(Response $response, ?string $countContextPid, int $limit): array
     {
         $data = json_decode($response->getBody()->getContents(), true);
         if (!isset($data['items'])) {
             throw new ParseException("Ada JSON response does not contain items element");
         }
-        $classes = array_map([$this->mapper, 'mapItem'], $data['items']);
+
+        $classes = [];
+        foreach ($data['items'] as $item) {
+            $classes[] = $this->mapper->mapItem($item, $countContextPid);
+        }
 
         return array_slice($this->deduplicateClasses($classes), 0, $limit);
     }

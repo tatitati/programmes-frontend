@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\ExternalApi\Ada\Domain;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 
 /**
  * Ada Provides Classes, which are overarching containers that things may be
@@ -23,7 +24,10 @@ class AdaClass
     private $title;
 
     /** @var int */
-    private $episodeCount;
+    private $programmeItemCount;
+
+    /** @var Pid */
+    private $programmeItemCountContext;
 
     /** @var Image */
     private $image;
@@ -31,12 +35,14 @@ class AdaClass
     public function __construct(
         string $id,
         string $title,
-        int $episodeCount,
+        int $programmeItemCount,
+        ?Pid $programmeItemCountContext,
         Image $image
     ) {
         $this->id = $id;
         $this->title = $title;
-        $this->episodeCount = $episodeCount;
+        $this->programmeItemCount = $programmeItemCount;
+        $this->programmeItemCountContext = $programmeItemCountContext;
         $this->image = $image;
     }
 
@@ -50,9 +56,14 @@ class AdaClass
         return $this->title;
     }
 
-    public function getEpisodeCount(): int
+    public function getProgrammeItemCount(): int
     {
-        return $this->episodeCount;
+        return $this->programmeItemCount;
+    }
+
+    public function getProgrammeItemCountContext(): ?Pid
+    {
+        return $this->programmeItemCountContext;
     }
 
     public function getImage(): Image
