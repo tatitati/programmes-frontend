@@ -75,7 +75,7 @@ class ProgrammeController extends BaseController
                 'item' => $clipBuilderDefault->build(),
                 'render_options' => [
                     'title_options' => [
-                        'max_title_length' => 10,
+                        'truncation_length' => 10,
                     ],
                 ],
             ],

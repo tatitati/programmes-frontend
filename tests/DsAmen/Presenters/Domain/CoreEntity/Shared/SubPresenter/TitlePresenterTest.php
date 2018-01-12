@@ -230,7 +230,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
         return [
             'Non-boolean value for text_colour_on_title_link' => [['text_colour_on_title_link' => null]],
             'Non-core entity and non-null value for context_programme' => [['context_programme' => 1]],
-            'Non-integer value for max_title_length' => [['max_title_length' => 'a']],
+            'Non-integer and non-null value for truncation_length' => [['truncation_length' => 'a']],
         ];
     }
 }

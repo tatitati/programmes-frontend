@@ -36,7 +36,7 @@ abstract class BaseTitlePresenter extends Presenter
         'title_size_large' => 'gel-pica-bold',
         'title_size_small' => 'gel-pica',
         'branding_name' => 'subtle',
-        'max_title_length' => 60,
+        'truncation_length' => 60,
     ];
 
     public function __construct(
@@ -118,8 +118,8 @@ abstract class BaseTitlePresenter extends Presenter
             throw new InvalidOptionException('text_colour_on_title_link option must be a boolean');
         }
 
-        if (!is_int($options['max_title_length'])) {
-            throw new InvalidOptionException('max_title_length option must be an integer. HINT: use -1 for unlimited title length');
+        if (isset($options['truncation_length']) && !is_int($options['truncation_length'])) {
+            throw new InvalidOptionException('truncation_length option must be null or an integer. HINT: use null for unlimited title length');
         }
     }
 
@@ -135,7 +135,7 @@ abstract class BaseTitlePresenter extends Presenter
     private function truncate(string $string, string $suffix = '…'): string
     {
         $length = mb_strlen($string);
-        $maxLength = $this->getOption('max_title_length');
+        $maxLength = $this->getOption('truncation_length');
 
         if ($maxLength > 0 && $length > $maxLength) {
             return mb_substr($string, 0, mb_strrpos($string, ' ', $maxLength - $length)) . $suffix;
