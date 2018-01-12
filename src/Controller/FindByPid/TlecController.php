@@ -99,12 +99,11 @@ class TlecController extends BaseController
         $supportingContentItems = $electronService->fetchSupportingContentItemsForProgramme($programme);
 
         $relatedTopics = [];
-        // TODO uncomment me when it is time to render ADA content
-        // if ($programme->getOption('show_enhanced_navigation')) {
-        //     // Less than 50 episodes (through ancestry)...
-        //     $usePerContainerValues = $programme->getAggregatedEpisodesCount() >= 50;
-        //     $relatedTopics = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
-        // }
+        if ($programme->getOption('show_enhanced_navigation')) {
+            // Less than 50 episodes (through ancestry)...
+            $usePerContainerValues = $programme->getAggregatedEpisodesCount() >= 50;
+            $relatedTopics = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
+        }
 
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,

@@ -1,0 +1,9 @@
+<div class="br-box-secondary">
+    <h2 class="gel-double-pica-bold island">{{ tr('top_topics') }}</h2>
+    <ol class="related-topics br-keyline media__meta-row--separator">
+        {%- for adaClass in related_topics.getAdaClasses() -%}
+            {%- set url = path(adaClass.getProgrammeItemCountContext() ? 'programme_topics_topic' : 'topics_topic', {pid: adaClass.getProgrammeItemCountContext(), topic: adaClass.getId()}) -%}
+            <li><a class="br-linkinvert" href="{{ url }}" data-linktrack="brand_topic"><span class="related-topics__title">{{ adaClass.getTitle() }}</span> ({{ adaClass.getProgrammeItemCount()}})</a></li>
+        {%- endfor -%}
+    </ol>
+</div>

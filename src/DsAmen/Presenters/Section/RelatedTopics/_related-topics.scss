@@ -1,0 +1,41 @@
+.related-topics {
+    // Bottom padding is less to account for the spacing that occurs due to the
+    // margin-bottom on the individual li items
+    padding: 8px 8px 0;
+    margin-bottom: 8px;
+
+    line-height: 1;
+    // Remove whitespace caused by `inline-block`.
+    letter-spacing: -0.31em;
+    word-spacing: -0.43em;
+
+    @include mq($from: gel3) {
+        padding: 16px 16px 8px;
+        margin-bottom: 16px;
+    }
+}
+
+.related-topics li {
+    display: inline-block;
+    list-style: none;
+    margin-right: 8px;
+    margin-bottom: 8px;
+
+    letter-spacing: normal;
+    word-spacing: normal;
+}
+
+.related-topics li:last-child {
+    margin-right: 0;
+}
+
+.related-topics a {
+    display: block;
+    padding: 11px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.related-topics__title {
+    font-weight: bold;
+}

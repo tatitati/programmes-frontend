@@ -181,6 +181,12 @@
         </div>
     </div>
 
+    {% if relatedTopics %}
+        <div class="p-g-p">
+            {{ ds_amen('relatedTopics', relatedTopics) }}
+        </div>
+    {% endif %}
+
     {% if relatedLinks %}
         <div class="p-g-p">
             <div class="br-box-secondary">

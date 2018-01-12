@@ -102,6 +102,19 @@ programme_recipes:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
     schemes: [http]
 
+programme_topics:
+    path: /programmes/{pid}/topics
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+programme_topics_topic:
+    path: /programmes/{pid}/topics/{topic}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+
 # TODO implement slice and filter parameters properly
 programme_broadcasts:
     path: /programmes/{pid}/broadcasts/
@@ -119,4 +132,15 @@ programme_upcoming_debut_broadcasts:
     path: /programmes/{pid}/broadcasts/upcoming/debut
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+
+
+topics:
+    path: /programmes/topics
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    schemes: [http]
+
+topics_topic:
+    path: /programmes/topics/{topic}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     schemes: [http]
