@@ -36,7 +36,7 @@ abstract class BaseTitlePresenter extends Presenter
         'title_size_large' => 'gel-pica-bold',
         'title_size_small' => 'gel-pica',
         'branding_name' => 'subtle',
-        'truncation_length' => 60,
+        'truncation_length' => null,
     ];
 
     public function __construct(

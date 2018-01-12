@@ -145,6 +145,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
             [
                 'context_programme' => $this->mockContext,
                 'title_format' => 'item::ancestry',
+                'truncation_length' => 60,
             ]
         );
 
@@ -171,6 +172,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
             [
                 'context_programme' => $this->mockContext,
                 'title_format' => 'item::ancestry',
+                'truncation_length' => 60,
             ]
         );
 
