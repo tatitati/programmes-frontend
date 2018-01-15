@@ -3,7 +3,9 @@ declare(strict_types = 1);
 
 namespace App\DsShared;
 
+use App\DsShared\Utilities\EntityContext\EntityContextPresenter;
 use App\DsShared\Utilities\Image\ImagePresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 
 /**
@@ -11,6 +13,13 @@ use BBC\ProgrammesPagesService\Domain\Entity\Image;
  */
 class PresenterFactory
 {
+    public function entityContextPresenter(
+        CoreEntity $context,
+        array $options = []
+    ): EntityContextPresenter {
+        return new EntityContextPresenter($context, $options);
+    }
+
     public function imagePresenter(
         Image $image,
         int $defaultWidth,

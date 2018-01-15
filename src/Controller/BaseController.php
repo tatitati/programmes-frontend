@@ -84,6 +84,25 @@ abstract class BaseController extends AbstractController
         return $this->canonicalUrl;
     }
 
+    protected function getPage(): int
+    {
+        $pageString = $this->request()->query->get(
+            'page',
+            '1'
+        );
+
+        if (ctype_digit($pageString)) {
+            $page = (int) $pageString;
+            // Have a controlled upper-bound to stop people putting in clearly
+            // absurdly large page sizes
+            if ($page >= 1 && $page <= 9999) {
+                return $page;
+            }
+        }
+
+        throw $this->createNotFoundException('Page parameter must be a number between 1 and 9999');
+    }
+
     protected function setBrandingId(string $brandingId)
     {
         $this->brandingId = $brandingId;

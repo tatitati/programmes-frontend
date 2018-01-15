@@ -1,0 +1,28 @@
+{% extends 'base_ds2013.html.twig' %}
+
+{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('available_now') }}{% endblock %}
+{% block page_classes %}text-base programmes-page programmes-page--smallpush b-g-p{% endblock %}
+
+{% block body %}
+<div class="island br-box-secondary">
+    <h1>{{ds_shared('entityContext', programme)}} {{ tr('episodes') }} <span class="visually-hidden">{{ tr('available_now') }}</span></h1>
+</div>
+
+<div class="br-box-page programmes-page">
+    {% if availableEpisodes %}
+        <ol class="highlight-box-wrapper">
+        {% for episode in availableEpisodes %}
+            {{ ds2013('programme', episode, {
+                'context_programme': programme,
+                'highlight_box_classes': 'highlight-box--list',
+                title_options: {
+                    'title_format': 'item::ancestry',
+                }
+            }) }}
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p class="note island">{{ tr('available_count', 0)}}</p>
+    {% endif %}
+</div>
+{% endblock %}

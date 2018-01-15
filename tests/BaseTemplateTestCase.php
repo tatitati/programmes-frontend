@@ -19,11 +19,15 @@ abstract class BaseTemplateTestCase extends TestCase
         }
     }
 
+    protected function presenterHtml(BasePresenter $presenter): string
+    {
+        return self::$twig->loadTemplate($presenter->getTemplatePath())->render([
+            $presenter->getTemplateVariableName() => $presenter,
+        ]);
+    }
+
     /**
-     * Get a Dom Crawler populated with a given Twig template.
-     *
-     * @param string $name    The template name
-     * @param array  $context An array of parameters to pass to the template
+     * Get a Dom Crawler populated with the output of a template.
      *
      * @return Crawler The Dom Crawler populated with the twig template
      *
@@ -31,18 +35,9 @@ abstract class BaseTemplateTestCase extends TestCase
      * @throws Twig_Error_Syntax  When an error occurred during compilation
      * @throws Twig_Error_Runtime When an error occurred during rendering
      */
-    protected function crawler(string $name, array $context = []): Crawler
-    {
-        return new Crawler(
-            self::$twig->loadTemplate($name)->render($context)
-        );
-    }
-
     protected function presenterCrawler(BasePresenter $presenter): Crawler
     {
-        return $this->crawler($presenter->getTemplatePath(), [
-            $presenter->getTemplateVariableName() => $presenter,
-        ]);
+        return new Crawler($this->presenterHtml($presenter));
     }
 
     protected function assertHasClasses(string $expectedClasses, Crawler $node, $message): void
