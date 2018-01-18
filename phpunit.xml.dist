@@ -44,6 +44,7 @@
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
     </listeners>
 
     <logging>

@@ -131,6 +131,9 @@
     "jean85/pretty-package-versions": {
         "version": "1.0.3"
     },
+    "johnkary/phpunit-speedtrap": {
+        "version": "v2.0.0"
+    },
     "liip/functional-test-bundle": {
         "version": "1.9.0"
     },
