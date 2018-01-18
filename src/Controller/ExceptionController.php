@@ -47,6 +47,12 @@ class ExceptionController extends BaseExceptionController
         $code = $exception->getStatusCode();
         $orb = $branding = null; //No need for Orb or Branding when developing locally
 
+        // If this is a Redirect exception don't return any body or show the
+        // debug page, just redirect everything
+        if ($code >= 300 && $code < 400) {
+            return new Response('', $code, $exception->getHeaders());
+        }
+
         if (!$showException) {
             try {
                 $branding = $this->brandingClient->getContent('br-00001');
@@ -76,6 +82,7 @@ class ExceptionController extends BaseExceptionController
         if (!$showException && $code >= 400 && $code <= 499) {
             $headers['Cache-Control'] = 'public, max-age=60';
         }
+
         // The 200 status here is a misnomer, it is a default and shall be
         // overridden later.
         return new Response($this->twig->render(

@@ -6,7 +6,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Symfony provides several exceptions that result in the Framework emiting a
- * response, but it doesn't provide one for 301/302 redirects.
+ * response, but it doesn't provide one for 301/302 redirects - which is
+ * reasonable as they're not exceptions.
+ * However for us it is useful to eject out of code to trigger a redirect in a
+ * few places, notably when triggering programme options redirects.
  *
  * This Exception takes a location and status code, and shall send a redirect
  * request to that location. This being an exception allows us to trigger the

@@ -3,10 +3,8 @@ monolog:
         main:
             type: fingers_crossed
             channels: ['!app_access']
-            action_level: error
+            activation_strategy: '@App\Exception\Handler\HttpCodeActivationStrategy'
             handler: nested
-            excluded_404s:
-                - ^/
         app_access:
             type: stream
             channels: ['app_access']
@@ -19,3 +17,10 @@ monolog:
         console:
             type: console
             process_psr_3_messages: false
+
+
+services:
+    App\Exception\Handler\HttpCodeActivationStrategy:
+        arguments:
+            excludedCodes: [301, 302, 404]
+            actionLevel: error
