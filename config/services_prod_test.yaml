@@ -2,4 +2,5 @@ parameters:
     app.feed_env.orbit: 'test'
     app.feed_env.branding: 'test'
     app.electron.baseurl: 'https://api.test.bbc.co.uk/electron'
+    app.favourites.baseurl: 'https://www.test.bbc.co.uk/modules/plugin/musicfavourite/init'
     app.recipes.baseurl: 'https://api.test.bbc.co.uk/food/recipes'

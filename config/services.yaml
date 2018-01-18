@@ -22,6 +22,8 @@ parameters:
     app.ada.class_service.class: App\ExternalApi\Ada\Service\AdaClassService
     app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
+    app.favourites.baseurl: 'https://www.bbc.co.uk/modules/plugin/musicfavourite/init'
+    app.favourites.service.class: App\ExternalApi\FavouritesButton\Service\FavouritesButtonService
     app.receng.baseurl: 'https://open.live.bbc.co.uk/recommend/items'
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
     app.recipes.baseurl: 'https://api.live.bbc.co.uk/food/recipes'
@@ -235,6 +237,11 @@ services:
         class: '%app.electron.service.class%'
         arguments:
             $baseUrl: '%app.electron.baseurl%'
+
+    App\ExternalApi\FavouritesButton\Service\FavouritesButtonService:
+            class: '%app.favourites.service.class%'
+            arguments:
+                $url: '%app.favourites.baseurl%'
 
     App\ExternalApi\RecEng\Service\RecEngService:
         class: '%app.receng.service.class%'

@@ -8,6 +8,7 @@ use App\DsAmen\PresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Electron\Service\ElectronService;
+use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -47,7 +48,8 @@ class TlecController extends BaseController
         ElectronService $electronService,
         AdaClassService $adaClassService,
         HelperFactory $helperFactory,
-        RelatedLinksService $relatedLinksService
+        RelatedLinksService $relatedLinksService,
+        FavouritesButtonService $favouritesButtonService
     ) {
         if ($programme->getNetwork() && $programme->getNetwork()->isInternational()) {
             // "International" services are UTC, all others are Europe/London (the default)
@@ -134,6 +136,11 @@ class TlecController extends BaseController
 
         $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
 
+        $favouritesButton = null;
+        if ($programme->isRadio()) {
+            $favouritesButton = $favouritesButtonService->getContent();
+        }
+
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
             'programme' => $programme,
             'promotions' => $promotions,
@@ -146,6 +153,7 @@ class TlecController extends BaseController
             'relatedTopics' => $relatedTopics,
             'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
             'relatedLinks' => $relatedLinks,
+            'favouritesButton' => $favouritesButton,
         ]);
     }
 

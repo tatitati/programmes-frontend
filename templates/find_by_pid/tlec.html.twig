@@ -11,6 +11,9 @@
     {% if programme.getNetwork() and programme.getNetwork().isInternational() %}
         {% do preload(asset('js/timezone-notification.js'), { as: 'script', nopush: true }) %}
     {% endif %}
+    {% if favouritesButton %}
+        {{ favouritesButton.getHead()|raw }}
+    {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -228,6 +231,24 @@
                     }
                 };
                 new timezoneNotification(options);
+            });
+        </script>
+    {% endif %}
+    {% if favouritesButton %}
+        {{ favouritesButton.getBodyLast()|raw }}
+        <script>{{ favouritesButton.getScript()|raw }}</script>
+        <script>
+            require(['plugins/musicfavourite'], function(fav) {
+                var elem = document.getElementsByClassName("favourites-button")[0]; // DOM element within which to render the button
+                fav.render(elem, {
+                    'appid': 'radio',
+                    'type': '{{ programme.getType() == 'brand' or programme.getType() == 'series' ? 'tlec' : 'programme' }}',
+                    'id': '{{ programme.getPid() }}',
+                    'title': '{{ programme.getTitle() }}',
+                    'variant': 'small',
+                    'lang': '{{ tr('language_code')|lower }}'
+                    // The majority of PHP options are available here too
+                });
             });
         </script>
     {% endif %}
