@@ -29,12 +29,12 @@ class RecipesServiceTest extends BaseServiceTestCase
         $response = new Response(200, [], $json);
         $client = $this->client([$response], $history);
         $recipesService = $this->service($client);
-        $items = $recipesService->fetchRecipesByPid('b013pqnm');
+        $items = $recipesService->fetchRecipesByPid('b013pqnm')->wait(true);
         $this->assertCount(4, $items->getRecipes());
         $this->assertEquals('Stollen', $items->getRecipes()[0]->getTitle());
 
         // Ensure multiple calls use the cache instead of making multiple requests
-        $recipesService->fetchRecipesByPid('b013pqnm');
+        $recipesService->fetchRecipesByPid('b013pqnm')->wait(true);
         $this->assertCount(1, $history);
     }
 
@@ -43,7 +43,7 @@ class RecipesServiceTest extends BaseServiceTestCase
         $response = new Response(500, [], 'An Error');
         $client = $this->client([$response]);
         $recipesService = $this->service($client);
-        $result = $recipesService->fetchRecipesByPid('b006m86d');
+        $result = $recipesService->fetchRecipesByPid('b006m86d')->wait(true);
         $this->assertEquals(0, $result->getTotal());
         $this->assertEquals([], $result->getRecipes());
     }
@@ -54,7 +54,7 @@ class RecipesServiceTest extends BaseServiceTestCase
             $this->client([new Response(404, [], '')])
         );
 
-        $result = $service->fetchRecipesByPid('b006m86d');
+        $result = $service->fetchRecipesByPid('b006m86d')->wait(true);
 
         $this->assertEquals(new RecipesApiResult([], 0), $result);
 

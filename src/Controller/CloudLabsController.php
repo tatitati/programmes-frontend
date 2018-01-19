@@ -41,7 +41,7 @@ class CloudLabsController extends BaseController
     public function advertsAction(ProgrammesService $programmesService)
     {
         $programme = $programmesService->findByPidFull(new Pid('n13xtmd5'));
-        $this->setContext($programme);
+        $this->setContextAndPreloadBranding($programme);
 
         return $this->renderWithChrome('cloud_labs/adverts.html.twig');
     }

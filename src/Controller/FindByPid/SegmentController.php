@@ -14,7 +14,7 @@ class SegmentController extends BaseController
 {
     public function __invoke(Segment $segment)
     {
-        $this->setContext($segment);
+        $this->setContextAndPreloadBranding($segment);
 
         return $this->renderWithChrome('find_by_pid/example_entity.html.twig', [
             'segment' => $segment,

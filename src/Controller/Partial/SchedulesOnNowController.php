@@ -58,11 +58,10 @@ class SchedulesOnNowController extends BaseController
         $cacheLifetime = $this->calculateCacheLifetime($broadcast->getEndAt());
         $this->response()->setPublic()->setMaxAge($cacheLifetime);
 
-        return $this->renderWithChrome('partial/on_now_' . $designSystem . '.html.twig', [
+        return $this->renderWithoutChrome('partial/on_now_' . $designSystem . '.html.twig', [
             'broadcast' => $broadcast,
             'simulcastUrl' => $simulcastUrl,
             'isRadio' => $network->isRadio(),
-            'with_chrome' => false, // This is to render the content without the ORB or Meta information
         ]);
     }
 

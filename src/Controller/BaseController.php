@@ -17,12 +17,15 @@ use BBC\BrandingClient\OrbitClient;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Exception;
+use RuntimeException;
 
 abstract class BaseController extends AbstractController
 {
@@ -33,6 +36,12 @@ abstract class BaseController extends AbstractController
      * This may be changed depending upon the $context
      */
     private $fallbackBrandingId = 'br-00001';
+
+    /** @var PromiseInterface */
+    private $brandingPromise;
+
+    /** @var Branding */
+    private $branding;
 
     private $context;
 
@@ -123,54 +132,61 @@ abstract class BaseController extends AbstractController
         }
     }
 
+    protected function setContextAndPreloadBranding($context)
+    {
+        $this->setContext($context);
+        $this->getBrandingPromise();
+    }
+
     protected function response(): Response
     {
         return $this->response;
     }
 
+    protected function resolvePromises(array $promises): array
+    {
+        if (isset($this->brandingPromise)) {
+            $promises['branding'] = $this->brandingPromise;
+        }
+        $unwrapped = \GuzzleHttp\Promise\unwrap($promises);
+        $this->branding = $unwrapped['branding'];
+        unset($unwrapped['branding']);
+        return $unwrapped;
+    }
+
     protected function renderWithChrome(string $view, array $parameters = [])
     {
-        $branding = $this->requestBranding();
+        $this->preRender();
 
-        // We only need to change the translation language if it is different
-        // to the language the translation extension was initially created with
-        $locale = $branding->getLocale();
-        $translateProvider = $this->container->get(TranslateProvider::class);
+        $cosmosInfo = $this->container->get(CosmosInfo::class);
+        $istatsAnalyticsLabels = new IstatsAnalyticsLabels($this->context, $this->istatsProgsPageType, $cosmosInfo->getAppVersion(), $this->istatsExtraLabels);
+        $orb = $this->container->get(OrbitClient::class)->getContent([
+            'variant' => $this->branding->getOrbitVariant(),
+            'language' => $this->branding->getLanguage(),
+        ], [
+            'searchScope' => $this->branding->getOrbitSearchScope(),
+            'skipLinkTarget' => 'programmes-content',
+            'analyticsCounterName' => (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo()),
+            'analyticsLabels' => $istatsAnalyticsLabels->orbLabels(),
+        ]);
 
-        $translateProvider->setLocale($locale);
-
-        // use controller name if this isn't set
-        $this->istatsProgsPageType =  $this->istatsProgsPageType ?? $this->request()->attributes->get('_controller');
+        $queryString = $this->request()->getQueryString();
+        $urlQueryString =  is_null($queryString) ? '' : '?' . $queryString;
 
         $parameters = array_merge([
-            'branding' => $branding,
-            'with_chrome' => !$this->request()->query->has('no_chrome'),
+            'orb' => $orb,
+            'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl(), $this->getMetaNoIndex()),
+            'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl() . $urlQueryString))->getComscore(),
+            'branding' => $this->branding,
+            'with_chrome' => true,
         ], $parameters);
+        return $this->render($view, $parameters, $this->response);
+    }
 
-        // No need to process the ORB or Meta information if the Chrome is not being rendered.
-        if ($parameters['with_chrome']) {
-            $cosmosInfo = $this->container->get(CosmosInfo::class);
-            $istatsAnalyticsLabels = new IstatsAnalyticsLabels($this->context, $this->istatsProgsPageType, $cosmosInfo->getAppVersion(), $this->istatsExtraLabels);
-            $orb = $this->container->get(OrbitClient::class)->getContent([
-                'variant' => $branding->getOrbitVariant(),
-                'language' => $branding->getLanguage(),
-            ], [
-                'searchScope' => $branding->getOrbitSearchScope(),
-                'skipLinkTarget' => 'programmes-content',
-                'analyticsCounterName' => (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo()),
-                'analyticsLabels' => $istatsAnalyticsLabels->orbLabels(),
-            ]);
-
-            $queryString = $this->request()->getQueryString();
-            $urlQueryString =  is_null($queryString) ? '' : '?' . $queryString;
-
-            $parameters = array_merge([
-                'orb' => $orb,
-                'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl(), $this->getMetaNoIndex()),
-                'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl() . $urlQueryString))->getComscore(),
-            ], $parameters);
-        }
-
+    protected function renderWithoutChrome(string $view, array $parameters = [])
+    {
+        $this->preRender();
+        $parameters['with_chrome'] = false;
         return $this->render($view, $parameters, $this->response);
     }
 
@@ -222,36 +238,52 @@ abstract class BaseController extends AbstractController
         return $this->container->get('request_stack')->getCurrentRequest();
     }
 
-    private function requestBranding(): Branding
+    private function preRender()
     {
-        $brandingClient = $this->container->get(BrandingClient::class);
-        $previewId = $this->request()->query->get($brandingClient::PREVIEW_PARAM, null);
-        $usePreview = !is_null($previewId);
+        if (!$this->branding) {
+            $this->branding = $this->getBrandingPromise()->wait(true);
+        }
+        // We only need to change the translation language if it is different
+        // to the language the translation extension was initially created with
+        $locale = $this->branding->getLocale();
+        $translateProvider = $this->container->get(TranslateProvider::class);
 
-        try {
+        $translateProvider->setLocale($locale);
+
+        // use controller name if this isn't set
+        $this->istatsProgsPageType =  $this->istatsProgsPageType ?? $this->request()->attributes->get('_controller');
+    }
+
+    private function getBrandingPromise(): PromiseInterface
+    {
+        if (!isset($this->brandingPromise)) {
+            $brandingClient = $this->container->get(BrandingClient::class);
+            $previewId = $this->request()->query->get($brandingClient::PREVIEW_PARAM, null);
+            $usePreview = !is_null($previewId);
+
+
             $this->logger()->info(
                 'Using BrandingID "{0}"' . ($usePreview ? ', but overridden previewing theme version "{1}"' : ''),
                 $usePreview ? [$this->brandingId, $previewId] : [$this->brandingId]
             );
 
-            $branding = $brandingClient->getContent(
+            $brandingPromise = $brandingClient->getContentAsync(
                 $this->brandingId,
                 $previewId
             );
-        } catch (BrandingException $e) {
-            // Could not find that branding id (or preview id), someone probably
-            // mistyped it. Use a default branding instead of blowing up.
 
-            $this->logger()->warning(
-                'Requested BrandingID "{0}"' . ($usePreview ? ', but overridden previewing theme version "{2}"' : '') .
-                ' but it was not found. Using "{1}" as a fallback',
-                $usePreview ? [$this->brandingId, $this->fallbackBrandingId, $previewId] : [$this->brandingId, $this->fallbackBrandingId]
+            $this->brandingPromise = $brandingPromise->then(
+                \Closure::fromCallable([$this, 'fulfilledBrandingPromise']),
+                function ($reason) use ($usePreview, $previewId) {
+                    return $this->rejectedBrandingPromise($reason, $usePreview, $previewId);
+                }
             );
-
-            $this->setBrandingId($this->fallbackBrandingId);
-            $branding = $brandingClient->getContent($this->brandingId, null);
         }
+        return $this->brandingPromise;
+    }
 
+    private function fulfilledBrandingPromise(Branding $branding)
+    {
         // Resolve branding placeholders
         if ($this->context) {
             $branding = $this->container->get(BrandingPlaceholderResolver::class)->resolve(
@@ -261,6 +293,27 @@ abstract class BaseController extends AbstractController
         }
 
         return $branding;
+    }
+
+    private function rejectedBrandingPromise($reason, $usePreview, $previewId)
+    {
+        if ($reason instanceof BrandingException) {
+            // Could not find that branding id (or preview id), someone probably
+            // mistyped it. Use a default branding instead of blowing up.
+            $this->logger()->warning(
+                'Requested BrandingID "{0}"' . ($usePreview ? ', but overridden previewing theme version "{2}"' : '') .
+                ' but it was not found. Using "{1}" as a fallback',
+                $usePreview ? [$this->brandingId, $this->fallbackBrandingId, $previewId] : [$this->brandingId, $this->fallbackBrandingId]
+            );
+
+            $this->setBrandingId($this->fallbackBrandingId);
+            $brandingClient = $this->container->get(BrandingClient::class);
+            return $brandingClient->getContent($this->brandingId, null);
+        }
+        if ($reason instanceof Exception) {
+            throw $reason;
+        }
+        throw new RuntimeException("An unknown error occurred fetching branding");
     }
 
     private function logger(): LoggerInterface

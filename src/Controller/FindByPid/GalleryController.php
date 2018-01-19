@@ -10,7 +10,7 @@ class GalleryController extends BaseController
     public function __invoke(Gallery $gallery)
     {
         $this->setIstatsProgsPageType('galleries_show');
-        $this->setContext($gallery);
+        $this->setContextAndPreloadBranding($gallery);
 
         return $this->renderWithChrome('find_by_pid/example_entity.html.twig', [
             'group' => $gallery,

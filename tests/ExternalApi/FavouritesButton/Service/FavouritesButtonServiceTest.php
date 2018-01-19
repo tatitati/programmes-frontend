@@ -26,7 +26,7 @@ class FavouritesButtonServiceTest extends BaseServiceTestCase
             $this->client([$this->mockValidResponse()], $history)
         );
 
-        $result = $service->getContent();
+        $result = $service->getContent()->wait(true);
 
         $this->assertEquals(
             'https://api.example.com/test',
@@ -39,7 +39,7 @@ class FavouritesButtonServiceTest extends BaseServiceTestCase
         $this->assertEquals('<div></div>', $result->getBodyLast());
 
         // Ensure multiple calls use the cache instead of making multiple requests
-        $service->getContent();
+        $service->getContent()->wait(true);
         $this->assertCount(1, $history);
     }
 
@@ -49,7 +49,7 @@ class FavouritesButtonServiceTest extends BaseServiceTestCase
             $this->client([new Response(200, [], '{"itemssssss": []}')])
         );
 
-        $result = $service->getContent();
+        $result = $service->getContent()->wait(true);
 
         // Assert empty result is returned
         $this->assertNull($result);
@@ -70,7 +70,7 @@ class FavouritesButtonServiceTest extends BaseServiceTestCase
             $this->client([new Response(500, [], '')])
         );
 
-        $result = $service->getContent();
+        $result = $service->getContent()->wait(true);
 
         // Assert empty result is returned
         $this->assertNull($result);
@@ -85,7 +85,7 @@ class FavouritesButtonServiceTest extends BaseServiceTestCase
             $this->client([new Response(404, [], '')])
         );
 
-        $result = $service->getContent();
+        $result = $service->getContent()->wait(true);
 
         // Assert empty result is returned
         $this->assertNull($result);

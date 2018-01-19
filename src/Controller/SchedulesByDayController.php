@@ -41,7 +41,7 @@ class SchedulesByDayController extends BaseController
 
         $this->helperFactory = $helperFactory;
         $this->setIstatsProgsPageType('schedules_day');
-        $this->setContext($service);
+        $this->setContextAndPreloadBranding($service);
 
         $dateTimeToShow = $this->dateTimeToShow($date, $service);
         if (!$dateTimeToShow) {
@@ -101,6 +101,9 @@ class SchedulesByDayController extends BaseController
 
         $this->setIstatsExtraLabels($this->getIstatsExtraLabels($date, $broadcastDay->start()->isYesterday()));
 
+        if ($this->request()->query->has('no_chrome')) {
+            return $this->renderWithoutChrome('schedules/by_day.html.twig', $viewData);
+        }
         return $this->renderWithChrome('schedules/by_day.html.twig', $viewData);
     }
 

@@ -7,7 +7,7 @@ parameters:
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronStubService
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngStubService
     app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesStubService
-
+    app.favourites.service.class: App\ExternalApi\FavouritesButton\Service\FavouritesButtonStubService
 
 framework:
     cache:

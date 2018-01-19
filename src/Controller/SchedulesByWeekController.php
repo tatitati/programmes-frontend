@@ -36,7 +36,7 @@ class SchedulesByWeekController extends BaseController
         }
 
         $this->setIstatsProgsPageType('schedules_week');
-        $this->setContext($service);
+        $this->setContextAndPreloadBranding($service);
 
         if ($utcOffset) {
             ApplicationTime::setLocalTimeZone($utcOffset);
@@ -97,6 +97,9 @@ class SchedulesByWeekController extends BaseController
         // as appropriate when we have no broadcasts
         $this->setResponseCodeAndNoIndexProperties($serviceIsActiveInThisPeriod, $broadcasts, $broadcastWeek);
 
+        if ($this->request()->query->has('no_chrome')) {
+            return $this->renderWithoutChrome('schedules/by_week.html.twig', $viewData);
+        }
         return $this->renderWithChrome('schedules/by_week.html.twig', $viewData);
     }
 

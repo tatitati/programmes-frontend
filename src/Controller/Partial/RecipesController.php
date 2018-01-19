@@ -14,7 +14,7 @@ class RecipesController extends BaseController
         Request $request,
         string $pid
     ) {
-        $apiResponse = $recipesService->fetchRecipesByPid($pid);
+        $apiResponse = $recipesService->fetchRecipesByPid($pid)->wait(true);
 
         // if there are no recipes, don't display anything
         if ($apiResponse->getTotal() === 0 || !$apiResponse->getRecipes()) {
@@ -33,7 +33,7 @@ class RecipesController extends BaseController
         // Cache for 5 minutes
         $this->response()->setMaxAge(300);
 
-        return $this->renderWithChrome('partial/recipes.html.twig', [
+        return $this->render('partial/recipes.html.twig', [
             'recipes' => $apiResponse->getRecipes(),
             'total' => $apiResponse->getTotal(),
             'pid' => $pid,

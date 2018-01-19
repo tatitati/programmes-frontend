@@ -5,21 +5,20 @@ namespace App\ExternalApi\Ada\Service;
 
 use App\ExternalApi\Ada\Domain\AdaClass;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
- * Class ElectronStubService
+ * Class AdaClassStubService
  *
  * Stub class for unit tests
  */
 class AdaClassStubService extends AdaClassService
 {
-    /**
-     * @return AdaClass[]
-     */
     public function findRelatedClassesByContainer(
         Programme $programme,
         bool $countWithinTleo = true
-    ): array {
-        return [];
+    ): PromiseInterface {
+        return new FulfilledPromise([]);
     }
 }

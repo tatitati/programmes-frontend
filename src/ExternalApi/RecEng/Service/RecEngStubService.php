@@ -4,6 +4,8 @@ namespace App\ExternalApi\RecEng\Service;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class RecEngStubService extends RecEngService
 {
@@ -14,7 +16,7 @@ class RecEngStubService extends RecEngService
         ?Episode $upcomingEpisode,
         ?Episode $lastOnEpisode,
         int $limit = 2
-    ): array {
-        return [];
+    ): PromiseInterface {
+        return new FulfilledPromise([]);
     }
 }

@@ -12,7 +12,7 @@ class PlayerController extends BaseController
         ProgrammeContainer $programme,
         ProgrammesAggregationService $programmeAggregationService
     ) {
-        $this->setContext($programme);
+        $this->setContextAndPreloadBranding($programme);
         $page = $this->getPage();
         $limit = 10;
 

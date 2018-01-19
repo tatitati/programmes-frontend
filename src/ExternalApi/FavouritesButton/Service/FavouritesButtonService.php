@@ -3,11 +3,13 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\FavouritesButton\Service;
 
+use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Exception\ParseException;
 use App\ExternalApi\FavouritesButton\Domain\FavouritesButton;
 use App\ExternalApi\FavouritesButton\Mapper\FavouritesButtonMapper;
 use Closure;
+use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 
 class FavouritesButtonService
@@ -28,7 +30,16 @@ class FavouritesButtonService
         $this->url = $url;
     }
 
-    public function getContent(): ?FavouritesButton
+    /**
+     * @return PromiseInterface (Promise returns ?FavouritesButton when unwrapped)
+     */
+    public function getContent(): PromiseInterface
+    {
+        $client = $this->makeHttpApiClient();
+        return $client->makeCachedPromise();
+    }
+
+    private function makeHttpApiClient(): HttpApiClient
     {
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__);
 
@@ -40,7 +51,7 @@ class FavouritesButtonService
             null
         );
 
-        return $client->makeCachedRequest();
+        return $client;
     }
 
     private function parseResponse(Response $response): FavouritesButton

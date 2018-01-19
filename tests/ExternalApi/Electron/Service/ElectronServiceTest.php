@@ -31,7 +31,7 @@ class ElectronServiceTest extends BaseServiceTestCase
             $this->client([new Response(200, [], $xml)], $history)
         );
         $programme = $this->createConfiguredMock(Brand::class, ['getPid' => new Pid('b006m86d')]);
-        $items = $service->fetchSupportingContentItemsForProgramme($programme);
+        $items = $service->fetchSupportingContentItemsForProgramme($programme)->wait(true);
         $this->assertCount(2, $items);
         $this->assertEquals('The Queen Vic Jukebox on BBC Music', $items[0]->getTitle());
 
@@ -48,7 +48,7 @@ class ElectronServiceTest extends BaseServiceTestCase
         );
 
         $programme = $this->createConfiguredMock(Brand::class, ['getPid' => new Pid('b006m86d')]);
-        $result = $service->fetchSupportingContentItemsForProgramme($programme);
+        $result = $service->fetchSupportingContentItemsForProgramme($programme)->wait(true);
 
         // Assert empty result is returned
         $this->assertEquals([], $result);
@@ -65,7 +65,7 @@ class ElectronServiceTest extends BaseServiceTestCase
         );
 
         $programme = $this->createConfiguredMock(Brand::class, ['getPid' => new Pid('b006m86d')]);
-        $result = $service->fetchSupportingContentItemsForProgramme($programme);
+        $result = $service->fetchSupportingContentItemsForProgramme($programme)->wait(true);
 
          // Assert empty result is returned
         $this->assertEquals([], $result);
@@ -87,7 +87,7 @@ class ElectronServiceTest extends BaseServiceTestCase
         );
 
         $programme = $this->createConfiguredMock(Brand::class, ['getPid' => new Pid('b006m86d')]);
-        $result = $service->fetchSupportingContentItemsForProgramme($programme);
+        $result = $service->fetchSupportingContentItemsForProgramme($programme)->wait(true);
 
         // Assert empty result is returned
         $this->assertEquals([], $result);

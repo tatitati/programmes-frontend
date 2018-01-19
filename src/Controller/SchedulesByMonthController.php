@@ -16,7 +16,7 @@ class SchedulesByMonthController extends BaseController
         }
 
         $this->setIstatsProgsPageType('schedules_month');
-        $this->setContext($service);
+        $this->setContextAndPreloadBranding($service);
 
         $firstOfMonth = Date::createFromFormat('Y/m|', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();
         $viewData = ['first_of_month' => $firstOfMonth, 'service' => $service];

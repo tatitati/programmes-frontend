@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\RecEng\Service;
 
+use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use Closure;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -12,6 +13,8 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use App\ExternalApi\Exception\ParseException;
+use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
 
@@ -51,9 +54,9 @@ class RecEngService
         $this->programmesService = $programmesService;
         $this->baseUrl = $baseUrl;
     }
-
+    
     /**
-     * Returns an array of Programme objects which are fetched based on RecEng results
+     * Returns a promise of an array of Programme objects which are fetched based on RecEng results
      * Will return an empty array if not results were found or RecEng cannot be reached
      *
      * @param Programme $programme
@@ -61,7 +64,7 @@ class RecEngService
      * @param Episode|null $upcomingEpisode
      * @param Episode|null $lastOnEpisode
      * @param int $limit
-     * @return Programme[]
+     * @return PromiseInterface (returns Programme[] when unwrapped)
      */
     public function getRecommendations(
         Programme $programme,
@@ -69,26 +72,15 @@ class RecEngService
         ?Episode $upcomingEpisode,
         ?Episode $lastOnEpisode,
         int $limit = 2
-    ): array {
+    ): PromiseInterface {
         $programmeEpisode = $this->getProgrammeEpisode($programme, $latestEpisode, $upcomingEpisode, $lastOnEpisode);
 
         if (!$programmeEpisode) {
-            return [];
+            return new FulfilledPromise([]);
         }
 
-        $programmePid = $programmeEpisode->getPid();
-        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programmePid);
-        $recEngKey = $programmeEpisode->isVideo() ? $this->videoKey : $this->audioKey;
-        $requestUrl = $this->baseUrl . '?key=' . $recEngKey . '&id=' . (string) $programmePid;
-
-        $client = $this->clientFactory->getHttpApiClient(
-            $cacheKey,
-            $requestUrl,
-            Closure::fromCallable([$this, 'parseResponse']),
-            [$limit]
-        );
-
-        return $client->makeCachedRequest();
+        $client = $this->makeClient($programmeEpisode, $limit);
+        return $client->makeCachedPromise();
     }
 
     /**
@@ -126,6 +118,21 @@ class RecEngService
         }
 
         return null;
+    }
+
+    private function makeClient(Episode $programmeEpisode, int $limit): HttpApiClient
+    {
+        $programmePid = $programmeEpisode->getPid();
+        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programmePid);
+        $recEngKey = $programmeEpisode->isVideo() ? $this->videoKey : $this->audioKey;
+        $requestUrl = $this->baseUrl . '?key=' . $recEngKey . '&id=' . (string) $programmePid;
+
+        return $this->clientFactory->getHttpApiClient(
+            $cacheKey,
+            $requestUrl,
+            Closure::fromCallable([$this, 'parseResponse']),
+            [$limit]
+        );
     }
 
     /**

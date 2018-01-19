@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Electron\Service;
 
+use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Electron\Mapper\SupportingContentMapper;
@@ -12,6 +13,7 @@ use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Promise\PromiseInterface;
 use SimpleXMLElement;
 
 class ElectronService
@@ -42,20 +44,24 @@ class ElectronService
 
     /**
      * @param Programme $programme
-     * @return SupportingContentItem[]
+     * @return PromiseInterface ( Promise returns SupportingContentItem[] when unwrapped)
      */
-    public function fetchSupportingContentItemsForProgramme(Programme $programme): array
+    public function fetchSupportingContentItemsForProgramme(Programme $programme): PromiseInterface
+    {
+        $client = $this->makeClient($programme);
+        return $client->makeCachedPromise();
+    }
+
+    private function makeClient(Programme $programme): HttpApiClient
     {
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programme->getPid());
         $url = $this->makeSupportingContentUrlForProgramme($programme->getPid());
 
-        $client = $this->clientFactory->getHttpApiClient(
+        return $this->clientFactory->getHttpApiClient(
             $cacheKey,
             $url,
             Closure::fromCallable([$this, 'parseResponse'])
         );
-
-        return $client->makeCachedRequest();
     }
 
     private function makeSupportingContentUrlForProgramme(Pid $pid): string

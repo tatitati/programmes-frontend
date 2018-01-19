@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\Ada\Service;
 
+use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Ada\Domain\AdaClass;
 use App\ExternalApi\Ada\Mapper\AdaClassMapper;
 use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use Closure;
 
@@ -60,12 +62,20 @@ class AdaClassService
     }
 
     /**
-     * @return AdaClass[]
+     * @param Programme $programme
+     * @param bool $countWithinTleo
+     * @return PromiseInterface (Promise return AdaClass[] when unwrapped)
      */
     public function findRelatedClassesByContainer(
         Programme $programme,
         bool $countWithinTleo = true
-    ): array {
+    ): PromiseInterface {
+        $client = $this->makeClient($programme, $countWithinTleo);
+        return $client->makeCachedPromise();
+    }
+
+    private function makeClient(Programme $programme, bool $countWithinTleo): HttpApiClient
+    {
         $limit = 5;
 
         // If $countWithinTleo is true, then the programme_item_count returned
@@ -82,14 +92,12 @@ class AdaClassService
 
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $stringPid, $countWithinTleo);
 
-        $client = $this->clientFactory->getHttpApiClient(
+        return $this->clientFactory->getHttpApiClient(
             $cacheKey,
             $url,
             Closure::fromCallable([$this, 'parseResponse']),
             [$contextPid, $limit]
         );
-
-        return $client->makeCachedRequest();
     }
 
     private function buildRequestUrl(

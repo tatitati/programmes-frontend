@@ -50,7 +50,7 @@ class RecEngServiceTest extends BaseServiceTestCase
             ->with([new Pid('p04vjd23'), new Pid('p0576pm5')])
             ->willReturn($programmesServiceResult);
 
-        $result = $service->getRecommendations($mockEpisode, null, null, null, 2);
+        $result = $service->getRecommendations($mockEpisode, null, null, null, 2)->wait(true);
 
         $this->assertContainsOnlyInstancesOf(Programme::class, $result);
         $this->assertContains('p04vjd23', [$result[0]->getPid(), $result[1]->getPid()]);
@@ -71,7 +71,7 @@ class RecEngServiceTest extends BaseServiceTestCase
 
         $this->mockProgrammesService->method('findByPids')->willReturn([$this->createMock(Programme::class)]);
 
-        $result = $service->getRecommendations($mockEpisode, null, null, null, 2);
+        $result = $service->getRecommendations($mockEpisode, null, null, null, 2)->wait(true);
 
         $requestQueryString = $this->getLastRequestUrl($history);
         $this->assertContains($expectedKey, $requestQueryString);
@@ -104,7 +104,7 @@ class RecEngServiceTest extends BaseServiceTestCase
             ->with([new Pid('p04vjd23')])
             ->willReturn($programmesServiceResult);
 
-        $result = $service->getRecommendations($mockEpisode, null, null, null, 1);
+        $result = $service->getRecommendations($mockEpisode, null, null, null, 1)->wait(true);
 
         $this->assertContainsOnlyInstancesOf(Programme::class, $result);
         $this->assertContains('p04vjd23', [$result[0]->getPid()]);
@@ -119,7 +119,7 @@ class RecEngServiceTest extends BaseServiceTestCase
         $mockEpisode = $this->createMock(Episode::class);
         $this->mockProgrammesService->method('findByPids')->willReturn([]);
 
-        $result = $service->getRecommendations($mockEpisode, null, null, null, 2);
+        $result = $service->getRecommendations($mockEpisode, null, null, null, 2)->wait(true);
 
         $this->assertEquals([], $result);
     }
@@ -133,7 +133,7 @@ class RecEngServiceTest extends BaseServiceTestCase
         $mockEpisode = $this->createMock(Episode::class);
         $this->mockProgrammesService->method('findByPids')->willReturn([]);
 
-        $result = $service->getRecommendations($mockEpisode, null, null, null, 2);
+        $result = $service->getRecommendations($mockEpisode, null, null, null, 2)->wait(true);
 
         $this->assertEquals([], $result);
     }
@@ -146,7 +146,7 @@ class RecEngServiceTest extends BaseServiceTestCase
         );
 
         $mockEpisode = $this->createMock(Episode::class);
-        $result = $service->getRecommendations($mockEpisode, null, null, null, 2);
+        $result = $service->getRecommendations($mockEpisode, null, null, null, 2)->wait(true);
 
         $this->assertEquals([], $result);
     }
@@ -158,7 +158,7 @@ class RecEngServiceTest extends BaseServiceTestCase
         );
 
         $mockEpisode = $this->createMock(Episode::class);
-        $result = $service->getRecommendations($mockEpisode, null, null, null, 2);
+        $result = $service->getRecommendations($mockEpisode, null, null, null, 2)->wait(true);
 
         $this->assertEquals([], $result);
     }

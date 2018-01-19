@@ -10,7 +10,7 @@ class ClipController extends BaseController
     public function __invoke(Clip $clip)
     {
         $this->setIstatsProgsPageType('programmes_clip');
-        $this->setContext($clip);
+        $this->setContextAndPreloadBranding($clip);
 
         return $this->renderWithChrome('find_by_pid/example_entity.html.twig', [
             'programme' => $clip,

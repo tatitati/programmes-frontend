@@ -29,7 +29,7 @@ class AdaClassServiceTest extends BaseServiceTestCase
             $this->client([$this->mockValidResponse()], $history)
         );
 
-        $result = $service->findRelatedClassesByContainer($this->mockProgramme());
+        $result = $service->findRelatedClassesByContainer($this->mockProgramme())->wait(true);
 
         $this->assertEquals(
             'https://api.example.com/test/classes?page=1&page_size=10&programme=b0000001&count_context=b0000001&threshold=2&order=rank&direction=descending',
@@ -53,7 +53,7 @@ class AdaClassServiceTest extends BaseServiceTestCase
             $this->client([$this->mockValidResponse()], $history)
         );
 
-        $result = $service->findRelatedClassesByContainer($this->mockProgramme(), false);
+        $result = $service->findRelatedClassesByContainer($this->mockProgramme(), false)->wait(true);
 
         $this->assertEquals(
             'https://api.example.com/test/classes?page=1&page_size=10&programme=b0000001&threshold=2&order=rank&direction=descending',
@@ -67,7 +67,7 @@ class AdaClassServiceTest extends BaseServiceTestCase
             $this->client([new Response(200, [], '{"itemssssss": []}')])
         );
 
-        $result = $service->findRelatedClassesByContainer($this->mockProgramme());
+        $result = $service->findRelatedClassesByContainer($this->mockProgramme())->wait(true);
 
         // Assert empty result is returned
         $this->assertEquals([], $result);
@@ -88,7 +88,7 @@ class AdaClassServiceTest extends BaseServiceTestCase
             $this->client([new Response(500, [], '')])
         );
 
-        $result = $service->findRelatedClassesByContainer($this->mockProgramme());
+        $result = $service->findRelatedClassesByContainer($this->mockProgramme())->wait(true);
 
         // Assert empty result is returned
         $this->assertEquals([], $result);
@@ -103,7 +103,7 @@ class AdaClassServiceTest extends BaseServiceTestCase
             $this->client([new Response(404, [], '')])
         );
 
-        $result = $service->findRelatedClassesByContainer($this->mockProgramme());
+        $result = $service->findRelatedClassesByContainer($this->mockProgramme())->wait(true);
 
         // Assert empty result is returned
         $this->assertEquals([], $result);

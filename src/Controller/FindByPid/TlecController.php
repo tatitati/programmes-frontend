@@ -23,6 +23,7 @@ use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
+use GuzzleHttp\Promise\FulfilledPromise;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -57,7 +58,7 @@ class TlecController extends BaseController
         }
 
         $this->setIstatsProgsPageType('programmes_container');
-        $this->setContext($programme);
+        $this->setContextAndPreloadBranding($programme);
 
         $clips = [];
         $galleries = [];
@@ -98,13 +99,11 @@ class TlecController extends BaseController
         $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority);
         $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
 
-        $supportingContentItems = $electronService->fetchSupportingContentItemsForProgramme($programme);
-
-        $relatedTopics = [];
+        $relatedTopicsPromise = new FulfilledPromise([]);
         if ($programme->getOption('show_enhanced_navigation')) {
             // Less than 50 episodes (through ancestry)...
             $usePerContainerValues = $programme->getAggregatedEpisodesCount() >= 50;
-            $relatedTopics = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
+            $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
         }
 
         $mapPresenter = $presenterFactory->mapPresenter(
@@ -126,7 +125,7 @@ class TlecController extends BaseController
             array_shift($promotions);
         }
 
-        $recommendations = $recEngService->getRecommendations(
+        $recommendationsPromise = $recEngService->getRecommendations(
             $programme,
             $onDemandEpisode,
             $upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null,
@@ -136,25 +135,32 @@ class TlecController extends BaseController
 
         $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
 
-        $favouritesButton = null;
+        $favouritesButtonPromise = new FulfilledPromise(null);
         if ($programme->isRadio()) {
-            $favouritesButton = $favouritesButtonService->getContent();
+            $favouritesButtonPromise = $favouritesButtonService->getContent();
         }
 
-        return $this->renderWithChrome('find_by_pid/tlec.html.twig', [
+        $parameters = [
             'programme' => $programme,
             'promotions' => $promotions,
             'clips' => $clips,
             'galleries' => $galleries,
             'mapPresenter' => $mapPresenter,
             'isVotePriority' => $isVotePriority,
-            'recommendations' => $recommendations,
-            'supportingContentItems' => $supportingContentItems,
-            'relatedTopics' => $relatedTopics,
             'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
             'relatedLinks' => $relatedLinks,
-            'favouritesButton' => $favouritesButton,
-        ]);
+        ];
+
+        $parameterPromises = [
+            'recommendations' => $recommendationsPromise,
+            'relatedTopics' => $relatedTopicsPromise,
+            'supportingContentItems' => $electronService->fetchSupportingContentItemsForProgramme($programme),
+            'favouritesButton' => $favouritesButtonPromise,
+        ];
+
+        $parameters = array_merge($parameters, $this->resolvePromises($parameterPromises));
+
+        return $this->renderWithChrome('find_by_pid/tlec.html.twig', $parameters);
     }
 
     private function getComingSoonPromotion(ImagesService $imagesService, ProgrammeContainer $programme): ?Promotion

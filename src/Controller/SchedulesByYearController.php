@@ -23,7 +23,7 @@ class SchedulesByYearController extends BaseController
         }
 
         $this->setIstatsProgsPageType('schedules_year');
-        $this->setContext($service);
+        $this->setContextAndPreloadBranding($service);
 
         $startOfYear = Date::createFromFormat('Y|', $year, ApplicationTime::getLocalTimeZone())->firstOfYear();
         $viewData = ['start_of_year' => $startOfYear, 'service' => $service];

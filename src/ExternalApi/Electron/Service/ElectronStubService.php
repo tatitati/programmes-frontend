@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Electron\Service;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * Class ElectronStubService
@@ -12,8 +14,8 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
  */
 class ElectronStubService extends ElectronService
 {
-    public function fetchSupportingContentItemsForProgramme(Programme $programme): array
+    public function fetchSupportingContentItemsForProgramme(Programme $programme): PromiseInterface
     {
-        return [];
+        return new FulfilledPromise([]);
     }
 }
