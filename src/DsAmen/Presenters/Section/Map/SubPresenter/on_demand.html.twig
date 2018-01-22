@@ -51,7 +51,7 @@
                         href="{{ path('iplayer_episodes', {'pid': presenter.getProgrammeContainer().getPid()}) }}"
                     {% endif %}
                     class="gel-pica-bold istats--all-on-demand">
-                    {{ tr('all_available_episodes') }}
+                    {{- tr('all_available_episodes') -}}
                 </a>
                 <span class="gel-long-primer">
                     ({{ tr('x_total', {'%1': presenter.getProgrammeContainer().getAvailableEpisodesCount()}, presenter.getProgrammeContainer().getAvailableEpisodesCount()) }})

@@ -6,6 +6,7 @@ namespace App\DsShared\Helpers;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\Exception\DataNotFetchedException;
 
 class BroadcastNetworksHelper
 {
@@ -70,8 +71,10 @@ class BroadcastNetworksHelper
             $broadcastOnServices = $networkBreakdown['on_services'];
             $notBroadcastOnServices = $networkBreakdown['not_on_services'];
 
-            if (empty($notBroadcastOnServices)) {
+            if (empty($notBroadcastOnServices) || empty($broadcastOnServices)) {
                 // If the broadcast is present in all services, we don't need to qualify it
+                // Also, if the broadcast isn't present in any service, we removed it because
+                // it has the same name as the network. So, we just use the network name, without qualifiers
                 $serviceNames[] = '';
             } elseif (count($broadcastOnServices) === 1) {
                 // If the broadcast happens only in one service just use the name without the 'only' qualifier
@@ -103,11 +106,17 @@ class BroadcastNetworksHelper
     }
 
     /**
+     * Breaks down broadcast network information in services where the broadcast happened and services where
+     * the broadcast didn't happen. When building these two lists, services with the same short name as the
+     * network get ignored. This happens on World News broadcasts, which has a service (p00v5fbq) with no
+     * broadcast. This leads to things like 'BBC World News except BBC World News'
+     *
      * @param CollapsedBroadcast $collapsedBroadcast
      * @return array an associative array containing 3 indexes:
      *               'network' => the network
      *               'on_services' => services from the network where the broadcast happened
      *               'not_on_services' => services from the network where the broadcast didn't happened
+     * @throws DataNotFetchedException
      */
     public function getCollapsedBroadcastNetworkBreakdown(CollapsedBroadcast $collapsedBroadcast): array
     {
@@ -124,14 +133,26 @@ class BroadcastNetworksHelper
                     ];
                 }
 
-                $breakdowns[$nid]['on_services'][(string) $service->getSid()] = $service;
+                // If the service has the same name as the network, ignore it
+                if (strcasecmp($service->getShortName(), $service->getNetwork()->getName())) {
+                    $breakdowns[$nid]['on_services'][(string) $service->getSid()] = $service;
+                }
             }
         }
 
         // Build a list of the services from a network where the broadcast didn't happen
         foreach ($breakdowns as $nid => $breakdown) {
+            $networkServices = [];
+            $allServices = $breakdown['network']->getServices();
+            foreach ($allServices as $service) {
+                // If the service has the same name as the network, ignore it
+                if (strcasecmp($service->getShortName(), $breakdown['network']->getName())) {
+                    $networkServices[] = $service;
+                }
+            }
+
             $breakdowns[$nid]['not_on_services'] = array_udiff(
-                $breakdown['network']->getServices(),
+                $networkServices,
                 $breakdown['on_services'],
                 function (Service $a, Service $b) {
                     return strcmp((string) $a->getSid(), (string) $b->getSid());

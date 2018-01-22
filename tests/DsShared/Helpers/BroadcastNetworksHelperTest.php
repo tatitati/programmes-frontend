@@ -25,6 +25,44 @@ class BroadcastNetworksHelperTest extends TestCase
         $this->helper = new BroadcastNetworksHelper(new TranslateProvider(new TranslateFactory()));
     }
 
+    public function testGetNetworksAndServicesDetailsWithServiceExceptionWithSameNameAsNetworkGetsIgnored(): void
+    {
+        // In this test, 'nid1' is the only network that doesn't get the broadcast. As it has
+        // the same name as the network, it gets ignored, which leads to no qualifier for the
+        // network
+        $services = $this->createServicesWithNetwork(
+            ['nid1', 'sid1', 'sid2', 'sid3'],
+            'nid1',
+            false
+        );
+
+        $broadcast = $this->createCollapsedBroadcast(array_slice($services, 1));
+        $breakdown = $this->helper->getNetworksAndServicesDetails($broadcast);
+
+        $this->assertCount(1, $breakdown);
+        $this->assertEquals('nid1', implode(array_keys($breakdown)));
+        $this->assertEmpty(implode(array_values($breakdown)));
+    }
+
+    public function testGetNetworksAndServicesDetailsWithServiceWithSameNameAsNetworkGetsIgnored(): void
+    {
+        // In this test, 'nid1' is the only network that doesn't get the broadcast. As it has
+        // the same name as the network, it gets ignored, which leads to no qualifier for the
+        // network
+        $services = $this->createServicesWithNetwork(
+            ['nid1', 'sid1', 'sid2', 'sid3'],
+            'nid1',
+            false
+        );
+
+        $broadcast = $this->createCollapsedBroadcast(array_slice($services, 0, 1));
+        $breakdown = $this->helper->getNetworksAndServicesDetails($broadcast);
+
+        $this->assertCount(1, $breakdown);
+        $this->assertEquals('nid1', implode(array_keys($breakdown)));
+        $this->assertEmpty(implode(array_values($breakdown)));
+    }
+
     public function testGetNetworksAndServicesDetailsWithOneNetworkShowingExceptServices(): void
     {
         $network1Services = $this->createServicesWithNetwork(['sid1', 'sid2', 'sid3'], 'nid1');
@@ -145,18 +183,20 @@ class BroadcastNetworksHelperTest extends TestCase
         return new CollapsedBroadcast($programmeItem, $services, $start, $end, 30);
     }
 
-    private function createServicesWithNetwork(array $sids, string $nid): array
+    private function createServicesWithNetwork(array $sids, string $nid, bool $usePrefix = true): array
     {
         $network = $this->createMock(Network::class);
         $network->method('getNid')->willReturn(new Nid($nid));
-        $network->method('getName')->willReturn('Network ' . $nid);
+        $prefix = $usePrefix ? 'Network ' : '';
+        $network->method('getName')->willReturn($prefix . $nid);
 
         $services = [];
 
         foreach ($sids as $sid) {
             $service = $this->createMock(Service::class);
             $service->method('getSid')->willReturn(new Sid($sid));
-            $service->method('getShortName')->willReturn('Service ' . $sid);
+            $prefix = $usePrefix ? 'Service ' : '';
+            $service->method('getShortName')->willReturn($prefix . $sid);
             $service->method('getNetwork')->willReturn($network);
             $services[] = $service;
         }
