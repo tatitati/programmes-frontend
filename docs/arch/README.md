@@ -19,6 +19,8 @@ Contents
 * [002: Routing PID context pages](adr-002-routing-pid-context-pages.md):
   How `/programmes/:pid/clips` and other pages beneath `/programmes/:pid` are
   routed
+* [003: Serving Programme Options Redirects](adr-003-serving-programme-options-redirects.md):
+  How redirects configured within programme options are handled.
 
 
 Template
