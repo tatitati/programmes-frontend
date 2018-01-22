@@ -20,6 +20,12 @@
     "bbc/gel-iconography-assets": {
         "version": "1.2.5"
     },
+    "bbc/programmes-caching-library": {
+        "version": "v1.0.2"
+    },
+    "bbc/programmes-morph-library": {
+        "version": "v1.0"
+    },
     "bbc/programmes-pages-service": {
         "version": "dev-master"
     },

@@ -67,7 +67,7 @@ class TlecControllerTest extends BaseWebTestCase
     /**
      * @dataProvider showMiniMapDataProvider
      */
-    public function testShowMiniMap(Request $request, ProgrammeContainer $programmeContainer, bool $isPromoPriority)
+    public function testShowMiniMap(Request $request, ProgrammeContainer $programmeContainer, bool $isPromoPriority, bool $hasLxPromo)
     {
         $controller = $this->createMock(TlecController::class);
 
@@ -78,6 +78,7 @@ class TlecControllerTest extends BaseWebTestCase
                 $request,
                 $programmeContainer,
                 $isPromoPriority,
+                $hasLxPromo,
             ]
         );
         $this->assertTrue($showMiniMap);
@@ -87,15 +88,16 @@ class TlecControllerTest extends BaseWebTestCase
     {
         $cases = [];
         $programmeContainer = $this->createMock(ProgrammeContainer::class);
-        $cases['is-vote-priority'] = [new Request(), clone $programmeContainer, true];
-        $cases['forced-by-url'] = [new Request(['__2016minimap' => 1]), clone $programmeContainer , false];
+        $cases['is-vote-priority'] = [new Request(), clone $programmeContainer, true, false];
+        $cases['has-lx-promo'] = [new Request(), clone $programmeContainer, true, true];
+        $cases['forced-by-url'] = [new Request(['__2016minimap' => 1]), clone $programmeContainer, false];
 
         $programmeContainer->expects($this->once())
             ->method('getOption')
             ->with('brand_2016_layout_use_minimap')
             ->willReturn('true');
 
-        $cases['forced-by-url'] = [new Request(), $programmeContainer, false];
+        $cases['forced-by-url'] = [new Request(), $programmeContainer, false, false];
 
         return $cases;
     }

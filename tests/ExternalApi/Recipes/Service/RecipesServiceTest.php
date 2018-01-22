@@ -8,7 +8,7 @@ use App\ExternalApi\Recipes\Domain\Recipe;
 use App\ExternalApi\Recipes\Domain\RecipesApiResult;
 use App\ExternalApi\Recipes\Mapper\RecipeMapper;
 use App\ExternalApi\Recipes\Service\RecipesService;
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Cache\CacheItemInterface;
 use Tests\App\ExternalApi\BaseServiceTestCase;

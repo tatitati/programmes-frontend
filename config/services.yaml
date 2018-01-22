@@ -7,11 +7,13 @@ parameters:
     # services_prod_test.yml
     app.feed_env.orbit: 'live'
     app.feed_env.branding: 'live'
+    app.feed_env.morph.lxpromo: 'live'
     aws_s3_region: eu-west-1
 
     app.default_locale: 'en_GB'
     app.orbit_client.class: BBC\BrandingClient\OrbitClient
     app.branding_client.class: BBC\BrandingClient\BrandingClient
+    app.morph_client.class: BBC\ProgrammesMorphLibrary\MorphClient
     app.metric_cache.class: App\Metrics\Cache\MetricCacheApcu
     app.metric_backend.class: App\Metrics\Backend\CloudWatchMetricBackend
     frontend.aws.http_timeout: 15
@@ -28,6 +30,8 @@ parameters:
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
     app.recipes.baseurl: 'https://api.live.bbc.co.uk/food/recipes'
     app.recipes.service.class: App\ExternalApi\Recipes\Service\RecipesService
+    app.morph.baseurl: 'https://morph.api.bbci.co.uk'
+    app.morph.service.lxpromo.class: App\ExternalApi\Morph\Service\LxPromoService
 
 
 services:
@@ -119,6 +123,15 @@ services:
             - env: '%app.feed_env.branding%'
               cacheKeyPrefix: 'programmes-frontend.%cosmos_component_release%.branding'
 
+
+    BBC\ProgrammesMorphLibrary\MorphClient:
+        class: '%app.morph_client.class%'
+        arguments:
+            - '@csa_guzzle.client.default'
+            - '@BBC\ProgrammesCachingLibrary\Cache'
+            - '@logger'
+            - '%app.morph.baseurl%'
+
     ### Translations
 
     RMP\Translate\TranslateFactory:
@@ -162,13 +175,15 @@ services:
     App\Metrics\Cache\MetricCacheInterface:
         class: "%app.metric_cache.class%"
 
-    ### Programmes Service
+    ## Caching Library
 
-    BBC\ProgrammesPagesService\Cache\CacheInterface:
-        alias: BBC\ProgrammesPagesService\Cache\Cache
+    BBC\ProgrammesCachingLibrary\CacheInterface:
+        alias: BBC\ProgrammesCachingLibrary\Cache
 
-    BBC\ProgrammesPagesService\Cache\Cache:
+    BBC\ProgrammesCachingLibrary\Cache:
         arguments: ['@cache.programmes', 'programmes-frontend.%cosmos_component_release%']
+
+    ### Programmes Service
 
     BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory: ~
 
@@ -210,7 +225,7 @@ services:
 
     ### Cache null adapter for the status controller
     null_cache:
-        class: 'BBC\ProgrammesPagesService\Cache\Cache'
+        class: 'BBC\ProgrammesCachingLibrary\Cache'
         arguments:
             - '@cache.null_provider'
             - 'nullcache'
@@ -254,3 +269,8 @@ services:
         class: '%app.recipes.service.class%'
         arguments:
             $baseUrl: '%app.recipes.baseurl%'
+
+    App\ExternalApi\Morph\Service\LxPromoService:
+        class: '%app.morph.service.lxpromo.class%'
+        arguments:
+            $lxPromoEnv: '%app.feed_env.morph.lxpromo%'

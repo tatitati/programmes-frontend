@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "92e3bb915c0d39b9e556474b7cdf312d",
+    "content-hash": "ce1bb3c536b5244498053e85042025d6",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -380,21 +380,103 @@
             "time": "2017-09-04T13:45:14+00:00"
         },
         {
+            "name": "bbc/programmes-caching-library",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bbc/programmes-caching-library.git",
+                "reference": "2dfe8e24a9525c6f69a4e00510234442c2a0d58d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bbc/programmes-caching-library/zipball/2dfe8e24a9525c6f69a4e00510234442c2a0d58d",
+                "reference": "2dfe8e24a9525c6f69a4e00510234442c2a0d58d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "psr/cache": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BBC\\ProgrammesCachingLibrary\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\BBC\\ProgrammesCachingLibrary\\": "tests/"
+                }
+            },
+            "description": "Caching for /programmes projects",
+            "support": {
+                "source": "https://github.com/bbc/programmes-caching-library/tree/v1.0.2",
+                "issues": "https://github.com/bbc/programmes-caching-library/issues"
+            },
+            "time": "2018-01-18T12:15:46+00:00"
+        },
+        {
+            "name": "bbc/programmes-morph-library",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bbc/programmes-morph-library.git",
+                "reference": "48ee418ad89e424a723bff518b0e45182087d1b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bbc/programmes-morph-library/zipball/48ee418ad89e424a723bff518b0e45182087d1b9",
+                "reference": "48ee418ad89e424a723bff518b0e45182087d1b9",
+                "shasum": ""
+            },
+            "require": {
+                "bbc/programmes-caching-library": "^1.0",
+                "csa/guzzle-bundle": "^3.0",
+                "guzzlehttp/guzzle": "^6.0",
+                "psr/cache": "^1.0.0",
+                "psr/log": "^1.0.0"
+            },
+            "require-dev": {
+                "escapestudios/symfony2-coding-standard": "^3.0",
+                "phpstan/phpstan": "^0.9",
+                "phpstan/phpstan-phpunit": "^0.9",
+                "phpunit/phpunit": "^6.0",
+                "squizlabs/php_codesniffer": "^3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BBC\\ProgrammesMorphLibrary\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\BBC\\ProgrammesMorphLibrary\\": "tests/"
+                }
+            },
+            "support": {
+                "source": "https://github.com/bbc/programmes-morph-library/tree/v1.0.1",
+                "issues": "https://github.com/bbc/programmes-morph-library/issues"
+            },
+            "time": "2018-01-22T12:15:56+00:00"
+        },
+        {
             "name": "bbc/programmes-pages-service",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "3b38c32fcaf4afc7625a4ffe1e5b4b7524855b86"
+                "reference": "14082f26009256a0b9cde81140b9a7d67eedacf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/3b38c32fcaf4afc7625a4ffe1e5b4b7524855b86",
-                "reference": "3b38c32fcaf4afc7625a4ffe1e5b4b7524855b86",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/14082f26009256a0b9cde81140b9a7d67eedacf8",
+                "reference": "14082f26009256a0b9cde81140b9a7d67eedacf8",
                 "shasum": ""
             },
             "require": {
                 "bbc/doctrine-extensions": "^2.4.137",
+                "bbc/programmes-caching-library": "^1.0",
                 "doctrine/orm": "^2.5",
                 "php": ">=7.1.0",
                 "psr/cache": "^1.0",
@@ -429,10 +511,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/master",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/v4.0",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2018-01-10T11:49:09+00:00"
+            "time": "2018-01-18T12:32:56+00:00"
         },
         {
             "name": "behat/transliterator",

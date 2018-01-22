@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\ExternalApi\Client;
 
 use App\ExternalApi\Client\HttpApiClient;
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Middleware;

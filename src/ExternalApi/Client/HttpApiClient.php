@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Client;
 
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\FulfilledPromise;

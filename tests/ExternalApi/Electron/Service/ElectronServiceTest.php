@@ -8,7 +8,7 @@ use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Electron\Mapper\SupportingContentMapper;
 use App\ExternalApi\XmlParser\XmlParser;
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use GuzzleHttp\Psr7\Response;

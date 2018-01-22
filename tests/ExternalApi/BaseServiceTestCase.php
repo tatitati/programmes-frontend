@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\ExternalApi;
 
-use BBC\ProgrammesPagesService\Cache\Cache;
+use BBC\ProgrammesCachingLibrary\Cache;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Middleware;

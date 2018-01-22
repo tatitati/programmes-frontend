@@ -11,7 +11,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use GuzzleHttp\Psr7\Response;
 use Monolog\Logger;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Tests\App\ExternalApi\BaseServiceTestCase;
 
 class AdaClassServiceTest extends BaseServiceTestCase

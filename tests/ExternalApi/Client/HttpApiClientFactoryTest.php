@@ -5,7 +5,7 @@ namespace Tests\App\ExternalApi\Client;
 
 use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use GuzzleHttp\ClientInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;

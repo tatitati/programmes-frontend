@@ -5,7 +5,8 @@ namespace Tests\App\EventSubscriber;
 use App\EventSubscriber\CacheFlushSubscriber;
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\OrbitClient;
-use BBC\ProgrammesPagesService\Cache\CacheInterface;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
+use BBC\ProgrammesMorphLibrary\MorphClient;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,11 +26,15 @@ class CacheFlushSubscriberTest extends TestCase
         $orbit = $this->createMock(OrbitClient::class);
         $orbit->expects($this->once())->method('setFlushCacheItems')->with(true);
 
+        $morph = $this->createMock(MorphClient::class);
+        $morph->expects($this->once())->method('setFlushCacheItems')->with(true);
+
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->will($this->returnValueMap([
             [CacheInterface::class, $cache],
             [BrandingClient::class, $branding],
             [OrbitClient::class, $orbit],
+            [MorphClient::class, $morph],
         ]));
 
         $request = new Request(['__flush_cache' => '']);

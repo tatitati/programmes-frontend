@@ -8,6 +8,7 @@ use App\DsAmen\PresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Electron\Service\ElectronService;
+use App\ExternalApi\Morph\Service\LxPromoService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
@@ -50,7 +51,8 @@ class TlecController extends BaseController
         AdaClassService $adaClassService,
         HelperFactory $helperFactory,
         RelatedLinksService $relatedLinksService,
-        FavouritesButtonService $favouritesButtonService
+        FavouritesButtonService $favouritesButtonService,
+        LxPromoService $lxPromoService
     ) {
         if ($programme->getNetwork() && $programme->getNetwork()->isInternational()) {
             // "International" services are UTC, all others are Europe/London (the default)
@@ -92,12 +94,13 @@ class TlecController extends BaseController
         }
 
         $lastOn = $this->getLastOn($programme, $collapsedBroadcastsService);
-
         $comingSoonPromo = $this->getComingSoonPromotion($imagesService, $programme);
 
-        $isVotePriority = $this->isVotePriority($programme);
-        $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority);
-        $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
+        /* Start Promises */
+        $lxPromoPromise = new FulfilledPromise(null);
+        if ($programme->getOption('livepromo_block')) {
+            $lxPromoPromise = $lxPromoService->fetchByProgrammeContainer($programme);
+        }
 
         $relatedTopicsPromise = new FulfilledPromise([]);
         if ($programme->getOption('show_enhanced_navigation')) {
@@ -105,6 +108,35 @@ class TlecController extends BaseController
             $usePerContainerValues = $programme->getAggregatedEpisodesCount() >= 50;
             $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
         }
+
+        $recommendationsPromise = $recEngService->getRecommendations(
+            $programme,
+            $onDemandEpisode,
+            $upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null,
+            $lastOn ? $lastOn->getProgrammeItem() : null,
+            2
+        );
+
+        $favouritesButtonPromise = new FulfilledPromise(null);
+        if ($programme->isRadio()) {
+            $favouritesButtonPromise = $favouritesButtonService->getContent();
+        }
+
+        $promises = [
+            'recommendations' => $recommendationsPromise,
+            'relatedTopics' => $relatedTopicsPromise,
+            'supportingContentItems' => $electronService->fetchSupportingContentItemsForProgramme($programme),
+            'favouritesButton' => $favouritesButtonPromise,
+            'lxPromo' => $lxPromoPromise,
+        ];
+
+        $resolvedPromises = $this->resolvePromises($promises);
+        /* End promises */
+
+        // Map parameters
+        $isVotePriority = $this->isVotePriority($programme);
+        $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority, isset($resolvedPromises['lxPromo']));
+        $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
 
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,
@@ -125,20 +157,7 @@ class TlecController extends BaseController
             array_shift($promotions);
         }
 
-        $recommendationsPromise = $recEngService->getRecommendations(
-            $programme,
-            $onDemandEpisode,
-            $upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null,
-            $lastOn ? $lastOn->getProgrammeItem() : null,
-            2
-        );
-
         $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
-
-        $favouritesButtonPromise = new FulfilledPromise(null);
-        if ($programme->isRadio()) {
-            $favouritesButtonPromise = $favouritesButtonService->getContent();
-        }
 
         $parameters = [
             'programme' => $programme,
@@ -151,14 +170,7 @@ class TlecController extends BaseController
             'relatedLinks' => $relatedLinks,
         ];
 
-        $parameterPromises = [
-            'recommendations' => $recommendationsPromise,
-            'relatedTopics' => $relatedTopicsPromise,
-            'supportingContentItems' => $electronService->fetchSupportingContentItemsForProgramme($programme),
-            'favouritesButton' => $favouritesButtonPromise,
-        ];
-
-        $parameters = array_merge($parameters, $this->resolvePromises($parameterPromises));
+        $parameters = array_merge($parameters, $resolvedPromises);
 
         return $this->renderWithChrome('find_by_pid/tlec.html.twig', $parameters);
     }
@@ -222,13 +234,13 @@ class TlecController extends BaseController
         return $programme->getOption('brand_layout') === 'vote' && $programme->getOption('ivote_block') !== null;
     }
 
-    private function showMiniMap(Request $request, ProgrammeContainer $programme, bool $isVotePriority): bool
+    private function showMiniMap(Request $request, ProgrammeContainer $programme, bool $isVotePriority, bool $hasLxPromo): bool
     {
         if ($request->query->has('__2016minimap')) {
             return (bool) $request->query->get('__2016minimap');
         }
 
-        if ($isVotePriority) {
+        if ($isVotePriority || $hasLxPromo) {
             return true;
         }
 

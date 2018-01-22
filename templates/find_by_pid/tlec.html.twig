@@ -11,9 +11,16 @@
     {% if programme.getNetwork() and programme.getNetwork().isInternational() %}
         {% do preload(asset('js/timezone-notification.js'), { as: 'script', nopush: true }) %}
     {% endif %}
+
     {% if favouritesButton %}
         {{ favouritesButton.getHead()|raw }}
     {% endif %}
+
+    {%- if lxPromo -%}
+        {%- for script in lxPromo.getHead() -%}
+            {{ script|raw }}
+        {%- endfor -%}
+    {%- endif -%}
 {% endblock %}
 
 {% block body %}
@@ -22,7 +29,17 @@
         {{ advert('leaderboard', [1,2,3,4]) }}
     </div>
 
-    {# TODO BBC Live Promo #}
+    {%- if lxPromo -%}
+        <div class="p-g-p">
+            <div class="grid grid--flush leading-gap">
+                <div class="grid__item 1/1 br-box-secondary">
+                    <div id="bbc-morph-lx-promo">
+                        {{ lxPromo.getBody()|raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%- endif -%}
 
     {% if isVotePriority %}
         <div class="p-g-p">
@@ -234,6 +251,7 @@
             });
         </script>
     {% endif %}
+
     {% if favouritesButton %}
         {{ favouritesButton.getBodyLast()|raw }}
         <script>{{ favouritesButton.getScript()|raw }}</script>
@@ -252,4 +270,10 @@
             });
         </script>
     {% endif %}
+
+    {%- if lxPromo -%}
+        {%- for script in lxPromo.getBodyLast() -%}
+            {{ script|raw }}
+        {%- endfor -%}
+    {%- endif -%}
 {% endblock %}
