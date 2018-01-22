@@ -1,7 +1,7 @@
 {% import _self as self %}
 
 <div class="grid__item map__item {{ on_demand.getClass() }}">
-    <div class="map-card-wrap br-box-secondary" data-map-column="on_demand2016">
+    <div class="map-card-wrap br-box-secondary" data-map-column="on-demand">
         {%- if not on_demand.getStreamableEpisode() and not on_demand.getPendingEpisode() and not on_demand.hasUpcomingEpisode() -%}
             {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr(on_demand.getTitleTranslationString()), message:on_demand.getTranslatedStringForOnDemandNotAvailable()} only %}
         {%- elseif on_demand.episodeIsPending() -%}
