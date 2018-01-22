@@ -8,6 +8,7 @@ use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Ada\Domain\AdaClass;
 use App\ExternalApi\Ada\Mapper\AdaClassMapper;
 use App\ExternalApi\Exception\ParseException;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
@@ -96,7 +97,11 @@ class AdaClassService
             $cacheKey,
             $url,
             Closure::fromCallable([$this, 'parseResponse']),
-            [$contextPid, $limit]
+            [$contextPid, $limit],
+            [],
+            CacheInterface::MEDIUM,
+            CacheInterface::NORMAL,
+            10
         );
     }
 

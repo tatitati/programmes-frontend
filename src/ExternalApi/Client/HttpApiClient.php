@@ -51,6 +51,9 @@ class HttpApiClient
     /** @var CacheItemInterface */
     private $cacheItem;
 
+    /** @var int */
+    private $timeout;
+
     /**
      * @param ClientInterface $client
      * @param CacheInterface $cache
@@ -68,6 +71,8 @@ class HttpApiClient
      *   TTL for a 200 API response
      * @param int|string $notFoundTTL
      *   TTL for a 404 API response
+     * @param int $timeout
+     *   How long before this API times out
      */
     public function __construct(
         ClientInterface $client,
@@ -79,7 +84,8 @@ class HttpApiClient
         array $parseResponseArguments,
         $nullResult,
         $standardTTL,
-        $notFoundTTL
+        $notFoundTTL,
+        int $timeout
     ) {
         $this->client = $client;
         $this->cache = $cache;
@@ -91,6 +97,7 @@ class HttpApiClient
         $this->nullResult = $nullResult;
         $this->standardTTL = $standardTTL;
         $this->notFoundTTL = $notFoundTTL;
+        $this->timeout = $timeout;
     }
 
     public function makeCachedRequest()
@@ -100,7 +107,7 @@ class HttpApiClient
             return $this->cacheItem->get();
         }
         try {
-            $response = $this->client->request('GET', $this->requestUrl);
+            $response = $this->client->request('GET', $this->requestUrl, ['timeout' => $this->timeout]);
         } catch (GuzzleException $e) {
             return $this->handleGuzzleException($e);
         }
@@ -114,7 +121,7 @@ class HttpApiClient
             return new FulfilledPromise($this->cacheItem->get());
         }
         try {
-            $requestPromise = $this->client->requestAsync('GET', $this->requestUrl);
+            $requestPromise = $this->client->requestAsync('GET', $this->requestUrl, ['timeout' => $this->timeout]);
         } catch (GuzzleException $e) {
             return $this->handleGuzzleException($e);
         }

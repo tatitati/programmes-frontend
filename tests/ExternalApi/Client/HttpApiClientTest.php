@@ -179,7 +179,8 @@ class HttpApiClientTest extends TestCase
             $parseResponseArgs,
             $nullResult,
             $standardCache,
-            $notFoundCache
+            $notFoundCache,
+            10
         );
     }
 

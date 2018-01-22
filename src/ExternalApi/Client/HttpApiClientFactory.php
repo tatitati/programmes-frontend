@@ -35,7 +35,8 @@ class HttpApiClientFactory
         array $parseResponseArguments = [],
         $nullResult = [],
         $standardTTL = CacheInterface::MEDIUM,
-        $notFoundTTL = CacheInterface::NORMAL
+        $notFoundTTL = CacheInterface::NORMAL,
+        int $timeout = 6
     ) {
         return new HttpApiClient(
             $this->client,
@@ -47,7 +48,8 @@ class HttpApiClientFactory
             $parseResponseArguments,
             $nullResult,
             $standardTTL,
-            $notFoundTTL
+            $notFoundTTL,
+            $timeout
         );
     }
 
