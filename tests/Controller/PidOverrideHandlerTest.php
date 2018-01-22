@@ -40,6 +40,7 @@ class PidOverrideHandlerTest extends BaseWebTestCase
         $crawler = $client->request('GET', $url);
 
         $this->assertRedirectTo($client, $redirectStatusCode, $redirectLocation);
+        $this->assertEquals('Document has moved: ' . $redirectLocation, $client->getResponse()->getContent());
         $this->assertEquals('max-age=3600, public', $client->getResponse()->headers->get('Cache-Control'));
     }
 

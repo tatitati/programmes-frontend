@@ -47,10 +47,19 @@ class ExceptionController extends BaseExceptionController
         $code = $exception->getStatusCode();
         $orb = $branding = null; //No need for Orb or Branding when developing locally
 
+        $headers = [
+            'Content-Type' => $request->getMimeType($request->getRequestFormat()) ?: 'text/html',
+            // The page can only be displayed in a frame on the same origin as the page itself.
+            'X-Frame-Options' => 'SAMEORIGIN',
+            // Blocks a request if the requested type is different from the MIME type
+            'X-Content-Type-Options' => 'nosniff',
+        ];
+
         // If this is a Redirect exception don't return any body or show the
-        // debug page, just redirect everything
+        // debug page, just redirect everything. The 200 status here is a
+        // misnomer, it is a default and shall be overridden later.
         if ($code >= 300 && $code < 400) {
-            return new Response('', $code, $exception->getHeaders());
+            return new Response('Document has moved: ' . $exception->getHeaders()['location'], 200, $headers);
         }
 
         if (!$showException) {
@@ -69,14 +78,6 @@ class ExceptionController extends BaseExceptionController
                 $errorBaseTemplate = '@Twig/Exception/base_no_orb.html.twig';
             }
         }
-
-        $headers = [
-            'Content-Type' => $request->getMimeType($request->getRequestFormat()) ?: 'text/html',
-            // The page can only be displayed in a frame on the same origin as the page itself.
-            'X-Frame-Options' => 'SAMEORIGIN',
-            // Blocks a request if the requested type is different from the MIME type
-            'X-Content-Type-Options' => 'nosniff',
-        ];
 
         // In production, cache 4xx error codes for a little while
         if (!$showException && $code >= 400 && $code <= 499) {
