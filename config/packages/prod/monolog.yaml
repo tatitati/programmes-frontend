@@ -3,7 +3,7 @@ monolog:
         main:
             type: fingers_crossed
             channels: ['!app_access']
-            activation_strategy: '@App\Exception\Handler\HttpCodeActivationStrategy'
+            activation_strategy: 'App\Exception\Handler\HttpCodeActivationStrategy'
             handler: nested
         app_access:
             type: stream
@@ -21,6 +21,7 @@ monolog:
 
 services:
     App\Exception\Handler\HttpCodeActivationStrategy:
+        autowire: true
         arguments:
-            excludedCodes: [301, 302, 404]
-            actionLevel: error
+            $excludedCodes: [301, 302, 404]
+            $actionLevel: error
