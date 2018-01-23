@@ -13,7 +13,7 @@
 # ./script/symlinks composer
 # Remove the symlinks and re-install via composer
 
-libraries=( "programmes-pages-service", "programmes-morph-library" )
+libraries=( "programmes-pages-service" "programmes-morph-library" )
 
 if [ "$1" == "remove" ]; then
     for library in "${libraries[@]}"
