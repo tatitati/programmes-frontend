@@ -1,0 +1,93 @@
+.footer-wrapper {
+    border-top: solid 1px;
+    padding-top: $wide-half-spacing;
+}
+
+.footer {
+    overflow: hidden;
+}
+
+.footer__service,
+.footer__service-nav {
+    color: #ffffff;
+
+    a:link,
+    a:visited,
+    a:hover,
+    a:active,
+    a:focus {
+        color: #ffffff;
+    }
+}
+
+.footer__service__logo img {
+    max-width: 100%;
+}
+
+.footer__service__nav__list {
+    padding-top: 8px;
+}
+
+.footer__service__navitem {
+    margin-bottom: $basic-spacing;
+}
+
+.footer__watch-live {
+    display: none;
+}
+
+.footer__service-island {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    @media (min-width: 400px) {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+@mixin widestyles() {
+    .footer-wrapper {
+        padding-bottom: $wide-half-spacing;
+    }
+
+    .footer__recommendations {
+        padding-right: 15px;
+        border-right: solid 1px;
+    }
+
+    .footer__similar {
+        padding-left: 0;
+    }
+
+    .footer__service__nav {
+        padding-left: 0;
+        padding-right: 0;
+        margin-right: 16px;
+    }
+
+    .footer__watch-live {
+        display: block;
+    }
+}
+
+
+// Make sure IE gets the right padding value
+@include mq-range('bpw') {
+    .footer__service-island {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+
+@include mq-range('bpw2') {
+    @include widestyles();
+}
+@include mq-range('bpe') {
+    @include widestyles();
+
+    // This is a really crappy solution for fixing padding sizing shenanigans
+    // in oldIE, ideally we shouldn't overwrite styles assigned to .b-g-p.
+    .footer .b-g-p { width: auto; }
+}

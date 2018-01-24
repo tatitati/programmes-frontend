@@ -1,0 +1,19 @@
+{% extends 'base_ds2013_partial.html.twig' %}
+
+{%- block body -%}
+    <h2 class="text--shout centi no-margin">
+        {% if simulcastUrl %}
+            <a href="{{ simulcastUrl }}">{{ tr(isRadio ? "iplayer_listen_live" : "iplayer_watch_live") }}</a>
+        {% else %}
+            <span>{{ tr(isRadio ? "on_air" : "on_now") }}</span>
+        {% endif %}
+    </h2>
+
+    <h3 class="centi">{{ broadcast.getStartAt()|local_date('H:i') }} {{ broadcast.getStartAt()|time_zone_note() }}</h3>
+
+    <a href="{{ path('find_by_pid', {'pid': broadcast.getProgrammeItem().getPid()}) }}">
+        {{ ds_shared('image', broadcast.getProgrammeItem().getImage(), 160, { 0: 0,  770: 1/6 ,1008: '94px' }) }}
+        <div class="delta islet--vertical no-margin">{{ broadcast.getProgrammeItem().getTleo().getTitle() }}</div>
+    </a>
+
+{%- endblock -%}

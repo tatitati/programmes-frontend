@@ -7,6 +7,7 @@ use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
 use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
+use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
@@ -175,5 +176,17 @@ class PresenterFactory
             $collapsedBroadcast,
             $options
         );
+    }
+
+    /* Sections */
+
+    /**
+     * @param Programme $programme
+     * @param Programme[] $recommendations
+     * @param array $options
+     */
+    public function footerPresenter(Programme $programme, array $recommendations, array $options = []): FooterPresenter
+    {
+        return new FooterPresenter($programme, $recommendations, $options);
     }
 }
