@@ -191,33 +191,35 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * Renders a view. Same as parent but using $this->response
-     *
-     * @param string        $view       The view name
-     * @param array         $parameters An array of parameters to pass to the view
-     * @param Response      $response   A response instance
-     *
-     * @return Response A Response instance
-     */
-    protected function render($view, array $parameters = [], Response $response = null): Response
-    {
-        return parent::render($view, $parameters, $response ?? $this->response);
-    }
-
-    /**
      * Returns a RedirectResponse to the given URL.
      * This picks up the default cache configuration of $this->response that was
-     * set in the constructor
+     * set in the constructor, unlike ->redirect()
      *
      * @param string $url    The URL to redirect to
      * @param int    $status The status code to use for the Response
      *
      * @return RedirectResponse
      */
-    protected function redirect($url, $status = 302): RedirectResponse
+    protected function cachedRedirect($url, $status = 302): RedirectResponse
     {
         $headers = $this->response->headers->all();
         return new RedirectResponse($url, $status, $headers);
+    }
+
+    /**
+     * Returns a RedirectResponse to the given route with the given parameters.
+     *  * This picks up the default cache configuration of $this->response that was
+     * set in the constructor, unlike ->redirect()
+     *
+     * @param string $route      The name of the route
+     * @param array  $parameters An array of parameters
+     * @param int    $status     The status code to use for the Response
+     *
+     * @return RedirectResponse
+     */
+    protected function cachedRedirectToRoute($route, array $parameters = array(), $status = 302): RedirectResponse
+    {
+        return $this->cachedRedirect($this->generateUrl($route, $parameters), $status);
     }
 
     /**

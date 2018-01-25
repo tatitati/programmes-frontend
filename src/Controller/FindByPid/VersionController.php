@@ -15,6 +15,6 @@ class VersionController extends BaseController
     public function __invoke(Version $version)
     {
         $episodePid = (string) $version->getProgrammeItem()->getPid();
-        return $this->redirectToRoute('find_by_pid', ['pid' => $episodePid], 303);
+        return $this->cachedRedirectToRoute('find_by_pid', ['pid' => $episodePid], 303);
     }
 }

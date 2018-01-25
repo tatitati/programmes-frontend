@@ -24,7 +24,7 @@ class SchedulesVanityRedirectController extends BaseController
             }
 
             $params['date'] = $time->format('Y/m/d');
-            return $this->redirectToRoute('schedules_by_day', $params);
+            return $this->cachedRedirectToRoute('schedules_by_day', $params);
         }
 
         if (in_array($vanity, ['last_week', 'next_week', 'this_week'])) {
@@ -35,7 +35,7 @@ class SchedulesVanityRedirectController extends BaseController
             }
 
             $params['date'] = $time->format('o/\\wW');
-            return $this->redirectToRoute('schedules_by_week', $params);
+            return $this->cachedRedirectToRoute('schedules_by_week', $params);
         }
 
         if (in_array($vanity, ['last_month', 'next_month', 'this_month'])) {
@@ -46,7 +46,7 @@ class SchedulesVanityRedirectController extends BaseController
             }
 
             $params['date'] = $time->format('Y/m');
-            return $this->redirectToRoute('schedules_by_month', $params);
+            return $this->cachedRedirectToRoute('schedules_by_month', $params);
         }
 
         throw $this->createNotFoundException('Vanity URL ' . $vanity . ' not recognised');

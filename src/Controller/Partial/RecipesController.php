@@ -5,13 +5,11 @@ namespace App\Controller\Partial;
 
 use App\Controller\BaseController;
 use App\ExternalApi\Recipes\Service\RecipesService;
-use Symfony\Component\HttpFoundation\Request;
 
 class RecipesController extends BaseController
 {
     public function __invoke(
         RecipesService $recipesService,
-        Request $request,
         string $pid
     ) {
         $apiResponse = $recipesService->fetchRecipesByPid($pid)->wait(true);
@@ -33,11 +31,12 @@ class RecipesController extends BaseController
         // Cache for 5 minutes
         $this->response()->setMaxAge(300);
 
+        // render does not automatically pick up the headers from the response
         return $this->render('partial/recipes.html.twig', [
             'recipes' => $apiResponse->getRecipes(),
             'total' => $apiResponse->getTotal(),
             'pid' => $pid,
             'showImage' => $showImage,
-        ]);
+        ], $this->response());
     }
 }

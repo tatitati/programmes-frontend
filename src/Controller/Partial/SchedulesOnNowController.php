@@ -44,7 +44,7 @@ class SchedulesOnNowController extends BaseController
 
         $designSystem = $request->query->get('partial');
         if (!in_array($designSystem, ['2013', 'legacy_2013', 'legacy_amen'])) {
-            return $this->redirectToRoute('find_by_pid', ['pid' => (string) $broadcast->getProgrammeItem()->getPid()]);
+            return $this->cachedRedirectToRoute('find_by_pid', ['pid' => (string) $broadcast->getProgrammeItem()->getPid()]);
         }
 
         $collapsedBroadcast = $collapsedBroadcastsService->findByBroadcast($broadcast);

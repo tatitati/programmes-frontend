@@ -13,6 +13,6 @@ class SchedulesByNetworkUrlKeyController extends BaseController
             throw $this->createNotFoundException('Network not found');
         }
 
-        return $this->redirectToRoute('schedules_by_day', ['pid' => (string) $network->getDefaultService()->getPid()], 301);
+        return $this->cachedRedirectToRoute('schedules_by_day', ['pid' => (string) $network->getDefaultService()->getPid()], 301);
     }
 }
