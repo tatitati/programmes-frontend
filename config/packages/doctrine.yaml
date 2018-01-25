@@ -3,7 +3,8 @@ doctrine:
         default_connection: default
         connections:
             default:
-                driver: pdo_mysql
+                # driver: pdo_mysql
+                driver_class: App\Mike
                 host: '%database_host%'
                 port: '%database_port%'
                 dbname: '%database_name%'
@@ -11,6 +12,8 @@ doctrine:
                 password: '%database_password%'
                 server_version: '5.6'
                 charset: UTF8
+                options:
+                    12: true # PDO::ATTR_PERSISTENT
         types:
             date_partial: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\DatePartialType
             datetime: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\UtcDateTimeType

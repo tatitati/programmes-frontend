@@ -26,7 +26,7 @@ class RedisClusterFactory
         try {
             // Create a cluster and specify timeout (float), 200ms should be enough,
             // more time mean something is wrong and we should stop waiting for redis
-            $redisClusterInstance = new RedisCluster(null, $redisEndpoint, 0.2);
+            $redisClusterInstance = new RedisCluster(null, $redisEndpoint, 0.2, null, true);
             // always distribute readonly commands between masters and slaves, at random
             $redisClusterInstance->setOption(
                 RedisCluster::OPT_SLAVE_FAILOVER,
