@@ -80,6 +80,7 @@ class StreamableCtaPresenter extends BaseCtaPresenter
         if ($this->showDuration()) {
             return $this->coreEntity->getDuration();
         }
+
         return 0;
     }
 
@@ -87,6 +88,6 @@ class StreamableCtaPresenter extends BaseCtaPresenter
     {
         $isTvEpisode = ($this->coreEntity instanceof Episode && $this->coreEntity->isVideo());
         $isProgrammeItem = ($this->coreEntity instanceof ProgrammeItem);
-        return ($isProgrammeItem && !$isTvEpisode && $this->getOption('show_duration'));
+        return ($isProgrammeItem && !$isTvEpisode && $this->getOption('show_duration') && $this->coreEntity->getDuration());
     }
 }

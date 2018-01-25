@@ -109,7 +109,10 @@ class TxPresenter extends RightColumnPresenter
             return 'on_now';
         }
 
-        if ($this->programmeContainer->getNetwork()->isInternational() || $this->upcomingBroadcast) {
+        if (!$this->programmeContainer->getNetwork() ||
+            $this->programmeContainer->getNetwork()->isInternational() ||
+            $this->upcomingBroadcast
+        ) {
             return 'next_on';
         }
 

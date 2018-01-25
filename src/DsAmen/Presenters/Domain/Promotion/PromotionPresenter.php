@@ -68,7 +68,7 @@ class PromotionPresenter extends Presenter
         if ($promotedEntity instanceof ProgrammeItem &&
             !($promotedEntity instanceof Episode && $promotedEntity->isTv())
         ) {
-            $this->duration = $promotedEntity->getDuration();
+            $this->duration = $promotedEntity->getDuration() ?? 0;
         }
     }
 

@@ -69,6 +69,33 @@ class PromotionPresenterTest extends TestCase
         $this->assertSame([], $presenter->getActionIcon());
     }
 
+    public function testPromotionOfProgrammeItemWithNullDuration()
+    {
+        $this->mockRouter->method('generate')
+            ->with('find_by_pid', ['pid' => 'b0000001'])
+            ->willReturn('/programmes/b0000001');
+
+        $image = $this->createMock(Image::class);
+
+        $promotedEntity = $this->createConfiguredMock(Episode::class, [
+            'getPid' => new Pid('b0000001'),
+            'getImage' => $image,
+            'getDuration' => null,
+            'isStreamable' => false,
+            'isTv' => false,
+        ]);
+
+        $promotion = $this->createConfiguredMock(Promotion::class, [
+            'getPromotedEntity' => $promotedEntity,
+        ]);
+
+        $presenter = new PromotionPresenter($this->mockRouter, $promotion);
+        $this->assertSame('/programmes/b0000001', $presenter->getUrl());
+        $this->assertSame($image, $presenter->getImage());
+        $this->assertSame(0, $presenter->getDuration());
+        $this->assertSame([], $presenter->getActionIcon());
+    }
+
     public function testPromotionOfStreamableProgrammeItem()
     {
         $this->mockRouter->method('generate')

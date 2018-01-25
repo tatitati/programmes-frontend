@@ -9,6 +9,7 @@ use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
@@ -80,6 +81,44 @@ class TxPresenterTest extends TestCase
             'ProgrammeItem belonging to brand returns empty badge' => [false, false, 2, $brand, ''],
             'First position return new series' => [false, false, 1, $series, 'new_series'],
             'Other positions return new' => [false, false, 2, $series, 'new'],
+        ];
+    }
+
+    /** @dataProvider getTitleTranslationStringProvider */
+    public function testGetTitleTranslationString(
+        ProgrammeContainer $programmeContainer,
+        ?CollapsedBroadcast $collapsedBroadcast,
+        bool $isWatchableLive,
+        string $expected
+    ) {
+        $this->helper->method('isWatchableLive')->willReturn($isWatchableLive);
+        $tx = new TxPresenter($this->helper, $this->translate, $this->router, $programmeContainer, $collapsedBroadcast, 0, 0);
+        $this->assertEquals($expected, $tx->getTitleTranslationString());
+    }
+
+    public function getTitleTranslationStringProvider(): array
+    {
+        $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
+        $internationalNetwork = $this->createConfiguredMock(Network::class, ['isInternational' => true]);
+        $nationalNetwork = $this->createConfiguredMock(Network::class, ['isInternational' => false]);
+
+        $radioBrand = $this->createConfiguredMock(Brand::class, ['isRadio' => true]);
+        $internationalTvBrand = $this->createConfiguredMock(Brand::class, ['getNetwork' => $internationalNetwork]);
+        $nationalTvBrand = $this->createConfiguredMock(Brand::class, ['getNetwork' => $nationalNetwork]);
+        $tvBrandWithoutNetwork = $this->createConfiguredMock(Brand::class, ['getNetwork' => null]);
+
+        return [
+            'watchable live radio brand' => [$radioBrand, $collapsedBroadcast, true, 'on_air'],
+            'not watchable live radio brand' => [$radioBrand, $collapsedBroadcast, false, 'coming_up'],
+            'watchable live national tv brand' => [$nationalTvBrand, $collapsedBroadcast, true, 'on_now'],
+            'watchable live international tv brand' => [$internationalTvBrand, $collapsedBroadcast, true, 'on_now'],
+            'watchable live tv brand without network' => [$tvBrandWithoutNetwork, $collapsedBroadcast, true, 'on_now'],
+            'national tv brand with upcoming broadcast' => [$nationalTvBrand, $collapsedBroadcast, false, 'next_on'],
+            'international tv brand with upcoming broadcast' => [$internationalTvBrand, $collapsedBroadcast, false, 'next_on'],
+            'tv brand without network with upcoming broadcast' => [$tvBrandWithoutNetwork, $collapsedBroadcast, false, 'next_on'],
+            'national tv brand without upcoming broadcast' => [$nationalTvBrand, null, false, 'on_tv'],
+            'international tv brand without upcoming broadcast' => [$internationalTvBrand, null, false, 'next_on'],
+            'tv brand without network without upcoming broadcast' => [$tvBrandWithoutNetwork, null, false, 'next_on'],
         ];
     }
 

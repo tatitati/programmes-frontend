@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter;
 
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\StreamableCtaPresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\App\DsAmen\Presenters\Domain\CoreEntity\BaseSubPresenterTest;
@@ -30,10 +31,12 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
         $tvEpisode = $this->createMockTvEpisode();
         $clip = $this->createMockClip();
         $radioEpisode = $this->createMockRadioEpisode();
+        $nullDurationClip = $this->createConfiguredMock(Clip::class, ['getDuration' => null]);
 
         return [
             "TV episode doesn't show duration" => [$tvEpisode, 0],
             "Clip shows duration" => [$clip, 10],
+            "Clip with null duration doesn't show duration" => [$nullDurationClip, 0],
             "Radio episode shows duration" => [$radioEpisode, 30],
         ];
     }
