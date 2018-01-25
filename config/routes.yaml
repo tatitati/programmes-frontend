@@ -7,14 +7,6 @@ status:
     path: /status
     defaults: { _controller: App\Controller\StatusController }
 
-root:
-    path: /
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: home, permanent: true }
-
-home:
-    path: /programmes
-    defaults: { _controller: App\Controller\HomeController }
-
 find_by_pid:
     path: /programmes/{pid}
     # !find_by_pid is a special value, that shall be converted into an proper
@@ -76,6 +68,16 @@ schedules_on_now:
     defaults: { _controller: App\Controller\Partial\SchedulesOnNowController }
     requirements: { networkUrlKey: '[a-zA-Z0-9]{2,35}' }
 
+# Simple routes
+
+root:
+    path: /
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: home, permanent: true }
+
+home:
+    path: /programmes
+    defaults: { _controller: App\Controller\HomeController }
+
 # Labs routes, for testing things
 
 cloud_labs_root:
@@ -85,3 +87,4 @@ cloud_labs_root:
 cloud_labs:
     path: /programmes/_cloudlabs/{action}
     defaults: { _controller: App\Controller\CloudLabsController }
+
