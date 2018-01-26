@@ -182,11 +182,10 @@ class PresenterFactory
 
     /**
      * @param Programme $programme
-     * @param Programme[] $recommendations
      * @param array $options
      */
-    public function footerPresenter(Programme $programme, array $recommendations, array $options = []): FooterPresenter
+    public function footerPresenter(Programme $programme, array $options = []): FooterPresenter
     {
-        return new FooterPresenter($programme, $recommendations, $options);
+        return new FooterPresenter($programme, $options);
     }
 }

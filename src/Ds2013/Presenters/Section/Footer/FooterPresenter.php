@@ -17,15 +17,11 @@ class FooterPresenter extends Presenter
     /** @var Network */
     private $network;
 
-    /** @var Programme[] */
-    private $recommendations;
-
-    public function __construct(Programme $programme, array $recommendations, array $options = [])
+    public function __construct(Programme $programme, array $options = [])
     {
         parent::__construct($options);
 
         $this->programme = $programme;
-        $this->recommendations = $recommendations;
         $this->network = $programme->getNetwork();
     }
 
@@ -97,14 +93,6 @@ class FooterPresenter extends Presenter
     public function getPid(): string
     {
         return (string) $this->programme->getPid();
-    }
-
-    /**
-     * @return Programme[]
-     */
-    public function getRecommendations(): array
-    {
-        return $this->recommendations;
     }
 
     public function isWorldNews(): bool
