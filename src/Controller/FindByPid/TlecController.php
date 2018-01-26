@@ -109,13 +109,14 @@ class TlecController extends BaseController
             $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
         }
 
-        $recommendationsPromise = $recEngService->getRecommendations(
-            $programme,
-            $onDemandEpisode,
-            $upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null,
-            $lastOn ? $lastOn->getProgrammeItem() : null,
-            2
-        );
+        $recommendationEpisode = $onDemandEpisode ?? ($upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null) ?? ($lastOn ? $lastOn->getProgrammeItem() : null);
+        $recommendationsPromise = new FulfilledPromise([]);
+        if ($recommendationEpisode) {
+            $recommendationsPromise = $recEngService->getRecommendations(
+                $recommendationEpisode,
+                2
+            );
+        }
 
         $favouritesButtonPromise = new FulfilledPromise(null);
         if ($programme->isRadio()) {

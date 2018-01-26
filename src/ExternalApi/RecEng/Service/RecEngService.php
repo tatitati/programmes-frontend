@@ -6,10 +6,8 @@ namespace App\ExternalApi\RecEng\Service;
 use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use Closure;
-use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use App\ExternalApi\Exception\ParseException;
@@ -54,70 +52,21 @@ class RecEngService
         $this->programmesService = $programmesService;
         $this->baseUrl = $baseUrl;
     }
-    
+
     /**
      * Returns a promise of an array of Programme objects which are fetched based on RecEng results
      * Will return an empty array if not results were found or RecEng cannot be reached
      *
-     * @param Programme $programme
-     * @param Episode|null $latestEpisode
-     * @param Episode|null $upcomingEpisode
-     * @param Episode|null $lastOnEpisode
+     * @param Episode $episode
      * @param int $limit
      * @return PromiseInterface (returns Programme[] when unwrapped)
      */
     public function getRecommendations(
-        Programme $programme,
-        ?Episode $latestEpisode,
-        ?Episode $upcomingEpisode,
-        ?Episode $lastOnEpisode,
+        Episode $episode,
         int $limit = 2
     ): PromiseInterface {
-        $programmeEpisode = $this->getProgrammeEpisode($programme, $latestEpisode, $upcomingEpisode, $lastOnEpisode);
-
-        if (!$programmeEpisode) {
-            return new FulfilledPromise([]);
-        }
-
-        $client = $this->makeClient($programmeEpisode, $limit);
+        $client = $this->makeClient($episode, $limit);
         return $client->makeCachedPromise();
-    }
-
-    /**
-     * recEng requires an Episode pid, so this determines which to use based on the type of Programme passed into it
-     * Takes nullable args of latest, upcoming and last on episodes as this is called in TLEC controller and these are already fetched
-     */
-    private function getProgrammeEpisode(
-        Programme $programme,
-        ?Episode $latestEpisode,
-        ?Episode $upcomingEpisode,
-        ?Episode $lastOnEpisode
-    ): ?Episode {
-        if ($programme instanceof Episode) {
-            return $programme;
-        }
-
-        if ($programme instanceof Clip) {
-            if ($programme->getParent() && $programme->getParent() instanceof Episode) {
-                return $programme->getParent();
-            }
-        }
-
-        if ($programme instanceof ProgrammeContainer) {
-            if ($latestEpisode) {
-                return $latestEpisode;
-            }
-
-            if ($upcomingEpisode) {
-                return $upcomingEpisode;
-            }
-
-            if ($lastOnEpisode) {
-                return $lastOnEpisode;
-            }
-        }
-
-        return null;
     }
 
     private function makeClient(Episode $programmeEpisode, int $limit): HttpApiClient
