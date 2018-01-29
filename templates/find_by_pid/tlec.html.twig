@@ -264,8 +264,10 @@
                     'id': '{{ programme.getPid() }}',
                     'title': '{{ programme.getTitle() }}',
                     'variant': 'small',
-                    'lang': '{{ tr('language_code')|lower }}'
-                    // The majority of PHP options are available here too
+                    'lang': '{{ tr('language_code')|lower }}',
+                    'platform': 'responsiveweb',
+                    'context-type': 'network_pid',
+                    'context-id': '{{ programme.getPid() }}'
                 });
             });
         </script>
