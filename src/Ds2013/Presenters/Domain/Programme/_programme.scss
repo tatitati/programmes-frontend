@@ -344,10 +344,10 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
 // Per breakpoint toggles for programme image top or left.
 // We need to overwrite each property to ensure that no phantom properties from
 // the other declaration remain.
-@mixin programme-image-setup($namespace: '', $spacing: $basic-spacing) {
+@mixin programme-image-setup($suffix: '', $spacing: $basic-spacing) {
     $half-spacing: $spacing / 2;
 
-    .#{$namespace}programme--list {
+    .programme--list#{$suffix} {
         .programme__img {
             float: left;
             margin-right: $spacing;
@@ -367,8 +367,8 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
         }
     }
 
-    .#{$namespace}programme--list-featured {
-        @extend .#{$namespace}programme--list;
+    .programme--list-featured#{$suffix} {
+        @extend .programme--list#{$suffix};
 
         .programme__body {
             margin-top: $spacing;
@@ -390,7 +390,7 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
         }
     }
 
-    .#{$namespace}programme--grid {
+    .programme--grid#{$suffix} {
         .programme__img {
             float: none;
             margin-right: 0;
@@ -442,6 +442,6 @@ $programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
     $spacing: if(index(('bpb1', 'bpb2'), $name), $basic-spacing, $wide-spacing);
 
     @include mq-range($name) {
-        @include programme-image-setup('#{$name}-', $spacing);
+        @include programme-image-setup('\\@#{$name}', $spacing);
     }
 }

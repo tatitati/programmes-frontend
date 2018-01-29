@@ -1,0 +1,76 @@
+.icon-box {
+    display: block;
+    margin-bottom: $basic-spacing;
+}
+
+.icon-box--flush {
+    margin-bottom: 0;
+}
+
+// Must be nested in order to have higher specificity than the page links
+.icon-box .icon-box__link {
+    min-height: 144px;
+    padding: $wide-spacing;
+    display: block;
+    position: relative;
+
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+.icon-box__icon {
+    position: absolute;
+    bottom: $wide-spacing;
+    left: $wide-spacing;
+    width: 32px;
+    height: 32px;
+}
+
+.icon-box__hgroup,
+.icon-box__title,
+.icon-box__subtitle {
+    display: block;
+}
+
+.icon-box__hgroup {
+    padding-bottom: 40px;
+}
+
+.icon-box__title {
+    margin: 0;
+    padding: 0;
+}
+
+.icon-box__subtitle {
+    opacity: 0.8;
+    margin: $basic-half-spacing 0 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+.icon-box__note {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0 $wide-spacing $wide-spacing 0;
+    padding-left: 56px;
+    text-align: right;
+}
+
+.icon-box__notedetail {
+    opacity: 0.8;
+}
+
+
+@include mq-range('bpw') {
+    .icon-box {
+        margin-bottom: $wide-spacing;
+    }
+
+    .icon-box--flush {
+        margin-bottom: 0;
+    }
+}

@@ -21,6 +21,11 @@ programme_episodes_player:
     defaults: { _controller: App\Controller\ProgrammeEpisodes\PlayerController }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+programme_recommendations:
+    path: /programmes/{pid}/recommendations{extension}
+    defaults: { _controller: App\Controller\RecommendationsController, extension: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.inc2013' }
+
 partial_programme_recipes:
     path: /programmes/{pid}/recipes.ameninc
     defaults: { _controller: App\Controller\Partial\RecipesController }

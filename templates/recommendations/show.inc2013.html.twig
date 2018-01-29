@@ -1,0 +1,29 @@
+{% extends 'base_ds2013_partial.html.twig' %}
+
+{%- block body -%}
+    {%- if recommendations -%}
+        <div class="footer__recommendations br-keyline">
+        <h2>{{ tr('you_might_also_like') }}</h2>
+        <ol id="recommendations" class="grid-wrapper">
+            {%- for prog in recommendations -%}
+                <li class="grid 1/2">
+                {{- ds2013('programme', prog, {
+                    context_programme: programme,
+                    highlight_box_classes: 'br-box-subtle highlight-box--list-borderless programme--grid@bpb1 highlight-box--grid@bpb1 programme--grid@bpw highlight-box--grid@bpw',
+                    body_options: {
+                        show_synopsis: false,
+                        show_duration: false,
+                    },
+                    image_options: {
+                        classes: '1/1@bpb1 1/1@bpw',
+                        default_width: 148,
+                        sizes: { 0: 0, 320: 1/2, 600: 1/4, 770: 5/24, 1008: '178px'},
+                        is_lazy_loaded: false,
+                    },
+                }) -}}
+                </li>
+            {%- endfor -%}
+        </ol>
+        </div>
+    {%- endif -%}
+{%- endblock -%}

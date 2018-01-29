@@ -5,7 +5,7 @@
 
     &.lazy-module--loading::after {
         content: '';
-        background: url('../img/icons/loading.gif') center center no-repeat;
+        background: image-url('loading.gif') center center no-repeat;
         background-color: rgba(0, 0, 0, 0.5);
         position: absolute;
         top: 0;
