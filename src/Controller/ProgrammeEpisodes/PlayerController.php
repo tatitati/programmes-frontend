@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Controller\ProgrammeEpisodes;
 
 use App\Controller\BaseController;
+use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 
@@ -29,9 +30,17 @@ class PlayerController extends BaseController
             throw $this->createNotFoundException('Page does not exist');
         }
 
+        $totalAvailableEpisodes = $programmeAggregationService->countStreamableOnDemandEpisodes($programme);
+
+        $paginator = null;
+        if ($totalAvailableEpisodes > $limit) {
+            $paginator = new PaginatorPresenter($page, $limit, $totalAvailableEpisodes);
+        }
+
         return $this->renderWithChrome('programme_episodes/player.html.twig', [
             'programme' => $programme,
             'availableEpisodes' => $availableEpisodes,
+            'paginatorPresenter' => $paginator,
         ]);
     }
 }

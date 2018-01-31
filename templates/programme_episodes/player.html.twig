@@ -21,6 +21,9 @@
             }) }}
         {% endfor %}
         </ol>
+        {% if paginatorPresenter %}
+            {{ ds2013_presenter(paginatorPresenter) }}
+        {% endif %}
     {% else %}
         <p class="note island">{{ tr('available_count', 0)}}</p>
     {% endif %}
