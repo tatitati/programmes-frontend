@@ -9,7 +9,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
-use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use GuzzleHttp\Promise\FulfilledPromise;
 
 class RecommendationsController extends BaseController
@@ -18,19 +17,14 @@ class RecommendationsController extends BaseController
         Programme $programme,
         string $extension,
         RecEngService $recEngService,
-        ProgrammesAggregationService $programmeAggregationService,
-        CollapsedBroadcastsService $collapsedBroadcastsService
+        ProgrammesAggregationService $programmeAggregationService
     ) {
         $this->setContextAndPreloadBranding($programme);
 
         // Show 10 items when rendering the main page, show 2 on includes
         $limit = ($extension === '' ? 10 : 2);
 
-        $episode = $this->getEpisode(
-            $programme,
-            $programmeAggregationService,
-            $collapsedBroadcastsService
-        );
+        $episode = $this->getEpisode($programme, $programmeAggregationService);
 
         $promises = [
             'recommendations' => new FulfilledPromise([]),
@@ -59,35 +53,21 @@ class RecommendationsController extends BaseController
      */
     private function getEpisode(
         Programme $programme,
-        ProgrammesAggregationService $programmeAggregationService,
-        CollapsedBroadcastsService $collapsedBroadcastsService
+        ProgrammesAggregationService $programmeAggregationService
     ): ?Episode {
-        if ($programme instanceof Episode) {
+        if ($programme instanceof ProgrammeContainer && $programme->getAvailableEpisodesCount()) {
+            $onDemandEpisodes = $programmeAggregationService->findStreamableOnDemandEpisodes($programme, 1);
+            return reset($onDemandEpisodes);
+        }
+
+        if ($programme instanceof Episode && $programme->isStreamable()) {
             return $programme;
         }
 
         if ($programme instanceof Clip) {
-            if ($programme->getParent() && $programme->getParent() instanceof Episode) {
-                return $programme->getParent();
-            }
-        }
-
-        if ($programme instanceof ProgrammeContainer && $programme->getAggregatedEpisodesCount()) {
-            if ($programme->getAvailableEpisodesCount()) {
-                $onDemandEpisodes = $programmeAggregationService->findStreamableOnDemandEpisodes($programme, 1);
-                if ($onDemandEpisodes) {
-                    return $onDemandEpisodes[0];
-                }
-            }
-
-            $upcomingBroadcast = $collapsedBroadcastsService->findNextDebutOrRepeatOnByProgramme($programme);
-            if ($upcomingBroadcast) {
-                return $upcomingBroadcast[0]->getProgrammeItem();
-            }
-
-            $lastOnBroadcast = $collapsedBroadcastsService->findPastByProgramme($programme, 1);
-            if ($lastOnBroadcast) {
-                return $lastOnBroadcast[0]->getProgrammeItem();
+            $parent = $programme->getParent();
+            if ($parent instanceof Episode && $parent->isStreamable()) {
+                return $parent;
             }
         }
 

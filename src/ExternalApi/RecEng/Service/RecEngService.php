@@ -57,6 +57,8 @@ class RecEngService
      * Returns a promise of an array of Programme objects which are fetched based on RecEng results
      * Will return an empty array if not results were found or RecEng cannot be reached
      *
+     * RecEng shall only return results if the Episode passed is available to stream
+     *
      * @param Episode $episode
      * @param int $limit
      * @return PromiseInterface (returns Programme[] when unwrapped)

@@ -109,11 +109,10 @@ class TlecController extends BaseController
             $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
         }
 
-        $recommendationEpisode = $onDemandEpisode ?? ($upcomingBroadcast ? $upcomingBroadcast->getProgrammeItem() : null) ?? ($lastOn ? $lastOn->getProgrammeItem() : null);
         $recommendationsPromise = new FulfilledPromise([]);
-        if ($recommendationEpisode) {
+        if ($onDemandEpisode) {
             $recommendationsPromise = $recEngService->getRecommendations(
-                $recommendationEpisode,
+                $onDemandEpisode,
                 2
             );
         }
