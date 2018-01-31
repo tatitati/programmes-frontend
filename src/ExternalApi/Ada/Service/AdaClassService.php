@@ -101,7 +101,9 @@ class AdaClassService
             [],
             CacheInterface::MEDIUM,
             CacheInterface::NORMAL,
-            10
+            [
+                'timeout' => 10,
+            ]
         );
     }
 

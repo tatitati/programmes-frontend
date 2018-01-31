@@ -12,6 +12,7 @@ class ApiTypeEnum
     public const API_RECIPE = 'RECIPE';
     public const API_RECOMMENDATIONS = 'RECOMMENDATIONS';
     public const API_MORPH = 'MORPH';
+    public const API_FAVOURITES = 'FAVOURITES';
 
     private const API_TYPES = [
         self::API_ADA => true,
@@ -21,6 +22,7 @@ class ApiTypeEnum
         self::API_RECIPE => true,
         self::API_RECOMMENDATIONS => true,
         self::API_MORPH => true,
+        self::API_FAVOURITES => true,
     ];
 
     public static function isValid(string $key)

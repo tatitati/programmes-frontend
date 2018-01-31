@@ -180,7 +180,7 @@ class HttpApiClientTest extends TestCase
             $nullResult,
             $standardCache,
             $notFoundCache,
-            10
+            ['timeout' => 10]
         );
     }
 

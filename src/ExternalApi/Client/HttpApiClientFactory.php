@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 
 class HttpApiClientFactory
 {
+    private const DEFAULT_GUZZLE_OPTIONS = ['timeout' => 6];
     /** @var ClientInterface */
     private $client;
 
@@ -36,8 +37,9 @@ class HttpApiClientFactory
         $nullResult = [],
         $standardTTL = CacheInterface::MEDIUM,
         $notFoundTTL = CacheInterface::NORMAL,
-        int $timeout = 6
+        array $guzzleOptions = []
     ) {
+        $guzzleOptions = array_merge(self::DEFAULT_GUZZLE_OPTIONS, $guzzleOptions);
         return new HttpApiClient(
             $this->client,
             $this->cache,
@@ -49,7 +51,7 @@ class HttpApiClientFactory
             $nullResult,
             $standardTTL,
             $notFoundTTL,
-            $timeout
+            $guzzleOptions
         );
     }
 

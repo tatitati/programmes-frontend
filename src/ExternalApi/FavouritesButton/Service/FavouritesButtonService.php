@@ -8,6 +8,7 @@ use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Exception\ParseException;
 use App\ExternalApi\FavouritesButton\Domain\FavouritesButton;
 use App\ExternalApi\FavouritesButton\Mapper\FavouritesButtonMapper;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
@@ -42,13 +43,24 @@ class FavouritesButtonService
     private function makeHttpApiClient(): HttpApiClient
     {
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__);
-
+        // Making a call with a cert to some envs results in failures. Hence this
+        $guzzleOptions = [
+            'cert' => null,
+            'ssl_key' => null,
+        ];
+        if (strpos($this->url, 'www.int') !== false) {
+            // Ugly hack because cert is required on int
+            $guzzleOptions = [];
+        }
         $client = $this->clientFactory->getHttpApiClient(
             $cacheKey,
             $this->url,
             Closure::fromCallable([$this, 'parseResponse']),
             [],
-            null
+            null,
+            CacheInterface::MEDIUM,
+            CacheInterface::NORMAL,
+            $guzzleOptions
         );
 
         return $client;

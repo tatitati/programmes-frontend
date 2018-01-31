@@ -17,6 +17,7 @@ class UriToApiTypeMapper
         ApiTypeEnum::API_RECIPE => '%^api\.(int\.|test\.|stage\.|live\.)bbc\.co\.uk/food/recipes%i',
         ApiTypeEnum::API_RECOMMENDATIONS => '%^open\.live\.bbc\.co\.uk/recommend/items%i',
         ApiTypeEnum::API_MORPH => '%^morph\.(int\.|test\.|stage\.)?api\.bbci\.co\.uk%i',
+        ApiTypeEnum::API_FAVOURITES => '%^www\.(int\.|test\.|stage\.)?bbc\.co\.uk/modules/plugin/musicfavourite%i',
     ];
 
     public function getApiNameFromUriInterface(UriInterface $uri) : ?string
