@@ -68,21 +68,10 @@ class FindByPidRouterSubscriberTest extends TestCase
             [$this->createMock(Collection::class), null, null, 'App\Controller\FindByPid\CollectionController', 'collection'],
             [$this->createMock(Gallery::class), null, null, 'App\Controller\FindByPid\GalleryController', 'gallery'],
             [$this->createMock(Season::class), null, null, 'App\Controller\FindByPid\SeasonController', 'season'],
+            [$this->createMock(Franchise::class), null, null, 'App\Controller\FindByPid\FranchiseController', 'franchise'],
             [null, $this->createMock(Version::class), null, 'App\Controller\FindByPid\VersionController', 'version'],
             [null, null, $this->createMock(Segment::class), 'App\Controller\FindByPid\SegmentController', 'segment'],
         ];
-    }
-
-    public function testThrowsExceptionIfFranchiseFound()
-    {
-        $request = $this->request();
-
-        $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('The item with PID "b0000001" was a franchise, which v3 does not support');
-
-        $this->buildSubscriber(
-            $this->createMock(Franchise::class)
-        )->updateController($this->event($request));
     }
 
     public function testEntityTriggersRedirectsIfSetInOptions()

@@ -86,10 +86,6 @@ class ContextEntityByPidValueResolver implements ArgumentValueResolverInterface
                 (new ReflectionClass($type))->getShortName()
             );
 
-            if ($entity instanceof Franchise) {
-                throw new NotFoundHttpException(sprintf('The item with PID "%s" was a franchise, which v3 does not support', $pid));
-            }
-
             // Redirect if the options demand it
             if ($entity && $entity->getOptions()->getOption('pid_override_url') && $entity->getOptions()->getOption('pid_override_code')) {
                 throw new ProgrammeOptionsRedirectHttpException(

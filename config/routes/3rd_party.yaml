@@ -66,18 +66,6 @@ categories_show:
     requirements: { categoryType: 'formats|genres', urlKeyHierarchy: '.+' }
     schemes: [http]
 
-programme_episodes:
-    path: /programmes/{pid}/episodes
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-    schemes: [http]
-
-programme_episodes_guide:
-    path: /programmes/{pid}/episodes/guide
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-    schemes: [http]
-
 programme_clips:
     path: /programmes/{pid}/clips
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
