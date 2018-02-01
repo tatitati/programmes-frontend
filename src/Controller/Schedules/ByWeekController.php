@@ -1,8 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Controller;
+namespace App\Controller\Schedules;
 
+use App\Controller\BaseController;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
@@ -18,7 +19,7 @@ use Cake\Chronos\Chronos;
 use DateTimeZone;
 use InvalidArgumentException;
 
-class SchedulesByWeekController extends BaseController
+class ByWeekController extends BaseController
 {
     use UtcOffsetValidatorTrait;
     use SchedulesPageResponseCodeTrait;
@@ -223,7 +224,7 @@ class SchedulesByWeekController extends BaseController
         list($year, $week) = explode('/', $date);
         $week = (int) str_replace('w', '', $week);
 
-        if ($week < 1 || $week > 53 || $year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
+        if ($week < 1 || $week > 53 || $year < ByYearController::MINIMUM_VALID_YEAR) {
             return false;
         }
 

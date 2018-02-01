@@ -1,13 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Controller;
+namespace App\Controller\Schedules;
 
+use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Date;
 
-class SchedulesByYearController extends BaseController
+class ByYearController extends BaseController
 {
     /**
      * Value decided to avoid unusual values for the year like 0000, 0001, etc.
@@ -44,7 +45,7 @@ class SchedulesByYearController extends BaseController
     private function isValidYear(string $year): bool
     {
         // validate format
-        if (!preg_match('#\d{4}#', $year) || $year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
+        if (!preg_match('#\d{4}#', $year) || $year < ByYearController::MINIMUM_VALID_YEAR) {
             return false;
         }
 

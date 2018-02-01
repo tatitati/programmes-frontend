@@ -1,15 +1,15 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\Controller;
+namespace Tests\App\Controller\Schedules;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Cake\Chronos\Chronos;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers \App\Controller\SchedulesByDayController
+ * @covers \App\Controller\Schedules\ByDayController
  */
-class SchedulesByDayControllerTest extends BaseWebTestCase
+class ByDayControllerTest extends BaseWebTestCase
 {
     /**
      * @dataProvider scheduleDateTestProvider

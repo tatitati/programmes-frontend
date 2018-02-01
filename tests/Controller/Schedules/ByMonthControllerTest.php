@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Controller;
+namespace Tests\App\Controller\Schedules;
 
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers \App\Controller\SchedulesByMonthController
+ * @covers \App\Controller\Schedules\ByMonthController
  */
-class SchedulesByMonthControllerTest extends BaseWebTestCase
+class ByMonthControllerTest extends BaseWebTestCase
 {
     /**
      * @dataProvider serviceActiveTestProvider

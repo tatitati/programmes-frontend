@@ -133,8 +133,8 @@ class MetricsManager
     private function controllerName(string $controllerClass): ?string
     {
         if (strpos($controllerClass, 'App\\Controller') === 0) {
-            $parts = explode('\\', $controllerClass);
-            return end($parts);
+            $controllerClass = str_replace('App\\Controller\\', '', $controllerClass);
+            return str_replace('\\', '/', $controllerClass);
         }
         return null;
     }

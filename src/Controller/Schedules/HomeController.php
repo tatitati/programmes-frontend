@@ -1,13 +1,14 @@
 <?php
 declare(strict_types = 1);
-namespace App\Controller;
+namespace App\Controller\Schedules;
 
+use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
 
-class SchedulesHomeController extends BaseController
+class HomeController extends BaseController
 {
     // Hide unwanted services and non-integrated language stations from listings
     private const BLACKLISTED_SERVICES = [

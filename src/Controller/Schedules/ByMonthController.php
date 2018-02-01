@@ -1,13 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Controller;
+namespace App\Controller\Schedules;
 
+use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Date;
 
-class SchedulesByMonthController extends BaseController
+class ByMonthController extends BaseController
 {
     public function __invoke(Service $service, string $date)
     {
@@ -44,7 +45,7 @@ class SchedulesByMonthController extends BaseController
         // validate content
         list($year, $month) = explode('/', $date);
 
-        if ($month < 1 || $month > 12 || $year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
+        if ($month < 1 || $month > 12 || $year < ByYearController::MINIMUM_VALID_YEAR) {
             return false;
         }
 

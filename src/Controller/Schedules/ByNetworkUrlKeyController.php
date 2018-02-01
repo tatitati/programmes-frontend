@@ -1,9 +1,10 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Schedules;
 
+use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Service\NetworksService;
 
-class SchedulesByNetworkUrlKeyController extends BaseController
+class ByNetworkUrlKeyController extends BaseController
 {
     public function __invoke(NetworksService $networkService, $networkUrlKey)
     {

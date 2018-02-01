@@ -1,13 +1,13 @@
 <?php
-namespace Tests\App\Controller;
+namespace Tests\App\Controller\Schedules;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers \App\Controller\SchedulesByNetworkUrlKeyController
+ * @covers \App\Controller\Schedules\ByNetworkUrlKeyController
  */
-class SchedulesByNetworkUrlKeyControllerTest extends BaseWebTestCase
+class ByNetworkUrlKeyControllerTest extends BaseWebTestCase
 {
     private $client;
 

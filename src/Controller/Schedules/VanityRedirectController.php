@@ -1,13 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Controller;
+namespace App\Controller\Schedules;
 
+use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SchedulesVanityRedirectController extends BaseController
+class VanityRedirectController extends BaseController
 {
     public function __invoke(Request $request, string $pid, string $vanity, UrlGeneratorInterface $router)
     {

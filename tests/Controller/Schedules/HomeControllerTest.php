@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\Controller;
+namespace Tests\App\Controller\Schedules;
 
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers \App\Controller\SchedulesHomeController
+ * @covers \App\Controller\Schedules\HomeController
  */
-class SchedulesHomeControllerTest extends BaseWebTestCase
+class HomeControllerTest extends BaseWebTestCase
 {
     public function testController()
     {

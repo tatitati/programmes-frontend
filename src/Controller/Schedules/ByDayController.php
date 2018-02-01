@@ -1,7 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace App\Controller;
+namespace App\Controller\Schedules;
 
+use App\Controller\BaseController;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByDayPage\SchedulesByDayPagePresenter;
@@ -18,7 +19,7 @@ use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\Date;
 
-class SchedulesByDayController extends BaseController
+class ByDayController extends BaseController
 {
     use UtcOffsetValidatorTrait;
     use SchedulesPageResponseCodeTrait;
@@ -259,7 +260,7 @@ class SchedulesByDayController extends BaseController
 
         list($year, $month, $day) = explode('/', $date);
 
-        if ($year < SchedulesByYearController::MINIMUM_VALID_YEAR) {
+        if ($year < ByYearController::MINIMUM_VALID_YEAR) {
             return false;
         }
 

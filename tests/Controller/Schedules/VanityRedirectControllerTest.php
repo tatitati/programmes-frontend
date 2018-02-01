@@ -1,16 +1,16 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\Controller;
+namespace Tests\App\Controller\Schedules;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Cake\Chronos\Chronos;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers \App\Controller\SchedulesVanityRedirectController
+ * @covers \App\Controller\Schedules\VanityRedirectController
  */
-class SchedulesVanityRedirectControllerTest extends BaseWebTestCase
+class VanityRedirectControllerTest extends BaseWebTestCase
 {
     /**
      * @dataProvider vanityTestProvider
