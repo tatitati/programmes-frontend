@@ -1,0 +1,20 @@
+<ul class="list-unstyled cf delta">
+    {% for item in episodes_sub_nav.getItems() %}
+        <li class="pull--left">
+            {% if item.shouldShowLink() %}
+                <a class="link-complex {{ item.getLinkClass() }}" href="{{ path(item.getRoute(), item.getRouteParams()) }}">
+                    <span class="link-complex__target">{{ tr(item.getTranslationString()) }}</span>
+                    {% if item.shouldShowCount() %}
+                        <span class="hidden grid-visible@bpb2 grid-visible@bpw">({{ item.getCount() }})</span>
+                    {% endif %}
+                </a>
+            {% else %}
+                <span class="{{ item.getLinkClass() }}">{{ tr(item.getTranslationString()) }}
+                    {% if item.shouldShowCount() %}
+                        <span class="hidden grid-visible@bpb2 grid-visible@bpw">({{ item.getCount() }})</span>
+                    {% endif %}
+                </span>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

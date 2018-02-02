@@ -1,15 +1,21 @@
 <?php
 declare(strict_types = 1);
+
 namespace App\Controller\ProgrammeEpisodes;
 
 use App\Controller\BaseController;
+use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 
 class PlayerController extends BaseController
 {
     public function __invoke(
+        CollapsedBroadcastsService $collapsedBroadcastService,
+        PresenterFactory $presenterFactory,
         ProgrammeContainer $programme,
         ProgrammesAggregationService $programmeAggregationService
     ) {
@@ -30,6 +36,7 @@ class PlayerController extends BaseController
             throw $this->createNotFoundException('Page does not exist');
         }
 
+        $upcomingBroadcastCount = $collapsedBroadcastService->countUpcomingByProgramme($programme, CacheInterface::MEDIUM);
         $totalAvailableEpisodes = $programmeAggregationService->countStreamableOnDemandEpisodes($programme);
 
         $paginator = null;
@@ -37,10 +44,20 @@ class PlayerController extends BaseController
             $paginator = new PaginatorPresenter($page, $limit, $totalAvailableEpisodes);
         }
 
+        $subNavPresenter = $presenterFactory->episodesSubNavPresenter(
+            $this->request()->attributes->get('_route'),
+            $programme->getNetwork() === null || !$programme->getNetwork()->isInternational(),
+            $programme->getFirstBroadcastDate() !== null,
+            $totalAvailableEpisodes,
+            $programme->getPid(),
+            $upcomingBroadcastCount
+        );
+
         return $this->renderWithChrome('programme_episodes/player.html.twig', [
             'programme' => $programme,
             'availableEpisodes' => $availableEpisodes,
             'paginatorPresenter' => $paginator,
+            'subNavPresenter' => $subNavPresenter,
         ]);
     }
 }

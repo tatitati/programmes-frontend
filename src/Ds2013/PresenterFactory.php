@@ -7,6 +7,7 @@ use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
 use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
+use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
@@ -16,6 +17,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\ChronosInterface;
 use Cake\Chronos\Date;
 use InvalidArgumentException;
@@ -187,5 +189,10 @@ class PresenterFactory
     public function footerPresenter(Programme $programme, array $options = []): FooterPresenter
     {
         return new FooterPresenter($programme, $options);
+    }
+
+    public function episodesSubNavPresenter(string $currentRoute, bool $isDomestic, bool $hasBroadcasts, int $availableEpisodeCount, Pid $pid, int $upcomingBroadcastCount): EpisodesSubNavPresenter
+    {
+        return new EpisodesSubNavPresenter($currentRoute, $isDomestic, $hasBroadcasts, $availableEpisodeCount, $pid, $upcomingBroadcastCount);
     }
 }

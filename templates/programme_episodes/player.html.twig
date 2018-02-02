@@ -8,6 +8,10 @@
     <h1>{{ds_shared('entityContext', programme)}} {{ tr('episodes') }} <span class="visually-hidden">{{ tr('available_now') }}</span></h1>
 </div>
 
+<div class="br-box-secondary">
+    {{ds2013_presenter(subNavPresenter)}}
+</div>
+
 <div class="br-box-page programmes-page">
     {% if availableEpisodes %}
         <ol class="highlight-box-wrapper">
