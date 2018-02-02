@@ -1,10 +1,29 @@
 {% extends 'base_ds2013.html.twig' %}
 
-{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('available_now') }}{% endblock %}
+{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('episode_guide') }}{% endblock %}
 {% block page_classes %}text-base programmes-page programmes-page--smallpush b-g-p{% endblock %}
 
 {% block body %}
+<div class="island br-box-secondary">
+    <h1>{{ds_shared('entityContext', programme)}} {{ tr('episodes') }} <span class="visually-hidden">{{ tr('episode_guide') }}</span></h1>
+</div>
+
 <div class="br-box-page programmes-page">
-    <h1>EPISODE GUIDE!</h1>
+    {%- if programme.getParent() -%}
+        <p class="island--squashed text--right"><a class="link-complex" href="{{ path('programme_episodes_guide', {pid: programme.getParent().getPid()})}}">
+            {{ gelicon('core', 'to-top', 'gelicon--delta gelicon--leading') }}
+            <span class="link-complex__target">{{ tr('back_up_to')}} {{ programme.getParent().getTitle() }}</span>
+        </a></p>
+    {%- endif -%}
+
+    {% if episodes %}
+        {# TODO Show programmes #}
+
+        {% if paginatorPresenter %}
+            {{ ds2013_presenter(paginatorPresenter) }}
+        {% endif %}
+    {% else %}
+        <p class="note">{{ tr('episodes_none', 0)}}</p>
+    {% endif %}
 </div>
 {% endblock %}

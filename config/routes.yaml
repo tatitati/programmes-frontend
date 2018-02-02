@@ -21,9 +21,9 @@ programme_episodes:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 programme_episodes_guide:
-    path: /programmes/{pid}/episodes/guide
-    defaults: { _controller: App\Controller\ProgrammeEpisodes\GuideController }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    path: /programmes/{pid}/episodes/guide{extension}
+    defaults: { _controller: App\Controller\ProgrammeEpisodes\GuideController, extension: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.2013inc' }
 
 programme_episodes_player:
     path: /programmes/{pid}/episodes/player
@@ -33,7 +33,7 @@ programme_episodes_player:
 programme_recommendations:
     path: /programmes/{pid}/recommendations{extension}
     defaults: { _controller: App\Controller\RecommendationsController, extension: '' }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.inc2013' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.2013inc' }
 
 partial_programme_recipes:
     path: /programmes/{pid}/recipes.ameninc
