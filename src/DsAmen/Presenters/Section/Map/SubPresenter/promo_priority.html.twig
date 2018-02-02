@@ -9,4 +9,9 @@
         'link_location_prefix' : 'promo_priority_',
         'cta_class' : 'cta br-box-secondary',
     }) }}
+    {% if promo_priority.getProgrammeContainer().isRadio() %}
+        <div class="favourites-button-island">
+            <div class="favourites-button buttons--favourites-small"></div>
+        </div>
+    {% endif %}
 </div>

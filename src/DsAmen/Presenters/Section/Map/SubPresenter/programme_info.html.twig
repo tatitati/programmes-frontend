@@ -1,16 +1,16 @@
 <div class="br-box-secondary" data-map-column="programme-info">
     {% if not programme_info.showMiniMap %}
-        {{ ds_shared('image', programme_info.getProgramme().getImage(), programme_info.getDefaultImageSize(), programme_info.getImageSizes(), {'is_lazy_loaded': false}) }}
+        {{ ds_shared('image', programme_info.getProgrammeContainer().getImage(), programme_info.getDefaultImageSize(), programme_info.getImageSizes(), {'is_lazy_loaded': false}) }}
     {% endif %}
-    <div class="island" vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(programme_info.programme) }}" resource="{{ path('find_by_pid', {'pid': programme_info.programme.pid}) }}">
-        <h1 class="invisible" property="name">{{ programme_info.programme.title }}</h1>
-        <meta property="image" content="{{ programme_info.programme.image.getUrl(480,270) }}"/>
-        {% if programme_info.programme.longestSynopsis %}
+    <div class="island" vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(programme_info.getProgrammeContainer()) }}" resource="{{ path('find_by_pid', {'pid': programme_info.getProgrammeContainer().getPid()}) }}">
+        <h1 class="invisible" property="name">{{ programme_info.getProgrammeContainer().getTitle() }}</h1>
+        <meta property="image" content="{{ programme_info.getProgrammeContainer().getImage().getUrl(480,270) }}"/>
+        {% if programme_info.getProgrammeContainer().getLongestSynopsis() %}
             <div class="gel-long-primer" property="description">
-                {{ ds_amen('synopsis', programme_info.getProgramme().getSynopses(), 250) }}
+                {{ ds_amen('synopsis', programme_info.getProgrammeContainer().getSynopses(), 250) }}
             </div>
         {% endif %}
-        {% if programme_info.getProgramme().isRadio() %}
+        {% if programme_info.getProgrammeContainer().isRadio() %}
             <div class="favourites-button buttons--favourites-small"></div>
         {% endif %}
     </div>

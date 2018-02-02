@@ -3,25 +3,18 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Presenters\Section\Map\SubPresenter;
 
-use App\DsAmen\Presenters\Section\Map\SubPresenter\Traits\LeftColumnImageSizeTrait;
-use App\DsAmen\Presenter;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 
-class PromoPriorityPresenter extends Presenter
+class PromoPriorityPresenter extends LeftColumnPresenter
 {
-    use LeftColumnImageSizeTrait;
-
-    /** @var mixed[] */
-    protected $options = [
-        'is_three_column' => false,
-    ];
-
     /** @var Promotion */
     private $promotion;
 
-    public function __construct(Promotion $promotion, array $options = [])
+    public function __construct(ProgrammeContainer $programme, Promotion $promotion, array $options = [])
     {
-        parent::__construct($options);
+        parent::__construct($programme, $options);
+
         $this->promotion = $promotion;
     }
 

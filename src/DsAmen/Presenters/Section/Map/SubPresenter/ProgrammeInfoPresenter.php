@@ -3,40 +3,38 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Presenters\Section\Map\SubPresenter;
 
-use App\DsAmen\Presenters\Section\Map\SubPresenter\Traits\LeftColumnImageSizeTrait;
-use App\DsAmen\Presenter;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use App\Exception\InvalidOptionException;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 
-class ProgrammeInfoPresenter extends Presenter
+class ProgrammeInfoPresenter extends LeftColumnPresenter
 {
-    use LeftColumnImageSizeTrait;
-
     /** @var mixed[] */
     protected $options = [
         'is_three_column' => false,
         'show_mini_map' => false,
     ];
 
-    /** @var Programme */
-    private $programme;
-
     /** @var bool */
     private $showMiniMap;
 
-    public function __construct(Programme $programme, array $options = [])
+    public function __construct(ProgrammeContainer $programme, array $options = [])
     {
-        parent::__construct($options);
-        $this->programme = $programme;
-        $this->showMiniMap = $this->getOption('show_mini_map');
-    }
+        parent::__construct($programme, $options);
 
-    public function getProgramme(): Programme
-    {
-        return $this->programme;
+        $this->showMiniMap = $this->getOption('show_mini_map');
     }
 
     public function showMiniMap(): bool
     {
         return $this->showMiniMap;
+    }
+
+    protected function validateOptions(array $options): void
+    {
+        parent::validateOptions($options);
+
+        if (!is_bool($options['show_mini_map'])) {
+            throw new InvalidOptionException('show_mini_map option must be a boolean');
+        }
     }
 }

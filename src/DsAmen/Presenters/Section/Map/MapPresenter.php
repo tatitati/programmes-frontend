@@ -234,16 +234,15 @@ class MapPresenter extends Presenter
      */
     private function constructLeftColumn(): void
     {
-        $leftColumnOptions = [
-            'is_three_column' => $this->countTotalColumns() === 3,
-            'show_mini_map' => $this->showMiniMap,
-        ];
+        $leftColumnOptions = ['is_three_column' => $this->countTotalColumns() === 3];
         if ($this->isPromoPriority) {
             $this->leftColumn = new PromoPriorityPresenter(
+                $this->programme,
                 $this->firstPromo,
                 $leftColumnOptions
             );
         } else {
+            $leftColumnOptions['show_mini_map'] = $this->showMiniMap;
             $this->leftColumn = new ProgrammeInfoPresenter(
                 $this->programme,
                 $leftColumnOptions

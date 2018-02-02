@@ -8,3 +8,17 @@
 .favourites-button {
     margin-top: 18px;
 }
+
+.favourites-button-island {
+    padding: 0 $gel-unit-small $gel-unit-small;
+
+    .favourites-button {
+        margin-top: 2px;
+    }
+}
+
+@include mq($from: gel3) {
+    .favourites-button-island {
+        padding: 0 $gel-unit-large $gel-unit-large;
+    }
+}
