@@ -20,6 +20,7 @@ class PlayerController extends BaseController
         ProgrammesAggregationService $programmeAggregationService
     ) {
         $this->setContextAndPreloadBranding($programme);
+        $this->setIstatsProgsPageType('episodes_player');
         $page = $this->getPage();
         $limit = 10;
 
@@ -43,6 +44,13 @@ class PlayerController extends BaseController
         if ($totalAvailableEpisodes > $limit) {
             $paginator = new PaginatorPresenter($page, $limit, $totalAvailableEpisodes);
         }
+
+        $this->setIstatsExtraLabels(
+            [
+                'has_available_items' => count($totalAvailableEpisodes) > 0 ? 'true' : 'false',
+                'total_available_episodes' => (string) $totalAvailableEpisodes,
+            ]
+        );
 
         $subNavPresenter = $presenterFactory->episodesSubNavPresenter(
             $this->request()->attributes->get('_route'),
