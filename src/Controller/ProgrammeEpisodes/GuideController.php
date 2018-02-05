@@ -15,6 +15,7 @@ class GuideController extends BaseController
         ProgrammesService $programmesService
     ) {
         $this->setContextAndPreloadBranding($programme);
+        $this->setIstatsProgsPageType('episodes_guide');
         $page = $this->getPage();
         $limit = 30;
 
@@ -40,6 +41,13 @@ class GuideController extends BaseController
                 $paginator = new PaginatorPresenter($page, $limit, $totalChildrenCount);
             }
         }
+
+        $this->setIstatsExtraLabels(
+            [
+                'has_available_items' => count($children) > 0 ? 'true' : 'false',
+                'total_available_episodes' => isset($totalChildrenCount) ? (string) $totalChildrenCount : '0',
+            ]
+        );
 
         return $this->renderWithChrome('programme_episodes/guide' . $extension . '.html.twig', [
             'programme' => $programme,
