@@ -1,0 +1,19 @@
+/**
+ * Broadcast Event list
+ *
+ * Cheating massivley as the broadcast-event list uses all the layout options
+ * from .programme, so all we need to style is the note stuff
+ */
+
+.broadcast-event__time {
+    margin-bottom: 0;
+
+    .timezone--note {
+        display: block;
+        font-size: 0.64em;
+    }
+}
+
+.broadcast-event__date {
+    display: block;
+}

@@ -3,16 +3,23 @@ declare(strict_types = 1);
 namespace App\Controller\ProgrammeEpisodes;
 
 use App\Controller\BaseController;
+use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
+use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 
 class GuideController extends BaseController
 {
     public function __invoke(
         ProgrammeContainer $programme,
+        PresenterFactory $presenterFactory,
         string $extension,
-        ProgrammesService $programmesService
+        ProgrammesService $programmesService,
+        ProgrammesAggregationService $programmeAggregationService,
+        CollapsedBroadcastsService $collapsedBroadcastService
     ) {
         $this->setContextAndPreloadBranding($programme);
         $this->setIstatsProgsPageType('episodes_guide');
@@ -42,6 +49,19 @@ class GuideController extends BaseController
             }
         }
 
+        $upcomingBroadcastCount = $collapsedBroadcastService->countUpcomingByProgramme($programme, CacheInterface::MEDIUM);
+        $totalAvailableEpisodes = $programmeAggregationService->countStreamableOnDemandEpisodes($programme);
+
+        $subNavPresenter = $presenterFactory->episodesSubNavPresenter(
+            $this->request()->attributes->get('_route'),
+            $programme->getNetwork() === null || !$programme->getNetwork()->isInternational(),
+            $programme->getFirstBroadcastDate() !== null,
+            $totalAvailableEpisodes,
+            $programme->getPid(),
+            $upcomingBroadcastCount
+        );
+        $upcomingBroadcasts = $this->getUpcomingBroadcastsIndexedByProgrammePid($programme, $collapsedBroadcastService);
+
         $this->setIstatsExtraLabels(
             [
                 'has_available_items' => count($children) > 0 ? 'true' : 'false',
@@ -51,8 +71,24 @@ class GuideController extends BaseController
 
         return $this->renderWithChrome('programme_episodes/guide' . $extension . '.html.twig', [
             'programme' => $programme,
-            'episodes' => $children,
+            'children' => $children,
             'paginatorPresenter' => $paginator,
+            'subNavPresenter' => $subNavPresenter,
+            'upcomingBroadcasts' => $upcomingBroadcasts,
         ]);
+    }
+
+    public function getUpcomingBroadcastsIndexedByProgrammePid(
+        ProgrammeContainer $programme,
+        CollapsedBroadcastsService $collapsedBroadcastsService
+    ): array {
+        $broadcasts = $collapsedBroadcastsService->findUpcomingByProgrammeWithFullServicesOfNetworksList($programme);
+        $upcoming = [];
+
+        foreach ($broadcasts as $broadcast) {
+            $upcoming[(string) $broadcast->getProgrammeItem()->getPid()] = $broadcast;
+        }
+
+        return $upcoming;
     }
 }

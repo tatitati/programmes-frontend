@@ -8,6 +8,10 @@
     <h1>{{ds_shared('entityContext', programme)}} {{ tr('episodes') }} <span class="visually-hidden">{{ tr('episode_guide') }}</span></h1>
 </div>
 
+<div class="br-box-secondary">
+    {{ds2013_presenter(subNavPresenter)}}
+</div>
+
 <div class="br-box-page programmes-page">
     {%- if programme.getParent() -%}
         <p class="island--squashed text--right"><a class="link-complex" href="{{ path('programme_episodes_guide', {pid: programme.getParent().getPid()})}}">
@@ -16,14 +20,45 @@
         </a></p>
     {%- endif -%}
 
-    {% if episodes %}
-        {# TODO Show programmes #}
+    {%- if children -%}
+        <ol class="highlight-box-wrapper">
+            {%- for child in children -%}
+                <li>
+                    <div class="js-guideitem highlight-box--list block-link block-link--steal br-keyline br-blocklink-page br-page-linkhover-onbg015--hover">
+                        <div class="grid-wrapper">
+                            <div class="grid 2/3@bpw2 2/3@bpe">
+                                {{ ds2013('programme', child, {
+                                    'context_programme': programme,
+                                    title_options: {
+                                        'title_format': 'item::ancestry',
+                                        'title_tag': 'h2',
+                                        'title_classes': 'gamma'
+                                    }
+                                }) }}
+                            </div>
+                            <div class="grid 1/3@bpw2 1/3@bpe hidden grid-visible@bpw2 grid-visible@bpe">
+                                <div class="grid-wrapper">
+                                    <div class="grid 1/2">
+                                        {%- if upcomingBroadcasts[child.getPid()|trans] is defined -%}
+                                            <h3 class="delta no-margin">{{ tr('next_on') }}</h3>
+                                            {{- ds2013('broadcastEvent', upcomingBroadcasts[child.getPid()|trans], {
+                                                'show_logo': false
+                                            }) -}}
+                                        {%- endif -%}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {%- endfor -%}
+        </ol>
 
-        {% if paginatorPresenter %}
+        {%- if paginatorPresenter -%}
             {{ ds2013_presenter(paginatorPresenter) }}
-        {% endif %}
-    {% else %}
+        {%- endif -%}
+    {%- else -%}
         <p class="note">{{ tr('episodes_none', 0)}}</p>
-    {% endif %}
+    {%- endif -%}
 </div>
 {% endblock %}

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Ds2013;
 
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
+use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
 use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
@@ -105,6 +106,18 @@ class PresenterFactory
     /**
      * Organisms
      */
+    public function broadcastEventPresenter(
+        CollapsedBroadcast $collapsedBroadcast,
+        array $options = []
+    ): BroadcastEventPresenter {
+        return new BroadcastEventPresenter(
+            $collapsedBroadcast,
+            $this->helperFactory->getBroadcastNetworksHelper(),
+            $this->helperFactory->getLocalisedDaysAndMonthsHelper(),
+            $this->router,
+            $options
+        );
+    }
 
     /**
      * Create a programme presenter class

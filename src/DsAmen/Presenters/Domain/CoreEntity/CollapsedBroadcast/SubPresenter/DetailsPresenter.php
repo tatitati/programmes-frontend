@@ -7,6 +7,7 @@ use App\DsAmen\Presenter;
 use App\DsShared\Helpers\BroadcastNetworksHelper;
 use App\DsShared\Helpers\LocalisedDaysAndMonthsHelper;
 use App\Translate\TranslateProvider;
+use App\ValueObject\BroadcastNetworkBreakdown;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use Cake\Chronos\Chronos;
 use RMP\Translate\Translate;
@@ -22,7 +23,7 @@ class DetailsPresenter extends Presenter
     /** @var LocalisedDaysAndMonthsHelper */
     public $localisedDaysAndMonthsHelper;
 
-    /** @var string[] */
+    /** @var BroadcastNetworkBreakdown[] */
     private $networksAndServicesDetails;
 
     public function __construct(

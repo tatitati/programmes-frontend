@@ -13,23 +13,23 @@
 </div>
 
 <div class="br-box-page programmes-page">
-    {% if availableEpisodes %}
+    {%- if availableEpisodes -%}
         <ol class="highlight-box-wrapper">
-        {% for episode in availableEpisodes %}
-            {{ ds2013('programme', episode, {
-                'context_programme': programme,
-                'highlight_box_classes': 'highlight-box--list',
-                title_options: {
-                    'title_format': 'item::ancestry',
-                }
-            }) }}
-        {% endfor %}
+            {%- for episode in availableEpisodes -%}
+                {{ ds2013('programme', episode, {
+                    'context_programme': programme,
+                    'highlight_box_classes': 'highlight-box--list',
+                    title_options: {
+                        'title_format': 'item::ancestry',
+                    }
+                }) }}
+            {%- endfor -%}
         </ol>
-        {% if paginatorPresenter %}
+        {%- if paginatorPresenter -%}
             {{ ds2013_presenter(paginatorPresenter) }}
-        {% endif %}
-    {% else %}
+        {%- endif -%}
+    {%- else -%}
         <p class="note island">{{ tr('available_count', 0)}}</p>
-    {% endif %}
+    {%- endif -%}
 </div>
 {% endblock %}

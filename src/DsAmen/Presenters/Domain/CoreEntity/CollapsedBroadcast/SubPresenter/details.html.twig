@@ -12,9 +12,11 @@
 
         {# Service details #}
         <div class="broadcast-details__service">
-            {%- for network, services in details.getNetworksAndServicesDetails() -%}
-                <span class="gel-minion-bold" property="name">{{ network }} </span>
-                {%- if services %}<span>{{ services }} </span>{% endif -%}
+            {%- for breakdown in details.getNetworksAndServicesDetails() -%}
+                <span class="gel-minion-bold" property="name">{{ breakdown.getNetworkName() }}</span>
+                {%- if breakdown.getServicesNames() -%}
+                    <span>{{ breakdown.getServicesNames() }}</span>
+                {%- endif -%}
             {%- endfor-%}
         </div>
     </div>

@@ -5,6 +5,8 @@ namespace Tests\App\DsShared\Helpers;
 
 use App\DsShared\Helpers\BroadcastNetworksHelper;
 use App\Translate\TranslateProvider;
+use App\ValueObject\BroadcastNetworkBreakdown;
+use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -25,7 +27,7 @@ class BroadcastNetworksHelperTest extends TestCase
         $this->helper = new BroadcastNetworksHelper(new TranslateProvider(new TranslateFactory()));
     }
 
-    public function testGetNetworksAndServicesDetailsWithServiceExceptionWithSameNameAsNetworkGetsIgnored(): void
+    public function testGetNetworksAndServicesDetailsWithServiceExceptionWithSameNameAsNetworkGetsIgnored()
     {
         // In this test, 'nid1' is the only network that doesn't get the broadcast. As it has
         // the same name as the network, it gets ignored, which leads to no qualifier for the
@@ -40,11 +42,23 @@ class BroadcastNetworksHelperTest extends TestCase
         $breakdown = $this->helper->getNetworksAndServicesDetails($broadcast);
 
         $this->assertCount(1, $breakdown);
-        $this->assertEquals('nid1', implode(array_keys($breakdown)));
-        $this->assertEmpty(implode(array_values($breakdown)));
+        $this->assertEquals('nid1', array_reduce(
+            $breakdown,
+            function (string $res, BroadcastNetworkBreakdown $b) {
+                return $res . $b->getNetworkName();
+            },
+            ''
+        ));
+        $this->assertEmpty(array_reduce(
+            $breakdown,
+            function (string $res, BroadcastNetworkBreakdown $b) {
+                return $res . $b->getServicesNames();
+            },
+            ''
+        ));
     }
 
-    public function testGetNetworksAndServicesDetailsWithServiceWithSameNameAsNetworkGetsIgnored(): void
+    public function testGetNetworksAndServicesDetailsWithServiceWithSameNameAsNetworkGetsIgnored()
     {
         // In this test, 'nid1' is the only network that doesn't get the broadcast. As it has
         // the same name as the network, it gets ignored, which leads to no qualifier for the
@@ -59,11 +73,23 @@ class BroadcastNetworksHelperTest extends TestCase
         $breakdown = $this->helper->getNetworksAndServicesDetails($broadcast);
 
         $this->assertCount(1, $breakdown);
-        $this->assertEquals('nid1', implode(array_keys($breakdown)));
-        $this->assertEmpty(implode(array_values($breakdown)));
+        $this->assertEquals('nid1', array_reduce(
+            $breakdown,
+            function (string $res, BroadcastNetworkBreakdown $b) {
+                return $res . $b->getNetworkName();
+            },
+            ''
+        ));
+        $this->assertEmpty(array_reduce(
+            $breakdown,
+            function (string $res, BroadcastNetworkBreakdown $b) {
+                return $res . $b->getServicesNames();
+            },
+            ''
+        ));
     }
 
-    public function testGetNetworksAndServicesDetailsWithOneNetworkShowingExceptServices(): void
+    public function testGetNetworksAndServicesDetailsWithOneNetworkShowingExceptServices()
     {
         $network1Services = $this->createServicesWithNetwork(['sid1', 'sid2', 'sid3'], 'nid1');
 
@@ -71,11 +97,23 @@ class BroadcastNetworksHelperTest extends TestCase
         $breakdown = $this->helper->getNetworksAndServicesDetails($broadcast);
 
         $this->assertCount(1, $breakdown);
-        $this->assertEquals('Network nid1', array_keys($breakdown)[0]);
-        $this->assertEquals('except Service sid3', array_values($breakdown)[0]);
+        $this->assertEquals('Network nid1', array_reduce(
+            $breakdown,
+            function (string $res, BroadcastNetworkBreakdown $b) {
+                return $res . $b->getNetworkName();
+            },
+            ''
+        ));
+        $this->assertEquals('except Service sid3', array_reduce(
+            $breakdown,
+            function (string $res, BroadcastNetworkBreakdown $b) {
+                return $res . $b->getServicesNames();
+            },
+            ''
+        ));
     }
 
-    public function testGetNetworksAndServicesDetailsWithOneNetworkShowingOnlyServices(): void
+    public function testGetNetworksAndServicesDetailsWithOneNetworkShowingOnlyServices()
     {
         $network1Services = $this->createServicesWithNetwork(['sid1', 'sid2', 'sid3', 'sid4'], 'nid1');
 
@@ -83,11 +121,17 @@ class BroadcastNetworksHelperTest extends TestCase
         $breakdown = $this->helper->getNetworksAndServicesDetails($broadcast);
 
         $this->assertCount(1, $breakdown);
-        $this->assertEquals('Network nid1', implode(array_keys($breakdown)));
-        $this->assertEquals('Service sid1 & Service sid2 only', array_values($breakdown)[0]);
+        $this->assertEquals('Network nid1', array_reduce(
+            $breakdown,
+            function (string $res, BroadcastNetworkBreakdown $b) {
+                return $res . $b->getNetworkName();
+            },
+            ''
+        ));
+        $this->assertEquals('Service sid1 & Service sid2 only', $breakdown[0]->getServicesNames());
     }
 
-    public function testGetNetworksAndServicesDetailsWithOneNetworkUsingAllServices(): void
+    public function testGetNetworksAndServicesDetailsWithOneNetworkUsingAllServices()
     {
         $network1Services = $this->createServicesWithNetwork(['sid1', 'sid2', 'sid3'], 'nid1');
 
@@ -95,11 +139,11 @@ class BroadcastNetworksHelperTest extends TestCase
         $breakdown = $this->helper->getNetworksAndServicesDetails($broadcast);
 
         $this->assertCount(1, $breakdown);
-        $this->assertEquals('Network nid1', array_keys($breakdown)[0]);
-        $this->assertEquals('', array_values($breakdown)[0]);
+        $this->assertEquals('Network nid1', $breakdown[0]->getNetworkName());
+        $this->assertEquals('', $breakdown[0]->getServicesNames());
     }
 
-    public function testGetNetworksAndServicesDetailsWithTwoNetworks(): void
+    public function testGetNetworksAndServicesDetailsWithTwoNetworks()
     {
         $network1Services = $this->createServicesWithNetwork(['sid1', 'sid2', 'sid3'], 'nid1');
         $network2Services = $this->createServicesWithNetwork(['sid4', 'sid5'], 'nid2');
@@ -109,14 +153,14 @@ class BroadcastNetworksHelperTest extends TestCase
 
         $this->assertCount(2, $breakdown);
 
-        $this->assertEquals('Network nid1', array_keys($breakdown)[0]);
-        $this->assertEquals(' & Network nid2', array_keys($breakdown)[1]);
+        $this->assertEquals('Network nid1', $breakdown[0]->getNetworkName());
+        $this->assertEquals(' & Network nid2', $breakdown[1]->getNetworkName());
 
-        $this->assertEquals('except Service sid3', array_values($breakdown)[0]);
-        $this->assertEquals('Service sid4', array_values($breakdown)[1]);
+        $this->assertEquals('except Service sid3', $breakdown[0]->getServicesNames());
+        $this->assertEquals('Service sid4', $breakdown[1]->getServicesNames());
     }
 
-    public function testGetNetworksAndServicesDetailsSeveralNetworks(): void
+    public function testGetNetworksAndServicesDetailsSeveralNetworks()
     {
         $s1 = $this->createServicesWithNetwork(['sid1'], 'nid1');
         $s2 = $this->createServicesWithNetwork(['sid2'], 'nid2');
@@ -131,19 +175,19 @@ class BroadcastNetworksHelperTest extends TestCase
 
         $this->assertCount(6, $breakdown);
 
-        $this->assertEquals('Network nid1', array_keys($breakdown)[0]);
-        $this->assertEquals(', Network nid2', array_keys($breakdown)[1]);
-        $this->assertEquals(', Network nid3', array_keys($breakdown)[2]);
-        $this->assertEquals(', Network nid4', array_keys($breakdown)[3]);
-        $this->assertEquals(', Network nid5', array_keys($breakdown)[4]);
-        $this->assertEquals(' & 2 more', array_keys($breakdown)[5]);
+        $this->assertEquals('Network nid1', $breakdown[0]->getNetworkName());
+        $this->assertEquals(', Network nid2', $breakdown[1]->getNetworkName());
+        $this->assertEquals(', Network nid3', $breakdown[2]->getNetworkName());
+        $this->assertEquals(', Network nid4', $breakdown[3]->getNetworkName());
+        $this->assertEquals(', Network nid5', $breakdown[4]->getNetworkName());
+        $this->assertEquals(' & 2 more', $breakdown[5]->getNetworkName());
 
-        foreach ($breakdown as $key => $value) {
-            $this->assertEquals('', $value);
+        foreach ($breakdown as $b) {
+            $this->assertEquals('', $b->getServicesNames());
         }
     }
 
-    public function testGetNetworksAndServicesDetailsSeveralServices(): void
+    public function testGetNetworksAndServicesDetailsSeveralServices()
     {
         $services = $this->createServicesWithNetwork([
             'sid1',
@@ -167,10 +211,10 @@ class BroadcastNetworksHelperTest extends TestCase
 
         $this->assertCount(1, $breakdown);
 
-        $this->assertEquals('Network nid1', array_keys($breakdown)[0]);
+        $this->assertEquals('Network nid1', $breakdown[0]->getNetworkName());
         $this->assertEquals(
             'Service sid1, Service sid2, Service sid3, Service sid4, Service sid5 & 2 more only',
-            array_values($breakdown)[0]
+            $breakdown[0]->getServicesNames()
         );
     }
 

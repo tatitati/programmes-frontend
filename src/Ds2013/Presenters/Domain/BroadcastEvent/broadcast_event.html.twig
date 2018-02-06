@@ -1,0 +1,49 @@
+{%- set object_classes = build_css_classes({
+    'broadcast-event programme' : true,
+    (broadcast_event.getOption('container_classes')): true
+}) -%}
+
+{%- set network_image_classes = build_css_classes({
+    'programme__img': broadcast_event.getOption('show_logo'),
+    (broadcast_event.getOption('image_classes')): broadcast_event.getOption('show_logo'),
+}) -%}
+
+{%- set programme_item_network = broadcast_event.getCollapsedBroadcast().getProgrammeItem().getNetwork() -%}
+
+<div class="{{ object_classes }}" vocab="http://schema.org/" property="publication" typeof="BroadcastEvent">
+    {%- if programme_item_network and broadcast_event.getOption('show_logo') -%}
+        <div class="{{ network_image_classes }}">
+            {%- if programme_item_network.getUrlKey() -%}
+                <a href="{{ broadcast_event.getNetworkUrl(programme_item_network) }}"><img src="{{ asset('images/logos/112x63/' ~ programme_item_network.getNid() ~ '.png') }}" alt="" width="64" height="36"></a>
+            {%- else -%}
+                <img src="{{ asset('images/logos/112x63/' ~ programme_item_network.getNid() ~ '.png') }}" alt="" width="64" height="36">
+            {%- endif -%}
+        </div>
+    {%- endif -%}
+    <div class="programme__body programme__body--flush">
+        <div class="broadcast-event__time beta"
+             data-timezone="true"
+             title="{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date('d M Y')}}"
+             property="startDate"
+             datatype="xsd:dateTime"
+             content="{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date(constant('DateTime::ISO8601'))}}">
+            <span class="broadcast-event__date text-base timezone--date">{{ broadcast_event.getBroadcastDay() }}</span>
+            <span class="timezone--time">{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date('H:i') }}</span>
+        </div>
+        <div class="programme__service box-link__elevated micro text--subtle"
+             property="publishedOn"
+             typeof="BroadcastService"
+             resource="{{ broadcast_event.getNetworkUrl(programme_item_network) }}">
+            {%- for breakdown in broadcast_event.getNetworkBreakdown -%}
+                {%- if breakdown.getNetwork() and breakdown.getNetwork().getUrlKey() -%}
+                    <a property="url" href="{{ broadcast_event.getNetworkUrl(breakdown.getNetwork()) }}"><span property="name">{{ breakdown.getNetworkName() }}</span></a>
+                {%- else -%}
+                    <span property="name">{{ breakdown.getNetworkName() }}</span>
+                {%- endif -%}
+                {%- if breakdown.getServicesNames() -%}
+                    <span>&nbsp;{{ breakdown.getServicesNames() }}</span>
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    </div>
+</div>

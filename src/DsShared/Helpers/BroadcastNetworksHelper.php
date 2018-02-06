@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\DsShared\Helpers;
 
 use App\Translate\TranslateProvider;
+use App\ValueObject\BroadcastNetworkBreakdown;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Exception\DataNotFetchedException;
@@ -20,12 +21,13 @@ class BroadcastNetworksHelper
 
     /**
      * @param CollapsedBroadcast $collapsedBroadcast
-     * @return string[] An associative array where the key is the network name (prefixed with the & or , (or not))
-     *                  and the value is a string with the list of services belonging to the network joined by & or ,
-     *                  and qualified with 'only' or 'except' (or not)
-     *                  e.g. ['BBC One' => 'except Wales & Wales HD', '& BBC Two' => 'Wales']
-     *                  If there are more than 5 networks or services, these get replaced by a string saying
+     * @return BroadcastNetworkBreakdown[]
+     *                  An ordered array of BroadcastNetworkBreadowns. This object has the processed named for
+     *                  the network (prefixed with the & or , (or not)), the processed names of the services of
+     *                  that network joined by & or and qualified with 'only' or 'except' (or not) and the network
+     *                  object itself. If there are more than 5 networks or services, these get replaced by a string saying
      *                  'and X more...' where X is the number of networks or services minus 5
+     * @throws DataNotFetchedException
      */
     public function getNetworksAndServicesDetails(CollapsedBroadcast $collapsedBroadcast): array
     {
@@ -34,21 +36,33 @@ class BroadcastNetworksHelper
         $networkNames = $this->buildNetworkNames($networkBreakdowns);
         $servicesNames = $this->buildServicesNames($networkBreakdowns);
 
+        $breakdown = [];
+        for ($i = 0; $i < count($networkNames) && $i < 5; $i++) {
+            $breakdown[] = new BroadcastNetworkBreakdown(
+                $networkNames[$i],
+                $servicesNames[$i],
+                $networkBreakdowns[$i]['network']
+            );
+        }
+
         // If there are 6 elements in networkNames, we're showing the 'and X more...' message for the networks. So,
         // we only use the first 5 services names and append an empty string at the end of the services names array
         if (count($networkNames) === 6) {
-            $servicesNames = array_slice($servicesNames, 0, 5);
-            $servicesNames[] = '';
+            $breakdown[] = new BroadcastNetworkBreakdown(
+                $networkNames[5],
+                '',
+                null
+            );
         }
 
-        return array_combine($networkNames, $servicesNames);
+        return $breakdown;
     }
 
     /**
      * @param array[] $networkBreakdowns
      * @return string[]
      */
-    public function buildNetworkNames(array $networkBreakdowns): array
+    private function buildNetworkNames(array $networkBreakdowns): array
     {
         $networkNames = [];
 
@@ -63,7 +77,7 @@ class BroadcastNetworksHelper
      * @param array[] $networkBreakdowns
      * @return string[]
      */
-    public function buildServicesNames(array $networkBreakdowns): array
+    private function buildServicesNames(array $networkBreakdowns): array
     {
         $serviceNames = [];
 
@@ -118,7 +132,7 @@ class BroadcastNetworksHelper
      *               'not_on_services' => services from the network where the broadcast didn't happened
      * @throws DataNotFetchedException
      */
-    public function getCollapsedBroadcastNetworkBreakdown(CollapsedBroadcast $collapsedBroadcast): array
+    private function getCollapsedBroadcastNetworkBreakdown(CollapsedBroadcast $collapsedBroadcast): array
     {
         $breakdowns = [];
 
