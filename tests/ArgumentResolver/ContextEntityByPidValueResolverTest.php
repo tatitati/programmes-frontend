@@ -4,6 +4,7 @@ namespace Tests\App\ArgumentResolver;
 
 use App\ArgumentResolver\ContextEntityByPidValueResolver;
 use App\Exception\ProgrammeOptionsRedirectHttpException;
+use BBC\ProgrammesPagesService\Domain\Entity\Franchise;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -122,6 +123,27 @@ class ContextEntityByPidValueResolverTest extends TestCase
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The item of type "' . Programme::class . '" with PID "b0000001" was not found');
+
+        $this->resolver->getArguments($request, $controller);
+    }
+
+    public function testResolveOfFranchiseThrows404()
+    {
+        $request = Request::create('/');
+        $request->attributes->set('pid', 'b0000001');
+        $controller = function (Group $pid) {
+        };
+
+        $group = $this->createMock(Franchise::class);
+
+        $this->coreEntitiesService->expects($this->once())->method('findByPidFull')
+            ->with(new Pid('b0000001'), 'Group')
+            ->willReturn($group);
+
+        $this->servicesService->expects($this->never())->method('findByPidFull');
+
+        $this->expectException(NotFoundHttpException::class);
+        $this->expectExceptionMessage('The item with PID "b0000001" was a franchise, which v3 does not support');
 
         $this->resolver->getArguments($request, $controller);
     }

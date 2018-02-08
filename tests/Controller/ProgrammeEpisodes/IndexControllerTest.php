@@ -31,7 +31,6 @@ class IndexControllerTest extends BaseWebTestCase
     public function indexControllerProvider(): array
     {
         return [
-            'Franchise redirects to player' => ['p00vyngt', '/programmes/p00vyngt/episodes/player'],
             'Programme Container with available episodes redirects to player' => ['b006q2x0', '/programmes/b006q2x0/episodes/player'],
             'Programme Container without available episodes redirects to guide' => ['b006pnjk', '/programmes/b006pnjk/episodes/guide'],
         ];

@@ -125,9 +125,7 @@ class FindByPidRouterSubscriber implements EventSubscriberInterface
             }
 
             if ($coreEntity instanceof Franchise) {
-                $request->attributes->set('franchise', $coreEntity);
-                $request->attributes->set('_controller', \App\Controller\FindByPid\FranchiseController::class);
-                return;
+                throw new NotFoundHttpException(sprintf('The item with PID "%s" was a franchise, which v3 does not support', $pid));
             }
 
             // Otherwise something has gone very wrong

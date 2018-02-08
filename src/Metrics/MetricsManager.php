@@ -40,7 +40,6 @@ class MetricsManager
         'ClipController' => 'ClipController',
         'CollectionController' => 'CollectionController',
         'EpisodeController' => 'EpisodeController',
-        'FranchiseController' => 'FranchiseController',
         'GalleryController' => 'GalleryController',
         'SeasonController' => 'SeasonController',
         'SegmentController' => 'SegmentController',
