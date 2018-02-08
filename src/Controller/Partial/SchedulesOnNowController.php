@@ -27,6 +27,7 @@ class SchedulesOnNowController extends BaseController
         if (!$network) {
             throw $this->createNotFoundException('No network or service found from network key ' . $networkUrlKey);
         }
+        $this->response()->headers->set('Access-Control-Allow-Origin', '*');
 
         if (!$network->getDefaultService()) {
             // networks like "news" will request this partial and we don't want to display a 404 for that
@@ -35,7 +36,6 @@ class SchedulesOnNowController extends BaseController
 
         $this->setContext($network);
         $this->setTimeZone($network);
-        $this->response()->headers->set('Access-Control-Allow-Origin', '*');
 
         $broadcast = $broadcastsService->findOnNowByService($network->getDefaultService());
         if (!$broadcast) {
