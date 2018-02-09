@@ -37,15 +37,15 @@ class MetricsManager
      * Hence we list them here.
      */
     private const PROGRAMMES_FINDBYPID_ROUTE_CONTROLLERS = [
-        'ClipController' => 'ClipController',
-        'CollectionController' => 'CollectionController',
-        'EpisodeController' => 'EpisodeController',
-        'GalleryController' => 'GalleryController',
-        'SeasonController' => 'SeasonController',
-        'SegmentController' => 'SegmentController',
-        'SeriesController' => 'SeriesController',
-        'TlecController' => 'TlecController',
-        'VersionController' => 'VersionController',
+        'ClipController' => 'FindByPid/ClipController',
+        'CollectionController' => 'FindByPid/CollectionController',
+        'EpisodeController' => 'FindByPid/EpisodeController',
+        'GalleryController' => 'FindByPid/GalleryController',
+        'SeasonController' => 'FindByPid/SeasonController',
+        'SegmentController' => 'FindByPid/SegmentController',
+        'SeriesController' => 'FindByPid/SeriesController',
+        'TlecController' => 'FindByPid/TlecController',
+        'VersionController' => 'FindByPid/VersionController',
     ];
 
     public function __construct(RouterInterface $router, MetricCacheInterface $cache, MetricBackendInterface $backend)
