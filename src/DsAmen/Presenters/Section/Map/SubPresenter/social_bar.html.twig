@@ -7,7 +7,6 @@
                     <li class="map-social__icon br-secondary-link-onbg015--hover">
                         <a href="{{ details.getValue() }}" title="{{ details.getType()|capitalize }}" data-extlinktrack="socialbar_{{ details.getType() }}">
                             {{ gelicon('social', details.getType(), 'gelicon--programme') }}
-                            <span class="invisible">{{ details.getType() }}</span>
                         </a>
                     </li>
                 {%- endfor -%}
