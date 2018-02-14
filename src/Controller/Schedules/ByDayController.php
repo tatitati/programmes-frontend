@@ -93,7 +93,8 @@ class ByDayController extends BaseController
             $service,
             $broadcastDay->start(),
             $pagePresenter,
-            $service->isInternational() && !$this->request()->query->has('utcoffset')
+            $service->isInternational() && !$this->request()->query->has('utcoffset'),
+            !is_null($date)
         );
 
         // This is from a trait and sets a 404 status code or noindex on the controller
@@ -174,13 +175,15 @@ class ByDayController extends BaseController
         Service $service,
         Chronos $broadcastDayStart,
         SchedulesByDayPagePresenter $pagePresenter,
-        bool $scheduleReload
+        bool $scheduleReload,
+        bool $isDateExplicit
     ): array {
         return [
             'service' => $service,
             'broadcast_day_start' => $broadcastDayStart,
             'page_presenter' => $pagePresenter,
             'schedule_reload' => $scheduleReload,
+            'is_date_explicit' => $isDateExplicit,
         ];
     }
 
