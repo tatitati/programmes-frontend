@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Controller\FindByPid;
 
 use App\Controller\FindByPid\TlecController;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
@@ -13,6 +14,11 @@ use Tests\App\BaseWebTestCase;
 
 class TlecControllerTest extends BaseWebTestCase
 {
+    public function tearDown()
+    {
+        ApplicationTime::blank();
+    }
+
     public function testIsVotePriority()
     {
         $controller = $this->createMock(TlecController::class);
@@ -145,6 +151,20 @@ class TlecControllerTest extends BaseWebTestCase
             $this->assertTrue(in_array($labels['past_broadcast'], ['true', 'false']));
             $this->assertTrue(in_array($labels['just_missed'], ['true', 'false']));
         }
+    }
+
+    public function testSetInternationalStatusAndTimezoneFromContext()
+    {
+        // check default timezone is Europe/London
+        $this->assertSame('Europe/London', ApplicationTime::getLocalTimeZone()->getName());
+
+        $network = $this->createMock(Network::class);
+        $network->method('isInternational')->willReturn(true);
+        $tlecController = $this->createMock(TlecController::class);
+        $this->invokeMethod($tlecController, 'setInternationalStatusAndTimezoneFromContext', [$network]);
+
+        // check timezone for international services is set to UTC
+        $this->assertSame('UTC', ApplicationTime::getLocalTimeZone()->getName());
     }
 
     private function invokeMethod($object, string $methodName, array $parameters = [])

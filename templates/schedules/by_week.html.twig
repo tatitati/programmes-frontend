@@ -71,23 +71,6 @@
     {%- endif -%}
 {%- endblock -%}
 
-{% block javascripts %}
-    {% if service.isInternational() %}
-        <script>
-            require(['timezone-notification'], function(timezoneNotification){
-                var localisedDaysAndMonths = {{ localised_date_helper.localisedDaysAndMonths()|raw }};
-                var options = {
-                    translations : {
-                        localTime: "{{ tr('local_time') }}",
-                        localDaysOfWeek: localisedDaysAndMonths['days'],
-                        localMonths: localisedDaysAndMonths['months']
-                    }
-                };
-                new timezoneNotification(options);
-            });
-        </script>
-    {% endif %}
-{% endblock %}
 
 {%- block schedule -%}
     {%- if broadcasts is empty -%}

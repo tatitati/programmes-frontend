@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Twig;
 
+use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslatableTrait;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
@@ -20,9 +21,12 @@ class TranslateAndTimeExtension extends Twig_Extension
 {
     use TranslatableTrait;
 
-    public function __construct(TranslateProvider $translateProvider)
+    private $helperFactory;
+
+    public function __construct(TranslateProvider $translateProvider, HelperFactory $helperFactory)
     {
         $this->translateProvider = $translateProvider;
+        $this->helperFactory = $helperFactory;
     }
 
     /**
@@ -47,6 +51,7 @@ class TranslateAndTimeExtension extends Twig_Extension
     {
         return [
             new Twig_Function('tr', [$this, 'trWrapper']),
+            new Twig_Function('localised_days_and_months', [$this, 'localisedDaysAndMonths']),
         ];
     }
 
@@ -94,6 +99,11 @@ class TranslateAndTimeExtension extends Twig_Extension
     {
         $dateTime = $this->toTimeZone($dateTime, ApplicationTime::getLocalTimeZone());
         return $dateTime->format($format);
+    }
+
+    public function localisedDaysAndMonths()
+    {
+        return $this->helperFactory->getLocalisedDaysAndMonthsHelper()->localisedDaysAndMonths();
     }
 
     private function toTimeZone(DateTimeInterface $dateTime, DateTimeZone $timeZone): DateTimeInterface

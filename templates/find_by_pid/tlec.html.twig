@@ -236,21 +236,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% if programme.getNetwork() and programme.getNetwork().isInternational() %}
-        <script>
-            require(['timezone-notification'], function(timezoneNotification){
-                var localisedDaysAndMonths = {{ localised_date_helper.localisedDaysAndMonths()|raw }};
-                var options = {
-                    translations : {
-                        localTime: "{{ tr('local_time') }}",
-                        localDaysOfWeek: localisedDaysAndMonths['days'],
-                        localMonths: localisedDaysAndMonths['months']
-                    }
-                };
-                new timezoneNotification(options);
-            });
-        </script>
-    {% endif %}
 
     {% if favouritesButton %}
         {{ favouritesButton.getBodyLast()|raw }}

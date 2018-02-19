@@ -22,6 +22,7 @@ class GuideController extends BaseController
         CollapsedBroadcastsService $collapsedBroadcastService
     ) {
         $this->setContextAndPreloadBranding($programme);
+        $this->setInternationalStatusAndTimezoneFromContext($programme);
         $this->setIstatsProgsPageType('episodes_guide');
         $page = $this->getPage();
         $limit = 30;

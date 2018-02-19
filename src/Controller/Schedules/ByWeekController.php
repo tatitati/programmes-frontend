@@ -38,12 +38,10 @@ class ByWeekController extends BaseController
 
         $this->setIstatsProgsPageType('schedules_week');
         $this->setContextAndPreloadBranding($service);
+        $this->setInternationalStatusAndTimezoneFromContext($service);
 
         if ($utcOffset) {
             ApplicationTime::setLocalTimeZone($utcOffset);
-        } elseif ($service->isInternational()) {
-            // "International" services are UTC, all others are Europe/London (the default)
-            ApplicationTime::setLocalTimeZone('UTC');
         }
 
         try {
@@ -89,7 +87,6 @@ class ByWeekController extends BaseController
             'twin_service' => $this->twinService($service, $servicesInNetwork),
             'page_presenter' => $pagePresenter,
             'schedule_reload' => $service->isInternational() && !$utcOffset,
-            'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
         ];
 
         $serviceIsActiveInThisPeriod = $this->serviceIsActiveDuringWeek($service, $broadcastWeek);

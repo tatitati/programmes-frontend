@@ -1,21 +1,3 @@
-{% block javascripts %}
-    {% if schedules_by_day_page.getService().isInternational() %}
-        <script>
-            require(['timezone-notification'], function(timezoneNotification){
-                var localisedDaysAndMonths = {{ schedules_by_day_page.getLocalisedDaysAndMonthsHelper().localisedDaysAndMonths()|raw }};
-                var options = {
-                    translations : {
-                        localTime: "{{ tr('local_time') }}",
-                        localDaysOfWeek: localisedDaysAndMonths['days'],
-                        localMonths: localisedDaysAndMonths['months']
-                    }
-                };
-                new timezoneNotification(options);
-            });
-        </script>
-    {% endif %}
-{% endblock %}
-
 {%- set title_classes = build_css_classes({
     'grid': true,
     '1/2@bpw2 1/2@bpe': schedules_by_day_page.hasSiblingServiceLink(),

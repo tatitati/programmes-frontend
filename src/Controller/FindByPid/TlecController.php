@@ -61,6 +61,7 @@ class TlecController extends BaseController
 
         $this->setIstatsProgsPageType('programmes_container');
         $this->setContextAndPreloadBranding($programme);
+        $this->setInternationalStatusAndTimezoneFromContext($programme);
 
         $clips = [];
         $galleries = [];
@@ -166,7 +167,6 @@ class TlecController extends BaseController
             'galleries' => $galleries,
             'mapPresenter' => $mapPresenter,
             'isVotePriority' => $isVotePriority,
-            'localised_date_helper' => $helperFactory->getLocalisedDaysAndMonthsHelper(),
             'relatedLinks' => $relatedLinks,
         ];
 

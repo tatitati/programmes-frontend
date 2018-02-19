@@ -43,6 +43,7 @@ class ByDayController extends BaseController
         $this->helperFactory = $helperFactory;
         $this->setIstatsProgsPageType('schedules_day');
         $this->setContextAndPreloadBranding($service);
+        $this->setInternationalStatusAndTimezoneFromContext($service);
 
         $dateTimeToShow = $this->dateTimeToShow($date, $service);
         if (!$dateTimeToShow) {

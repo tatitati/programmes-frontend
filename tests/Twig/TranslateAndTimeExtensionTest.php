@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Twig;
 
+use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use App\Twig\TranslateAndTimeExtension;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
@@ -25,7 +26,8 @@ class TranslateAndTimeExtensionTest extends TestCase
         /** @var TranslateProvider|PHPUnit_Framework_MockObject_MockObject $translateProvider */
         $translateProvider = $this->createMock(TranslateProvider::class);
         $translateProvider->method('getTranslate')->willReturn($this->mockTranslate);
-        $this->translateAndTimeExtension = new TranslateAndTimeExtension($translateProvider);
+        $helperFactory = $this->createMock(HelperFactory::class);
+        $this->translateAndTimeExtension = new TranslateAndTimeExtension($translateProvider, $helperFactory);
     }
 
     public function tearDown()

@@ -14,6 +14,7 @@ use BBC\BrandingClient\Branding;
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\BrandingException;
 use BBC\BrandingClient\OrbitClient;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -50,6 +51,8 @@ abstract class BaseController extends AbstractController
     private $istatsExtraLabels = [];
 
     private $istatsProgsPageType;
+
+    private $isInternational = false;
 
     protected $canonicalUrl;
 
@@ -138,6 +141,32 @@ abstract class BaseController extends AbstractController
         $this->getBrandingPromise();
     }
 
+    /**
+     * This function check if the context is international and if this is the case sets the time zone to UTC and
+     * set $this->isInternational to true so the twig template can render the required JavaScript
+     *
+     * @param mixed $context
+     * @throws Exception
+     */
+    protected function setInternationalStatusAndTimezoneFromContext($context): void
+    {
+        $network = null;
+        if ($context instanceof CoreEntity || $context instanceof Service) {
+            $network = $context->getNetwork();
+        } elseif ($context instanceof Network) {
+            $network = $context;
+        } else {
+            throw new Exception('isInternational method is not implemented by the provided context');
+        }
+        if ($network) {
+            $this->isInternational = $network->isInternational();
+        }
+        if ($this->isInternational) {
+            // "International" services are UTC, all others are Europe/London (the default)
+            ApplicationTime::setLocalTimeZone('UTC');
+        }
+    }
+
     protected function response(): Response
     {
         return $this->response;
@@ -179,6 +208,7 @@ abstract class BaseController extends AbstractController
             'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl() . $urlQueryString))->getComscore(),
             'branding' => $this->branding,
             'with_chrome' => true,
+            'is_international' => $this->isInternational,
         ], $parameters);
         return $this->render($view, $parameters, $this->response);
     }

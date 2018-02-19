@@ -128,7 +128,7 @@ class TwigEnvironmentProvider
             self::$dsSharedPresenterFactory
         ));
 
-        $twig->addExtension(new TranslateAndTimeExtension($translateProvider));
+        $twig->addExtension(new TranslateAndTimeExtension($translateProvider, $helperFactory));
 
         $twig->addExtension(new GelIconExtension());
 
