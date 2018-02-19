@@ -28,7 +28,7 @@
                 ) }}
                 <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
                     <div class="icon-link {{ recipe.getOption('cta_class') }}">
-                        <a class="link-complex" href="{{ recipe.getRecipe().getUrl() }}" data-linktrack="{{ recipe.getOption('link_location_prefix') }}media">
+                        <a tabindex="-1" class="link-complex" href="{{ recipe.getRecipe().getUrl() }}" data-linktrack="{{ recipe.getOption('link_location_prefix') }}media">
                             <div class="icon icon-cta">
                                 {{- gelicon('food', 'western-food', 'gelicon--recipe') -}}
                             </div>

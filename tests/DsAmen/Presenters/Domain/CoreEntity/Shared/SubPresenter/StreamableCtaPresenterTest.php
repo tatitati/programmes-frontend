@@ -88,24 +88,12 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
         ];
     }
 
-    /** @dataProvider getPlayTranslationProvider */
-    public function testGetPlayTranslation(ProgrammeItem $programme, string $expected): void
+
+    public function testGetPlayTranslation(): void
     {
+        $programme = $this->createMockTvEpisode();
         $ctaPresenter = new StreamableCtaPresenter($programme, $this->router);
-        $this->assertSame($expected, $ctaPresenter->getLabelTranslation());
-    }
-
-    public function getPlayTranslationProvider(): array
-    {
-        $tvEpisode = $this->createMockTvEpisode();
-        $clip = $this->createMockClip();
-        $radioEpisode = $this->createMockRadioEpisode();
-
-        return [
-            'TV episode shows play episode translation' => [$tvEpisode, 'iplayer_play_episode'],
-            'Clip shows play clip translation' => [$clip, 'iplayer_play_clip'],
-            'Radio episode shows play episode translation' => [$radioEpisode, 'iplayer_play_episode'],
-        ];
+        $this->assertSame('', $ctaPresenter->getLabelTranslation(), 'None streamable CTA presenter has label translations');
     }
 
     /** @dataProvider getUrlProvider */

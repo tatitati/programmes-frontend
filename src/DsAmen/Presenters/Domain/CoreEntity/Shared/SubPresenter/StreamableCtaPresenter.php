@@ -51,11 +51,7 @@ class StreamableCtaPresenter extends BaseCtaPresenter
 
     public function getLabelTranslation(): string
     {
-        if ($this->coreEntity instanceof Episode) {
-            return 'iplayer_play_episode';
-        }
-
-        return 'iplayer_play_clip';
+        return '';
     }
 
     public function getUrl(): string

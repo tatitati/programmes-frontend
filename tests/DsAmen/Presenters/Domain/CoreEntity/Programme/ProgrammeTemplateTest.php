@@ -97,7 +97,8 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('link-complex', $linkComplex, 'Icon Link classes');
         $this->assertSame('programmeobject_calltoaction', $linkComplex->attr('data-linktrack'));
         $this->assertSame('http://localhost/programmes/clp00001', $linkComplex->attr('href'));
-        $this->assertSame('Play clip', $linkComplex->attr('aria-label'));
+        $this->assertNull($linkComplex->attr('aria-label'));
+        $this->assertEquals("-1", $linkComplex->attr('tabindex'));
 
         $iconCta = $linkComplex->children();
         $this->assertSame(1, $iconCta->count());
@@ -181,7 +182,8 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('link-complex', $linkComplex, 'Icon Link classes');
         $this->assertSame('programmeobject_calltoaction', $linkComplex->attr('data-linktrack'));
         $this->assertSame('http://localhost/programmes/clp00001', $linkComplex->attr('href'));
-        $this->assertSame('Play clip', $linkComplex->attr('aria-label'));
+        $this->assertNull($linkComplex->attr('aria-label'));
+        $this->assertEquals("-1", $linkComplex->attr('tabindex'));
 
         $iconCta = $linkComplex->children();
         $this->assertSame(1, $iconCta->count());
