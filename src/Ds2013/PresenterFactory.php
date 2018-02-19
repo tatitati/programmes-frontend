@@ -4,6 +4,7 @@ namespace App\Ds2013;
 
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
+use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
 use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
@@ -17,6 +18,7 @@ use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\ChronosInterface;
@@ -100,6 +102,20 @@ class PresenterFactory
             $start,
             $end,
             $options
+        );
+    }
+
+    public function episodeGuideListPresenter(
+        ProgrammeContainer $contextProgramme,
+        array $programmes,
+        array $upcomingBroadcasts,
+        int $nestedLevel
+    ): EpisodeGuideListPresenter {
+        return new EpisodeGuideListPresenter(
+            $contextProgramme,
+            $programmes,
+            $upcomingBroadcasts,
+            $nestedLevel
         );
     }
 

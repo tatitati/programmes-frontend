@@ -1,0 +1,74 @@
+<ol class="highlight-box-wrapper">
+    {%- for programme in episode_guide_list.getProgrammes() -%}
+        <li>
+            {#SERIES DROPDOWN#}
+            {%- if programme.getType() == 'series' -%}
+                <div typeof="Season"
+                     resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
+                     class="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover"
+                     data-inactiveclass="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover"
+                     data-activeclass="js-guideitem br-box-subtle island js-active"
+                     data-fetched="false"
+                     data-incpath="{{ path('programme_episodes_guide_partial', {'pid': programme.getPid() }) }}?{{ episode_guide_list.getQueryParamForNextNestedLevel() }}">
+
+                    <span class="loading-spinner pull--right-spaced hidden js-inprogress-showme"></span>
+
+                    {#Title of this season#}
+                    <{{ episode_guide_list.getHeadingTag() }} class="gamma no-margin">
+                        <a property="url"
+                           resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
+                           class="js-serieslink istats-seriesopen block-link link-complex"
+                           href="{{ path('programme_episodes_guide', {'pid': programme.getPid()}) }}"
+                           aria-expanded="false"
+                           aria-controls="series-{{ programme.getPid() }}"
+                           aria-role="button">
+
+
+                            <span class="dropdown-symbol dropdown-symbol--hidden">{{ gelicon('core', 'next', 'gelicon--delta dropdown-icon') }}</span>
+                            <span property="name" class="link-complex__target">{{ programme.getTitle() }}</span>
+                            <span class="delta br-page-text-ontext deemphasize js-active-hideanyme push--leading">{{ tr('view_episodes')}}</span>
+                        </a>
+                    </{{ episode_guide_list.getHeadingTag() }}>
+
+                    <div class="nested-panel hidden js-active-showme" id="series-{{ programme.getPid() }}" aria-hidden="true">
+                        <p class="no-margin island--vertical" property="description">{{ programme.getShortSynopsis() }}</p>
+                        <div class="js-seriescontent" id="series-content-{{ programme.getPid() }}">
+                            {#EPISODES/NESTED SERIES LIST (lazy content)#}
+                        </div>
+                        <p class="no-margin text--right delta">
+                            <a class="istats-serieshome" href="{{ path('find_by_pid', {'pid': programme.getPid()}) }}">{{ programme.getTitle() }} homepage</a>
+                        </p>
+                    </div>
+                </div>
+            {%- else -%}
+                {#EPISODE#}
+                <div class="js-guideitem highlight-box--list block-link block-link--steal br-keyline br-blocklink-page br-page-linkhover-onbg015--hover">
+                    <div class="grid-wrapper">
+                        <div class="grid 2/3@bpw2 2/3@bpe">
+                            {{ ds2013('programme', programme, {
+                                'context_programme': episode_guide_list.getContextProgramme(),
+                                title_options: {
+                                    'title_format': 'item::ancestry',
+                                    'title_tag': episode_guide_list.getHeadingTag(),
+                                    'title_classes': 'gamma'
+                                }
+                            }) }}
+                        </div>
+                        <div class="grid 1/3@bpw2 1/3@bpe hidden grid-visible@bpw2 grid-visible@bpe">
+                            <div class="grid-wrapper">
+                                <div class="grid 1/2">
+                                    {%- if episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()) is not null -%}
+                                        <{{ episode_guide_list.getHeadingTag() }} class="delta no-margin">{{ tr('next_on') }}</{{ episode_guide_list.getHeadingTag() }}>
+                                        {{- ds2013('broadcastEvent', episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()), {
+                                            'show_logo': false
+                                        }) -}}
+                                    {%- endif -%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {%- endif -%}
+        </li>
+    {%- endfor -%}
+</ol>

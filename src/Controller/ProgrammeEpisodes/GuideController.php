@@ -10,26 +10,28 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use Symfony\Component\HttpFoundation\Request;
 
 class GuideController extends BaseController
 {
+    const LIMIT = 30;
+
     public function __invoke(
         ProgrammeContainer $programme,
         PresenterFactory $presenterFactory,
-        string $extension,
         ProgrammesService $programmesService,
         ProgrammesAggregationService $programmeAggregationService,
-        CollapsedBroadcastsService $collapsedBroadcastService
+        CollapsedBroadcastsService $collapsedBroadcastService,
+        Request $request
     ) {
         $this->setContextAndPreloadBranding($programme);
         $this->setInternationalStatusAndTimezoneFromContext($programme);
         $this->setIstatsProgsPageType('episodes_guide');
         $page = $this->getPage();
-        $limit = 30;
 
         $children = $programmesService->findEpisodeGuideChildren(
             $programme,
-            $limit,
+            self::LIMIT,
             $page
         );
 
@@ -45,8 +47,8 @@ class GuideController extends BaseController
         if ($children) {
             $totalChildrenCount = $programmesService->countEpisodeGuideChildren($programme);
 
-            if ($totalChildrenCount > $limit) {
-                $paginator = new PaginatorPresenter($page, $limit, $totalChildrenCount);
+            if ($totalChildrenCount > self::LIMIT) {
+                $paginator = new PaginatorPresenter($page, self::LIMIT, $totalChildrenCount);
             }
         }
 
@@ -63,14 +65,7 @@ class GuideController extends BaseController
         );
         $upcomingBroadcasts = $this->getUpcomingBroadcastsIndexedByProgrammePid($programme, $collapsedBroadcastService);
 
-        $this->setIstatsExtraLabels(
-            [
-                'has_available_items' => count($children) > 0 ? 'true' : 'false',
-                'total_available_episodes' => isset($totalChildrenCount) ? (string) $totalChildrenCount : '0',
-            ]
-        );
-
-        return $this->renderWithChrome('programme_episodes/guide' . $extension . '.html.twig', [
+        return $this->renderWithChrome('programme_episodes/guide.html.twig', [
             'programme' => $programme,
             'children' => $children,
             'paginatorPresenter' => $paginator,
@@ -79,7 +74,7 @@ class GuideController extends BaseController
         ]);
     }
 
-    public function getUpcomingBroadcastsIndexedByProgrammePid(
+    protected function getUpcomingBroadcastsIndexedByProgrammePid(
         ProgrammeContainer $programme,
         CollapsedBroadcastsService $collapsedBroadcastsService
     ): array {

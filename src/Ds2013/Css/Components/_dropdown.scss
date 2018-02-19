@@ -1,0 +1,22 @@
+.js-serieslink {
+    display: block;
+}
+
+.dropdown-symbol--hidden {
+    display: none;
+}
+
+.dropdown-icon {
+    transition: transform 0.25s linear;
+}
+
+.dropdown-symbol svg.dropdown-icon {
+    vertical-align: baseline;
+}
+
+.dropdown-icon--expanded {
+    transform: rotate(90deg);
+}
+
+
+

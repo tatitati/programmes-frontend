@@ -21,9 +21,14 @@ programme_episodes:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 programme_episodes_guide:
-    path: /programmes/{pid}/episodes/guide{extension}
-    defaults: { _controller: App\Controller\ProgrammeEpisodes\GuideController, extension: '' }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.2013inc' }
+    path: /programmes/{pid}/episodes/guide
+    defaults: { _controller: App\Controller\ProgrammeEpisodes\GuideController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+programme_episodes_guide_partial:
+    path: /programmes/{pid}/episodes/guide.2013inc
+    defaults: { _controller: App\Controller\ProgrammeEpisodes\GuidePartialController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 programme_episodes_player:
     path: /programmes/{pid}/episodes/player
