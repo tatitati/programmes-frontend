@@ -15,7 +15,8 @@
             {%- for breakdown in details.getNetworksAndServicesDetails() -%}
                 <span class="gel-minion-bold" property="name">{{ breakdown.getNetworkName() }}</span>
                 {%- if breakdown.getServicesNames() -%}
-                    <span>{{ breakdown.getServicesNames() }}</span>
+                    {# The space before the services names below is necessary #}
+                    <span> {{ breakdown.getServicesNames() }}</span>
                 {%- endif -%}
             {%- endfor-%}
         </div>
