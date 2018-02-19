@@ -5,6 +5,15 @@ namespace App\Twig;
 use Twig_Extension;
 use Twig_Function;
 
+/**
+ * Provides tools for rendering adverts.
+ *
+ * Within a page template, call `adverts_set_blocks` to define the advert slots
+ * that should be rendered within the page. Then add a call to `adverts_head`
+ * within the <head> of the page (this will probably be done in a shared base
+ * template). Finally call `advert` to render an advert of a given type and
+ * group.
+ */
 class BbcDotComExtension extends Twig_Extension
 {
      /** @var string */
