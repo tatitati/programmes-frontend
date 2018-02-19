@@ -10,6 +10,6 @@
 {% endblock %}
 
 {%- block aria_date -%}
-    {{ date_list_item.getDatetime().format('Y') }}
+    {{ date_list_item.getDatetime()|local_date('Y') }}
 {% endblock %}
 
