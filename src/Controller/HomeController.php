@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Service\NetworksService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,10 +34,13 @@ class HomeController extends BaseController
         'bbc_uzbek_radio' => true, // Uzbek
     ];
 
-    public function __invoke(EntityManagerInterface $em, NetworksService $networksService)
-    {
+    public function __invoke(
+        EntityManagerInterface $em,
+        CacheInterface $cache,
+        NetworksService $networksService
+    ) {
         $this->setIstatsProgsPageType('home_index');
-        $programmeCount = $this->countProgrammesAndGroups($em);
+        $programmeCount = $this->countProgrammesAndGroups($em, $cache);
 
         $serviceTypes = ['TV', 'National Radio', 'Regional Radio', 'Local Radio'];
         $publishedNetworks = $networksService->findPublishedNetworksByType(
@@ -66,19 +70,26 @@ class HomeController extends BaseController
         });
     }
 
-    private function countProgrammesAndGroups(EntityManagerInterface $em)
-    {
+    private function countProgrammesAndGroups(
+        EntityManagerInterface $em,
+        CacheInterface $cache
+    ) {
+        $ttl = CacheInterface::NORMAL;
+        $key = $cache->keyHelper(__CLASS__, __FUNCTION__, $ttl);
+
         // This is very naughty, as all Programmes query logic should be in
         // programmes-pages-service. But we'll make an exception here as it
         // really is a one-off.
         // Use a native query here because providing an accurate value by
         // excluding embargoed items takes too long, and it's not worth adding
         // an index to the table for this one query.
-        $qText = "SELECT COUNT(*) as cnt FROM core_entity c";
+        return $cache->getOrSet($key, $ttl, function () use ($em) {
+            $qText = "SELECT COUNT(*) as cnt FROM core_entity c";
 
-        $rms = new ResultSetMapping();
-        $rms->addScalarResult('cnt', 'cnt');
+            $rms = new ResultSetMapping();
+            $rms->addScalarResult('cnt', 'cnt');
 
-        return $em->createNativeQuery($qText, $rms)->getSingleScalarResult();
+            return $em->createNativeQuery($qText, $rms)->getSingleScalarResult();
+        });
     }
 }
