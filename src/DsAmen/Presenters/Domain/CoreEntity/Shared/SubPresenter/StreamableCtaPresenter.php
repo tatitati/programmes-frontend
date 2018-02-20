@@ -66,7 +66,7 @@ class StreamableCtaPresenter extends BaseCtaPresenter
 
         return $this->router->generate(
             'find_by_pid',
-            ['pid' => $this->coreEntity->getPid(), '_fragment' => $this->coreEntity instanceof Episode ? 'play' : ''],
+            ['pid' => $this->coreEntity->getPid()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }

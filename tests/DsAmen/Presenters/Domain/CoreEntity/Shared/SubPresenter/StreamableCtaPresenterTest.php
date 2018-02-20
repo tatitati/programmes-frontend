@@ -115,13 +115,13 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
                 $tvEpisode,
                 'http://localhost/iplayer/episode/' . $tvEpisode->getPid(),
             ],
-            'Audio TV Episode links to find by pid with play anchor' => [
+            'Audio TV Episode links to find by pid' => [
                 $audioTvEpisode,
-                'http://localhost/programmes/' . $audioTvEpisode->getPid() . '#play',
+                'http://localhost/programmes/' . $audioTvEpisode->getPid(),
             ],
-            'Radio episode links to find by pid with play anchor' => [
+            'Radio episode links to find by pid' => [
                 $radioEpisode,
-                'http://localhost/programmes/' . $radioEpisode->getPid() . '#play',
+                'http://localhost/programmes/' . $radioEpisode->getPid(),
             ],
             'Clip links to find by pid' => [
                 $clip, 'http://localhost/programmes/' . $clip->getPid(),
