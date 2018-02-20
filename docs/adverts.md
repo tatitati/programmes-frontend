@@ -76,3 +76,5 @@ example of an "International" programme which has adverts.
 To test adverts you will need to pretend you are based outside of the UK while
 visiting the website.
 
+Details of how to test adverts are on [this confluence page](https://confluence.dev.bbc.co.uk/display/programmes/Testing+Adverts)
+
