@@ -79,7 +79,7 @@ class TlecController extends BaseController
 
         $relatedLinks = [];
         if ($programme->getRelatedLinksCount() > 0) {
-            $relatedLinks = $relatedLinksService->findByRelatedToProgramme($programme);
+            $relatedLinks = $relatedLinksService->findByRelatedToProgramme($programme, ['related_site', 'miscellaneous']);
         }
 
         $upcomingBroadcast = null;
