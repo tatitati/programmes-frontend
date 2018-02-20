@@ -10,7 +10,7 @@ class GelIconExtensionTest extends TestCase
     public function testGelicon()
     {
         $extension = new GelIconExtension();
-        $expectedPattern = '$<svg tabindex="-1" class="gelicon gelicon--alpha">.+</svg>$';
+        $expectedPattern = '$<svg tabindex="-1" focusable="false" class="gelicon gelicon--alpha">.+</svg>$';
         $html = $extension->gelIcon('core', 'search', 'gelicon--alpha');
         $this->assertRegExp($expectedPattern, $html);
 
