@@ -30,41 +30,34 @@ class HelperFactory
 
     public function getBroadcastNetworksHelper()
     {
-        if (!isset($this->helpers[BroadcastNetworksHelper::class])) {
-            $this->helpers[BroadcastNetworksHelper::class] = new BroadcastNetworksHelper($this->translateProvider);
-        }
-        return $this->helpers[BroadcastNetworksHelper::class];
+        return $this->getHelper(BroadcastNetworksHelper::class, $this->translateProvider);
     }
 
     public function getLiveBroadcastHelper(): LiveBroadcastHelper
     {
-        if (!isset($this->helpers[LiveBroadcastHelper::class])) {
-            $this->helpers[LiveBroadcastHelper::class] = new LiveBroadcastHelper($this->router);
-        }
-        return $this->helpers[LiveBroadcastHelper::class];
+        return $this->getHelper(LiveBroadcastHelper::class, $this->router);
     }
 
     public function getLocalisedDaysAndMonthsHelper(): LocalisedDaysAndMonthsHelper
     {
-        if (!isset($this->helpers[LocalisedDaysAndMonthsHelper::class])) {
-            $this->helpers[LocalisedDaysAndMonthsHelper::class] = new LocalisedDaysAndMonthsHelper($this->translateProvider);
-        }
-        return $this->helpers[LocalisedDaysAndMonthsHelper::class];
+        return $this->getHelper(LocalisedDaysAndMonthsHelper::class, $this->translateProvider);
     }
 
     public function getPlayTranslationsHelper(): PlayTranslationsHelper
     {
-        if (!isset($this->helpers[PlayTranslationsHelper::class])) {
-            $this->helpers[PlayTranslationsHelper::class] = new PlayTranslationsHelper($this->translateProvider);
-        }
-        return $this->helpers[PlayTranslationsHelper::class];
+        return $this->getHelper(PlayTranslationsHelper::class, $this->translateProvider);
     }
 
     public function getTitleLogicHelper(): TitleLogicHelper
     {
-        if (!isset($this->helpers[TitleLogicHelper::class])) {
-            $this->helpers[TitleLogicHelper::class] = new TitleLogicHelper();
+        return $this->getHelper(TitleLogicHelper::class);
+    }
+
+    private function getHelper(string $className, ...$injectables)
+    {
+        if (!isset($this->helpers[$className])) {
+            $this->helpers[$className] = new $className(...$injectables);
         }
-        return $this->helpers[TitleLogicHelper::class];
+        return $this->helpers[$className];
     }
 }

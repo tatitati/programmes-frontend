@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
+use App\Controller\Helpers\SchemaHelper;
 use App\DsAmen\PresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Ada\Service\AdaClassService;
@@ -13,6 +14,7 @@ use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
@@ -52,7 +54,8 @@ class TlecController extends BaseController
         HelperFactory $helperFactory,
         RelatedLinksService $relatedLinksService,
         FavouritesButtonService $favouritesButtonService,
-        LxPromoService $lxPromoService
+        LxPromoService $lxPromoService,
+        SchemaHelper $schemaHelper
     ) {
         if ($programme->getNetwork() && $programme->getNetwork()->isInternational()) {
             // "International" services are UTC, all others are Europe/London (the default)
@@ -160,6 +163,8 @@ class TlecController extends BaseController
 
         $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
 
+        $schema = $this->getSchema($schemaHelper, $programme, $onDemandEpisode, $upcomingBroadcast);
+
         $parameters = [
             'programme' => $programme,
             'promotions' => $promotions,
@@ -168,6 +173,7 @@ class TlecController extends BaseController
             'mapPresenter' => $mapPresenter,
             'isVotePriority' => $isVotePriority,
             'relatedLinks' => $relatedLinks,
+            'schema' => $schema,
         ];
 
         $parameters = array_merge($parameters, $resolvedPromises);
@@ -307,5 +313,25 @@ class TlecController extends BaseController
         $this->setIstatsLiveEpisode($upcomingBroadcast);
         $this->setIstatsPastBroadcastLabel($lastOn);
         $this->setIstatsJustMissedLabel($lastOn);
+    }
+
+    private function getSchema(SchemaHelper $schemaHelper, ProgrammeContainer $programme, ?Episode $onDemandEpisode, ?CollapsedBroadcast $upcomingBroadcast): array
+    {
+        $schemaContext = $schemaHelper->getSchemaForSeries($programme);
+        $episode = null;
+        if ($onDemandEpisode && $upcomingBroadcast) {
+            $episode = [];
+            $episode[] = $schemaHelper->getSchemaForOnDemand($onDemandEpisode);
+            $episode[] = $schemaHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
+        } elseif ($onDemandEpisode) {
+            $episode = $schemaHelper->getSchemaForOnDemand($onDemandEpisode);
+        } elseif ($upcomingBroadcast) {
+            $episode = $schemaHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
+        }
+        if ($episode) {
+            $schemaContext['episode'] = $episode;
+        }
+
+        return $schemaHelper->prepare($schemaContext);
     }
 }

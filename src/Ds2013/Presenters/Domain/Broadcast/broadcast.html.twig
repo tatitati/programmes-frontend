@@ -16,11 +16,11 @@
     '3/4 5/6@bpb2 5/6@bpw': not broadcast.getOption('is_stacked'),
 }) -%}
 
-<div class="{{ broadcast_classes }}" vocab="http://schema.org/" typeof="BroadcastEvent">
+<div class="{{ broadcast_classes }}">
     <div class="grid-wrapper">
         <div class="broadcast__info grid {{ info_classes }}">
             {#start time and zone#}
-            <h3 class="broadcast__time gamma" data-timezone="true" property="startDate" datatype="xsd:dateTime" content="{{ broadcast.getStartAt()|date('c') }}">
+            <h3 class="broadcast__time gamma" data-timezone="true" datatype="xsd:dateTime" content="{{ broadcast.getStartAt()|date('c') }}">
                 <span class="timezone--time">{{ broadcast.getStartAt()|local_date('H:i') }}{{ broadcast.getStartAt()|time_zone_note() }}</span>
                 {%- if broadcast.getOption('show_date') -%}
                     <br /><span class="micro timezone--date">{{ broadcast.getStartAt()|local_date('d/m/Y') }}</span>
@@ -29,7 +29,7 @@
 
             {#end time and zone#}
             <meta property="endDate" datatype="xsd:dateTime" content="{{ broadcast.getEndAt()|date('c')}}" />
-            <span property="publishedOn" typeof="BroadcastService" resource="{{ path('schedules_by_day', {'pid' : broadcast.getServicePid() }) }}">
+            <span>
                 <meta property="name" content="{{ broadcast.getServiceName() }}" />
             </span>
 

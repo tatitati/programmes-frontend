@@ -45,9 +45,14 @@ class GuideControllerTest extends BaseWebTestCase
 
     private function findAllTitles($crawler)
     {
-        $titles = $crawler->filter('[property="name"]');
+        $titles = $crawler->filter('ol li a .link-complex__target');
 
         $titlesText = [];
+        foreach ($titles as $title) {
+            $titlesText[] = $title->textContent;
+        }
+
+        $titles = $crawler->filter('li h2 a')->filter('span.programme__title')->eq(0);
         foreach ($titles as $title) {
             $titlesText[] = $title->textContent;
         }

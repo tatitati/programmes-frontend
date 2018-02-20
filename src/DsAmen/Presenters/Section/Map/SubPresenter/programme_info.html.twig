@@ -2,11 +2,11 @@
     {% if not programme_info.showMiniMap %}
         {{ ds_shared('image', programme_info.getProgrammeContainer().getImage(), programme_info.getDefaultImageSize(), programme_info.getImageSizes(), {'is_lazy_loaded': false}) }}
     {% endif %}
-    <div class="island" vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(programme_info.getProgrammeContainer()) }}" resource="{{ path('find_by_pid', {'pid': programme_info.getProgrammeContainer().getPid()}) }}">
-        <h1 class="invisible" property="name">{{ programme_info.getProgrammeContainer().getTitle() }}</h1>
+    <div class="island">
+        <h1 class="invisible">{{ programme_info.getProgrammeContainer().getTitle() }}</h1>
         <meta property="image" content="{{ programme_info.getProgrammeContainer().getImage().getUrl(480,270) }}"/>
         {% if programme_info.getProgrammeContainer().getLongestSynopsis() %}
-            <div class="gel-long-primer" property="description">
+            <div class="gel-long-primer">
                 {{ ds_amen('synopsis', programme_info.getProgrammeContainer().getSynopses(), 250) }}
             </div>
         {% endif %}

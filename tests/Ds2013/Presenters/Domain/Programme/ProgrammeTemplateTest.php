@@ -27,7 +27,6 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $outerDiv = $crawler->filterXPath('//div');
         // Test outer div classes
         $this->assertHasClasses('programme programme--tv programme--episode block-link', $outerDiv, 'Outer div classes');
-        $this->assertSchemaOrgTypeOf('TVEpisode', $outerDiv);
         $this->assertEquals('p0000001', $outerDiv->attr('data-pid'));
 
         // Test image container and lazy loaded image
@@ -77,7 +76,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $synopsisP = $crawler->filter('.programme__synopsis');
         $this->assertCount(1, $synopsisP, 'Programme has synopsis');
         $this->assertContains('2/5', $synopsisP->text(), 'Synopsis contains x/n parent episode count');
-        $this->assertEquals('Short Synopsis', $synopsisP->filter('span[property=description]')->text(), 'Short synopsis is correct');
+        $this->assertEquals('Short Synopsis', $synopsisP->filter('span')->eq(2)->text(), 'Short synopsis is correct');
     }
 
     public function testBookOfTheWeekEpisode()
@@ -93,7 +92,6 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $outerDiv = $crawler->filterXPath('//div');
         // Test outer div classes
         $this->assertHasClasses('programme programme--radio programme--episode block-link', $outerDiv, 'Outer div classes');
-        $this->assertSchemaOrgTypeOf('RadioEpisode', $outerDiv);
         $this->assertEquals('b0849ccf', $outerDiv->attr('data-pid'));
 
         // Test image container and lazy loaded image
@@ -137,16 +135,12 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
 
         $subTitles = $h4->filter('.programme__subtitle');
         $this->assertCount(1, $subTitles, 'Programme has subtitles');
-        // Check schema markup for series subtitle
-        $schemaContainer = $subTitles->children()->first();
-        $this->assertEquals('RadioSeason', $schemaContainer->attr('typeof'));
-        $this->assertEquals('http://www.bbc.co.uk/programmes/b084ntjl', $schemaContainer->attr('resource'));
 
         // Make sure subtitles have correct text
-        $subTitle1 = $subTitles->filter('span[property="name"]')->eq(0);
+        $subTitle1 = $subTitles->filter('span')->eq(1);
         $this->assertEquals('Reality Is Not What It Seems', $subTitle1->text());
 
-        $subTitle1 = $subTitles->filter('span[property="name"]')->eq(1);
+        $subTitle1 = $subTitles->filter('span')->eq(2);
         $this->assertEquals('Beyond Space and Time', $subTitle1->text());
 
         // Synopsis and Episode x of n
@@ -155,7 +149,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertContains('5/5', $synopsisP->text(), 'Synopsis contains x/n parent episode count');
         $this->assertEquals(
             'Carlo Rovelli\'s account of scientific discovery examines what happened before the Big Bang',
-            $synopsisP->filter('span[property=description]')->text(),
+            $synopsisP->filter('span')->eq(2)->text(),
             'Short synopsis is correct'
         );
     }

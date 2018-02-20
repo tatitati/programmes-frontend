@@ -49,23 +49,4 @@ abstract class BaseTemplateTestCase extends TestCase
         $hasClasses = !array_diff($expectedClassesArray, $classesArray);
         $this->assertTrue($hasClasses, $message);
     }
-
-    protected function assertSchemaOrgItem(string $expected, Crawler $node)
-    {
-        $this->assertEquals('http://schema.org/', $node->attr('vocab'));
-        $this->assertSchemaOrgTypeOf($expected, $node);
-    }
-
-    protected function assertSchemaOrgTypeOf(string $expected, Crawler $node)
-    {
-        $this->assertEquals($expected, $node->attr('typeof'));
-    }
-
-    protected function assertSchemaOrgPropertyAttr(string $expected, Crawler $node, string $property)
-    {
-        $this->assertEquals(
-            $expected,
-            $node->filter('[property="' . $property . '"]')->attr('content')
-        );
-    }
 }

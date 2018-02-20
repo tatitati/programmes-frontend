@@ -96,11 +96,6 @@ class MetaContext
         return implode(',', $this->bbcFacebookPageIds());
     }
 
-    public function hasSchemaType(): bool
-    {
-        return $this->context instanceof Programme;
-    }
-
     public function image(): Image
     {
         return $this->image;

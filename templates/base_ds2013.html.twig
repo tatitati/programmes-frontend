@@ -85,7 +85,7 @@
         </script>
         {{ adverts_head() }}
     </head>
-    <body {% if meta_context.hasSchemaType() %}vocab="http://schema.org/" typeof="{{ rdfa_schema_programme_typeof(meta_context.context()) }}"{% endif %}>
+    <body>
         {{ orb.getBodyfirst()|raw }}
         {{ branding.getBodyFirst()|raw }}
 
@@ -97,6 +97,11 @@
         <script>
             require(['rv-bootstrap']);
         </script>
+        {% if schema is defined %}
+            <script type="application/ld+json">
+                {{ schema|json_encode()|raw }}
+            </script>
+        {% endif %}
         {% block javascripts %}{% endblock %}
         {% include 'base_ds_common_js_partial.html.twig' with {'title': block('title')} %}
         {{ branding.getBodyLast()|raw }}

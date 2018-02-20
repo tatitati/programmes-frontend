@@ -7,11 +7,11 @@
             }) %}
             {% spaceless %}
                 <abbr title="{{ position_text }}">
-                    <span property="position" datatype="xsd:int">{{ programme_body.getProgramme().getPosition() }}</span>/<span class="programme__groupsize">{{ programme_body.getProgramme().getParent().getExpectedChildCount() }}</span>
+                    <span datatype="xsd:int">{{ programme_body.getProgramme().getPosition() }}</span>/<span class="programme__groupsize">{{ programme_body.getProgramme().getParent().getExpectedChildCount() }}</span>
                 </abbr>
             {% endspaceless %}
         {% endif %}
-        <span property="description">{{ truncate(programme_body.getProgramme().getShortSynopsis(), programme_body.getSynopsisTruncationLength()) }}</span>
+        <span>{{ truncate(programme_body.getProgramme().getShortSynopsis(), programme_body.getSynopsisTruncationLength()) }}</span>
         {% block synopsis_extra %}{% endblock %}
     </p>
 {% endif %}

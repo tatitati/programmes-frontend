@@ -10,7 +10,6 @@ use App\Translate\TranslateProvider;
 use App\Twig\DesignSystemPresenterExtension;
 use App\Twig\GelIconExtension;
 use App\Twig\HtmlUtilitiesExtension;
-use App\Twig\RdfaSchemaExtension;
 use App\Twig\TranslateAndTimeExtension;
 use RMP\Translate\TranslateFactory;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
@@ -133,8 +132,6 @@ class TwigEnvironmentProvider
         $twig->addExtension(new GelIconExtension());
 
         $twig->addExtension(new HtmlUtilitiesExtension($assetPackages));
-
-        $twig->addExtension(new RdfaSchemaExtension($assetPackages));
 
         // Set twig for template tests to use
         self::$twig = $twig;

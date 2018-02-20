@@ -13,7 +13,7 @@
         {# Service details #}
         <div class="broadcast-details__service">
             {%- for breakdown in details.getNetworksAndServicesDetails() -%}
-                <span class="gel-minion-bold" property="name">{{ breakdown.getNetworkName() }}</span>
+                <span class="gel-minion-bold">{{ breakdown.getNetworkName() }}</span>
                 {%- if breakdown.getServicesNames() -%}
                     {# The space before the services names below is necessary #}
                     <span> {{ breakdown.getServicesNames() }}</span>

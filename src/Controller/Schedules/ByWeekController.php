@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller\Schedules;
 
 use App\Controller\BaseController;
+use App\Controller\Helpers\SchemaHelper;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
@@ -18,6 +19,7 @@ use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
 use DateTimeZone;
 use InvalidArgumentException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ByWeekController extends BaseController
 {
@@ -29,7 +31,9 @@ class ByWeekController extends BaseController
         string $date,
         ServicesService $servicesService,
         BroadcastsService $broadcastService,
-        HelperFactory $helperFactory
+        HelperFactory $helperFactory,
+        UrlGeneratorInterface $router,
+        SchemaHelper $schemaHelper
     ) {
         $utcOffset = $this->request()->query->get('utcoffset');
         if (!$this->isValidDate($date) || !$this->isValidUtcOffset($utcOffset)) {
@@ -58,6 +62,7 @@ class ByWeekController extends BaseController
         $daysOfBroadcasts = [];
 
         $broadcasts = [];
+        $schema = null;
         if ($broadcastWeek->serviceIsActiveInThisPeriod($service)) {
             // Get broadcasts in relevant period
             $broadcasts = $broadcastService->findByServiceAndDateRange(
@@ -66,6 +71,12 @@ class ByWeekController extends BaseController
                 $broadcastWeek->end(),
                 BroadcastsService::NO_LIMIT
             );
+
+            $schemas = [];
+            foreach ($broadcasts as $broadcast) {
+                $schemas[] = $schemaHelper->getSchemaForBroadcast($broadcast);
+            }
+            $schema = $schemaHelper->prepare($schemas, true);
 
             $daysOfBroadcasts = $this->groupBroadcasts($broadcasts);
             $daysOfBroadcasts = $this->addInBroadcastGaps($daysOfBroadcasts, $service);
@@ -87,6 +98,7 @@ class ByWeekController extends BaseController
             'twin_service' => $this->twinService($service, $servicesInNetwork),
             'page_presenter' => $pagePresenter,
             'schedule_reload' => $service->isInternational() && !$utcOffset,
+            'schema' => $schema,
         ];
 
         $serviceIsActiveInThisPeriod = $this->serviceIsActiveDuringWeek($service, $broadcastWeek);

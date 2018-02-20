@@ -29,12 +29,6 @@ class BroadcastTemplateTest extends BaseTemplateTestCase
 
         // Contains a programme
         $this->assertCount(1, $crawler->filter(".broadcast__programme .programme"));
-
-        // Schema.org properties
-        $broadcast = $crawler->filter(".broadcast");
-        $this->assertSchemaOrgItem('BroadcastEvent', $broadcast);
-        $this->assertSchemaOrgPropertyAttr('2015-01-01T06:00:00+00:00', $broadcast, 'startDate');
-        $this->assertSchemaOrgPropertyAttr('2015-01-01T07:00:00+00:00', $broadcast, 'endDate');
     }
 
     public function testBroadcastOnNow()

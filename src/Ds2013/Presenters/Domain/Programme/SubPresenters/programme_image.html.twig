@@ -31,10 +31,8 @@
                             'iplayer-icon iplayer-icon--boxed': programme_image.isEpisode(),
                         }) %}
                         {% if programme_image.isEpisode() %}
-                            <div property="{{ rdfa_schema_media_type(programme_image.getProgramme()) }}" typeof="{{ rdfa_schema_mediaobject_typeof(programme_image.getProgramme()) }}">
-                                <a property="url"
-                                   resource="{{ programme_image.getPlaybackUrl() }}"
-                                   href="{{ programme_image.getPlaybackUrl() }}"
+                            <div>
+                                <a href="{{ programme_image.getPlaybackUrl() }}"
                                    class="programme__availability programme__player iplayer-icon--container"
                                    title="{{ programme_image.getAvailabilityInWords() }}"
                                    data-linktrack="programmeobjectlink=cta"
@@ -52,7 +50,7 @@
                                 </a>
                             </div>
                             {% if programme_image.getProgramme().getStreamableUntil() %}
-                                <span property="publication" typeof="OnDemandEvent">
+                                <span>
                                     <meta property="endDate" datatype="xsd:dateTime" content="{{ programme_image.getProgramme().getStreamableUntil().format(constant('DateTime::ATOM')) }}" />
                                 </span>
                             {% endif %}

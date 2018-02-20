@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Controller\Schedules;
 
 use App\Controller\BaseController;
+use App\Controller\Helpers\SchemaHelper;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByDayPage\SchedulesByDayPagePresenter;
@@ -18,6 +19,7 @@ use BBC\ProgrammesPagesService\Service\NetworksService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\Date;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ByDayController extends BaseController
 {
@@ -34,7 +36,9 @@ class ByDayController extends BaseController
         ServicesService $servicesService,
         BroadcastsService $broadcastService,
         CollapsedBroadcastsService $collapsedBroadcastsService,
-        HelperFactory $helperFactory
+        HelperFactory $helperFactory,
+        UrlGeneratorInterface $router,
+        SchemaHelper $schemaHelper
     ) {
         if (!$this->isValidDate($date) || !$this->isValidUtcOffset($this->request()->query->get('utcoffset'))) {
             throw $this->createNotFoundException('Invalid date supplied');
@@ -79,6 +83,11 @@ class ByDayController extends BaseController
             }
         }
 
+        $schemas = [];
+        foreach ($broadcasts as $broadcast) {
+            $schemas[] = $schemaHelper->getSchemaForBroadcast($broadcast);
+        }
+
         $pagePresenter = new SchedulesByDayPagePresenter(
             $service,
             $broadcastDay->start(),
@@ -95,7 +104,8 @@ class ByDayController extends BaseController
             $broadcastDay->start(),
             $pagePresenter,
             $service->isInternational() && !$this->request()->query->has('utcoffset'),
-            !is_null($date)
+            !is_null($date),
+            $schemas ? $schemaHelper->prepare($schemas, true) : null
         );
 
         // This is from a trait and sets a 404 status code or noindex on the controller
@@ -177,7 +187,8 @@ class ByDayController extends BaseController
         Chronos $broadcastDayStart,
         SchedulesByDayPagePresenter $pagePresenter,
         bool $scheduleReload,
-        bool $isDateExplicit
+        bool $isDateExplicit,
+        ?array $schema
     ): array {
         return [
             'service' => $service,
@@ -185,6 +196,7 @@ class ByDayController extends BaseController
             'page_presenter' => $pagePresenter,
             'schedule_reload' => $scheduleReload,
             'is_date_explicit' => $isDateExplicit,
+            'schema' => $schema,
         ];
     }
 
