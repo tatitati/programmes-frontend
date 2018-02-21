@@ -12,8 +12,8 @@
                 </div>
             </div>
             <!-- Similar programmes -->
-            {%- if footer.getGenres() or footer.getFormats() -%}
-                <div class="grid__item 1/3@gel4 1/4@gel3b 1/2@gel3">
+            <div class="grid__item 1/3@gel4 1/4@gel3b 1/2@gel3">
+                {%- if footer.getGenres() or footer.getFormats() -%}
                     <div class="islet--horizontal footer__programmes footer__service-island">
                         <h2 class="gel-double-pica-bold">{{ tr('similar_programmes') }}</h2>
                         {%- if footer.getGenres() -%}
@@ -50,12 +50,12 @@
                             </div>
                         {%- endif -%}
                     </div>
-                </div>
-            {%- endif -%}
+                {%- endif -%}
+            </div>
             <!-- Watch live -->
             {%- if footer.hasNetwork() -%}
-                {%- if footer.getNetworkUrlKey() -%}
-                    <div class="grid__item 1/8@gel4 1/6@gel3b 1/2 footer__service">
+                <div class="grid__item 1/8@gel4 1/6@gel3b 1/2 footer__service">
+                    {%- if footer.getNetworkUrlKey() -%}
                         <div class="br-service-brand-box">
                             <div class="text--center">
                                 <a href="{{ path('network', { 'networkUrlKey': footer.getNetworkUrlKey() }) }}">
@@ -71,13 +71,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {%- endif -%}
+                    {%- endif -%}
+                </div>
                 <!-- Map links-->
                 <div class="grid__item 1/8@gel4 1/6@gel3b 1/2 footer__service-nav ">
-                    <div class="island br-service-brand-box--alt">
-                        {%-  set networkUrlKey = footer.getNetworkUrlKey() -%}
-                        {%-  if networkUrlKey or footer.getNavigationLinks() -%}
+                    {%-  set networkUrlKey = footer.getNetworkUrlKey() -%}
+                    {%-  if networkUrlKey or footer.getNavigationLinks() -%}
+                        <div class="island br-service-brand-box--alt">
                             <ul class="list-raw gel-long-primer-bold">
                                 {%-  if networkUrlKey -%}
                                     <li class="footer-nav__item">
@@ -94,8 +94,8 @@
                                     </li>
                                 {%- endfor -%}
                             </ul>
-                        {%- endif -%}
-                    </div>
+                        </div>
+                    {%- endif -%}
                 </div>
             {%- endif -%}
         </div>
