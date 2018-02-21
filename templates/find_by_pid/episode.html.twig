@@ -1,0 +1,24 @@
+{% extends 'base_ds2013.html.twig' %}
+
+{% block html_classes %}b-pw-1280{% endblock %}
+{% block title %}BBC - Programmes{% endblock %}
+
+{% block body %}
+    <div class="br-box-page">
+        <h1>Episode page live!</h1>
+
+        {%- if programme is defined -%}
+            {{ ds2013('programme', programme, {
+                'showSynopsis': true
+            }) }}
+        {%- endif -%}
+
+        {%- if group is defined -%}
+            <h2>Group {{ group.getPid() }}: {{ group.getTitle() }}</h2>
+        {%- endif -%}
+
+        {%- if segment is defined -%}
+            <h2>Segment {{ segment.getPid() }}: {{ segment.getTitle() }}</h2>
+        {%- endif -%}
+    </div>
+{% endblock %}

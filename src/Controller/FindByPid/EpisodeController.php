@@ -12,7 +12,7 @@ class EpisodeController extends BaseController
         $this->setIstatsProgsPageType('programmes_episode');
         $this->setContextAndPreloadBranding($episode);
 
-        return $this->renderWithChrome('find_by_pid/example_entity.html.twig', [
+        return $this->renderWithChrome('find_by_pid/episode.html.twig', [
             'programme' => $episode,
         ]);
     }
