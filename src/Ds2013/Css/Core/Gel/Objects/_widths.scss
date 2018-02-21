@@ -15,6 +15,11 @@
  * They are complex here, so that the HTML itself is clean.
  * You'd never need to write odd these values anywhere else.
  * They are suffixed with the breakpoints. e.g. .1/3@bpw
+ *
+ * For cases when the numerator is "10" or larger, it is ambigious if
+ * characters are part of escape sequence or a separate digit. There are a few
+ * was to disambiguate that (see https://codepen.io/BPScott/pen/QbXBjo). In
+ * this file we shall resolve this by escaping all numbers prior to the "/".
  */
 
 /**
@@ -58,7 +63,7 @@
     .\31\/12#{$suffix} { width: (1/12) * 100%; } // .1/12
     .\35\/12#{$suffix} { width: (5/12) * 100%; } // .5/12
     .\37\/12#{$suffix} { width: (7/12) * 100%; } // .7/12
-    .\41\/12#{$suffix} { width: (11/12) * 100%; } // .11/12
+    .\31\31\/12#{$suffix} { width: (11/12) * 100%; } // .11/12
 
     // Sixteenths
     // Off the beaten track, but it can be used on 1:1 images so they appear to
@@ -68,10 +73,10 @@
     // Twenty-fourths
     // Only used for advert box at full size, so we aren't including the full
     // set of possible class names
-    .\35\/16#{$suffix} { width: (5/24) * 100%; } // .5/24
-    .\37\/16#{$suffix} { width: (7/24) * 100%; } // .7/24
-    .\41\/16#{$suffix} { width: (11/24) * 100%; } // 11/24
-    .\43\/16#{$suffix} { width: (13/24) * 100%; } // 13/24
+    .\35\/24#{$suffix} { width: (5/24) * 100%; } // .5/24
+    .\37\/24#{$suffix} { width: (7/24) * 100%; } // .7/24
+    .\31\31\/24#{$suffix} { width: (11/24) * 100%; } // 11/24
+    .\31\33\/24#{$suffix} { width: (13/24) * 100%; } // 13/24
 }
 
 @include gel-widths-setup();
