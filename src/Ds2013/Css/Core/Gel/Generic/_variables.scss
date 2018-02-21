@@ -5,13 +5,6 @@
  */
 
 /**
- * Should we use placeholder classes or regular classes?
- * Defaults to being noisy.
- */
-$gel-use-silent-classes: true !default;
-$gel-class-prefix: unquote(if($gel-use-silent-classes, '%', '.'));
-
-/**
  * Generic media query breakpoints, common useful breakpoints.
  *
  * These breakpoints specify the points at which the grid is likely to require

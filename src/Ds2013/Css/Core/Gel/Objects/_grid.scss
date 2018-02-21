@@ -42,7 +42,7 @@ $gel-grid-gutter-basic-half: $gel-grid-gutter-basic / 2;
 $gel-grid-gutter-wide: 16px !default;
 $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 
-#{$gel-class-prefix}grid-wrapper {
+.grid-wrapper {
     display: block;
     margin-left: -$gel-grid-gutter-basic;
 
@@ -71,11 +71,11 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 // Opera as of 12 on Windows needs word-spacing. The ".opera" selector is
 // used to prevent actual prefocus styling and is not required in markup.
 .opera:-o-prefocus,
-#{$gel-class-prefix}grid-wrapper {
+.grid-wrapper {
     word-spacing: -0.43em;
 }
 
-#{$gel-class-prefix}grid {
+.grid {
     display: inline-block;
     zoom: 1;
     vertical-align: top;
@@ -97,7 +97,7 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 
 // Sometimes floated grids are preferable over inline-block grids. Useful if
 // we want to have a fixed width container next to a variable width one.
-#{$gel-class-prefix}grid-float {
+.grid-float {
     float: left;
 
     // Grid components have a default width so that you don't need to always
@@ -105,19 +105,19 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
     width: 100%;
 }
 
-#{$gel-class-prefix}grid-wrapper--center {
+.grid-wrapper--center {
     text-align: center;
 
-    > #{$gel-class-prefix}grid {
+    > .grid {
         text-align: left;
     }
 }
 
-#{$gel-class-prefix}grid-wrapper--bothsides {
+.grid-wrapper--bothsides {
     margin-left: -$gel-grid-gutter-basic-half;
     margin-right: -$gel-grid-gutter-basic-half;
 
-    #{$gel-class-prefix}grid {
+    .grid {
         padding-left: $gel-grid-gutter-basic-half;
         padding-right: $gel-grid-gutter-basic-half;
     }
@@ -126,10 +126,10 @@ $gel-grid-gutter-wide-half: $gel-grid-gutter-wide / 2;
 // Faux column pushdown
 $massive-pushdown: 50em;
 
-#{$gel-class-prefix}grid-wrapper--fauxcolumn {
+.grid-wrapper--fauxcolumn {
     overflow: hidden;
 
-    #{$gel-class-prefix}grid {
+    .grid {
         margin-bottom: -$massive-pushdown;
         padding-bottom: $massive-pushdown;
     }
@@ -149,19 +149,19 @@ $massive-pushdown: 50em;
 }
 
 @include mq-range('bpw') {
-    #{$gel-class-prefix}grid-wrapper {
+    .grid-wrapper {
         margin-left: -$gel-grid-gutter-wide;
     }
 
-    #{$gel-class-prefix}grid {
+    .grid {
         padding-left: $gel-grid-gutter-wide;
     }
 
-    #{$gel-class-prefix}grid-wrapper--bothsides {
+    .grid-wrapper--bothsides {
         margin-left: -$gel-grid-gutter-wide-half;
         margin-right: -$gel-grid-gutter-wide-half;
 
-        #{$gel-class-prefix}grid {
+        .grid {
             padding-left: $gel-grid-gutter-wide-half;
             padding-right: $gel-grid-gutter-wide-half;
         }
@@ -176,25 +176,25 @@ $massive-pushdown: 50em;
     }
 }
 
-@mixin gel-gutterwidths-setup($namespace: '', $spacing: $gel-grid-gutter-basic, $class-prefix: $gel-class-prefix) {
+@mixin gel-gutterwidths-setup($namespace: '', $spacing: $gel-grid-gutter-basic) {
     // Flush
     // Grid items sit flush to each other instead of having any spacing
-    #{$gel-class-prefix}#{$namespace}grid-wrapper--flush {
+    .#{$namespace}grid-wrapper--flush {
         margin-right: 0;
         margin-left: 0;
     }
 
-    #{$gel-class-prefix}#{$namespace}grid--flush {
+    .#{$namespace}grid--flush {
         padding-right: 0;
         padding-left: 0;
     }
 
-    #{$gel-class-prefix}#{$namespace}grid-wrapper--half {
+    .#{$namespace}grid-wrapper--half {
         margin-right: 0;
         margin-left: -$spacing / 2;
     }
 
-    #{$gel-class-prefix}#{$namespace}grid--half {
+    .#{$namespace}grid--half {
         padding-right: 0;
         padding-left: $spacing / 2;
     }
