@@ -1,31 +1,3 @@
-// When a single column looks too wide but two side-by-side columns looks
-// too skinny use a grid--bounded to have a single column with some spacing
-// around it (best used with grid-wrapper--center).
-.grid--bounded {
-    max-width: 624px;
-}
-
-@include mq-range('bpw') {
-    .grow-to-fit\@bpw {
-        float: none;
-        width: auto;
-        overflow: auto; // Stop content peeking out underneath columns to the left
-    }
-
-    .\31\/6\@bpw {
-        width: 976px * 0.16666;
-    }
-}
-
-// For letting you undo grid-unbounded at a given breakpoint
-@each $name in $gel-widths-breakpoints {
-    @include mq-range($name) {
-        .grid--unbounded\@#{$name} {
-            max-width: none;
-        }
-    }
-}
-
 .push-one-twentyfourth {
     margin-left: (100% / 24);
 }

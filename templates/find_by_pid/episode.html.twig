@@ -1,24 +1,58 @@
 {% extends 'base_ds2013.html.twig' %}
 
-{% block html_classes %}b-pw-1280{% endblock %}
-{% block title %}BBC - Programmes{% endblock %}
+{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
+{% block title %}{{ meta_context.titlePrefix() }}{% endblock %}
+{% block adsToDisplay %}leaderboard mpu{% endblock %}
 
 {% block body %}
-    <div class="br-box-page">
-        <h1>Episode page live!</h1>
 
-        {%- if programme is defined -%}
-            {{ ds2013('programme', programme, {
-                'showSynopsis': true
-            }) }}
-        {%- endif -%}
+{# TODO Leaderboard advert #}
 
-        {%- if group is defined -%}
-            <h2>Group {{ group.getPid() }}: {{ group.getTitle() }}</h2>
-        {%- endif -%}
+{# TODO Episode Panels #}
 
-        {%- if segment is defined -%}
-            <h2>Segment {{ segment.getPid() }}: {{ segment.getTitle() }}</h2>
-        {%- endif -%}
+<div class="prog-layout programmes-page">
+    <div class="grid-wrapper grid-wrapper--center">
+        {# TODO Related Topics Module #}
+
+        <div class="grid grid--bounded 13/24@bpw2 13/24@bpe">
+            <div class="br-box-page prog-box">
+                {# TODO Live Text Stream #}
+
+                {# TODO Promotions (on the current item) module #}
+
+                {# TODO MPU at sizes 1 and 2 #}
+
+                {# TODO Recipes module #}
+
+                {# TODO Clips module #}
+
+                {# TODO Segments module #}
+
+                {# TODO Features module #}
+
+                {# TODO Credits module #}
+
+                {# TODO Broadcasts module #}
+
+                {# TODO Collections module #}
+            </div>
+        </div>
+
+        <div class="grid grid--bounded 11/24@bpw2 11/24@bpe">
+            {# TODO MPU at sizes 3 and 4 #}
+
+            {# TODO Related Programmes (ADA) #}
+
+            {# TODO Super Promotions module #}
+
+            {# TODO Podcasts module #}
+
+            {# TODO Galleries module #}
+
+            {# TODO Vote module #}
+
+            {# TODO Related Links module #}
+        </div>
     </div>
+</div>
 {% endblock %}
