@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "\npre_build\n"
+
+exit 0

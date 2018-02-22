@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "\npost_build\n"
+
+exit 0

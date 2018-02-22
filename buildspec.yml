@@ -5,28 +5,21 @@ env:
       OAUTH: "OAUTH_TOKEN"
 
 phases:
-  #install:
-    #commands:
-      # - command
-      # - command
-  #pre_build:
-    #commands:
-      # - command
-      # - command
+  install:
+    commands:
+      - script/codebuild/install
+  pre_build:
+    commands:
+      - script/codebuild/pre_build
   build:
     commands:
-       - script/ci-docker
-      # - command
-  #post_build:
-    #commands:
-      # - command
-      # - command
-#artifacts:
-  #files:
-    # - location
-    # - location
-  #discard-paths: yes
-  #base-directory: location
-#cache:
-  #paths:
-    # - paths
+      - script/codebuild/build
+  post_build:
+    commands:
+      - script/codebuild/post_build
+artifacts:
+  files:
+    - '**/*'
+cache:
+  paths:
+    - 'aws/cache'
