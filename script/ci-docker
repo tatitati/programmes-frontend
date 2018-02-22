@@ -10,8 +10,6 @@ if ! (php --version | grep -q "PHP 7.") ; then
     exit 1
 fi
 
-export SYMFONY_ENV=prod;
-
 # setup and run composer
 if [ -n "$OAUTH" ]; then
     composer config -g github-oauth.github.com $OAUTH
@@ -50,6 +48,7 @@ yarn run lint || RESULT=1
 # Run PHPStan
 vendor/bin/phpstan analyse -c phpstan.neon src tests --level=4 --memory-limit=256M || RESULT=1
 
+export SYMFONY_ENV=prod;
 if [ "$RESULT" = "0" ]; then
     composer --no-ansi --no-interaction --no-dev --optimize-autoloader --prefer-dist install || RESULT=1
 fi
