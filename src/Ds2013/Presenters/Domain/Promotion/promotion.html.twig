@@ -1,0 +1,37 @@
+<div class="promotion block-link {{promotion.getOption('highlight_box_classes')}}">
+    <div class="promotion__img {{ promotion.getOption('img_classes') }}">
+        {{- ds_shared(
+            'image',
+            promotion.getImage(),
+            promotion.getOption('img_default_width'),
+            promotion.getOption('img_sizes'),
+            {'ratio': null}
+        ) -}}
+    </div>
+    <div class="promotion__body br-box-page">
+        <div class="promotion__body__inner br-page-linkhover-onbg015--childhover">
+            <h4 class="promotion__titles">
+                <span class="promotion__title">
+                    <a href="{{ promotion.getUrl() }}" class="promotion__link block-link__target br-blocklink__link">{{ promotion.getTitle() }}</a>
+                </span>
+            </h4>
+
+            {% if promotion.getOption('show_synopsis') %}
+                <p class="promotion__synopsis centi text--subtle">{{ promotion.getSynopsis() }}</p>
+            {% endif %}
+
+            {% if promotion.getRelatedLinks() %}
+                <div class="promotion__related-links centi">
+                    <ul class="no-margin-vertical list-spaced">
+                    {%- for link in promotion.getRelatedLinks() -%}
+                        <li>
+                            <a href="{{ link.getUri() }}">{{- link.getTitle() -}}</a>
+                            {%- if link.isExternal() %} <span class="milli">({{ link.getHost() }})</span>{% endif -%}
+                        </li>
+                    {%- endfor -%}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

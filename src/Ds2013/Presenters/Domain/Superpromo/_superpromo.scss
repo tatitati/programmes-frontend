@@ -1,0 +1,24 @@
+ /**
+  *  .superpromo
+  *  A superpromo aggregation object with an image,
+  *  title, synopsis and related links
+  */
+
+.superpromo__img {
+    display: block;
+}
+
+.component--box--striped .superpromo__content {
+    @extend .prog-layout__primary;
+    padding-top: $basic-spacing;
+    padding-bottom: $basic-spacing;
+}
+
+.superpromo__synopsis {
+    margin-bottom: 0;
+}
+
+.superpromo__related-links {
+    margin-top: 4px;
+    margin-bottom: 0;
+}

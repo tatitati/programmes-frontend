@@ -1,0 +1,34 @@
+<div class="superpromo component component--box component--box--striped component--box-flushbody component--box--secondary">
+    <div class="component__header br-box-highlight">
+        <h2 data-linktrack="superpromo_title">{{ superpromo.getTitle() }}</h2>
+    </div>
+    <div class="component__body br-box-subtle">
+        <a class="superpromo__img" data-linktrack="superpromo_image" href="{{ superpromo.getUrl() }}">
+            {{- ds_shared(
+                'image',
+                superpromo.getImage(),
+                superpromo.getOption('img_default_width'),
+                superpromo.getOption('img_sizes'),
+                {'ratio': null}
+            ) -}}
+        </a>
+        <div class="superpromo__content">
+            {% if superpromo.getOption('show_synopsis') %}
+                <p class="superpromo__synopsis centi text--subtle">{{ superpromo.getSynopsis() }}</p>
+            {% endif %}
+
+            {% if superpromo.getRelatedLinks() %}
+                <div class="superpromo__related-links centi">
+                    <ul class="no-margin-vertical list-spaced">
+                    {%- for link in superpromo.getRelatedLinks() -%}
+                        <li>
+                            <a href="{{ link.getUri() }}">{{- link.getTitle() -}}</a>
+                            {%- if link.isExternal() %} <span class="milli">({{ link.getHost() }})</span>{% endif -%}
+                        </li>
+                    {%- endfor -%}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

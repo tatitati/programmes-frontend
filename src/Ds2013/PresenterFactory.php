@@ -8,6 +8,8 @@ use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
 use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
+use App\Ds2013\Presenters\Domain\Promotion\PromotionPresenter;
+use App\Ds2013\Presenters\Domain\Superpromo\SuperpromoPresenter;
 use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
@@ -21,6 +23,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\ChronosInterface;
@@ -224,6 +227,22 @@ class PresenterFactory
             $collapsedBroadcast,
             $options
         );
+    }
+
+    public function promotionPresenter(
+        Promotion $promotion,
+        array $options = []
+    ): PromotionPresenter {
+        return new PromotionPresenter(
+            $this->router,
+            $promotion,
+            $options
+        );
+    }
+
+    public function superpromoPresenter(Promotion $promotion, array $options = []): SuperpromoPresenter
+    {
+        return new SuperpromoPresenter($this->router, $promotion, $options);
     }
 
     /* Sections */

@@ -6,11 +6,16 @@ use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
+use BBC\ProgrammesPagesService\Service\PromotionsService;
 
 class EpisodeController extends BaseController
 {
-    public function __invoke(Episode $episode, ContributionsService $contributionsService, ProgrammesAggregationService $aggregationService)
-    {
+    public function __invoke(
+        Episode $episode,
+        ContributionsService $contributionsService,
+        ProgrammesAggregationService $aggregationService,
+        PromotionsService $promotionsService
+    ) {
         $this->setIstatsProgsPageType('programmes_episode');
         $this->setContextAndPreloadBranding($episode);
 
@@ -24,10 +29,13 @@ class EpisodeController extends BaseController
             $contributions = $contributionsService->findByContributionToProgramme($episode);
         }
 
+        $promotions = $promotionsService->findActivePromotionsByEntityGroupedByType($episode);
+
         return $this->renderWithChrome('find_by_pid/episode.html.twig', [
             'contributions' => $contributions,
             'programme' => $episode,
             'clips' => $clips,
+            'promotions' => $promotions,
         ]);
     }
 }

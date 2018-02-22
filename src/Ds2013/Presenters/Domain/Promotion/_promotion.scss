@@ -1,0 +1,244 @@
+/**
+  *  .promotion
+  *  A promotion aggregation object with an image,
+  *  title, synopsis and related links
+  *  Extends the media object
+  */
+
+
+.promotion {
+    @extend .media;
+    @extend .link-complex;
+}
+
+.promotion--featured .promotion__titles {
+    @extend .beta;
+    margin-bottom: 0;
+}
+
+.promotion__img {
+    display: none;
+    position: relative;
+    float: left;
+    margin-right: $basic-spacing;
+    margin-bottom: 0;
+    max-width: 192px;
+    overflow: hidden;
+}
+
+.promotion__img--nomax {
+    max-width: none;
+}
+
+.promotion__body {
+    @extend .media__body;
+    max-width: 464px;
+}
+
+.promotion__title {
+    display: block;
+    margin-bottom: 0;
+
+    a {
+        @extend .link-complex__target;
+    }
+}
+
+.promotion__titles {
+    margin: 0;
+}
+
+.promotion__synopsis,
+.promotion__related-links {
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+.promotion--overlay {
+    .promotion__titles {
+        @extend .gamma;
+        margin-bottom: 0;
+    }
+
+    .promotion__img {
+        max-width: none;
+        float: none;
+        margin: 0;
+    }
+
+    .promotion__body {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: $basic-spacing;
+        max-width: none;
+    }
+}
+
+@include mq-range('bpb1') {
+    .promotion__img {
+        display: block;
+    }
+}
+
+@include mq-range('bpw') {
+    .promotion__img {
+        display: block;
+        margin-right: $wide-spacing;
+    }
+
+    // promotion--inset is only a valid state above 600px, so prefix it for
+    // future compatibility
+    .promotion--inset\@bpw {
+        $image-width: 55%;
+        $body-width: 55%;
+
+        // constrain the faux column that is applied to the body
+        overflow: hidden;
+
+        .promotion__img {
+            // explictly state the width here, rather than rely on the sizing
+            // classes as the width determins what the margin-right should be.
+            width: $image-width;
+            max-width: none;
+            margin-right: (100% - $image-width - $body-width);
+        }
+
+        .promotion__body,
+        .promotion__body__inner {
+            // faux column
+            padding-bottom: 200px;
+            margin-bottom: -200px;
+        }
+
+        .promotion__body {
+            // relative position is required otherwise the background color is
+            // not set correctly
+            position: relative;
+            width: $body-width;
+            margin-top: 6%;
+        }
+
+        .promotion__body__inner {
+            padding-top: $wide-half-spacing;
+            padding-left: $wide-half-spacing;
+        }
+
+        .promotion__titles {
+            font-size: gel-typography('bpw', 'beta', 'font-size');
+            line-height: gel-typography('bpw', 'beta', 'line-height');
+        }
+    }
+
+    .promotion--overlay {
+        .promotion__titles {
+            font-size: gel-typography('bpw', 'gamma', 'font-size');
+            line-height: gel-typography('bpw', 'gamma', 'line-height');
+        }
+    }
+}
+
+
+@mixin promotion-image-setup($suffix: '', $spacing: $basic-spacing) {
+    $half-spacing: $spacing / 2;
+
+    .promotion--list#{$suffix} {
+        .promotion__img {
+            float: left;
+            margin-right: $spacing;
+            margin-bottom: 0;
+            max-width: 224px;
+            overflow: hidden;
+        }
+
+        .promotion__img--nomax {
+            max-width: none;
+        }
+
+        .promotion__body {
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    .promotion--list-featured#{$suffix} {
+        @extend .promotion--list#{$suffix};
+
+        .promotion__body {
+            margin-top: $spacing;
+            margin-bottom: $spacing;
+            margin-right: $spacing;
+        }
+    }
+
+    .promotion--grid#{$suffix} {
+        .promotion__img {
+            float: none;
+            margin-right: 0;
+            max-width: none;
+            margin-bottom: $half-spacing;
+        }
+
+        .promotion__body {
+            margin-bottom: $half-spacing;
+            margin-left: $half-spacing;
+            margin-right: $half-spacing;
+        }
+
+        .promotion__body--flush {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    .promotion--grid-full#{$suffix} {
+        @extend .promotion--grid#{$suffix};
+
+        .promotion__img {
+            margin-bottom: $spacing;
+        }
+
+        .promotion__body {
+            margin-bottom: $spacing;
+            margin-left: $spacing;
+            margin-right: $spacing;
+        }
+    }
+}
+
+@include promotion-image-setup();
+
+@include mq-range('bpw') {
+    .promotion--list {
+        .promotion__img {
+            margin-right: $wide-spacing;
+        }
+    }
+
+    .promotion--grid {
+        .promotion__img  {
+            margin-bottom: $wide-half-spacing;
+        }
+
+        .promotion__body {
+            margin-bottom: $wide-half-spacing;
+            margin-left: $wide-half-spacing;
+            margin-right: $wide-half-spacing;
+        }
+
+        .promotion__body--flush {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}
+
+@each $name in $gel-widths-breakpoints {
+    $spacing: if(index(('bpb1', 'bpb2'), $name), $basic-spacing, $wide-spacing);
+
+    @include mq-range($name) {
+        @include promotion-image-setup('\\@#{$name}', $spacing);
+    }
+}

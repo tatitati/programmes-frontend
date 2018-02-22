@@ -56,8 +56,9 @@
 // @import 'objects/programme';
 @import 'Presenters/Domain/Broadcast/broadcast';
 @import 'Presenters/Domain/BroadcastEvent/broadcast-event';
-// @import 'objects/promotion';
+@import 'Presenters/Domain/Promotion/promotion';
 @import 'Presenters/Domain/Programme/programme';
+@import 'Presenters/Domain/Superpromo/superpromo';
 
 @import 'Presenters/Utilities/DateList/date-list';
 @import 'Css/Components/icon-box';
@@ -84,7 +85,6 @@
 // @import 'objects/smp';
 // @import 'objects/segments-list';
 // @import 'objects/segment';
-// @import 'objects/superpromo';
 // @import 'objects/timebar';
 // @import 'objects/form';
 // @import 'objects/third-party';
