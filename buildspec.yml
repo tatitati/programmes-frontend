@@ -19,7 +19,7 @@ phases:
       - script/codebuild/post_build
 artifacts:
   files:
-    - '**/*'
+    - './**/*'
 cache:
   paths:
     - 'aws/cache'
