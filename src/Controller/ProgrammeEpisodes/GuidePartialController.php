@@ -5,7 +5,6 @@ namespace App\Controller\ProgrammeEpisodes;
 use App\Ds2013\PresenterFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
-use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,7 +14,6 @@ class GuidePartialController extends GuideController
         ProgrammeContainer $programme,
         PresenterFactory $presenterFactory,
         ProgrammesService $programmesService,
-        ProgrammesAggregationService $programmeAggregationService,
         CollapsedBroadcastsService $collapsedBroadcastService,
         Request $request
     ) {

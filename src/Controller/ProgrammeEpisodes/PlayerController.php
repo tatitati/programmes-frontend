@@ -38,17 +38,17 @@ class PlayerController extends BaseController
         }
 
         $upcomingBroadcastCount = $collapsedBroadcastService->countUpcomingByProgramme($programme, CacheInterface::MEDIUM);
-        $totalAvailableEpisodes = $programmeAggregationService->countStreamableOnDemandEpisodes($programme);
+        $availableEpisodesCount = $programme->getAvailableEpisodesCount();
 
         $paginator = null;
-        if ($totalAvailableEpisodes > $limit) {
-            $paginator = new PaginatorPresenter($page, $limit, $totalAvailableEpisodes);
+        if ($availableEpisodesCount > $limit) {
+            $paginator = new PaginatorPresenter($page, $limit, $availableEpisodesCount);
         }
 
         $this->setIstatsExtraLabels(
             [
-                'has_available_items' => count($totalAvailableEpisodes) > 0 ? 'true' : 'false',
-                'total_available_episodes' => (string) $totalAvailableEpisodes,
+                'has_available_items' => $availableEpisodesCount > 0 ? 'true' : 'false',
+                'total_available_episodes' => (string) $availableEpisodesCount,
             ]
         );
 
@@ -56,7 +56,7 @@ class PlayerController extends BaseController
             $this->request()->attributes->get('_route'),
             $programme->getNetwork() === null || !$programme->getNetwork()->isInternational(),
             $programme->getFirstBroadcastDate() !== null,
-            $totalAvailableEpisodes,
+            $availableEpisodesCount,
             $programme->getPid(),
             $upcomingBroadcastCount
         );

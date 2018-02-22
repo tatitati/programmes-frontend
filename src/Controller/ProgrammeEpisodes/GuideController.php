@@ -8,7 +8,6 @@ use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
-use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,7 +19,6 @@ class GuideController extends BaseController
         ProgrammeContainer $programme,
         PresenterFactory $presenterFactory,
         ProgrammesService $programmesService,
-        ProgrammesAggregationService $programmeAggregationService,
         CollapsedBroadcastsService $collapsedBroadcastService,
         Request $request
     ) {
@@ -53,13 +51,12 @@ class GuideController extends BaseController
         }
 
         $upcomingBroadcastCount = $collapsedBroadcastService->countUpcomingByProgramme($programme, CacheInterface::MEDIUM);
-        $totalAvailableEpisodes = $programmeAggregationService->countStreamableOnDemandEpisodes($programme);
 
         $subNavPresenter = $presenterFactory->episodesSubNavPresenter(
             $this->request()->attributes->get('_route'),
             $programme->getNetwork() === null || !$programme->getNetwork()->isInternational(),
             $programme->getFirstBroadcastDate() !== null,
-            $totalAvailableEpisodes,
+            $programme->getAvailableEpisodesCount(),
             $programme->getPid(),
             $upcomingBroadcastCount
         );
