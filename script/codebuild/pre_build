@@ -13,4 +13,6 @@ vendor/bin/phpstan analyse -c phpstan.neon src tests --level=4 --memory-limit=25
 
 composer --no-ansi --no-interaction --no-dev --optimize-autoloader --prefer-dist install
 
+rm -rf var/cache/*
+
 exit 0
