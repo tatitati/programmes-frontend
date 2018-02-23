@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 composer config -g github-oauth.github.com $OAUTH
 composer --no-ansi --no-interaction install
