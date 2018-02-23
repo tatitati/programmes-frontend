@@ -15,7 +15,7 @@ class ExceptionControllerTest extends BaseWebTestCase
         $crawler = $client->request('GET', '/_error/404');
 
         // The test page for all errors, always returns a 200 status
-        $this->assertResponseStatusCode($client, 201);
+        $this->assertResponseStatusCode($client, 200);
 
         $this->assertHasRequiredResponseHeaders($client, 'max-age=60, public');
 
