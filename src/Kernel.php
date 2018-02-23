@@ -75,12 +75,10 @@ class Kernel extends BaseKernel
         // rather than environment variables for configuration
         $loader->load($confDir . '/parameters.yaml', 'glob');
 
-        $loader->load($confDir . '/packages/*' . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
 
         foreach ($envsList as $envName) {
-            if (is_dir($confDir . '/packages/' . $envName)) {
-                $loader->load($confDir . '/packages/' . $envName . '/**/*' . self::CONFIG_EXTS, 'glob');
-            }
+            $loader->load($confDir . '/{packages}/' . $envName . '/**/*' . self::CONFIG_EXTS, 'glob');
         }
 
         // If we are in a fixtured environment then load the fixture config
@@ -88,21 +86,17 @@ class Kernel extends BaseKernel
             $loader->load($confDir . '/fixture_db.yaml', 'glob');
         }
 
-        $loader->load($confDir . '/services' . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
         foreach ($envsList as $envName) {
-            $loader->load($confDir . '/services_' . $envName . self::CONFIG_EXTS, 'glob');
+            $loader->load($confDir . '/{services}_' . $envName . self::CONFIG_EXTS, 'glob');
         }
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
         $confDir = $this->getProjectDir() . '/config';
-        $routes->import($confDir . '/routes' . self::CONFIG_EXTS, '/', 'glob');
-        if (is_dir($confDir . '/routes/')) {
-            $routes->import($confDir . '/routes/*' . self::CONFIG_EXTS, '/', 'glob');
-        }
-        if (is_dir($confDir . '/routes/' . $this->environment)) {
-            $routes->import($confDir . '/routes/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
-        }
+        $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
     }
 }
