@@ -1,17 +1,14 @@
 #!/bin/sh
 set -e
 
-# Make sure the reports directory exists
-if [ ! -d "build/reports" ]; then
-    mkdir -p build/reports
-fi
-
 bin/phpunit --no-coverage
 vendor/bin/phpcs -n
 yarn run lint
 vendor/bin/phpstan analyse -c phpstan.neon src tests --level=4 --memory-limit=256M
 
 composer --no-ansi --no-interaction --no-dev --optimize-autoloader --prefer-dist install
+
+yarn gulp-ci
 
 rm -rf var/cache/*
 
