@@ -22,4 +22,4 @@ artifacts:
     - 'RPMS/*.rpm'
 cache:
   paths:
-    - 'aws/cache'
+    - 'build-cache'
