@@ -1,5 +1,5 @@
 #!/bin/sh
 
-echo "\nbuild\n"
+mbt -r 7 -s rpmbuild
 
 exit 0
