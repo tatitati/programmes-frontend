@@ -197,7 +197,10 @@ services:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getBroadcastsService']
 
     BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService:
-            factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getCollapsedBroadcastsService']
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getCollapsedBroadcastsService']
+
+    BBC\ProgrammesPagesService\Service\ContributionsService:
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getContributionsService']
 
     BBC\ProgrammesPagesService\Service\ImagesService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getImagesService']

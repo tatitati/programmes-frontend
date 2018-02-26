@@ -1,0 +1,31 @@
+<table class="table table--slatted-vertical no-margin-vertical">
+    <thead class="visually-hidden">
+    <tr>
+        {% if credits.shouldShowRoleColumn() %}
+            <th>Role</th>
+        {% endif %}
+        <th>Contributor</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for contribution in credits.getContributions() %}
+        <tr>
+            {% if credits.shouldShowRoleColumn() %}
+                <td class="br-subtle-bg-onborder">
+                    {% if contribution.getCharacterName() %}
+                        <span>{{ contribution.getCharacterName() }}</span>
+                    {% elseif contribution.getCreditRole() %}
+                        <span>{{ contribution.getCreditRole() }}</span>
+                    {% else %}
+                        <span>-</span>
+                    {% endif %}
+                </td>
+            {% endif %}
+
+            <td class="br-subtle-bg-onborder">
+                <span>{{ contribution.getContributor().getName() }}</span>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

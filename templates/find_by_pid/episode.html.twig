@@ -6,53 +6,65 @@
 
 {% block body %}
 
-{# TODO Leaderboard advert #}
+    {# TODO Leaderboard advert #}
 
-{# TODO Episode Panels #}
+    {# TODO Episode Panels #}
 
-<div class="prog-layout programmes-page">
-    <div class="grid-wrapper grid-wrapper--center">
-        {# TODO Related Topics Module #}
+    <div class="prog-layout programmes-page">
+        <div class="grid-wrapper grid-wrapper--center">
+            {# TODO Related Topics Module #}
 
-        <div class="grid grid--bounded 13/24@bpw2 13/24@bpe">
-            <div class="br-box-page prog-box">
-                {# TODO Live Text Stream #}
+            <div class="grid grid--bounded 13/24@bpw2 13/24@bpe">
+                <div class="br-box-page prog-box">
+                    {# TODO Live Text Stream #}
 
-                {# TODO Promotions (on the current item) module #}
+                    {# TODO Promotions (on the current item) module #}
 
-                {# TODO MPU at sizes 1 and 2 #}
+                    {# TODO MPU at sizes 1 and 2 #}
 
-                {# TODO Recipes module #}
+                    {# TODO Recipes module #}
 
-                {# TODO Clips module #}
+                    {# TODO Clips module #}
 
-                {# TODO Segments module #}
+                    {# TODO Segments module #}
 
-                {# TODO Features module #}
+                    {# TODO Features module #}
 
-                {# TODO Credits module #}
+                    {% if programme.getContributionsCount() %}
+                        <div class="component component--box component--box-flushbody-vertical component--box--primary"
+                             id="credits">
+                            <div class="component__header br-box-page">
+                                <h2>{{ tr('credits', programme.getContributionsCount()) }}</h2>
+                            </div>
+                            <div class="component__body br-box-page">
+                                <div>
+                                    {{ ds2013('credits', contributions) }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
 
-                {# TODO Broadcasts module #}
+                    {# TODO Broadcasts module #}
 
-                {# TODO Collections module #}
+                    {# TODO Collections module #}
+                </div>
+            </div>
+
+            <div class="grid grid--bounded 11/24@bpw2 11/24@bpe">
+                {# TODO MPU at sizes 3 and 4 #}
+
+                {# TODO Related Programmes (ADA) #}
+
+                {# TODO Super Promotions module #}
+
+                {# TODO Podcasts module #}
+
+                {# TODO Galleries module #}
+
+                {# TODO Vote module #}
+
+                {# TODO Related Links module #}
             </div>
         </div>
-
-        <div class="grid grid--bounded 11/24@bpw2 11/24@bpe">
-            {# TODO MPU at sizes 3 and 4 #}
-
-            {# TODO Related Programmes (ADA) #}
-
-            {# TODO Super Promotions module #}
-
-            {# TODO Podcasts module #}
-
-            {# TODO Galleries module #}
-
-            {# TODO Vote module #}
-
-            {# TODO Related Links module #}
-        </div>
     </div>
-</div>
 {% endblock %}

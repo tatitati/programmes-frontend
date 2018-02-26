@@ -12,11 +12,13 @@ use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
+use App\Ds2013\Presenters\Utilities\Credits\CreditsPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -74,6 +76,21 @@ class PresenterFactory
         return new CalendarPresenter(
             $date,
             $service,
+            $options
+        );
+    }
+
+    /**
+     * @param Contribution[] $contributions
+     * @param mixed[] $options
+     * @return CreditsPresenter
+     */
+    public function creditsPresenter(
+        array $contributions,
+        array $options = []
+    ): CreditsPresenter {
+        return new CreditsPresenter(
+            $contributions,
             $options
         );
     }

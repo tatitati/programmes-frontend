@@ -1,0 +1,38 @@
+/**
+ *  .table
+ *
+ *  For displaying tabular data
+ */
+
+.table {
+    border: 0;
+    width: 100%;
+
+    th,
+    td {
+        padding: 1px;
+        border-style: none;
+        vertical-align: top;
+    }
+}
+
+// Use with branding colors on th/td elements to show inverted blocks
+.table--slatted,
+.table--slatted-vertical {
+    border-style: hidden;
+
+    th,
+    td {
+        padding: 4px 8px;
+        border-width: 2px;
+        border-style: solid;
+    }
+}
+
+// Vertical borders only
+.table--slatted-vertical {
+    th,
+    td {
+        border-style: solid hidden;
+    }
+}
