@@ -4,5 +4,5 @@ set -e
 composer config -g github-oauth.github.com $OAUTH
 composer --no-ansi --no-interaction install
 yarn install
-echo "trigger build"
+
 exit 0
