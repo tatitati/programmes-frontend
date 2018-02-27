@@ -5,6 +5,7 @@ namespace App\Ds2013\Presenters\Domain\Programme\SubPresenters;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenterBase;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -68,10 +69,17 @@ class ProgrammeImagePresenter extends ProgrammePresenterBase
 
     public function getMediaIconName(): string
     {
-        if ($this->programme->isRadio()) {
-            return 'iplayer-radio';
+        if ($this->programme instanceof Episode) {
+            if ($this->programme->isRadio()) {
+                return 'iplayer-radio';
+            }
+
+            return 'iplayer';
         }
-        return 'iplayer';
+        if ($this->programme->isRadio()) {
+            return 'listen';
+        }
+        return 'play';
     }
 
     public function getPlaybackUrl(): string

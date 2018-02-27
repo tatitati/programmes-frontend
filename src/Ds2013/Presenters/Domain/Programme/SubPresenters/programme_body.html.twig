@@ -17,7 +17,11 @@
 {% endif %}
 {% if programme_body.shouldShowDuration() %}
     <p class="programme__service micro">
-        {{ tr('duration', {'%1': programme_body.getDurationInWords() }) }}
+        {% if programme_body.getOption('wordy_duration') %}
+            {{ tr('duration', {'%1': programme_body.getDurationInWords() }) }}
+        {% else %}
+            {{ tr('duration', {'%1': programme_body.getFormattedDuration() }) }}
+        {% endif %}
     </p>
 {% endif %}
 {# This exists solely to be extended. @TODO revisit once this is more fleshed out #}

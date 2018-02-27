@@ -24,7 +24,46 @@
 
                     {# TODO Recipes module #}
 
-                    {# TODO Clips module #}
+                    {% if programme.getAvailableClipsCount() %}
+                        <div
+                            class="component component--box component--box-flushbody-vertical component--box--primary"
+                            id="clips">
+                            <div class="component__header">
+                                <h2>{{ tr('clips', programme.getAvailableClipsCount()) }}</h2>
+                            </div>
+                            <div class="component__body">
+                                <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid@bpb1 bpw-highlight-box-wrapper--grid">
+                                    {% for clip in clips %}
+                                        <li class="grid 1/2@bpb1 1/2@bpw">
+                                            {{ ds2013('programme', clip, {
+                                                'context_programme': programme,
+                                                'highlight_box_classes':'highlight-box--list highlight-box--grid@bpb1 programme--grid@bpb1 highlight-box--grid@bpw programme--grid@bpw',
+                                                'image_options': {
+                                                    'classes': '1/1@bpb1 1/1@bpw',
+                                                    'default_width': 240,
+                                                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                                                },
+                                                'body_options': {
+                                                    'show_synopsis': false,
+                                                    'wordy_duration': false,
+                                                },
+                                                'branding_context': 'page'
+                                            }) }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="component__footer br-box-subtle">
+                                <a class="component__footer__link"
+                                   href="{{ path('programme_clips', { pid: programme.getPid() }) }}">
+                                    <span
+                                        class="component__footer__title">{{ tr('see_all_clips_from', {'%1': programme.getTitle()}) }}</span>
+                                    <span class="component__footer__detail">({{ programme.getAvailableClipsCount() }}
+                                        )</span>
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
 
                     {# TODO Segments module #}
 
