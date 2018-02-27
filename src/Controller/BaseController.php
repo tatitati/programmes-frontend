@@ -275,12 +275,6 @@ abstract class BaseController extends AbstractController
         if (!$this->branding) {
             $this->branding = $this->getBrandingPromise()->wait(true);
         }
-        // We only need to change the translation language if it is different
-        // to the language the translation extension was initially created with
-        $locale = $this->branding->getLocale();
-        $translateProvider = $this->container->get(TranslateProvider::class);
-
-        $translateProvider->setLocale($locale);
 
         // use controller name if this isn't set
         $this->istatsProgsPageType =  $this->istatsProgsPageType ?? $this->request()->attributes->get('_controller');
@@ -316,6 +310,13 @@ abstract class BaseController extends AbstractController
 
     private function fulfilledBrandingPromise(Branding $branding)
     {
+        // We only need to change the translation language if it is different
+        // to the language the translation extension was initially created with
+        $locale = $branding->getLocale();
+        $translateProvider = $this->container->get(TranslateProvider::class);
+
+        $translateProvider->setLocale($locale);
+
         // Resolve branding placeholders
         if ($this->context) {
             $branding = $this->container->get(BrandingPlaceholderResolver::class)->resolve(
