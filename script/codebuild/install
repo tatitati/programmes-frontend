@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 
+rm -rf vendor/bin
 composer config -g github-oauth.github.com $OAUTH
 composer --no-ansi --no-interaction install
 yarn install
