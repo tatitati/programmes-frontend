@@ -1,6 +1,6 @@
 <div class="icon-link {{ cta.getOption('cta_class') }}">
     <a class="link-complex" href="{{ cta.getUrl() }}" data-linktrack="{{ cta.getLinkLocation() }}"
-       {%- if cta.getLabelTranslation() -%}aria-label="{{ tr(cta.getLabelTranslation()) }}" {%- else -%} tabindex="-1" {%- endif -%}
+       {%- if cta.getLabelTranslation() -%}aria-label="{{ tr(cta.getLabelTranslation()) }}" {%- else -%} tabindex="-1" aria-hidden="true" {%- endif -%}
     >
         <div class="icon icon-cta icon--{{ cta.getMediaIconName() }}">
             {{ gelicon(cta.getMediaIconType(), cta.getMediaIconName(), 'gelicon--programme') }}
