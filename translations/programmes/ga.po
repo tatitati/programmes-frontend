@@ -427,7 +427,7 @@ msgstr "Le theacht gan mhoill"
 #. English: "Coming Up".
 #. Priority for: Programmes
 msgid "coming_up"
-msgstr ""
+msgstr "Ag teacht aníos"
 
 #. English (no items): "Comments".
 #. English (one item): "Comment".

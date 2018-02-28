@@ -427,7 +427,7 @@ msgstr "Ri thighinn"
 #. English: "Coming Up".
 #. Priority for: Programmes
 msgid "coming_up"
-msgstr ""
+msgstr "Ri thighinn"
 
 #. English (no items): "Comments".
 #. English (one item): "Comment".
