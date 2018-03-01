@@ -14,9 +14,8 @@ class IndexControllerTest extends BaseWebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'ProgrammeEpisodes\ProgrammeContainerFixture',
             'ProgrammeEpisodes\FranchiseFixture',
-            'ProgrammeEpisodes\ProgrammeItemFixture',
+            'ProgrammeEpisodes\EpisodesFixtures',
         ]);
         $this->client = static::createClient();
     }

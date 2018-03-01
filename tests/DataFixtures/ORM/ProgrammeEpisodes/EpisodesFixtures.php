@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ProgrammeItemFixture extends AbstractFixture implements DependentFixtureInterface
+class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterface
 {
     /** @var ObjectManager $manager */
     private $manager;
@@ -23,7 +23,7 @@ class ProgrammeItemFixture extends AbstractFixture implements DependentFixtureIn
     public function getDependencies()
     {
         return [
-            ProgrammeContainerFixture::class,
+            SeriesFixtures::class,
         ];
     }
 
@@ -43,22 +43,33 @@ class ProgrammeItemFixture extends AbstractFixture implements DependentFixtureIn
     {
         $this->manager = $manager;
 
-        // series
-        $series1 = $this->getReference('b0000sr1');
-        $nestedSeries = $this->getReference('b000sr21');
-        $brand = $this->getReference('b006q2x0');
+        // Episodes not nested on series but on brands
+        $this->addReference(
+            'p3000000',
+            $this->buildEpisode('p3000000', 'B1-E1', $this->getReference('b006q2x0'))
+        );
 
-        // standalone episodes (not nested in any series)
-        $this->buildEpisode('p3000000', 'B1-E1', $brand);
+        // Episodes contained on simple series
+        $this->addReference(
+            'p3000001',
+            $this->buildEpisode('p3000001', 'B1-S1-E1', $this->getReference('b0000sr1'))
+        );
 
-        // Series with simple nested episodes
-        $this->buildEpisode('p3000001', 'B1-S1-E1', $series1);
-        $this->buildEpisode('p3000002', 'B1-S1-E2', $series1);
+        $this->addReference(
+            'p3000002',
+            $this->buildEpisode('p3000002', 'B1-S1-E2', $this->getReference('b0000sr1'))
+        );
 
-        // Series with more nested series
-        $this->buildEpisode('p3000003', 'B1-S2-S1-E1', $nestedSeries);
-        $this->buildEpisode('p3000004', 'B1-S2-S1-E2', $nestedSeries);
+        // Episodes in nested Series
+        $this->addReference(
+            'p3000003',
+            $this->buildEpisode('p3000003', 'B1-S2-S1-E1', $this->getReference('b000sr21'))
+        );
 
+        $this->addReference(
+            'p3000004',
+            $this->buildEpisode('p3000004', 'B1-S2-S1-E2', $this->getReference('b000sr21'))
+        );
 
         $episode = new Episode('p01l1z04', 'The Day of the Doctor');
         $this->manager->persist($episode);
@@ -73,8 +84,9 @@ class ProgrammeItemFixture extends AbstractFixture implements DependentFixtureIn
     ): Episode {
         $episode = new Episode($pid, $title);
         $episode->setParent($series);
+
         $this->manager->persist($episode);
-        $this->addReference($pid, $episode);
+
         return $episode;
     }
 }

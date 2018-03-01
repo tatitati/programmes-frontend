@@ -14,8 +14,7 @@ class GuidePartialControllerTest extends BaseWebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'ProgrammeEpisodes\ProgrammeContainerFixture',
-            'ProgrammeEpisodes\ProgrammeItemFixture',
+            'ProgrammeEpisodes\EpisodesFixtures',
         ]);
 
         $this->client = static::createClient();
