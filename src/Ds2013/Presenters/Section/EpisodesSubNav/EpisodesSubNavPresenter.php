@@ -56,7 +56,7 @@ class EpisodesSubNavPresenter extends Presenter
             $items[] = new AvailableNow($this->pid, 'programme_episodes_player' === $this->currentRoute, $this->availableEpisodeCount);
         }
         if ($this->hasBroadcasts) {
-            $items[] = new NextOn($this->pid, 'next_on' === $this->currentRoute, $this->upcomingBroadcastCount);
+            $items[] = new NextOn($this->pid, 'programme_upcoming_broadcasts' === $this->currentRoute, $this->upcomingBroadcastCount);
         }
 
         return $items;

@@ -35,6 +35,11 @@ programme_episodes_player:
     defaults: { _controller: App\Controller\ProgrammeEpisodes\PlayerController }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+programme_upcoming_broadcasts:
+    path: /programmes/{pid}/broadcasts/upcoming/{debut}
+    defaults: { _controller: App\Controller\ProgrammeEpisodes\UpcomingController, debut: null}
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', debut: 'debut' }
+
 programme_recommendations:
     path: /programmes/{pid}/recommendations{extension}
     defaults: { _controller: App\Controller\RecommendationsController, extension: '' }

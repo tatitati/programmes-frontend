@@ -20,7 +20,7 @@ class NextOnTest extends TestCase
     {
         $pid = new Pid('zzzzzzzz');
         $navigationItem = new NextOn($pid, true, 0);
-        $this->assertSame('programme_broadcasts', $navigationItem->getRoute());
+        $this->assertSame('programme_upcoming_broadcasts', $navigationItem->getRoute());
     }
 
     /**
@@ -47,7 +47,7 @@ class NextOnTest extends TestCase
     {
         $pid = new Pid('zzzzzzzz');
         $navigationItem = new NextOn($pid, true, 0);
-        $this->assertSame(['pid' => 'zzzzzzzz', 'slice' => 'upcoming'], $navigationItem->getRouteParams());
+        $this->assertSame(['pid' => 'zzzzzzzz'], $navigationItem->getRouteParams());
     }
 
     public function testShouldShowCount()

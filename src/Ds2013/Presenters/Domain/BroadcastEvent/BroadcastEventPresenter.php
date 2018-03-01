@@ -76,6 +76,16 @@ class BroadcastEventPresenter extends Presenter
         return '';
     }
 
+    public function isOnAir(): bool
+    {
+        return $this->collapsedBroadcast->isOnAir();
+    }
+
+    public function getOnAirMessage(): string
+    {
+        return $this->collapsedBroadcast->getProgrammeItem()->isRadio() ? 'on_air' : 'on_now';
+    }
+
     protected function validateOptions(array $options): void
     {
         parent::validateOptions($options);

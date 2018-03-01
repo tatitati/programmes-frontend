@@ -2,16 +2,14 @@
 declare(strict_types = 1);
 namespace App\Controller\ProgrammeEpisodes;
 
-use App\Controller\BaseController;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
-use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
 
-class GuideController extends BaseController
+class GuideController extends BaseProgrammeEpisodesController
 {
     const LIMIT = 30;
 
@@ -50,16 +48,7 @@ class GuideController extends BaseController
             }
         }
 
-        $upcomingBroadcastCount = $collapsedBroadcastService->countUpcomingByProgramme($programme, CacheInterface::MEDIUM);
-
-        $subNavPresenter = $presenterFactory->episodesSubNavPresenter(
-            $this->request()->attributes->get('_route'),
-            $programme->getNetwork() === null || !$programme->getNetwork()->isInternational(),
-            $programme->getFirstBroadcastDate() !== null,
-            $programme->getAvailableEpisodesCount(),
-            $programme->getPid(),
-            $upcomingBroadcastCount
-        );
+        $subNavPresenter = $this->getSubNavPresenter($collapsedBroadcastService, $programme, $presenterFactory);
         $upcomingBroadcasts = $this->getUpcomingBroadcastsIndexedByProgrammePid($programme, $collapsedBroadcastService);
 
         return $this->renderWithChrome('programme_episodes/guide.html.twig', [

@@ -23,19 +23,11 @@ class NextOn extends NavigationItemWithCount
 
     public function getRoute(): string
     {
-        return 'programme_broadcasts';
+        return 'programme_upcoming_broadcasts';
     }
 
     public function getCount(): int
     {
         return $this->broadcastCount;
-    }
-
-    public function getRouteParams(): array
-    {
-        $params = parent::getRouteParams();
-        $params['slice'] = 'upcoming';
-
-        return $params;
     }
 }

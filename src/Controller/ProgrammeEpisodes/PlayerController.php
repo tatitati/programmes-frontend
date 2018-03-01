@@ -3,15 +3,13 @@ declare(strict_types = 1);
 
 namespace App\Controller\ProgrammeEpisodes;
 
-use App\Controller\BaseController;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
-use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 
-class PlayerController extends BaseController
+class PlayerController extends BaseProgrammeEpisodesController
 {
     public function __invoke(
         CollapsedBroadcastsService $collapsedBroadcastService,
@@ -37,7 +35,6 @@ class PlayerController extends BaseController
             throw $this->createNotFoundException('Page does not exist');
         }
 
-        $upcomingBroadcastCount = $collapsedBroadcastService->countUpcomingByProgramme($programme, CacheInterface::MEDIUM);
         $availableEpisodesCount = $programme->getAvailableEpisodesCount();
 
         $paginator = null;
@@ -52,14 +49,7 @@ class PlayerController extends BaseController
             ]
         );
 
-        $subNavPresenter = $presenterFactory->episodesSubNavPresenter(
-            $this->request()->attributes->get('_route'),
-            $programme->getNetwork() === null || !$programme->getNetwork()->isInternational(),
-            $programme->getFirstBroadcastDate() !== null,
-            $availableEpisodesCount,
-            $programme->getPid(),
-            $upcomingBroadcastCount
-        );
+        $subNavPresenter = $this->getSubNavPresenter($collapsedBroadcastService, $programme, $presenterFactory);
 
         return $this->renderWithChrome('programme_episodes/player.html.twig', [
             'programme' => $programme,

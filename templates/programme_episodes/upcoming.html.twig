@@ -1,0 +1,59 @@
+{% extends 'base_ds2013.html.twig' %}
+
+{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('next_on') }}{% endblock %}
+{% block page_classes %}text-base programmes-page programmes-page--smallpush b-g-p{% endblock %}
+
+{% block body %}
+    <div class="island br-box-secondary">
+        <h1>{{ds_shared('entityContext', programme)}} {{ tr('episodes') }} <span class="visually-hidden">: {{ tr('next_on') }}</span></h1>
+    </div>
+
+    <div class="br-box-secondary">
+        {{ds2013_presenter(subNavPresenter)}}
+    </div>
+
+    <div class="br-box-page programmes-page">
+        {% if upcomingBroadcasts %}
+            <ol class="highlight-box-wrapper">
+                {% for upcoming in upcomingBroadcasts %}
+                    <li>
+                        <div class="broadcast highlight-box--list block-link block-link--steal br-keyline br-blocklink-page br-page-linkhover-onbg015--hover {% if (upcoming.isOnAir()) %} br-box-subtle highlight-box--active{% endif %}" >
+                            <div class="grid-wrapper">
+                                <div class="grid 1/6 1/4@bpb1 1/6@bpb2">
+                                    <div class="grid-wrapper">
+                                        <div class="grid 1/1">
+                                                {{- ds2013('broadcastEvent', upcoming, {
+                                                    'show_logo': false,
+                                                    'show_service': false,
+                                                    'container_classes': 'broadcast__time'
+                                                }) -}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid 5/6 3/4@bpb1 5/6@bpb2">
+                                    {{ ds2013('broadcastProgramme', upcoming, null, {
+                                        'context_programme': programme,
+                                        title_options: {
+                                            'title_format': 'item::ancestry',
+                                            'title_tag': 'h2',
+                                            'title_classes': 'gamma'
+                                        },
+                                        image_options: {
+                                            'classes': '1/4@bpb1 1/4@bpb2 1/4@bpw hidden grid-visible@bpb2 grid-visible@bpw'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            {% if (debut) %}
+                {{ tr('broadcasts_none_upcoming_debut') }}
+            {% else %}
+                {{ tr('broadcasts_none_upcoming') }}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

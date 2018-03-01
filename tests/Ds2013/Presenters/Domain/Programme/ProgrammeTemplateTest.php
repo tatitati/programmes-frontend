@@ -16,7 +16,6 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         ApplicationTime::setTime($now->getTimestamp());
     }
 
-
     public function testEastendersEpisode()
     {
         $programme = EpisodesFixtures::eastendersAvailable();
@@ -76,7 +75,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $synopsisP = $crawler->filter('.programme__synopsis');
         $this->assertCount(1, $synopsisP, 'Programme has synopsis');
         $this->assertContains('2/5', $synopsisP->text(), 'Synopsis contains x/n parent episode count');
-        $this->assertEquals('Short Synopsis', $synopsisP->filter('span')->eq(2)->text(), 'Short synopsis is correct');
+        $this->assertEquals('Short Synopsis', trim($synopsisP->filter('span')->eq(2)->text()), 'Short synopsis is correct');
     }
 
     public function testBookOfTheWeekEpisode()
@@ -149,7 +148,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertContains('5/5', $synopsisP->text(), 'Synopsis contains x/n parent episode count');
         $this->assertEquals(
             'Carlo Rovelli\'s account of scientific discovery examines what happened before the Big Bang',
-            $synopsisP->filter('span')->eq(2)->text(),
+            trim($synopsisP->filter('span')->eq(2)->text()),
             'Short synopsis is correct'
         );
     }
