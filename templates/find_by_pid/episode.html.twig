@@ -71,10 +71,8 @@
                             <div class="component__footer br-box-subtle">
                                 <a class="component__footer__link"
                                    href="{{ path('programme_clips', { pid: programme.getPid() }) }}">
-                                    <span
-                                        class="component__footer__title">{{ tr('see_all_clips_from', {'%1': programme.getTitle()}) }}</span>
-                                    <span class="component__footer__detail">({{ programme.getAvailableClipsCount() }}
-                                        )</span>
+                                    <span class="component__footer__title">{{ tr('see_all_clips_from', {'%1': programme.getTitle()}) }}</span>
+                                    <span class="component__footer__detail">({{ programme.getAvailableClipsCount() }})</span>
                                 </a>
                             </div>
                         </div>
