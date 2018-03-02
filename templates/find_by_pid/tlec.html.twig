@@ -51,6 +51,7 @@
 
     <div class="p-g-p">
         <div class="leading-gap cf">
+            <h2 class="invisible">{{ tr('supporting_content') }}</h2>
             {#{%- if programme.getOption('prioritytext_block') or isbbcdotcom or hasrecipes -%} TODO #}
             {%- if programme.getOption('prioritytext_block') -%}
                 <ul class="grid">
@@ -104,6 +105,7 @@
                         {%- endif -%}
                         <li class="grid__item {{ promo_widths }}">
                             {{- ds_amen('promotion', promotion, {
+                                'h_tag': 'h3',
                                 'related_links_count': 2,
                                 'img_sizes': img_sizes,
                                 'img_default_width': img_default_width,
@@ -123,6 +125,7 @@
                                 'context_programme': programme.isRadio() ? clip : programme,
                                 'branding_name': 'secondary',
                                 'title_options': {
+                                    'h_tag': 'h3',
                                     'text_colour_on_title_link': true,
                                     'title_size_small': 'gel-long-primer',
                                 },
@@ -157,6 +160,7 @@
                                 'branding_name': 'secondary',
                                 'link_location_prefix': 'group_' ~ loop.index ~ '_',
                                 'title_options': {
+                                    'h_tag': 'h3',
                                     'text_colour_on_title_link': true,
                                     'title_size_small': 'gel-long-primer'
                                 },

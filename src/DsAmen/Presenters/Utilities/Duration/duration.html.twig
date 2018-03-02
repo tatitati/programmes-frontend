@@ -1,6 +1,6 @@
-<{{ duration.getOption('h_tag') }} class="{{ duration.getHeadingClass() }}">
+<span class="{{ duration.getHeadingClass() }}">
     {{- tr(duration.getOption('h_title'), {'%1':''}) -}}
-</{{ duration.getOption('h_tag') }}>
+</span>
 
 <span aria-label="{{ duration.getAriaLabel() }}" class="duration speak-duration">
     {{- duration.getFormattedDuration() -}}

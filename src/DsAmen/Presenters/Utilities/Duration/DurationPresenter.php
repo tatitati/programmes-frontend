@@ -22,7 +22,6 @@ class DurationPresenter extends Presenter
 
     /** @var array */
     protected $options = [
-        'h_tag' => 'h4',
         'h_title' => 'duration',
         'show_heading' => false,
     ];

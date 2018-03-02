@@ -2067,6 +2067,10 @@ msgstr "اشتراك"
 msgid "subscribe_to_podcast"
 msgstr "Subscribe to podcast"
 
+#. English: "Supporting Content".
+msgid "supporting_content"
+msgstr ""
+
 #. English (no items): "There are currently no available episodes tagged with %1".
 #. English (one item): "There is currently 1 available episode tagged with %1".
 #. English (2+ items): "There are currently %count% available episodes tagged with %1".
