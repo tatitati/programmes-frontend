@@ -22,8 +22,8 @@ class SchedulesOnNowControllerTest extends BaseWebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertResponseStatusCode($client, 200);
 
-        $this->assertContains('Watch live', $crawler->filter('h2')->text());
-        $this->assertContains('03:00', $crawler->filter('h3')->text());
+        $this->assertContains('Watch live', $crawler->filter('.gel-long-primer-bold')->eq(0)->text());
+        $this->assertContains('03:00', $crawler->filter('.gel-long-primer-bold')->eq(1)->text());
         $this->assertContains('Early Episode', $crawler->filter('.media__meta-row')->text());
         $this->assertEquals('/programmes/p3000002', $crawler->filter('.box-link__target')->attr('href'));
     }
@@ -39,8 +39,8 @@ class SchedulesOnNowControllerTest extends BaseWebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertResponseStatusCode($client, 200);
 
-        $this->assertContains('Watch live', $crawler->filter('h2')->text());
-        $this->assertContains('03:00', $crawler->filter('h3')->text());
+        $this->assertContains('Watch live', $crawler->filter('.centi')->eq(0)->text());
+        $this->assertContains('03:00', $crawler->filter('.centi')->eq(1)->text());
         $this->assertContains('Early Episode', $crawler->filter('.programme__title')->text());
         $this->assertEquals('/programmes/p3000002', $crawler->filter('.br-blocklink__link')->attr('href'));
     }
