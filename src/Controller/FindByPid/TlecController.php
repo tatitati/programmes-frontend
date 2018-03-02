@@ -66,14 +66,12 @@ class TlecController extends BaseController
         $this->setContextAndPreloadBranding($programme);
         $this->setInternationalStatusAndTimezoneFromContext($programme);
 
-        $clips = [];
-        $galleries = [];
-
         // TODO check $programme->getPromotionsCount() once it is populated in
         // Faucet to potentially save on a DB query
         $promotions = $promotionsService->findActivePromotionsByContext($programme);
 
-        if ($programme->getOption('show_clip_cards')) {
+        $clips = [];
+        if ($programme->getAvailableClipsCount() > 0 && $programme->getOption('show_clip_cards')) {
             $clips = $aggregationService->findStreamableDescendantClips($programme, 4);
         }
 
@@ -93,7 +91,8 @@ class TlecController extends BaseController
             $upcomingRepeatsAndDebutsCounts = $collapsedBroadcastsService->countUpcomingRepeatsAndDebutsByProgramme($programme);
         }
 
-        if ($programme->getOption('show_gallery_cards')) {
+        $galleries = [];
+        if ($programme->getAggregatedGalleriesCount() > 0 && $programme->getOption('show_gallery_cards')) {
             $galleries = $aggregationService->findDescendantGalleries($programme, 4);
         }
 
