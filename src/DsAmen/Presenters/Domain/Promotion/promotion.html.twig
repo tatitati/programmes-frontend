@@ -36,7 +36,7 @@
                 {%- if promotion.getActionIcon() -%}
                     <div class="media__overlay media__overlay--bottom" data-eq-pts="medium: 280, large: 400, super: 656">
                         <div class="icon-link {{ promotion.getOption('cta_class') }}">
-                            <a tabindex="-1" class="link-complex" href="{{ promotion.getUrl() }}" data-linktrack="{{ promotion.getOption('link_location_prefix') }}calltoaction">
+                            <a tabindex="-1" aria-hidden="true" class="link-complex" href="{{ promotion.getUrl() }}" data-linktrack="{{ promotion.getOption('link_location_prefix') }}calltoaction">
                                 <div class="icon icon-cta">
                                     {%- set action_icon = promotion.getActionIcon() -%}
                                     {{- gelicon(action_icon.set, action_icon.icon, 'gelicon--programme') -}}
