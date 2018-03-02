@@ -6,14 +6,14 @@ use App\Controller\BaseController;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 
 abstract class BaseProgrammeEpisodesController extends BaseController
 {
     protected function getSubNavPresenter(
         CollapsedBroadcastsService $collapsedBroadcastsService,
-        Programme $programme,
+        ProgrammeContainer $programme,
         PresenterFactory $presenterFactory
     ): EpisodesSubNavPresenter {
         $upcomingBroadcastsCount = $collapsedBroadcastsService->countUpcomingByProgramme($programme, CacheInterface::MEDIUM);
