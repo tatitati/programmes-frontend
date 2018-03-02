@@ -29,6 +29,8 @@ class EpisodeController extends BaseController
             $contributions = $contributionsService->findByContributionToProgramme($episode);
         }
 
+        // TODO check $episode->getPromotionsCount() once it is populated in
+        // Faucet to potentially save on a DB query
         $promotions = $promotionsService->findActivePromotionsByEntityGroupedByType($episode);
 
         return $this->renderWithChrome('find_by_pid/episode.html.twig', [
