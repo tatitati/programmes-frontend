@@ -39,7 +39,7 @@
 
                     {# TODO Recipes module #}
 
-                    {% if programme.getAvailableClipsCount() %}
+                    {% if clips %}
                         <div
                             class="component component--box component--box-flushbody-vertical component--box--primary"
                             id="clips">
@@ -69,8 +69,7 @@
                                 </ul>
                             </div>
                             <div class="component__footer br-box-subtle">
-                                <a class="component__footer__link"
-                                   href="{{ path('programme_clips', { pid: programme.getPid() }) }}">
+                                <a class="component__footer__link" href="{{ path('programme_clips', { pid: programme.getPid() }) }}">
                                     <span class="component__footer__title">{{ tr('see_all_clips_from', {'%1': programme.getTitle()}) }}</span>
                                     <span class="component__footer__detail">({{ programme.getAvailableClipsCount() }})</span>
                                 </a>
@@ -82,7 +81,7 @@
 
                     {# TODO Features module #}
 
-                    {% if programme.getContributionsCount() %}
+                    {% if contributions %}
                         <div class="component component--box component--box-flushbody-vertical component--box--primary"
                              id="credits">
                             <div class="component__header br-box-page">
