@@ -2,9 +2,12 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
+use App\Builders\CollapsedBroadcastBuilder;
+use App\Builders\EpisodeBuilder;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
+use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
@@ -94,5 +97,18 @@ class PresenterFactoryTest extends TestCase
             new DateListPresenter($this->router, $now, $mockService),
             $this->factory->dateListPresenter($now, $mockService)
         );
+    }
+
+    public function testCanCreateEpisodeMapPresenter()
+    {
+        $episode = EpisodeBuilder::any()->build();
+        $upcomingBroadcasts = null;
+        $lastOn = CollapsedBroadcastBuilder::any()->build();
+
+        $presenter = $this->factory->episodeMapPresenter($episode, $upcomingBroadcasts, $lastOn);
+
+        $this->assertInstanceOf(EpisodeMapPresenter::class, $presenter);
+        $this->assertEquals('episode_map', $presenter->getTemplateVariableName());
+        $this->assertContains('episode_map.html.twig', $presenter->getTemplatePath());
     }
 }

@@ -4,6 +4,7 @@ namespace App\Ds2013;
 
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
+use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
 use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
@@ -21,6 +22,7 @@ use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
@@ -168,6 +170,17 @@ class PresenterFactory
             $programme,
             $options
         );
+    }
+
+    /**
+     * Pages
+     */
+    public function episodeMapPresenter(
+        Episode $programme,
+        ?CollapsedBroadcast $upcomingCollapsedBroadcast,
+        ?CollapsedBroadcast $lastOnCollapsedBroadcast
+    ) :EpisodeMapPresenter {
+        return new EpisodeMapPresenter($programme, $upcomingCollapsedBroadcast, $lastOnCollapsedBroadcast);
     }
 
     /**

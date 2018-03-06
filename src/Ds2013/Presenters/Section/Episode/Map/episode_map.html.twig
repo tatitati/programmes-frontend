@@ -1,0 +1,23 @@
+<div class="b-g-p no-margin-vertical">
+    <div class="grid-wrapper grid-wrapper--flush map map--episode map--count-2">
+
+        {#PLAYOUT#}
+        <div class="grid 2/3@bpw2 2/3@bpe map__column map__column--first">
+            <div class="map__inner grid__inner--flush br-box-secondary">
+                    {{ ds2013_presenter(episode_map.getPlayoutSubpresenter()) }}
+                    {{ ds2013_presenter(episode_map.getDetailsSubpresenter()) }}
+            </div>
+        </div>
+
+        {#SIDE PANELS#}
+        <div class="grid 1/3@bpw2 1/3@bpe map__column map__column--2 map__column--last">
+            <div class="map__inner grid__inner--flush">
+                {%- for panel in episode_map.getSidePanelsSubPresenters() -%}
+                    <div class="br-box-secondary {% if loop.last %} fauxcolumn {% if loop.length > 1 %} map__column" {% endif %}{% endif %}">
+                        {{ ds2013_presenter(panel) }}
+                    </div>
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+</div>

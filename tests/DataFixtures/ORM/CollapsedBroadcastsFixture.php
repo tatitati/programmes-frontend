@@ -46,6 +46,7 @@ class CollapsedBroadcastsFixture extends AbstractFixture implements DependentFix
             new DateTime('2017-05-22 02:45:00')
             // NOTE: These are copy/pasted from BroadcastsFixture due to issues with UtcDateTimeType
         );
+        $collapsedBroadcast->setTleo($broadcast->getProgrammeItem());
         $this->manager->persist($collapsedBroadcast);
     }
 }
