@@ -14,6 +14,7 @@ class ImagePresenter extends Presenter
         'is_lazy_loaded' => true,
         'srcsets' => [80, 160, 320, 480, 640, 768, 896, 1008],
         'ratio' => (16 / 9),
+        'is_bounded' => false,
         'alt' => '',
     ];
 
@@ -137,8 +138,20 @@ class ImagePresenter extends Presenter
 
     private function buildSrcUrl(?int $width): string
     {
-        if ($this->getOption('ratio')) {
-            $height = (int) round($width / $this->getOption('ratio'));
+        // Bounded images force a specific ratio image by adding borders to
+        // the shorter dimension, rather than cutting off part of the image.
+        // Bounded imagechef recipes are only defined for recipes with an
+        // explicit ratio. For instance 320x320_b and 320x180_b are valid, but
+        // 320xn is not. Which makes sense as images without an explicit
+        // height do not get forced to a particular ratio at all.
+
+        $ratio = $this->getOption('ratio');
+        if ($ratio) {
+            $height = (string) round($width / $ratio, 0);
+            if ($this->getOption('is_bounded')) {
+                $height .= '_b';
+            }
+
             return $this->image->getUrl((string) $width, $height);
         }
 

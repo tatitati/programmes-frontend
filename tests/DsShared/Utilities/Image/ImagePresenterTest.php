@@ -19,6 +19,7 @@ class ImagePresenterTest extends TestCase
         $this->assertEquals([80, 160, 320, 480, 640, 768, 896, 1008], $imagePresenter->getOption('srcsets'));
         $this->assertEquals('', $imagePresenter->getOption('alt'));
         $this->assertEquals((16 / 9), $imagePresenter->getOption('ratio'));
+        $this->assertEquals(false, $imagePresenter->getOption('is_bounded'));
 
         // Test generating src url using the defaultWidth argument
         $this->assertEquals('48 by 27', $imagePresenter->getSrc());
@@ -33,11 +34,12 @@ class ImagePresenterTest extends TestCase
             'srcsets' => [320],
             'alt' => 'alt text',
             'ratio' => 1/2,
+            'is_bounded' => true,
         ]);
 
         $this->assertEquals('(min-width: 8.125em) 50vw, 100vw', $imagePresenter->getSizes());
-        $this->assertEquals('300 by 600', $imagePresenter->getSrc());
-        $this->assertEquals('320 by 640 320w', $imagePresenter->getSrcsets());
+        $this->assertEquals('300 by 600_b', $imagePresenter->getSrc());
+        $this->assertEquals('320 by 640_b 320w', $imagePresenter->getSrcsets());
     }
 
     public function testSizesStringOverride(): void
