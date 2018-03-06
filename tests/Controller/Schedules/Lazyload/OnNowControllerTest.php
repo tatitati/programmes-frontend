@@ -1,15 +1,15 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\Controller\Partial;
+namespace Tests\App\Controller\Schedules\Lazyload;
 
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Cake\Chronos\Chronos;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers \App\Controller\Partial\SchedulesOnNowController
+ * @covers \App\Controller\Schedules\Lazyload\OnNowController
  */
-class SchedulesOnNowControllerTest extends BaseWebTestCase
+class OnNowControllerTest extends BaseWebTestCase
 {
     public function testOnNowReturnsPopulatedMarkupForDsAmenPartial()
     {

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace App\Controller\Partial;
+namespace App\Controller\Schedules\Lazyload;
 
 use App\Controller\BaseController;
 use App\DsShared\Helpers\HelperFactory;
@@ -12,7 +12,7 @@ use BBC\ProgrammesPagesService\Service\NetworksService;
 use Cake\Chronos\Chronos;
 use Symfony\Component\HttpFoundation\Request;
 
-class SchedulesOnNowController extends BaseController
+class OnNowController extends BaseController
 {
     public function __invoke(
         BroadcastsService $broadcastsService,
@@ -58,7 +58,7 @@ class SchedulesOnNowController extends BaseController
         $cacheLifetime = $this->calculateCacheLifetime($broadcast->getEndAt());
         $this->response()->setPublic()->setMaxAge($cacheLifetime);
 
-        return $this->renderWithoutChrome('partial/on_now_' . $designSystem . '.html.twig', [
+        return $this->renderWithoutChrome('schedules/lazyload/on_now.' . $designSystem . '.html.twig', [
             'broadcast' => $broadcast,
             'simulcastUrl' => $simulcastUrl,
             'isRadio' => $network->isRadio(),
