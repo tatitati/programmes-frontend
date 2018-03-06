@@ -120,7 +120,7 @@
                 {# TODO Vote module #}
 
                 {% if relatedLinks %}
-                    {% include 'find_by_pid/_related_links_module.html.twig' with {
+                    {% include 'find_by_pid/partial/related_links_module.html.twig' with {
                         'programme': programme,
                         'relatedLinks': relatedLinks,
                     } only %}
