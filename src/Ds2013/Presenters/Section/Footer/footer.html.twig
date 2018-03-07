@@ -1,104 +1,107 @@
 <div class="br-box-subtle text-base programmes-page programmes-page--flush" id="programmes-footer"><div class="footer-wrapper br-keyline">
-    <div class="footer g-f-l"><div class="grid-wrapper grid-wrapper--flush">
-        <div class="grid grid--flush 1/2@bpw 5/12@bpw2 5/12@bpe"><div class="b-g-p">
-            <!-- (Recommendations) You may also like -->
-            {%- if not footer.isWorldNews() -%}
-                <div class="icon-box br-box-page lazy-module"
-                    data-lazyload-inc="{{ path('programme_recommendations', {pid: footer.getPid(), extension: '.2013inc'}) }}"
-                    data-lazyload-threshold="320"
-                    data-lazyload-delay="true"
-                >
-                    <a class="icon-box__link br-box-page__link br-page-link-onbg015 br-page-linkhover-onbg015--hover" href="{{ path('programme_recommendations', {pid: footer.getPid()}) }}">
-                        {{ gelicon('basics', 'recommend', 'icon-box__icon br-pseudolink') }}
+    <div class="footer g-f-l">
+        <h2 class="visually-hidden">{{ tr('related_content') }}</h2>
+        <div class="grid-wrapper grid-wrapper--flush">
+            <div class="grid grid--flush 1/2@bpw 5/12@bpw2 5/12@bpe"><div class="b-g-p">
+                <!-- (Recommendations) You may also like -->
+                {%- if not footer.isWorldNews() -%}
+                    <div class="icon-box br-box-page lazy-module"
+                        data-lazyload-inc="{{ path('programme_recommendations', {pid: footer.getPid(), extension: '.2013inc'}) }}"
+                        data-lazyload-threshold="320"
+                        data-lazyload-delay="true"
+                    >
+                        <a class="icon-box__link br-box-page__link br-page-link-onbg015 br-page-linkhover-onbg015--hover" href="{{ path('programme_recommendations', {pid: footer.getPid()}) }}">
+                            {{ gelicon('basics', 'recommend', 'icon-box__icon br-pseudolink') }}
 
-                        <div class="icon-box__hgroup">
-                            <h3 class="icon-box__title gamma">{{ tr('you_might_also_like') }}</h3>
-                        </div>
+                            <div class="icon-box__hgroup">
+                                <h3 class="icon-box__title gamma">{{ tr('you_might_also_like') }}</h3>
+                            </div>
 
-                        <p class="icon-box__note micro">{{ tr('view_all') }}</p>
-                    </a>
+                            <p class="icon-box__note micro">{{ tr('view_all') }}</p>
+                        </a>
+                    </div>
+                {%- endif -%}
+            </div></div>
+            <div class="grid grid--flush 1/2@bpw 1/4@bpw2 1/3@bpe">
+            {%- if footer.getGenres() or footer.getFormats() -%}
+                <div class="footer__similar b-g-p component">
+                    <h3>{{ tr('similar_programmes') }}</h3>
+                    {%- if footer.getGenres() -%}
+                    <div>
+                        <h4 class="inline micro">{{ tr('by_genre') }}:</h4>
+                        <ul class="list-unstyled micro">
+                            {%- for genreTree in footer.getGenres() -%}
+                                <li>
+                                    {%- for genre in genreTree.getAncestry()|reverse -%}
+                                        {%- if not loop.first -%}&#32;&#62;&#32;{%- endif -%}
+                                        <a href="{{ path('categories_show', {
+                                            'categoryType': 'genres',
+                                            'urlKeyHierarchy': genre.getUrlKeyHierarchy()
+                                        }) }}">{{ genre.getTitle() }}</a>
+                                    {%- endfor -%}
+                                </li>
+                            {%- endfor -%}
+                        </ul>
+                    </div>
+                    {%- endif -%}
+                    {%- if footer.getFormats() -%}
+                    <div>
+                        <h4 class="inline micro">{{ tr('by_format') }}:</h4>
+                        <ul class="list-unstyled micro">
+                            {%- for format in footer.getFormats() -%}
+                                <li>
+                                    <a href="{{ path( 'categories_show', {
+                                        'categoryType': 'formats',
+                                        'urlKeyHierarchy': format.getUrlKey()
+                                    }) }}">{{ format.getTitle() }}</a>
+                                </li>
+                            {%- endfor -%}
+                        </ul>
+                    </div>
+                    {%- endif -%}
                 </div>
             {%- endif -%}
-        </div></div>
-        <div class="grid grid--flush 1/2@bpw 1/4@bpw2 1/3@bpe">
-        {%- if footer.getGenres() or footer.getFormats() -%}
-            <div class="footer__similar b-g-p component">
-                <h2>{{ tr('similar_programmes') }}</h2>
-                {%- if footer.getGenres() -%}
-                <div>
-                    <h3 class="inline micro">{{ tr('by_genre') }}:</h3>
-                    <ul class="list-unstyled micro">
-                        {%- for genreTree in footer.getGenres() -%}
-                            <li>
-                                {%- for genre in genreTree.getAncestry()|reverse -%}
-                                    {%- if not loop.first -%}&#32;&#62;&#32;{%- endif -%}
-                                    <a href="{{ path('categories_show', {
-                                        'categoryType': 'genres',
-                                        'urlKeyHierarchy': genre.getUrlKeyHierarchy()
-                                    }) }}">{{ genre.getTitle() }}</a>
-                                {%- endfor -%}
-                            </li>
-                        {%- endfor -%}
-                    </ul>
-                </div>
-                {%- endif -%}
-                {%- if footer.getFormats() -%}
-                <div>
-                    <h3 class="inline micro">{{ tr('by_format') }}:</h3>
-                    <ul class="list-unstyled micro">
-                        {%- for format in footer.getFormats() -%}
-                            <li>
-                                <a href="{{ path( 'categories_show', {
-                                    'categoryType': 'formats',
-                                    'urlKeyHierarchy': format.getUrlKey()
-                                }) }}">{{ format.getTitle() }}</a>
-                            </li>
-                        {%- endfor -%}
-                    </ul>
-                </div>
-                {%- endif -%}
             </div>
-        {%- endif -%}
-        </div>
-        {%- if footer.hasNetwork() -%}
-            {%- if footer.getNetworkUrlKey() -%}
-                <div class="grid grid--flush 1/2 1/6@bpw2 1/8@bpe footer__service centi"><div class="footer__service-island br-service-brand-box fauxcolumn">
-                    <a class="islet--vertical footer__service__logo text--center@bpw" href="{{ path('network', { 'networkUrlKey': footer.getNetworkUrlKey() }) }}">
-                        <img alt="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}" src="{{ asset('images/logos/112x63/' ~ footer.getNid() ~ '.png') }}">
-                    </a>
-                    <div class="footer__watch-live">
-                        <div class="lazy-module" data-lazyload-inc="{{
-                            path('schedules_on_now', {
-                                'networkUrlKey': footer.getNetworkUrlKey(),
-                                'partial': '2013'
-                            }) }}" data-lazyload-threshold="768" data-lazyload-delay="true">
+            {%- if footer.hasNetwork() -%}
+                {%- if footer.getNetworkUrlKey() -%}
+                    <div class="grid grid--flush 1/2 1/6@bpw2 1/8@bpe footer__service centi"><div class="footer__service-island br-service-brand-box fauxcolumn">
+                        <a class="islet--vertical footer__service__logo text--center@bpw" href="{{ path('network', { 'networkUrlKey': footer.getNetworkUrlKey() }) }}">
+                            <img alt="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}" src="{{ asset('images/logos/112x63/' ~ footer.getNid() ~ '.png') }}">
+                        </a>
+                        <div class="footer__watch-live">
+                            <div class="lazy-module" data-lazyload-inc="{{
+                                path('schedules_on_now', {
+                                    'networkUrlKey': footer.getNetworkUrlKey(),
+                                    'partial': '2013'
+                                }) }}" data-lazyload-threshold="768" data-lazyload-delay="true">
+                            </div>
                         </div>
+                    </div></div>
+                {%- endif -%}
+                <div class="grid grid--flush 1/2 1/6@bpw2 1/8@bpe footer__service-nav centi"><div class="footer__service__nav">
+                    <div class="br-service-brand-box--alt fauxcolumn">
+                        {%- set networkUrlKey = footer.getNetworkUrlKey() -%}
+                        {%- if networkUrlKey or footer.getNavigationLinks() -%}
+                        <ul class="footer__service__nav__list list-unstyled footer__service-island">
+                            {%-  if networkUrlKey -%}
+                                <li class="footer__service__navitem">
+                                    <a href="{{ path('network', { 'networkUrlKey': networkUrlKey }) }}"
+                                        title="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}"
+                                        data-linktrack="global_footer_servicenav">
+                                        {{ tr('home') }}
+                                    </a>
+                                </li>
+                            {%- endif -%}
+                            {%- for links in footer.getNavigationLinks() -%}
+                                <li class="footer__service__navitem">
+                                    <a class="br-text" href="{{ links['url'] }}" data-linktrack="global_footer_servicenav">{{ links['title'] }}</a>
+                                </li>
+                            {%- endfor -%}
+                        </ul>
+                    {%- endif -%}
                     </div>
                 </div></div>
             {%- endif -%}
-            <div class="grid grid--flush 1/2 1/6@bpw2 1/8@bpe footer__service-nav centi"><div class="footer__service__nav">
-                <div class="br-service-brand-box--alt fauxcolumn">
-                    {%- set networkUrlKey = footer.getNetworkUrlKey() -%}
-                    {%- if networkUrlKey or footer.getNavigationLinks() -%}
-                    <ul class="footer__service__nav__list list-unstyled footer__service-island">
-                        {%-  if networkUrlKey -%}
-                            <li class="footer__service__navitem">
-                                <a href="{{ path('network', { 'networkUrlKey': networkUrlKey }) }}"
-                                    title="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}"
-                                    data-linktrack="global_footer_servicenav">
-                                    {{ tr('home') }}
-                                </a>
-                            </li>
-                        {%- endif -%}
-                        {%- for links in footer.getNavigationLinks() -%}
-                            <li class="footer__service__navitem">
-                                <a class="br-text" href="{{ links['url'] }}" data-linktrack="global_footer_servicenav">{{ links['title'] }}</a>
-                            </li>
-                        {%- endfor -%}
-                    </ul>
-                {%- endif -%}
-                </div>
-            </div></div>
-        {%- endif -%}
-    </div></div>
+        </div>
+    </div>
 </div></div>

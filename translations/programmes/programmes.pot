@@ -1643,6 +1643,10 @@ msgstr ""
 msgid "recommendations_package_title"
 msgstr ""
 
+#. English: "Related Content"
+msgid "related_content"
+msgstr ""
+
 #. English (no items): "Related Links".
 #. English (one item): "Related Link".
 #. English (2+ items): "Related Links".

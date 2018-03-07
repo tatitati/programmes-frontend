@@ -14,21 +14,19 @@
                     <span class="loading-spinner pull--right-spaced hidden js-inprogress-showme"></span>
 
                     {#Title of this season#}
-                    <{{ episode_guide_list.getHeadingTag() }} class="gamma no-margin">
-                        <a property="url"
-                           resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
-                           class="js-serieslink istats-seriesopen block-link link-complex"
-                           href="{{ path('programme_episodes_guide', {'pid': programme.getPid()}) }}"
-                           aria-expanded="false"
-                           aria-controls="series-{{ programme.getPid() }}"
-                           aria-role="button">
-
-
+                    <a property="url"
+                       resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
+                       class="js-serieslink istats-seriesopen block-link link-complex"
+                       href="{{ path('programme_episodes_guide', {'pid': programme.getPid()}) }}"
+                       aria-expanded="false"
+                       aria-controls="series-{{ programme.getPid() }}"
+                       aria-role="button">
+                        <{{ episode_guide_list.getHeadingTag() }} class="gamma no-margin episode-guide__series-heading">
                             <span class="dropdown-symbol dropdown-symbol--hidden">{{ gelicon('core', 'next', 'gelicon--delta dropdown-icon') }}</span>
                             <span class="link-complex__target">{{ programme.getTitle() }}</span>
-                            <span class="delta br-page-text-ontext deemphasize js-active-hideanyme push--leading">{{ tr('view_episodes')}}</span>
-                        </a>
-                    </{{ episode_guide_list.getHeadingTag() }}>
+                        </{{ episode_guide_list.getHeadingTag() }}>
+                        <span class="delta br-page-text-ontext deemphasize js-active-hideanyme push--leading">{{ tr('view_episodes')}}</span>
+                    </a>
 
                     <div class="nested-panel hidden js-active-showme" id="series-{{ programme.getPid() }}" aria-hidden="true">
                         <p class="no-margin island--vertical" property="description">{{ programme.getShortSynopsis() }}</p>
