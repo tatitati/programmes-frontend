@@ -78,12 +78,6 @@ programme_galleries:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
     schemes: [http]
 
-programme_recipes:
-    path: /programmes/{pid}/recipes
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-    schemes: [http]
-
 programme_topics:
     path: /programmes/{pid}/topics
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }

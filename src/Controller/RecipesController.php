@@ -1,17 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Partial;
+namespace App\Controller;
 
-use App\Controller\BaseController;
 use App\ExternalApi\Recipes\Service\RecipesService;
 
 class RecipesController extends BaseController
 {
     public function __invoke(
-        RecipesService $recipesService,
-        string $pid
+        string $pid,
+        string $extension,
+        RecipesService $recipesService
     ) {
+        if ($extension === '') {
+            // We haven't got around to rendering the main route yet,
+            // replace this with a call to $this->renderWithChrome later.
+            throw $this->createNotFoundException('No such page');
+        }
+
         $apiResponse = $recipesService->fetchRecipesByPid($pid)->wait(true);
 
         // if there are no recipes, don't display anything
@@ -32,7 +38,7 @@ class RecipesController extends BaseController
         $this->response()->setMaxAge(300);
 
         // render does not automatically pick up the headers from the response
-        return $this->render('partial/recipes.html.twig', [
+        return $this->render('recipes/show.ameninc.html.twig', [
             'recipes' => $apiResponse->getRecipes(),
             'total' => $apiResponse->getTotal(),
             'pid' => $pid,

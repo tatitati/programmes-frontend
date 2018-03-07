@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\App\Controller\Partial;
+namespace Tests\App\Controller;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Bundle\FrameworkBundle\Client;
@@ -14,7 +14,7 @@ class RecipesControllerTest extends BaseWebTestCase
 {
     public function testValidResponseFromFoodApi()
     {
-        $json = file_get_contents(__DIR__ . '/JSON/bakeoff.json');
+        $json = file_get_contents(__DIR__ . '/../DataFixtures/JSON/bakeoff.json');
         $response = new Response(200, [], $json);
         $client = $this->createClientWithMockedGuzzleResponse($response);
 
@@ -43,7 +43,7 @@ class RecipesControllerTest extends BaseWebTestCase
 
     public function testProgrammeHasNoRecipesInFoodApi()
     {
-        $json = file_get_contents(__DIR__ . '/JSON/drwho.json');
+        $json = file_get_contents(__DIR__ . '/../DataFixtures/JSON/drwho.json');
         $response = new Response(200, [], $json);
         $client = $this->createClientWithMockedGuzzleResponse($response);
 
