@@ -7,6 +7,7 @@ use App\DsAmen\Presenter;
 use App\DsShared\Helpers\TitleLogicHelper;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -30,6 +31,7 @@ abstract class BaseTitlePresenter extends Presenter
 
     /** @var array */
     protected $options = [
+        'context_programme' => null,
         'h_tag' => 'h4',
         'text_colour_on_title_link' => true,
         'title_format' => 'item::ancestry',
@@ -110,7 +112,7 @@ abstract class BaseTitlePresenter extends Presenter
 
     protected function validateOptions(array $options): void
     {
-        if (isset($options['context_programme']) && !($options['context_programme'] instanceof CoreEntity)) {
+        if (isset($options['context_programme']) && !($options['context_programme'] instanceof Programme)) {
             throw new InvalidOptionException('context_programme option must be null or a Programme domain object');
         }
 
@@ -127,7 +129,7 @@ abstract class BaseTitlePresenter extends Presenter
     {
         [$this->mainTitleProgramme, $this->subTitlesProgrammes] = $this->titleHelper->getOrderedProgrammesForTitle(
             $this->coreEntity,
-            $this->options['context_programme'] ?? null,
+            $this->options['context_programme'],
             $this->options['title_format']
         );
     }
