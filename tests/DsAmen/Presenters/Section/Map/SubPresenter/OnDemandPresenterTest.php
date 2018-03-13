@@ -97,6 +97,18 @@ class OnDemandPresenterTest extends TestCase
         $this->assertTrue($odPresenter->shouldShowImage());
     }
 
+    public function testStreamableEpisodeBeforeLinearBroadcastNoPendingEpisode()
+    {
+        $episode = $this->createEpisode(2, '-1 day', '+1 days');
+        $programme = $this->createProgramme(false);
+        $odPresenter = new OnDemandPresenter($this->createMock(TranslateProvider::class), $programme, $episode, false, null);
+        $this->assertSame($episode, $odPresenter->getStreamableEpisode());
+        $this->assertNull($odPresenter->getPendingEpisode());
+        $this->assertFalse($odPresenter->episodeIsPending());
+        $this->assertTrue($odPresenter->shouldShowImage());
+        $this->assertEquals('new', $odPresenter->getBadgeTranslationString());
+    }
+
     /**
      * @dataProvider trueFalseDataProvider
      * @param bool $isRadio

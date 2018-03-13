@@ -101,9 +101,15 @@ class OnDemandPresenter extends RightColumnPresenter
         if ($this->streamableEpisode === null || !$this->streamableEpisode->getParent() || $this->streamableEpisode->getParent()->isTleo()) {
             return '';
         }
-        if ($this->streamableEpisode->getFirstBroadcastDate() === null || !$this->streamableEpisode->getFirstBroadcastDate()->wasWithinLast('7 days')) {
+
+        // If this episode was never broadcast, or the broadcast happened over 7 days ago, don't show the badge.
+        // Sometimes an episode first broadcast date could be in the future, but the episode is already available
+        // on demand
+        $firstBroadcastDate = $this->streamableEpisode->getFirstBroadcastDate();
+        if ($firstBroadcastDate === null || ($firstBroadcastDate->isPast() && !$firstBroadcastDate->wasWithinLast('7 days'))) {
             return '';
         }
+
         return $this->streamableEpisode->getPosition() === 1 ? 'new_series' : 'new';
     }
 
