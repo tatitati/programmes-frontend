@@ -48,4 +48,22 @@ class EpisodeBuilder extends AbstractBuilder
             'streamableUntil' => null,
         ];
     }
+
+    public static function anyRadioEpisode()
+    {
+        $self = new self();
+
+        return $self->with([
+            'masterBrand' => MasterBrandBuilder::anyRadioMasterBrand()->build(),
+        ]);
+    }
+
+    public static function anyTVEpisode()
+    {
+        $self = new self();
+
+        return $self->with([
+            'masterBrand' => MasterBrandBuilder::anyTVMasterBrand()->build(),
+        ]);
+    }
 }

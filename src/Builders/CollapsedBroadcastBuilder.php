@@ -24,4 +24,22 @@ class CollapsedBroadcastBuilder extends AbstractBuilder
             'isRepeat' => $faker->boolean,
         ];
     }
+
+    public static function anyOfClip()
+    {
+        $self = new self();
+
+        return $self->with([
+            'programmeItem' => ClipBuilder::any()->build(),
+        ]);
+    }
+
+    public static function anyOfEpisode()
+    {
+        $self = new self();
+
+        return $self->with([
+            'programmeItem' => EpisodeBuilder::any()->build(),
+        ]);
+    }
 }

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace App\Controller\Schedules;
 
 use App\Controller\BaseController;
-use App\Controller\Helpers\SchemaHelper;
+use App\Controller\Helpers\StructuredDataHelper;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByDayPage\SchedulesByDayPagePresenter;
@@ -38,7 +38,7 @@ class ByDayController extends BaseController
         CollapsedBroadcastsService $collapsedBroadcastsService,
         HelperFactory $helperFactory,
         UrlGeneratorInterface $router,
-        SchemaHelper $schemaHelper
+        StructuredDataHelper $structuredDataHelper
     ) {
         if (!$this->isValidDate($date) || !$this->isValidUtcOffset($this->request()->query->get('utcoffset'))) {
             throw $this->createNotFoundException('Invalid date supplied');
@@ -85,7 +85,7 @@ class ByDayController extends BaseController
 
         $schemas = [];
         foreach ($broadcasts as $broadcast) {
-            $schemas[] = $schemaHelper->getSchemaForBroadcast($broadcast);
+            $schemas[] = $structuredDataHelper->getSchemaForBroadcast($broadcast);
         }
 
         $pagePresenter = new SchedulesByDayPagePresenter(
@@ -105,7 +105,7 @@ class ByDayController extends BaseController
             $pagePresenter,
             $service->isInternational() && !$this->request()->query->has('utcoffset'),
             !is_null($date),
-            $schemas ? $schemaHelper->prepare($schemas, true) : null
+            $schemas ? $structuredDataHelper->prepare($schemas, true) : null
         );
 
         // This is from a trait and sets a 404 status code or noindex on the controller

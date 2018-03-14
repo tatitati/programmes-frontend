@@ -3,15 +3,22 @@ declare(strict_types = 1);
 
 namespace App\Controller\Helpers;
 
-use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\ChronosInterval;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Schema.org domain language
+ * An Episode can belong to a Season and a Series
+ * A Season can belong to Series
+ * A Series is the top-level item
+ */
 class SchemaHelper
 {
     /** @var UrlGeneratorInterface */
@@ -20,62 +27,6 @@ class SchemaHelper
     public function __construct(UrlGeneratorInterface $router)
     {
         $this->router = $router;
-    }
-
-    public function getSchemaForBroadcast(Broadcast $broadcast): array
-    {
-        $programmeItem = $broadcast->getProgrammeItem();
-        $episode = $this->getSchemaForEpisode($programmeItem);
-        $episode['publication'] = [
-            '@type' => 'BroadcastEvent',
-            'publishedOn' => $this->getSchemaForService($broadcast->getService()),
-            'startDate' => $broadcast->getStartAt()->format(DATE_ATOM),
-            'endDate' => $broadcast->getEndAt()->format(DATE_ATOM),
-        ];
-
-        return $episode;
-    }
-
-    public function getSchemaForCollapsedBroadcast(CollapsedBroadcast $collapsedBroadcast): array
-    {
-        $programmeItem = $collapsedBroadcast->getProgrammeItem();
-        $episode = $this->getSchemaForEpisode($programmeItem);
-        $publishedOn = [];
-        foreach ($collapsedBroadcast->getServices() as $service) {
-            $publishedOn[] = $this->getSchemaForService($service);
-        }
-        $episode['publication'] = [
-            '@type' => 'BroadcastEvent',
-            'publishedOn' => $publishedOn,
-            'startDate' => $collapsedBroadcast->getStartAt()->format(DATE_ATOM),
-            'endDate' => $collapsedBroadcast->getEndAt()->format(DATE_ATOM),
-        ];
-
-        return $episode;
-    }
-
-
-    public function getSchemaForOnDemand(Episode $episode): array
-    {
-        $episodeContext = $this->getSchemaForEpisode($episode);
-        $episodeContext['publication'] = [
-            '@type' => 'OnDemandEvent',
-            'publishedOn' => [
-                '@type' => 'BroadcastService',
-                'broadcaster' => $this->getSchemaForOrganisation(),
-                'name' => 'iPlayer',
-            ],
-            'duration' => (string) new ChronosInterval(null, null, null, null, null, null, $episode->getDuration()),
-            'url' => $this->router->generate('iplayer_play', ['pid' => $episode->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
-        ];
-        if ($episode->getStreamableFrom()) {
-            $episodeContext['publication']['startDate'] = $episode->getStreamableFrom()->format(DATE_ATOM);
-        }
-        if ($episode->getStreamableUntil()) {
-            $episodeContext['publication']['endDate'] = $episode->getStreamableUntil()->format(DATE_ATOM);
-        }
-
-        return $episodeContext;
     }
 
     public function getSchemaForSeries(ProgrammeContainer $programme): array
@@ -105,44 +56,43 @@ class SchemaHelper
         return $schemaToPrepare;
     }
 
-    private function getSchemaForEpisode(ProgrammeItem $programmeItem): array
+    public function getSchemaForEpisode(Episode $episode): array
     {
-        $episode = [
-            '@type' => $programmeItem->isRadio() ? 'RadioEpisode' : 'TVEpisode',
-            'identifier' => $programmeItem->getPid(),
-            'episodeNumber' => $programmeItem->getPosition(),
-            'description' => $programmeItem->getShortSynopsis(),
-            'datePublished' => $programmeItem->getReleaseDate(),
-            'image' => $programmeItem->getImage()->getUrl(480),
-            'name' => $programmeItem->getTitle(), //@TODO This will be JUST the episode name, or so we want the fully qualified name?
-            'url' => $this->router->generate('find_by_pid', ['pid' => $programmeItem->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
+        return [
+            '@type' => $episode->isRadio() ? 'RadioEpisode' : 'TVEpisode',
+            'identifier' => $episode->getPid(),
+            'episodeNumber' => $episode->getPosition(),
+            'description' => $episode->getShortSynopsis(),
+            'datePublished' => $episode->getReleaseDate(),
+            'image' => $episode->getImage()->getUrl(480),
+            'name' => $episode->getTitle(),
+            'url' => $this->router->generate('find_by_pid', ['pid' => $episode->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
         ];
-        $parent = $programmeItem->getParent();
-        if ($parent) {
-            if ($parent->isTlec()) {
-                $episode['partOfSeries'] = [
-                    '@type' => $programmeItem->isRadio() ? 'RadioSeries' : 'TVSeries',
-                    'name' => $parent->getTitle(),
-                    'url' => $this->router->generate('find_by_pid', ['pid' => $parent->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
-                ];
-            } else {
-                $episode['partOfSeries'] = [
-                    '@type' => $programmeItem->isRadio() ? 'RadioSeries' : 'TVSeries',
-                    'name' => $parent->getParent()->getTitle(),
-                    'url' => $this->router->generate('find_by_pid', ['pid' => $parent->getParent()->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
-                ];
-                $episode['partOfSeason'] = [
-                    '@type' => $programmeItem->isRadio() ? 'RadioSeason' : 'TVSeason',
-                    'position' => $parent->getPosition(),
-                    'name' => $parent->getTitle(),
-                    'url' => $this->router->generate('find_by_pid', ['pid' => $parent->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
-                ];
-            }
-        }
-        return $episode;
     }
 
-    private function getSchemaForOrganisation(): array
+    public function getSchemaForOnDemandEvent(Episode $episode): array
+    {
+        $event = [
+            '@type' => 'OnDemandEvent',
+            'publishedOn' => [
+                '@type' => 'BroadcastService',
+                'broadcaster' => $this->getSchemaForOrganisation(),
+                'name' => 'iPlayer',
+            ],
+            'duration' => (string) new ChronosInterval(null, null, null, null, null, null, $episode->getDuration()),
+            'url' => $this->router->generate('iplayer_play', ['pid' => $episode->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
+        ];
+        if ($episode->getStreamableFrom()) {
+            $event['startDate'] = $episode->getStreamableFrom()->format(DATE_ATOM);
+        }
+        if ($episode->getStreamableUntil()) {
+            $event['endDate'] = $episode->getStreamableUntil()->format(DATE_ATOM);
+        }
+
+        return $event;
+    }
+
+    public function getSchemaForOrganisation(): array
     {
         return [
             '@type' => 'Organization',
@@ -153,25 +103,37 @@ class SchemaHelper
         ];
     }
 
-    private function getSchemaForService(Service $service): array
+    public function getSchemaForBroadcastEvent(BroadcastInfoInterface $broadcast): array
+    {
+        return [
+            '@type' => 'BroadcastEvent',
+            'startDate' => $broadcast->getStartAt()->format(DATE_ATOM),
+            'endDate' => $broadcast->getEndAt()->format(DATE_ATOM),
+        ];
+    }
+
+    /**
+     * @param Service|Network $service
+     * @return array
+     */
+    public function getSchemaForService($service): array
     {
         $bbcContext = $this->getSchemaForOrganisation();
-        $serviceContext = [
+
+        return [
             '@type' => 'BroadcastService',
             'broadcaster' => $bbcContext,
             'name' => $service->getName(),
         ];
-        $network = $service->getNetwork();
-        if ($network !== null && $network->getName() !== $service->getName()) {
-            $networkContext = [
-                '@type' => 'BroadcastService',
-                'broadcaster' => $bbcContext,
-                'name' => $network->getName(),
-                'logo' => $network->getImage()->getUrl(480),
-            ];
-            $serviceContext['parentService'] = $networkContext;
-        }
+    }
 
-        return $serviceContext;
+    public function getSchemaForSeason(Series $season): array
+    {
+        return [
+            '@type' => $season->isRadio() ? 'RadioSeason' : 'TVSeason',
+            'position' => $season->getPosition(),
+            'name' => $season->getTitle(),
+            'url' => $this->router->generate('find_by_pid', ['pid' => $season->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
+        ];
     }
 }

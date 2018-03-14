@@ -5,6 +5,7 @@ namespace App\Controller\Schedules;
 
 use App\Controller\BaseController;
 use App\Controller\Helpers\SchemaHelper;
+use App\Controller\Helpers\StructuredDataHelper;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
 use App\Ds2013\Presenters\Pages\Schedules\ByWeekPage\SchedulesByWeekPagePresenter;
@@ -33,7 +34,7 @@ class ByWeekController extends BaseController
         BroadcastsService $broadcastService,
         HelperFactory $helperFactory,
         UrlGeneratorInterface $router,
-        SchemaHelper $schemaHelper
+        StructuredDataHelper $structuredDataHelper
     ) {
         $utcOffset = $this->request()->query->get('utcoffset');
         if (!$this->isValidDate($date) || !$this->isValidUtcOffset($utcOffset)) {
@@ -74,9 +75,9 @@ class ByWeekController extends BaseController
 
             $schemas = [];
             foreach ($broadcasts as $broadcast) {
-                $schemas[] = $schemaHelper->getSchemaForBroadcast($broadcast);
+                $schemas[] = $structuredDataHelper->getSchemaForBroadcast($broadcast);
             }
-            $schema = $schemaHelper->prepare($schemas, true);
+            $schema = $structuredDataHelper->prepare($schemas, true);
 
             $daysOfBroadcasts = $this->groupBroadcasts($broadcasts);
             $daysOfBroadcasts = $this->addInBroadcastGaps($daysOfBroadcasts, $service);

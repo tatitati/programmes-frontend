@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
-use App\Controller\Helpers\SchemaHelper;
+use App\Controller\Helpers\StructuredDataHelper;
 use App\DsAmen\PresenterFactory;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Ada\Service\AdaClassService;
@@ -55,7 +55,7 @@ class TlecController extends BaseController
         RelatedLinksService $relatedLinksService,
         FavouritesButtonService $favouritesButtonService,
         LxPromoService $lxPromoService,
-        SchemaHelper $schemaHelper
+        StructuredDataHelper $structuredDataHelper
     ) {
         if ($programme->getNetwork() && $programme->getNetwork()->isInternational()) {
             // "International" services are UTC, all others are Europe/London (the default)
@@ -162,7 +162,7 @@ class TlecController extends BaseController
 
         $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
 
-        $schema = $this->getSchema($schemaHelper, $programme, $onDemandEpisode, $upcomingBroadcast);
+        $schema = $this->getSchema($structuredDataHelper, $programme, $onDemandEpisode, $upcomingBroadcast);
 
         $parameters = [
             'programme' => $programme,
@@ -314,23 +314,49 @@ class TlecController extends BaseController
         $this->setIstatsJustMissedLabel($lastOn);
     }
 
-    private function getSchema(SchemaHelper $schemaHelper, ProgrammeContainer $programme, ?Episode $onDemandEpisode, ?CollapsedBroadcast $upcomingBroadcast): array
+    private function getSchema(StructuredDataHelper $structuredDataHelper, ProgrammeContainer $programme, ?Episode $onDemandEpisode, ?CollapsedBroadcast $upcomingBroadcast): array
     {
-        $schemaContext = $schemaHelper->getSchemaForSeries($programme);
-        $episode = null;
-        if ($onDemandEpisode && $upcomingBroadcast) {
-            $episode = [];
-            $episode[] = $schemaHelper->getSchemaForOnDemand($onDemandEpisode);
-            $episode[] = $schemaHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
-        } elseif ($onDemandEpisode) {
-            $episode = $schemaHelper->getSchemaForOnDemand($onDemandEpisode);
-        } elseif ($upcomingBroadcast) {
-            $episode = $schemaHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
-        }
-        if ($episode) {
-            $schemaContext['episode'] = $episode;
+        $schemaContext = $structuredDataHelper->getSchemaForProgrammeContainer($programme);
+
+        if (!$onDemandEpisode && !$upcomingBroadcast) {
+            return $structuredDataHelper->prepare($schemaContext);
         }
 
-        return $schemaHelper->prepare($schemaContext);
+        if ($onDemandEpisode && $upcomingBroadcast) {
+            if ($this->isSamePublication($onDemandEpisode, $upcomingBroadcast)) {
+                $episode = $structuredDataHelper->getSchemaForEpisode($onDemandEpisode, true);
+                $episode['publication'] = [
+                    $structuredDataHelper->getSchemaForOnDemand($onDemandEpisode),
+                    $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast),
+                ];
+                $schemaContext['episode'] = $episode;
+
+                return $structuredDataHelper->prepare($schemaContext);
+            }
+
+            $od = $structuredDataHelper->getSchemaForEpisode($onDemandEpisode, true);
+            $od['publication'] = $structuredDataHelper->getSchemaForOnDemand($onDemandEpisode);
+            $cb = $structuredDataHelper->getSchemaForEpisode($upcomingBroadcast->getProgrammeItem(), true);
+            $cb['publication'] = $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
+            $schemaContext['episode'] = [$od, $cb];
+
+            return $structuredDataHelper->prepare($schemaContext);
+        }
+
+        $episode = $onDemandEpisode ?? $upcomingBroadcast->getProgrammeItem();
+        $episodeSchema = $structuredDataHelper->getSchemaForEpisode($episode, true);
+
+        if ($onDemandEpisode) {
+            $episodeSchema['publication'] = $structuredDataHelper->getSchemaForOnDemand($onDemandEpisode);
+        } else {
+            $episodeSchema['publication'] = $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
+        }
+
+        return $structuredDataHelper->prepare($schemaContext);
+    }
+
+    private function isSamePublication(Episode $onDemandEpisode, CollapsedBroadcast $upcomingBroadcast)
+    {
+        return (string) $onDemandEpisode->getPid() == (string) $upcomingBroadcast->getProgrammeItem()->getPid();
     }
 }

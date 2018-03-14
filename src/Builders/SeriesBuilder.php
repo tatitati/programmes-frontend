@@ -46,4 +46,22 @@ class SeriesBuilder extends AbstractBuilder
             'expectedChildCount' => null,
         ];
     }
+
+    public static function anyRadioSeries()
+    {
+        $self = new self();
+
+        return $self->with([
+            'masterBrand' => MasterBrandBuilder::anyRadioMasterBrand()->build(),
+        ]);
+    }
+
+    public static function anyTVSeries()
+    {
+        $self = new self();
+
+        return $self->with([
+            'masterBrand' => MasterBrandBuilder::anyTVMasterBrand()->build(),
+        ]);
+    }
 }
