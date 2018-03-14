@@ -14,7 +14,6 @@ use App\DsAmen\Presenters\Section\Footer\FooterPresenter;
 use App\DsAmen\Presenters\Section\Map\MapPresenter;
 use App\DsAmen\Presenters\Section\RelatedTopics\RelatedTopicsPresenter;
 use App\DsAmen\Presenters\Utilities\Duration\DurationPresenter;
-use App\DsAmen\Presenters\Utilities\Synopsis\SynopsisPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Ada\Domain\AdaClass;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
@@ -27,7 +26,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -84,11 +82,6 @@ class PresenterFactory
     public function supportingContentPresenter(SupportingContentItem $supportingContent, array $options = []): SupportingContentPresenter
     {
         return new SupportingContentPresenter($supportingContent, $options);
-    }
-
-    public function synopsisPresenter(Synopses $synopses, int $maxLength): SynopsisPresenter
-    {
-        return new SynopsisPresenter($synopses, $maxLength);
     }
 
     public function recipePresenter(Recipe $recipe, array $options = []): RecipePresenter

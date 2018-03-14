@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\App\DsAmen\Presenters\Utilities\Synopsis;
+namespace Tests\App\DsShared\Utilities\Synopsis;
 
-use App\DsAmen\Presenters\Utilities\Synopsis\SynopsisPresenter;
+use App\DsShared\Utilities\Synopsis\SynopsisPresenter;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use PHPUnit\Framework\TestCase;
 

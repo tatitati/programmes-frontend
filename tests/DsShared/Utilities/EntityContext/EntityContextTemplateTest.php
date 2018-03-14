@@ -30,10 +30,10 @@ class EntityContextTemplateTest extends BaseTemplateTestCase
         $child = $this->buildMockCoreEntity('b0000004', 'child', [$parent, $grandparent, $greatGrandparent]);
 
         return [
-            'one item' => [$greatGrandparent, '<span class="context"><a class="context__item" href="/programmes/b0000001">great-grandparent</a></span>'],
-            'two items' => [$grandparent, '<span class="context"><a class="context__item" href="/programmes/b0000001">great-grandparent</a> <a class="context__item" href="/programmes/b0000002">grandparent</a></span>'],
-            'three items' => [$parent, '<span class="context"><a class="context__item" href="/programmes/b0000001">great-grandparent</a> <a class="context__item" href="/programmes/b0000002">grandparent</a>, <a class="context__item" href="/programmes/b0000003">parent</a></span>'],
-            'four items' => [$child, '<span class="context"><a class="context__item" href="/programmes/b0000001">great-grandparent</a> <a class="context__item" href="/programmes/b0000002">grandparent</a>, <a class="context__item" href="/programmes/b0000003">parent</a>, <a class="context__item" href="/programmes/b0000004">child</a></span>'],
+            'one item' => [$greatGrandparent, '<a class="context__item" href="/programmes/b0000001">great-grandparent</a>'],
+            'two items' => [$grandparent, '<a class="context__item" href="/programmes/b0000001">great-grandparent</a> <a class="context__item" href="/programmes/b0000002">grandparent</a>'],
+            'three items' => [$parent, '<a class="context__item" href="/programmes/b0000001">great-grandparent</a> <a class="context__item" href="/programmes/b0000002">grandparent</a>, <a class="context__item" href="/programmes/b0000003">parent</a>'],
+            'four items' => [$child, '<a class="context__item" href="/programmes/b0000001">great-grandparent</a> <a class="context__item" href="/programmes/b0000002">grandparent</a>, <a class="context__item" href="/programmes/b0000003">parent</a>, <a class="context__item" href="/programmes/b0000004">child</a>'],
         ];
     }
 

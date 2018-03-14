@@ -7,7 +7,7 @@
         <meta property="image" content="{{ programme_info.getProgrammeContainer().getImage().getUrl(480,270) }}"/>
         {% if programme_info.getProgrammeContainer().getLongestSynopsis() %}
             <div class="gel-long-primer">
-                {{ ds_amen('synopsis', programme_info.getProgrammeContainer().getSynopses(), 250) }}
+                {{ ds_shared('synopsis', programme_info.getProgrammeContainer().getSynopses(), 250) }}
             </div>
         {% endif %}
         {% if programme_info.getProgrammeContainer().isRadio() %}

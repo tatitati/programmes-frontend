@@ -13,9 +13,9 @@
 ### External Products
 
 iplayer_play:
-    path: /iplayer/episode/{pid}
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    path: /iplayer/episode/{pid}/{version}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '', version: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', version: 'hd|ad|sign' }
     schemes: [http]
 
 iplayer_episodes:

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\DsAmen\Presenters\Utilities\Synopsis;
+namespace App\DsShared\Utilities\Synopsis;
 
-use App\DsAmen\Presenter;
+use App\DsShared\Presenter;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 
 class SynopsisPresenter extends Presenter

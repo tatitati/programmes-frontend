@@ -5,8 +5,10 @@ namespace App\DsShared;
 
 use App\DsShared\Utilities\EntityContext\EntityContextPresenter;
 use App\DsShared\Utilities\Image\ImagePresenter;
+use App\DsShared\Utilities\Synopsis\SynopsisPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 
 /**
  * DsShared Factory Class for creating presenters.
@@ -32,5 +34,10 @@ class PresenterFactory
             $sizes,
             $options
         );
+    }
+
+    public function synopsisPresenter(Synopses $synopses, int $maxLength): SynopsisPresenter
+    {
+        return new SynopsisPresenter($synopses, $maxLength);
     }
 }

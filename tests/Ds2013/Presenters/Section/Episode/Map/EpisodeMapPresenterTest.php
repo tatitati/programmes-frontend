@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Presenters\Section\Episode\Map;
 
-use App\Builders\BroadcastBuilder;
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
 use App\Builders\SeriesBuilder;
@@ -16,8 +15,8 @@ use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelEmptyPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelMorePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelTxPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use PHPUnit\Framework\TestCase;
 use Faker\Factory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group MapEpisode

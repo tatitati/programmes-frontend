@@ -7,7 +7,6 @@ use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\ImagePresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Tests\App\DsAmen\Presenters\Domain\CoreEntity\BaseSubPresenterTest;
