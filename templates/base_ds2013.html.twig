@@ -4,9 +4,62 @@
 <html class="{{ branding.getOrbitThemeClasses()|raw }} {% block html_classes %}{% endblock %}" lang="{{ tr('language_code') }}">
     <head>
         <meta charset="UTF-8">
-        {% if meta_context.metaNoIndex() %}<meta name="robots" content="noindex">{% endif %}
         <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="https://www.bbc.co.uk/favicon.ico" type="image/x-icon">
+
+        {#- Android/iOS homepage icons -#}
+        <link rel="shortcut icon" sizes="196x196" href="{{ meta_context.image().getUrl(208, 208) }}">
+        <link rel="shortcut icon" sizes="128x128" href="{{ meta_context.image().getUrl(128, 128) }}">
+        <link rel="apple-touch-icon" href="{{ meta_context.image().getUrl(80, 80) }}" >
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ meta_context.image().getUrl(128,128) }}">
+        <link rel="apple-touch-icon" sizes="152x152" href="{{ meta_context.image().getUrl(160, 160) }}">
+
+        {% do preload(asset('https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1.js'), { as: 'script', nopush: true }) %}
+        {% do preload(asset('js/rv-bootstrap.js'), { as: 'script', nopush: true }) %}
+        {% if comscore %}
+            {% do preload(asset('js/comscorews.js'), { as: 'script', nopush: true }) %}
+        {% endif %}
+        {% do dns_prefetch('https://fig.bbc.co.uk') %}
+
+        <script>document.documentElement.className += ' has-js';</script>
+        <!-- iSite2 Project (Tenant space): {{ meta_context.getProjectSpace() }} -->
+        {#
+            bbcdotcom adverts requires synchronous fig loading.
+            See https://navigation.api.bbc.co.uk/docs/fig.md#using-a-blocking-fig
+            Remove this once Ads work without the blocking fig - GNLADAPPS-38
+        #}
+        {% if hasAdverts %}<script>window.orb_fig_blocking = true;</script>{% endif %}
+        {{ orb.getHead()|raw }}
+        {{ branding.getHead()|raw }}
+
+        <script>
+            requirejs.config({
+                "paths": {
+                    'jquery-1.9': "https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1",
+                    'rv-bootstrap': "{{ asset_js('js/rv-bootstrap.js') }}",
+                    'timezone-notification': "{{ asset_js('js/timezone-notification.js') }}",
+                    'comscorews': "{{ asset_js('js/comscorews.js') }}",
+                    'episode-guide': "{{ asset_js('js/episode-guide.js') }}"
+                },
+                "priority": ['jquery-1.9', 'rv-bootstrap', 'timezone-notification'],
+                "map": {
+                    "*": {
+                        "jquery": "jquery-1.9"
+                    }
+                }
+            });
+        </script>
+
+        <!--[if (gt IE 8)|!(IE)]><!-->
+            <link rel="stylesheet" href="{{ preload(asset('css/ds2013.css'), { as: 'style', nopush: true }) }}" />
+        <!--<![endif]-->
+        <!--[if (lt IE 9)&(!IEMobile)]>
+            <link rel="stylesheet" href="{{ asset('css/ds2013-ie.css') }}" />
+        <![endif]-->
+        {% block inline_head %}{% endblock %}
+
+        {{ adverts_head() }}
+        {% if meta_context.metaNoIndex() %}<meta name="robots" content="noindex">{% endif %}
         {% if meta_context.canonicalUrl() %}<link rel="canonical" href="{{ meta_context.canonicalUrl() }}">{% endif %}
         <meta name="theme-color" content="{{ branding.getColours().highlight.bg|default('#2B2B2B') }}">
         <meta name="description" content="{{ meta_context.description() }}">
@@ -25,65 +78,14 @@
         {#- Twitter-specific tags -#}
         <meta name="twitter:card" content="summary_large_image">
 
-        {#- Android/iOS homepage icons -#}
-        <link rel="shortcut icon" sizes="196x196" href="{{ meta_context.image().getUrl(208, 208) }}">
-        <link rel="shortcut icon" sizes="128x128" href="{{ meta_context.image().getUrl(128, 128) }}">
-        <link rel="apple-touch-icon" href="{{ meta_context.image().getUrl(80, 80) }}" >
-        <link rel="apple-touch-icon" sizes="120x120" href="{{ meta_context.image().getUrl(128,128) }}">
-        <link rel="apple-touch-icon" sizes="152x152" href="{{ meta_context.image().getUrl(160, 160) }}">
-
         {#- This image 272px not 150px wide because Microsoft suggests the image
             dimensions be 1.8x larger than the rendered size to allow for scaling.
             See https://msdn.microsoft.com/en-us/library/dn439794(v=vs.85).aspx
         -#}
         <meta name="msapplication-square150x150logo" content="{{ meta_context.image().getUrl(272, 272) }}">
-
         {% if meta_context.canonicalUrl() and meta_context.isRadio() %}
             <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ meta_context.canonicalUrl() }}?bbc_referrer={{ meta_context.canonicalUrl()|url_encode }}">
         {% endif %}
-        <!-- iSite2 Project (Tenant space): {{ meta_context.getProjectSpace() }} -->
-        {#
-            bbcdotcom adverts requires synchronous fig loading.
-            See https://navigation.api.bbc.co.uk/docs/fig.md#using-a-blocking-fig
-            Remove this once Ads work without the blocking fig - GNLADAPPS-38
-        #}
-        {% if hasAdverts %}<script>window.orb_fig_blocking = true;</script>{% endif %}
-        {{ orb.getHead()|raw }}
-        {{ branding.getHead()|raw }}
-
-        <!--[if (gt IE 8)|!(IE)]><!-->
-            <link rel="stylesheet" href="{{ preload(asset('css/ds2013.css'), { as: 'style', nopush: true }) }}" />
-        <!--<![endif]-->
-        <!--[if (lt IE 9)&(!IEMobile)]>
-            <link rel="stylesheet" href="{{ asset('css/ds2013-ie.css') }}" />
-        <![endif]-->
-        {% block inline_head %}{% endblock %}
-
-        {% do preload(asset('https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1.js'), { as: 'script', nopush: true }) %}
-        {% do preload(asset('js/rv-bootstrap.js'), { as: 'script', nopush: true }) %}
-        {% if comscore %}
-            {% do preload(asset('js/comscorews.js'), { as: 'script', nopush: true }) %}
-        {% endif %}
-
-        <script>document.documentElement.className += ' has-js';</script>
-        <script>
-            requirejs.config({
-                "paths": {
-                    'jquery-1.9': "https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1",
-                    'rv-bootstrap': "{{ asset_js('js/rv-bootstrap.js') }}",
-                    'timezone-notification': "{{ asset_js('js/timezone-notification.js') }}",
-                    'comscorews': "{{ asset_js('js/comscorews.js') }}",
-                    'episode-guide': "{{ asset_js('js/episode-guide.js') }}"
-                },
-                "priority": ['jquery-1.9', 'rv-bootstrap', 'timezone-notification'],
-                "map": {
-                    "*": {
-                        "jquery": "jquery-1.9"
-                    }
-                }
-            });
-        </script>
-        {{ adverts_head() }}
     </head>
     <body>
         {{ orb.getBodyfirst()|raw }}
