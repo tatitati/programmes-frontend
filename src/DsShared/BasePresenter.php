@@ -21,6 +21,12 @@ abstract class BasePresenter
     /** @var string */
     protected $uniqueId;
 
+    /**
+     * Set this constant in your child class if you want to override the template file and presenter name used by that
+     * class. Simply set this to the ::class name of the presenter whose template you wish to use, and it will pick that up
+     */
+    const TEMPLATE_PATH_CLASS_OVERRIDE = null;
+
     public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, $options);
@@ -32,17 +38,20 @@ abstract class BasePresenter
      */
     public function getTemplatePath(): string
     {
-        if (!isset(self::$templatePathCache[static::class])) {
+        // set the class we want to use to generate the twig template path
+        $class = (static::TEMPLATE_PATH_CLASS_OVERRIDE) ? static::TEMPLATE_PATH_CLASS_OVERRIDE : static::class;
+
+        if (!isset(self::$templatePathCache[$class])) {
             $designSystem = $this->getDesignSystem();
-            $classPath = str_replace('App\\Ds' . $designSystem . '\\', '', static::class);
+            $classPath = str_replace('App\\Ds' . $designSystem . '\\', '', $class);
 
             $parts = implode('/', explode('\\', $classPath, -1));
             $pathPrefix = '@Ds' . $designSystem . '/' . $parts . ($parts ? '/' : '');
 
-            self::$templatePathCache[static::class] = $pathPrefix . static::snakeCasePresenterName() . '.html.twig';
+            self::$templatePathCache[$class] = $pathPrefix . $this->snakeCasePresenterName($class) . '.html.twig';
         }
 
-        return self::$templatePathCache[static::class];
+        return self::$templatePathCache[$class];
     }
 
     /**
@@ -53,7 +62,8 @@ abstract class BasePresenter
      */
     public function getTemplateVariableName(): string
     {
-        return static::snakeCasePresenterName();
+        $class = (static::TEMPLATE_PATH_CLASS_OVERRIDE) ? static::TEMPLATE_PATH_CLASS_OVERRIDE : static::class;
+        return $this->snakeCasePresenterName($class);
     }
 
     public function getOption($keyOption)
@@ -103,22 +113,24 @@ abstract class BasePresenter
      * the name of the variable to be passed to that template.
      * e.g. App\DsShared\Organism\ExampleThingPresenter becomes example_thing
      *
+     * @param string $class
+     * @return string
      */
-    protected static function snakeCasePresenterName(): string
+    private function snakeCasePresenterName(string $class): string
     {
-        if (!isset(self::$presenterNameCache[static::class])) {
-            $namespaceEnd = strrpos(static::class, '\\');
-            $shortClassName = substr(static::class, $namespaceEnd + ($namespaceEnd ? 1: 0));
+        if (!isset(self::$presenterNameCache[$class])) {
+            $namespaceEnd = strrpos($class, '\\');
+            $shortClassName = substr($class, $namespaceEnd + ($namespaceEnd ? 1: 0));
 
             // Trim the class name from the word 'Presenter'
             $presenterName = substr($shortClassName, 0, strpos($shortClassName, 'Presenter'));
 
-            self::$presenterNameCache[static::class] = strtolower(preg_replace(
+            self::$presenterNameCache[$class] = strtolower(preg_replace(
                 ["/([A-Z]+)/", "/_([A-Z]+)([A-Z][a-z])/"],
                 ["_$1", "_$1_$2"],
                 lcfirst($presenterName)
             ));
         }
-        return self::$presenterNameCache[static::class];
+        return self::$presenterNameCache[$class];
     }
 }
