@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace Tests\App\Controller\Helpers;
 
 use App\Builders\CollapsedBroadcastBuilder;
@@ -138,11 +140,12 @@ class SchemaHelperTest extends TestCase
 
     public function testGetSchemaForSeason()
     {
-        $series = SeriesBuilder::anyRadioSeries()->build();
+        $series = SeriesBuilder::anyRadioSeries()->with(['pid' => new Pid('b0000002')])->build();
         $schema = $this->helper->getSchemaForSeason($series);
 
         $this->assertEquals([
             '@type' => 'RadioSeason',
+            'identifier' => 'b0000002',
             'position' => $series->getPosition(),
             'name' => $series->getTitle(),
             'url' => null,

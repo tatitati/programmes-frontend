@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\Controller\Schedules;
 
 use App\Controller\BaseController;
-use App\Controller\Helpers\SchemaHelper;
 use App\Controller\Helpers\StructuredDataHelper;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
@@ -63,7 +62,6 @@ class ByWeekController extends BaseController
         $daysOfBroadcasts = [];
 
         $broadcasts = [];
-        $schema = null;
         if ($broadcastWeek->serviceIsActiveInThisPeriod($service)) {
             // Get broadcasts in relevant period
             $broadcasts = $broadcastService->findByServiceAndDateRange(
@@ -72,12 +70,6 @@ class ByWeekController extends BaseController
                 $broadcastWeek->end(),
                 BroadcastsService::NO_LIMIT
             );
-
-            $schemas = [];
-            foreach ($broadcasts as $broadcast) {
-                $schemas[] = $structuredDataHelper->getSchemaForBroadcast($broadcast);
-            }
-            $schema = $structuredDataHelper->prepare($schemas, true);
 
             $daysOfBroadcasts = $this->groupBroadcasts($broadcasts);
             $daysOfBroadcasts = $this->addInBroadcastGaps($daysOfBroadcasts, $service);
@@ -99,7 +91,7 @@ class ByWeekController extends BaseController
             'twin_service' => $this->twinService($service, $servicesInNetwork),
             'page_presenter' => $pagePresenter,
             'schedule_reload' => $service->isInternational() && !$utcOffset,
-            'schema' => $schema,
+            'schema' => $this->getSchema($structuredDataHelper, $broadcasts),
         ];
 
         $serviceIsActiveInThisPeriod = $this->serviceIsActiveDuringWeek($service, $broadcastWeek);
@@ -239,5 +231,22 @@ class ByWeekController extends BaseController
         }
 
         return true;
+    }
+
+    /**
+     * @param StructuredDataHelper $structuredDataHelper
+     * @param Broadcast[] $broadcasts
+     * @return array|null
+     */
+    private function getSchema(StructuredDataHelper $structuredDataHelper, array $broadcasts): ?array
+    {
+        $schemas = [];
+        foreach ($broadcasts as $broadcast) {
+            $episode = $structuredDataHelper->getSchemaForEpisode($broadcast->getProgrammeItem(), true);
+            $episode['publication'] = $structuredDataHelper->getSchemaForBroadcast($broadcast);
+            $schemas[] = $episode;
+        }
+
+        return $schemas ? $structuredDataHelper->prepare($schemas, true) : null;
     }
 }

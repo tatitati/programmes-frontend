@@ -6,13 +6,13 @@ namespace Tests\App\Controller\Helpers;
 use App\Builders\BroadcastBuilder;
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
+use App\Builders\MasterBrandBuilder;
 use App\Builders\SeriesBuilder;
 use App\Builders\ServiceBuilder;
 use App\Controller\Helpers\SchemaHelper;
 use App\Controller\Helpers\StructuredDataHelper;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use App\Builders\MasterBrandBuilder;
 
 /**
  * @group seo_schema
@@ -124,7 +124,7 @@ class StructuredDataHelperTest extends TestCase
         ], $collapsedSchema);
 
         $this->assertEquals('BroadcastEvent', $collapsedSchema['@type']);
-        
+
         $this->assertCount(1, $collapsedSchema['publishedOn']);
     }
 
@@ -269,8 +269,10 @@ class StructuredDataHelperTest extends TestCase
         return $episode;
     }
 
-    private function assertKeys($expectedKeys, $schema)
+    private function assertKeys(array $expectedKeys, array $schema)
     {
-        $this->assertEquals($expectedKeys, array_keys($schema));
+        foreach ($expectedKeys as $expectedKey) {
+            $this->assertArrayHasKey($expectedKey, $schema);
+        }
     }
 }

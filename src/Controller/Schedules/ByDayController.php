@@ -10,6 +10,7 @@ use App\Ds2013\Presenters\Pages\Schedules\ByDayPage\SchedulesByDayPagePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ValueObject\BroadcastDay;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -83,11 +84,6 @@ class ByDayController extends BaseController
             }
         }
 
-        $schemas = [];
-        foreach ($broadcasts as $broadcast) {
-            $schemas[] = $structuredDataHelper->getSchemaForBroadcast($broadcast);
-        }
-
         $pagePresenter = new SchedulesByDayPagePresenter(
             $service,
             $broadcastDay->start(),
@@ -105,7 +101,7 @@ class ByDayController extends BaseController
             $pagePresenter,
             $service->isInternational() && !$this->request()->query->has('utcoffset'),
             !is_null($date),
-            $schemas ? $structuredDataHelper->prepare($schemas, true) : null
+            $this->getSchema($structuredDataHelper, $broadcasts)
         );
 
         // This is from a trait and sets a 404 status code or noindex on the controller
@@ -281,5 +277,22 @@ class ByDayController extends BaseController
         }
 
         return checkdate((int) $month, (int) $day, (int) $year);
+    }
+
+    /**
+     * @param StructuredDataHelper $structuredDataHelper
+     * @param Broadcast[] $broadcasts
+     * @return array|null
+     */
+    private function getSchema(StructuredDataHelper $structuredDataHelper, array $broadcasts): ?array
+    {
+        $schemas = [];
+        foreach ($broadcasts as $broadcast) {
+            $episode = $structuredDataHelper->getSchemaForEpisode($broadcast->getProgrammeItem(), true);
+            $episode['publication'] = $structuredDataHelper->getSchemaForBroadcast($broadcast);
+            $schemas[] = $episode;
+        }
+
+        return $schemas ? $structuredDataHelper->prepare($schemas, true) : null;
     }
 }

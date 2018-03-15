@@ -7,7 +7,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\ChronosInterval;
@@ -132,6 +131,7 @@ class SchemaHelper
         return [
             '@type' => $season->isRadio() ? 'RadioSeason' : 'TVSeason',
             'position' => $season->getPosition(),
+            'identifier' => $season->getPid(),
             'name' => $season->getTitle(),
             'url' => $this->router->generate('find_by_pid', ['pid' => $season->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
         ];

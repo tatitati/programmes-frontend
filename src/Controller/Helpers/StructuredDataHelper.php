@@ -6,10 +6,13 @@ namespace App\Controller\Helpers;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 
+/**
+ * Method names are BBC domain language
+ * Methods call out to Schema.org domain language methods from SchemaHelper
+ */
 class StructuredDataHelper
 {
     /** @var SchemaHelper */
