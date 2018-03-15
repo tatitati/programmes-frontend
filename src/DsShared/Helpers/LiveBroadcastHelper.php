@@ -136,7 +136,7 @@ class LiveBroadcastHelper
 
         'bbc_indonesian_radio'                  => ['worldservice_liveradio', ['language' => 'indonesia', 'sid' => 'bbc_indonesian_radio']],
 
-        'bbc_radio_cymru_2'                     => ['playspace_player', ['networkUrlKey' => 'radiocymru2']],
+        'bbc_radio_cymru_2'                     => ['playspace_player', ['sid' => 'bbc_radio_cymru_2']],
         'bbc_radio_solent_west_dorset'          => ['popup_player', ['sid' => 'bbc_radio_solent_west_dorset']],
         'bbc_radio_scotland_mw'                 => ['network', ['networkUrlKey' => 'radioscotland']],
         'bbc_world_service_americas'            => ['network', ['networkUrlKey' => 'worldserviceradio']],
