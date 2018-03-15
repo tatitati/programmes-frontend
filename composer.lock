@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce1bb3c536b5244498053e85042025d6",
+    "content-hash": "9c1b995a9b7f40c824682e4d0d154ae8",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -353,16 +353,16 @@
         },
         {
             "name": "bbc/gel-iconography-assets",
-            "version": "1.2.5",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/gel-iconography-assets.git",
-                "reference": "908354c3be5baaeccc5e1565ce9b409a8e560c82"
+                "reference": "b51a0ad782005bc91e3e87bc13e40d55cea79684"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/gel-iconography-assets/zipball/908354c3be5baaeccc5e1565ce9b409a8e560c82",
-                "reference": "908354c3be5baaeccc5e1565ce9b409a8e560c82",
+                "url": "https://api.github.com/repos/bbc/gel-iconography-assets/zipball/b51a0ad782005bc91e3e87bc13e40d55cea79684",
+                "reference": "b51a0ad782005bc91e3e87bc13e40d55cea79684",
                 "shasum": ""
             },
             "type": "library",
@@ -373,10 +373,10 @@
             },
             "description": "Assets for GEL icons",
             "support": {
-                "source": "https://github.com/bbc/gel-iconography-assets/tree/1.2.5",
+                "source": "https://github.com/bbc/gel-iconography-assets/tree/2.0.0",
                 "issues": "https://github.com/bbc/gel-iconography-assets/issues"
             },
-            "time": "2017-09-04T13:45:14+00:00"
+            "time": "2018-03-09T15:08:14+00:00"
         },
         {
             "name": "bbc/programmes-caching-library",
@@ -465,12 +465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "0a3c19e87ff334022991f8a8d1491d5666f4d7e4"
+                "reference": "1e6b47d80f50535e809fca16f6ddf2921622eab7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/0a3c19e87ff334022991f8a8d1491d5666f4d7e4",
-                "reference": "0a3c19e87ff334022991f8a8d1491d5666f4d7e4",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/1e6b47d80f50535e809fca16f6ddf2921622eab7",
+                "reference": "1e6b47d80f50535e809fca16f6ddf2921622eab7",
                 "shasum": ""
             },
             "require": {
@@ -513,7 +513,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2018-03-01T16:10:24+00:00"
+            "time": "2018-03-15T16:25:31+00:00"
         },
         {
             "name": "behat/transliterator",

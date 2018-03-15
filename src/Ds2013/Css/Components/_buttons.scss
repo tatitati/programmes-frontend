@@ -1,0 +1,24 @@
+.buttons--favourites-small {
+    display: inline-block;
+    height: 35px;
+    margin-top: -1px;
+    font-size: 21px;
+}
+
+.favourites-button {
+    margin-top: 18px;
+}
+
+.favourites-button-island {
+    padding: 0 $basic-spacing $basic-spacing;
+
+    .favourites-button {
+        margin-top: 2px;
+    }
+}
+
+@include mq($from: gel3) {
+    .favourites-button-island {
+        padding: 0 $wide-spacing $wide-spacing;
+    }
+}

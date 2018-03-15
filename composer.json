@@ -28,7 +28,7 @@
         "bbc-rmp/comscore": "^1.0.3",
         "bbc-rmp/translate": "^1.8",
         "bbc/branding-client": "^2.4.0",
-        "bbc/gel-iconography-assets": "^1.2",
+        "bbc/gel-iconography-assets": "^2.0",
         "bbc/programmes-pages-service": "dev-master@dev",
         "bbc/programmes-morph-library": "^1.0",
         "cakephp/chronos": "^1.1",

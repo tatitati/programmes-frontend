@@ -9,6 +9,7 @@ use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\PanelPlayoutPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelEmptyPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelMorePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelTxPresenter;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 
@@ -19,7 +20,7 @@ class EpisodeMapPresenter extends Presenter
 
     /** @var CollapsedBroadcast|null */
     private $lastOnBroadcast;
-    
+
     /** @var Episode */
     private $episode;
 
@@ -34,7 +35,7 @@ class EpisodeMapPresenter extends Presenter
     /** @var PanelDetailsPresenter */
     private $detailsSubpresenter;
 
-    public function __construct(Episode $episode, ?CollapsedBroadcast $upcomingBroadcasts, ?CollapsedBroadcast $lastOnBroadcasts)
+    public function __construct(PlayTranslationsHelper $playTranslationsHelper, Episode $episode, array $streamableVersions, ?CollapsedBroadcast $upcomingBroadcasts, ?CollapsedBroadcast $lastOnBroadcasts)
     {
         parent::__construct();
         $this->episode            = $episode;
@@ -42,7 +43,7 @@ class EpisodeMapPresenter extends Presenter
         $this->lastOnBroadcast   = $lastOnBroadcasts;
         $this->sideSubPresenters  = $this->buildSidePanelsSubPresenters();
         $this->playoutSubpresenter  = new PanelPlayoutPresenter($episode);
-        $this->detailsSubpresenter  = new PanelDetailsPresenter($episode);
+        $this->detailsSubpresenter  = new PanelDetailsPresenter($playTranslationsHelper, $episode, $streamableVersions);
     }
 
     /**

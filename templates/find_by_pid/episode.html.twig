@@ -4,6 +4,14 @@
 {% block title %}{{ meta_context.titlePrefix() }}{% endblock %}
 {% block adsToDisplay %}leaderboard mpu{% endblock %}
 
+{% block inline_head %}
+    {{ parent() }}
+
+    {% if favouritesButton %}
+        {{ favouritesButton.getHead()|raw }}
+    {% endif %}
+{% endblock %}
+
 {% block body %}
 
     {# TODO Leaderboard advert #}
@@ -130,4 +138,29 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% if favouritesButton %}
+        {{ favouritesButton.getBodyLast()|raw }}
+        <script>{{ favouritesButton.getScript()|raw }}</script>
+        <script>
+            require(['plugins/musicfavourite'], function(fav) {
+                var elem = document.getElementsByClassName("favourites-button")[0]; // DOM element within which to render the button
+                fav.render(elem, {
+                    'appid': 'radio',
+                    'type': 'programme',
+                    'id': '{{ programme.getPid() }}',
+                    'title': '{{ programme.getTitle() }}',
+                    'variant': 'small',
+                    'lang': '{{ tr('language_code')|lower }}',
+                    'platform': 'responsiveweb',
+                    'context-type': 'network_pid',
+                    'context-id': '{{ programme.getPid() }}'
+                });
+            });
+        </script>
+    {% endif %}
 {% endblock %}

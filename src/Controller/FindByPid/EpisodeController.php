@@ -3,13 +3,16 @@ declare(strict_types = 1);
 namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
-use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
+use App\Ds2013\PresenterFactory;
+use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
+use GuzzleHttp\Promise\FulfilledPromise;
 
 class EpisodeController extends BaseController
 {
@@ -19,7 +22,10 @@ class EpisodeController extends BaseController
         ProgrammesAggregationService $aggregationService,
         PromotionsService $promotionsService,
         RelatedLinksService $relatedLinksService,
-        CollapsedBroadcastsService $collapsedBroadcastsService
+        CollapsedBroadcastsService $collapsedBroadcastsService,
+        FavouritesButtonService $favouritesButtonService,
+        VersionsService $versionsService,
+        PresenterFactory $presenterFactory
     ) {
         $this->setIstatsProgsPageType('programmes_episode');
         $this->setContextAndPreloadBranding($episode);
@@ -46,15 +52,28 @@ class EpisodeController extends BaseController
             $lastOnBroadcasts = $collapsedBroadcastsService->findPastByProgramme($episode, 1);
         }
 
+        $streamableVersions = [];
+        if ($episode->isStreamableAlternatate()) {
+            $streamableVersions = $versionsService->findAvailableByProgrammeItem($episode);
+        }
+
         // TODO check $episode->getPromotionsCount() once it is populated in
         // Faucet to potentially save on a DB query
         $promotions = $promotionsService->findActivePromotionsByEntityGroupedByType($episode);
 
-        $episodeMapPresenter = new EpisodeMapPresenter(
+        $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
+            $streamableVersions,
             !empty($upcomingBroadcasts) ? reset($upcomingBroadcasts) : null,
             !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null
         );
+
+        $favouritesButtonPromise = new FulfilledPromise(null);
+        if ($episode->isRadio()) {
+            $favouritesButtonPromise = $favouritesButtonService->getContent();
+        }
+
+        $resolvedPromises = $this->resolvePromises(['favouritesButton' => $favouritesButtonPromise]);
 
         return $this->renderWithChrome('find_by_pid/episode.html.twig', [
             'contributions' => $contributions,
@@ -63,6 +82,7 @@ class EpisodeController extends BaseController
             'relatedLinks' => $relatedLinks,
             'promotions' => $promotions,
             'episodeMapPresenter' => $episodeMapPresenter,
+            'favouritesButton' => $resolvedPromises['favouritesButton'],
         ]);
     }
 }

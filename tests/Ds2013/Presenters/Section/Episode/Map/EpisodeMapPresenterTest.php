@@ -14,6 +14,7 @@ use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\AbstractSidePanelMap;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelEmptyPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelMorePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelTxPresenter;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
@@ -114,12 +115,14 @@ class EpisodeMapPresenterTest extends TestCase
 
     private function getPresenterWithPanels($onlyTxPanel = false, $onlyMorePanel = false)
     {
+        $playTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
+
         if (!$onlyMorePanel && !$onlyTxPanel) {
             $noTleoprogramme = $this->buildTleoProgramme();
             $upcomingBroadcast = null;
             $lastOnBroadcast = null;
 
-            return new EpisodeMapPresenter($noTleoprogramme, $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($playTranslationsHelper, $noTleoprogramme, [], $upcomingBroadcast, $lastOnBroadcast);
         }
 
         if ($onlyMorePanel && $onlyTxPanel) {
@@ -127,7 +130,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
             $lastOnBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
 
-            return new EpisodeMapPresenter($episode, $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($playTranslationsHelper, $episode, [], $upcomingBroadcast, $lastOnBroadcast);
         }
 
         if ($onlyTxPanel) {
@@ -135,7 +138,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
             $lastOnBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
 
-            return new EpisodeMapPresenter($episode, $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($playTranslationsHelper, $episode, [], $upcomingBroadcast, $lastOnBroadcast);
         }
 
         if ($onlyMorePanel) {
@@ -143,7 +146,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = null;
             $lastOnBroadcast = null;
 
-            return new EpisodeMapPresenter($episode, $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($playTranslationsHelper, $episode, [], $upcomingBroadcast, $lastOnBroadcast);
         }
     }
 }
