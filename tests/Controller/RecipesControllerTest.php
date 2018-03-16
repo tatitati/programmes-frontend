@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace Tests\App\Controller;
 
 use GuzzleHttp\Client as GuzzleClient;
-use Symfony\Bundle\FrameworkBundle\Client;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Tests\App\BaseWebTestCase;
 
 class RecipesControllerTest extends BaseWebTestCase

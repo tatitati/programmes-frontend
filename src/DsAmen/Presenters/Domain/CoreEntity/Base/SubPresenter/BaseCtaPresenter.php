@@ -4,10 +4,7 @@ declare(strict_types = 1);
 namespace App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter;
 
 use App\DsAmen\Presenter;
-use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class BaseCtaPresenter extends Presenter

@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Presenters\Domain\CoreEntity\Base;
 
+use App\DsAmen\Presenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseBodyPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseCtaPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseImagePresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseTitlePresenter;
-use App\DsAmen\Presenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;

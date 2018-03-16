@@ -5,8 +5,8 @@ namespace App\EventSubscriber;
 
 use BBC\BrandingClient\BrandingClient;
 use BBC\BrandingClient\OrbitClient;
-use BBC\ProgrammesMorphLibrary\MorphClient;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
+use BBC\ProgrammesMorphLibrary\MorphClient;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Presenters\Pages\Schedules\ByWeekPage;
 
-use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenter;
+use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\SingleServiceBroadcastInfoInterface;
 use Cake\Chronos\Chronos;

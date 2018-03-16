@@ -5,13 +5,12 @@ namespace App\ExternalApi\RecEng\Service;
 
 use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
-use Closure;
+use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
-use App\ExternalApi\Exception\ParseException;
-use GuzzleHttp\Promise\FulfilledPromise;
+use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;

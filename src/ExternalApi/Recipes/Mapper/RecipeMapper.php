@@ -7,7 +7,6 @@ use App\ExternalApi\Recipes\Domain\Chef;
 use App\ExternalApi\Recipes\Domain\ChefImage;
 use App\ExternalApi\Recipes\Domain\Recipe;
 use App\ExternalApi\Recipes\Domain\RecipeImage;
-use stdClass;
 
 class RecipeMapper
 {

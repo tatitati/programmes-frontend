@@ -3,17 +3,17 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Client;
 
+use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
+use Closure;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
 use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use App\ExternalApi\Exception\ParseException;
-use GuzzleHttp\Psr7\Response;
-use Closure;
 use Throwable;
 
 class HttpApiClient

@@ -2,12 +2,11 @@
 declare(strict_types = 1);
 namespace App\Controller;
 
-use App\Controller\BaseController;
 use App\ExternalApi\RecEng\Service\RecEngService;
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use GuzzleHttp\Promise\FulfilledPromise;
 

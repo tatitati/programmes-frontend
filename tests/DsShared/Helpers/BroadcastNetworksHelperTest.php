@@ -6,7 +6,6 @@ namespace Tests\App\DsShared\Helpers;
 use App\DsShared\Helpers\BroadcastNetworksHelper;
 use App\Translate\TranslateProvider;
 use App\ValueObject\BroadcastNetworkBreakdown;
-use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;

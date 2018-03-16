@@ -1,8 +1,6 @@
 <?php
 namespace Tests\App\Controller\FindByPid;
 
-use BBC\ProgrammesPagesService\Domain\ApplicationTime;
-use Cake\Chronos\Chronos;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Tests\App\BaseWebTestCase;
 

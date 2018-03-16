@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\Ada\Service;
 
-use App\ExternalApi\Client\HttpApiClient;
-use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Ada\Domain\AdaClass;
 use App\ExternalApi\Ada\Mapper\AdaClassMapper;
+use App\ExternalApi\Client\HttpApiClient;
+use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
-use Closure;
 
 /**
  * For querying Ada Classes, which are the overarching containers that

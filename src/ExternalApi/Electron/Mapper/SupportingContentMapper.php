@@ -7,9 +7,9 @@ use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use SimpleXMLElement;
-use DateTimeImmutable;
 use DateTime;
+use DateTimeImmutable;
+use SimpleXMLElement;
 
 class SupportingContentMapper
 {

@@ -5,8 +5,8 @@ namespace App\Ds2013\Presenters\Domain\Broadcast;
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\SingleServiceBroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\SingleServiceBroadcastInfoInterface;
 use Cake\Chronos\Chronos;
 
 class BroadcastPresenter extends Presenter

@@ -3,8 +3,8 @@
 namespace App\Exception\Handler;
 
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Activation strategy that ignores certain HTTP codes.

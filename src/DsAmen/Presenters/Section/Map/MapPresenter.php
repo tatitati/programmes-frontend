@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\DsAmen\Presenters\Section\Map;
 
+use App\DsAmen\Presenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\ComingSoonPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\LastOnPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\OnDemandPresenter;
@@ -10,7 +11,6 @@ use App\DsAmen\Presenters\Section\Map\SubPresenter\ProgrammeInfoPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\PromoPriorityPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\SocialBarPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\TxPresenter;
-use App\DsAmen\Presenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;

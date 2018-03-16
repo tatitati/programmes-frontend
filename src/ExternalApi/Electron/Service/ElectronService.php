@@ -7,13 +7,13 @@ use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Electron\Mapper\SupportingContentMapper;
-use Closure;
-use App\ExternalApi\XmlParser\XmlParser;
 use App\ExternalApi\Exception\ParseException;
+use App\ExternalApi\XmlParser\XmlParser;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use GuzzleHttp\Psr7\Response;
+use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
 use SimpleXMLElement;
 
 class ElectronService

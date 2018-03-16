@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Ada\Service;
 
-use App\ExternalApi\Ada\Domain\AdaClass;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;

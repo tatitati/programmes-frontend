@@ -4,10 +4,10 @@ declare(strict_types = 1);
 namespace App\DsAmen\Presenters\Domain\CoreEntity\Group;
 
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\BaseCoreEntityPresenter;
-use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseTitlePresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseBodyPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseCtaPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseImagePresenter;
+use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseTitlePresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Group\SubPresenter\MediaIconCtaPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Group\SubPresenter\TitlePresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\BodyPresenter;

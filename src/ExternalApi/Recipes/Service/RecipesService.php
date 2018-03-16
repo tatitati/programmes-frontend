@@ -9,9 +9,9 @@ use App\ExternalApi\Exception\ParseException;
 use App\ExternalApi\HttpApiService;
 use App\ExternalApi\Recipes\Domain\RecipesApiResult;
 use App\ExternalApi\Recipes\Mapper\RecipeMapper;
+use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
-use Closure;
 
 class RecipesService
 {
