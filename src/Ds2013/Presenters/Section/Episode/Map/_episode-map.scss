@@ -1,0 +1,90 @@
+.map__buttons {
+    vertical-align: middle;
+    margin-right: 11px; // due to weird paddings etc
+}
+
+.episode-panel__meta {
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+.episode-panel__intro {
+    overflow: hidden; // to prevent wrap
+    padding-bottom: 8px;
+    padding-right: 8px; // to ensure the content stays in the overflow box
+}
+
+.episode-panel__popout {
+    display: none;
+}
+
+@include mq-range('bpw') {
+    .map--count-2 {
+        overflow: hidden;
+    }
+
+    .map__column {
+        margin-top: $basic-spacing / 4;
+    }
+
+    .map__column--first .map__inner {
+        margin-right: $basic-spacing / 8;
+    }
+
+    .map__column--2 .map__inner {
+        margin-left: $basic-spacing / 8;
+    }
+
+    .map--episode {
+        .map__column {
+            margin-top: $basic-spacing;
+        }
+    }
+}
+
+@mixin episode-map-column($portion) {
+    .map--episode {
+        .map__column {
+            // cancel padding-left from .grid
+            padding-left: 0;
+            margin-top: $basic-spacing / $portion;
+        }
+    }
+}
+
+@include episode-map-column(1);
+
+@include mq-range('bpw2') {
+    @include episode-map-column(4);
+}
+
+@include mq-range('bpe') {
+    @include episode-map-column(4);
+
+    .episode-panel__popout .gelicon {
+        display: block;
+        width: 48px;
+        height: 48px;
+        text-align: center;
+        line-height: 48px;
+        font-size: 18px;
+    }
+
+    .episode-panel__popout:link,
+    .episode-panel__popout:visited {
+        display: block;
+        color: #ffffff;
+        background: #000000;
+        margin-right: 16px;
+        text-decoration: none;
+        float: left;
+    }
+
+    .episode-panel__popout:hover,
+    .episode-panel__popout:active,
+    .episode-panel__popout:focus {
+        text-decoration: none !important;
+        color: #ffffff !important;
+        background: $iplayer-pink !important; // colours matter here
+    }
+}

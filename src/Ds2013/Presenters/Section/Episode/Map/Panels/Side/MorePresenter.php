@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
-namespace App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
+namespace App\Ds2013\Presenters\Section\Episode\Map\Panels\Side;
 
 use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 
-class PanelPlayoutPresenter extends Presenter
+class MorePresenter extends Presenter
 {
     /** @var Episode */
     protected $episode;

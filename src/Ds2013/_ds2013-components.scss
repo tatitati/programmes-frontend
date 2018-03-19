@@ -84,7 +84,8 @@
 @import '../DsShared/Utilities/Synopsis/synopsis';
 
 // @import 'objects/lazylink';
-// @import 'objects/smp';
+@import 'Presenters/Section/Episode/Map/Panels/Main/playout';
+@import 'Presenters/Section/Episode/Map/episode-map';
 // @import 'objects/segments-list';
 // @import 'objects/segment';
 // @import 'objects/timebar';
@@ -112,7 +113,6 @@
 @import 'Css/PageSpecfic/Schedules/heading-links';
 @import 'Css/PageSpecfic/Schedules/lazyload';
 @import 'Presenters/Section/Footer/footer';
-@import 'Css/PageSpecfic/Episode/map';
 // @import 'modules/programmes/episode-panel';
 // @import 'modules/programmes/clip-panel';
 // @import 'modules/programmes/related-topics';

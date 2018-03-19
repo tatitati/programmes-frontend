@@ -2,21 +2,21 @@
 
 <div class="island">
     <div>
-        {% if panel_details.getEpisode().isTleo() %}
-            <h1 class="no-margin visually-hidden">{{ panel_details.getEpisode().getTitle() }}</h1>
+        {% if details.getEpisode().isTleo() %}
+            <h1 class="no-margin visually-hidden">{{ details.getEpisode().getTitle() }}</h1>
         {% else %}
-            <h1 class="no-margin">{{ panel_details.getEpisode().getTitle() }}</h1>
+            <h1 class="no-margin">{{ details.getEpisode().getTitle() }}</h1>
             <div class="gamma">
-                {{ ds_shared('entityContext', panel_details.getEpisode(), {'include_self': false}) }}
+                {{ ds_shared('entityContext', details.getEpisode(), {'include_self': false}) }}
 
-                {% if panel_details.getEpisode().getPosition() and panel_details.getEpisode().getParent().getExpectedChildCount() %}
-                    {% if panel_details.getEpisode().getParent().isTleo() %}
+                {% if details.getEpisode().getPosition() and details.getEpisode().getParent().getExpectedChildCount() %}
+                    {% if details.getEpisode().getParent().isTleo() %}
                         <span>
-                            {{ tr('episode_number', {'%1': panel_details.getEpisode().getPosition(), '%2': panel_details.getEpisode().getParent().getExpectedChildCount()}) }}
+                            {{ tr('episode_number', {'%1': details.getEpisode().getPosition(), '%2': details.getEpisode().getParent().getExpectedChildCount()}) }}
                         </span>
                     {% else %}
                         <span class="inset">
-                            {{ tr('episode_number', {'%1': panel_details.getEpisode().getPosition(), '%2': panel_details.getEpisode().getParent().getExpectedChildCount()}) }}
+                            {{ tr('episode_number', {'%1': details.getEpisode().getPosition(), '%2': details.getEpisode().getParent().getExpectedChildCount()}) }}
                         </span>
                     {% endif %}
                 {% endif %}
@@ -25,10 +25,10 @@
     </div>
     <div class="grid-wrapper">
         <div class="grid 2/3@bpw 3/4@bpe">
-            {{ self.intro(panel_details.getEpisode()) }}
+            {{ self.intro(details.getEpisode()) }}
         </div>
         <div class="grid 1/3@bpw 1/4@bpe">
-            {{ self.additionalInfo(panel_details) }}
+            {{ self.additionalInfo(details) }}
         </div>
     </div>
 </div>

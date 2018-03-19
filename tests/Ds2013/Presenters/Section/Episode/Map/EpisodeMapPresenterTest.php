@@ -8,16 +8,19 @@ use App\Builders\EpisodeBuilder;
 use App\Builders\SeriesBuilder;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\AbstractMainPanelMap;
-use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\PanelDetailsPresenter;
-use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\PanelPlayoutPresenter;
+use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\DetailsPresenter;
+use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\PlayoutPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\AbstractSidePanelMap;
-use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelEmptyPresenter;
-use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelMorePresenter;
-use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\PanelTxPresenter;
+use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
+use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\EmptyPresenter;
+use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\MorePresenter;
+use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\TxPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 
 /**
  * @group MapEpisode
@@ -37,7 +40,7 @@ class EpisodeMapPresenterTest extends TestCase
         $episodeMapPresenter = $this->getPresenterWithPanels($includeTxPanel, $includeMorePanel);
 
         $this->assertCount(2, $sidePanels = $episodeMapPresenter->getSidePanelsSubPresenters());
-        $this->assertInstanceOf(PanelTxPresenter::class, $txPanel = $sidePanels[0]);
+        $this->assertInstanceOf(TxPresenter::class, $txPanel = $sidePanels[0]);
     }
 
     /**
@@ -53,7 +56,7 @@ class EpisodeMapPresenterTest extends TestCase
         $episodeMapPresenter = $this->getPresenterWithPanels($includeTxPanel, $includeMorePanel);
 
         $this->assertCount(1, $sidePanels = $episodeMapPresenter->getSidePanelsSubPresenters());
-        $this->assertInstanceOf(PanelMorePresenter::class, $morePanel = $sidePanels[0]);
+        $this->assertInstanceOf(MorePresenter::class, $morePanel = $sidePanels[0]);
     }
 
     /**
@@ -68,7 +71,7 @@ class EpisodeMapPresenterTest extends TestCase
         $episodeMapPresenter = $this->getPresenterWithPanels($includeTxPanel, $includeMorePanel);
 
         $this->assertCount(1, $sidePanels = $episodeMapPresenter->getSidePanelsSubPresenters());
-        $this->assertInstanceOf(PanelEmptyPresenter::class, $emptyPanel = $sidePanels[0]);
+        $this->assertInstanceOf(EmptyPresenter::class, $emptyPanel = $sidePanels[0]);
     }
 
     public function testWhenThereIsNoMorePanelThenEmptyPanelIsDisplayed()
@@ -78,7 +81,7 @@ class EpisodeMapPresenterTest extends TestCase
         $episodeMapPresenter = $this->getPresenterWithPanels($includeTxPanel, $includeMorePanel);
 
         $this->assertCount(2, $sidePanels = $episodeMapPresenter->getSidePanelsSubPresenters());
-        $this->assertInstanceOf(PanelEmptyPresenter::class, $emptyPanel = $sidePanels[1]);
+        $this->assertInstanceOf(EmptyPresenter::class, $emptyPanel = $sidePanels[1]);
     }
 
     /**
@@ -92,8 +95,8 @@ class EpisodeMapPresenterTest extends TestCase
         $includeMorePanel = $faker->boolean();
         $episodeMapPresenter = $this->getPresenterWithPanels($includeTxPanel, $includeMorePanel);
 
-        $this->assertInstanceOf(PanelPlayoutPresenter::class, $episodeMapPresenter->getPlayoutSubpresenter());
-        $this->assertInstanceOf(PanelDetailsPresenter::class, $episodeMapPresenter->getDetailsSubpresenter());
+        $this->assertInstanceOf(PlayoutPresenter::class, $episodeMapPresenter->getPlayoutSubpresenter());
+        $this->assertInstanceOf(DetailsPresenter::class, $episodeMapPresenter->getDetailsSubpresenter());
     }
 
     /**
@@ -116,13 +119,15 @@ class EpisodeMapPresenterTest extends TestCase
     private function getPresenterWithPanels($onlyTxPanel = false, $onlyMorePanel = false)
     {
         $playTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
+        $liveBroadcastHelper = $this->createMock(LiveBroadcastHelper::class);
+        $router = $this->createMock(UrlGeneratorInterface::class);
 
         if (!$onlyMorePanel && !$onlyTxPanel) {
             $noTleoprogramme = $this->buildTleoProgramme();
             $upcomingBroadcast = null;
             $lastOnBroadcast = null;
 
-            return new EpisodeMapPresenter($playTranslationsHelper, $noTleoprogramme, [], $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $playTranslationsHelper, $noTleoprogramme, $upcomingBroadcast, $lastOnBroadcast, []);
         }
 
         if ($onlyMorePanel && $onlyTxPanel) {
@@ -130,7 +135,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
             $lastOnBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
 
-            return new EpisodeMapPresenter($playTranslationsHelper, $episode, [], $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, []);
         }
 
         if ($onlyTxPanel) {
@@ -138,7 +143,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
             $lastOnBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
 
-            return new EpisodeMapPresenter($playTranslationsHelper, $episode, [], $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, []);
         }
 
         if ($onlyMorePanel) {
@@ -146,7 +151,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = null;
             $lastOnBroadcast = null;
 
-            return new EpisodeMapPresenter($playTranslationsHelper, $episode, [], $upcomingBroadcast, $lastOnBroadcast);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, []);
         }
     }
 }

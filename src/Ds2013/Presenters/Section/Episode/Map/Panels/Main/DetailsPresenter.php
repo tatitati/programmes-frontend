@@ -9,7 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use Cake\Chronos\Chronos;
 use DateTime;
 
-class PanelDetailsPresenter extends Presenter
+class DetailsPresenter extends Presenter
 {
     /** @var Episode */
     private $episode;

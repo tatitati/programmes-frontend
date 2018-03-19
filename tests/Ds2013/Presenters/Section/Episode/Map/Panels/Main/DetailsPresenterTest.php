@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
 
 use App\Builders\EpisodeBuilder;
-use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\PanelDetailsPresenter;
+use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\DetailsPresenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group MapEpisode
  */
-class PanelDetailsPresenterTest extends TestCase
+class DetailsPresenterTest extends TestCase
 {
     public function setUp()
     {
@@ -31,7 +31,7 @@ class PanelDetailsPresenterTest extends TestCase
     public function testReleaseDateIsNull()
     {
         $episode = EpisodeBuilder::any()->with(['releaseDate' => null])->build();
-        $presenter = new PanelDetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
         $this->assertNull($presenter->getReleaseDate());
     }
 
@@ -39,7 +39,7 @@ class PanelDetailsPresenterTest extends TestCase
     {
         $releaseDate = new PartialDate(2012);
         $episode = EpisodeBuilder::any()->with(['releaseDate' => $releaseDate])->build();
-        $presenter = new PanelDetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
         $this->assertInstanceOf(DateTime::class, $presenter->getReleaseDate());
     }
 
@@ -49,7 +49,7 @@ class PanelDetailsPresenterTest extends TestCase
     public function testIndefiniteAvailability(?Chronos $streamableUntil, bool $availableIndefinately)
     {
         $episode = EpisodeBuilder::any()->with(['streamableUntil' => $streamableUntil])->build();
-        $presenter = new PanelDetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
         $this->assertSame($availableIndefinately, $presenter->isAvailableIndefinitely());
     }
 
@@ -70,7 +70,7 @@ class PanelDetailsPresenterTest extends TestCase
         $interval = $episode->getStreamableUntil()->diff(Chronos::now());
         $playTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
         $playTranslationsHelper->expects($this->once())->method('timeIntervalToWords')->with($interval, false, $string);
-        $presenter = new PanelDetailsPresenter($playTranslationsHelper, $episode, []);
+        $presenter = new DetailsPresenter($playTranslationsHelper, $episode, []);
         $presenter->getStreamableTimeRemaining();
     }
 
@@ -114,7 +114,7 @@ class PanelDetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', false),
             $this->createVersionMock('DubbedAudioDescribed', true),
         ];
-        $presenter = new PanelDetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertTrue($presenter->hasAvailableAudioDescribedVersion());
     }
 
@@ -125,7 +125,7 @@ class PanelDetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', true),
             $this->createVersionMock('DubbedAudioDescribed', false),
         ];
-        $presenter = new PanelDetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertFalse($presenter->hasAvailableAudioDescribedVersion());
     }
 
@@ -136,7 +136,7 @@ class PanelDetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', true),
             $this->createVersionMock('Signed', true),
         ];
-        $presenter = new PanelDetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertTrue($presenter->hasAvailableSignedVersion());
     }
 
@@ -147,7 +147,7 @@ class PanelDetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', true),
             $this->createVersionMock('Signed', false),
         ];
-        $presenter = new PanelDetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertFalse($presenter->hasAvailableSignedVersion());
     }
 

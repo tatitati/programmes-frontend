@@ -45,7 +45,7 @@ class EpisodeControllerTest extends BaseWebTestCase
     /**
      * [tx panel + empty panel]
      */
-    public function testLastPanelHasTwoSpecialCssClassOnLastPanel()
+    public function testLastPanelHasTwoSpecialCssClasses()
     {
         $episodeWithUpcomingBroadcasts = 'p3000002';
 

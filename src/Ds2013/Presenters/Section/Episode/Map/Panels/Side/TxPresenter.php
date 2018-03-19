@@ -6,7 +6,7 @@ use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 
-class PanelTxPresenter extends Presenter
+class TxPresenter extends Presenter
 {
     /** @var Episode */
     protected $episode;

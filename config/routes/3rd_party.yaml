@@ -48,10 +48,15 @@ popup_player:
     requirements: { sid: '[0-9a-z_]{1,}' }
     schemes: [http]
 
-playspace_player:
+playspace_live:
     path: /radio/play/live:{sid}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { sid: '[0-9a-z_]{1,}' }
+
+playspace_play:
+    path: /radio/play/{pid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 ### /programmes v2
 

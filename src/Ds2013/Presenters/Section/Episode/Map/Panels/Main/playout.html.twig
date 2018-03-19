@@ -1,0 +1,38 @@
+{% import _self as self %}
+
+<div class="episode-playout">
+    <div id="{{ playout.getPanelId() }}" class="playout">
+        {% if playout.doesntHaveOverlay() %}
+            {{ self.image(playout) }}
+        {% else %}
+            {% if playout.isAvailableForStreaming() %}
+                <a class="playout__blocklink" href="{{ playout.getUrl() }}">
+                    {{ self.image(playout) }}
+                    <div class="playout__overlay">
+                        <div class="playout__message playout__message--icon">
+                            <span class="playout__icon">{{ gelicon('audio-visual', playout.getIcon(), 'gelicon--fill-container') }}</span>
+                            <span class="playout__messagetext">{{ tr(playout.getAvailableTranslation()) }}</span>
+                        </div>
+                    </div>
+                </a>
+            {% else %}
+                {{ self.image(playout) }}
+                <div class="playout__overlay">
+                    <div class="playout__message delta">
+                        {{ tr(playout.getNotAvailableTranslation()) }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+{% macro image(playout) %}
+    {{ ds_shared(
+        'image',
+        playout.getEpisode().getImage(),
+        640,
+        {0: 1/1, 768: 2/3, 1008: 640},
+        {'is_lazy_loaded': false, srcsets: [80, 160, 320, 480, 640] }
+    ) }}
+{% endmacro %}

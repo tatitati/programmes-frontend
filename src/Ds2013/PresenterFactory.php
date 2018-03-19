@@ -172,16 +172,21 @@ class PresenterFactory
         );
     }
 
-    /**
-     * Pages
-     */
     public function episodeMapPresenter(
         Episode $programme,
         array $versions,
         ?CollapsedBroadcast $upcomingCollapsedBroadcast,
         ?CollapsedBroadcast $lastOnCollapsedBroadcast
     ) :EpisodeMapPresenter {
-        return new EpisodeMapPresenter($this->helperFactory->getPlayTranslationsHelper(), $programme, $versions, $upcomingCollapsedBroadcast, $lastOnCollapsedBroadcast);
+        return new EpisodeMapPresenter(
+            $this->router,
+            $this->helperFactory->getLiveBroadcastHelper(),
+            $this->helperFactory->getPlayTranslationsHelper(),
+            $programme,
+            $upcomingCollapsedBroadcast,
+            $lastOnCollapsedBroadcast,
+            $versions
+        );
     }
 
     /**
