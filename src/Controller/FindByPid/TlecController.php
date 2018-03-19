@@ -13,6 +13,7 @@ use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use App\ExternalApi\Morph\Service\LxPromoService;
 use App\ExternalApi\RecEng\Service\RecEngService;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
@@ -162,7 +163,7 @@ class TlecController extends BaseController
 
         $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
 
-        $schema = $this->getSchema($structuredDataHelper, $programme, $onDemandEpisode, $upcomingBroadcast);
+        $schema = $this->getSchema($structuredDataHelper, $programme, $onDemandEpisode, $upcomingBroadcast, $clips);
 
         $parameters = [
             'programme' => $programme,
@@ -314,10 +315,30 @@ class TlecController extends BaseController
         $this->setIstatsJustMissedLabel($lastOn);
     }
 
-    private function getSchema(StructuredDataHelper $structuredDataHelper, ProgrammeContainer $programme, ?Episode $onDemandEpisode, ?CollapsedBroadcast $upcomingBroadcast): array
-    {
+    /**
+     * @param StructuredDataHelper $structuredDataHelper
+     * @param ProgrammeContainer $programme
+     * @param Episode|null $onDemandEpisode
+     * @param CollapsedBroadcast|null $upcomingBroadcast
+     * @param Clip[] $clips
+     * @return array
+     * @throws \BBC\ProgrammesPagesService\Domain\Exception\DataNotFetchedException
+     */
+    private function getSchema(
+        StructuredDataHelper $structuredDataHelper,
+        ProgrammeContainer $programme,
+        ?Episode $onDemandEpisode,
+        ?CollapsedBroadcast $upcomingBroadcast,
+        array $clips = []
+    ): array {
         $schemaContext = $structuredDataHelper->getSchemaForProgrammeContainer($programme);
 
+        // clips
+        foreach ($clips as $clip) {
+            $schemaContext['hasPart'][] = $structuredDataHelper->buildSchemaForClip($clip);
+        }
+
+        // publications
         if (!$onDemandEpisode && !$upcomingBroadcast) {
             return $structuredDataHelper->prepare($schemaContext);
         }

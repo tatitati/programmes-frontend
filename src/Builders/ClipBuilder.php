@@ -47,4 +47,22 @@ class ClipBuilder extends AbstractBuilder
             'streamableUntil' => null,
         ];
     }
+
+    public static function anyRadioClip()
+    {
+        $self = new self();
+
+        return $self->with([
+            'masterBrand' => MasterBrandBuilder::anyRadioMasterBrand()->build(),
+        ]);
+    }
+
+    public static function anyTvClip()
+    {
+        $self = new self();
+
+        return $self->with([
+            'masterBrand' => MasterBrandBuilder::anyTVMasterBrand()->build(),
+        ]);
+    }
 }

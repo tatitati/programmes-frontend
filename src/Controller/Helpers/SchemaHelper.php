@@ -6,6 +6,7 @@ namespace App\Controller\Helpers;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -135,5 +136,23 @@ class SchemaHelper
             'name' => $season->getTitle(),
             'url' => $this->router->generate('find_by_pid', ['pid' => $season->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
         ];
+    }
+
+    public function buildSchemaForClip(Clip $clip) :array
+    {
+        $clipSchema = [];
+        $clipSchema['@type'] = $clip->isRadio() ? 'RadioClip' : 'TVClip';
+        $clipSchema['identifier'] = (string) $clip->getPid();
+        $clipSchema['name'] = $clip->getTitle();
+
+        if (!is_null($clip->getReleaseDate())) {
+            $clipSchema['datePublished'] = (string) $clip->getReleaseDate();
+        }
+
+        $clipSchema['url'] = $this->router->generate('find_by_pid', ['pid' => $clip->getPid()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $clipSchema['image'] = $clip->getImage()->getUrl(480);
+        $clipSchema['description'] = $clip->getShortSynopsis();
+
+        return $clipSchema;
     }
 }

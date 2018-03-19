@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Controller\Helpers;
 
+use App\Builders\ClipBuilder;
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
 use App\Builders\ImageBuilder;
@@ -26,7 +27,9 @@ class SchemaHelperTest extends TestCase
 
     public function setUp()
     {
-        $router = $this->createMock(UrlGeneratorInterface::class);
+        $router = $this->createConfiguredMock(UrlGeneratorInterface::class, [
+            'generate' => 'this/url/was/stubbed',
+        ]);
         $this->helper = new SchemaHelper($router);
     }
 
@@ -48,7 +51,7 @@ class SchemaHelperTest extends TestCase
             'description' => 'short',
             'identifier' => 'b0000002',
             'name' => 'some name',
-            'url' => null,
+            'url' => 'this/url/was/stubbed',
         ], $schema);
     }
 
@@ -73,7 +76,7 @@ class SchemaHelperTest extends TestCase
             'datePublished' => '3000-04-15',
             'image' => 'https://ichef.bbci.co.uk/images/ic/480xn/b0000003.jpg',
             'name' => 'some name',
-            'url' => null,
+            'url' => 'this/url/was/stubbed',
         ], $schema);
     }
 
@@ -88,7 +91,7 @@ class SchemaHelperTest extends TestCase
 
         $this->assertEquals([
             '@type' => 'OnDemandEvent',
-            'url' => null,
+            'url' => 'this/url/was/stubbed',
             'publishedOn' => [
                 '@type' => 'BroadcastService',
                 'broadcaster' => [
@@ -148,7 +151,67 @@ class SchemaHelperTest extends TestCase
             'identifier' => 'b0000002',
             'position' => $series->getPosition(),
             'name' => $series->getTitle(),
-            'url' => null,
+            'url' => 'this/url/was/stubbed',
         ], $schema);
+    }
+
+    /**
+     *
+     * [x] - Test communication between our clip schema generator and the router framework
+     *
+     */
+    public function testTheUrlTryToGenerateTheUrlOfClipUsingThePidOFTheCLip()
+    {
+        $routerMock = $this->createMock(UrlGeneratorInterface::class);
+        $routerMock->expects($this->once())->method('generate')->with('find_by_pid', ['pid' => new Pid('b00819mm')]);
+
+        $clip = ClipBuilder::anyRadioClip()->with(['pid' => new Pid('b00819mm')])->build();
+
+        (new SchemaHelper($routerMock))->buildSchemaForClip($clip);
+    }
+
+    /**
+     *
+     * [x] - Clips: Has the right values and keys for all fields
+     *
+     */
+    public function testValuesInClipSchemaAreCorrect()
+    {
+        $clip = ClipBuilder::anyRadioClip()->with([
+            'parent' => SeriesBuilder::any()->build(),
+            'pid' => new Pid('b00818rm'),
+            'title' => 'a clip title',
+            'releaseDate' => new PartialDate(2030, 02, 02),
+            'synopses' => new Synopses('short', 'medium', 'long'),
+            'image' => ImageBuilder::anyWithPid('b00819mm')->build(),
+        ])->build();
+
+        $schema = $this->helper->buildSchemaForClip($clip);
+
+        $this->assertEquals([
+            '@type' => 'RadioClip',
+            'identifier' => 'b00818rm',
+            'name' => 'a clip title',
+            'datePublished' => '2030-02-02',
+            'url' => 'this/url/was/stubbed',
+            'image' => 'https://ichef.bbci.co.uk/images/ic/480xn/b00819mm.jpg',
+            'description' => 'short',
+        ], $schema);
+    }
+
+    /**
+     *
+     * [x] - Clips: Some fields might not appear when not configured
+     *
+     */
+    public function testOptionalValuesNotAppearWhenNotConfigured()
+    {
+        $clip = ClipBuilder::anyRadioClip()->with([
+            'parent' => SeriesBuilder::any()->build(),
+        ])->build();
+
+        $schema = $this->helper->buildSchemaForClip($clip);
+        
+        $this->assertArrayNotHasKey('releaseDate', $schema, 'releaseDate is an optional field: cannot exist if the clip has not a releaseDate');
     }
 }

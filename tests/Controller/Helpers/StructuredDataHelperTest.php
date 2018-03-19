@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Controller\Helpers;
 
 use App\Builders\BroadcastBuilder;
+use App\Builders\ClipBuilder;
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
 use App\Builders\MasterBrandBuilder;
@@ -19,6 +20,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class StructuredDataHelperTest extends TestCase
 {
+    /** @var StructuredDataHelper */
+    private $helper;
+
+    public function setUp()
+    {
+        $router = $this->createMock(UrlGeneratorInterface::class);
+        $this->helper = new StructuredDataHelper(new SchemaHelper($router));
+    }
+
     /**
      *
      * [x] - Basic braodcasts and collapsedBroadcasts has correct info
@@ -28,7 +38,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $onDemandEpisode = EpisodeBuilder::any()->build();
 
-        $ondemandSchema = $this->helper()->getSchemaForOnDemand($onDemandEpisode);
+        $ondemandSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode);
 
         $this->assertKeys([
             '@type',
@@ -45,7 +55,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $onDemandEpisode = EpisodeBuilder::any()->build();
 
-        $publishedOnSchema = $this->helper()->getSchemaForOnDemand($onDemandEpisode)['publishedOn'];
+        $publishedOnSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode)['publishedOn'];
 
         $this->assertKeys([
             '@type',
@@ -61,7 +71,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $onDemandEpisode = EpisodeBuilder::any()->build();
 
-        $broadcasterSchema = $this->helper()->getSchemaForOnDemand($onDemandEpisode)['publishedOn']['broadcaster'];
+        $broadcasterSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode)['publishedOn']['broadcaster'];
 
         $this->assertKeys([
             '@type',
@@ -78,7 +88,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $broadcast = BroadcastBuilder::any()->build();
 
-        $broadcastSchema = $this->helper()->getSchemaForBroadcast($broadcast);
+        $broadcastSchema = $this->helper->getSchemaForBroadcast($broadcast);
 
         $this->assertKeys([
             '@type',
@@ -94,7 +104,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $broadcast = BroadcastBuilder::any()->build();
 
-        $broadcastSchema = $this->helper()->getSchemaForBroadcast($broadcast);
+        $broadcastSchema = $this->helper->getSchemaForBroadcast($broadcast);
 
         $this->assertKeys([
             '@type',
@@ -114,7 +124,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $collapsedBroadcast = CollapsedBroadcastBuilder::any()->build();
 
-        $collapsedSchema = $this->helper()->getSchemaForCollapsedBroadcast($collapsedBroadcast);
+        $collapsedSchema = $this->helper->getSchemaForCollapsedBroadcast($collapsedBroadcast);
 
         $this->assertKeys([
             '@type',
@@ -137,7 +147,7 @@ class StructuredDataHelperTest extends TestCase
             ],
         ])->build();
 
-        $publishedOnSchema = $this->helper()->getSchemaForCollapsedBroadcast($collapsedBroadcast)['publishedOn'];
+        $publishedOnSchema = $this->helper->getSchemaForCollapsedBroadcast($collapsedBroadcast)['publishedOn'];
 
         $this->assertCount(2, $publishedOnSchema);
     }
@@ -164,7 +174,7 @@ class StructuredDataHelperTest extends TestCase
             'masterBrand' => MasterBrandBuilder::anyRadioMasterBrand()->build(),
         ])->build();
 
-        $containerSchema = $this->helper()->getSchemaForProgrammeContainer($series);
+        $containerSchema = $this->helper->getSchemaForProgrammeContainer($series);
 
         $this->assertKeys([
             '@type',
@@ -188,7 +198,7 @@ class StructuredDataHelperTest extends TestCase
         $tlecSeriesFather = SeriesBuilder::any()->build();
         $nestedEpisode = EpisodeBuilder::any()->with(['parent' => $tlecSeriesFather])->build();
 
-        $episodeSchema = $this->helper()->getSchemaForEpisode($nestedEpisode, true);
+        $episodeSchema = $this->helper->getSchemaForEpisode($nestedEpisode, true);
 
         $this->assertEquals('TVEpisode', $episodeSchema['@type']);
         $this->assertArrayHasKey('partOfSeries', $episodeSchema);
@@ -199,7 +209,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $nestedEpisode = $this->getEpisodeNestedInMultipleSeries();
 
-        $episodeSchema = $this->helper()->getSchemaForEpisode($nestedEpisode, true);
+        $episodeSchema = $this->helper->getSchemaForEpisode($nestedEpisode, true);
 
         $this->assertArrayHasKey('partOfSeries', $episodeSchema);
         $this->assertArrayHasKey('partOfSeason', $episodeSchema);
@@ -225,7 +235,7 @@ class StructuredDataHelperTest extends TestCase
     {
         $nestedEpisode = $this->getEpisodeNestedInMultipleSeries();
 
-        $episodeSchema = $this->helper()->getSchemaForEpisode($nestedEpisode, false);
+        $episodeSchema = $this->helper->getSchemaForEpisode($nestedEpisode, false);
 
         $this->assertArrayNotHasKey('partOfSeries', $episodeSchema);
         $this->assertArrayNotHasKey('partOfSeason', $episodeSchema);
@@ -238,7 +248,7 @@ class StructuredDataHelperTest extends TestCase
      */
     public function testContextAddCorrectContent()
     {
-        $schema = $this->helper()->prepare([['foo' => 'bar'], ['baz' => 'qux']], true);
+        $schema = $this->helper->prepare([['foo' => 'bar'], ['baz' => 'qux']], true);
 
         $this->assertEquals([
             '@context' => 'http://schema.org',
@@ -250,14 +260,17 @@ class StructuredDataHelperTest extends TestCase
     }
 
     /**
-     * Helpers test
+     * [x] - Clips are generated
      */
-    private function helper()
+    public function testCanCreateClipsSchemas()
     {
-        $router = $this->createMock(UrlGeneratorInterface::class);
-        $helper = new StructuredDataHelper(new SchemaHelper($router));
+        $clip = ClipBuilder::anyRadioClip()->with([
+            'parent' => SeriesBuilder::any()->build(),
+        ])->build();
 
-        return $helper;
+        $schemaClips = $this->helper->buildSchemaForClip($clip);
+
+        $this->assertEquals('RadioClip', $schemaClips['@type'], 'We built a radio clip, so the schema:@type should be RadioClip');
     }
 
     private function getEpisodeNestedInMultipleSeries()

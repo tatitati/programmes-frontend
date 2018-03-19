@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller\Helpers;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
@@ -76,6 +77,11 @@ class StructuredDataHelper
 
         // @Todo add schema.org markup for non TLEO containers
         return [];
+    }
+
+    public function buildSchemaForClip(Clip $clip) :array
+    {
+        return $this->schemaHelper->buildSchemaForClip($clip);
     }
 
     private function getSchemaForService(Service $service): array

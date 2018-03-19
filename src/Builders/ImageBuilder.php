@@ -23,4 +23,11 @@ class ImageBuilder extends AbstractBuilder
             'extension' => 'jpg',
         ];
     }
+
+    public static function anyWithPid($pid)
+    {
+        $self = new self();
+
+        return $self->with(['pid' => new Pid($pid)]);
+    }
 }
