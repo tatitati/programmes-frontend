@@ -83,7 +83,7 @@ class EpisodeMapPresenter extends Presenter
     {
         $sidePanels = [];
         if ($this->mustDisplayTxPanel()) {
-            $sidePanels[] = new TxPresenter($this->episode, $this->upcomingBroadcast, $this->lastOnBroadcast);
+            $sidePanels[] = new TxPresenter($this->upcomingBroadcast, $this->lastOnBroadcast);
         }
 
         if (!$this->episode->isTleo()) {

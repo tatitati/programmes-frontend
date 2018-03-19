@@ -49,7 +49,7 @@ class EpisodeController extends BaseController
         if ($episode->getFirstBroadcastDate()) {
             // Only search for broadcasts if a programme has them
             $upcomingBroadcasts = $collapsedBroadcastsService->findUpcomingByProgrammeWithFullServicesOfNetworksList($episode, 1);
-            $lastOnBroadcasts = $collapsedBroadcastsService->findPastByProgramme($episode, 1);
+            $lastOnBroadcasts = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($episode, 1);
         }
 
         $streamableVersions = [];

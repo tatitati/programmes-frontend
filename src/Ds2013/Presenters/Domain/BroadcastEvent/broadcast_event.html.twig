@@ -43,7 +43,17 @@
         </div>
     </div>
 </div>
-{% if (broadcast_event.isOnAir()) %}
+
+{%- if broadcast_event.getOption('show_watch_from_start') and broadcast_event.getRewindUrl() -%}
+    <p class="programme__live hidden visible@bpw">
+        <a class="link-complex--sub" href="{{ broadcast_event.rewindUrl() }}">
+            {{ gelicon('basics', 'live-restart', 'gelicon gelicon--centi gelicon--leading') }}
+            {{ tr('iplayer_watch_from_start') }}
+       </a>
+    </p>
+{% endif %}
+
+{% if (broadcast_event.getOption('show_on_air_message') and broadcast_event.isOnAir()) %}
     <div class="broadcast__live centi br-box-highlight">
         {{ tr(broadcast_event.getOnAirMessage) }}
     </div>

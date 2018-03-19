@@ -152,6 +152,7 @@ class PresenterFactory
             $collapsedBroadcast,
             $this->helperFactory->getBroadcastNetworksHelper(),
             $this->helperFactory->getLocalisedDaysAndMonthsHelper(),
+            $this->helperFactory->getLiveBroadcastHelper(),
             $this->router,
             $options
         );

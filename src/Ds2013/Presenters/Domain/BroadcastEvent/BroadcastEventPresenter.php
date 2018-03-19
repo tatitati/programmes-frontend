@@ -5,6 +5,7 @@ namespace App\Ds2013\Presenters\Domain\BroadcastEvent;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\BroadcastNetworksHelper;
+use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\LocalisedDaysAndMonthsHelper;
 use App\Exception\InvalidOptionException;
 use App\ValueObject\BroadcastNetworkBreakdown;
@@ -23,6 +24,9 @@ class BroadcastEventPresenter extends Presenter
     /** @var LocalisedDaysAndMonthsHelper */
     private $daysAndMonthsHelper;
 
+    /** @var LiveBroadcastHelper */
+    private $liveBroadcastHelper;
+
     /** @var UrlGeneratorInterface */
     private $router;
 
@@ -31,12 +35,15 @@ class BroadcastEventPresenter extends Presenter
         'container_classes' => '',
         'image_classes' => '',
         'show_logo' => true,
+        'show_watch_from_start' => false,
+        'show_on_air_message' => true,
     ];
 
     public function __construct(
         CollapsedBroadcast $collapsedBroadcast,
         BroadcastNetworksHelper $broadcastNetworksHelper,
         LocalisedDaysAndMonthsHelper $daysAndMonthsHelper,
+        LiveBroadcastHelper $liveBroadcastHelper,
         UrlGeneratorInterface $router,
         array $options = []
     ) {
@@ -45,6 +52,7 @@ class BroadcastEventPresenter extends Presenter
         $this->networkBreakdown = $broadcastNetworksHelper->getNetworksAndServicesDetails($collapsedBroadcast);
         $this->daysAndMonthsHelper = $daysAndMonthsHelper;
         $this->router = $router;
+        $this->liveBroadcastHelper = $liveBroadcastHelper;
     }
 
     /** @return BroadcastNetworkBreakdown[] */
@@ -86,6 +94,15 @@ class BroadcastEventPresenter extends Presenter
         return $this->collapsedBroadcast->getProgrammeItem()->isRadio() ? 'on_air' : 'on_now';
     }
 
+    public function getRewindUrl(): ?string
+    {
+        if ($this->collapsedBroadcast->getProgrammeItem()->isTv() && $this->liveBroadcastHelper->isWatchableLive($this->collapsedBroadcast)) {
+            return $this->liveBroadcastHelper->simulcastUrl($this->collapsedBroadcast, null, ['rewindTo' => 'current']);
+        }
+
+        return null;
+    }
+
     protected function validateOptions(array $options): void
     {
         parent::validateOptions($options);
@@ -100,6 +117,14 @@ class BroadcastEventPresenter extends Presenter
 
         if (!is_string($this->getOption('image_classes'))) {
             throw new InvalidOptionException("image_classes must a string");
+        }
+
+        if (!is_bool($this->getOption('show_watch_from_start'))) {
+            throw new InvalidOptionException("show_watch_from_start must a boolean");
+        }
+
+        if (!is_bool($this->getOption('show_on_air_message'))) {
+            throw new InvalidOptionException("show_on_air_message must a boolean");
         }
     }
 }

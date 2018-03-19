@@ -17,7 +17,6 @@ use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\EmptyPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\MorePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\TxPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouteCollectionBuilder;
@@ -89,11 +88,7 @@ class EpisodeMapPresenterTest extends TestCase
      */
     public function testGroupMainSubPresenters()
     {
-        $faker = Factory::create();
-        // testing main panels, doesnt matter these side panels
-        $includeTxPanel = $faker->boolean();
-        $includeMorePanel = $faker->boolean();
-        $episodeMapPresenter = $this->getPresenterWithPanels($includeTxPanel, $includeMorePanel);
+        $episodeMapPresenter = $this->getPresenterWithPanels();
 
         $this->assertInstanceOf(PlayoutPresenter::class, $episodeMapPresenter->getPlayoutSubpresenter());
         $this->assertInstanceOf(DetailsPresenter::class, $episodeMapPresenter->getDetailsSubpresenter());

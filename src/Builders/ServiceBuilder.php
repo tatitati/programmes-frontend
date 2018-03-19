@@ -3,6 +3,7 @@
 namespace App\Builders;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use Faker\Factory;
@@ -27,5 +28,19 @@ class ServiceBuilder extends AbstractBuilder
             'endDate' => null,
             'liveStreamUrl' => null,
         ];
+    }
+
+    public static function anyRadioService()
+    {
+        return self::any()->with([
+            'network' => NetworkBuilder::any()->with(['medium' => NetworkMediumEnum::RADIO])->build(),
+        ]);
+    }
+
+    public static function anyTVService()
+    {
+        return self::any()->with([
+            'network' => NetworkBuilder::any()->with(['medium' => NetworkMediumEnum::TV])->build(),
+        ]);
     }
 }

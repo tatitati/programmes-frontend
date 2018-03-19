@@ -1,5 +1,10 @@
 <div class="island">
-    PANEL: [SIDE/TX]
+    <h2>{{ tr(tx.getTitle()) }}</h2>
 
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+    {{-
+        ds2013('broadcastEvent', tx.getCollapsedBroadcast(), {
+            'show_watch_from_start':true,
+            'show_on_air_message': false
+        })
+    -}}
 </div>

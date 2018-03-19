@@ -20,6 +20,7 @@ class CollapsedBroadcastBuilder extends AbstractBuilder
             'services' => [ServiceBuilder::any()->build()],
             'startAt' => $time,
             'endAt' => $time,
+            'duration' => $faker->numberBetween(100, 200),
             'isBlanked' => $faker->boolean,
             'isRepeat' => $faker->boolean,
         ];
@@ -27,19 +28,43 @@ class CollapsedBroadcastBuilder extends AbstractBuilder
 
     public static function anyOfClip()
     {
-        $self = new self();
-
-        return $self->with([
+        return self::any()->with([
             'programmeItem' => ClipBuilder::any()->build(),
         ]);
     }
 
     public static function anyOfEpisode()
     {
-        $self = new self();
-
-        return $self->with([
+        return self::any()->with([
             'programmeItem' => EpisodeBuilder::any()->build(),
+        ]);
+    }
+
+    public static function anyLive()
+    {
+        return self::any()->with([
+            'startAt'  => Chronos::yesterday(),
+            'endAt' => Chronos::tomorrow(),
+        ]);
+    }
+
+    public static function anyOnPast()
+    {
+        $yesterday = Chronos::yesterday();
+
+        return self::any()->with([
+            'startAt'  => $yesterday->modify('-1 days'),
+            'endAt' => $yesterday,
+        ]);
+    }
+
+    public static function anyOnFuture()
+    {
+        $tomorrow = Chronos::tomorrow();
+
+        return self::any()->with([
+            'startAt' => $tomorrow,
+            'endAt' => $tomorrow->modify('+1 days'),
         ]);
     }
 }
