@@ -62,4 +62,9 @@ class EpisodeGuideListPresenter extends Presenter
     {
         return 'h' . $this->nestedLevel;
     }
+
+    public function getNextOnHeadingTag(): string
+    {
+        return 'h' . ($this->nestedLevel + 1);
+    }
 }

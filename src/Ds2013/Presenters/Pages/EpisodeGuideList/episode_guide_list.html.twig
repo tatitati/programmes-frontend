@@ -56,7 +56,7 @@
                             <div class="grid-wrapper">
                                 <div class="grid 1/2">
                                     {%- if episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()) is not null -%}
-                                        <{{ episode_guide_list.getHeadingTag() }} class="delta no-margin">{{ tr('next_on') }}</{{ episode_guide_list.getHeadingTag() }}>
+                                        <{{ episode_guide_list.getNextOnHeadingTag() }} class="delta no-margin">{{ tr('next_on') }}</{{ episode_guide_list.getHeadingTag() }}>
                                         {{- ds2013('broadcastEvent', episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()), {
                                             'show_logo': false
                                         }) -}}
