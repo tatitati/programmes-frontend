@@ -76,14 +76,14 @@ class PlayoutPresenterTest extends TestCase
 
         return [
             'Broadcast in the future and episode available in the future shows availability_shortly' => [
-                'availability_shortly',
+                'available_shortly',
                 true,
                 false,
                 false,
                 $future,
             ],
             'Broadcast in the future and episode not available in the future but is from radio shows availability_shortly' => [
-                'availability_shortly',
+                'available_shortly',
                 false,
                 true,
                 false,

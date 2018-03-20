@@ -118,7 +118,7 @@ class PlayoutPresenter extends Presenter
         if ($this->broadcast && $this->broadcast->getStartAt()->isFuture() &&
             ($this->episode->hasFutureAvailability() || $this->episode->isRadio())
         ) {
-            return 'availability_shortly';
+            return 'available_shortly';
         }
 
         if ($this->episode->hasFutureAvailability()) {
