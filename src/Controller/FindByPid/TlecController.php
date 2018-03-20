@@ -142,11 +142,16 @@ class TlecController extends BaseController
         $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority, isset($resolvedPromises['lxPromo']));
         $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
 
+        $firstRegularPromotion = null;
+        if ($isPromoPriority) {
+            $firstRegularPromotion = $this->extractFirstRegularPromotionAndUpdateList($promotions);
+        }
+
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,
             $upcomingBroadcast,
             $lastOn,
-            $promotions[0] ?? null,
+            $firstRegularPromotion,
             $comingSoonPromo,
             $onDemandEpisode,
             $upcomingRepeatsAndDebutsCounts['debuts'],
@@ -154,12 +159,6 @@ class TlecController extends BaseController
             $isPromoPriority,
             $showMiniMap
         );
-
-        // This is ugly but I don't know how else to do it. If promo priority is active the first promo moves
-        // into the MAP
-        if ($isPromoPriority) {
-            array_shift($promotions);
-        }
 
         $this->setIstatsLabelsForTlec($onDemandEpisode, $upcomingBroadcast, $lastOn);
 
@@ -379,5 +378,20 @@ class TlecController extends BaseController
     private function isSamePublication(Episode $onDemandEpisode, CollapsedBroadcast $upcomingBroadcast)
     {
         return (string) $onDemandEpisode->getPid() == (string) $upcomingBroadcast->getProgrammeItem()->getPid();
+    }
+
+    /**
+     * @param Promotion[] $promotions
+     */
+    private function extractFirstRegularPromotionAndUpdateList(array &$promotions) :?Promotion
+    {
+        foreach ($promotions as $index => $promotion) {
+            if (!$promotion->isSuperPromotion()) {
+                unset($promotions[$index]);
+                return $promotion;
+            }
+        }
+
+        return null;
     }
 }
