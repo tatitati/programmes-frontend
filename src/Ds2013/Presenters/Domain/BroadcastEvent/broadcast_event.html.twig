@@ -8,15 +8,14 @@
     (broadcast_event.getOption('image_classes')): broadcast_event.getOption('show_logo'),
 }) -%}
 
-{%- set programme_item_network = broadcast_event.getCollapsedBroadcast().getProgrammeItem().getNetwork() -%}
-
 <div class="{{ object_classes }}">
-    {%- if programme_item_network and broadcast_event.getOption('show_logo') -%}
+    {%- if broadcast_event.getOption('show_logo') and broadcast_event.getMainBroadcastNetwork() is not null -%}
+        {% set mainBroadcastNetwork = broadcast_event.getMainBroadcastNetwork() %}
         <div class="{{ network_image_classes }}">
-            {%- if programme_item_network.getUrlKey() -%}
-                <a href="{{ broadcast_event.getNetworkUrl(programme_item_network) }}"><img src="{{ asset('images/logos/112x63/' ~ programme_item_network.getNid() ~ '.png') }}" alt="" width="64" height="36"></a>
+            {%- if mainBroadcastNetwork.getUrlKey() -%}
+                <a href="{{ broadcast_event.getNetworkUrl(mainBroadcastNetwork) }}"><img src="{{ asset('images/logos/64x36/' ~ mainBroadcastNetwork.getNid() ~ '.png') }}" alt="" width="64" height="36"></a>
             {%- else -%}
-                <img src="{{ asset('images/logos/112x63/' ~ programme_item_network.getNid() ~ '.png') }}" alt="" width="64" height="36">
+                <img src="{{ asset('images/logos/64x36/' ~ mainBroadcastNetwork.getNid() ~ '.png') }}" alt="" width="64" height="36">
             {%- endif -%}
         </div>
     {%- endif -%}

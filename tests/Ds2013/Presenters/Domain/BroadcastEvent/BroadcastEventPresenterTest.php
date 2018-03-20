@@ -5,11 +5,13 @@ namespace Tests\App\Ds2013\Presenters\Domain\BroadcastEvent;
 
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
+use App\Builders\NetworkBuilder;
 use App\Builders\ServiceBuilder;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
 use App\DsShared\Helpers\BroadcastNetworksHelper;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\LocalisedDaysAndMonthsHelper;
+use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -105,6 +107,63 @@ class BroadcastEventPresenterTest extends TestCase
     }
 
     /**
+     * [ network breakdown ]. If CBroadcasts has networks, then we can get a first network
+     */
+    public function testGetFirstNetworkWhenExistNetworks()
+    {
+        // setup
+        $dummy1 = $this->createMock(LocalisedDaysAndMonthsHelper::class);
+        $dummy2 = $this->createMock(LiveBroadcastHelper::class);
+        $dummy3 = $this->createMock(UrlGeneratorInterface::class);
+        $dummy4 = $this->createMock(TranslateProvider::class);
+
+        list($network1, $network2, $cBroadcasts) = $this->buildCBroadcastsWithNetworksAndServices();
+        $cBroadcastEventPresenter = new BroadcastEventPresenter(
+            $cBroadcasts,
+            new BroadcastNetworksHelper($dummy4),
+            $dummy1,
+            $dummy2,
+            $dummy3
+        );
+
+        // exercise
+        $firstNetwork = $cBroadcastEventPresenter->getMainBroadcastNetwork();
+
+        $this->assertEquals($network1, $firstNetwork);
+    }
+
+    /**
+     * [ network breakdown ]. If CBroadcasts has no networks, then we get null
+     */
+    public function testGetFirstNetworkWhenDoesntExistNetworks()
+    {
+        // setup
+        $dummy1 = $this->createMock(LocalisedDaysAndMonthsHelper::class);
+        $dummy2 = $this->createMock(LiveBroadcastHelper::class);
+        $dummy3 = $this->createMock(UrlGeneratorInterface::class);
+        $dummy4 = $this->createMock(TranslateProvider::class);
+
+        $cBroadcasts = CollapsedBroadcastBuilder::any()->with(['services' => [
+            ServiceBuilder::any()->build(),
+            ServiceBuilder::any()->build(),
+            ],
+        ])->build();
+
+        $cBroadcastEventPresenter = new BroadcastEventPresenter(
+            $cBroadcasts,
+            new BroadcastNetworksHelper($dummy4),
+            $dummy1,
+            $dummy2,
+            $dummy3
+        );
+
+        // exercise
+        $firstNetwork = $cBroadcastEventPresenter->getMainBroadcastNetwork();
+
+        $this->assertNull($firstNetwork);
+    }
+
+    /**
      * Build watchable broadcast to exercise simulcast feature.
      *
      * @param Service[] $services
@@ -159,5 +218,28 @@ class BroadcastEventPresenterTest extends TestCase
             ServiceBuilder::any()->with(['sid' => new Sid('bbc_network_without_live_broadcast1')])->build(),
             ServiceBuilder::any()->with(['sid' => new Sid('bbc_network_without_live_broadcast2')])->build(),
         ];
+    }
+
+    private function buildCBroadcastsWithNetworksAndServices() :array
+    {
+        $network1 = NetworkBuilder::any()->with(['services' => [
+            ServiceBuilder::anyTVService()->build(),
+            ServiceBuilder::anyTVService()->build(),
+        ],
+        ])->build();
+
+        $network2 = NetworkBuilder::any()->with(['services' => [
+            ServiceBuilder::anyTVService()->build(),
+            ServiceBuilder::anyTVService()->build(),
+        ],
+        ])->build();
+
+        $cBroadcasts = CollapsedBroadcastBuilder::any()->with(['services' => [
+            ServiceBuilder::any()->with(['network' => $network1])->build(),
+            ServiceBuilder::any()->with(['network' => $network2])->build(),
+        ],
+        ])->build();
+
+        return [$network1, $network2, $cBroadcasts];
     }
 }

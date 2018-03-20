@@ -61,6 +61,19 @@ class BroadcastEventPresenter extends Presenter
         return $this->networkBreakdown;
     }
 
+    public function getMainBroadcastNetwork() :?Network
+    {
+        $breakdowns = $this->getNetworkBreakdown();
+
+        foreach ($breakdowns as $breakdown) {
+            if ($breakdown->getNetwork()) {
+                return $breakdown->getNetwork();
+            }
+        }
+
+        return null;
+    }
+
     public function getCollapsedBroadcast(): CollapsedBroadcast
     {
         return $this->collapsedBroadcast;
