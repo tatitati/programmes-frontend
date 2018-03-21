@@ -3,6 +3,9 @@
 
 {% block title %}BBC - {{tr('schedules')}}{% endblock %}
 
+{% block inline_head %}
+    <meta name="google-site-verification" content="hV6KPZarfCnRMLwC5CGKEw8-rjA4WGSanUzaGvGkf7s" />
+{% endblock %}
 {% block body %}
     <div class="sch-main br-box-page">
         {% for title, networks in groups %}
