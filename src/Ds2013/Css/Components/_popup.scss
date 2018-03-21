@@ -1,0 +1,81 @@
+/**
+ *  .popup
+ *  A Mixed CSS/JavaScript popup object
+ *  Without JS it uses the input element and sibling
+ *  selector to open the popup inside the page flow
+ *  With JS it moves the popup ouside the document flow and fades it in
+ */
+
+// Clickable element with label inside
+.popup__button {
+    @include inline-block();
+    cursor: pointer;
+
+    label {
+        cursor: pointer;
+    }
+}
+
+// Input element
+.popup__status {
+    display: none;
+}
+
+// This hold the open popup. It's hidden when the input is checked (by default)
+.popup__holder {
+    position: relative;
+}
+
+.popup__status:checked ~ .popup__holder {
+    @include visually-hidden();
+}
+
+// This is the content that's pulled out by JS
+.popup__content {
+    position: relative;
+
+    .popup__close {
+        position: relative;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+    }
+}
+
+.popup__content--js {
+    position: absolute;
+    z-index: 9999;
+}
+
+.popup__close {
+    cursor: pointer;
+}
+
+.popup__button--subscribe {
+    padding: $wide-half-spacing $wide-spacing; // always wide squashed
+    min-width: 117px;
+}
+
+.popup__content--subscribe {
+    max-width: 400px;
+}
+
+.popup__content--download {
+    max-width: 250px;
+    top: 6px;
+}
+
+// Arrow on top of the content pointing to button
+// (assuming you've used the right branding classes)
+.popup__header::before {
+    content: ' ';
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent !important;
+    border-right: 8px solid transparent !important;
+    border-bottom-style: solid;
+    border-bottom-width: 8px;
+    border-top: 0;
+}

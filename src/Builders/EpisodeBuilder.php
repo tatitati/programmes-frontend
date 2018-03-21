@@ -46,6 +46,7 @@ class EpisodeBuilder extends AbstractBuilder
             'duration' => $faker->numberBetween(500, 1000),
             'streamableFrom' => null,
             'streamableUntil' => null,
+            'downloadableMediaSets' => [],
         ];
     }
 

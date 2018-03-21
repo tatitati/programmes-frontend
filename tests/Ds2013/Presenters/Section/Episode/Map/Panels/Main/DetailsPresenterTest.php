@@ -6,13 +6,16 @@ namespace Tests\App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
 use App\Builders\EpisodeBuilder;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\DetailsPresenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use DateTime;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @group MapEpisode
@@ -31,7 +34,7 @@ class DetailsPresenterTest extends TestCase
     public function testReleaseDateIsNull()
     {
         $episode = EpisodeBuilder::any()->with(['releaseDate' => null])->build();
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, []);
         $this->assertNull($presenter->getReleaseDate());
     }
 
@@ -39,7 +42,7 @@ class DetailsPresenterTest extends TestCase
     {
         $releaseDate = new PartialDate(2012);
         $episode = EpisodeBuilder::any()->with(['releaseDate' => $releaseDate])->build();
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, []);
         $this->assertInstanceOf(DateTime::class, $presenter->getReleaseDate());
     }
 
@@ -49,7 +52,7 @@ class DetailsPresenterTest extends TestCase
     public function testIndefiniteAvailability(?Chronos $streamableUntil, bool $availableIndefinately)
     {
         $episode = EpisodeBuilder::any()->with(['streamableUntil' => $streamableUntil])->build();
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $episode, []);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, []);
         $this->assertSame($availableIndefinately, $presenter->isAvailableIndefinitely());
     }
 
@@ -70,7 +73,7 @@ class DetailsPresenterTest extends TestCase
         $interval = $episode->getStreamableUntil()->diff(Chronos::now());
         $playTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
         $playTranslationsHelper->expects($this->once())->method('timeIntervalToWords')->with($interval, false, $string);
-        $presenter = new DetailsPresenter($playTranslationsHelper, $episode, []);
+        $presenter = new DetailsPresenter($playTranslationsHelper, $this->createMock(UrlGeneratorInterface::class), $episode, []);
         $presenter->getStreamableTimeRemaining();
     }
 
@@ -114,7 +117,7 @@ class DetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', false),
             $this->createVersionMock('DubbedAudioDescribed', true),
         ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertTrue($presenter->hasAvailableAudioDescribedVersion());
     }
 
@@ -125,7 +128,7 @@ class DetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', true),
             $this->createVersionMock('DubbedAudioDescribed', false),
         ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertFalse($presenter->hasAvailableAudioDescribedVersion());
     }
 
@@ -136,7 +139,7 @@ class DetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', true),
             $this->createVersionMock('Signed', true),
         ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertTrue($presenter->hasAvailableSignedVersion());
     }
 
@@ -147,11 +150,47 @@ class DetailsPresenterTest extends TestCase
             $this->createVersionMock('bar', true),
             $this->createVersionMock('Signed', false),
         ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), EpisodeBuilder::any()->build(), $versions);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions);
         $this->assertFalse($presenter->hasAvailableSignedVersion());
     }
 
-    private function createVersionMock(string $type, bool $isStreamable): Version
+    public function testPodcastFileName()
+    {
+        $ancestors = [];
+        for ($i = 'a'; $i <= 'e'; $i++) {
+            $ancestor = $this->createMock(CoreEntity::class);
+            $ancestor->method('getTitle')->willReturn($i);
+            $ancestors[] = $ancestor;
+        }
+        $episode = $this->createMock(Episode::class);
+        $episode->method('getAncestry')->willReturn($ancestors);
+        $episode->method('getPid')->willReturn(new Pid('b000c111'));
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, []);
+        $this->assertEquals('e, d, c, b, a - b000c111.mp3', $presenter->getPodcastFileName());
+    }
+    public function testRetrivingPodcastUrls()
+    {
+        $versionPid = new Pid('z000y111');
+        $version = $this->createVersionMock('Podcast', false);
+        $version->method('getPid')->willReturn($versionPid);
+        $episode = EpisodeBuilder::any()
+            ->with(['downloadableMediaSets' => ['audio-nondrm-download', 'audio-nondrm-download-low']])
+            ->build();
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->expects($this->exactly(2))
+            ->method('generate')
+            ->withConsecutive(
+                ['podcast_download', ['pid' => $versionPid]],
+                ['podcast_download_low', ['pid' => $versionPid]]
+            );
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $urlGenerator, $episode, [$version]);
+        $urls = $presenter->getPodcastUrls();
+        $this->assertCount(2, $urls);
+        $this->assertArrayHasKey('podcast_128kbps_quality', $urls);
+        $this->assertArrayHasKey('podcast_64kbps_quality', $urls);
+    }
+
+    private function createVersionMock(string $type, bool $isStreamable)
     {
         $version = $this->createMock(Version::class);
         $version->method('getVersionTypes')->willReturn([new VersionType($type, $type)]);

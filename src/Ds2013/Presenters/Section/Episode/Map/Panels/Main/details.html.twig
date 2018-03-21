@@ -25,7 +25,7 @@
     </div>
     <div class="grid-wrapper">
         <div class="grid 2/3@bpw 3/4@bpe">
-            {{ self.intro(details.getEpisode()) }}
+            {{ self.intro(details) }}
         </div>
         <div class="grid 1/3@bpw 1/4@bpe">
             {{ self.additionalInfo(details) }}
@@ -60,13 +60,11 @@
             <p class="episode-panel__meta delta">
                 {% if presenter.hasAvailableSignedVersion() %}
                     <a class="text--no-ul" title="{{ tr('signed') }}" href="{{ path('iplayer_play', {'pid': presenter.getEpisode().getPid(), 'version': 'sign'}) }}">
-                        {#TODO not sure about how to size this GelIcon...#}
                         {{ gelicon('audio-visual', 'sign-language-35', 'gelicon--gamma') }}<span class="visually-hidden">{{ tr('signed') }}</span>
                     </a>
                 {% endif %}
                 {% if presenter.hasAvailableAudioDescribedVersion() %}
                     <a class="text--no-ul" title="{{ tr('audio_described') }}" href="{{ path('iplayer_play', {'pid': presenter.getEpisode().getPid(), 'version': 'ad'}) }}">
-                        {#TODO not sure about how to size this GelIcon...#}
                         {{ gelicon('audio-visual', 'audio-description', 'gelicon--gamma') }}<span class="visually-hidden">{{ tr('audio_described') }}</span>
                     </a>
                 {% endif %}
@@ -75,16 +73,63 @@
     </div>
 {% endmacro %}
 
-{% macro intro(episode) %}
+{% macro intro(presenter) %}
     <div class="episode-panel__intro">
-        {% if episode.getLongestSynopsis() %}
-            <div class="map__intro__synopsis centi">{{ ds_shared('synopsis', episode.getSynopses(), 300) }}</div>
+        {% if presenter.getEpisode().getLongestSynopsis() %}
+            <div class="map__intro__synopsis centi">{{ ds_shared('synopsis', presenter.getEpisode().getSynopses(), 300) }}</div>
         {% endif %}
-        {% if episode.isRadio() %}
-            <div class="favourites-button buttons--favourites-small"></div>
+        {% if presenter.getEpisode().isRadio() %}
+            <div class="favourites-module-wrapper map__buttons favourites-button buttons--favourites-small"></div>
         {% endif %}
-        {#{% if episode.getDownloadableVersion() %}#}
-            {#@TODO add podcast logic#}
-        {#{% endif %}#}
+        {% if presenter.getEpisode().isDownloadable() %}
+            {% if presenter.getEpisode().getDownloadableMediaSets()|length == 1 %}
+                <div class="buttons__download">
+                    <a class="link-complex br-linkinvert buttons__download__link" data-clicktrack="podcast_download" href="{{ presenter.getPodcastUrls()|first }}" download="{{ presenter.getPodcastFileName() }}">{{ gelicon('basics', 'download', 'gelicon--centi') }}
+                        {{ tr('downloads', 1) }}
+                        {#<? if ($this->data->programme->podcast_is_uk_only): ?>#}
+                        {#({{ tr('uk_only') }})#} {#@TODO https://jira.dev.bbc.co.uk/browse/PROGRAMMES-6274 #}
+                        {#<? endif;?>#}
+                    </a>
+                </div>
+            {% else %}
+                <div class="popup buttons__download">
+                    <input class="popup__status" type="checkbox" id="download-popup" checked>
+                    <div class="buttons__download">
+                        <h2 class="popup__button text-base br-linkinvert buttons__download__link" data-clicktrack="podcast_download">
+                            <label for="download-popup">
+                                {{ gelicon('basics', 'download', 'gelicon--centi') }}{{ tr('downloads',1) }}
+                                {#<? if ($this->data->programme->podcast_is_uk_only): ?>#}
+                                {#({{ tr('uk_only') }})#} {#@TODO https://jira.dev.bbc.co.uk/browse/PROGRAMMES-6274#}
+                                {#<? endif;?>#}
+                            </label>
+                        </h2>
+                    </div>
+                    <div class="popup__holder" id="download-popup-holder">
+                        <div class="popup__content popup__content--download br-box-secondary br-secondary-link-onbg br-secondary-link-onborder">
+                            <h3 class="popup__header br-secondary-link-onborder--beforeafter br-secondary-linkhover-onborder--hover-beforeafter gamma no-margin deemphasize">
+                                <label class="popup__close island--squashed br-secondary-bg-onborder br-linkinvert" for="download-popup-holder">
+                                    <span class="pull--right-spaced">{{ gelicon('basics', 'no', 'gelicon--centi') }} </span>{{ tr('choose_your_file') }}
+                                </label>
+                            </h3>
+                            <ul class="list-unstyled popup__list">
+                                {% for translationKey,url in presenter.getPodcastUrls() %}
+                                    <li>
+                                        <a class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="{{ url }}"
+                                           download="{{ presenter.getPodcastFileName() }}">
+                                            {{ tr(translationKey) }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <script type="text/javascript">
+                require(['popup'], function(popup) {
+                    new popup({containerSelector: '.popup', useParentContainerWidth: true});
+                });
+            </script>
+        {% endif %}
     </div>
 {% endmacro %}

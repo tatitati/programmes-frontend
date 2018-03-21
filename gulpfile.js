@@ -33,6 +33,7 @@ gulp.task('js', ['js:clean'], function () {
         staticPathSrc + '/js/**/dsamen-bootstrap.js',
         staticPathSrc + '/js/**/timezone-notification.js',
         staticPathSrc + '/js/**/episode-guide.js',
+        staticPathSrc + '/js/**/popup.js',
         'vendor/bbc-rmp/comscore/js-modules/comscorews.js'
     ];
 

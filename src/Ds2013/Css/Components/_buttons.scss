@@ -17,6 +17,37 @@
     }
 }
 
+.buttons__download {
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 11px;
+    height: 33px;
+}
+
+.buttons__download__link {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 8px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: -1px; // because it doesn't line up with the other weird buttons. MWEWRWEURGH
+}
+
+.map__buttons {
+    margin-top: 0;
+    vertical-align: middle;
+    margin-right: 11px; // due to weird paddings etc
+}
+
+// windows phone app. hide some things
+.radio-windowsphone8 {
+    .favourites-module-wrapper,
+    .s-b-container,
+    .map__buttons {
+        display: none;
+    }
+}
+
 @include mq($from: gel3) {
     .favourites-button-island {
         padding: 0 $wide-spacing $wide-spacing;

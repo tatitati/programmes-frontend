@@ -42,15 +42,15 @@ class EpisodeMapPresenter extends Presenter
         Episode $episode,
         ?CollapsedBroadcast $upcoming,
         ?CollapsedBroadcast $lastOn,
-        array $streamableVersions
+        array $availableVersions
     ) {
         parent::__construct();
         $this->episode = $episode;
         $this->upcomingBroadcast = $upcoming;
         $this->lastOnBroadcast = $lastOn;
         $this->sideSubPresenters = $this->buildSidePanelsSubPresenters();
-        $this->detailsSubpresenter = new DetailsPresenter($playTranslationsHelper, $episode, $streamableVersions);
-        $this->playoutSubpresenter = new PlayoutPresenter($liveBroadcastHelper, $router, $episode, $upcoming, $lastOn, $streamableVersions);
+        $this->detailsSubpresenter = new DetailsPresenter($playTranslationsHelper, $router, $episode, $availableVersions);
+        $this->playoutSubpresenter = new PlayoutPresenter($liveBroadcastHelper, $router, $episode, $upcoming, $lastOn, $availableVersions);
     }
 
     /**

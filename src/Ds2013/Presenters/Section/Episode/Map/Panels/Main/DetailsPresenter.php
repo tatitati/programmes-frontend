@@ -4,10 +4,14 @@ namespace App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use DateTime;
+use Exception;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DetailsPresenter extends Presenter
 {
@@ -18,15 +22,19 @@ class DetailsPresenter extends Presenter
     private $playTranslationsHelper;
 
     /** @var Version[] */
-    private $streamableVersions;
+    private $availableVersions;
 
-    public function __construct(PlayTranslationsHelper $playTranslationsHelper, Episode $episode, array $streamableVersions)
+    /** @var UrlGeneratorInterface */
+    private $router;
+
+    public function __construct(PlayTranslationsHelper $playTranslationsHelper, UrlGeneratorInterface $router, Episode $episode, array $availableVersions)
     {
         parent::__construct();
 
         $this->episode = $episode;
         $this->playTranslationsHelper = $playTranslationsHelper;
-        $this->streamableVersions = $streamableVersions;
+        $this->router = $router;
+        $this->availableVersions = $availableVersions;
     }
 
     public function getEpisode(): Episode
@@ -94,9 +102,37 @@ class DetailsPresenter extends Presenter
         return $this->hasAvailableVersion('Signed');
     }
 
+    public function getPodcastUrls(): array
+    {
+        $mediaSets = $this->episode->getDownloadableMediaSets();
+        if (empty($mediaSets)) {
+            return [];
+        }
+        $versionPid = $this->getVersionPid();
+        $urls = [];
+        if (in_array('audio-nondrm-download', $mediaSets)) {
+            $urls['podcast_128kbps_quality'] = $this->router->generate('podcast_download', ['pid' => $versionPid]);
+        }
+        if (in_array('audio-nondrm-download-low', $mediaSets)) {
+            $urls['podcast_64kbps_quality'] = $this->router->generate('podcast_download_low', ['pid' => $versionPid]);
+        }
+        return $urls;
+    }
+
+    public function getPodcastFileName(): string
+    {
+        /** @var CoreEntity[] $ancestry */
+        $ancestry = array_reverse($this->episode->getAncestry());
+        $titles = [];
+        foreach ($ancestry as $ancestor) {
+            $titles[] = $ancestor->getTitle();
+        }
+        return implode(', ', $titles) . ' - ' . $this->episode->getPid() . '.mp3';
+    }
+
     private function hasAvailableVersion(string $versionType)
     {
-        foreach ($this->streamableVersions as $version) {
+        foreach ($this->availableVersions as $version) {
             if ($version->isStreamable()) {
                 foreach ($version->getVersionTypes() as $type) {
                     if ($type->getType() === $versionType) {
@@ -107,5 +143,17 @@ class DetailsPresenter extends Presenter
         }
 
         return false;
+    }
+
+    private function getVersionPid(): Pid
+    {
+        foreach ($this->availableVersions as $version) {
+            foreach ($version->getVersionTypes() as $type) {
+                if ($type->getType() === 'Podcast') {
+                    return $version->getPid();
+                }
+            }
+        }
+        throw new Exception('No podcastable Versions were found');
     }
 }

@@ -16,6 +16,7 @@ define(['jquery-1.9', 'istats-1'], function ($, istats) {
         init: function () {
             this.trackLinks();
             this.trackCustomExternalLinks();
+            this.trackClicks();
             this.hardcodedItems();
         },
         trackLinks: function (context) {
@@ -42,6 +43,17 @@ define(['jquery-1.9', 'istats-1'], function ($, istats) {
                 istats.track('external', {
                     region : $(this),
                     linkLocation : _this.options.labelPrefix + label
+                });
+            });
+        },
+        trackClicks: function() {
+            var _this = this,
+                label;
+            var links = $('body').find('[data-clicktrack]');
+            links.each(function(){
+                $(this).click(function() {
+                    label = $(this).attr('data-clicktrack');
+                    istats.log('click', _this.options.labelPrefix + label);
                 });
             });
         },

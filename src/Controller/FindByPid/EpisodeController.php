@@ -52,9 +52,9 @@ class EpisodeController extends BaseController
             $lastOnBroadcasts = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($episode, 1);
         }
 
-        $streamableVersions = [];
-        if ($episode->isStreamableAlternatate()) {
-            $streamableVersions = $versionsService->findAvailableByProgrammeItem($episode);
+        $availableVersions = [];
+        if ($episode->isStreamableAlternatate() || $episode->isDownloadable()) {
+            $availableVersions = $versionsService->findAvailableByProgrammeItem($episode);
         }
 
         // TODO check $episode->getPromotionsCount() once it is populated in
@@ -63,7 +63,7 @@ class EpisodeController extends BaseController
 
         $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
-            $streamableVersions,
+            $availableVersions,
             !empty($upcomingBroadcasts) ? reset($upcomingBroadcasts) : null,
             !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null
         );
