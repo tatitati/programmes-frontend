@@ -72,6 +72,11 @@ class ExceptionController extends BaseExceptionController
                     'searchScope' => $branding->getOrbitSearchScope(),
                     'skipLinkTarget' => 'programmes-content',
                 ]);
+
+                // For testing the no Orbit or Branding template
+                if ($request->query->has('noorb')) {
+                    throw new OrbitException();
+                }
             } catch (BrandingException | OrbitException $e) {
                 // Ignore exceptions from branding and ORB and override template
                 // not to require them
