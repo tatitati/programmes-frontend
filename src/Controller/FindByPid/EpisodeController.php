@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use BBC\ProgrammesPagesService\Service\VersionsService;
@@ -19,6 +20,7 @@ class EpisodeController extends BaseController
     public function __invoke(
         Episode $episode,
         ContributionsService $contributionsService,
+        ProgrammesService $programmesService,
         ProgrammesAggregationService $aggregationService,
         PromotionsService $promotionsService,
         RelatedLinksService $relatedLinksService,
@@ -61,11 +63,22 @@ class EpisodeController extends BaseController
         // Faucet to potentially save on a DB query
         $promotions = $promotionsService->findActivePromotionsByEntityGroupedByType($episode);
 
+        /** @var Episode|null $nextEpisode */
+        $nextEpisode = null;
+        /** @var Episode|null $previousEpisode */
+        $previousEpisode = null;
+        if (!$episode->isTleo()) {
+            $nextEpisode = $programmesService->findNextSiblingByProgramme($episode);
+            $previousEpisode = $programmesService->findPreviousSiblingByProgramme($episode);
+        }
+
         $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
             $availableVersions,
             !empty($upcomingBroadcasts) ? reset($upcomingBroadcasts) : null,
-            !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null
+            !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null,
+            $nextEpisode,
+            $previousEpisode
         );
 
         $favouritesButtonPromise = new FulfilledPromise(null);

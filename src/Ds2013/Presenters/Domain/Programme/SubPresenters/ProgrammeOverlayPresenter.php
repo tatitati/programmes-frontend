@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace App\Ds2013\Presenters\Domain\Programme\SubPresenters;
 
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenterBase;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * Sub-presenter for ProgrammePresenter
  */
-class ProgrammeImagePresenter extends ProgrammePresenterBase
+class ProgrammeOverlayPresenter extends ProgrammePresenterBase
 {
     // @TODO see if this default_width and sizes make sense
     /** @var array */
@@ -22,6 +23,7 @@ class ProgrammeImagePresenter extends ProgrammePresenterBase
         'show_image' => true,
         'show_overlay' => true,
         'is_lazy_loaded' => true,
+        'show_secondary_cta' => false,
         'classes' => '1/4@bpb1 1/4@bpb2 1/3@bpw',
         'default_width' => 320,
         'sizes' => [

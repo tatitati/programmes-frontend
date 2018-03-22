@@ -177,7 +177,9 @@ class PresenterFactory
         Episode $programme,
         array $versions,
         ?CollapsedBroadcast $upcomingCollapsedBroadcast,
-        ?CollapsedBroadcast $lastOnCollapsedBroadcast
+        ?CollapsedBroadcast $lastOnCollapsedBroadcast,
+        ?Episode $nextEpisode,
+        ?Episode $previousEpisode
     ) :EpisodeMapPresenter {
         return new EpisodeMapPresenter(
             $this->router,
@@ -186,7 +188,9 @@ class PresenterFactory
             $programme,
             $upcomingCollapsedBroadcast,
             $lastOnCollapsedBroadcast,
-            $versions
+            $versions,
+            $nextEpisode,
+            $previousEpisode
         );
     }
 

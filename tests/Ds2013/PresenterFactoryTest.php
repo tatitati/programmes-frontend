@@ -105,7 +105,7 @@ class PresenterFactoryTest extends TestCase
         $upcomingBroadcasts = null;
         $lastOn = CollapsedBroadcastBuilder::any()->build();
 
-        $presenter = $this->factory->episodeMapPresenter($episode, [], $upcomingBroadcasts, $lastOn);
+        $presenter = $this->factory->episodeMapPresenter($episode, [], $upcomingBroadcasts, $lastOn, null, null);
 
         $this->assertInstanceOf(EpisodeMapPresenter::class, $presenter);
         $this->assertEquals('episode_map', $presenter->getTemplateVariableName());

@@ -2,14 +2,14 @@
 declare(strict_types = 1);
 namespace App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters;
 
-use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CollapsedBroadcastProgrammeImagePresenter extends ProgrammeImagePresenter
+class CollapsedBroadcastProgrammeImagePresenter extends ProgrammeOverlayPresenter
 {
     /** @var CollapsedBroadcast */
     private $collapsedBroadcast;

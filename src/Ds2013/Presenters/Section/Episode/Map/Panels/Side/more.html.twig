@@ -1,5 +1,73 @@
 <div class="island">
-    PANEL: [SIDE/MORE]
-    <h2>More episodes</h2>
-    et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis
+    <h2>{{ tr('more_episodes') }}</h2>
+    <div class="grid-wrapper">
+        {% if more.getPreviousEpisode() %}
+            <div class="grid 1/2@bpw 1/1@bpw2 1/1@bpe">
+                <div class="component--sibling br-keyline">
+                    <h3 class="delta text--shout no-margin">{{ tr('previous') }}</h3>
+                    {{ ds2013('programme', more.getPreviousEpisode(), {
+                        'context_programme': more.getEpisode().getTleo(),
+                        body_options: {
+                            'show_synopsis': false
+                        },
+                        image_options: {
+                            'show_image': false,
+                            'show_secondary_cta': true,
+                        },
+                        title_options: {
+                            'title_format': 'item::ancestry',
+                            'title_tag': 'h4',
+                            'title_classes': 'gamma'
+                        }
+                    }) }}
+                </div>
+            </div>
+        {% elseif more.getEpisode().getPosition() and more.getEpisode().getPosition() == 1 %}
+            <div class="grid 1/2@bpw 1/1@bpw2 1/1@bpe">
+                <div class="component--sibling br-keyline">
+                    <h3 class="delta text--shout no-margin">{{ tr('previous') }}</h3>
+                    <p>{{ tr('first_episode') }}</p>
+                </div>
+            </div>
+        {% endif %}
+        {% if more.getNextEpisode() %}
+            <div class="grid 1/2@bpw 1/1@bpw2 1/1@bpe">
+                    <div class="component--sibling br-keyline">
+                        <h3 class="delta text--shout no-margin">{{ tr('next') }}</h3>
+                        {{ ds2013('programme', more.getNextEpisode(), {
+                            'context_programme': more.getEpisode().getTleo(),
+                            body_options: {
+                                'show_synopsis': false
+                            },
+                            image_options: {
+                                'show_image': false,
+                                'show_secondary_cta': true,
+                            },
+                            title_options: {
+                                'title_format': 'item::ancestry',
+                                'title_tag': 'h4',
+                                'title_classes': 'gamma'
+                            }
+                        }) }}
+                    </div>
+                </div>
+        {% elseif more.getGroupSize() %}
+            <div class="grid 1/2@bpw 1/1@bpw2 1/1@bpe">
+                <div class="component--sibling br-keyline">
+                    <h3 class="delta text--shout no-margin">{{ tr('next') }}</h3>
+                    {% if more.getEpisode().getPosition() and more.getEpisode().getPosition() == more.getGroupSize() %}
+                        <p>{{ tr('last_episode') }}</p>
+                    {% else %}
+                        <p>{{ tr('coming_soon') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <p>
+        <a href="{{ path('programme_episodes', {pid: more.getEpisode().getTleo().getPid()}) }}">
+            {{ tr('see_all_episodes_from', {'%1': more.getEpisode().getTleo().getTitle()}) }}
+        </a>
+    </p>
 </div>

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Presenters\Domain\Programme\SubPresenters;
 
-use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class ProgrammeImagePresenterTest extends TestCase
+class ProgrammeOverlayPresenterTest extends TestCase
 {
     private $router;
 
@@ -43,7 +43,7 @@ class ProgrammeImagePresenterTest extends TestCase
         $programme->expects($this->once())
             ->method('isRadio')
             ->willReturn($isRadio);
-        $programmeImagePresenter = new ProgrammeImagePresenter(
+        $programmeImagePresenter = new ProgrammeOverlayPresenter(
             $this->router,
             $this->mockTranslationsHelper,
             $programme
@@ -63,7 +63,7 @@ class ProgrammeImagePresenterTest extends TestCase
     public function testGetPlaybackUrlIplayer()
     {
         $programmeItem = $this->playbackUrlProgramme(Episode::class, 'b0000002', false, false);
-        $programmeImagePresenter = new ProgrammeImagePresenter(
+        $programmeImagePresenter = new ProgrammeOverlayPresenter(
             $this->router,
             $this->mockTranslationsHelper,
             $programmeItem
@@ -76,7 +76,7 @@ class ProgrammeImagePresenterTest extends TestCase
      */
     public function testGetPlaybackUrlProgrammes(ProgrammeItem $programmeItem, $expectedUrl)
     {
-        $programmeImagePresenter = new ProgrammeImagePresenter(
+        $programmeImagePresenter = new ProgrammeOverlayPresenter(
             $this->router,
             $this->mockTranslationsHelper,
             $programmeItem

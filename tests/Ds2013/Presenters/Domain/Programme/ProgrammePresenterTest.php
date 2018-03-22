@@ -5,7 +5,7 @@ namespace Tests\App\Ds2013\Presenters\Domain\Programme;
 
 use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeBodyPresenter;
-use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\DsShared\Helpers\PlayTranslationsHelper;
@@ -32,7 +32,7 @@ class ProgrammePresenterTest extends TestCase
         $this->mockHelperFactory->method('getTitleLogicHelper')->willReturn($titleLogicHelper);
     }
 
-    public function testGetProgrammeImagePresenterAndOptions()
+    public function testGetProgrammeOverlayPresenterAndOptions()
     {
         $options = [
             'branding_context' => 'subtle',
@@ -55,8 +55,8 @@ class ProgrammePresenterTest extends TestCase
             $programme,
             $options
         );
-        $programmeImagePresenter = $programmePresenter->getProgrammeImagePresenter();
-        $this->assertInstanceOf(ProgrammeImagePresenter::class, $programmeImagePresenter);
+        $programmeImagePresenter = $programmePresenter->getProgrammeOverlayPresenter();
+        $this->assertInstanceOf(ProgrammeOverlayPresenter::class, $programmeImagePresenter);
         $expectedOptions = array_merge($options, $options['image_options']);
         unset($expectedOptions['image_options']);
         foreach ($expectedOptions as $key => $value) {

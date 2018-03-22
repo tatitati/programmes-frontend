@@ -1,7 +1,7 @@
 {% set outer_html_attributes = build_html_attributes(programme.getOption("outer_html_attributes")) %}
 <div class="{{ build_css_classes(programme.getOuterDivClasses()) }}" {{ outer_html_attributes | raw}}>
     {# Render programme image and overlay #}
-    {{ ds2013_presenter(programme.getProgrammeImagePresenter()) }}
+    {{ ds2013_presenter(programme.getProgrammeOverlayPresenter()) }}
     <div class="programme__body">
         {# Render main title and subtitles with links #}
         {{ ds2013_presenter(programme.getProgrammeTitlePresenter()) }}

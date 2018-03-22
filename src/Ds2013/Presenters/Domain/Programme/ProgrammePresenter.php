@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace App\Ds2013\Presenters\Domain\Programme;
 
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeBodyPresenter;
-use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Exception\InvalidOptionException;
@@ -80,9 +80,9 @@ class ProgrammePresenter extends ProgrammePresenterBase
         ];
     }
 
-    public function getProgrammeImagePresenter(): ProgrammeImagePresenter
+    public function getProgrammeOverlayPresenter(): ProgrammeOverlayPresenter
     {
-        return new ProgrammeImagePresenter(
+        return new ProgrammeOverlayPresenter(
             $this->router,
             $this->helperFactory->getPlayTranslationsHelper(),
             $this->programme,

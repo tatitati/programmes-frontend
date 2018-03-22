@@ -35,6 +35,12 @@ class EpisodeMapPresenter extends Presenter
     /** @var DetailsPresenter */
     private $detailsSubpresenter;
 
+    /** @var Episode|null */
+    private $nextEpisode;
+
+    /** @var Episode|null */
+    private $previousEpisode;
+
     public function __construct(
         UrlGeneratorInterface $router,
         LiveBroadcastHelper $liveBroadcastHelper,
@@ -42,12 +48,16 @@ class EpisodeMapPresenter extends Presenter
         Episode $episode,
         ?CollapsedBroadcast $upcoming,
         ?CollapsedBroadcast $lastOn,
-        array $availableVersions
+        array $availableVersions,
+        ?Episode $nextEpisode,
+        ?Episode $previousEpisode
     ) {
         parent::__construct();
         $this->episode = $episode;
         $this->upcomingBroadcast = $upcoming;
         $this->lastOnBroadcast = $lastOn;
+        $this->nextEpisode = $nextEpisode;
+        $this->previousEpisode = $previousEpisode;
         $this->sideSubPresenters = $this->buildSidePanelsSubPresenters();
         $this->detailsSubpresenter = new DetailsPresenter($playTranslationsHelper, $router, $episode, $availableVersions);
         $this->playoutSubpresenter = new PlayoutPresenter($liveBroadcastHelper, $router, $episode, $upcoming, $lastOn, $availableVersions);
@@ -87,7 +97,7 @@ class EpisodeMapPresenter extends Presenter
         }
 
         if (!$this->episode->isTleo()) {
-            $sidePanels[] = new MorePresenter($this->episode);
+            $sidePanels[] = new MorePresenter($this->episode, $this->nextEpisode, $this->previousEpisode);
         }
 
         if (empty($sidePanels) || $this->episode->isTleo()) {

@@ -67,7 +67,7 @@ class BroadcastProgrammePresenterTest extends TestCase
             $options
         );
 
-        $broadcastProgrammeImagePresenter = $presenter->getProgrammeImagePresenter();
+        $broadcastProgrammeImagePresenter = $presenter->getProgrammeOverlayPresenter();
         $this->assertInstanceOf(CollapsedBroadcastProgrammeImagePresenter::class, $broadcastProgrammeImagePresenter);
         $expectedOptions = array_merge($options, $options['image_options']);
         unset($expectedOptions['image_options']);

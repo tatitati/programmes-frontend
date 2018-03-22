@@ -6,7 +6,7 @@ use App\Ds2013\Presenters\Domain\Programme\BroadcastSubPresenters\BroadcastProgr
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeBodyPresenter;
-use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Exception\InvalidOptionException;
@@ -56,7 +56,7 @@ class CollapsedBroadcastProgrammePresenter extends ProgrammePresenter
         $this->collapsedBroadcast = $collapsedBroadcast;
     }
 
-    public function getProgrammeImagePresenter(): ProgrammeImagePresenter
+    public function getProgrammeOverlayPresenter(): ProgrammeOverlayPresenter
     {
         return new CollapsedBroadcastProgrammeImagePresenter(
             $this->router,
