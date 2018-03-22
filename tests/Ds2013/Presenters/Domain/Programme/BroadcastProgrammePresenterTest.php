@@ -5,7 +5,7 @@ namespace Tests\App\Ds2013\Presenters\Domain\Programme;
 
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
-use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeOverlayPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
@@ -38,7 +38,7 @@ class BroadcastProgrammePresenterTest extends TestCase
         $this->mockHelperFactory->method('getLiveBroadcastHelper')->willReturn($liveBroadcastHelper);
     }
 
-    public function testGetBroadcastProgrammeImagePresenterAndOptions()
+    public function testGetBroadcastProgrammeOverlayPresenterAndOptions()
     {
         $options = [
             'branding_context' => 'subtle',
@@ -67,12 +67,12 @@ class BroadcastProgrammePresenterTest extends TestCase
             $options
         );
 
-        $broadcastProgrammeImagePresenter = $presenter->getProgrammeOverlayPresenter();
-        $this->assertInstanceOf(CollapsedBroadcastProgrammeImagePresenter::class, $broadcastProgrammeImagePresenter);
+        $broadcastProgrammeOverlayPresenter = $presenter->getProgrammeOverlayPresenter();
+        $this->assertInstanceOf(CollapsedBroadcastProgrammeOverlayPresenter::class, $broadcastProgrammeOverlayPresenter);
         $expectedOptions = array_merge($options, $options['image_options']);
         unset($expectedOptions['image_options']);
         foreach ($expectedOptions as $key => $value) {
-            $this->assertEquals($value, $broadcastProgrammeImagePresenter->getOption($key), $key);
+            $this->assertEquals($value, $broadcastProgrammeOverlayPresenter->getOption($key), $key);
         }
     }
 

@@ -9,7 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CollapsedBroadcastProgrammeImagePresenter extends ProgrammeOverlayPresenter
+class CollapsedBroadcastProgrammeOverlayPresenter extends ProgrammeOverlayPresenter
 {
     /** @var CollapsedBroadcast */
     private $collapsedBroadcast;
@@ -47,6 +47,6 @@ class CollapsedBroadcastProgrammeImagePresenter extends ProgrammeOverlayPresente
 
     public function getTemplateVariableName(): string
     {
-        return 'programme_image';
+        return 'programme_overlay';
     }
 }

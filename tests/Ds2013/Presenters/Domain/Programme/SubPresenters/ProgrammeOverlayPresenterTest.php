@@ -43,12 +43,12 @@ class ProgrammeOverlayPresenterTest extends TestCase
         $programme->expects($this->once())
             ->method('isRadio')
             ->willReturn($isRadio);
-        $programmeImagePresenter = new ProgrammeOverlayPresenter(
+        $programmeOverlayPresenter = new ProgrammeOverlayPresenter(
             $this->router,
             $this->mockTranslationsHelper,
             $programme
         );
-        $this->assertEquals($expectedResult, $programmeImagePresenter->getMediaIconName());
+        $this->assertEquals($expectedResult, $programmeOverlayPresenter->getMediaIconName());
     }
 
     public function mediaIconNameProvider()
@@ -63,12 +63,12 @@ class ProgrammeOverlayPresenterTest extends TestCase
     public function testGetPlaybackUrlIplayer()
     {
         $programmeItem = $this->playbackUrlProgramme(Episode::class, 'b0000002', false, false);
-        $programmeImagePresenter = new ProgrammeOverlayPresenter(
+        $programmeOverlayPresenter = new ProgrammeOverlayPresenter(
             $this->router,
             $this->mockTranslationsHelper,
             $programmeItem
         );
-        $this->assertEquals('http://localhost/iplayer/episode/b0000002', $programmeImagePresenter->getPlaybackUrl());
+        $this->assertEquals('http://localhost/iplayer/episode/b0000002', $programmeOverlayPresenter->getPlaybackUrl());
     }
 
     /**
@@ -76,12 +76,12 @@ class ProgrammeOverlayPresenterTest extends TestCase
      */
     public function testGetPlaybackUrlProgrammes(ProgrammeItem $programmeItem, $expectedUrl)
     {
-        $programmeImagePresenter = new ProgrammeOverlayPresenter(
+        $programmeOverlayPresenter = new ProgrammeOverlayPresenter(
             $this->router,
             $this->mockTranslationsHelper,
             $programmeItem
         );
-        $this->assertEquals($expectedUrl, $programmeImagePresenter->getPlaybackUrl());
+        $this->assertEquals($expectedUrl, $programmeOverlayPresenter->getPlaybackUrl());
     }
 
     public function playbackUrlProgrammesDataProvider()

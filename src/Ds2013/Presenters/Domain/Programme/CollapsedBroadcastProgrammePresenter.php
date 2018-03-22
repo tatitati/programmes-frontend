@@ -4,7 +4,7 @@ namespace App\Ds2013\Presenters\Domain\Programme;
 
 use App\Ds2013\Presenters\Domain\Programme\BroadcastSubPresenters\BroadcastProgrammeTitlePresenter;
 use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeBodyPresenter;
-use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeImagePresenter;
+use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastSubPresenters\CollapsedBroadcastProgrammeOverlayPresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeBodyPresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\Ds2013\Presenters\Domain\Programme\SubPresenters\ProgrammeTitlePresenter;
@@ -58,7 +58,7 @@ class CollapsedBroadcastProgrammePresenter extends ProgrammePresenter
 
     public function getProgrammeOverlayPresenter(): ProgrammeOverlayPresenter
     {
-        return new CollapsedBroadcastProgrammeImagePresenter(
+        return new CollapsedBroadcastProgrammeOverlayPresenter(
             $this->router,
             $this->helperFactory->getPlayTranslationsHelper(),
             $this->helperFactory->getLiveBroadcastHelper(),

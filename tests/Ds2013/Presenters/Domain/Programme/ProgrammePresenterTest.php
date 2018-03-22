@@ -55,12 +55,12 @@ class ProgrammePresenterTest extends TestCase
             $programme,
             $options
         );
-        $programmeImagePresenter = $programmePresenter->getProgrammeOverlayPresenter();
-        $this->assertInstanceOf(ProgrammeOverlayPresenter::class, $programmeImagePresenter);
+        $programmeOverlayPresenter = $programmePresenter->getProgrammeOverlayPresenter();
+        $this->assertInstanceOf(ProgrammeOverlayPresenter::class, $programmeOverlayPresenter);
         $expectedOptions = array_merge($options, $options['image_options']);
         unset($expectedOptions['image_options']);
         foreach ($expectedOptions as $key => $value) {
-            $this->assertEquals($value, $programmeImagePresenter->getOption($key));
+            $this->assertEquals($value, $programmeOverlayPresenter->getOption($key));
         }
     }
 

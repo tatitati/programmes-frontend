@@ -16,7 +16,7 @@
         {% endif %}
 
         {% block overlay %}
-            {# This block is overriden (and called directly) from CollapsedBroadcastProgrammeImagePresenter #}
+            {# This block is overriden (and called directly) from CollapsedBroadcastProgrammeOverlayPresenter #}
             {% if programme_overlay.getOption('show_overlay') %}
                 {% set overlay_container_classes = build_css_classes({
                     'programme__overlay' : true,
