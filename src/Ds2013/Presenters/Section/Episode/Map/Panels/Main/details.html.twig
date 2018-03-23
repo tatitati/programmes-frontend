@@ -60,7 +60,7 @@
             <p class="episode-panel__meta delta">
                 {% if presenter.hasAvailableSignedVersion() %}
                     <a class="text--no-ul" title="{{ tr('signed') }}" href="{{ path('iplayer_play', {'pid': presenter.getEpisode().getPid(), 'version': 'sign'}) }}">
-                        {{ gelicon('audio-visual', 'sign-language-35', 'gelicon--gamma') }}<span class="visually-hidden">{{ tr('signed') }}</span>
+                        {{ gelicon('audio-visual', 'sign-language-1', 'gelicon--gamma') }}<span class="visually-hidden">{{ tr('signed') }}</span>
                     </a>
                 {% endif %}
                 {% if presenter.hasAvailableAudioDescribedVersion() %}
