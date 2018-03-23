@@ -37,6 +37,11 @@ class EpisodeController extends BaseController
             $clips = $aggregationService->findStreamableDescendantClips($episode, 4);
         }
 
+        $galleries = [];
+        if ($episode->getAggregatedGalleriesCount() > 0) {
+            $galleries = $aggregationService->findDescendantGalleries($episode, 4);
+        }
+
         $contributions = [];
         if ($episode->getContributionsCount() > 0) {
             $contributions = $contributionsService->findByContributionToProgramme($episode);
@@ -92,6 +97,7 @@ class EpisodeController extends BaseController
             'contributions' => $contributions,
             'programme' => $episode,
             'clips' => $clips,
+            'galleries' => $galleries,
             'relatedLinks' => $relatedLinks,
             'promotions' => $promotions,
             'episodeMapPresenter' => $episodeMapPresenter,

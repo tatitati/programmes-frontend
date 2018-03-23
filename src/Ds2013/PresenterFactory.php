@@ -4,9 +4,10 @@ namespace App\Ds2013;
 
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
-use App\Ds2013\Presenters\Domain\Programme\BroadcastProgrammePresenter;
-use App\Ds2013\Presenters\Domain\Programme\CollapsedBroadcastProgrammePresenter;
-use App\Ds2013\Presenters\Domain\Programme\ProgrammePresenter;
+use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
+use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
+use App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastProgrammePresenter;
+use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Promotion\PromotionPresenter;
 use App\Ds2013\Presenters\Domain\Superpromo\SuperpromoPresenter;
 use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
@@ -23,6 +24,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
@@ -156,6 +158,14 @@ class PresenterFactory
             $this->router,
             $options
         );
+    }
+
+    /**
+     * Create a group presenter class
+     */
+    public function groupPresenter(Group $group, array $options = []): GroupPresenter
+    {
+        return new GroupPresenter($this->router, $this->helperFactory, $group, $options);
     }
 
     /**

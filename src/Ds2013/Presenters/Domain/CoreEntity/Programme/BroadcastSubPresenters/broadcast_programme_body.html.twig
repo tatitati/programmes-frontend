@@ -1,0 +1,7 @@
+{% extends "@Ds2013/Presenters/Domain/CoreEntity/Programme/SubPresenters/programme_body.html.twig" %}
+{%- block synopsis_extra -%}
+    {# Add an indicator showing whether this is a repeat if we have a broadcast #}
+    {%- if programme_body.isRepeat() -%}
+        <abbr class="repeat" title="{{ tr('repeats', 1) }}">({{ tr('repeat_abbr') }})</abbr>
+    {%- endif -%}
+{%- endblock -%}

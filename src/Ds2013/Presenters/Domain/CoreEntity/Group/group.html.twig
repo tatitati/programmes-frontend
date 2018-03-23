@@ -1,0 +1,28 @@
+{% set img_classes = build_css_classes() %}
+<div class="programme block-link {{ group.getOption('highlight_box_classes') }}">
+    {% if group.getImage() %}
+        <div class="programme__img programme__img--hasimage {{ group.getOption('img_classes') }}">
+            {{- ds_shared(
+                'image',
+                group.getImage(),
+                group.getOption('img_default_width'),
+                group.getOption('img_sizes'),
+                {'ratio': 16/9, 'is_bounded': true, }
+            ) -}}
+
+            <div class="programme__overlay">
+                <div class="programme__icon br-box-{{ group.getOption('branding_context') }}">
+                    {{ gelicon('media', group.getMediaIconName(), 'gelicon--half-container') }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="programme__body">
+        {{ ds2013_presenter(group.getCoreEntityTitlePresenter()) }}
+
+        {% if group.getSynopsis() %}
+            <p class="programme__synopsis text--subtle">{{ group.getSynopsis() }}</p>
+        {% endif %}
+    </div>
+</div>

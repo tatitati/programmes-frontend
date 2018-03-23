@@ -125,7 +125,38 @@
 
                 {# TODO Podcasts module #}
 
-                {# TODO Galleries module #}
+                {% if galleries %}
+                    <div class="component component--box component--box--striped component--box--secondary" id="galleries">
+                        <div class="component__header br-box-highlight">
+                            <h2>{{ tr('galleries', programme.getAggregatedGalleriesCount()) }}</h2>
+                        </div>
+                        <div class="component__body br-box-subtle">
+                            <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid@bpb1 highlight-box-wrapper--grid@bpw">
+                                {% for gallery in galleries %}
+                                    <li class="grid{{ galleries|length > 1 ? ' 1/2@bpb1 1/2@bpw' }}">
+                                        {{ ds2013('group', gallery, {
+                                            'context_programme': programme,
+                                            'highlight_box_classes':'highlight-box--list highlight-box--grid@bpb1 programme--grid@bpb1 highlight-box--grid@bpw programme--grid@bpw',
+                                            'img_classes': '1/1@bpb1 1/1@bpw',
+                                            'img_default_width': 240,
+                                            'img_sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                                            'show_synopsis': false,
+                                            'branding_context': 'page'
+                                        }) }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% if programme.getAggregatedGalleriesCount() > 1 %}
+                            <div class="component__footer br-box-subtle">
+                                <a class="component__footer__link" href="{{ path('programme_galleries', { pid: programme.getPid() }) }}">
+                                    <span class="component__footer__title">{{ tr('see_all_galleries_from', {'%1': programme.getTitle()}) }}</span>
+                                    <span class="component__footer__detail">({{ programme.getAggregatedGalleriesCount() }})</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
 
                 {# TODO Vote module #}
 
