@@ -34,13 +34,10 @@ class MapPresenter extends Presenter
     private $debutsCount;
 
     /** @var Promotion|null */
-    private $firstPromo;
+    private $priorityPromotion;
 
     /** @var HelperFactory */
     private $helperFactory;
-
-    /** @var bool */
-    private $isPromoPriority;
 
     /** @var CollapsedBroadcast|null */
     private $lastOn;
@@ -85,12 +82,11 @@ class MapPresenter extends Presenter
         ProgrammeContainer $programme,
         ?CollapsedBroadcast $upcomingBroadcast,
         ?CollapsedBroadcast $lastOn,
-        ?Promotion $firstPromo,
+        ?Promotion $priorityPromotion,
         ?Promotion $comingSoonPromo,
         ?Episode $streamableEpisode,
         int $debutsCount,
         int $repeatsCount,
-        bool $isPromoPriority,
         bool $showMiniMap,
         array $options = []
     ) {
@@ -102,12 +98,11 @@ class MapPresenter extends Presenter
         $this->programme = $programme;
         $this->upcomingBroadcast = $upcomingBroadcast;
         $this->lastOn = $lastOn;
-        $this->firstPromo = $firstPromo;
+        $this->priorityPromotion = $priorityPromotion;
         $this->comingSoonPromo = $comingSoonPromo;
         $this->streamableEpisode = $streamableEpisode;
         $this->debutsCount = $debutsCount;
         $this->repeatsCount = $repeatsCount;
-        $this->isPromoPriority = $isPromoPriority;
         $this->showMiniMap = $showMiniMap;
 
         if (!$this->showMap()) {
@@ -235,10 +230,10 @@ class MapPresenter extends Presenter
     private function constructLeftColumn(): void
     {
         $leftColumnOptions = ['is_three_column' => $this->countTotalColumns() === 3];
-        if ($this->isPromoPriority) {
+        if ($this->priorityPromotion) {
             $this->leftColumn = new PromoPriorityPresenter(
                 $this->programme,
-                $this->firstPromo,
+                $this->priorityPromotion,
                 $leftColumnOptions
             );
         } else {

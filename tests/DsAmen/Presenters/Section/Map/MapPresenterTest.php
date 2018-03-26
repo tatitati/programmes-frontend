@@ -3,11 +3,14 @@ declare(strict_types = 1);
 
 namespace Tests\App\DsAmen\Presenters\Section\Map;
 
+use App\Builders\BrandBuilder;
+use App\Builders\PromotionBuilder;
 use App\DsAmen\Presenter;
 use App\DsAmen\Presenters\Section\Map\MapPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\ComingSoonPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\LastOnPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\OnDemandPresenter;
+use App\DsAmen\Presenters\Section\Map\SubPresenter\PromoPriorityPresenter;
 use App\DsAmen\Presenters\Section\Map\SubPresenter\TxPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
@@ -36,7 +39,6 @@ class MapPresenterTest extends TestCase
             null,
             0,
             0,
-            false,
             false
         );
         $this->assertTrue($presenter->showMap());
@@ -67,7 +69,7 @@ class MapPresenterTest extends TestCase
                 ['comingsoon_textonly', 'Coming soon text'],
             ]));
         $presenter = $this->createMapPresenter($programmeContainer);
-        $this->assertColumns($presenter, [OnDemandPresenter::class, ComingSoonPresenter::class]);
+        $this->assertRightColumns($presenter, [OnDemandPresenter::class, ComingSoonPresenter::class]);
     }
 
     public function testWorldNewsColumns()
@@ -77,7 +79,7 @@ class MapPresenterTest extends TestCase
         $programmeContainer = $this->createProgrammeWithEpisodes();
         $programmeContainer->method('getNetwork')->willReturn($network);
         $presenter = $this->createMapPresenter($programmeContainer);
-        $this->assertColumns($presenter, [LastOnPresenter::class, TxPresenter::class]);
+        $this->assertRightColumns($presenter, [LastOnPresenter::class, TxPresenter::class]);
     }
 
     public function testTxColumns()
@@ -85,14 +87,49 @@ class MapPresenterTest extends TestCase
         $cb = $this->createMock(CollapsedBroadcast::class);
         $programmeContainer = $this->createProgrammeWithEpisodes();
         $presenter = $this->createMapPresenter($programmeContainer, $cb);
-        $this->assertColumns($presenter, [OnDemandPresenter::class, TxPresenter::class]);
+        $this->assertRightColumns($presenter, [OnDemandPresenter::class, TxPresenter::class]);
     }
 
     public function testDefaultColumns()
     {
         $programmeContainer = $this->createProgrammeWithEpisodes();
         $presenter = $this->createMapPresenter($programmeContainer);
-        $this->assertColumns($presenter, [OnDemandPresenter::class]);
+        $this->assertRightColumns($presenter, [OnDemandPresenter::class]);
+    }
+
+    /**
+     * If we pass a promo priority, then we create a PromoPriorityPresenter
+     */
+    public function testPromoPriorityPresenterIsCreated()
+    {
+        $promotion = PromotionBuilder::any()->build();
+        $pr = $this->createMapPresenter(
+            BrandBuilder::any()->with(['aggregatedEpisodesCount' => 33])->build(),
+            null,
+            $promotion
+        );
+
+        $leftC = $pr->getLeftColumn();
+
+        $this->assertNotNull($leftC);
+        $this->assertInstanceOf(PromoPriorityPresenter::class, $leftC);
+    }
+
+    /**
+     * if there is no PriorityPromotion, then we dont create a PromoPriorityPresenter
+     */
+    public function testLeftColumnHasProgrammeInfo()
+    {
+        $pr = $this->createMapPresenter(
+            BrandBuilder::any()->with(['aggregatedEpisodesCount' => 33])->build(),
+            null,
+            null
+        );
+
+        $leftC = $pr->getLeftColumn();
+
+        $this->assertNotNull($leftC);
+        $this->assertNotInstanceOf(PromoPriorityPresenter::class, $leftC);
     }
 
     /**
@@ -101,7 +138,7 @@ class MapPresenterTest extends TestCase
      * @param MapPresenter $presenter
      * @param string[] $columns Full class names of expected columns
      */
-    private function assertColumns(MapPresenter $presenter, array $columns)
+    private function assertRightColumns(MapPresenter $presenter, array $columns)
     {
         $presenterColumns = $presenter->getRightColumns();
         $this->assertContainsOnlyInstancesOf(Presenter::class, $presenterColumns);
@@ -125,7 +162,6 @@ class MapPresenterTest extends TestCase
             null,
             0,
             0,
-            false,
             false
         );
     }

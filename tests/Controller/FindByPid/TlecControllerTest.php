@@ -108,19 +108,6 @@ class TlecControllerTest extends BaseWebTestCase
         return $cases;
     }
 
-    public function testShowPromoPriority()
-    {
-        $controller = $this->createMock(TlecController::class);
-
-        $programmeContainer = $this->createMock(ProgrammeContainer::class);
-        $programmeContainer->method('isTlec')->willReturn(true);
-        $programmeContainer->expects($this->once())
-            ->method('getOption')
-            ->with('brand_layout')
-            ->willReturn('promo');
-        $this->assertTrue($this->invokeMethod($controller, 'isPromoPriority', [$programmeContainer, false, true]));
-    }
-
     public function testTlecIstatsLabels()
     {
         $this->loadFixtures(["FindByPid\Tlec\TlecClipsFixture"]);

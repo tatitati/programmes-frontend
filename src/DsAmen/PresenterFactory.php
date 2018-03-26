@@ -99,12 +99,11 @@ class PresenterFactory
         ProgrammeContainer $programme,
         ?CollapsedBroadcast $upcomingBroadcast,
         ?CollapsedBroadcast $lastOn,
-        ?Promotion $firstPromo,
+        ?Promotion $priorityPromotion,
         ?Promotion $comingSoonPromo,
         ?Episode $streamableEpisode,
         int $debutsCount,
         int $repeatsCount,
-        bool $isPromoPriority,
         bool $showMiniMap
     ): MapPresenter {
         return new MapPresenter(
@@ -114,12 +113,11 @@ class PresenterFactory
             $programme,
             $upcomingBroadcast,
             $lastOn,
-            $firstPromo,
+            $priorityPromotion,
             $comingSoonPromo,
             $streamableEpisode,
             $debutsCount,
             $repeatsCount,
-            $isPromoPriority,
             $showMiniMap
         );
     }

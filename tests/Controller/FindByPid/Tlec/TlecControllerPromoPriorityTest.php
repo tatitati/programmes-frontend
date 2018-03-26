@@ -17,21 +17,7 @@ class TlecControllerPromoPriorityTest extends BaseWebTestCase
         $this->tlecController = $this->createMock(TlecController::class);
     }
 
-    public function testFindFirstRegularPromotionFromList()
-    {
-        $promotions = [
-            PromotionBuilder::any()->with(['isSuperPromotion' => true])->build(),
-            $firstRegularPromotion = PromotionBuilder::any()->with(['isSuperPromotion' => false])->build(),
-            PromotionBuilder::any()->with(['isSuperPromotion' => true])->build(),
-            PromotionBuilder::any()->with(['isSuperPromotion' => false])->build(),
-        ];
-
-        $foundRegularPromotion = $this->invokeMethodInController('extractFirstRegularPromotionAndUpdateList', [&$promotions]);
-
-        $this->assertEquals($firstRegularPromotion, $foundRegularPromotion);
-    }
-
-    public function testCanRemoveSpecifiedPromotionFromList()
+    public function testCanFindTheFirstRegularPromotionAndUpdateTheList()
     {
         $promotions = [
             $promo0 = PromotionBuilder::any()->with(['isSuperPromotion' => true])->build(),
@@ -40,8 +26,9 @@ class TlecControllerPromoPriorityTest extends BaseWebTestCase
             $promo3 = PromotionBuilder::any()->with(['isSuperPromotion' => false])->build(),
         ];
 
-        $this->invokeMethodInController('extractFirstRegularPromotionAndUpdateList', [&$promotions]);
+        $firstPromotion = $this->invokeMethodInController('extractPriorityPromotionAndUpdateList', [&$promotions]);
 
+        $this->assertEquals($firstPromotion, $promo1);
         $this->assertEquals([0 => $promo0, 2 => $promo2, 3 => $promo3], $promotions);
     }
 
@@ -53,24 +40,33 @@ class TlecControllerPromoPriorityTest extends BaseWebTestCase
             $promo2 = PromotionBuilder::any()->with(['isSuperPromotion' => true])->build(),
         ];
 
-        $firstRegularPromotion = $this->invokeMethodInController('extractFirstRegularPromotionAndUpdateList', [&$promotions]);
+        $firstPromotion = $this->invokeMethodInController('extractPriorityPromotionAndUpdateList', [&$promotions]);
 
-        $this->assertNull($firstRegularPromotion);
-        $this->assertEquals([0 => $promo0, 1 => $promo1, 2 => $promo2], $promotions);
+        $this->assertNull($firstPromotion);
+        $this->assertEquals([$promo0, $promo1, $promo2], $promotions);
     }
 
-
     /**
-     * [ Edge case ]. Remove the first regular promotion from a list with only one promotion
+     * Edge case. Remove the first regular promotion from a list with only one promotion
      */
     public function testCanProduceAnEmptyArrayOfPromotions()
     {
-        $promotions = [
-            $promo2 = PromotionBuilder::any()->with(['isSuperPromotion' => false])->build(),
-        ];
+        $promo0 = PromotionBuilder::any()->with(['isSuperPromotion' => false])->build();
+        $promotions = [$promo0];
 
-        $this->invokeMethodInController('extractFirstRegularPromotionAndUpdateList', [&$promotions]);
+        $firstPromotion = $this->invokeMethodInController('extractPriorityPromotionAndUpdateList', [&$promotions]);
 
+        $this->assertEquals($firstPromotion, $promo0);
+        $this->assertEquals([], $promotions);
+    }
+
+    public function testReturnNullWhenNoPromotions()
+    {
+        $promotions = [];
+
+        $firstPromotion = $this->invokeMethodInController('extractPriorityPromotionAndUpdateList', [&$promotions]);
+
+        $this->assertNull($firstPromotion);
         $this->assertEquals([], $promotions);
     }
 

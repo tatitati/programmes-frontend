@@ -140,23 +140,22 @@ class TlecController extends BaseController
         // Map parameters
         $isVotePriority = $this->isVotePriority($programme);
         $showMiniMap = $this->showMiniMap($request, $programme, $isVotePriority, isset($resolvedPromises['lxPromo']));
-        $isPromoPriority = $this->isPromoPriority($programme, $showMiniMap, !empty($promotions));
 
-        $firstRegularPromotion = null;
-        if ($isPromoPriority) {
-            $firstRegularPromotion = $this->extractFirstRegularPromotionAndUpdateList($promotions);
+        $priorityPromotion = null;
+        if ($programme->getOption('brand_layout') === 'promo' && !empty($promotions) && $programme->isTlec() && !$showMiniMap) {
+            $priorityPromotion = $this->extractPriorityPromotionAndUpdateList($promotions);
         }
+
 
         $mapPresenter = $presenterFactory->mapPresenter(
             $programme,
             $upcomingBroadcast,
             $lastOn,
-            $firstRegularPromotion,
+            $priorityPromotion,
             $comingSoonPromo,
             $onDemandEpisode,
             $upcomingRepeatsAndDebutsCounts['debuts'],
             $upcomingRepeatsAndDebutsCounts['repeats'],
-            $isPromoPriority,
             $showMiniMap
         );
 
@@ -227,11 +226,6 @@ class TlecController extends BaseController
         }
 
         return $lastOn[0] ?? null;
-    }
-
-    private function isPromoPriority(ProgrammeContainer $programme, bool $showMiniMap, bool $hasPromotions): bool
-    {
-        return $programme->getOption('brand_layout') === 'promo' && $hasPromotions && $programme->isTlec() && !$showMiniMap;
     }
 
     private function isVotePriority(ProgrammeContainer $programme): bool
@@ -382,8 +376,9 @@ class TlecController extends BaseController
 
     /**
      * @param Promotion[] $promotions
+     * @return Promotion|null
      */
-    private function extractFirstRegularPromotionAndUpdateList(array &$promotions) :?Promotion
+    private function extractPriorityPromotionAndUpdateList(array &$promotions) :?Promotion
     {
         foreach ($promotions as $index => $promotion) {
             if (!$promotion->isSuperPromotion()) {
