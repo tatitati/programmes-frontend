@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Presenters\Domain\CoreEntity\CollapsedBroadcast;
 
+use App\Builders\CollapsedBroadcastBuilder;
+use App\Builders\EpisodeBuilder;
 use App\DsAmen\Presenters\Domain\CoreEntity\CollapsedBroadcast\CollapsedBroadcastPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\CollapsedBroadcast\SubPresenter\CtaPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\CollapsedBroadcast\SubPresenter\DetailsPresenter;
@@ -186,6 +188,62 @@ class CollapsedBroadcastPresenterTest extends TestCase
             'Do not show Watch from start CTA when not on air' => [false, false, false],
             'Do not show Watch from start CTA when programme is from radio' => [false, true, false],
         ];
+    }
+
+    /**
+     * [ CTA duration ]. CollapsedBroadcastPresenter configure properly CtaPresenter when programme is TV
+     *
+     * @dataProvider showImageOptionProvider
+     */
+    public function testShowDurationIsTrueForTVProgrammes(bool $givenShowImageOption)
+    {
+        $ctaPresenter = $this->buildCollapsedBroadcastPresenter(
+            EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build(),
+            $givenShowImageOption
+        )->getCtaPresenter();
+
+        $this->assertTrue($ctaPresenter->getOption('show_duration'));
+    }
+
+    /**
+     * [ CTA duration ]. CollapsedBroadcastPresenter configure properly CtaPresenter when programme is RADIO
+     *
+     * @dataProvider showImageOptionProvider
+     */
+    public function testShowDurationIsFalseForRadioProgrammes(bool $givenShowImageOption)
+    {
+        $ctaPresenter = $this->buildCollapsedBroadcastPresenter(
+            EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build(),
+            $givenShowImageOption
+        )->getCtaPresenter();
+
+        $this->assertEquals($givenShowImageOption, $ctaPresenter->getOption('show_duration'));
+    }
+
+    public function showImageOptionProvider()
+    {
+        return [
+            'show_image option: TRUE' =>  [true],
+            'show_image option: FALSE' => [false],
+        ];
+    }
+
+    /**
+     * helpers
+     */
+    private function buildCollapsedBroadcastPresenter(ProgrammeItem $episode, bool $givenShowImageOption) :CollapsedBroadcastPresenter
+    {
+        $dummy1 = $this->mockRouter;
+        $dummy2 = $this->translate;
+        $dummy3 = $this->mockHelperFactory;
+
+        return new CollapsedBroadcastPresenter(
+            CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build(),
+            $dummy1,
+            $dummy2,
+            $dummy3,
+            ['show_image' => $givenShowImageOption]
+        );
     }
 
     private function createMockCollapsedBroadcast()

@@ -70,6 +70,10 @@ class CollapsedBroadcastPresenter extends BaseCoreEntityPresenter
             );
         }
         if ($this->isStreamable()) {
+            if ($this->hideStandaloneDuration()) {
+                $options['show_duration'] = false;
+            }
+
             return new StreamableCtaPresenter(
                 $this->coreEntity,
                 $this->router,
@@ -144,5 +148,10 @@ class CollapsedBroadcastPresenter extends BaseCoreEntityPresenter
             );
         }
         return $this->playableLive;
+    }
+
+    private function hideStandaloneDuration() :bool
+    {
+        return $this->showStandaloneCta() && $this->collapsedBroadcast->getProgrammeItem() instanceof ProgrammeItem && $this->collapsedBroadcast->getProgrammeItem()->isRadio();
     }
 }

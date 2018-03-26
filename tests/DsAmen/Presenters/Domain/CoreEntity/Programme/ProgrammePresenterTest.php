@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Presenters\Domain\CoreEntity\Programme;
 
+use App\Builders\EpisodeBuilder;
 use App\DsAmen\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Programme\SubPresenter\CtaPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\BodyPresenter;
@@ -175,6 +176,88 @@ class ProgrammePresenterTest extends TestCase
         ];
     }
 
+    /**
+     * [ CTA stand alone ]. When streamable episode it depends on option "show_image". Doesnt matter type of programme
+     *
+     * @dataProvider showImageOptionProvider
+     */
+    public function testWhenNoDisplayedAndImageIsAlwaysStandAlone(bool $givenShowImageOption)
+    {
+        $presenter = new ProgrammePresenter(
+            EpisodeBuilder::any()->with(['isStreamable' => true])->build(),
+            $this->mockRouter,
+            $this->mockHelperFactory,
+            ['show_image' => $givenShowImageOption]
+        );
+
+        $this->assertEquals(!$givenShowImageOption, $presenter->showStandaloneCta());
+    }
+
+    public function showImageOptionProvider()
+    {
+        return [
+            [true],
+            [false],
+        ];
+    }
+
+    /**
+     * [ CTA duration ]. ProgrammePresenter configure properly CtaPresenter when option show_image=false
+     *
+     * @dataProvider episodesNotShowingImageProvider
+     */
+    public function testWeDontDisplayDurationWhenRadioAndStandAloneCTA($givenEpisode, $thenShowDuration)
+    {
+        $ctaSubPresenter = (new ProgrammePresenter(
+            $givenEpisode,
+            $this->mockRouter,
+            $this->mockHelperFactory,
+            ['show_image' => false]
+        ))->getCtaPresenter();
+
+        $this->assertEquals($thenShowDuration, $ctaSubPresenter->getOption('show_duration'));
+    }
+
+    public function episodesNotShowingImageProvider()
+    {
+        $thenShowDuration = true;
+        $givenRadioEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build();
+        $givenTvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build();
+
+        return [
+            'GIVEN TV EPISODE, THEN SHOW DURATION=TRUE' =>  [$givenTvEpisode, $thenShowDuration],
+            'GIVEN RADIO EPISODE, THEN SHOW DURATION=FALSE' => [$givenRadioEpisode, !$thenShowDuration],
+        ];
+    }
+
+    /**
+     * [ CTA duration ]. ProgrammePresenter configure properly CtaPresenter when option show_image=true
+     *
+     * @dataProvider episodesShowingImageProvider
+     */
+    public function testCtaPresenterDisplayAlwaysDurationWhenShowImageOptionIsTrue($givenEpisode)
+    {
+        $ctaSubPresenter = (new ProgrammePresenter(
+            $givenEpisode,
+            $this->mockRouter,
+            $this->mockHelperFactory,
+            ['show_image' => true]
+        ))->getCtaPresenter();
+
+        $this->assertTrue($ctaSubPresenter->getOption('show_duration'));
+    }
+
+    public function episodesShowingImageProvider()
+    {
+        $givenRadioEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build();
+        $givenTvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build();
+
+        return [
+            'GIVEN TV EPISODE' =>  [$givenTvEpisode],
+            'GIVEN RADIO EPISODE' => [$givenRadioEpisode],
+        ];
+    }
+    
     private function createMockClip(bool $isStreamable = false)
     {
         $mockClip = $this->createMock(Clip::class);

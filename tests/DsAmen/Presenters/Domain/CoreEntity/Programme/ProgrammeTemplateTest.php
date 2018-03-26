@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\App\DsAmen\Presenters\Domain\CoreEntity\Programme;
 
+use App\Builders\EpisodeBuilder;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use Cake\Chronos\Chronos;
 use Tests\App\BaseTemplateTestCase;
@@ -208,6 +209,31 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertHasClasses('duration speak-duration', $iconLabel->children()->eq(1), 'Duration Classes');
         $this->assertSame('30 minutes', $iconLabel->children()->eq(1)->attr('aria-label'));
         $this->assertSame('30:00', $iconLabel->children()->eq(1)->text());
+    }
+
+
+    public function testTVEpisodeDisplayDuration()
+    {
+        $tvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build();
+
+        $presenterFactory = TwigEnvironmentProvider::dsAmenPresenterFactory();
+        $presenter = $presenterFactory->programmePresenter($tvEpisode, ['show_image' => false]);
+
+        $crawler = $this->presenterCrawler($presenter);
+
+        $this->assertEquals(1, $crawler->filter('.duration')->count());
+    }
+
+    public function testRadioEpisodeNotDisplayDuration()
+    {
+        $tvEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build();
+
+        $presenterFactory = TwigEnvironmentProvider::dsAmenPresenterFactory();
+        $presenter = $presenterFactory->programmePresenter($tvEpisode, ['show_image' => false]);
+
+        $crawler = $this->presenterCrawler($presenter);
+
+        $this->assertEquals(0, $crawler->filter('.duration')->count());
     }
 
     protected function tearDown()

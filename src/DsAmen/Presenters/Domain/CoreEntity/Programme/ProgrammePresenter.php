@@ -12,6 +12,7 @@ use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\BodyPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\ImagePresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\StreamableCtaPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\TitlePresenter;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 
 class ProgrammePresenter extends BaseCoreEntityPresenter
 {
@@ -28,6 +29,9 @@ class ProgrammePresenter extends BaseCoreEntityPresenter
     {
         if ($this->isStreamable()) {
             $options = array_merge($this->subPresenterOptions('cta_options'), $options);
+            if ($this->hideStandaloneDuration()) {
+                $options['show_duration'] = false;
+            }
             return new StreamableCtaPresenter(
                 $this->coreEntity,
                 $this->router,
@@ -63,5 +67,10 @@ class ProgrammePresenter extends BaseCoreEntityPresenter
     public function showStandaloneCta(): bool
     {
         return (!$this->getOption('show_image') && $this->isStreamable());
+    }
+
+    private function hideStandaloneDuration() :bool
+    {
+        return $this->showStandaloneCta() && $this->coreEntity instanceof ProgrammeItem && $this->coreEntity->isRadio();
     }
 }
