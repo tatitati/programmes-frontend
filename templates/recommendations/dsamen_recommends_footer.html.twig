@@ -1,5 +1,5 @@
 {%- if footer.getRecommendations() -%}
-    <h2 class="footer__heading gel-double-pica-bold">{{- tr('you_might_also_like') -}}</h2>
+    <h3 class="footer__heading gel-double-pica-bold">{{- tr('you_might_also_like') -}}</h3>
     <ul class="grid grid--flush-bottom">
         {%- for prog in footer.getRecommendations() -%}
             <li class="grid__item 1/2">

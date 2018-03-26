@@ -14,6 +14,7 @@
                 'img_default_width': coming_soon.getDefaultImageSize(),
                 'show_image': not coming_soon.showMiniMap(),
                 'show_related_links': false,
+                'h_tag': 'h3',
             }) -}}
         {% else %}
             {% include '@DsAmen/Presenters/Section/Map/SubPresenter/message.html.twig' with {heading:tr('coming_soon'), message:coming_soon.getComingSoonTextOnly()} only %}

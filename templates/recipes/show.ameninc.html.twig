@@ -9,7 +9,8 @@
                 'cta_class': 'br-box-secondary',
                 'img_sizes': { 600 : 1/2, 768 : 1/3, 1008 : '315px', 1280 : '300px'},
                 'img_is_lazy_loaded': false,
-                'link_location_prefix': 'recipe_' ~ loop.index ~ '_'
+                'link_location_prefix': 'recipe_' ~ loop.index ~ '_',
+                'h_tag': 'h3'
             }) }}
             {%- if loop.last and total > 4 -%}
                 <div class="trailing-link br-box-secondary">
