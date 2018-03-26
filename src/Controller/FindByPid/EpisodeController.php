@@ -53,10 +53,12 @@ class EpisodeController extends BaseController
         }
         $upcomingBroadcasts = [];
         $lastOnBroadcasts = [];
+        $allBroadcasts = [];
         if ($episode->getFirstBroadcastDate()) {
             // Only search for broadcasts if a programme has them
             $upcomingBroadcasts = $collapsedBroadcastsService->findUpcomingByProgrammeWithFullServicesOfNetworksList($episode, 1);
             $lastOnBroadcasts = $collapsedBroadcastsService->findPastByProgrammeWithFullServicesOfNetworksList($episode, 1);
+            $allBroadcasts = $collapsedBroadcastsService->findByProgrammeWithFullServicesOfNetworksList($episode, 100);
         }
 
         $availableVersions = [];
@@ -100,6 +102,7 @@ class EpisodeController extends BaseController
             'galleries' => $galleries,
             'relatedLinks' => $relatedLinks,
             'promotions' => $promotions,
+            'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
             'favouritesButton' => $resolvedPromises['favouritesButton'],
         ]);

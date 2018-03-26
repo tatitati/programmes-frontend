@@ -48,5 +48,41 @@ class CollapsedBroadcastsFixture extends AbstractFixture implements DependentFix
         );
         $collapsedBroadcast->setTleo($broadcast->getProgrammeItem());
         $this->manager->persist($collapsedBroadcast);
+
+        $collapsedBroadcast = new CollapsedBroadcast(
+            $broadcast->getProgrammeItem(),
+            (string) $broadcast->getId(),
+            (string) $broadcast->getService()->getId(),
+            '0',
+            new DateTime('2017-05-22 02:45:00'),
+            new DateTime('2017-05-22 02:50:00')
+            // NOTE: These are copy/pasted from BroadcastsFixture due to issues with UtcDateTimeType
+        );
+        $collapsedBroadcast->setTleo($broadcast->getProgrammeItem());
+        $this->manager->persist($collapsedBroadcast);
+
+        $collapsedBroadcast = new CollapsedBroadcast(
+            $broadcast->getProgrammeItem(),
+            (string) $broadcast->getId(),
+            (string) $broadcast->getService()->getId(),
+            '0',
+            new DateTime('2017-05-22 02:50:00'),
+            new DateTime('2017-05-22 03:00:00')
+            // NOTE: These are copy/pasted from BroadcastsFixture due to issues with UtcDateTimeType
+        );
+        $collapsedBroadcast->setTleo($broadcast->getProgrammeItem());
+        $this->manager->persist($collapsedBroadcast);
+
+        $collapsedBroadcast = new CollapsedBroadcast(
+            $broadcast->getProgrammeItem(),
+            (string) $broadcast->getId(),
+            (string) $broadcast->getService()->getId(),
+            '0',
+            new DateTime('2017-05-22 03:00:00'),
+            new DateTime('2017-05-22 03:50:00')
+            // NOTE: These are copy/pasted from BroadcastsFixture due to issues with UtcDateTimeType
+        );
+        $collapsedBroadcast->setTleo($broadcast->getProgrammeItem());
+        $this->manager->persist($collapsedBroadcast);
     }
 }
