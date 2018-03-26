@@ -5,9 +5,9 @@
             {%- if programme.getType() == 'series' -%}
                 <div typeof="Season"
                      resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
-                     class="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover"
-                     data-inactiveclass="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover"
-                     data-activeclass="js-guideitem br-box-subtle island js-active"
+                     class="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover guide-series"
+                     data-inactiveclass="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover guide-series"
+                     data-activeclass="js-guideitem br-box-subtle island js-active guide-series guide-series--active"
                      data-fetched="false"
                      data-incpath="{{ path('programme_episodes_guide_partial', {'pid': programme.getPid() }) }}?{{ episode_guide_list.getQueryParamForNextNestedLevel() }}">
 
@@ -16,7 +16,7 @@
                     {#Title of this season#}
                     <a property="url"
                        resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
-                       class="js-serieslink istats-seriesopen block-link link-complex"
+                       class="js-serieslink istats-seriesopen block-link link-complex island--vertical"
                        href="{{ path('programme_episodes_guide', {'pid': programme.getPid()}) }}"
                        aria-expanded="false"
                        aria-controls="series-{{ programme.getPid() }}"
