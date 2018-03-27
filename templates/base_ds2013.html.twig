@@ -92,8 +92,11 @@
         {{ orb.getBodyfirst()|raw }}
         {{ branding.getBodyFirst()|raw }}
 
-        <div class="{% block page_classes %}programmes-page text-base b-g-p{% endblock %}" id="programmes-content" role="main" tabindex="-1">
-        {% block body %}{% endblock %}
+        <div role="main">
+            {#Keep role="main" and  tabindex="-1" separate as it causes an error in Chrome + Voiceover#}
+            <div class="{% block page_classes %}programmes-page text-base b-g-p{% endblock %}" id="programmes-content" tabindex="-1">
+            {% block body %}{% endblock %}
+            </div>
         </div>
         {% if programme is defined %}{{ ds2013('footer', programme) }}{% endif %}
         {{ gelicons_source() }}
