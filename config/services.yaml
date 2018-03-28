@@ -202,6 +202,9 @@ services:
     BBC\ProgrammesPagesService\Service\ContributionsService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getContributionsService']
 
+    BBC\ProgrammesPagesService\Service\GroupsService:
+        factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getGroupsService']
+
     BBC\ProgrammesPagesService\Service\ImagesService:
         factory: ['@BBC\ProgrammesPagesService\Service\ServiceFactory', 'getImagesService']
 

@@ -10,6 +10,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
+use BBC\ProgrammesPagesService\Service\GroupsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
@@ -31,6 +32,7 @@ class EpisodeController extends BaseController
         FavouritesButtonService $favouritesButtonService,
         VersionsService $versionsService,
         SegmentEventsService $segmentEventsService,
+        GroupsService $groupsService,
         PresenterFactory $presenterFactory,
         CanonicalVersionHelper $canonicalVersionHelper
     ) {
@@ -70,6 +72,7 @@ class EpisodeController extends BaseController
             $allBroadcasts = $collapsedBroadcastsService->findByProgrammeWithFullServicesOfNetworksList($episode, 100);
         }
 
+        $featuredIn = $groupsService->findByCoreEntityMembership($episode, 'Collection');
 
         // TODO check $episode->getPromotionsCount() once it is populated in
         // Faucet to potentially save on a DB query
@@ -126,6 +129,7 @@ class EpisodeController extends BaseController
             'clips' => $clips,
             'galleries' => $galleries,
             'relatedLinks' => $relatedLinks,
+            'featuredIn' => $featuredIn,
             'promotions' => $promotions,
             'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
