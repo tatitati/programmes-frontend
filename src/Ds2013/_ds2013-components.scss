@@ -68,7 +68,7 @@
 // @import 'objects/iplayer-icon';
 // @import 'objects/letters';
 // @import 'objects/pagination';
-// @import 'objects/moreless';
+@import 'Css/Components/moreless';
 
 // These items are meant to be used in conjunction with objects higher up.
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
@@ -88,7 +88,7 @@
 // @import 'objects/lazylink';
 @import 'Presenters/Section/Episode/Map/Panels/Main/playout';
 @import 'Presenters/Section/Episode/Map/episode-map';
-// @import 'objects/segments-list';
+@import 'Presenters/Section/Segments/segments-list';
 // @import 'objects/segment';
 // @import 'objects/timebar';
 // @import 'objects/form';

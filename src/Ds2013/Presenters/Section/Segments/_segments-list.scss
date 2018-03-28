@@ -1,0 +1,42 @@
+/**
+ *  .segments
+ *  A segments list, with playlister headings
+ */
+
+.segments-list__header {
+    text-align: center;
+    display: block;
+    padding: 8px;
+    line-height: 1.2;
+    vertical-align: middle;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}
+
+
+.segments-list__playlister {
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.segments-list__items {
+    margin-top: 8px;
+}
+
+.segments-list__item {
+    margin-bottom: 16px;
+}
+
+.segments-list__item--group {
+    margin-top: $basic-spacing;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+}
+
+.segments-list__item--group + .segments-list__item {
+    // separate a segment preceded by a group
+    margin-top: 40px;
+}
+

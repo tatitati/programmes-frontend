@@ -87,7 +87,9 @@
                         </div>
                     {% endif %}
 
-                    {# TODO Segments module #}
+                    {% if segmentsListPresenter %}
+                        {{ ds2013_presenter(segmentsListPresenter) }}
+                    {% endif %}
 
                     {# TODO Features module #}
 

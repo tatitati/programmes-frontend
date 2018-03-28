@@ -1,0 +1,10 @@
+<li class="segments-list__item segments-list__item--group br-keyline {{ group.getOption('moreless_class') }}">
+    <{{ group.getOption('h_tag') }} class="delta text--shout no-margin islet--vertical">
+        {{ group.getTitle() }}
+    </{{ group.getOption('h_tag') }}>
+    <ul class="segments-list__group-items list-unstyled">
+        {% for presenter in group.getPresenters() %}
+            {{ ds2013_presenter(presenter) }}
+        {% endfor %}
+    </ul>
+</li>

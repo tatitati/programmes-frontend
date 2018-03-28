@@ -1,0 +1,45 @@
+{% import _self as self %}
+
+{% if segments_list.getSegmentEvents() %}
+    <div class="component component--box component--box-flushbody-vertical component--box--primary" id="segments">
+        {% block title %}
+            <div class="component__header br-box-page">
+                <{{ segments_list.getHeadingTag() }}>{{ tr(segments_list.getTitle()) }}</{{ segments_list.getHeadingTag() }}>
+            </div>
+        {% endblock %}
+        <div class="component__body br-box-page">
+            <div class="segments-list {{ segments_list.getMorelessClass() }}">
+                {% if segments_list.hasTimingIntro() %}
+                    <p class="no-margin segments-list__header br-keyline br-box-subtle">
+                        {{ tr(segments_list.getTimingIntroTranslationString()) }}
+                    </p>
+                {% endif %}
+
+                {% if segments_list.hasMoreless() %}
+                    <input class="ml__status" id="segments-moreless" type="checkbox" checked>
+
+                    <ul class="list-unstyled segments-list__items ml__content">
+                        {% for presenter in segments_list.getSegmentItemsPresenters() %}
+                            {{ ds2013_presenter(presenter) }}
+                        {% endfor %}
+                    </ul>
+
+                    <label class="ml__button island text--center br-box-highlight" for="segments-moreless">
+                        <span class="br-pseudolink">
+                            <span class="ml__label--more">{{ tr('show_more') }}</span>
+                            <span class="ml__label--sep"> / </span>
+                            <span class="ml__label--less">{{ tr('show_less') }}</span>
+                        </span>
+                    </label>
+                {% else %}
+                    <ul class="list-unstyled segments-list__items">
+                        {% for presenter in segments_list.getSegmentItemsPresenters() %}
+                            {{ ds2013_presenter(presenter) }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {# TODO playlister #}
+            </div>
+        </div>
+    </div>
+{% endif %}

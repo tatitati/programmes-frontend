@@ -4,14 +4,17 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\Ds2013\PresenterFactory;
+use App\DsShared\Helpers\CanonicalVersionHelper;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
+use BBC\ProgrammesPagesService\Service\SegmentEventsService;
 use BBC\ProgrammesPagesService\Service\VersionsService;
 use GuzzleHttp\Promise\FulfilledPromise;
 
@@ -27,10 +30,16 @@ class EpisodeController extends BaseController
         CollapsedBroadcastsService $collapsedBroadcastsService,
         FavouritesButtonService $favouritesButtonService,
         VersionsService $versionsService,
-        PresenterFactory $presenterFactory
+        SegmentEventsService $segmentEventsService,
+        PresenterFactory $presenterFactory,
+        CanonicalVersionHelper $canonicalVersionHelper
     ) {
         $this->setIstatsProgsPageType('programmes_episode');
         $this->setContextAndPreloadBranding($episode);
+
+        // TODO: After PROGRAMMES-6284 is done, we can just fetch the versions we actually need and this can go
+        $versions = $versionsService->findByProgrammeItem($episode);
+        $availableVersions = $this->getAvailableVersions($versions);
 
         $clips = [];
         if ($episode->getAvailableClipsCount() > 0) {
@@ -61,10 +70,6 @@ class EpisodeController extends BaseController
             $allBroadcasts = $collapsedBroadcastsService->findByProgrammeWithFullServicesOfNetworksList($episode, 100);
         }
 
-        $availableVersions = [];
-        if ($episode->isStreamableAlternatate() || $episode->isDownloadable()) {
-            $availableVersions = $versionsService->findAvailableByProgrammeItem($episode);
-        }
 
         // TODO check $episode->getPromotionsCount() once it is populated in
         // Faucet to potentially save on a DB query
@@ -74,6 +79,10 @@ class EpisodeController extends BaseController
         $nextEpisode = null;
         /** @var Episode|null $previousEpisode */
         $previousEpisode = null;
+
+        $upcomingBroadcast = !empty($upcomingBroadcasts) ? reset($upcomingBroadcasts) : null;
+        $lastOnBroadcast =  !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null;
+
         if (!$episode->isTleo()) {
             $nextEpisode = $programmesService->findNextSiblingByProgramme($episode);
             $previousEpisode = $programmesService->findPreviousSiblingByProgramme($episode);
@@ -82,11 +91,27 @@ class EpisodeController extends BaseController
         $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
             $availableVersions,
-            !empty($upcomingBroadcasts) ? reset($upcomingBroadcasts) : null,
-            !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null,
+            $upcomingBroadcast,
+            $lastOnBroadcast,
             $nextEpisode,
             $previousEpisode
         );
+
+        $segmentsListPresenter = null;
+        if ($versions) {
+            $canonicalVersion = $canonicalVersionHelper->getCanonicalVersion($versions);
+            if ($canonicalVersion->getSegmentEventCount()) {
+                $segmentEvents = $segmentEventsService->findByVersionWithContributions($canonicalVersion);
+                if ($segmentEvents) {
+                    $segmentsListPresenter = $presenterFactory->segmentsListPresenter(
+                        $episode,
+                        $segmentEvents,
+                        $upcomingBroadcast,
+                        $lastOnBroadcast
+                    );
+                }
+            }
+        }
 
         $favouritesButtonPromise = new FulfilledPromise(null);
         if ($episode->isRadio()) {
@@ -104,7 +129,15 @@ class EpisodeController extends BaseController
             'promotions' => $promotions,
             'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
+            'segmentsListPresenter' => $segmentsListPresenter,
             'favouritesButton' => $resolvedPromises['favouritesButton'],
         ]);
+    }
+
+    private function getAvailableVersions(array $versions): array
+    {
+        return array_filter($versions, function (Version $version) {
+            return $version->isDownloadable() || $version->isStreamable();
+        });
     }
 }

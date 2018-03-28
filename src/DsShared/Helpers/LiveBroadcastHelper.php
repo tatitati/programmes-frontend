@@ -191,7 +191,7 @@ class LiveBroadcastHelper
         return $this->isOnNowIsh($collapsedBroadcast, $advancedLive);
     }
 
-    private function isOnNowIsh(CollapsedBroadcast $collapsedBroadcast, bool $advancedLive = false): bool
+    public function isOnNowIsh(CollapsedBroadcast $collapsedBroadcast, bool $advancedLive = false): bool
     {
         $startBefore = $endAfter = ApplicationTime::getTime();
         if ($advancedLive) {
