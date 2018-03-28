@@ -1,0 +1,75 @@
+// Class bbccom_mpu is added by bbcdotcom module when MPU ad is inserted into the DOM
+
+@include mq($from: gel3) {
+    .bbccom_mpu .mpu-grid {
+        flex-wrap: nowrap;
+
+        .tlec-page-card {
+            width: 100%;
+        }
+
+        .mpu-grid__left {
+            order: 1;
+            width: 50%;
+            flex-grow: 1;
+        }
+
+        .mpu-grid__right {
+            order: 2;
+            width: 50%;
+            min-width: 316px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+    }
+}
+
+@include mq($from: gel3b) {
+    .bbccom_mpu .mpu-grid {
+        .tlec-page-card {
+            width: 50%;
+        }
+
+        .tlec-page-card--doublewidth {
+            width: 100%;
+        }
+
+        .mpu-grid__left {
+            width: 66.66%;
+        }
+
+        .mpu-grid__right {
+            width: 33.33%;
+        }
+    }
+}
+
+@include mq($from: gel4) {
+    .bbccom_mpu .mpu-grid .tlec-page-supporting-content {
+        width: 100%;
+    }
+}
+
+@include mq($from: gel5) {
+    .bbccom_mpu .mpu-grid {
+        .tlec-page-card {
+            width: 33.33%;
+        }
+
+        .tlec-page-card--doublewidth {
+            width: 66.66%;
+        }
+
+        .mpu-grid__left {
+            width: 75%;
+        }
+
+        .mpu-grid__right {
+            width: 25%;
+        }
+
+        .tlec-page-supporting-content {
+            width: 50%;
+        }
+    }
+}
