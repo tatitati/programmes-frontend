@@ -1,6 +1,12 @@
-<li class="segments-list__item segments-list__item--speech {{ speech.getOption('moreless_class') }}">
-    <{{ speech.getOption('h_tag') }} class="gamma no-margin">
-        {{ speech.getTitle() }}
-    </{{ speech.getOption('h_tag') }}>
-    <p>Speech Segment</p>
+<li class="segments-list__item segments-list__item--music {{ speech.getOption('moreless_class') }}">
+    <div class="segment text--prose">
+        <div class="segment__content">
+            <{{ speech.getOption('h_tag') }} class="gamma no-margin">
+                <span class="title">{{ speech.getTitle() }}</span>
+            </{{ speech.getOption('h_tag') }}>
+        <p class="no-margin">{{ speech.getSynopsis() }}</p>
+        {% if speech.hasDuration() %}
+            <p class="milli text--subtle text--shout">{{ tr('duration', {'%1': speech.getDuration()}) }}</p>
+        {% endif %}
+    </div>
 </li>

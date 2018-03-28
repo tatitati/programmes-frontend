@@ -65,6 +65,20 @@ class PlayTranslationsHelper
         return $this->tr('iplayer_' . $mediaVerb . '_from_start');
     }
 
+    public function secondsToFormattedDuration(int $duration): string
+    {
+        $hours = intdiv($duration, 3600);
+        $duration -= ($hours * 3600);
+        $minutes = intdiv($duration, 60);
+        $seconds = $duration - ($minutes * 60);
+
+        if ($hours > 0) {
+            return str_pad((string) $hours, 2, '0', STR_PAD_LEFT) . ':' . str_pad((string) $minutes, 2, '0', STR_PAD_LEFT) . ':' . str_pad((string) $seconds, 2, '0', STR_PAD_LEFT);
+        }
+
+        return str_pad((string) $minutes, 2, '0', STR_PAD_LEFT) . ':' . str_pad((string) $seconds, 2, '0', STR_PAD_LEFT);
+    }
+
     public function secondsToWords(
         int $seconds,
         bool $longFormat = true,

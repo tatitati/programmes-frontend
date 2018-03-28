@@ -5,11 +5,11 @@ namespace App\Ds2013\Presenters\Section\Segments;
 
 use App\Ds2013\Presenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\AbstractSegmentItemPresenter;
-use App\Ds2013\Presenters\Section\Segments\SegmentItem\ChapterPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\MusicPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\GroupPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\SpeechPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -25,6 +25,9 @@ class SegmentsListPresenter extends Presenter
 
     /** @var LiveBroadcastHelper */
     private $liveBroadcastHelper;
+
+    /** @var PlayTranslationsHelper */
+    private $playTranslationsHelper;
 
     /** @var ProgrammeItem */
     private $context;
@@ -48,6 +51,7 @@ class SegmentsListPresenter extends Presenter
 
     /**
      * @param LiveBroadcastHelper $liveBroadcastHelper
+     * @param PlayTranslationsHelper $playTranslationsHelper
      * @param ProgrammeItem $context
      * @param SegmentEvent[] $segmentEvents
      * @param CollapsedBroadcast|null $upcoming
@@ -56,6 +60,7 @@ class SegmentsListPresenter extends Presenter
      */
     public function __construct(
         LiveBroadcastHelper $liveBroadcastHelper,
+        PlayTranslationsHelper $playTranslationsHelper,
         ProgrammeItem $context,
         array $segmentEvents,
         ?CollapsedBroadcast $upcoming,
@@ -64,6 +69,7 @@ class SegmentsListPresenter extends Presenter
     ) {
         parent::__construct($options);
         $this->liveBroadcastHelper = $liveBroadcastHelper;
+        $this->playTranslationsHelper = $playTranslationsHelper;
         $this->context = $context;
         $this->collapsedBroadcast = $upcoming ?? $lastOn;
         $this->segmentEvents = $segmentEvents;
@@ -251,15 +257,9 @@ class SegmentsListPresenter extends Presenter
             }
 
             if ($segmentEvent->getSegment() instanceof MusicSegment) {
-                $presenters[] = new MusicPresenter($segmentEvent->getSegment(), $options);
-            } elseif ($segmentEvent->isChapter() &&
-                $segmentEvent->getOffset() &&
-                ($this->context->isStreamable() || $this->context->isDownloadable()) &&
-                !$this->isLive
-            ) {
-                $presenters[] = new ChapterPresenter($segmentEvent->getSegment(), $options);
+                $presenters[] = new MusicPresenter($segmentEvent, $options);
             } else {
-                $presenters[] = new SpeechPresenter($segmentEvent->getSegment(), $options);
+                $presenters[] = new SpeechPresenter($this->playTranslationsHelper, $segmentEvent, $options);
             }
 
             $current += 1;
@@ -271,7 +271,7 @@ class SegmentsListPresenter extends Presenter
                 $options['moreless_class'] = 'ml__hidden';
             }
 
-            return new GroupPresenter(reset($segmentEvents)->getTitle(), $presenters, $options);
+            return new GroupPresenter(reset($segmentEvents), $presenters, $options);
         }
 
         return reset($presenters);

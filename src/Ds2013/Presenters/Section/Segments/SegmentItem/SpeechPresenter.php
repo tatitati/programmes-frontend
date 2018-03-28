@@ -3,26 +3,35 @@ declare(strict_types=1);
 
 namespace App\Ds2013\Presenters\Section\Segments\SegmentItem;
 
-use BBC\ProgrammesPagesService\Domain\Entity\Segment;
+use App\DsShared\Helpers\PlayTranslationsHelper;
+use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 
 class SpeechPresenter extends AbstractSegmentItemPresenter
 {
-    /** @var Segment */
-    private $segment;
+    /** @var PlayTranslationsHelper */
+    private $playTranslationsHelper;
 
-    public function __construct(Segment $segment, array $options = [])
-    {
-        parent::__construct($options);
-        $this->segment = $segment;
+    public function __construct(
+        PlayTranslationsHelper $playTranslationsHelper,
+        SegmentEvent $segmentEvent,
+        array $options = []
+    ) {
+        parent::__construct($segmentEvent, $options);
+        $this->playTranslationsHelper = $playTranslationsHelper;
     }
 
-    public function getType(): string
+    public function hasDuration(): bool
     {
-        return 'speech';
+        return $this->segmentEvent->isChapter() && $this->segmentEvent->getSegment()->getDuration();
     }
 
-    public function getTitle(): ?string
+    public function getSynopsis(): string
     {
-        return $this->segment->getTitle();
+        return $this->segmentEvent->getSegment()->getSynopses()->getShortestSynopsis();
+    }
+
+    public function getDuration(): string
+    {
+        return $this->playTranslationsHelper->secondsToFormattedDuration($this->segmentEvent->getSegment()->getDuration());
     }
 }

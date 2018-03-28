@@ -3,19 +3,17 @@ declare(strict_types=1);
 
 namespace App\Ds2013\Presenters\Section\Segments\SegmentItem;
 
+use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
+
 class GroupPresenter extends AbstractSegmentItemPresenter
 {
     /** @var AbstractSegmentItemPresenter[] */
     private $presenters;
 
-    /** @var string */
-    private $title;
-
-    public function __construct(string $title, array $presenters, array $options)
+    public function __construct(SegmentEvent $segmentEvent, array $presenters, array $options)
     {
-        parent::__construct($options);
+        parent::__construct($segmentEvent, $options);
         $this->presenters = $presenters;
-        $this->title = $title;
     }
 
     /** @return AbstractSegmentItemPresenter[] */
@@ -24,8 +22,8 @@ class GroupPresenter extends AbstractSegmentItemPresenter
         return $this->presenters;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->segmentEvent->getTitle();
     }
 }

@@ -8,6 +8,7 @@ use App\Ds2013\Presenters\Section\Segments\SegmentItem\MusicPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\SpeechPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentsListPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -26,8 +27,12 @@ class SegmentsListPresenterTest extends TestCase
     /** @var LiveBroadcastHelper|MockObject */
     private $mockLiveBroadcastHelper;
 
+    /** @var PlayTranslationsHelper|MockObject */
+    private $mockPlayTranslationsHelper;
+
     public function setUp()
     {
+        $this->mockPlayTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
         $this->mockLiveBroadcastHelper = $this->createMock(LiveBroadcastHelper::class);
         ApplicationTime::setTime((new Chronos('2017-06-01 12:00:00'))->getTimestamp());
     }
@@ -36,7 +41,15 @@ class SegmentsListPresenterTest extends TestCase
     public function testGetTitle(string $expected, array $segmentEvents)
     {
         $episode = $this->createMock(Episode::class);
-        $presenter = new SegmentsListPresenter($this->mockLiveBroadcastHelper, $episode, $segmentEvents, null, null, []);
+        $presenter = new SegmentsListPresenter(
+            $this->mockLiveBroadcastHelper,
+            $this->mockPlayTranslationsHelper,
+            $episode,
+            $segmentEvents,
+            null,
+            null,
+            []
+        );
         $this->assertEquals($expected, $presenter->getTitle());
     }
 
@@ -66,7 +79,15 @@ class SegmentsListPresenterTest extends TestCase
     /** @dataProvider getMorelessClassProvider */
     public function testGetMorelessClass(string $expected, array $segmentEvents, ProgrammeItem $context)
     {
-        $presenter = new SegmentsListPresenter($this->mockLiveBroadcastHelper, $context, $segmentEvents, null, null, []);
+        $presenter = new SegmentsListPresenter(
+            $this->mockLiveBroadcastHelper,
+            $this->mockPlayTranslationsHelper,
+            $context,
+            $segmentEvents,
+            null,
+            null,
+            []
+        );
         $this->assertEquals($expected, $presenter->getMorelessClass());
     }
 
@@ -100,7 +121,15 @@ class SegmentsListPresenterTest extends TestCase
     /** @dataProvider hasTimingIntroProvider */
     public function testHasTimingIntro(bool $expected, ProgrammeItem $context)
     {
-        $presenter = new SegmentsListPresenter($this->mockLiveBroadcastHelper, $context, [], null, null, []);
+        $presenter = new SegmentsListPresenter(
+            $this->mockLiveBroadcastHelper,
+            $this->mockPlayTranslationsHelper,
+            $context,
+            [],
+            null,
+            null,
+            []
+        );
         $this->assertEquals($expected, $presenter->hasTimingIntro());
     }
 
@@ -130,7 +159,15 @@ class SegmentsListPresenterTest extends TestCase
     public function testGetSegmentItemsPresenterGroupingByTitle(array $expectedPresenters, array $expectedCount, array $segmentEvents)
     {
         $context = $this->createMock(ProgrammeItem::class);
-        $presenter = new SegmentsListPresenter($this->mockLiveBroadcastHelper, $context, $segmentEvents, null, null, []);
+        $presenter = new SegmentsListPresenter(
+            $this->mockLiveBroadcastHelper,
+            $this->mockPlayTranslationsHelper,
+            $context,
+            $segmentEvents,
+            null,
+            null,
+            []
+        );
 
         $segmentItemsPresenters = $presenter->getSegmentItemsPresenters();
         $this->assertCount(count($expectedPresenters), $segmentItemsPresenters);
@@ -223,6 +260,7 @@ class SegmentsListPresenterTest extends TestCase
 
         $presenter = new SegmentsListPresenter(
             $this->mockLiveBroadcastHelper,
+            $this->mockPlayTranslationsHelper,
             $context,
             $segmentEvents,
             $collapsedBroadcast,

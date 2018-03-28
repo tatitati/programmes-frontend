@@ -216,6 +216,7 @@ class PresenterFactory
     ): SegmentsListPresenter {
         return new SegmentsListPresenter(
             $this->helperFactory->getLiveBroadcastHelper(),
+            $this->helperFactory->getPlayTranslationsHelper(),
             $programmeItem,
             $segmentEvents,
             $upcoming,
