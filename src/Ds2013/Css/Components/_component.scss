@@ -185,7 +185,7 @@
     // incorrect spacing from from highlight-box--list defined above
     .component--box--primary,
     .component--box--secondary {
-        .bpb1-highlight-box--grid {
+        .highlight-box--grid\@bpb1 {
             margin: 0 0 $wide-spacing;
             padding: 0;
 
@@ -208,7 +208,7 @@
     // incorrect spacing from from highlight-box--list defined above
     .component--box--primary,
     .component--box--secondary {
-        .bpb2-highlight-box--grid {
+        .highlight-box--grid\@bpb2 {
             margin: 0 0 $wide-spacing;
             padding: 0;
 
