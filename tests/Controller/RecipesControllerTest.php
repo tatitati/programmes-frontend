@@ -30,14 +30,14 @@ class RecipesControllerTest extends BaseWebTestCase
     {
         $client = $this->createClientWithMockedGuzzleResponse(new Response(200, [], ''));
         $client->request('GET', 'programmes/b013pqnm/recipes.ameninc');
-        $this->assertResponseStatusCode($client, 404);
+        $this->assertResponseStatusCode($client, 204);
     }
 
     public function testProgrammeIsNotFoundInFoodApi()
     {
         $client = $this->createClientWithMockedGuzzleResponse(new Response(404, [], null));
         $client->request('GET', 'programmes/b013pqnm/recipes.ameninc');
-        $this->assertResponseStatusCode($client, 404);
+        $this->assertResponseStatusCode($client, 204);
     }
 
     public function testProgrammeHasNoRecipesInFoodApi()
@@ -47,7 +47,7 @@ class RecipesControllerTest extends BaseWebTestCase
         $client = $this->createClientWithMockedGuzzleResponse($response);
 
         $client->request('GET', 'programmes/b006q2x0/recipes.ameninc');
-        $this->assertResponseStatusCode($client, 404);
+        $this->assertResponseStatusCode($client, 204);
     }
 
     private function createClientWithMockedGuzzleResponse(Response $response): Client

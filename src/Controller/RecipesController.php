@@ -23,8 +23,8 @@ class RecipesController extends BaseController
         // if there are no recipes, don't display anything
         if ($apiResponse->getTotal() === 0 || !$apiResponse->getRecipes()) {
             // We don't throw a 404 directly here because we want to set the cache expiry time. This partial is only
-            // used in brand pages, and doesn't show up if the response is a 404. Therefore, we can cache it for a while
-            return $this->response()->setStatusCode(404)->setMaxAge(60);
+            // used in brand pages, and doesn't show up if the response is a 204. Therefore, we can cache it for a while
+            return $this->response()->setStatusCode(204)->setMaxAge(60);
         }
 
         $showImage = true;

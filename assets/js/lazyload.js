@@ -124,16 +124,20 @@ define(['jquery-1.9'], function ($) {
                 url: content.attr(_this.options.data_inc_path),
                 dataType: 'html',
                 success: function (data) {
-                    var loaded_content = $($.parseHTML(data, document, true)).addClass(_this.options.lazy_css_state.loading);
-                    content.replaceWith(loaded_content);
-                    loaded_content.addClass(_this.options.lazy_css_state.complete);
-                    loaded_content.removeClass(_this.options.lazy_css_state.loading);
-                    setTimeout(function () {
-                        loaded_content.trigger("lazyloadComplete", {
-                            content: loaded_content
-                        });
-                        $('body').trigger("lazyloadComplete");
-                    }, 1);
+                    if (data) {
+                        var loaded_content = $($.parseHTML(data, document, true)).addClass(_this.options.lazy_css_state.loading);
+                        content.replaceWith(loaded_content);
+                        loaded_content.addClass(_this.options.lazy_css_state.complete);
+                        loaded_content.removeClass(_this.options.lazy_css_state.loading);
+                        setTimeout(function () {
+                            loaded_content.trigger("lazyloadComplete", {
+                                content: loaded_content
+                            });
+                            $('body').trigger("lazyloadComplete");
+                        }, 1);
+                    } else {
+                        content.remove();
+                    }
                 },
                 error: function (request, status, error) {
                     content.removeClass(_this.options.lazy_css_state.loading);
