@@ -13,7 +13,7 @@
         <div class="grid 1/3@bpw2 1/3@bpe map__column map__column--2 map__column--last">
             <div class="map__inner grid__inner--flush">
                 {%- for panel in episode_map.getSidePanelsSubPresenters() -%}
-                    <div class="{{ build_css_classes({ 'br-box-secondary': true, 'fauxcolumn': loop.last, 'map__column': loop.length > 1 }) }}">
+                    <div class="{{ build_css_classes({ 'br-box-secondary': true, 'fauxcolumn': loop.last, 'map__column': loop.last and loop.length > 1 }) }}">
                         {{ ds2013_presenter(panel) }}
                     </div>
                 {%- endfor -%}
