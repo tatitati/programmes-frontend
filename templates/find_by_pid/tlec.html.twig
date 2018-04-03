@@ -46,6 +46,8 @@
 
     {% if mapPresenter.showMap() %}
         {{ ds_amen_presenter(mapPresenter) }}
+    {% else %}
+        <div class="p-g-p leading-gap"><div class="br-box-secondary island">{{ programme.getLongestSynopsis() }}</div></div>
     {% endif %}
 
     <div class="p-g-p">
@@ -76,7 +78,7 @@
                         </ul>
                     {%- endif -%}
 
-                    {%- if promotions or clips or galleries -%}
+                    {%- if promotions or clips or galleries or programme.getOption('recipes_enabled') -%}
                         <ul class="grid">
                             {%- if programme.getOption('recipes_enabled') -%}
                                 <li class="grid__item tlec-page-card gel-brevier-bold lazy-module box-link"
@@ -243,7 +245,7 @@
 {% block javascripts %}
     {{ parent() }}
 
-    {% if favouritesButton %}
+    {% if favouritesButton and mapPresenter.showMap() %}
         {{ favouritesButton.getBodyLast()|raw }}
         <script>{{ favouritesButton.getScript()|raw }}</script>
         <script>
