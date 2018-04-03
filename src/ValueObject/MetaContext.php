@@ -189,7 +189,7 @@ class MetaContext
 
     private function coreEntityTitlePrefix(CoreEntity $coreEntity): string
     {
-        $prefix = '';
+        $prefix = 'BBC - ';
         if ($coreEntity->getTleo()->getNetwork()) {
             $prefix = $coreEntity->getTleo()->getNetwork()->getName() . ' - ';
         }
