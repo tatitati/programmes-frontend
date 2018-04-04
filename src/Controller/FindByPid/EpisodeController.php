@@ -5,6 +5,7 @@ namespace App\Controller\FindByPid;
 use App\Controller\BaseController;
 use App\Ds2013\PresenterFactory;
 use App\DsShared\Helpers\CanonicalVersionHelper;
+use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
@@ -32,6 +33,7 @@ class EpisodeController extends BaseController
         FavouritesButtonService $favouritesButtonService,
         VersionsService $versionsService,
         SegmentEventsService $segmentEventsService,
+        ElectronService $electronService,
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
         CanonicalVersionHelper $canonicalVersionHelper
@@ -121,7 +123,9 @@ class EpisodeController extends BaseController
             $favouritesButtonPromise = $favouritesButtonService->getContent();
         }
 
-        $resolvedPromises = $this->resolvePromises(['favouritesButton' => $favouritesButtonPromise]);
+        $supportingContentItemsPromise = $electronService->fetchSupportingContentItemsForProgramme($episode);
+
+        $resolvedPromises = $this->resolvePromises(['favouritesButton' => $favouritesButtonPromise, 'supportingContentItems' => $supportingContentItemsPromise]);
 
         return $this->renderWithChrome('find_by_pid/episode.html.twig', [
             'contributions' => $contributions,
@@ -135,6 +139,7 @@ class EpisodeController extends BaseController
             'episodeMapPresenter' => $episodeMapPresenter,
             'segmentsListPresenter' => $segmentsListPresenter,
             'favouritesButton' => $resolvedPromises['favouritesButton'],
+            'supportingContentItems' => $resolvedPromises['supportingContentItems'],
         ]);
     }
 

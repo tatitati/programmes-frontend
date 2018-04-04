@@ -16,10 +16,12 @@ use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentsListPresenter;
+use App\Ds2013\Presenters\Section\SupportingContent\SupportingContentPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\Credits\CreditsPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
+use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -298,6 +300,13 @@ class PresenterFactory
     public function superpromoPresenter(Promotion $promotion, array $options = []): SuperpromoPresenter
     {
         return new SuperpromoPresenter($this->router, $promotion, $options);
+    }
+
+    public function supportingContentPresenter(
+        SupportingContentItem $supportingContentItem,
+        array $options = []
+    ): SupportingContentPresenter {
+        return new SupportingContentPresenter($supportingContentItem, $options);
     }
 
     /* Sections */

@@ -91,7 +91,13 @@
                         {{ ds2013_presenter(segmentsListPresenter) }}
                     {% endif %}
 
-                    {# TODO Features module #}
+                    {% if supportingContentItems %}
+                        <div id="features" class="feature-list">
+                            {% for item in supportingContentItems %}
+                                {{ ds2013('supportingContent', item) }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
                     {% if contributions %}
                         <div class="component component--box component--box-flushbody-vertical component--box--primary"

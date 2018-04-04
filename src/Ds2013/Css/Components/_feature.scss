@@ -1,0 +1,68 @@
+/**
+ *  .feature
+ *  A feature aggregation object with an image,
+ *  title, content
+ */
+
+// Wrap in a feature-list to give each feature a border between items
+.feature-list {
+    // Obtuse selector so that the whole logic is encapsulated within a
+    // single one so if it is not supported then there is no regular spacing
+    // between items
+    > :not(:last-child) .feature {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        padding-bottom: (gel-typography('basic', 'base', 'line-height') - 1px);
+    }
+
+    .component__header {
+        padding-top: 0;
+    }
+}
+
+.feature {
+    @extend .cf;
+}
+
+.feature__img {
+    float: left;
+    margin-right: $basic-spacing;
+    margin-bottom: $basic-spacing;
+    min-width: 96px;
+    overflow: hidden;
+}
+
+.feature__img--rev {
+    float: right;
+    margin-right: 0;
+    margin-left: $basic-spacing;
+}
+
+.feature__description {
+    :last-child {
+        margin-bottom: 0;
+    }
+}
+
+@include mq-range('bpb1') {
+    .feature-list > :not(:last-child) .feature {
+        // Ensure spacing is even with the new base line-height at different sizes
+        padding-bottom: (gel-typography('bpb1', 'base', 'line-height') - 1px);
+    }
+}
+
+@include mq-range('bpw') {
+    .feature-list > :not(:last-child) .feature {
+        // Ensure spacing is even with the new base line-height at different sizes
+        padding-bottom: (gel-typography('bpw', 'base', 'line-height') - 1px);
+    }
+
+    .feature__img {
+        margin-right: $wide-spacing;
+    }
+
+    .feature__img--rev {
+        margin-right: 0;
+        margin-left: $wide-spacing;
+    }
+}
