@@ -30,7 +30,7 @@ $synopsis-toggle-fade-out-time: 0.25s;
 .synopsis-toggle__short,
 .synopsis-toggle__long {
     opacity: 1;
-    max-height: 2000px; // Can't transition auto heights, so set a massive max-height and toggle that, keeping height as auto
+    max-height: 10000px; // Can't transition auto heights, so set a massive max-height and toggle that, keeping height as auto
     transition: opacity $synopsis-toggle-fade-in-time linear $synopsis-toggle-fade-out-time, max-height 0s linear $synopsis-toggle-fade-out-time;
 }
 
