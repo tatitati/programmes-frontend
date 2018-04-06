@@ -19,7 +19,7 @@
         </div>
     </div>
 {% else %}
-    <div class="text--prose">
+    <div class="text--prose longest-synopsis">
         {% for paragraph in synopsis.getLongestSynopsis() %}
             <p>{{ paragraph|raw }}</p>
         {% endfor %}
