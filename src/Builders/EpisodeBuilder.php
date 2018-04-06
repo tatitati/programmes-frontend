@@ -4,6 +4,7 @@ namespace App\Builders;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Options;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use Faker\Factory;
@@ -29,7 +30,7 @@ class EpisodeBuilder extends AbstractBuilder
             'isStreamable' => $faker->boolean,
             'isStreamableAlternate' => $faker->boolean,
             'contributionsCount' => $faker->numberBetween(0, 5),
-            'mediaType' => 'audio',
+            'mediaType' => $faker->randomElement([MediaTypeEnum::VIDEO, MediaTypeEnum::AUDIO, MediaTypeEnum::UNKNOWN]),
             'segmentEventCount' => $faker->numberBetween(0, 8),
             'aggregatedBroadcastsCount' => $faker->numberBetween(1, 5),
             'availableClipsCount' => $faker->numberBetween(1, 5),

@@ -211,29 +211,37 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertSame('30:00', $iconLabel->children()->eq(1)->text());
     }
 
-
-    public function testTVEpisodeDisplayDuration()
+    /**
+     * @dataProvider mediaTypeProvider
+     */
+    public function testEpisodeHandleTheDisplayOfDuration($programmeBuilder, $mediaType, $expectDurationBeingDisplayed)
     {
-        $tvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build();
+        $episode = $programmeBuilder->with(['mediaType' => $mediaType])->build();
 
         $presenterFactory = TwigEnvironmentProvider::dsAmenPresenterFactory();
-        $presenter = $presenterFactory->programmePresenter($tvEpisode, ['show_image' => false]);
+        $presenter = $presenterFactory->programmePresenter($episode, ['show_image' => false]);
 
         $crawler = $this->presenterCrawler($presenter);
 
-        $this->assertEquals(1, $crawler->filter('.duration')->count());
+        $isDurationFound = $crawler->filter('.duration')->count() > 0 ?: false;
+
+        $this->assertSame($expectDurationBeingDisplayed, $isDurationFound);
     }
 
-    public function testRadioEpisodeNotDisplayDuration()
+    public function mediaTypeProvider()
     {
-        $tvEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build();
+        $programmeRadio = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true]);
+        $programmeTv = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true]);
 
-        $presenterFactory = TwigEnvironmentProvider::dsAmenPresenterFactory();
-        $presenter = $presenterFactory->programmePresenter($tvEpisode, ['show_image' => false]);
+        return [
+            [$programmeRadio, 'audio', false],
+            [$programmeRadio, 'audio_video', false],
+            [$programmeRadio, '', false],
 
-        $crawler = $this->presenterCrawler($presenter);
-
-        $this->assertEquals(0, $crawler->filter('.duration')->count());
+            [$programmeTv, 'audio', true],
+            [$programmeTv, 'audio_video', false],
+            [$programmeTv, '', true],
+        ];
     }
 
     protected function tearDown()
