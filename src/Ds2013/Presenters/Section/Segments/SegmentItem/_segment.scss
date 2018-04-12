@@ -1,0 +1,201 @@
+$play-box-size: 40px;
+$image-width: 88px;
+
+.segment {
+    position: relative;
+    min-height: $play-box-size;
+}
+
+.segment--music {
+    min-height: ($play-box-size * 2) + 8px; // 2 buttons plus gap
+}
+
+.segment__artist-image {
+    display: none;
+    width: 0;
+}
+
+.segment__track {
+    display: block;
+    overflow: hidden;
+}
+
+.segment--withbuttons {
+    padding-left: $play-box-size + 8px;
+}
+
+.segment__buttons {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $play-box-size;
+}
+
+.segment__play {
+    height: $play-box-size;
+    width: $play-box-size;
+    position: relative;
+    line-height: $play-box-size;
+    text-align: center;
+    font-size: 16px;
+
+    :hover,
+    :active,
+    :focus {
+        text-decoration: none !important; // would break the icon illusion
+    }
+}
+
+.segment__play.iplayer-icon--boxed {
+    font-size: 20px;
+}
+
+.segment__play-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-decoration: none;
+}
+
+.segment__button--playlister {
+    font-size: 28px;
+    display: inline-block;
+}
+
+// snippet stuff -- REMOVE ONCE LEO FLAGPOLE REMOVED
+
+.snippet {
+    background-color: #ff8500;
+    margin-bottom: 8px;
+    opacity: 1;
+    transition: height 0.25s linear, margin-bottom 0.25s linear, opacity 0.25s linear;
+}
+
+.snippet,
+.snippet__button {
+    width: $play-box-size;
+    height: $play-box-size;
+    display: block;
+    vertical-align: top;
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+}
+
+.snippet--pending {
+    height: 0;
+    margin-bottom: 0;
+    opacity: 0;
+}
+
+.snippet__icon {
+    color: #ffffff;
+    line-height: $play-box-size;
+    font-size: 16px;
+}
+
+.snippet__button {
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: 14px 12px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: transparent;
+}
+
+.snippet__canvas {
+    background: transparent;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    display: none;
+    cursor: pointer;
+}
+
+.snippet--loading,
+.snippet--playing {
+    .snippet__icon {
+        display: none;
+    }
+
+    .snippet__canvas {
+        display: block;
+    }
+}
+
+.snippet__player {
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    visibility: hidden;
+}
+
+.snippet__button-text {
+    text-indent: -10000px;
+    display: block;
+}
+
+.snippet--playing .snippet__button-text {
+    height: 12px;
+    width: 12px;
+    background: #ffffff;
+    margin: 0 auto;
+}
+
+.snippet--unavailable {
+    background-color: #808080;
+    cursor: default;
+
+    .snippet__button {
+        cursor: auto;
+    }
+}
+
+// END SNIPPET STUFF
+
+@include mq-range('bpb1') {
+    .segment__artist-image {
+        display: block;
+        float: left;
+        margin-right: 8px;
+        width: $image-width;
+    }
+}
+
+@include mq-range('bpw') {
+    .segment__artist-image {
+        display: block;
+        float: left;
+        margin-right: 8px;
+        width: $image-width;
+    }
+}
+
+// @todo remove old snippet CSS
+.has-js .segment__button--snippet {
+    // (0.909091em (favouites.css font size for button element) * 1.6em (favouites.css button width)) * 28px (segment__button--playlister)
+    // ______________________________________________________________________________________________________
+    //                                         4em (snippet.css button width)
+    //
+    // = 10.1818192px
+    font-size: 10.1818192px;
+    display: block;
+    vertical-align: top;
+    text-align: center;
+    width: 4em;
+}
+
+// Targeting the internals of the snippet module. Potentially dodgy.
+.segment__button--snippet .spt-snippet {
+    margin-bottom: 7px;
+    // This prevents the button from jumping around like a crackhead on a pogo stick at page load
+    max-height: 4em;
+    overflow: hidden;
+}

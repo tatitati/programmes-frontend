@@ -30,4 +30,9 @@ abstract class AbstractSegmentItemPresenter extends Presenter
 
         return $this->segmentEvent->getSegment()->getTitle();
     }
+
+    public function getSegmentEvent(): SegmentEvent
+    {
+        return $this->segmentEvent;
+    }
 }

@@ -17,6 +17,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Season;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ServiceFactory;
 use Generator;
@@ -55,6 +56,8 @@ class ContextEntityByPidValueResolver implements ArgumentValueResolverInterface
         Season::class,
         // Service
         Service::class,
+        // Version
+        Version::class,
     ];
 
     private $serviceFactory;
@@ -100,6 +103,8 @@ class ContextEntityByPidValueResolver implements ArgumentValueResolverInterface
         } elseif (is_a($type, Service::class, true)) {
             // Attempt to look up the Service
             $entity = $this->serviceFactory->getServicesService()->findByPidFull($pid);
+        } elseif (is_a($type, Version::class, true)) {
+            $entity = $this->serviceFactory->getVersionsService()->findByPidFull($pid);
         }
 
         if (!$entity) {

@@ -1,0 +1,11 @@
+{% extends 'styleguide/ds2013/base.html.twig' %}
+
+{% block section_name %}Music Segments{% endblock %}
+
+{% block content %}
+    <h2>Classical Music Segments</h2>
+    <hr/>
+    <h2>Popular Music Segments</h2>
+        {{ ds2013_presenter(popular_music_segments, {'h_tag_level': 3}) }}
+
+{% endblock %}

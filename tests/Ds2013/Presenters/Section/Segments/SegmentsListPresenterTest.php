@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\App\Ds2013\Presenters\Section\Segments;
 
+use App\Ds2013\Presenters\Section\Segments\SegmentItem\AbstractMusicSegmentItemPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\GroupPresenter;
-use App\Ds2013\Presenters\Section\Segments\SegmentItem\MusicPresenter;
+use App\Ds2013\Presenters\Section\Segments\SegmentItem\ClassicalMusicPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\SpeechPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentsListPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
@@ -12,6 +13,7 @@ use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -55,7 +57,15 @@ class SegmentsListPresenterTest extends TestCase
 
     public function getTitleProvider(): array
     {
-        $musicSegment = $this->createMock(MusicSegment::class);
+        $musicSegment = $this->createConfiguredMock(
+            MusicSegment::class,
+            [
+                'getContributions' =>
+                    [
+                        $this->createConfiguredMock(Contribution::class, ['getCreditRole' => 'composer']),
+                    ],
+            ]
+        );
         $chapterSegment = $this->createConfiguredMock(Segment::class, ['getType' => 'chapter']);
         $highlightSegment = $this->createConfiguredMock(Segment::class, ['getType' => 'highlight']);
         $speechSegment = $this->createConfiguredMock(Segment::class, ['getType' => 'speech']);
@@ -136,20 +146,23 @@ class SegmentsListPresenterTest extends TestCase
     public function hasTimingIntroProvider(): array
     {
         $episodeWithTiming = $this->createMock(Episode::class);
-        $episodeWithTiming->expects($this->once())->method('getOption')->with('show_tracklist_timings')->willReturn(true);
-
-        $clipWithTiming = $this->createMock(Clip::class);
-        $clipWithTiming->expects($this->never())->method('getOption');
+        $episodeWithTiming->method('getOption')->withConsecutive(
+            ['show_tracklist_inadvance'],
+            ['show_tracklist_timings']
+        )
+        ->willReturn(true);
 
         $episodeWithoutTiming = $this->createMock(Episode::class);
-        $episodeWithoutTiming->expects($this->once())->method('getOption')->with('show_tracklist_timings')->willReturn(false);
+        $episodeWithoutTiming->method('getOption')->withConsecutive(
+            ['show_tracklist_inadvance'],
+            ['show_tracklist_timings']
+        )
+        ->willReturn(false);
 
-        $clipWithoutTiming = $this->createMock(Clip::class);
-        $clipWithoutTiming->expects($this->never())->method('getOption');
+        $clip = $this->createMock(Clip::class);
 
         return [
-            'clip with show_tracklist_timings option' => [false, $clipWithTiming],
-            'clip without show_tracklist_timings option' => [false, $clipWithoutTiming],
+            'clip' => [false, $clip],
             'episode with show_tracklist_timings option' => [true, $episodeWithTiming],
             'episode without show_tracklist_timings option' => [false, $episodeWithoutTiming],
         ];
@@ -188,7 +201,15 @@ class SegmentsListPresenterTest extends TestCase
         $speech = $this->createConfiguredMock(Segment::class, ['getType' => 'speech']);
         $chapter = $this->createConfiguredMock(Segment::class, ['getType' => 'chapter']);
         $highlight = $this->createConfiguredMock(Segment::class, ['getType' => 'highlight']);
-        $music = $this->createMock(MusicSegment::class);
+        $music = $this->createConfiguredMock(
+            MusicSegment::class,
+            [
+                'getContributions' =>
+                    [
+                        $this->createConfiguredMock(Contribution::class, ['getCreditRole' => 'composer']),
+                    ],
+            ]
+        );
 
         $seWithTitle1 = $this->createConfiguredMock(SegmentEvent::class, ['getTitle' => 'Title 1', 'getSegment' => $speech]);
         $seWithTitle2 = $this->createConfiguredMock(SegmentEvent::class, ['getTitle' => 'Title 2', 'getSegment' => $chapter]);
@@ -213,7 +234,7 @@ class SegmentsListPresenterTest extends TestCase
                 [$seWithTitle1, $seWithTitle1, $seWithTitle1],
             ],
             'all null titles' => [
-                [MusicPresenter::class, MusicPresenter::class, MusicPresenter::class],
+                [AbstractMusicSegmentItemPresenter::class, AbstractMusicSegmentItemPresenter::class, AbstractMusicSegmentItemPresenter::class],
                 [1, 1, 1],
                 [$seWithNullTitle, $seWithNullTitle, $seWithNullTitle],
             ],
@@ -223,7 +244,7 @@ class SegmentsListPresenterTest extends TestCase
                 [$seWithEmptyTitle, $seWithEmptyTitle, $seWithEmptyTitle],
             ],
             'same titles interspersed with null title' => [
-                [GroupPresenter::class, MusicPresenter::class, GroupPresenter::class],
+                [GroupPresenter::class, AbstractMusicSegmentItemPresenter::class, GroupPresenter::class],
                 [2, 1, 1],
                 [$seWithTitle1, $seWithTitle1, $seWithNullTitle, $seWithTitle1],
             ],
@@ -254,7 +275,10 @@ class SegmentsListPresenterTest extends TestCase
         bool $isLive
     ) {
         $context = $this->createMock(ProgrammeItem::class);
-        $context->expects($this->any())->method('getOption')->with('show_tracklist_inadvance')->willReturn($showTracklistInAdvance);
+        $context->expects($this->any())
+            ->method('getOption')
+            ->withConsecutive(['show_tracklist_inadvance'], ['show_tracklist_timings'])
+            ->willReturn($showTracklistInAdvance);
 
         $this->mockLiveBroadcastHelper->method('isOnNowIsh')->willReturn($isLive);
 
@@ -298,7 +322,15 @@ class SegmentsListPresenterTest extends TestCase
             'getStartAt' => new Chronos('2017-01-01 12:00:00'),
         ]);
 
-        $musicSegment = $this->createMock(MusicSegment::class);
+        $musicSegment = $this->createConfiguredMock(
+            MusicSegment::class,
+            [
+                'getContributions' =>
+                    [
+                        $this->createConfiguredMock(Contribution::class, ['getCreditRole' => 'composer']),
+                    ],
+            ]
+        );
         $otherSegment = $this->createMock(Segment::class);
 
         $musicWithOffset1 = $this->createConfiguredMock(SegmentEvent::class, [

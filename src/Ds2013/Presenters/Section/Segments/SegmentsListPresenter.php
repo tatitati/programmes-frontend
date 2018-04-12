@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Ds2013\Presenters\Section\Segments;
 
 use App\Ds2013\Presenter;
+use App\Ds2013\Presenters\Section\Segments\SegmentItem\AbstractMusicSegmentItemPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\AbstractSegmentItemPresenter;
-use App\Ds2013\Presenters\Section\Segments\SegmentItem\MusicPresenter;
+use App\Ds2013\Presenters\Section\Segments\SegmentItem\ClassicalMusicPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\GroupPresenter;
+use App\Ds2013\Presenters\Section\Segments\SegmentItem\PopularMusicPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\SpeechPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
@@ -14,8 +16,10 @@ use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 
 class SegmentsListPresenter extends Presenter
@@ -35,11 +39,18 @@ class SegmentsListPresenter extends Presenter
     /** @var CollapsedBroadcast|null */
     private $collapsedBroadcast;
 
-    /** @var bool|null */
-    private $isLive = null;
+    /** @var bool */
+    private $hasMusicSegmentItems = false;
+
+    /** @var bool */
+    private $hasChapterSegments = false;
+
+    /** @var AbstractSegmentItemPresenter[]|null  */
+    protected $segmentItemsPresenters;
 
     /**
-     * Has the list of segment events been reversed?
+     * This is set to true when there are Music segments with offsets and the
+     * programme is live
      *
      * @var bool
      */
@@ -73,30 +84,22 @@ class SegmentsListPresenter extends Presenter
         $this->context = $context;
         $this->collapsedBroadcast = $upcoming ?? $lastOn;
         $this->segmentEvents = $segmentEvents;
+        $this->segmentItemsPresenters = $this->getSegmentItemsPresenters();
     }
 
     public function getTitle(): string
     {
-        $hasChapterSegments = false;
-        $hasMusicSegments = false;
-
-        foreach ($this->segmentEvents as $segmentEvent) {
-            if ($segmentEvent->getSegment() instanceof MusicSegment) {
-                $hasMusicSegments = true;
-            } elseif ($segmentEvent->getSegment()->getType() === 'chapter') {
-                $hasChapterSegments = true;
-            }
-        }
-
-        if ($hasMusicSegments) {
-            if ($hasChapterSegments) {
+        // hasMusicSegmentItems and hasChapterSegments
+        // were precalculated in getSegmentItemsPresenters
+        if ($this->hasMusicSegmentItems) {
+            if ($this->hasChapterSegments) {
                 return 'music_and_featured';
             }
 
             return 'music_played';
         }
 
-        if ($hasChapterSegments) {
+        if ($this->hasChapterSegments) {
             return 'chapters';
         }
 
@@ -128,6 +131,11 @@ class SegmentsListPresenter extends Presenter
         return !($this->context instanceof Clip) && $this->context->getOption('show_tracklist_timings');
     }
 
+    public function hasMusicSegmentItems(): bool
+    {
+        return $this->hasMusicSegmentItems;
+    }
+
     public function getTimingIntroTranslationString(): string
     {
         if ($this->collapsedBroadcast && $this->collapsedBroadcast->getStartAt()->isFuture()) {
@@ -137,9 +145,13 @@ class SegmentsListPresenter extends Presenter
         return 'timings_start_of_programme';
     }
 
-    /** @return AbstractSegmentItemPresenter[][] */
+    /** @return AbstractSegmentItemPresenter[] */
     public function getSegmentItemsPresenters(): array
     {
+        if (!is_null($this->segmentItemsPresenters)) {
+            return $this->segmentItemsPresenters;
+        }
+
         $this->segmentEvents = $this->filterSegmentEvents();
         if (!$this->segmentEvents) {
             return [];
@@ -207,7 +219,7 @@ class SegmentsListPresenter extends Presenter
         if ($this->context->getOption('show_tracklist_inadvance') ||
             !$this->collapsedBroadcast ||
             $this->collapsedBroadcast->isRepeat() ||
-            !$this->isLive($this->collapsedBroadcast)
+            !$this->liveBroadcastHelper->isOnNowIsh($this->collapsedBroadcast, true)
         ) {
             return $this->segmentEvents;
         }
@@ -257,8 +269,19 @@ class SegmentsListPresenter extends Presenter
             }
 
             if ($segmentEvent->getSegment() instanceof MusicSegment) {
-                $presenters[] = new MusicPresenter($segmentEvent, $options);
+                $this->hasMusicSegmentItems = true;
+                $options['context_pid'] = (string) $this->context->getPid();
+
+                if ($this->isClassicalMusicSegment($segmentEvent->getSegment())) {
+                    $presenters[] = new ClassicalMusicPresenter($segmentEvent, $this->getTimingType(), $this->collapsedBroadcast, $options);
+                } else {
+                    $presenters[] = new PopularMusicPresenter($segmentEvent, $this->getTimingType(), $this->collapsedBroadcast, $options);
+                }
             } else {
+                if ($segmentEvent->getSegment()->getType() === 'chapter') {
+                    $this->hasChapterSegments = true;
+                }
+
                 $presenters[] = new SpeechPresenter($this->playTranslationsHelper, $segmentEvent, $options);
             }
 
@@ -277,12 +300,37 @@ class SegmentsListPresenter extends Presenter
         return reset($presenters);
     }
 
-    private function isLive(?CollapsedBroadcast $collapsedBroadcast): bool
+    private function isClassicalMusicSegment(Segment $segment): bool
     {
-        if (is_null($this->isLive)) {
-            $this->isLive = $collapsedBroadcast && $this->liveBroadcastHelper->isOnNowIsh($collapsedBroadcast, true);
+        if (strtolower($segment->getType()) == 'classical') {
+            return true;
         }
 
-        return $this->isLive;
+        /** @var Contribution $contribution */
+        foreach ($segment->getContributions() as $contribution) {
+            if (strtolower($contribution->getCreditRole()) === 'composer') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getTimingType(): string
+    {
+        // A reversed list of segment items presenters mean a live music broadcast
+        if ($this->isReversed) {
+            return AbstractMusicSegmentItemPresenter::TIMING_DURING;
+        }
+
+        if ($this->context instanceof Clip || !$this->context->getOption('show_tracklist_timings')) {
+            return AbstractMusicSegmentItemPresenter::TIMING_OFF;
+        }
+
+        if ($this->collapsedBroadcast && $this->collapsedBroadcast->getStartAt()->isFuture()) {
+            return AbstractMusicSegmentItemPresenter::TIMING_PRE;
+        }
+
+        return AbstractMusicSegmentItemPresenter::TIMING_POST;
     }
 }

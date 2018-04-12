@@ -1,6 +1,105 @@
+{% import _self as self %}
+
+{#
+    This whole template is very whitespace sensitive. Be careful when changing it.
+    Pay special attention to the connectives between contributors ('&', ',', 'vs', etc)
+#}
+
 <li class="segments-list__item segments-list__item--music {{ music.getOption('moreless_class') }}">
-    <{{ music.getOption('h_tag') }} class="gamma no-margin">
-        {{ music.getTitle() }}
-    </{{ music.getOption('h_tag') }}>
-    <p>Music Segment</p>
+    <div class="segment segment--music">
+        <div class="segment__content segment--withbuttons">
+            <div class="segment__artist-image">
+                <img class="image lazyload" data-src="{{ music.getImageUrl() }}" alt="">
+            </div>
+            <div class="segment__track">
+                {% if music.hasTiming() %}
+                    <div class="text--subtle pull--right-spaced">{{ music.getTiming() }}</div>
+                {% endif %}
+
+                {# Title Artist #}
+                {% if music.getVersusContributions() or music.getPrimaryContributions() %}
+                    <{{ music.getOption('h_tag') }} class="gamma no-margin">
+                        {{ self.get_names(music, music.getPrimaryContributions(), '') }}
+
+                        {% if music.getVersusContributions() %}
+                            {%- if music.getPrimaryContributions() %} vs {% endif -%}
+                            {{- self.get_names(music, music.getVersusContributions(), '') -}}
+                        {% endif %}
+                    </{{ music.getOption('h_tag') }}>
+                {% endif %}
+                {# Song title with occasional feature #}
+                <p class="no-margin">
+                    <span>{{ music.getSegment().getTitle() }}</span>
+                    {% if music.getFeaturedContributions() %}
+                        (feat. {{ self.get_names(music, music.getFeaturedContributions(), '') }})
+                    {% endif %}
+                </p>
+
+                {# Other Contributions #}
+                {% for contribution in music.getOtherContributions() %}
+                    {{ contribution.getCreditRole() }}:
+                    {% if contribution.getContributor().getMusicBrainzId() %}
+                        <a href="{{ path('music_artist', { mbid: contribution.getContributor().getMusicBrainzId() }) }}">{{ contribution.getContributor().getName() }}</a>.
+                    {% else %}
+                        {{ contribution.getContributor().getName() }}.
+                    {% endif %}
+                {% endfor %}
+
+                {# Synopsis #}
+                {% if music.getSegment().getSynopses().getLongSynopsis() %}
+                    <p class="no-margin">{{ music.getSegment().getSynopses().getLongSynopsis() }}</p>
+                {% endif %}
+
+                {# Record Details #}
+                {% if music.hasRecordDetails() %}
+                    <ul class="list-unstyled milli text--subtle text--shout">
+                        {% if music.getSegment().getReleaseTitle() %}
+                            <li class="inline">
+                                <em>{{ music.getSegment().getReleaseTitle() }}. </em>
+                            </li>
+                        {% endif %}
+                        {% if music.getSegment().getRecordLabel() %}
+                            <li class="inline">
+                                <abbr title="Record Label">{{ music.getSegment().getRecordLabel() }}. </abbr>
+                            </li>
+                        {% endif %}
+                        {% if music.getSegment().getCatalogueNumber() %}
+                            <li class="inline">
+                                <abbr title="Catalogue Number">{{ music.getSegment().getCatalogueNumber() }}. </abbr>
+                            </li>
+                        {% endif %}
+                        {% if music.getSegment().getTrackNumber() %}
+                            <li class="inline">
+                                <abbr title="Track Number">{{ music.getSegment().getTrackNumber() }}. </abbr>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="segment__buttons">
+            {# TODO Snippet player #}
+            {% if music.hasMusicFavouritesButton() %}
+                {% set id = "favourites-button-" ~ music.getSegmentEvent().getPid() %}
+                <div id="{{ id }}" class="segment__button segment__button--playlister favourites-module-wrapper buttons--favourites-small"></div>
+                {{ add_button(id, music.getSegment().getMusicRecordId(), 'track', music.getOption('context_pid'), 'track', 'radio') }}
+            {%- endif -%}
+
+        </div>
+    </div>
 </li>
+
+{%- macro get_names(music, contributions, suffix) -%}
+    {%- for contribution in contributions -%}
+        {%- if loop.length > 1 and loop.index > 1 -%}
+            {%- if loop.last %} &amp; {% else %}, {% endif -%}
+        {%- endif -%}
+        {%- if contribution.getContributor().getMusicBrainzId() -%}
+            <a href="{{ path('music_artist', { mbid: contribution.getContributor().getMusicBrainzId() }) }}">{# remove whitespace
+              #}<span class="artist">{{ contribution.getContributor().getName() }}</span>{# remove whitespace
+          #}</a>
+        {%- else -%}
+            <span class="artist">{{ contribution.getContributor().getName() }}</span>
+        {%- endif -%}
+    {%- endfor -%}
+{%- endmacro -%}

@@ -63,6 +63,10 @@ music_artist:
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { mbid: '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}' }
 
+my_tracks:
+    path: /music/tracks/my
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+
 ### /programmes v2
 
 atoz_list_all:

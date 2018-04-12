@@ -9,6 +9,13 @@
         {% endblock %}
         <div class="component__body br-box-page">
             <div class="segments-list {{ segments_list.getMorelessClass() }}">
+                {# Only show playlister intro if there are music segments #}
+                {% if segments_list.hasMusicSegmentItems() %}
+                    <a class="segments-list__header segments-list__playlister br-keyline" href="{{ path('my_tracks') }}">
+                        {{ tr('playlister_tagline', {'%1': 'My Tracks'}) }}
+                    </a>
+                {% endif %}
+
                 {% if segments_list.hasTimingIntro() %}
                     <p class="no-margin segments-list__header br-keyline br-box-subtle">
                         {{ tr(segments_list.getTimingIntroTranslationString()) }}
@@ -38,7 +45,6 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-                {# TODO playlister #}
             </div>
         </div>
     </div>

@@ -1,0 +1,11 @@
+ds2013_styleguide_intro:
+    path: /programmes/styleguide/ds2013
+    defaults: { _controller: App\Controller\Styleguide\Ds2013\IntroController }
+
+ds2013_styleguide_segments:
+    path: /programmes/styleguide/ds2013/segments
+    defaults: { _controller: App\Controller\Styleguide\Ds2013\Domain\SegmentsController }
+
+ds2013_styleguide_segments/music:
+    path: /programmes/styleguide/ds2013/segments/music
+    defaults: { _controller: App\Controller\Styleguide\Ds2013\Domain\MusicSegmentsController }

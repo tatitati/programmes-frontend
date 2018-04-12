@@ -50,6 +50,11 @@ programme_recipes:
     defaults: { _controller: App\Controller\RecipesController, extension: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.ameninc' }
 
+programme_segments:
+    path: /programmes/{pid}/segments
+    defaults: { _controller: App\Controller\AncillaryPages\SegmentsController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 # Schedules
 
 schedules_home:

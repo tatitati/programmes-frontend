@@ -18,7 +18,6 @@ use BBC\ProgrammesPagesService\Service\PromotionsService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use BBC\ProgrammesPagesService\Service\SegmentEventsService;
 use BBC\ProgrammesPagesService\Service\VersionsService;
-use GuzzleHttp\Promise\FulfilledPromise;
 
 class EpisodeController extends BaseController
 {
@@ -64,6 +63,7 @@ class EpisodeController extends BaseController
         if ($episode->getRelatedLinksCount() > 0) {
             $relatedLinks = $relatedLinksService->findByRelatedToProgramme($episode, ['related_site', 'miscellaneous']);
         }
+
         $upcomingBroadcasts = [];
         $lastOnBroadcasts = [];
         $allBroadcasts = [];
@@ -118,14 +118,9 @@ class EpisodeController extends BaseController
             }
         }
 
-        $favouritesButtonPromise = new FulfilledPromise(null);
-        if ($episode->isRadio()) {
-            $favouritesButtonPromise = $favouritesButtonService->getContent();
-        }
-
         $supportingContentItemsPromise = $electronService->fetchSupportingContentItemsForProgramme($episode);
 
-        $resolvedPromises = $this->resolvePromises(['favouritesButton' => $favouritesButtonPromise, 'supportingContentItems' => $supportingContentItemsPromise]);
+        $resolvedPromises = $this->resolvePromises(['favouritesButton' => $favouritesButtonService->getContent(), 'supportingContentItems' => $supportingContentItemsPromise]);
 
         return $this->renderWithChrome('find_by_pid/episode.html.twig', [
             'contributions' => $contributions,
