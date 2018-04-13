@@ -50,6 +50,7 @@ class HomeController extends BaseController
     public function __invoke(ServicesService $servicesService)
     {
         $this->setBrandingId('br-08368');
+        $this->setIstatsProgsPageType('programmes_schedule_index');
 
         $groups = [
             'TV' => [],
