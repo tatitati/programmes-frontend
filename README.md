@@ -70,11 +70,11 @@ Entries in the template file **should be in alphabetical order**. This is so
 that we can reduce the potential for merge noise, allowing us to focus on
 specific changes rather than automatic re-ordering. You must either add your
 entries in the correct order, or add them all at the bottom, then run
-`scripts/translate-alphabetiseAll.sh programmes` to move them into the correct
+`script/translate-alphabetiseAll.sh programmes` to move them into the correct
 ordering.
 
 After saving the template file, run
-`scripts/translate-updateFromTemplate.sh programmes` to add the new entries to
+`script/translate-updateFromTemplate.sh programmes` to add the new entries to
 all translation files. Then edit the en.po file and add your english
 translation.
 
@@ -88,7 +88,7 @@ msgstr "The English translation"
 #### To remove an entry
 
 Remove the entry from the programmes.pot template and run
-`scripts/translate-updateFromTemplate.sh programmes`
+`script/translate-updateFromTemplate.sh programmes`
 
 
 ### Updating translation files with new translations (supplied by a translator in .po format)
@@ -98,7 +98,7 @@ There's a script that does most of this for you -
 translation file (language code "cy") from a new file supplied by a translator:
 
 ```sh
-./scripts/translate-updateLanguageFromSuppliedPO.sh ~/Downloads/new-translations-cy_GB.po programmes cy
+./script/translate-updateLanguageFromSuppliedPO.sh ~/Downloads/new-translations-cy_GB.po programmes cy
 ```
 
 Once you've done that, you'll probably want to run a diff to check everything

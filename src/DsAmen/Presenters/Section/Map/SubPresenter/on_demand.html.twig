@@ -45,10 +45,10 @@
                 <a
                     data-linktrack="{{ presenter.getAllLinkLocation() }}"
                     {% if presenter.getProgrammeContainer().isRadio() %}
-                        title="{{ tr('all_episodes_iplayer_radio', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
+                        title="{{ tr('all_episodes_iplayer_radio_title', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
                         href="{{ path('programme_episodes_player', {'pid': presenter.getProgrammeContainer().getPid()}) }}"
                     {% else %}
-                        title="{{ tr('all_episodes_iplayer', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
+                        title="{{ tr('all_episodes_iplayer_title', {'%1': presenter.getProgrammeContainer().getTitle()}) }}"
                         href="{{ path('iplayer_episodes', {'pid': presenter.getProgrammeContainer().getPid()}) }}"
                     {% endif %}
                     class="gel-pica-bold istats--all-on-demand">

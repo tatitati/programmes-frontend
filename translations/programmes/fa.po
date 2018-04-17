@@ -52,6 +52,20 @@ msgstr "همه قسمت‌‌های قابل دسترسی در آی‌پلیر �
 msgid "all_episodes_iplayer_radio"
 msgstr "همه قسمت‎‌‌های قابل دسترسی در آی‌پلیر رادیو بی‌بی‌سی"
 
+#. English: "All %1 episodes available on BBC iPlayer Radio".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d (Mouse over "All Available" text)
+#. %1 is a variable, which may contain the value: "Eastenders".
+#. Priority for: Programmes
+msgid "all_episodes_iplayer_radio_title"
+msgstr ""
+
+#. English: "All %1 episodes available on BBC iPlayer".
+#. Priority for: Programmes
+#. %1 is a variable, which may contain the value: "Eastenders".
+#. Example URL: http://www.bbc.co.uk/programmes/b006m86d (Mouse over "All Available" text)
+msgid "all_episodes_iplayer_title"
+msgstr ""
+
 #. English: "All podcasts".
 msgid "all_podcasts"
 msgstr ""
