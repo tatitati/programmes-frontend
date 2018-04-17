@@ -16,19 +16,19 @@ iplayer_play:
     path: /iplayer/episode/{pid}/{version}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '', version: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', version: 'hd|ad|sign' }
-    schemes: [http]
+    schemes: [https]
 
 iplayer_episodes:
     path: /iplayer/episodes/{pid}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-    schemes: [http]
+    schemes: [https]
 
 iplayer_live:
     path: /iplayer/live/{sid}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { sid: '[0-9a-z_]{1,}' }
-    schemes: [http]
+    schemes: [https]
 
 worldservice_liveradio:
     host: "bbc.com"
@@ -84,13 +84,13 @@ programme_clips:
     path: /programmes/{pid}/clips
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-    schemes: [http]
+    schemes: [https]
 
 programme_galleries:
     path: /programmes/{pid}/galleries
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-    schemes: [http]
+    schemes: [https]
 
 programme_topics:
     path: /programmes/{pid}/topics
@@ -110,7 +110,7 @@ programme_broadcasts:
     path: /programmes/{pid}/broadcasts
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-    schemes: [http]
+    schemes: [https]
 
 topics:
     path: /programmes/topics
