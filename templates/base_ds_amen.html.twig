@@ -31,7 +31,7 @@
         {% if hasAdverts %}<script>window.orb_fig_blocking = true;</script>{% endif %}
         {{ orb.getHead()|raw }}
         {{ branding.getHead()|raw }}
-        
+
         <script>
             requirejs.config({
                 "paths": {
@@ -81,21 +81,19 @@
             See https://msdn.microsoft.com/en-us/library/dn439794(v=vs.85).aspx
         -#}
         <meta name="msapplication-square150x150logo" content="{{ meta_context.image().getUrl(272, 272) }}">
-        
+
         {% if meta_context.canonicalUrl() and meta_context.isRadio() %}
             <meta name="apple-itunes-app" content="app-id=560458506, app-argument={{ meta_context.canonicalUrl() }}?bbc_referrer={{ meta_context.canonicalUrl()|url_encode }}">
         {% endif %}
-        
+
     </head>
     <body>
     {{ orb.getBodyfirst()|raw }}
     {{ branding.getBodyFirst()|raw }}
 
-    <div role="main">
-        {#Keep role="main" and  tabindex="-1" separate as it causes an error in Chrome + Voiceover#}
-        <div class="{% block page_classes %}gel-long-primer amen{% endblock %}" id="programmes-content" tabindex="-1">
-            {% block body %}{% endblock %}
-        </div>
+    <div class="{% block page_classes %}gel-long-primer amen{% endblock %}" role="main">
+        <div id="programmes-content" tabindex="-1"></div>
+        {% block body %}{% endblock %}
     </div>
     {{ gelicons_source() }}
     <script>
