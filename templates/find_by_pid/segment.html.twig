@@ -1,0 +1,75 @@
+{% extends 'base_ds2013.html.twig' %}
+
+{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
+{% block title %}{{ meta_context.titlePrefix() ? meta_context.titlePrefix() ~ ' - ' }}{{ segment.getTitle() }}{% endblock %}
+
+{% block body %}
+<div class="b-g-p">
+    <div class="map__column br-box-secondary">
+        <div class="grid-wrapper">
+            <div class="grid 2/3@bpw2 3/4@bpe">
+                <div class="island">
+                    <h1>{{ segment.getTitle() }}</h1>
+                    {% if segment.getLongestSynopsis() %}
+                        <div class="component">
+                            {{ ds_shared('synopsis', segment.getSynopses(), 300) }}
+                        </div>
+                    {% endif %}
+
+                    {% if segmentDuration %}
+                        <div class="component">
+                            <p class="episode-panel__meta">{{ gelicon('core', 'duration', 'gelicon--centi gelicon--leading') }}{{ segmentDuration }}</p>
+                        </div>
+                    {% endif %}
+
+                    {% if segment.getContributions() %}
+                        {#
+                            Div needed to trick the credits block into keeping its
+                            margin-bottom otherwise it gets cut off due to `island :last-child`
+                        #}
+                        <div>
+                            <div class="component clip-panel__credits">
+                                <div class="component__header br-box-secondary">
+                                    <h2>{{ tr('credits', segment.getContributionsCount()) }}</h2>
+                                </div>
+                                <div class="component__body br-box-secondary">
+                                    {{ ds2013('credits', segment.getContributions()) }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="prog-layout programmes-page">
+    <div class="br-box-page prog-box">
+        {% if programmesContainingSegment %}
+            <div class="component component--box component--box--primary">
+                <div class="component__header br-box-page">
+                    <h2>{{ tr('chapter_context') }}</h2>
+                </div>
+                <div class="component__body br-box-page">
+                    <ul class="grid-wrapper highlight-box-wrapper--list highlight-box-wrapper--grid@bpw2 highlight-box-wrapper--grid@bpe">
+                        {%- for programme in programmesContainingSegment -%}
+                            <li class="grid 1/3@bpw2 1/4@bpe">
+                                {{ ds2013('programme', programme, {
+                                    'context_programme': null,
+                                    'highlight_box_classes':'highlight-box--list programme--grid@bpw2 highlight-box--grid@bpw2 programme--grid@bpe highlight-box--grid@bpe',
+                                    'image_options': {
+                                        'classes': '1/4@bpb1 1/1@bpw2',
+                                        'default_width': 74,
+                                        'sizes': { 0: 1/4, 768: 1/3, 1008: '224px'},
+                                    },
+                                }) }}
+                            </li>
+                        {%- endfor -%}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

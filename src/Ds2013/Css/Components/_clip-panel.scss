@@ -1,0 +1,44 @@
+.clip-panel__clip-is-from__heading {
+    padding-left: $basic-spacing;
+    padding-right: $basic-spacing;
+    margin-bottom: $basic-spacing;
+}
+
+@include mq-range('bpw') {
+    .clip-panel__clip-is-from__heading {
+        padding-left: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+}
+
+@include mq-range('bpw2') {
+    .clip-panel__credits {
+        margin-bottom: 0;
+    }
+
+    .clip-panel__clip-is-from {
+        padding-top: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+
+    .clip-panel__clip-is-from__heading {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@include mq-range('bpe') {
+    .clip-panel__credits {
+        margin-bottom: 0;
+    }
+
+    .clip-panel__clip-is-from {
+        padding-top: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+
+    .clip-panel__clip-is-from__heading {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
