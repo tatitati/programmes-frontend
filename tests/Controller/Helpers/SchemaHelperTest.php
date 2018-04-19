@@ -10,7 +10,7 @@ use App\Builders\ImageBuilder;
 use App\Builders\SeriesBuilder;
 use App\Builders\ServiceBuilder;
 use App\Controller\Helpers\SchemaHelper;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
@@ -31,7 +31,7 @@ class SchemaHelperTest extends TestCase
         $router = $this->createConfiguredMock(UrlGeneratorInterface::class, [
             'generate' => 'this/url/was/stubbed',
         ]);
-        $this->helper = new SchemaHelper($router, $this->createMock(StreamUrlHelper::class));
+        $this->helper = new SchemaHelper($router, $this->createMock(StreamableHelper::class));
     }
 
     public function testSchemaSeriesOutput()
@@ -163,7 +163,7 @@ class SchemaHelperTest extends TestCase
      */
     public function testTheUrlTryToGenerateTheUrlOfClipUsingThePidOFTheCLip()
     {
-        $streamUrlHelper = $this->createMock(StreamUrlHelper::class);
+        $streamUrlHelper = $this->createMock(StreamableHelper::class);
         $routerMock = $this->createMock(UrlGeneratorInterface::class);
         $routerMock->expects($this->once())->method('generate')->with('find_by_pid', ['pid' => new Pid('b00819mm')]);
 

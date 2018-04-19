@@ -5,7 +5,7 @@ namespace App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastSu
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -22,7 +22,7 @@ class CollapsedBroadcastProgrammeOverlayPresenter extends ProgrammeOverlayPresen
         UrlGeneratorInterface $router,
         PlayTranslationsHelper $playTranslationsHelper,
         LiveBroadcastHelper $liveBroadcastHelper,
-        StreamUrlHelper $streamUrlHelper,
+        StreamableHelper $streamUrlHelper,
         CollapsedBroadcast $broadcast,
         Programme $programme,
         array $options = []

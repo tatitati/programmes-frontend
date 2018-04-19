@@ -10,8 +10,8 @@ use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\EmptyPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\MorePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\TxPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
-use App\DsShared\Helpers\StreamUrlHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -45,7 +45,7 @@ class EpisodeMapPresenter extends Presenter
     public function __construct(
         UrlGeneratorInterface $router,
         LiveBroadcastHelper $liveBroadcastHelper,
-        StreamUrlHelper $streamUrlHelper,
+        StreamableHelper $streamUrlHelper,
         PlayTranslationsHelper $playTranslationsHelper,
         Episode $episode,
         ?CollapsedBroadcast $upcoming,

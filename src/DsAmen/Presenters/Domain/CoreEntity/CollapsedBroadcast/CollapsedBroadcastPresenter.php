@@ -15,7 +15,7 @@ use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\ImagePresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\StreamableCtaPresenter;
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\TitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -26,7 +26,7 @@ class CollapsedBroadcastPresenter extends BaseCoreEntityPresenter
     /** @var CollapsedBroadcast */
     private $collapsedBroadcast;
 
-    /** @var StreamUrlHelper */
+    /** @var StreamableHelper */
     private $streamUrlHelper;
 
     /** @var TranslateProvider */

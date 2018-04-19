@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter;
 
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\TitlePresenter;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use App\DsShared\Helpers\TitleLogicHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -41,7 +41,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
     public function testGetBrandingClass(string $brandingName, bool $textColourOnTitleLink, string $expected): void
     {
         $titlePresenter = new TitlePresenter(
-            $this->createMock(StreamUrlHelper::class),
+            $this->createMock(StreamableHelper::class),
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -66,7 +66,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
         $this->mockClip->method('isTv')->willReturn($isTv);
 
         $titlePresenter = new TitlePresenter(
-            $this->createMock(StreamUrlHelper::class),
+            $this->createMock(StreamableHelper::class),
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -97,7 +97,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
             ->willReturn([$this->mockClip, $titleAncestry]);
 
         $titlePresenter = new TitlePresenter(
-            $this->createMock(StreamUrlHelper::class),
+            $this->createMock(StreamableHelper::class),
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -143,7 +143,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
             ->willReturn([$mockClip, [$mockSeries, $mockEpisode]]);
 
         $titlePresenter = new TitlePresenter(
-            $this->createMock(StreamUrlHelper::class),
+            $this->createMock(StreamableHelper::class),
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -171,7 +171,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
             ->willReturn([$mockClip, []]);
 
         $titlePresenter = new TitlePresenter(
-            $this->createMock(StreamUrlHelper::class),
+            $this->createMock(StreamableHelper::class),
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,
@@ -191,7 +191,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
     /** @dataProvider getUrlProvider */
     public function testGetUrl(Programme $programme, bool $forceIplayerLinking, string $expected): void
     {
-        $streamUrlHelper = $this->createMock(StreamUrlHelper::class);
+        $streamUrlHelper = $this->createMock(StreamableHelper::class);
         if ($forceIplayerLinking) {
             $streamUrlHelper->expects($this->once())->method('getRouteForProgrammeItem')->willReturn('iplayer_play');
         }
@@ -229,7 +229,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
     public function testValidateOptions(array $options): void
     {
         new TitlePresenter(
-            $this->createMock(StreamUrlHelper::class),
+            $this->createMock(StreamableHelper::class),
             $this->mockClip,
             $this->router,
             $this->mockTitleLogicHelper,

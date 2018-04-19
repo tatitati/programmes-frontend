@@ -12,7 +12,7 @@ use App\Builders\SeriesBuilder;
 use App\Builders\ServiceBuilder;
 use App\Controller\Helpers\SchemaHelper;
 use App\Controller\Helpers\StructuredDataHelper;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -27,7 +27,7 @@ class StructuredDataHelperTest extends TestCase
     public function setUp()
     {
         $router = $this->createMock(UrlGeneratorInterface::class);
-        $streamUrlHelper = $this->createMock(StreamUrlHelper::class);
+        $streamUrlHelper = $this->createMock(StreamableHelper::class);
         $this->helper = new StructuredDataHelper(new SchemaHelper($router, $streamUrlHelper));
     }
 

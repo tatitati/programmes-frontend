@@ -16,7 +16,7 @@ use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\EmptyPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\MorePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\TxPresenter;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -116,7 +116,7 @@ class EpisodeMapPresenterTest extends TestCase
     {
         $playTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
         $liveBroadcastHelper = $this->createMock(LiveBroadcastHelper::class);
-        $streamUrlHelper = $this->createMock(StreamUrlHelper::class);
+        $streamUrlHelper = $this->createMock(StreamableHelper::class);
         $router = $this->createMock(UrlGeneratorInterface::class);
 
         if (!$onlyMorePanel && !$onlyTxPanel) {

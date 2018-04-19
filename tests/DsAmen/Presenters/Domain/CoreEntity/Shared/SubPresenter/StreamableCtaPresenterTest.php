@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter;
 
 use App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter\StreamableCtaPresenter;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -23,7 +23,7 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
     /** @dataProvider getDurationProvider */
     public function testGetDuration(ProgrammeItem $programme, int $expected): void
     {
-        $ctaPresenter = new StreamableCtaPresenter($this->createMock(StreamUrlHelper::class), $programme, $this->router);
+        $ctaPresenter = new StreamableCtaPresenter($this->createMock(StreamableHelper::class), $programme, $this->router);
         $this->assertSame($expected, $ctaPresenter->getDuration());
     }
 
@@ -43,13 +43,14 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
     }
 
     /** @dataProvider getLinkLocationPrefixProvider */
-    public function testGetLinkLocationPrefix(bool $forceIplayerLinking, bool $isTv, string $expected): void
+    public function testGetLinkLocationPrefix(bool $forceIplayerLinking, bool $isIplayer, string $expected): void
     {
         $mockClip = $this->createMockClip();
-        $mockClip->method('isTv')->willReturn($isTv);
+        $mockStreamableHelper = $this->createMock(StreamableHelper::class);
+        $mockStreamableHelper->expects($this->atLeastOnce())->method('shouldStreamViaIplayer')->willReturn($isIplayer);
 
         $ctaPresenter = new StreamableCtaPresenter(
-            $this->createMock(StreamUrlHelper::class),
+            $mockStreamableHelper,
             $mockClip,
             $this->router,
             [
@@ -64,16 +65,18 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
     public function getLinkLocationPrefixProvider(): array
     {
         return [
-            'Forcing iPlayer linking on TV Clip' => [true, true, 'map_iplayer_calltoaction'],
-            'Not forcing iPlayer linking on TV Clip' => [false, true, 'programmeobject_calltoaction'],
-            'Forcing iPlayer linking on non-TV Clip' => [true, false, 'programmeobject_calltoaction'],
+            'Forcing iPlayer linking on TV ProgrammeItem' => [true, true, 'map_iplayer_calltoaction'],
+            'Not forcing iPlayer linking on TV ProgrammeItem' => [false, false, 'programmeobject_calltoaction'],
+            'Forcing iPlayer linking on non-TV ProgrammeItem' => [true, false, 'programmeobject_calltoaction'],
         ];
     }
 
     /** @dataProvider getMediaIconNameProvider */
-    public function testGetMediaIconName(ProgrammeItem $programme, string $expected): void
+    public function testGetMediaIconName(ProgrammeItem $programme, string $expected, ?bool $isAudio): void
     {
-        $ctaPresenter = new StreamableCtaPresenter($this->createMock(StreamUrlHelper::class), $programme, $this->router);
+        $streamableHelper = $this->createMock(StreamableHelper::class);
+        $streamableHelper->method('shouldTreatProgrammeItemAsAudio')->willReturn($isAudio);
+        $ctaPresenter = new StreamableCtaPresenter($streamableHelper, $programme, $this->router);
         $this->assertSame($expected, $ctaPresenter->getMediaIconName());
     }
 
@@ -84,9 +87,9 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
         $radioEpisode = $this->createMockRadioEpisode();
 
         return [
-            'TV episode shows iPlayer CTA icon' => [$tvEpisode, 'iplayer'],
-            'Clip shows play CTA icon' => [$clip, 'play'],
-            'Radio episode shows iPlayer Radio CTA icon' => [$radioEpisode, 'iplayer-radio'],
+            'TV episode shows iPlayer CTA icon' => [$tvEpisode, 'iplayer', false],
+            'Clip shows play CTA icon' => [$clip, 'play', null],
+            'Radio episode shows iPlayer Radio CTA icon' => [$radioEpisode, 'iplayer-radio', true],
         ];
     }
 
@@ -94,14 +97,14 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
     public function testGetPlayTranslation(): void
     {
         $programme = $this->createMockTvEpisode();
-        $ctaPresenter = new StreamableCtaPresenter($this->createMock(StreamUrlHelper::class), $programme, $this->router);
+        $ctaPresenter = new StreamableCtaPresenter($this->createMock(StreamableHelper::class), $programme, $this->router);
         $this->assertSame('', $ctaPresenter->getLabelTranslation(), 'None streamable CTA presenter has label translations');
     }
 
     public function testGetUrl(): void
     {
         $episode = $this->createMockTvEpisode();
-        $urlHelper = $this->createMock(StreamUrlHelper::class);
+        $urlHelper = $this->createMock(StreamableHelper::class);
         $urlHelper->expects($this->once())->method('getRouteForProgrammeItem')->with($episode)->willReturn('iplayer_play');
         $ctaPresenter = new StreamableCtaPresenter($urlHelper, $episode, $this->router);
         $ctaPresenter->getUrl();

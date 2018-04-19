@@ -48,9 +48,9 @@ class HelperFactory
         return $this->getHelper(PlayTranslationsHelper::class, $this->translateProvider);
     }
 
-    public function getStreamUrlHelper(): StreamUrlHelper
+    public function getStreamUrlHelper(): StreamableHelper
     {
-        return $this->getHelper(StreamUrlHelper::class);
+        return $this->getHelper(StreamableHelper::class);
     }
 
     public function getTitleLogicHelper(): TitleLogicHelper

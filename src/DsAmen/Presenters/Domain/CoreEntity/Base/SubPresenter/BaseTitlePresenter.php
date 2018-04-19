@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter;
 
 use App\DsAmen\Presenter;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use App\DsShared\Helpers\TitleLogicHelper;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
@@ -28,7 +28,7 @@ abstract class BaseTitlePresenter extends Presenter
     /** @var CoreEntity */
     protected $mainTitleProgramme;
 
-    /** @var StreamUrlHelper */
+    /** @var StreamableHelper */
     protected $streamUrlHelper;
 
     /** @var CoreEntity[] */
@@ -47,7 +47,7 @@ abstract class BaseTitlePresenter extends Presenter
     ];
 
     public function __construct(
-        StreamUrlHelper $streamUrlHelper,
+        StreamableHelper $streamUrlHelper,
         CoreEntity $coreEntity,
         UrlGeneratorInterface $router,
         TitleLogicHelper $titleHelper,

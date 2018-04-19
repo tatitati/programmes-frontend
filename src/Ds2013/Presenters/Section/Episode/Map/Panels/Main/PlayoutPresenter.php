@@ -1,13 +1,14 @@
 <?php
-declare(strict_types=1);
+declare (strict_types = 1);
 namespace App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PlayoutPresenter extends Presenter
@@ -24,8 +25,8 @@ class PlayoutPresenter extends Presenter
     /** @var UrlGeneratorInterface */
     private $router;
 
-    /** @var StreamUrlHelper */
-    private $streamUrlHelper;
+    /** @var StreamableHelper */
+    private $streamableHelper;
 
     /** @var Version[] */
     private $availableVersions;
@@ -35,7 +36,7 @@ class PlayoutPresenter extends Presenter
 
     public function __construct(
         LiveBroadcastHelper $liveBroadcastHelper,
-        StreamUrlHelper $streamUrlHelper,
+        StreamableHelper $streamableHelper,
         UrlGeneratorInterface $router,
         Episode $episode,
         ?CollapsedBroadcast $upcoming,
@@ -46,7 +47,7 @@ class PlayoutPresenter extends Presenter
         $this->episode = $episode;
         $this->broadcast = $upcoming ?? $lastOn;
         $this->liveBroadcastHelper = $liveBroadcastHelper;
-        $this->streamUrlHelper = $streamUrlHelper;
+        $this->streamableHelper = $streamableHelper;
         $this->router = $router;
         $this->availableVersions = $availableVersions;
         $this->isWatchableLive = null;
@@ -99,23 +100,21 @@ class PlayoutPresenter extends Presenter
 
     public function getIcon(): string
     {
-        return $this->episode->isRadio() ? 'iplayer-radio' : 'iplayer';
+        return $this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->episode) ? 'iplayer-radio' : 'iplayer';
     }
 
     public function getAvailableTranslation(): string
     {
         if ($this->isWatchableLive()) {
-            if ($this->episode->isAudio()) {
+            if ($this->episode->isAudio() || $this->episode->isRadio()) {
                 return 'iplayer_listen_live';
             }
-
             return 'iplayer_watch_live';
         }
 
-        if ($this->episode->isAudio()) {
+        if ($this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->episode)) {
             return 'iplayer_listen_now';
         }
-
         return 'iplayer_watch_now';
     }
 
@@ -148,7 +147,7 @@ class PlayoutPresenter extends Presenter
             return $this->liveBroadcastHelper->simulcastUrl($this->broadcast);
         }
 
-        return $this->router->generate($this->streamUrlHelper->getRouteForProgrammeItem($this->episode), ['pid' => (string) $this->episode->getPid()]);
+        return $this->router->generate($this->streamableHelper->getRouteForProgrammeItem($this->episode), ['pid' => (string) $this->episode->getPid()]);
     }
 
     private function isWatchableLive(): bool

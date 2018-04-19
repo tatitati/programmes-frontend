@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\DsAmen\Presenters\Domain\CoreEntity\Shared\SubPresenter;
 
 use App\DsAmen\Presenters\Domain\CoreEntity\Base\SubPresenter\BaseCtaPresenter;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -15,20 +15,20 @@ class StreamableCtaPresenter extends BaseCtaPresenter
     protected $additionalOptions = [
         'show_duration' => true,
     ];
-    /** @var StreamUrlHelper */
-    private $streamUrlHelper;
+    /** @var StreamableHelper */
+    private $streamableHelper;
 
-    public function __construct(StreamUrlHelper $onDemandHelper, CoreEntity $coreEntity, UrlGeneratorInterface $router, array $options = [])
+    public function __construct(StreamableHelper $streamableHelper, CoreEntity $coreEntity, UrlGeneratorInterface $router, array $options = [])
     {
         $options = array_merge($this->additionalOptions, $options);
         parent::__construct($coreEntity, $router, $options);
-        $this->streamUrlHelper = $onDemandHelper;
+        $this->streamableHelper = $streamableHelper;
     }
 
     public function getMediaIconName(): string
     {
         if ($this->coreEntity instanceof Episode) {
-            if ($this->coreEntity->isAudio()) {
+            if ($this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->coreEntity)) {
                 return 'iplayer-radio';
             }
 
@@ -45,7 +45,7 @@ class StreamableCtaPresenter extends BaseCtaPresenter
 
     public function getLinkLocation(): string
     {
-        if ($this->coreEntity->isTv() && $this->getOption('force_iplayer_linking')) {
+        if ($this->streamableHelper->shouldStreamViaIplayer($this->coreEntity) && $this->getOption('force_iplayer_linking')) {
             return 'map_iplayer_calltoaction';
         }
 
@@ -61,7 +61,7 @@ class StreamableCtaPresenter extends BaseCtaPresenter
     public function getUrl(): string
     {
         return $this->router->generate(
-            $this->streamUrlHelper->getRouteForProgrammeItem($this->coreEntity),
+            $this->streamableHelper->getRouteForProgrammeItem($this->coreEntity),
             ['pid' => $this->coreEntity->getPid()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

@@ -4,7 +4,7 @@ namespace App\Ds2013\Presenters\Domain\CoreEntity\Programme\SubPresenters;
 
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenterBase;
 use App\DsShared\Helpers\PlayTranslationsHelper;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -39,13 +39,13 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
     /** @var PlayTranslationsHelper */
     protected $playTranslationsHelper;
 
-    /** @var StreamUrlHelper */
+    /** @var StreamableHelper */
     protected $streamUrlHelper;
 
     public function __construct(
         UrlGeneratorInterface $router,
         PlayTranslationsHelper $playTranslationsHelper,
-        StreamUrlHelper $streamUrlHelper,
+        StreamableHelper $streamUrlHelper,
         Programme $programme,
         array $options = []
     ) {
@@ -75,17 +75,11 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
 
     public function getMediaIconName(): string
     {
+        $isAudio = $this->streamUrlHelper->shouldTreatProgrammeItemAsAudio($this->programme);
         if ($this->programme instanceof Episode) {
-            if ($this->programme->isRadio()) {
-                return 'iplayer-radio';
-            }
-
-            return 'iplayer';
+            return $isAudio ? 'iplayer-radio' : 'iplayer';
         }
-        if ($this->programme->isRadio()) {
-            return 'listen';
-        }
-        return 'play';
+        return $isAudio ? 'listen' : 'play';
     }
 
     public function getPlaybackUrl(): string

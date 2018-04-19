@@ -5,7 +5,7 @@ namespace Tests\App\Ds2013\Presenters\Domain\CoreEntity\Programme\SubPresenters;
 
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
-use App\DsShared\Helpers\StreamUrlHelper;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -34,7 +34,7 @@ class ProgrammeOverlayPresenterTest extends TestCase
         );
 
         $this->mockTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
-        $this->mockStreamUrlHelper = $this->createMock(StreamUrlHelper::class);
+        $this->mockStreamUrlHelper = $this->createMock(StreamableHelper::class);
     }
 
     /**
@@ -42,10 +42,8 @@ class ProgrammeOverlayPresenterTest extends TestCase
      */
     public function testGetMediaIconName($isRadio, $expectedResult)
     {
+        $this->mockStreamUrlHelper->method('shouldTreatProgrammeItemAsAudio')->willReturn($isRadio);
         $programme = $this->createMock(Episode::class);
-        $programme->expects($this->once())
-            ->method('isRadio')
-            ->willReturn($isRadio);
         $programmeOverlayPresenter = new ProgrammeOverlayPresenter(
             $this->router,
             $this->mockTranslationsHelper,
