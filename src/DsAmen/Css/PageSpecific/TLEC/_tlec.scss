@@ -33,3 +33,13 @@
         width: 50%;
     }
 }
+
+.vote__noscript-container {
+    background-color: #ffffff;
+
+    noscript {
+        color: #000000;
+        font-size: 16px;
+        font-family: ReithSans, Arial, Helvetica, freesans, sans-serif;
+    }
+}

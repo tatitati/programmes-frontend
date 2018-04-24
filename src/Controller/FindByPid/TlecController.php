@@ -230,7 +230,7 @@ class TlecController extends BaseController
 
     private function isVotePriority(ProgrammeContainer $programme): bool
     {
-        return $programme->getOption('brand_layout') === 'vote' && $programme->getOption('ivote_block') !== null;
+        return $programme->getOption('brand_layout') === 'vote' && $programme->getOption('telescope_block') !== null;
     }
 
     private function showMiniMap(Request $request, ProgrammeContainer $programme, bool $isVotePriority, bool $hasLxPromo): bool

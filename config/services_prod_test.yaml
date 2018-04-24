@@ -7,3 +7,5 @@ parameters:
     app.favourites.baseurl: 'https://www.test.bbc.co.uk/modules/plugin/musicfavourite/init'
     app.recipes.baseurl: 'https://api.test.bbc.co.uk/food/recipes'
     app.morph.baseurl: 'https://morph.test.api.bbci.co.uk'
+
+    app.vote.accountwrapperurl: 'https://account-wrapper.test.files.bbci.co.uk/vote-wrapper.min.js'

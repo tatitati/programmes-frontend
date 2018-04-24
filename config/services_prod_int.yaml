@@ -8,3 +8,4 @@ parameters:
     app.recipes.baseurl: 'https://api.test.bbc.co.uk/food/recipes'
     app.morph.baseurl: 'https://morph.test.api.bbci.co.uk'
 
+    app.vote.accountwrapperurl: 'https://account-wrapper.int.files.bbci.co.uk/vote-wrapper.min.js'

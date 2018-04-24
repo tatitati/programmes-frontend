@@ -28,7 +28,7 @@ class TlecControllerTest extends BaseWebTestCase
         $programmeContainer->expects($this->atLeastOnce())->method('getOption')
             ->will($this->returnValueMap([
                 ['brand_layout', 'vote'],
-                ['ivote_block', 'anythingthatisntnull'],
+                ['telescope_block', 'anythingthatisntnull'],
             ]));
 
         $this->assertTrue($this->invokeMethod($controller, 'isVotePriority', [$programmeContainer]));

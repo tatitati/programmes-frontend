@@ -64,7 +64,7 @@ class OptionsFixture
         return new Options(
             [
                 'twitter_block' => '',
-                'ivote_block' => '',
+                'telescope_block' => '',
                 'thingstodo_block' => '',
                 'comingsoon_block' => '',
                 'comments_clips_enabled' => false,
@@ -132,7 +132,7 @@ class OptionsFixture
         return new Options(
             [
                 'twitter_block' => '',
-                'ivote_block' => '',
+                'telescope_block' => '',
                 'thingstodo_block' => '',
                 'comingsoon_block' => '',
                 'comments_clips_enabled' => false,
@@ -221,7 +221,7 @@ class OptionsFixture
         return new Options(
             [
                 'twitter_block' => '',
-                'ivote_block' => '',
+                'telescope_block' => '',
                 'thingstodo_block' => '',
                 'comingsoon_block' => '',
                 'navigation_links' => [

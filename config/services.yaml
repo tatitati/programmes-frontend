@@ -33,6 +33,8 @@ parameters:
     app.morph.baseurl: 'https://morph.api.bbci.co.uk'
     app.morph.service.lxpromo.class: App\ExternalApi\Morph\Service\LxPromoService
 
+    # External JS
+    app.vote.accountwrapperurl: 'https://account-wrapper.files.bbci.co.uk/vote-wrapper.min.js'
 
 services:
     # default configuration for services in *this* file
