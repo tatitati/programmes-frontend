@@ -45,19 +45,19 @@ class LiveBroadcastHelper
 
         'bbc_radio_one'                         => ['network', ['networkUrlKey' => 'radio1']],
         'bbc_radio_one_vintage'                 => ['network', ['networkUrlKey' => 'radio1vintage']],
-        'bbc_1xtra'                             => ['network', ['networkUrlKey' => '1xtra']],
+        'bbc_1xtra'                             => ['playspace_live', ['sid' => 'bbc_1xtra']],
         'bbc_radio_two'                         => ['network', ['networkUrlKey' => 'radio2']],
         'bbc_radio_three'                       => ['network', ['networkUrlKey' => 'radio3']],
         'bbc_radio_fourfm'                      => ['network', ['networkUrlKey' => 'radio4']],
         'bbc_radio_fourlw'                      => ['network', ['networkUrlKey' => 'radio4']],
         'bbc_radio_four_extra'                  => ['network', ['networkUrlKey' => 'radio4extra']],
-        'bbc_radio_five_live'                   => ['network', ['networkUrlKey' => '5live']],
+        'bbc_radio_five_live'                   => ['playspace_live', ['sid' => 'bbc_radio_five_live']],
         'bbc_radio_five_live_sports_extra'      => ['network', ['networkUrlKey' => '5livesportsextra']],
         'bbc_6music'                            => ['network', ['networkUrlKey' => '6music']],
         'bbc_7'                                 => ['network', ['networkUrlKey' => 'radio4extra']],
         'bbc_asian_network'                     => ['network', ['networkUrlKey' => 'asiannetwork']],
         'bbc_world_service'                     => ['network', ['networkUrlKey' => 'worldserviceradio']],
-        'bbc_radio_scotland_fm'                 => ['network', ['networkUrlKey' => 'radioscotland']],
+        'bbc_radio_scotland_fm'                 => ['playspace_live', ['sid' => 'bbc_radio_scotland_fm']],
         'bbc_radio_nan_gaidheal'                => ['network', ['networkUrlKey' => 'radionangaidheal']],
         'bbc_radio_ulster'                      => ['network', ['networkUrlKey' => 'radioulster']],
         'bbc_radio_foyle'                       => ['network', ['networkUrlKey' => 'radiofoyle']],
@@ -149,9 +149,6 @@ class LiveBroadcastHelper
         'cbeebies_radio'                        => ['network', ['networkUrlKey' => 'cbeebiesradio']],
         'bbc_radio_two_eurovision'              => ['network', ['networkUrlKey' => 'radio2eurovision']],
     ];
-
-    /** @var Chronos */
-    private $now;
 
     /** @var Chronos */
     private $sixMinutesFromNow;
