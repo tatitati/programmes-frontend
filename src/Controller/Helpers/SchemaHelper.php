@@ -6,9 +6,12 @@ namespace App\Controller\Helpers;
 use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\ChronosInterval;
@@ -32,6 +35,18 @@ class SchemaHelper
     {
         $this->router = $router;
         $this->streamableHelper = $streamableHelper;
+    }
+
+    public function buildSchemaForActor(Contribution $contribution): array
+    {
+        return [
+            '@type' => 'PerformanceRole',
+            'actor' => [
+                '@type' => 'Person',
+                'name' => $contribution->getContributor()->getName(),
+            ],
+            'characterName' => $contribution->getCharacterName(),
+        ];
     }
 
     public function getSchemaForSeries(ProgrammeContainer $programme): array
@@ -159,5 +174,21 @@ class SchemaHelper
         $clipSchema['description'] = $clip->getShortSynopsis();
 
         return $clipSchema;
+    }
+
+    public function buildSchemaForContributor(Contribution $contribution): array
+    {
+        $schema = [
+            '@type' => 'Role',
+            'contributor' => [
+                '@type' => 'Person',
+                'name' => $contribution->getContributor()->getName(),
+            ],
+            'roleName' => $contribution->getCreditRole(),
+        ];
+        if ($contribution->getContributor()->getMusicBrainzId()) {
+            $schema['@id'] = $this->router->generate('music_artist', ['mbid' => $contribution->getContributor()->getMusicBrainzId()]);
+        }
+        return $schema;
     }
 }

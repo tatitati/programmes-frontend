@@ -6,7 +6,9 @@ namespace App\Controller\Helpers;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
@@ -83,6 +85,16 @@ class StructuredDataHelper
     public function buildSchemaForClip(Clip $clip) :array
     {
         return $this->schemaHelper->buildSchemaForClip($clip);
+    }
+
+    public function getSchemaForActorContribution(Contribution $contribution): array
+    {
+        return $this->schemaHelper->buildSchemaForActor($contribution);
+    }
+
+    public function getSchemaForNonActorContribution(Contribution $contribution): array
+    {
+        return $this->schemaHelper->buildSchemaForContributor($contribution);
     }
 
     private function getSchemaForService(Service $service): array

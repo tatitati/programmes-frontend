@@ -3,11 +3,15 @@ declare(strict_types = 1);
 namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
+use App\Controller\Helpers\StructuredDataHelper;
 use App\Ds2013\PresenterFactory;
 use App\DsShared\Helpers\CanonicalVersionHelper;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
@@ -35,7 +39,8 @@ class EpisodeController extends BaseController
         ElectronService $electronService,
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
-        CanonicalVersionHelper $canonicalVersionHelper
+        CanonicalVersionHelper $canonicalVersionHelper,
+        StructuredDataHelper $structuredDataHelper
     ) {
         $this->setIstatsProgsPageType('programmes_episode');
         $this->setContextAndPreloadBranding($episode);
@@ -122,7 +127,10 @@ class EpisodeController extends BaseController
 
         $resolvedPromises = $this->resolvePromises(['favouritesButton' => $favouritesButtonService->getContent(), 'supportingContentItems' => $supportingContentItemsPromise]);
 
+        $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
+
         return $this->renderWithChrome('find_by_pid/episode.html.twig', [
+            'schema' => $schema,
             'contributions' => $contributions,
             'programme' => $episode,
             'clips' => $clips,
@@ -143,5 +151,51 @@ class EpisodeController extends BaseController
         return array_filter($versions, function (Version $version) {
             return $version->isDownloadable() || $version->isStreamable();
         });
+    }
+
+    private function getSchema(
+        StructuredDataHelper $structuredDataHelper,
+        Episode $episode,
+        ?CollapsedBroadcast $upcomingBroadcast,
+        array $clips,
+        array $contributions
+    ): array {
+        $schemaContext = $structuredDataHelper->getSchemaForEpisode($episode, true);
+        if ($upcomingBroadcast) {
+            if ($episode->isStreamable()) {
+                $schemaContext['publication'] = [
+                    $structuredDataHelper->getSchemaForOnDemand($episode),
+                    $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast),
+                ];
+            } else {
+                $schemaContext['publication'] = $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
+            }
+        } elseif ($episode->isStreamable()) {
+            $schemaContext['publication'] = $structuredDataHelper->getSchemaForOnDemand($episode);
+        }
+
+        foreach ($clips as $clip) {
+            $schemaContext['hasPart'][] = $structuredDataHelper->buildSchemaForClip($clip);
+        }
+
+        $actors = [];
+        $contributors = [];
+        /** @var Contribution $contribution */
+        foreach ($contributions as $contribution) {
+            if ($contribution->getCharacterName()) {
+                $actors[] = $structuredDataHelper->getSchemaForActorContribution($contribution);
+            } else {
+                $contributors[] = $structuredDataHelper->getSchemaForNonActorContribution($contribution);
+            }
+        }
+
+        if ($actors) {
+            $schemaContext['actor'] = $actors;
+        }
+        if ($contributors) {
+            $schemaContext['contributor'] = $contributors;
+        }
+
+        return $structuredDataHelper->prepare($schemaContext);
     }
 }
