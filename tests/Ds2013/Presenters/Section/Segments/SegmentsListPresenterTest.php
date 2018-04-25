@@ -5,7 +5,6 @@ namespace Tests\App\Ds2013\Presenters\Section\Segments;
 
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\AbstractMusicSegmentItemPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\GroupPresenter;
-use App\Ds2013\Presenters\Section\Segments\SegmentItem\ClassicalMusicPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\SpeechPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentsListPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;

@@ -3,9 +3,9 @@ declare(strict_types = 1);
 namespace Tests\App\Controller\FindByPid;
 
 use App\Controller\FindByPid\SegmentController;
+use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
-use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use PHPUnit\Framework\TestCase;

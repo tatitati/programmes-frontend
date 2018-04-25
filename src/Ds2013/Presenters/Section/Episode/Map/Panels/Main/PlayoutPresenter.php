@@ -8,7 +8,6 @@ use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
-use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PlayoutPresenter extends Presenter

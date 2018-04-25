@@ -11,16 +11,15 @@ use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\AbstractMainPanelMap;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\DetailsPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\PlayoutPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\AbstractSidePanelMap;
-use App\DsShared\Helpers\LiveBroadcastHelper;
-use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\EmptyPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\MorePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\TxPresenter;
+use App\DsShared\Helpers\LiveBroadcastHelper;
+use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouteCollectionBuilder;
 
 /**
  * @group MapEpisode

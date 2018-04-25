@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Ds2013\Presenters\Section\Segments\SegmentItem;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
-use Exception;
 
 class ClassicalMusicPresenter extends AbstractMusicSegmentItemPresenter
 {

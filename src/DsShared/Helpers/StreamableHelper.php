@@ -4,7 +4,6 @@ declare (strict_types = 1);
 namespace App\DsShared\Helpers;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 

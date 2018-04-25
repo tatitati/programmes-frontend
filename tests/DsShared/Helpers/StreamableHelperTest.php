@@ -3,7 +3,6 @@ declare (strict_types = 1);
 
 namespace Tests\App\DsShared\Helpers;
 
-use App\Builders\AbstractBuilder;
 use App\Builders\ClipBuilder;
 use App\Builders\EpisodeBuilder;
 use App\Builders\MasterBrandBuilder;
@@ -12,7 +11,6 @@ use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
-use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
 
 class StreamableHelperTest extends TestCase
