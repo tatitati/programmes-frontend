@@ -8,12 +8,14 @@
                     {{ recipe.getRecipe().getTitle() }}
                 </a>
             </{{ recipe.getOption('h_tag') }}>
-            <p class="recipe-chef gel-pica">
-                {%- if recipe.getChef().getImage() -%}
-                    <img class="recipe-chef__img hidden unhidden@gel2b" src="{{ recipe.getChef().getImage().getUrl('50') }}">
-                {%- endif -%}
-                {{ recipe.getChef().getName() }}
-            </p>
+            {%-  if recipe.getChef() -%}
+                <p class="recipe-chef gel-pica">
+                    {%- if recipe.getChef().getImage() -%}
+                        <img class="recipe-chef__img hidden unhidden@gel2b" src="{{ recipe.getChef().getImage().getUrl('50') }}">
+                    {%- endif -%}
+                    {{ recipe.getChef().getName() }}
+                </p>
+            {%- endif -%}
         </div>
     </div>
     {%- if recipe.getOption('show_image') and recipe.getRecipe().getImage() -%}

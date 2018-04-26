@@ -55,7 +55,7 @@ class RecipePresenter extends Presenter
         return $this->recipe;
     }
 
-    public function getChef(): Chef
+    public function getChef(): ?Chef
     {
         return $this->recipe->getChef();
     }
