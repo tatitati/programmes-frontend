@@ -60,14 +60,14 @@ msgstr ""
 #. %1 is a variable, which may contain the value: "Eastenders".
 #. Priority for: Programmes
 msgid "all_episodes_iplayer_radio_title"
-msgstr ""
+msgstr "Gach prògram %1 a tha ri fhaotainn air BBC iPlayer Radio"
 
 #. English: "All %1 episodes available on BBC iPlayer".
 #. Priority for: Programmes
 #. %1 is a variable, which may contain the value: "Eastenders".
 #. Example URL: http://www.bbc.co.uk/programmes/b006m86d (Mouse over "All Available" text)
 msgid "all_episodes_iplayer_title"
-msgstr ""
+msgstr "Gach prògram %1 a tha ri fhaotainn air BBC iPlayer"
 
 #. English: "All podcasts".
 msgid "all_podcasts"
