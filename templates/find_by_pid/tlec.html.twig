@@ -94,7 +94,7 @@
                         <ul class="grid">
                             {%- if programme.getOption('recipes_enabled') -%}
                                 <li class="grid__item tlec-page-card gel-brevier-bold lazy-module box-link"
-                                     data-lazyload-inc="{{ path('programme_recipes', {'pid': programme.getPid(), 'extension': '.ameninc'}) }}"
+                                     data-lazyload-inc="{{ path('programme_recipes_amen', {'pid': programme.getPid()}) }}"
                                      data-lazyload-threshold="320"
                                      data-lazyload-delay="true"
                                      data-object-type="recipe">

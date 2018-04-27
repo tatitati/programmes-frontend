@@ -1,0 +1,37 @@
+ <div class="recipe programme block-link highlight-box--list highlight-box--grid@bpb1 programme--grid@bpb1 highlight-box--grid@bpw programme--grid@bpw br-keyline br-blocklink-subtle br-subtle-linkhover-onbg015--hover">
+    <div class="programme__img 1/1@bpb1 1/1@bpw programme__img--hasimage recipe__img block-link br-blocklink-page">
+        {%- if recipe.getImage() -%}
+            {{-
+                ds_shared('image',
+                    recipe.getImage(),
+                    280,
+                    { 0: 1/2, 768: 1/4, 1008: '237px' },
+                    {
+                        'is_lazy_loaded': false,
+                        'srcsets' : [160, 235, 320, 466, 608]
+                    }
+                )
+            -}}
+        {%- endif -%}
+    </div>
+
+    <div class="programme__body">
+        <h3 class="programme__titles">
+            <a href="{{ recipe.getRecipeUrl() }}" class="br-blocklink__link block-link__target delta">
+                {{ recipe.getTitle() }}
+            </a>
+        </h3>
+
+        {%- if recipe.getChefName() -%}
+            <div class="recipe__chef">
+                {%- if recipe.getChefImageUrl() -%}
+                    <div class="recipe__chef-img 1/5">
+                        <img class="circular-img rsp-img" alt="" src="{{ recipe.getChefImageUrl() }}"/>
+                    </div>
+                {%- endif -%}
+
+                <span>{{ recipe.getChefName() }}</span>
+            </div>
+        {% endif %}
+    </div>
+</div>

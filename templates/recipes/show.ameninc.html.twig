@@ -15,7 +15,7 @@
             {%- if loop.last and total > 4 -%}
                 <div class="trailing-link br-box-secondary">
                     <div class="media__footer br-keyline">
-                        <a href="{{ path('programme_recipes', { pid: pid }) }}" class="icon-link link-complex 1/1 gel-pica-bold">
+                        <a href="{{ path('food_recipes', {pid: pid }) }}" class="icon-link link-complex 1/1 gel-pica-bold">
                             {{ gelicon('media', 'collection', 'gelicon--programme br-secondary-text-ontext') }}
                             <span class="link-complex__target icon-label--trailing-link">{{ tr('see_all_recipes') }}</span>
                         </a>

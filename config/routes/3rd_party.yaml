@@ -133,3 +133,10 @@ podcast_download_low:
     host: 'open.live.bbc.co.uk'
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     schemes: [http]
+
+food_recipes:
+    path: /food/programmes/{pid}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [http]
+

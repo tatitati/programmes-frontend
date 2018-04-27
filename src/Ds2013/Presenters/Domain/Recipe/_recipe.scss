@@ -1,0 +1,57 @@
+
+.recipe__chef {
+    margin-top: 8px;
+    vertical-align: middle;
+}
+
+.recipe__chef-img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 48px;
+    margin-right: 8px;
+
+    .circular-img {
+        border-radius: 50%;
+        display: block;
+        width: 100%;
+    }
+}
+
+.recipe .block-link__overlay-link {
+    position: absolute;
+    z-index: 0;
+    // this line is needed as all elements have a solid black
+    // background in high contrast mode
+    opacity: 0;
+}
+
+.recipe .programme__titles .delta {
+    margin-bottom: 0;
+}
+
+.block-link__overlay-link {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    text-indent: 200%;
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0); // IE9 fix
+}
+
+.recipe__img {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAACiCAMAAADWUuDVAAAAKlBMVEXMzMzPz8/T09PZ2dng4ODj4+Pl5eXm5ubs7Ozv7+/y8vL5+fn8/Pz///86dPwRAAABGklEQVR4Ae3TQU4DMQyGUU8DSYD4/tcFCXXUziCXBapYvG/hAzz9DkmSJEmSJEmSJEmSJEn62zLz+7aI9+vtcaznTXEM0LZKIEA9KyBA2yqBAPWsgABtqwQC1BIQIECAAAECBAgQIECAAAF6RoAAAQIECBAgQIDGGF93jvFxvYDugM4BAgQIEKB/DPQKaG/mubUB2rvUHwYoZj0gQJd6QIDirR4QoFYPCFC85G0zAB3rtQ+gmHc+gM7ltQYIECBAgAABAvTrAAHa+so9QI+JAD0gAvRjDRAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAXpCgCRJkiRJkiRJkiRJkiTpE+hPd3YJE0nbAAAAAElFTkSuQmCC');
+    background-position: center center;
+    background-size: cover;
+    // fixed 16x9 ratio
+    padding-bottom: 56.25%;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}

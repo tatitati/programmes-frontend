@@ -4,9 +4,11 @@ namespace Tests\App\Ds2013;
 
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
+use App\Builders\ExternalApi\Recipes\RecipeBuilder;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
+use App\Ds2013\Presenters\Domain\Recipe\RecipePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
@@ -110,5 +112,20 @@ class PresenterFactoryTest extends TestCase
         $this->assertInstanceOf(EpisodeMapPresenter::class, $presenter);
         $this->assertEquals('episode_map', $presenter->getTemplateVariableName());
         $this->assertContains('episode_map.html.twig', $presenter->getTemplatePath());
+    }
+
+    /**
+     * @group recipes
+     */
+    public function testCanCreateRecipesApiResultsPresenter()
+    {
+        $recipe = RecipeBuilder::any()->build();
+        $options = ['key1' => 'value1'];
+
+        $presenter = $this->factory->recipePresenter($recipe, $options);
+
+        $this->assertInstanceOf(RecipePresenter::class, $presenter);
+        $this->assertEquals('@Ds2013/Presenters/Domain/Recipe/recipe.html.twig', $presenter->getTemplatePath());
+        $this->assertSame('value1', $presenter->getOption('key1'));
     }
 }

@@ -46,9 +46,19 @@ programme_recommendations:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.2013inc' }
 
 programme_recipes:
-    path: /programmes/{pid}/recipes{extension}
-    defaults: { _controller: App\Controller\RecipesController, extension: '' }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', extension: '$|\.ameninc' }
+    path: /programmes/{pid}/recipes
+    defaults: { _controller: App\Controller\Recipes\RecipesController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+programme_recipes_amen:
+    path: /programmes/{pid}/recipes.ameninc
+    defaults: { _controller: App\Controller\Recipes\RecipesAmenController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+programme_recipes_ds2013:
+    path: /programmes/{pid}/recipes.2013inc
+    defaults: { _controller: App\Controller\Recipes\RecipesDs2013Controller }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 programme_segments:
     path: /programmes/{pid}/segments

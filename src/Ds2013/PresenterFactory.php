@@ -9,6 +9,7 @@ use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresente
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Promotion\PromotionPresenter;
+use App\Ds2013\Presenters\Domain\Recipe\RecipePresenter;
 use App\Ds2013\Presenters\Domain\Superpromo\SuperpromoPresenter;
 use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
 use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
@@ -22,6 +23,7 @@ use App\Ds2013\Presenters\Utilities\Credits\CreditsPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
+use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -295,6 +297,13 @@ class PresenterFactory
             $promotion,
             $options
         );
+    }
+
+    public function recipePresenter(
+        Recipe $recipe,
+        array $options = []
+    ) :RecipePresenter {
+        return new RecipePresenter($recipe, $options);
     }
 
     public function superpromoPresenter(Promotion $promotion, array $options = []): SuperpromoPresenter

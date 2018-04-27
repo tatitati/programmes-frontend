@@ -71,6 +71,11 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
             $this->buildEpisode('p3000004', 'B1-S2-S1-E2', $this->getReference('b000sr21'))
         );
 
+        $this->addReference(
+            'b013pqnm',
+            $this->buildEpisode('b013pqnm', 'B1-S2-S1-E3', $this->getReference('b000sr21'))
+        );
+
         $episode = new Episode('p01l1z04', 'The Day of the Doctor');
         $this->manager->persist($episode);
 
