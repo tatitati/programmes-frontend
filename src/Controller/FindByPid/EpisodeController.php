@@ -6,9 +6,12 @@ use App\Controller\BaseController;
 use App\Controller\Helpers\StructuredDataHelper;
 use App\Ds2013\PresenterFactory;
 use App\DsShared\Helpers\CanonicalVersionHelper;
+use App\ExternalApi\Ada\Service\AdaClassService;
+use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
@@ -21,6 +24,7 @@ use BBC\ProgrammesPagesService\Service\PromotionsService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use BBC\ProgrammesPagesService\Service\SegmentEventsService;
 use BBC\ProgrammesPagesService\Service\VersionsService;
+use GuzzleHttp\Promise\FulfilledPromise;
 
 class EpisodeController extends BaseController
 {
@@ -36,6 +40,8 @@ class EpisodeController extends BaseController
         VersionsService $versionsService,
         SegmentEventsService $segmentEventsService,
         ElectronService $electronService,
+        AdaProgrammeService $adaProgrammeService,
+        AdaClassService $adaClassService,
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
         CanonicalVersionHelper $canonicalVersionHelper,
@@ -122,13 +128,29 @@ class EpisodeController extends BaseController
             }
         }
 
+        $relatedProgrammesPromise = new FulfilledPromise([]);
+        $relatedTopicsPromise = new FulfilledPromise([]);
+        if ($episode->getOption('show_enhanced_navigation')) {
+            // Less than 50 episodes (through ancestry)...
+            $tleo = $episode->getTleo();
+            $usePerContainerValues = false;
+            if ($tleo instanceof ProgrammeContainer) {
+                $usePerContainerValues = $tleo->getAggregatedEpisodesCount() >= 50;
+            }
+            $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($episode, $usePerContainerValues, 10);
+            $relatedProgrammesPromise = $adaProgrammeService->findSuggestedByProgrammeItem($episode);
+        }
+
         $supportingContentItemsPromise = $electronService->fetchSupportingContentItemsForProgramme($episode);
 
-        $resolvedPromises = $this->resolvePromises(['favouritesButton' => $favouritesButtonService->getContent(), 'supportingContentItems' => $supportingContentItemsPromise]);
-
+        $resolvedPromises = $this->resolvePromises([
+                'favouritesButton' => $favouritesButtonService->getContent(),
+                'relatedTopics' => $relatedTopicsPromise,
+                'relatedProgrammes' => $relatedProgrammesPromise,
+                'supportingContentItems' => $supportingContentItemsPromise,
+        ]);
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
-
-        return $this->renderWithChrome('find_by_pid/episode.html.twig', [
+        $parameters = [
             'schema' => $schema,
             'contributions' => $contributions,
             'programme' => $episode,
@@ -140,9 +162,10 @@ class EpisodeController extends BaseController
             'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
             'segmentsListPresenter' => $segmentsListPresenter,
-            'favouritesButton' => $resolvedPromises['favouritesButton'],
-            'supportingContentItems' => $resolvedPromises['supportingContentItems'],
-        ]);
+        ];
+
+        $parameters = array_merge($parameters, $resolvedPromises);
+        return $this->renderWithChrome('find_by_pid/episode.html.twig', $parameters);
     }
 
     private function getAvailableVersions(array $versions): array

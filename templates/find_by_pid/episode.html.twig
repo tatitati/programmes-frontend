@@ -20,7 +20,20 @@
 
     <div class="prog-layout programmes-page">
         <div class="grid-wrapper grid-wrapper--center">
-            {# TODO Related Topics Module #}
+            {% if relatedTopics %}
+                <div class="grid grid--bounded grid--unbounded@bpw2 grid--unbounded@bpe">
+                    <div class="grid__inner">
+                        <div class="component component--box--primary">
+                            <div class="component__header br-box-page">
+                                <h2>{{ tr('related_topics') }}</h2>
+                            </div>
+                            <div class="component__body br-box-page">
+                                {{ ds2013('relatedTopics', relatedTopics) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
             <div class="grid grid--bounded 13/24@bpw2 13/24@bpe">
                 <div class="br-box-page prog-box">
@@ -194,7 +207,25 @@
             <div class="grid grid--bounded 11/24@bpw2 11/24@bpe">
                 {# TODO MPU at sizes 3 and 4 #}
 
-                {# TODO Related Programmes (ADA) #}
+                <div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
+                    <div class="component__header br-box-highlight">
+                        <h2>{{  tr('related_programmes') }}</h2>
+                    </div>
+                    <div class="component__body br-box-subtle">
+                        <ul class="list-unstyled">
+                            {% for programme in relatedProgrammes %}
+                                <li>{{ ds2013('programme', programme.getProgramme(), {
+                                        'title_options': {'title_format': 'item::ancestry'},
+                                        'body_options': {
+                                            'body_suffix': '<p class="programme__child-availability">' ~ tr('episode_is_related_to', {'%1': '<a class="block-link__link" href="' ~ path('topics_topic', {topic: programme.getRelatedByClasses()[0].getId()}) ~'">' ~ programme.getRelatedByClasses()[0].getTitle() ~ '</a></p>'}),
+                                            'show_synopsis': false,
+                                        },
+                                        'container_classes': 'highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover'
+                                    }) }}</li>
+                            {%  endfor %}
+                        </ul>
+                    </div>
+                </div>
 
                 {% for promo in promotions.super %}
                     {{ ds2013('superpromo', promo, {

@@ -26,3 +26,7 @@
 {% endif %}
 {# This exists solely to be extended. @TODO revisit once this is more fleshed out #}
 {% block body_extra %}{% endblock %}
+
+{% if programme_body.getOption('body_suffix') %}
+    {{ programme_body.getOption('body_suffix')|raw }}
+{% endif %}

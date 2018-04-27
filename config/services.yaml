@@ -22,6 +22,7 @@ parameters:
     # External Apis
     app.ada.baseurl: 'https://ada.api.bbci.co.uk'
     app.ada.class_service.class: App\ExternalApi\Ada\Service\AdaClassService
+    app.ada.programme_service.class: App\ExternalApi\Ada\Service\AdaProgrammeService
     app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
     app.favourites.baseurl: 'https://www.bbc.co.uk/modules/plugin/musicfavourite/init'
@@ -256,6 +257,11 @@ services:
 
     App\ExternalApi\Ada\Service\AdaClassService:
         class: '%app.ada.class_service.class%'
+        arguments:
+            $baseUrl: '%app.ada.baseurl%'
+
+    App\ExternalApi\Ada\Service\AdaProgrammeService:
+        class: '%app.ada.programme_service.class%'
         arguments:
             $baseUrl: '%app.ada.baseurl%'
 

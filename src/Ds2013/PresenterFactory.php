@@ -16,6 +16,7 @@ use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
+use App\Ds2013\Presenters\Section\RelatedTopics\RelatedTopicsPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentsListPresenter;
 use App\Ds2013\Presenters\Section\SupportingContent\SupportingContentPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
@@ -332,5 +333,10 @@ class PresenterFactory
     public function episodesSubNavPresenter(string $currentRoute, bool $isDomestic, bool $hasBroadcasts, int $availableEpisodeCount, Pid $pid, int $upcomingBroadcastCount): EpisodesSubNavPresenter
     {
         return new EpisodesSubNavPresenter($currentRoute, $isDomestic, $hasBroadcasts, $availableEpisodeCount, $pid, $upcomingBroadcastCount);
+    }
+
+    public function relatedTopicsPresenter(array $relatedTopics, array $options = []): RelatedTopicsPresenter
+    {
+        return new RelatedTopicsPresenter($relatedTopics, $options);
     }
 }

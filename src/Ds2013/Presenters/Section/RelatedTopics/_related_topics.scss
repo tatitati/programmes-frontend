@@ -1,0 +1,29 @@
+.related-topics {
+    @extend %list-unstyled;
+    @extend .cf;
+
+    line-height: 1;
+    // Remove whitespace caused by `inline-block`.
+    letter-spacing: -0.31em;
+    word-spacing: -0.43em;
+}
+
+.related-topics li {
+    @include inline-block();
+    margin-right: 8px;
+    margin-bottom: 8px;
+
+    letter-spacing: normal;
+    word-spacing: normal;
+}
+
+.related-topics li:last-child {
+    margin-right: 0;
+}
+
+.related-topics a {
+    display: block;
+    padding: 11px;
+    border-width: 1px;
+    border-style: solid;
+}

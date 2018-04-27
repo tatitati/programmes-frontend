@@ -10,6 +10,7 @@ use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
@@ -65,20 +66,20 @@ class AdaClassService
     /**
      * @param Programme $programme
      * @param bool $countWithinTleo
+     * @param int $limit
      * @return PromiseInterface (Promise return AdaClass[] when unwrapped)
      */
     public function findRelatedClassesByContainer(
         Programme $programme,
-        bool $countWithinTleo = true
+        bool $countWithinTleo = true,
+        int $limit = 5
     ): PromiseInterface {
-        $client = $this->makeClient($programme, $countWithinTleo);
+        $client = $this->makeClient($programme, $countWithinTleo, $limit);
         return $client->makeCachedPromise();
     }
 
-    private function makeClient(Programme $programme, bool $countWithinTleo): HttpApiClient
+    private function makeClient(Programme $programme, bool $countWithinTleo, int $limit): HttpApiClient
     {
-        $limit = 5;
-
         // If $countWithinTleo is true, then the programme_item_count returned
         // shall be the number of items with a tag WITHIN the TLEO.
         // If $countWithinTleo is false, then the programme_item_count returned
@@ -118,14 +119,20 @@ class AdaClassService
         int $limit = 10,
         int $page = 1
     ):string {
-        return $this->baseUrl . '/classes?page=' . $page . '&page_size=' . $limit .
-            ($programmePid ? '&programme=' . $programmePid : '') .
-            ($contextPid ? '&count_context=' . $contextPid : '') .
-            ($countItemType ? '&count_item_type=' . $countItemType : '') .
-            ($type ? '&type=' . $type : '') .
-            ($threshold ? '&threshold=' . $threshold : '') .
-            ($order ? '&order=' . $order : '') .
-            ($orderDirection ? '&direction=' . $orderDirection : '');
+        $params = http_build_query(
+            [
+                'page' => $page,
+                'page_size' => $limit,
+                'programme' => $programmePid,
+                'count_item_type' => $countItemType,
+                'type' => $type,
+                'count_context' => $contextPid,
+                'threshold' => $threshold,
+                'order' => $order,
+                'direction' => $orderDirection,
+            ]
+        );
+        return $this->baseUrl . '/classes?' . $params;
     }
 
     /**

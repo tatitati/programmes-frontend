@@ -110,7 +110,7 @@ class TlecController extends BaseController
         if ($programme->getOption('show_enhanced_navigation')) {
             // Less than 50 episodes (through ancestry)...
             $usePerContainerValues = $programme->getAggregatedEpisodesCount() >= 50;
-            $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues);
+            $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($programme, $usePerContainerValues, 5);
         }
 
         $recommendationsPromise = new FulfilledPromise([]);

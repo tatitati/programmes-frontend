@@ -12,13 +12,10 @@ use GuzzleHttp\Promise\PromiseInterface;
  *
  * Stub class for unit tests
  */
-class AdaClassStubService extends AdaClassService
+class AdaProgrammeStubService extends AdaProgrammeService
 {
-    public function findRelatedClassesByContainer(
-        Programme $programme,
-        bool $countWithinTleo = true,
-        int $limit = 5
-    ): PromiseInterface {
+    public function findSuggestedByProgrammeItem(Programme $programme, int $limit = 3): PromiseInterface
+    {
         return new FulfilledPromise([]);
     }
 }
