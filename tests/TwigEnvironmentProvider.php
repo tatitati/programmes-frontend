@@ -76,6 +76,20 @@ class TwigEnvironmentProvider
         return self::$dsSharedPresenterFactory;
     }
 
+    public static function getSymfonyRouter(): UrlGenerator
+    {
+        $routeCollectionBuilder = new RouteCollectionBuilder(new YamlFileLoader(
+            new FileLocator([__DIR__ . '/../config'])
+        ));
+        $routeCollectionBuilder->import('routes.yaml');
+        $routeCollectionBuilder->import('routes/3rd_party.yaml');
+        $router = new UrlGenerator(
+            $routeCollectionBuilder->build(),
+            new RequestContext()
+        );
+        return $router;
+    }
+
     private static function build(): void
     {
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../templates');
@@ -98,20 +112,11 @@ class TwigEnvironmentProvider
 
         $assetPackages = new Packages(new Package(new EmptyVersionStrategy()));
 
-        $routeCollectionBuilder = new RouteCollectionBuilder(new YamlFileLoader(
-            new FileLocator([__DIR__ . '/../config'])
-        ));
-        $routeCollectionBuilder->import('routes.yaml');
-        $routeCollectionBuilder->import('routes/3rd_party.yaml');
-
         // Symfony extensions
 
         $twig->addExtension(new AssetExtension($assetPackages));
 
-        $router = new UrlGenerator(
-            $routeCollectionBuilder->build(),
-            new RequestContext()
-        );
+        $router = self::getSymfonyRouter();
         $twig->addExtension(new RoutingExtension($router));
 
         // Programmes extensions
