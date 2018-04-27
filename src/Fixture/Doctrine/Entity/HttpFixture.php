@@ -5,6 +5,7 @@ namespace App\Fixture\Doctrine\Entity;
 
 use DateTime;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(
