@@ -18,6 +18,19 @@
     display: none;
 }
 
+.map--episode .map__column .map__inner {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+
+@include mq-range('bpw2') {
+    .map--episode .map__column .map__inner {
+        margin-bottom: -50em;
+        padding-bottom: 50em;
+    }
+}
+
 @include mq-range('bpw') {
     .map--count-2 {
         overflow: hidden;
