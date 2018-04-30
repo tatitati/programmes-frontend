@@ -143,12 +143,17 @@ class EpisodeController extends BaseController
 
         $supportingContentItemsPromise = $electronService->fetchSupportingContentItemsForProgramme($episode);
 
+        $this->setIstatsPastBroadcastLabel($lastOnBroadcast);
+        $this->setIstatsUpcomingLabel($upcomingBroadcast);
+        $this->setIstatsLiveEpisodeLabel($upcomingBroadcast);
+
         $resolvedPromises = $this->resolvePromises([
                 'favouritesButton' => $favouritesButtonService->getContent(),
                 'relatedTopics' => $relatedTopicsPromise,
                 'relatedProgrammes' => $relatedProgrammesPromise,
                 'supportingContentItems' => $supportingContentItemsPromise,
         ]);
+
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
         $parameters = [
             'schema' => $schema,
@@ -219,5 +224,33 @@ class EpisodeController extends BaseController
         }
 
         return $structuredDataHelper->prepare($schemaContext);
+    }
+
+    private function setIstatsPastBroadcastLabel(?CollapsedBroadcast $lastOn) :void
+    {
+        $hasBroadcastInLast18Months = $lastOn ? $lastOn->getStartAt()->wasWithinLast('18 months') : false;
+        if ($hasBroadcastInLast18Months) {
+            $this->setIstatsExtraLabels(['past_broadcast' => 'true']);
+        } else {
+            $this->setIstatsExtraLabels(['past_broadcast' => 'false']);
+        }
+    }
+
+    private function setIstatsUpcomingLabel(?CollapsedBroadcast $upcomingBroadcast): void
+    {
+        if (empty($upcomingBroadcast)) {
+            $this->setIstatsExtraLabels(['upcoming' => 'false']);
+        } else {
+            $this->setIstatsExtraLabels(['upcoming' => 'true']);
+        }
+    }
+
+    private function setIstatsLiveEpisodeLabel(?CollapsedBroadcast $upcomingBroadcast): void
+    {
+        if (!empty($upcomingBroadcast) && $upcomingBroadcast->isOnAir()) {
+            $this->setIstatsExtraLabels(['live_episode' => 'true']);
+        } else {
+            $this->setIstatsExtraLabels(['live_episode' => 'false']);
+        }
     }
 }

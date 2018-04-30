@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\ValueObject;
 
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -86,6 +87,17 @@ class IstatsAnalyticsLabels
             $this->labels['container_is'] = $context->getType();
             // technically this should be called is_tlec but this is for legacy labelling reasons
             $this->labels['is_tleo'] = $context->isTleo() ? 'true' : 'false';
+        }
+
+        if ($context instanceof Episode) {
+            if (!is_null($context->getReleaseDate())) {
+                $this->labels['episode_release_date'] = $context->getReleaseDate()->asDateTime()->format('c');
+                $this->labels['episode_release_year'] = $context->getReleaseDate()->asDateTime()->format('Y');
+            }
+            if (!is_null($context->getMasterBrand())) {
+                $this->labels['event_master_brand'] = $context->getMasterBrand()->getName();
+            }
+            $this->labels['availability'] =  $context->isStreamable() ? 'true' : 'false';
         }
     }
 
