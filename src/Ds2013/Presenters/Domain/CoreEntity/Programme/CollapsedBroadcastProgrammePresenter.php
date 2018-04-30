@@ -78,6 +78,7 @@ class CollapsedBroadcastProgrammePresenter extends ProgrammePresenter
             $this->helperFactory->getTitleLogicHelper(),
             $this->collapsedBroadcast,
             $this->programme,
+            $this->helperFactory->getStreamUrlHelper(),
             $this->subPresenterOptions('title_options')
         );
     }

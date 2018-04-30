@@ -61,7 +61,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
     }
 
     /** @dataProvider getLinkLocationPrefixProvider */
-    public function testGetLinkLocationPrefix(bool $forceIplayerLinking, bool $isTv, string $expected): void
+    public function testGetLinkLocationPrefix(bool $forcePlayoutLinking, bool $isTv, string $expected): void
     {
         $this->mockClip->method('isTv')->willReturn($isTv);
 
@@ -71,7 +71,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
             $this->router,
             $this->mockTitleLogicHelper,
             [
-                'force_iplayer_linking' => $forceIplayerLinking,
+                'force_playout_linking' => $forcePlayoutLinking,
                 'link_location_prefix' => 'programmeobject_',
             ]
         );
@@ -189,11 +189,15 @@ class TitlePresenterTest extends BaseSubPresenterTest
     }
 
     /** @dataProvider getUrlProvider */
-    public function testGetUrl(Programme $programme, bool $forceIplayerLinking, string $expected): void
+    public function testGetUrl(Programme $programme, bool $forcePlayoutLinking, string $expected): void
     {
         $streamUrlHelper = $this->createMock(StreamableHelper::class);
-        if ($forceIplayerLinking) {
+        if ($forcePlayoutLinking) {
             $streamUrlHelper->expects($this->once())->method('getRouteForProgrammeItem')->willReturn('iplayer_play');
+        }
+        if ($programme instanceof Clip) {
+            // this could be updated to "playspace_play" when everything is moved to playspace
+            $streamUrlHelper->expects($this->once())->method('getRouteForProgrammeItem')->willReturn('find_by_pid');
         }
         $titlePresenter = new TitlePresenter(
             $streamUrlHelper,
@@ -203,7 +207,7 @@ class TitlePresenterTest extends BaseSubPresenterTest
             [
                 'context_programme' => $this->mockContext,
                 'title_format' => 'item::ancestry',
-                'force_iplayer_linking' => $forceIplayerLinking,
+                'force_playout_linking' => $forcePlayoutLinking,
             ]
         );
 

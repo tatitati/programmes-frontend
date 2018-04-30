@@ -24,7 +24,7 @@ abstract class BaseImagePresenter extends Presenter
     protected $options = [
         'show_image' => true,
         'is_lazy_loaded' => true,
-        'force_iplayer_linking' => false,
+        'force_playout_linking' => false,
         'default_width' => 320,
         'sizes' => [
             // @TODO confirm these are the right sizes

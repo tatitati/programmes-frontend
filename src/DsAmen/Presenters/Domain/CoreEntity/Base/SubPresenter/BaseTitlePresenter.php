@@ -7,6 +7,7 @@ use App\DsAmen\Presenter;
 use App\DsShared\Helpers\StreamableHelper;
 use App\DsShared\Helpers\TitleLogicHelper;
 use App\Exception\InvalidOptionException;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -73,7 +74,7 @@ abstract class BaseTitlePresenter extends Presenter
 
     public function getLinkLocationPrefix(): string
     {
-        if ($this->coreEntity->isTv() && $this->getOption('force_iplayer_linking')) {
+        if ($this->coreEntity->isTv() && $this->getOption('force_playout_linking')) {
             return 'map_iplayer_';
         }
         return $this->getOption('link_location_prefix');
@@ -104,7 +105,7 @@ abstract class BaseTitlePresenter extends Presenter
     public function getUrl(): string
     {
         $route = 'find_by_pid';
-        if ($this->getOption('force_iplayer_linking')) {
+        if ($this->getOption('force_playout_linking') || $this->coreEntity instanceof Clip) {
             $route = $this->streamUrlHelper->getRouteForProgrammeItem($this->coreEntity);
         }
 
@@ -125,7 +126,7 @@ abstract class BaseTitlePresenter extends Presenter
             throw new InvalidOptionException('truncation_length option must be null or an integer. HINT: use null for unlimited title length');
         }
 
-        if (isset($options['force_iplayer_linking']) && $options['force_iplayer_linking'] && !($this->coreEntity instanceof ProgrammeItem)) {
+        if (isset($options['force_playout_linking']) && $options['force_playout_linking'] && !($this->coreEntity instanceof ProgrammeItem)) {
             throw new InvalidOptionException('truncation_length option must be null or an integer. HINT: use null for unlimited title length');
         }
     }

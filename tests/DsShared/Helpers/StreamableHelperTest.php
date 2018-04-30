@@ -11,6 +11,7 @@ use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use PHPUnit\Framework\TestCase;
 
 class StreamableHelperTest extends TestCase
@@ -56,15 +57,34 @@ class StreamableHelperTest extends TestCase
         $this->assertSame($expectedOutcome, $helper->shouldTreatProgrammeItemAsAudio($episode));
     }
 
+    public function testShouldStreamViaPlayspace()
+    {
+        $helper = new StreamableHelper();
+        $network = NetworkBuilder::any()->with(['medium' => NetworkMediumEnum::UNKNOWN, 'nid' => new Nid('bbc_radio_three')])->build();
+        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network])->build();
+        $playspaceAudioClip = ClipBuilder::any()->with(['mediaType' => MediaTypeEnum::AUDIO, 'masterBrand' => $masterBrand])->build();
+        $this->assertTrue($helper->shouldStreamViaPlayspace($playspaceAudioClip));
+
+        $episode = EpisodeBuilder::any()->with(['mediaType' => MediaTypeEnum::VIDEO, 'masterBrand' => $masterBrand])->build();
+        $this->assertFalse($helper->shouldStreamViaPlayspace($episode));
+    }
+
     public function itemToRouteProvider(): array
     {
         $clip = ClipBuilder::any()->build();
         $episode = EpisodeBuilder::any()->build();
+
+        // Playspace audio clip
+        $network = NetworkBuilder::any()->with(['nid' => new Nid('bbc_radio_three')])->build();
+        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network])->build();
+        $playspaceAudioClip = ClipBuilder::any()->with(['mediaType' => MediaTypeEnum::AUDIO, 'masterBrand' => $masterBrand])->build();
+
         return [
             'episode-not-audio' => [$episode, false, 'iplayer_play'],
             'episode-audio' => [$episode, true, 'find_by_pid'],
             'clip-not-audio' => [$clip, false, 'find_by_pid'],
             'clip-audio' => [$clip, true, 'find_by_pid'],
+            'playspace-clip-audio' => [$playspaceAudioClip, true, 'playspace_play'],
         ];
     }
 

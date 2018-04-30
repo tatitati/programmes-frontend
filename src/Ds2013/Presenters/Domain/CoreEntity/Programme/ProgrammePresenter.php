@@ -6,6 +6,7 @@ use App\Ds2013\Presenters\Domain\CoreEntity\Programme\SubPresenters\ProgrammeBod
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\SubPresenters\ProgrammeOverlayPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\SharedSubPresenters\CoreEntityTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
+use App\DsShared\Helpers\StreamableHelper;
 use App\Exception\InvalidOptionException;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -97,6 +98,7 @@ class ProgrammePresenter extends ProgrammePresenterBase
             $this->router,
             $this->helperFactory->getTitleLogicHelper(),
             $this->programme,
+            $this->helperFactory->getStreamUrlHelper(),
             $this->subPresenterOptions('title_options')
         );
     }

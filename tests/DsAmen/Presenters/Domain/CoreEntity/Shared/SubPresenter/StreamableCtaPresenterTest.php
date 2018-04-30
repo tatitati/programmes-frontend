@@ -43,7 +43,7 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
     }
 
     /** @dataProvider getLinkLocationPrefixProvider */
-    public function testGetLinkLocationPrefix(bool $forceIplayerLinking, bool $isIplayer, string $expected): void
+    public function testGetLinkLocationPrefix(bool $forcePlayoutLinking, bool $isIplayer, string $expected): void
     {
         $mockClip = $this->createMockClip();
         $mockStreamableHelper = $this->createMock(StreamableHelper::class);
@@ -54,7 +54,7 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
             $mockClip,
             $this->router,
             [
-                'force_iplayer_linking' => $forceIplayerLinking,
+                'force_playout_linking' => $forcePlayoutLinking,
                 'link_location_prefix' => 'programmeobject_',
             ]
         );

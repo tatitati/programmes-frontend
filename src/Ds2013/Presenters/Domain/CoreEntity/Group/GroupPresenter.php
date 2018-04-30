@@ -58,6 +58,7 @@ class GroupPresenter extends Presenter
             $this->router,
             $this->helperFactory->getTitleLogicHelper(),
             $this->group,
+            $this->helperFactory->getStreamUrlHelper(),
             [
                 'context_programme' => $this->options['context_programme'],
                 'title_format' => 'item::ancestry',

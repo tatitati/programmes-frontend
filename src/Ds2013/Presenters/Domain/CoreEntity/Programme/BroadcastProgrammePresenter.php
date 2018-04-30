@@ -7,6 +7,7 @@ use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastSubPresenters\Bro
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\SubPresenters\ProgrammeBodyPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\SharedSubPresenters\CoreEntityTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
+use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -51,6 +52,7 @@ class BroadcastProgrammePresenter extends ProgrammePresenter
             $this->helperFactory->getTitleLogicHelper(),
             $this->broadcast,
             $this->programme,
+            $this->helperFactory->getStreamUrlHelper(),
             $this->subPresenterOptions('title_options')
         );
     }

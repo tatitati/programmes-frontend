@@ -9,10 +9,16 @@ use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 
 class StreamableHelper
 {
+    private $playspaceNetworksList = ['bbc_radio_four_extra', 'bbc_radio_three', 'bbc_radio_scotland'];
+
     public function getRouteForProgrammeItem(ProgrammeItem $programmeItem): string
     {
         if ($this->shouldStreamViaIplayer($programmeItem)) {
             return 'iplayer_play';
+        }
+
+        if ($this->shouldStreamViaPlayspace($programmeItem)) {
+            return 'playspace_play';
         }
 
         return 'find_by_pid';
@@ -35,5 +41,14 @@ class StreamableHelper
     public function shouldStreamViaIplayer(ProgrammeItem $programmeItem): bool
     {
         return !($programmeItem instanceof Clip || $this->shouldTreatProgrammeItemAsAudio($programmeItem));
+    }
+
+    public function shouldStreamViaPlayspace(ProgrammeItem $programmeItem): bool
+    {
+        $network = $programmeItem->getNetwork();
+        if ($network && in_array($network->getNid(), $this->playspaceNetworksList) && $this->shouldTreatProgrammeItemAsAudio($programmeItem)) {
+            return true;
+        }
+        return false;
     }
 }

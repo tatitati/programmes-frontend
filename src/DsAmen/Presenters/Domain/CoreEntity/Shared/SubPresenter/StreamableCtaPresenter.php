@@ -45,7 +45,7 @@ class StreamableCtaPresenter extends BaseCtaPresenter
 
     public function getLinkLocation(): string
     {
-        if ($this->streamableHelper->shouldStreamViaIplayer($this->coreEntity) && $this->getOption('force_iplayer_linking')) {
+        if ($this->streamableHelper->shouldStreamViaIplayer($this->coreEntity) && $this->getOption('force_playout_linking')) {
             return 'map_iplayer_calltoaction';
         }
 

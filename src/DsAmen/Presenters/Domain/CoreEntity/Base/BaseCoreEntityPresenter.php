@@ -35,7 +35,7 @@ abstract class BaseCoreEntityPresenter extends Presenter
         'media_variant' => 'media--column media--card',
         'media_details_class' => 'media__details',
         'show_image' => true,
-        'force_iplayer_linking' => false,
+        'force_playout_linking' => false,
         'link_location_prefix' => 'programmeobject_',
 
         // Subpresenter options
@@ -54,7 +54,7 @@ abstract class BaseCoreEntityPresenter extends Presenter
         'context_programme',
         'show_image',
         'branding_name',
-        'force_iplayer_linking',
+        'force_playout_linking',
         'link_location_prefix',
     ];
 

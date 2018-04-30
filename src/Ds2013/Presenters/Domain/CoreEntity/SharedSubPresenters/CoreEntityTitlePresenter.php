@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace App\Ds2013\Presenters\Domain\CoreEntity\SharedSubPresenters;
 
 use App\Ds2013\Presenter;
+use App\DsShared\Helpers\StreamableHelper;
 use App\DsShared\Helpers\TitleLogicHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
@@ -25,6 +26,9 @@ class CoreEntityTitlePresenter extends Presenter
     /** @var CoreEntity[] */
     protected $subTitlesProgrammes;
 
+    /** @var StreamableHelper */
+    protected $streamUrlHelper;
+
     /** @var array */
     protected $options = [
         'context_programme' => null,
@@ -44,12 +48,14 @@ class CoreEntityTitlePresenter extends Presenter
         UrlGeneratorInterface $router,
         TitleLogicHelper $titleHelper,
         CoreEntity $coreEntity,
+        StreamableHelper $streamUrlHelper,
         array $options = []
     ) {
         parent::__construct($options);
         $this->router = $router;
         $this->titleHelper = $titleHelper;
         $this->coreEntity = $coreEntity;
+        $this->streamUrlHelper = $streamUrlHelper;
 
         if ($this->coreEntity instanceof Clip && $this->coreEntity->isAudio()) {
             // don't show the subtitle for Audio clips
@@ -59,10 +65,15 @@ class CoreEntityTitlePresenter extends Presenter
 
     public function getTitleLinkUrl(): string
     {
-        // Link to iplayer will be added here later
         if ($this->options['link_to'] === 'podcast') {
             return $this->router->generate('programme_podcast_episodes_download', ['pid' => $this->coreEntity->getPid()], UrlGeneratorInterface::ABSOLUTE_URL);
         }
+
+        if ($this->coreEntity instanceof Clip) {
+            $route = $this->streamUrlHelper->getRouteForProgrammeItem($this->coreEntity);
+            return $this->router->generate($route, ['pid' => $this->coreEntity->getPid()], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
+
         return $this->router->generate('find_by_pid', ['pid' => $this->coreEntity->getPid()], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 

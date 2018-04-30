@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastSubPresenters;
 
 use App\Ds2013\Presenters\Domain\CoreEntity\SharedSubPresenters\CoreEntityTitlePresenter;
+use App\DsShared\Helpers\StreamableHelper;
 use App\DsShared\Helpers\TitleLogicHelper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
@@ -23,9 +24,10 @@ class BroadcastProgrammeTitlePresenter extends CoreEntityTitlePresenter
         TitleLogicHelper $titleHelper,
         BroadcastInfoInterface $broadcast,
         Programme $programme,
+        StreamableHelper $streamUrlHelper,
         array $options = []
     ) {
-        parent::__construct($router, $titleHelper, $programme, $options);
+        parent::__construct($router, $titleHelper, $programme, $streamUrlHelper, $options);
         $this->broadcast = $broadcast;
     }
 
