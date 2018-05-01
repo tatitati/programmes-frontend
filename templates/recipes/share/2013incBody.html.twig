@@ -1,0 +1,20 @@
+<div id="recipes" class="component component--box component--box-flushbody-vertical component--box--primary lazy-module--complete">
+    <div class="component__header br-box-page">
+        <h2>{{ tr('recipes') }}</h2>
+    </div>
+    <div class="component__body br-box-page">
+        <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid@bpb1 highlight-box-wrapper--grid@bpw">
+            {%- for recipe in recipes -%}
+                <li class="grid 1/2@bpb1 1/2@bpw">
+                    {{- ds2013('recipe', recipe)-}}
+                </li>
+            {%- endfor -%}
+        </ul>
+    </div>
+    <div class="component__footer br-box-subtle">
+        <a class="component__footer__link" href="{{ path('food_recipes', {pid: pid }) }}">
+            <span class="component__footer__title">{{ tr('see_all_recipes_from', {'%1': programme.getTitle()}) }}</span>
+            <span class="component__footer__detail">({{ total }})</span>
+        </a>
+    </div>
+</div>

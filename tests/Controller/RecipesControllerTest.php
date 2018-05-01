@@ -43,6 +43,23 @@ class RecipesControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 404, 'When the PID programme doesnt exist non request is done to recipes server and the responde code is based on this fact');
     }
 
+    public function testBasicRecipesContent()
+    {
+        $client = $this->stubRecipeServerResponse();
+
+        $crawler = $client->request('GET', 'programmes/b013pqnm/recipes');
+
+        $this->assertResponseStatusCode($client, 200);
+        $this->thenRecipesAreDisplayedWithTheseTitles([
+            'Stollen',
+            'Traditional Christmas pudding with brandy butter',
+            'Gluten-free gingerbread biscuits',
+            'Apple and cinnamon kugelhopf with honeyed apples',
+        ], $crawler->filter('#recipes li h3 a'));
+
+        $this->thenFooterRecipesPanelShowThisText('See all recipes from B1-S2-S1-E3 (415)', $crawler);
+    }
+
     /**
      * PARTIAL: using AMEN template
      */
@@ -69,7 +86,7 @@ class RecipesControllerTest extends BaseWebTestCase
         $crawler = $client->request('GET', 'programmes/b013pqnm/recipes.2013inc');
 
         $this->assertResponseStatusCode($client, 200);
-        $this->assertTitlesRecipes([
+        $this->thenRecipesAreDisplayedWithTheseTitles([
             'Stollen',
             'Traditional Christmas pudding with brandy butter',
             'Gluten-free gingerbread biscuits',
@@ -116,7 +133,7 @@ class RecipesControllerTest extends BaseWebTestCase
         return $c;
     }
 
-    private function assertTitlesRecipes(array $expectedTitles, Crawler $recipeTitles)
+    private function thenRecipesAreDisplayedWithTheseTitles(array $expectedTitles, Crawler $recipeTitles)
     {
         $extractedTitles = [];
         foreach ($recipeTitles as $title) {
@@ -133,5 +150,13 @@ class RecipesControllerTest extends BaseWebTestCase
         $client = $this->createClientWithMockedGuzzleResponse($response);
 
         return $client;
+    }
+
+    private function thenFooterRecipesPanelShowThisText(string $expectedFooterText, Crawler $crawler)
+    {
+        $seeAllRecipesFrom = trim($crawler->filter('.component__footer__title')->text());
+        $totalAmountOfRecipes = trim($crawler->filter('.component__footer__detail')->text());
+
+        $this->assertEquals($expectedFooterText, $seeAllRecipesFrom . ' ' . $totalAmountOfRecipes, 'Total amount of recipes should include also not fetched recipes');
     }
 }
