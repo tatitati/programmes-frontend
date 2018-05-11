@@ -89,4 +89,17 @@ class RecipePresenterTest extends TestCase
 
         $this->assertInstanceOf(RecipeImage::class, $recipeImage);
     }
+
+    /**
+     * getOption()
+     */
+    public function testCanUsePresenterOptions()
+    {
+        $recipePresenter = new RecipePresenter(
+            RecipeBuilder::anyWithImage()->build(),
+            ['srcset' => [1/2 => '234px']]
+        );
+
+        $this->assertEquals([1/2 => '234px'], $recipePresenter->getOption('srcset'));
+    }
 }

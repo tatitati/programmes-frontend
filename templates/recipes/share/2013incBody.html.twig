@@ -6,7 +6,7 @@
         <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid@bpb1 highlight-box-wrapper--grid@bpw">
             {%- for recipe in recipes -%}
                 <li class="grid 1/2@bpb1 1/2@bpw">
-                    {{- ds2013('recipe', recipe)-}}
+                    {{- ds2013('recipe', recipe, options)-}}
                 </li>
             {%- endfor -%}
         </ul>

@@ -5,7 +5,7 @@
                 ds_shared('image',
                     recipe.getImage(),
                     280,
-                    { 0: 1/2, 768: 1/4, 1008: '237px' },
+                    recipe.getOption('srcset'),
                     {
                         'is_lazy_loaded': false,
                         'srcsets' : [160, 235, 320, 466, 608]
