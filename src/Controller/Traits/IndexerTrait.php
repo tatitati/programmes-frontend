@@ -16,7 +16,11 @@ trait IndexerTrait
         $upcoming = [];
 
         foreach ($broadcasts as $broadcast) {
-            $upcoming[(string) $broadcast->getProgrammeItem()->getPid()] = $broadcast;
+            $programmePid = (string) $broadcast->getProgrammeItem()->getPid();
+            // We should choose the first broadcast in the list, as it's the earliest
+            if (!isset($upcoming[$programmePid])) {
+                $upcoming[$programmePid] = $broadcast;
+            }
         }
 
         return $upcoming;
