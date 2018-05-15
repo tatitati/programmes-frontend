@@ -26,7 +26,7 @@ trait SchedulesPageResponseCodeTrait
             // because it's too expensive to determine whether to link to them or not.
             // Instead they are 200 with a noindex meta tag
             $this->metaNoIndex = true;
-        } elseif (!$broadcasts && !$broadcastPeriod->start()->isWithinNext('+35 days')) {
+        } elseif (!$broadcasts && !($broadcastPeriod->start()->isToday() || $broadcastPeriod->start()->isWithinNext('+35 days'))) {
             // Dates more than 35 days in the future without broadcasts are 404s
             $this->response()->setStatusCode(404);
         }
