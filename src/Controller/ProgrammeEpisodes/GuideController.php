@@ -97,7 +97,7 @@ class GuideController extends BaseProgrammeEpisodesController
                 if ($cb || $od) {
                     $episodeSchema['publication'] = ($cb && $od) ? [$cb, $od] : ($cb ?? $od);
                 }
-                $schemaContext['episode'][] = $structuredDataHelper->getSchemaForEpisode($child, false);
+                $schemaContext['episode'][] = $episodeSchema;
             }
         }
 
