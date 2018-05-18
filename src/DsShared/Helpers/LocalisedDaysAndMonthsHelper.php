@@ -116,6 +116,6 @@ class LocalisedDaysAndMonthsHelper
             return $translate->translate('schedules_last_weekday', ['%1' => $this->localDateIntl($date, 'EEEE')]);
         }
 
-        return $date->format('D d M Y'); // Tue 23 Mar 2017
+        return $date->format('D j M Y'); // Tue 23 Mar 2017
     }
 }

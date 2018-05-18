@@ -46,6 +46,7 @@ class LocalisedDaysAndMonthsHelperTest extends TestCase
             'Last weekday' => [new Chronos('2017-7-14 12:00:00'), 'Last Friday'],
             'Weekday' => [new Chronos('2017-7-24 12:00:00'), 'Monday'],
             'Date' => [new Chronos('2017-6-14 12:00:00'), 'Wed 14 Jun 2017'],
+            'Day with one digit' => [new Chronos('2017-6-06 12:00:00'), 'Tue 6 Jun 2017'],
         ];
     }
 }
