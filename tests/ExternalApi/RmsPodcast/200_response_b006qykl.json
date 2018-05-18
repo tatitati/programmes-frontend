@@ -1,0 +1,117 @@
+{
+  "$schema": "https://rms.api.bbc.co.uk/docs/swagger.json#/definitions/PodcastsResponse",
+  "total": 1,
+  "limit": 100,
+  "offset": 0,
+  "results": [
+    {
+      "pid": "b006qykl",
+      "type": "podcast",
+      "entity_type": "brand",
+      "titles": {
+        "type": "programme_titles",
+        "primary_title": null,
+        "secondary_title": null,
+        "display_title": "In Our Time",
+        "entity_title": "In Our Time"
+      },
+      "first_published_date": "2016-06-10T16:05:31+0000",
+      "updated_at": "2018-05-09T13:33:29+0000",
+      "synopses": {
+        "type": "synopses",
+        "short": "Melvyn Bragg and guests discuss the history of ideas",
+        "medium": "Melvyn Bragg and guests discuss the history of ideas",
+        "long": null
+      },
+      "rss_url": "https://podcasts.files.bbci.co.uk/b006qykl.rss",
+      "images": [
+        {
+          "type": "image_summary",
+          "id": "p03xq2kz",
+          "template_url": "ichef.bbci.co.uk/images/ic/$recipe/p03xq2kz.jpg",
+          "image_type": "podcast"
+        },
+        {
+          "type": "image_summary",
+          "id": "p01lc1r8",
+          "template_url": "ichef.bbci.co.uk/images/ic/$recipe/p01lc1r8.jpg",
+          "image_type": "standard"
+        }
+      ],
+      "network_summary": {
+        "type": "network_summary",
+        "id": "bbc_radio_four",
+        "titles": {
+          "type": "network_titles",
+          "short_title": "Radio 4",
+          "long_title": "BBC Radio 4"
+        },
+        "key": "radio4",
+        "group": "national",
+        "active": true
+      },
+      "category_summaries": [
+        {
+          "type": "category_summary",
+          "key": "history",
+          "title": "History",
+          "category_type": "radio"
+        }
+      ],
+      "frequency": "weekly",
+      "days_available": -1,
+      "territory": "worldwide",
+      "total_available_episodes": 300,
+      "latest_available_episodes": [
+        {
+          "type": "episode_summary",
+          "pid": "b0b0lzk7",
+          "titles": {
+            "type": "programme_titles",
+            "primary_title": "In Our Time",
+            "secondary_title": null,
+            "display_title": "In Our Time - The Almoravid Empire",
+            "entity_title": "The Almoravid Empire"
+          },
+          "short_synopsis": "Melvyn Bragg and guests discuss one of the great empires of the Islamic west.",
+          "media_type": "audio",
+          "asset_url": "https://open.live.bbc.co.uk/mediaselector/5/redir/version/2.0/mediaset/audio-nondrm-download/proto/https/vpid/p066397b.mp3",
+          "release_date": "2018-05-03T00:00:00+0000",
+          "images": [
+            {
+              "type": "image_summary",
+              "id": "p065dvml",
+              "template_url": "ichef.bbci.co.uk/images/ic/$recipe/p065dvml.jpg",
+              "image_type": "standard"
+            }
+          ],
+          "network_summary": {
+            "type": "network_summary",
+            "id": "bbc_radio_four",
+            "titles": {
+              "type": "network_titles",
+              "short_title": "Radio 4",
+              "long_title": "BBC Radio 4"
+            },
+            "key": "radio4",
+            "group": "national",
+            "active": true
+          },
+          "available_versions": [
+            {
+              "type": "available_version",
+              "duration": "PT49M26S",
+              "version_pid": "p066397b",
+              "media_set": "audio-nondrm-download",
+              "version_type": "podcast",
+              "available": "available",
+              "available_from_date": "2018-05-03T10:12:00+0000",
+              "available_to_date": null,
+              "has_guidance": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -10,6 +10,7 @@ use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
+use App\ExternalApi\RmsPodcast\Service\RmsPodcastService;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
@@ -45,7 +46,8 @@ class EpisodeController extends BaseController
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
         CanonicalVersionHelper $canonicalVersionHelper,
-        StructuredDataHelper $structuredDataHelper
+        StructuredDataHelper $structuredDataHelper,
+        RmsPodcastService $podcastService
     ) {
         $this->setIstatsProgsPageType('programmes_episode');
         $this->setContextAndPreloadBranding($episode);
@@ -147,14 +149,21 @@ class EpisodeController extends BaseController
         $this->setIstatsUpcomingLabel($upcomingBroadcast);
         $this->setIstatsLiveEpisodeLabel($upcomingBroadcast);
 
+        $rmpsPodcastPromise = new FulfilledPromise([]);
+        if ($episode->getTleo() instanceof ProgrammeContainer && $episode->getTleo()->isRadio()) {
+            $rmpsPodcastPromise = $podcastService->getPodcast($episode->getTleo()->getPid());
+        }
+
         $resolvedPromises = $this->resolvePromises([
                 'favouritesButton' => $favouritesButtonService->getContent(),
                 'relatedTopics' => $relatedTopicsPromise,
                 'relatedProgrammes' => $relatedProgrammesPromise,
                 'supportingContentItems' => $supportingContentItemsPromise,
+                'isPodcasted' => $rmpsPodcastPromise,
         ]);
 
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
+
         $parameters = [
             'schema' => $schema,
             'contributions' => $contributions,
@@ -167,6 +176,7 @@ class EpisodeController extends BaseController
             'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
             'segmentsListPresenter' => $segmentsListPresenter,
+            'podcast' => $resolvedPromises['isPodcasted'] ? $episode->getTleo() : null,
         ];
 
         $parameters = array_merge($parameters, $resolvedPromises);

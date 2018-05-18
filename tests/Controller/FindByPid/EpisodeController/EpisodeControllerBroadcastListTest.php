@@ -1,10 +1,10 @@
 <?php
-namespace Tests\App\Controller\FindByPid;
+namespace Tests\App\Controller\FindByPid\EpisodeController;
 
 use Symfony\Bundle\FrameworkBundle\Client;
 use Tests\App\BaseWebTestCase;
 
-class EpisodeControllerTest extends BaseWebTestCase
+class EpisodeControllerBroadcastListTest extends BaseWebTestCase
 {
     /** @var Client */
     protected $client;

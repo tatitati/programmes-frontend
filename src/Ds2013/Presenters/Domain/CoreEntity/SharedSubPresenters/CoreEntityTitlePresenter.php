@@ -33,6 +33,7 @@ class CoreEntityTitlePresenter extends Presenter
         'title_classes' => '',
         'show_subtitle' => true,
         'truncation_length' => null,
+        'link_to' => null,
     ];
 
     /** @var TitleLogicHelper */
@@ -57,7 +58,10 @@ class CoreEntityTitlePresenter extends Presenter
 
     public function getTitleLinkUrl(): string
     {
-        // Link to iplayer/podcasts will be added here later
+        // Link to iplayer will be added here later
+        if ($this->options['link_to'] === 'podcast') {
+            return $this->router->generate('programme_podcast_episodes_download', ['pid' => $this->coreEntity->getPid()], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
         return $this->router->generate('find_by_pid', ['pid' => $this->coreEntity->getPid()], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 

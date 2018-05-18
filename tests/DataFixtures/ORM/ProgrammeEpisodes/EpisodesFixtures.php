@@ -5,6 +5,9 @@ namespace Tests\App\DataFixtures\ORM\ProgrammeEpisodes;
 
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Episode;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\VersionType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -46,7 +49,7 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
         // Episodes not nested on series but on brands
         $this->addReference(
             'p3000000',
-            $this->buildEpisode('p3000000', 'B1-E1', $this->getReference('b006q2x0'))
+            $this->buildEpisode('p3000000', 'B1-E1', $this->getReference('b006q2x0'), ['download_mediaset_1', 'download_mediaset_2'])
         );
 
         // Episodes contained on simple series
@@ -80,18 +83,44 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
         $this->manager->persist($episode);
 
         $this->manager->flush();
+        
+        $episode = $this->getReference('p3000000');
+        $this->buildVersion('p4000001', $episode);
+
+        $this->manager->flush();
     }
 
     private function buildEpisode(
         string $pid,
         string $title,
-        ProgrammeContainer $series
+        ProgrammeContainer $series,
+        array $downloadableMediaSets = []
     ): Episode {
         $episode = new Episode($pid, $title);
         $episode->setParent($series);
 
+        if (!empty($downloadableMediaSets)) {
+            $episode->setDownloadableMediaSets($downloadableMediaSets);
+        }
+
         $this->manager->persist($episode);
 
         return $episode;
+    }
+
+    private function buildVersion(
+        string $pid,
+        Episode $programmeItem
+    ) {
+        $version = new Version($pid, $programmeItem);
+        $version->setDownloadable(true);
+        $version->setVersionTypes(new ArrayCollection([
+                new VersionType('Podcast', 'Podcast'),
+            ]
+        ));
+
+        $this->manager->persist($version);
+
+        $this->addReference($pid, $version);
     }
 }

@@ -5,12 +5,21 @@ namespace Tests\App\DataFixtures\ORM\ProgrammeEpisodes;
 
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Tests\App\DataFixtures\ORM\MasterBrandsFixture;
 
-class BrandFixtures extends AbstractFixture
+class BrandFixtures extends AbstractFixture implements DependentFixtureInterface
 {
     /** @var ObjectManager $manager */
     private $manager;
+
+    public function getDependencies()
+    {
+        return [
+            MasterBrandsFixture::class,
+        ];
+    }
 
     public function load(ObjectManager $manager)
     {
@@ -26,10 +35,13 @@ class BrandFixtures extends AbstractFixture
         $this->manager->flush();
     }
 
-    public function buildBrand($pid, $title, $countEpisodes = 0)
+    public function buildBrand($pid, $title, $countEpisodes = 0, bool $isPodcastable = true, string $description = 'this is a short description')
     {
         $brand = new Brand($pid, $title);
         $brand->setAvailableEpisodesCount($countEpisodes);
+        $brand->setIsPodcastable($isPodcastable);
+        $brand->setShortSynopsis($description);
+        $brand->setMasterBrand($this->getReference('masterbrand_p1000001'));
 
         $this->manager->persist($brand);
 

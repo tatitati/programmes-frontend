@@ -33,6 +33,8 @@ parameters:
     app.recipes.service.class: App\ExternalApi\Recipes\Service\RecipesService
     app.morph.baseurl: 'https://morph.api.bbci.co.uk'
     app.morph.service.lxpromo.class: App\ExternalApi\Morph\Service\LxPromoService
+    app.rmspodcast.baseurl: 'https://rms.api.bbc.co.uk/podcasts'
+    app.rmspodcast.service.class: App\ExternalApi\RmsPodcast\Service\RmsPodcastService
 
     # External JS
     app.vote.accountwrapperurl: 'https://account-wrapper.files.bbci.co.uk/vote-wrapper.min.js'
@@ -291,3 +293,10 @@ services:
         class: '%app.morph.service.lxpromo.class%'
         arguments:
             $lxPromoEnv: '%app.feed_env.morph.lxpromo%'
+
+    App\ExternalApi\RmsPodcast\Service\RmsPodcastService:
+        class: '%app.rmspodcast.service.class%'
+        arguments:
+            $baseUrl: '%app.rmspodcast.baseurl%'
+            $apiKey: '%rmspodcast_api_key%'
+

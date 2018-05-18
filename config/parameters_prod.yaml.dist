@@ -25,3 +25,5 @@ parameters:
     fixture_secure_key: $fixture_secure_key
     receng_video_key: $receng_video_key
     receng_audio_key: $receng_audio_key
+    rmspodcast_api_key: $rmspodcast_api_key
+
