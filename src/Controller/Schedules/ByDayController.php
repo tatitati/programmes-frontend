@@ -91,8 +91,7 @@ class ByDayController extends BaseController
             $date,
             $servicesInNetwork,
             $this->getOtherNetworks($service, $networksService, $broadcastDay),
-            $liveCollapsedBroadcast,
-            $this->helperFactory->getLocalisedDaysAndMonthsHelper()
+            $liveCollapsedBroadcast
         );
 
         $viewData = $this->viewData(
