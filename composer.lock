@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c1b995a9b7f40c824682e4d0d154ae8",
+    "content-hash": "d28fd7b6ed967061f6ca0579441a82f4",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -135,16 +135,16 @@
         },
         {
             "name": "bbc-rmp/comscore",
-            "version": "1.0.3",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/rmp-comscore.git",
-                "reference": "f5b1b0d57155593abb33ddaeb18607159ce0efc3"
+                "reference": "b695f6c380e32675e3c969ea0fdfe8c02e621ed4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/rmp-comscore/zipball/f5b1b0d57155593abb33ddaeb18607159ce0efc3",
-                "reference": "f5b1b0d57155593abb33ddaeb18607159ce0efc3",
+                "url": "https://api.github.com/repos/bbc/rmp-comscore/zipball/b695f6c380e32675e3c969ea0fdfe8c02e621ed4",
+                "reference": "b695f6c380e32675e3c969ea0fdfe8c02e621ed4",
                 "shasum": ""
             },
             "require": {
@@ -168,10 +168,10 @@
             ],
             "description": "Small PHP library for integration of the new comscore analytics into PHP products",
             "support": {
-                "source": "https://github.com/bbc/rmp-comscore/tree/1.0.3",
+                "source": "https://github.com/bbc/rmp-comscore/tree/1.1.0",
                 "issues": "https://github.com/bbc/rmp-comscore/issues"
             },
-            "time": "2016-10-24T14:39:15+00:00"
+            "time": "2018-05-18T09:27:50+00:00"
         },
         {
             "name": "bbc-rmp/translate",
