@@ -10,6 +10,7 @@ use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
+use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\ExternalApi\RmsPodcast\Service\RmsPodcastService;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
@@ -149,7 +150,7 @@ class EpisodeController extends BaseController
         $this->setIstatsUpcomingLabel($upcomingBroadcast);
         $this->setIstatsLiveEpisodeLabel($upcomingBroadcast);
 
-        $rmpsPodcastPromise = new FulfilledPromise([]);
+        $rmpsPodcastPromise = new FulfilledPromise(null);
         if ($episode->getTleo() instanceof ProgrammeContainer && $episode->getTleo()->isRadio()) {
             $rmpsPodcastPromise = $podcastService->getPodcast($episode->getTleo()->getPid());
         }
@@ -161,6 +162,8 @@ class EpisodeController extends BaseController
                 'supportingContentItems' => $supportingContentItemsPromise,
                 'isPodcasted' => $rmpsPodcastPromise,
         ]);
+
+        $rmsPodcast = $resolvedPromises['isPodcasted'];
 
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
 
@@ -176,7 +179,7 @@ class EpisodeController extends BaseController
             'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
             'segmentsListPresenter' => $segmentsListPresenter,
-            'podcast' => $resolvedPromises['isPodcasted'] ? $episode->getTleo() : null,
+            'podcast' => ($rmsPodcast instanceof RmsPodcast) ? $episode->getTleo() : null,
         ];
 
         $parameters = array_merge($parameters, $resolvedPromises);
