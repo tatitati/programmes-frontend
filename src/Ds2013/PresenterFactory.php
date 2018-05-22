@@ -25,6 +25,7 @@ use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Recipes\Domain\Recipe;
+use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -196,7 +197,8 @@ class PresenterFactory
         ?CollapsedBroadcast $upcomingCollapsedBroadcast,
         ?CollapsedBroadcast $lastOnCollapsedBroadcast,
         ?Episode $nextEpisode,
-        ?Episode $previousEpisode
+        ?Episode $previousEpisode,
+        ?RmsPodcast $rmsPodcast
     ) :EpisodeMapPresenter {
         return new EpisodeMapPresenter(
             $this->router,
@@ -208,7 +210,8 @@ class PresenterFactory
             $lastOnCollapsedBroadcast,
             $versions,
             $nextEpisode,
-            $previousEpisode
+            $previousEpisode,
+            $rmsPodcast
         );
     }
 

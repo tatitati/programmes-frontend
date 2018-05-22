@@ -18,7 +18,7 @@ class RmsPodcastFakeService extends RmsPodcastService
 
         if ($isFoundPodcastInServer) {
             return new FulfilledPromise(
-                new RmsPodcast($pid)
+                new RmsPodcast($pid, 'uk')
             );
         }
 

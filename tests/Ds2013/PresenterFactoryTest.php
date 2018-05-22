@@ -2,8 +2,6 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
-use App\Builders\CollapsedBroadcastBuilder;
-use App\Builders\EpisodeBuilder;
 use App\Builders\ExternalApi\Recipes\RecipeBuilder;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
@@ -13,10 +11,14 @@ use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
+use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\Date;
 use PHPUnit\Framework\TestCase;
@@ -103,15 +105,20 @@ class PresenterFactoryTest extends TestCase
 
     public function testCanCreateEpisodeMapPresenter()
     {
-        $episode = EpisodeBuilder::any()->build();
-        $upcomingBroadcasts = null;
-        $lastOn = CollapsedBroadcastBuilder::any()->build();
-
-        $presenter = $this->factory->episodeMapPresenter($episode, [], $upcomingBroadcasts, $lastOn, null, null);
+        $presenter = $this->anyEpisodeMapPresenter();
 
         $this->assertInstanceOf(EpisodeMapPresenter::class, $presenter);
         $this->assertEquals('episode_map', $presenter->getTemplateVariableName());
         $this->assertContains('episode_map.html.twig', $presenter->getTemplatePath());
+    }
+
+    public function testDetailsPrenseterPassPodcastDataToDetailsPresenter()
+    {
+        $hasRmsPodcast = true;
+
+        $episodeMapPresenter = $this->anyEpisodeMapPresenter($hasRmsPodcast);
+
+        $this->assertTrue($episodeMapPresenter->getDetailsSubpresenter()->isUkOnlyPodcast());
     }
 
     /**
@@ -127,5 +134,28 @@ class PresenterFactoryTest extends TestCase
         $this->assertInstanceOf(RecipePresenter::class, $presenter);
         $this->assertEquals('@Ds2013/Presenters/Domain/Recipe/recipe.html.twig', $presenter->getTemplatePath());
         $this->assertSame('value1', $presenter->getOption('key1'));
+    }
+
+    /**
+     * helpers
+     */
+    private function anyEpisodeMapPresenter(bool $hasRmsPodcast = false): EpisodeMapPresenter
+    {
+        $dummyPid = $this->createMock(Pid::class);
+        $rmsPodcast = new RmsPodcast($dummyPid, 'uk');
+        $dummyEp = $this->createMock(Episode::class);
+        $dummyCB = $this->createMock(CollapsedBroadcast::class);
+        $dummyNull = null;
+        $dummyArray = [];
+
+        return $this->factory->episodeMapPresenter(
+            $dummyEp,
+            $dummyArray,
+            $dummyNull,
+            $dummyCB,
+            $dummyNull,
+            $dummyNull,
+            $hasRmsPodcast ? $rmsPodcast : null
+        );
     }
 }

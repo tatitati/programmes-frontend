@@ -20,6 +20,31 @@ class RmsPodcastMapperTest extends BaseServiceTestCase
     }
 
     /**
+     * @dataProvider jsonResponseProvider
+     */
+    public function testMapperCanUnderstandIfIsPodcastedOnlyInUk(bool $expectedIsOnlyUkMapped, string $jsonResponseProvided)
+    {
+        $jsonResponse = $this->givenServerApiRespondsWIthJson($jsonResponseProvided);
+
+        $outputMapped = (new RmsPodcastMapper())->mapItem($jsonResponse);
+
+        $this->assertSame($expectedIsOnlyUkMapped, $outputMapped->isOnlyInUk());
+    }
+
+    public function jsonResponseProvider()
+    {
+        $mapperSaysIsPodcastedOnlyInUk = true;
+
+        return [
+            [
+                $mapperSaysIsPodcastedOnlyInUk, '200_response_b006qykl_onlyInUk.json',
+            ], [
+                !$mapperSaysIsPodcastedOnlyInUk, '200_response_b006qykl.json',
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider wrongJsonProvider
      */
     public function testDoesntExplodeWhenJsonIsNotAPodcast(string $wrongJsonProvided)

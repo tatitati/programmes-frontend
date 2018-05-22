@@ -106,15 +106,6 @@ class EpisodeController extends BaseController
             $previousEpisode = $programmesService->findPreviousSiblingByProgramme($episode);
         }
 
-        $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
-            $episode,
-            $availableVersions,
-            $upcomingBroadcast,
-            $lastOnBroadcast,
-            $nextEpisode,
-            $previousEpisode
-        );
-
         $segmentsListPresenter = null;
         if ($versions) {
             $canonicalVersion = $canonicalVersionHelper->getCanonicalVersion($versions);
@@ -164,6 +155,16 @@ class EpisodeController extends BaseController
         ]);
 
         $rmsPodcast = $resolvedPromises['isPodcasted'];
+
+        $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
+            $episode,
+            $availableVersions,
+            $upcomingBroadcast,
+            $lastOnBroadcast,
+            $nextEpisode,
+            $previousEpisode,
+            $rmsPodcast
+        );
 
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
 

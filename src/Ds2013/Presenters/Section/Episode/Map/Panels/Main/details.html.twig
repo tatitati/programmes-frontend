@@ -86,10 +86,7 @@
             {% if presenter.getEpisode().getDownloadableMediaSets()|length == 1 %}
                 <div class="buttons__download">
                     <a class="link-complex br-linkinvert buttons__download__link" data-clicktrack="podcast_download" href="{{ presenter.getPodcastUrls()|first }}" download="{{ presenter.getPodcastFileName() }}">{{ gelicon('basics', 'download', 'gelicon--centi') }}
-                        {{ tr('downloads', 1) }}
-                        {#<? if ($this->data->programme->podcast_is_uk_only): ?>#}
-                        {#({{ tr('uk_only') }})#} {#@TODO https://jira.dev.bbc.co.uk/browse/PROGRAMMES-6274 #}
-                        {#<? endif;?>#}
+                        {{ tr('downloads', 1) }} {% if presenter.isUkOnlyPodcast() %}({{ tr('uk_only') }}){% endif %}
                     </a>
                 </div>
             {% else %}
@@ -98,10 +95,8 @@
                     <div class="buttons__download">
                         <h2 class="popup__button text-base br-linkinvert buttons__download__link" data-clicktrack="podcast_download">
                             <label for="download-popup">
-                                {{ gelicon('basics', 'download', 'gelicon--centi') }}{{ tr('downloads',1) }}
-                                {#<? if ($this->data->programme->podcast_is_uk_only): ?>#}
-                                {#({{ tr('uk_only') }})#} {#@TODO https://jira.dev.bbc.co.uk/browse/PROGRAMMES-6274#}
-                                {#<? endif;?>#}
+                                {{ gelicon('basics', 'download', 'gelicon--centi') }}
+                                {{ tr('downloads',1) }}{% if presenter.isUkOnlyPodcast() %} ({{ tr('uk_only') }}){% endif %}
                             </label>
                         </h2>
                     </div>

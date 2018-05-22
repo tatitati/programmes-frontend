@@ -35,6 +35,7 @@ class EpisodeControllerPodcastTest extends BaseWebTestCase
         $expectedTleoPid = 'b006q2x0';
         $this->thenLazyContentIsLoadedFrom("/programmes/$expectedTleoPid/podcasts.2013inc");
         $this->thenPanelWithoutJSTakesUserTo("/programmes/$expectedTleoPid/episodes/downloads");
+        $this->thenDownloadButtonDisplayText('Download (UK Only)');
     }
 
     public function testPodcastPanelIsNotLoadedForEpisodesWithNoPodcastableVersions()
@@ -73,5 +74,13 @@ class EpisodeControllerPodcastTest extends BaseWebTestCase
     private function thenNoPodcastPanelIsDisplayed()
     {
         $this->assertSame(0, $this->crawler->filter('#podcast')->count());
+    }
+
+    private function thenDownloadButtonDisplayText($expectedText)
+    {
+        $this->assertEquals(
+            $expectedText,
+            trim($this->crawler->filter('.episode-panel__intro .popup__button label')->text())
+        );
     }
 }

@@ -123,7 +123,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = null;
             $lastOnBroadcast = null;
 
-            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $noTleoprogramme, $upcomingBroadcast, $lastOnBroadcast, [], null, null);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $noTleoprogramme, $upcomingBroadcast, $lastOnBroadcast, [], null, null, null);
         }
 
         if ($onlyMorePanel && $onlyTxPanel) {
@@ -131,7 +131,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
             $lastOnBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
 
-            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, [], null, null);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, [], null, null, null);
         }
 
         if ($onlyTxPanel) {
@@ -139,7 +139,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
             $lastOnBroadcast = CollapsedBroadcastBuilder::any()->with(['programmeItem' => $episode])->build();
 
-            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, [], null, null);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, [], null, null, null);
         }
 
         if ($onlyMorePanel) {
@@ -147,7 +147,7 @@ class EpisodeMapPresenterTest extends TestCase
             $upcomingBroadcast = null;
             $lastOnBroadcast = null;
 
-            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, [], null, null);
+            return new EpisodeMapPresenter($router, $liveBroadcastHelper, $streamUrlHelper, $playTranslationsHelper, $episode, $upcomingBroadcast, $lastOnBroadcast, [], null, null, null);
         }
     }
 }

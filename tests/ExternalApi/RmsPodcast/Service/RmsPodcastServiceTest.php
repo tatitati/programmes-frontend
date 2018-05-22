@@ -54,7 +54,7 @@ class RmsPodcastServiceTest extends BaseServiceTestCase
 
         $result = $this->service()->getPodcast($dummy)->wait(true);
 
-        $this->thenOutputIsOneDomainObject($result);
+        $this->assertInstanceOf(RmsPodcast::class, $result);
     }
 
     public function testCannotFetchPodcastFromService()
@@ -138,10 +138,5 @@ class RmsPodcastServiceTest extends BaseServiceTestCase
 
         $this->assertSame($url, (string) $request1->getUri());
         $this->assertSame($url, (string) $request2->getUri());
-    }
-
-    private function thenOutputIsOneDomainObject($outputMapper)
-    {
-        $this->assertInstanceOf(RmsPodcast::class, $outputMapper);
     }
 }

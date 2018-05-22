@@ -4,6 +4,7 @@ namespace App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
+use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
@@ -27,7 +28,10 @@ class DetailsPresenter extends Presenter
     /** @var UrlGeneratorInterface */
     private $router;
 
-    public function __construct(PlayTranslationsHelper $playTranslationsHelper, UrlGeneratorInterface $router, Episode $episode, array $availableVersions)
+    /** @var RmsPodcast */
+    private $rmsPodcast;
+
+    public function __construct(PlayTranslationsHelper $playTranslationsHelper, UrlGeneratorInterface $router, Episode $episode, array $availableVersions, ?RmsPodcast $rmsPodcast)
     {
         parent::__construct();
 
@@ -35,6 +39,7 @@ class DetailsPresenter extends Presenter
         $this->playTranslationsHelper = $playTranslationsHelper;
         $this->router = $router;
         $this->availableVersions = $availableVersions;
+        $this->rmsPodcast = $rmsPodcast;
     }
 
     public function getEpisode(): Episode
@@ -128,6 +133,11 @@ class DetailsPresenter extends Presenter
             $titles[] = $ancestor->getTitle();
         }
         return implode(', ', $titles) . ' - ' . $this->episode->getPid() . '.mp3';
+    }
+
+    public function isUkOnlyPodcast(): bool
+    {
+        return $this->rmsPodcast->isOnlyInUk();
     }
 
     private function hasAvailableVersion(string $versionType)

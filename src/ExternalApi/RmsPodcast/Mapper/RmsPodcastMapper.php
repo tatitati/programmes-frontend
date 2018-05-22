@@ -24,11 +24,11 @@ class RmsPodcastMapper
         $results = $response['results'];
 
 
-        return new RmsPodcast(new Pid($results[0]['pid']));
+        return new RmsPodcast(new Pid($results[0]['pid']), $results[0]['territory']);
     }
 
     private function isValidResult($result): bool
     {
-        return (isset($result[0]) && isset($result[0]['pid']));
+        return (isset($result[0]) && isset($result[0]['pid']) && isset($result[0]['territory']));
     }
 }
