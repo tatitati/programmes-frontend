@@ -12,7 +12,7 @@ class ClipController extends BaseController
         $this->setIstatsProgsPageType('programmes_clip');
         $this->setContextAndPreloadBranding($clip);
 
-        return $this->renderWithChrome('find_by_pid/example_entity.html.twig', [
+        return $this->renderWithChrome('find_by_pid/clip.html.twig', [
             'programme' => $clip,
         ]);
     }
