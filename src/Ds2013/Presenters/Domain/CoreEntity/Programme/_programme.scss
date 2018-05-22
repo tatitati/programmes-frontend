@@ -5,14 +5,11 @@
  *  Extends the media object
  */
 
-$programme-icon-basic-box-size: gel-typography('basic', 'delta', 'line-height');
-$programme-icon-basic-size: gel-typography('basic', 'delta', 'font-size') - 3px;
+$programme-icon-basic-box-size: gel-typography('basic', 'delta', 'line-height') + 9px;
 
 $programme-icon-bpb1-box-size: gel-typography('bpb1', 'delta', 'line-height') + 10px;
-$programme-icon-bpb1-size: gel-typography('bpb1', 'delta', 'font-size');
 
 $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18px;
-$programme-icon-bpw-size: gel-typography('bpw', 'delta', 'font-size') + 4px;
 
 .programme {
     @extend .media;
