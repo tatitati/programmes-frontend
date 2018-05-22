@@ -2,7 +2,7 @@
 {% set title_tag = core_entity_title.getOption('title_tag') %}
 {% spaceless %}
     <{{ title_tag }} class="programme__titles">
-        <a href="{{ core_entity_title.getTitleLinkUrl() }}" class="br-blocklink__link block-link__target" data-linktrack="programmeobjectlink=title" {% block aria_title %}{% endblock %}>
+        <a href="{{ core_entity_title.getTitleLinkUrl() }}" class="br-blocklink__link block-link__target" data-linktrack="{{ core_entity_title.getOption('link_location_track') }}" {% block aria_title %}{% endblock %}>
             <span class="programme__title {{ core_entity_title.getOption('title_classes') }}">
                 {{ self.render_title(core_entity_title.getMainTitleProgramme(), core_entity_title) }}
             </span>

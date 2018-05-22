@@ -22,7 +22,7 @@
                     <ul class="no-margin-vertical list-spaced">
                     {%- for link in superpromo.getRelatedLinks() -%}
                         <li>
-                            <a href="{{ link.getUri() }}">{{- link.getTitle() -}}</a>
+                            <a href="{{ link.getUri() }}" data-linktrack="superpromo_relatedlink">{{- link.getTitle() -}}</a>
                             {%- if link.isExternal() %} <span class="milli">({{ link.getHost() }})</span>{% endif -%}
                         </li>
                     {%- endfor -%}

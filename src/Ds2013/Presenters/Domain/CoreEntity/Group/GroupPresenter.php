@@ -5,6 +5,7 @@ namespace App\Ds2013\Presenters\Domain\CoreEntity\Group;
 use App\Ds2013\Presenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\SharedSubPresenters\CoreEntityTitlePresenter;
 use App\DsShared\Helpers\HelperFactory;
+use BBC\ProgrammesPagesService\Domain\Entity\Collection;
 use BBC\ProgrammesPagesService\Domain\Entity\Gallery;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
@@ -60,6 +61,7 @@ class GroupPresenter extends Presenter
             [
                 'context_programme' => $this->options['context_programme'],
                 'title_format' => 'item::ancestry',
+                'link_location_track' => $this->getLinkTrack(),
             ]
         );
     }
@@ -89,5 +91,16 @@ class GroupPresenter extends Presenter
         }
 
         return 'collection';
+    }
+
+    public function getLinkTrack(): string
+    {
+        if ($this->group instanceof Gallery) {
+            return 'component_galleries_carousel';
+        }
+        if ($this->group instanceof Collection) {
+            return 'component_collections';
+        }
+        return 'programmeobjectlink=title';
     }
 }

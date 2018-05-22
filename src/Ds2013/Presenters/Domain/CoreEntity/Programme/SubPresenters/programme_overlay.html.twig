@@ -76,7 +76,7 @@
         }) %}
         <div>
             <div>
-                <a href="{{ programme_overlay.getPlaybackUrl() }}" class="programme__availability programme__player iplayer-icon--container" title="{{ programme_overlay.getAvailabilityInWords() }}" data-linktrack="programmeobjectlink=cta">
+                <a href="{{ programme_overlay.getPlaybackUrl() }}" class="programme__availability programme__player iplayer-icon--container" title="{{ programme_overlay.getAvailabilityInWords() }}" data-linktrack="{{ programme_overlay.getOption('cta_link_location_track') }}">
                     <div class="{{ classes }}">
                         {{ gelicon('audio-visual', programme_overlay.getMediaIconName(), 'gelicon--half-container') }}<span class="visually-hidden">{{ programme_overlay.getAvailabilityInWords() }}</span>
                     </div>

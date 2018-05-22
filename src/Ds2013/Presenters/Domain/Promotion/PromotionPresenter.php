@@ -31,6 +31,7 @@ class PromotionPresenter extends Presenter
         'img_sizes' => [],
         'highlight_box_classes' => '',
         'img_classes' => '1/4@bpb1 1/3@bpb2 1/3@bpw',
+        'promo_link_track_title' => 'programmeobjectlink=cta',
     ];
 
     public function __construct(

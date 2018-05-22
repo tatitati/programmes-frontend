@@ -25,6 +25,7 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
         'show_secondary_cta' => false,
         'classes' => '1/4@bpb1 1/4@bpb2 1/3@bpw',
         'default_width' => 320,
+        'cta_link_location_track' => 'programmeobjectlink=cta',
         'sizes' => [
             0 => '0vw',
             320 => 1 / 4,

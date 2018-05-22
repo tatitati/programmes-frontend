@@ -1,7 +1,7 @@
 <ol class="related-topics">
     {% for relatedTopic in related_topics.getRelatedTopics() %}
         <li>
-            <a class="br-linkinvert" href="{{ path('topics_topic', {topic: relatedTopic.getId()}) }}">{{ relatedTopic.getTitle() }} ({{ relatedTopic.getProgrammeItemCount() }})</a>
+            <a class="br-linkinvert" href="{{ path('topics_topic', {topic: relatedTopic.getId()}) }}" data-linktrack="episode_topic">{{ relatedTopic.getTitle() }} ({{ relatedTopic.getProgrammeItemCount() }})</a>
         </li>
     {% endfor %}
 </ol>

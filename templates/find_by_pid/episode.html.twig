@@ -45,11 +45,12 @@
                                 <ul class="list-unstyled">
                                     {% for promo in promotions.regular %}
                                         <li>{{ ds2013('promotion', promo, {
-                                            'highlight_box_classes': 'promotion--inset@bpw highlight-box--list',
-                                            'img_classes': '1/4 1/4@bpb1 1/3@bpb2 1/2@bpw',
-                                            'img_default_width': 272,
-                                            'img_sizes': {0: 0, 320: 1/4, 480: 1/3, 600: 1/3, 770: 1/4, 1008: '272px'},
-                                        }) }}</li>
+                                                'highlight_box_classes': 'promotion--inset@bpw highlight-box--list',
+                                                'promo_link_track_title' : 'promo_title_position' ~ loop.index,
+                                                'img_classes': '1/4 1/4@bpb1 1/3@bpb2 1/2@bpw',
+                                                'img_default_width': 272,
+                                                'img_sizes': {0: 0, 320: 1/4, 480: 1/3, 600: 1/3, 770: 1/4, 1008: '272px'},
+                                            }) }}</li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -100,6 +101,9 @@
                                                     'default_width': 240,
                                                     'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
                                                 },
+                                                'title_options': {
+                                                    'link_location_track': 'component_clips_carousel',
+                                                },
                                                 'body_options': {
                                                     'show_synopsis': false,
                                                     'wordy_duration': false,
@@ -112,7 +116,9 @@
                             </div>
                             {% if programme.getAvailableClipsCount() > 1 %}
                                 <div class="component__footer br-box-subtle">
-                                    <a class="component__footer__link" href="{{ path('programme_clips', { pid: programme.getPid() }) }}">
+                                    <a class="component__footer__link"
+                                       href="{{ path('programme_clips', { pid: programme.getPid() }) }}"
+                                       data-linktrack="component_clips_summary_footer">
                                         <span class="component__footer__title">{{ tr('see_all_clips_from', {'%1': programme.getTitle()}) }}</span>
                                         <span class="component__footer__detail">({{ programme.getAvailableClipsCount() }})</span>
                                     </a>
@@ -155,7 +161,7 @@
                             <div class="component__body br-box-page">
                                 <div class="ml">
                                     {% if allBroadcasts|length > 3 %}
-                                        <input class="ml__status" id="ml-list-broadcasts" type="checkbox" checked />
+                                        <input class="ml__status" id="ml-list-broadcasts" type="checkbox" checked/>
                                     {% endif %}
                                     <div class="ml__content">
                                         <ul class="grid-wrapper highlight-box-wrapper--grid">
@@ -209,20 +215,20 @@
 
                 <div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
                     <div class="component__header br-box-highlight">
-                        <h2>{{  tr('related_programmes') }}</h2>
+                        <h2>{{ tr('related_programmes') }}</h2>
                     </div>
                     <div class="component__body br-box-subtle">
                         <ul class="list-unstyled">
                             {% for programme in relatedProgrammes %}
                                 <li>{{ ds2013('programme', programme.getProgramme(), {
-                                        'title_options': {'title_format': 'item::ancestry'},
+                                        'title_options': {'title_format': 'item::ancestry', 'link_location_track': 'episode_suggested_item_' ~ loop.index },
                                         'body_options': {
-                                            'body_suffix': '<p class="programme__child-availability">' ~ tr('episode_is_related_to', {'%1': '<a class="block-link__link" href="' ~ path('topics_topic', {topic: programme.getRelatedByClasses()[0].getId()}) ~'">' ~ programme.getRelatedByClasses()[0].getTitle() ~ '</a></p>'}),
+                                            'body_suffix': '<p class="programme__child-availability">' ~ tr('episode_is_related_to', {'%1': '<a class="block-link__link" href="' ~ path('topics_topic', {topic: programme.getRelatedByClasses()[0].getId()}) ~'" data-linktrack="episode_suggested_relationship">' ~ programme.getRelatedByClasses()[0].getTitle() ~ '</a></p>'}),
                                             'show_synopsis': false,
                                         },
-                                        'container_classes': 'highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover'
+                                        'container_classes': 'highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover',
                                     }) }}</li>
-                            {%  endfor %}
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -262,7 +268,8 @@
                 {% endif %}
 
                 {% if galleries %}
-                    <div class="component component--box component--box--striped component--box--secondary" id="galleries">
+                    <div class="component component--box component--box--striped component--box--secondary"
+                         id="galleries">
                         <div class="component__header br-box-highlight">
                             <h2>{{ tr('galleries', programme.getAggregatedGalleriesCount()) }}</h2>
                         </div>
@@ -285,7 +292,7 @@
                         </div>
                         {% if programme.getAggregatedGalleriesCount() > 1 %}
                             <div class="component__footer br-box-subtle">
-                                <a class="component__footer__link" href="{{ path('programme_galleries', { pid: programme.getPid() }) }}">
+                                <a class="component__footer__link" href="{{ path('programme_galleries', { pid: programme.getPid() }) }}" data-linktrack="component_galleries_summary_footer">
                                     <span class="component__footer__title">{{ tr('see_all_galleries_from', {'%1': programme.getTitle()}) }}</span>
                                     <span class="component__footer__detail">({{ programme.getAggregatedGalleriesCount() }})</span>
                                 </a>
@@ -315,20 +322,20 @@
         {{ favouritesButton.getBodyLast()|raw }}
         <script>{{ favouritesButton.getScript()|raw }}</script>
         <script>
-            require(['plugins/musicfavourite'], function(fav) {
+            require(['plugins/musicfavourite'], function (fav) {
                 {% for button in favouriteButtons %}
-                    var elem = document.getElementById('{{ button['element_id'] }}');
-                    fav.render(elem, {
-                        'appid': 'radio',
-                        'type': '{{ button['type'] }}',
-                        'id': '{{ button['id'] }}',
-                        'title': '{{ programme.getTitle() }}',
-                        'variant': 'small',
-                        'lang': '{{ tr('language_code')|lower }}',
-                        'platform': 'responsiveweb',
-                        'context-type': 'network_pid',
-                        'context-id': '{{ button['context_id'] }}'
-                    });
+                var elem = document.getElementById('{{ button['element_id'] }}');
+                fav.render(elem, {
+                    'appid': 'radio',
+                    'type': '{{ button['type'] }}',
+                    'id': '{{ button['id'] }}',
+                    'title': '{{ programme.getTitle() }}',
+                    'variant': 'small',
+                    'lang': '{{ tr('language_code')|lower }}',
+                    'platform': 'responsiveweb',
+                    'context-type': 'network_pid',
+                    'context-id': '{{ button['context_id'] }}'
+                });
                 {% endfor %}
             });
         </script>

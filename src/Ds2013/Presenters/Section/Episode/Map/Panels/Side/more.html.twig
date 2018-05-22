@@ -13,11 +13,13 @@
                         image_options: {
                             'show_image': false,
                             'show_secondary_cta': true,
+                            'cta_link_location_track': 'previous_episode_map_calltoaction',
                         },
                         title_options: {
                             'title_format': 'item::ancestry',
                             'title_tag': 'h4',
-                            'title_classes': 'gamma'
+                            'title_classes': 'gamma',
+                            'link_location_track': 'previous_episode_map_eptitle',
                         }
                     }) }}
                 </div>
@@ -42,11 +44,13 @@
                             image_options: {
                                 'show_image': false,
                                 'show_secondary_cta': true,
+                                'cta_link_location_track': 'upcoming_episode_map_calltoaction',
                             },
                             title_options: {
                                 'title_format': 'item::ancestry',
                                 'title_tag': 'h4',
-                                'title_classes': 'gamma'
+                                'title_classes': 'gamma',
+                                'link_location_track': 'upcoming_episode_map_eptitle',
                             }
                         }) }}
                     </div>
@@ -66,7 +70,7 @@
     </div>
 
     <p>
-        <a href="{{ path('programme_episodes', {pid: more.getEpisode().getTleo().getPid()}) }}">
+        <a href="{{ path('programme_episodes', {pid: more.getEpisode().getTleo().getPid()}) }}" data-linktrack="episode_map_see_all">
             {{ tr('see_all_episodes_from', {'%1': more.getEpisode().getTleo().getTitle()}) }}
         </a>
     </p>

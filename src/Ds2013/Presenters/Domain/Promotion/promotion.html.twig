@@ -12,7 +12,7 @@
         <div class="promotion__body__inner br-page-linkhover-onbg015--childhover">
             <h4 class="promotion__titles">
                 <span class="promotion__title">
-                    <a href="{{ promotion.getUrl() }}" class="promotion__link block-link__target br-blocklink__link">{{ promotion.getTitle() }}</a>
+                    <a href="{{ promotion.getUrl() }}" class="promotion__link block-link__target br-blocklink__link" data-linktrack="{{ promotion.getOption('promo_link_track_title') }}">{{ promotion.getTitle() }}</a>
                 </span>
             </h4>
 

@@ -33,6 +33,7 @@ class CoreEntityTitlePresenter extends Presenter
         'title_classes' => '',
         'show_subtitle' => true,
         'truncation_length' => null,
+        'link_location_track' => 'programmeobjectlink=title',
         'link_to' => null,
     ];
 
