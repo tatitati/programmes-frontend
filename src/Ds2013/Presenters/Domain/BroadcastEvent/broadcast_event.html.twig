@@ -24,7 +24,7 @@
              data-timezone="true"
              title="{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date('d M Y')}}"
              datatype="xsd:dateTime"
-             content="{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date(constant('DateTime::ISO8601'))}}">
+             content="{{ broadcast_event.getCollapsedBroadcast().getStartAt()|date('c')}}">
             <span class="broadcast-event__date text-base timezone--date">{{ broadcast_event.getBroadcastDay() }}</span>
             <span class="timezone--time">{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date('H:i') }}</span>
         </div>
