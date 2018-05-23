@@ -20,6 +20,11 @@ LIVE without also releasing in-progress work.
   target the master branch. The fix will then be backported into the develop
   branch.
 
+In addition to this, release branches will be created when a scheduled release 
+is done. 
+
+For more information see [Git Branching](git-branching.md)
+
 /programmes shall intend to release to LIVE at a regular cadence of once every
 two weeks at the end of a sprint. In addition to these regular releases, we may
 release at other times due to unforseen circumstances to fix critical bugs.
@@ -37,13 +42,14 @@ The tagged version number shall increase in one of two ways:
   v3.1.1
 
 
-End-of-sprint Process
+Standard Release Process
 ---------------------
 
-At the end of a two week sprint cycle, we shall roll up our existing changes
-and cut a release of the `develop` branch. This shall involve merging to it into
-`master`, deploying a release of the `master` branch, tagging that commit and
-creating a GitHub release for that commit.
+For a standard release, which will normally take place at the end of a two week sprint cycle, 
+we shall roll up our existing changes and cut a release from the `develop` branch. 
+
+This is a multi step process that ends with develop merged into master. 
+
 
 Ensure you've pushed everything you have locally and you've got the `develop`
 branch checked out:
@@ -59,11 +65,32 @@ hotfixes applied to `master` are also in `develop`.
 git merge master --ff-only
 ```
 
-Merge develop into master and push your changes
+Now create a release branch named release-v3.x.y and push it.
 
 ```sh
-git checkout master git merge develop --ff-only && git push
+git checkout -b release-v3.x.y 
+git push --set-upstream origin release-v3.x.y 
 ```
+ 
+Build and release this to the test environment. The test team should now run regression checks
+against this code. If any bugs are found, fix them and merge the fixes to the release branch.  
+
+Once the release branch is ready to go live, run the following set of commands:
+
+```sh
+git checkout master && git pull && git merge release-v3.x.y --ff-only && git push
+```
+
+If any hotfixes were merged into the release branch, ensure they are also merged to develop at 
+this point:
+
+```sh
+git checkout develop 
+git pull --all --ff-only 
+git merge master
+git push
+```
+
 
 Trigger a Jenkins build based off the master branch, and deploy it to the INT
 and TEST environments.

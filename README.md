@@ -161,6 +161,10 @@ In order to create and populate the scenario datbase, run the following command 
 php bin/console doctrine:schema:update --em fixture --env dev_fixture
 ```
 
+Release process
+---------------------------------
+See [Release Process](docs/release-process.md)
+
 License
 -------
 
