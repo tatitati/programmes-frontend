@@ -56,6 +56,12 @@ class GuideController extends BaseProgrammeEpisodesController
             }
         }
 
+        if ($programme->getAvailableEpisodesCount() >= 1) {
+            $this->setIstatsExtraLabels(['has_available_items' => 'true']);
+        } else {
+            $this->setIstatsExtraLabels(['has_available_items' => 'false']);
+        }
+
         $subNavPresenter = $this->getSubNavPresenter($collapsedBroadcastService, $programme, $presenterFactory);
         $upcomingBroadcasts = $this->getUpcomingBroadcastsIndexedByProgrammePid($programme, $collapsedBroadcastService);
 
