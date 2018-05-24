@@ -76,6 +76,9 @@ class LocalisedDaysAndMonthsHelper
 
         $translate = $this->translateProvider->getTranslate();
 
+        $date = $date->setTime(0, 0, 0);
+        $now = $now->setTime(0, 0, 0);
+
         if ($date->isSameDay($now)) {
             return $translate->translate('schedules_today');
         }
@@ -104,15 +107,16 @@ class LocalisedDaysAndMonthsHelper
             return $translate->translate('schedules_new_years_day') . ' ' . $date->format('Y');
         }
 
-        if ($date->isWithinNext('5 days') || $date->wasWithinLast('5 days')) {
+        $diffInDays = $now->diffInDays($date, false);
+        if (-5 <= $diffInDays && $diffInDays <= 5) {
             return $this->localDateIntl($date, 'EEEE'); // Monday|Tuesday|etc
         }
 
-        if ($date->isWithinNext('8 days')) {
+        if (5 < $diffInDays && $diffInDays <= 8) {
             return $translate->translate('schedules_next_weekday', ['%1' => $this->localDateIntl($date, 'EEEE')]);
         }
 
-        if ($date->wasWithinLast('8 days')) {
+        if (-8 <= $diffInDays && $diffInDays < -5) {
             return $translate->translate('schedules_last_weekday', ['%1' => $this->localDateIntl($date, 'EEEE')]);
         }
 
