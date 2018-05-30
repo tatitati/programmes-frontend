@@ -3,14 +3,7 @@
 }
 
 .guide-series {
-    padding-top: 0;
-    padding-bottom: 0;
-
     .loading-spinner {
         padding-top: $wide-spacing;
     }
-}
-
-.guide-series--active {
-    padding-bottom: $wide-spacing;
 }
