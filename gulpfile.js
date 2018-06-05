@@ -34,14 +34,15 @@ gulp.task('js', ['js:clean'], function () {
         staticPathSrc + '/js/**/timezone-notification.js',
         staticPathSrc + '/js/**/episode-guide.js',
         staticPathSrc + '/js/**/popup.js',
-        'vendor/bbc-rmp/comscore/js-modules/comscorews.js'
+        'vendor/bbc-rmp/comscore/js-modules/comscorews.js',
+        'node_modules/picturefill/dist/picturefill.js'
     ];
 
     const baseConfig = {
         "baseUrl": "assets/js",
         "paths": {
             "jquery-1.9": "empty:",
-            "respimg": "../../node_modules/lazysizes/plugins/respimg/ls.respimg",
+            "picturefill": "../../node_modules/picturefill/dist/picturefill",
             "lazysizes": "../../node_modules/lazysizes/lazysizes-umd",
             "eqjs": "../../node_modules/eq.js/dist/eq.polyfilled.min",
             "comscorews" : "../../vendor/bbc-rmp/comscore/js-modules/comscorews",
