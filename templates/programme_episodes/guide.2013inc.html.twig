@@ -1,13 +1,19 @@
 {% extends 'base_ds2013_partial.html.twig' %}
 {% block body %}
+    {%- if totalChildrenCount == 0 -%}
+        <p>
+            {{ tr('episodes_none') }}
+        </p>
+    {%- else -%}
+        <div>
+            {{ ds2013('episodeGuideList', programme, children, upcomingBroadcasts, nestedlevel) }}
+        </div>
+    {%- endif -%}
 
-<div>
-    {{ ds2013('episodeGuideList', programme, children, upcomingBroadcasts, nestedlevel) }}
-</div>
 
-{%- if totalChildrenCount > 30 -%}
-    <p class="no-margin">
-        <a class="text--center block-link delta island--squashed br-linkinvert" href="{{ path('programme_episodes_guide', {'pid': programme.getPid()}) }}?page=2">More episodes</a>
-    </p>
-{%- endif -%}
+    {%- if totalChildrenCount > 30 -%}
+        <p class="no-margin">
+            <a class="text--center block-link delta island--squashed br-linkinvert" href="{{ path('programme_episodes_guide', {'pid': programme.getPid()}) }}?page=2">More episodes</a>
+        </p>
+    {%- endif -%}
 {% endblock %}

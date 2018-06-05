@@ -26,12 +26,12 @@ class GuidePartialController extends BaseController
         $this->setContextAndPreloadBranding($programme);
         $this->setIstatsProgsPageType('episodes_guide');
 
-        $children = $programmesService->findEpisodeGuideChildren($programme, GuideController::LIMIT);
-        if (!$children) {
-            throw $this->createNotFoundException('Page does not exist');
+        $children = [];
+        $totalChildrenCount = $programmesService->countEpisodeGuideChildren($programme);
+        if ($totalChildrenCount > 0) {
+            $children = $programmesService->findEpisodeGuideChildren($programme, GuideController::LIMIT);
         }
 
-        $totalChildrenCount = $programmesService->countEpisodeGuideChildren($programme);
         $upcomingBroadcasts = $this->getUpcomingBroadcastsIndexedByProgrammePid($programme, $collapsedBroadcastService);
 
         return $this->renderWithChrome('programme_episodes/guide.2013inc.html.twig', [
