@@ -3,13 +3,16 @@ declare(strict_types = 1);
 namespace Tests\App\Controller\ProgrammeEpisodes;
 
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\DomCrawler\Crawler;
 use Tests\App\BaseWebTestCase;
-use Tests\App\Controller\ProgrammeEpisodes\DomParsers\EpisodesGuideDomParser;
 
 class GuidePartialControllerTest extends BaseWebTestCase
 {
     /** @var Client */
     protected $client;
+
+    /** @var Crawler */
+    private $crawler;
 
     public function setUp()
     {
@@ -20,74 +23,62 @@ class GuidePartialControllerTest extends BaseWebTestCase
         $this->client = static::createClient();
     }
 
-    public function testBasicScenarioOfEpisodeGuideWithPartial()
+    /**
+     * @dataProvider nestedLevelsProvider
+     */
+    public function testNestedLevelOnlyTweakHeadersSize(string $providedNestedLevel, string $expectedHeaderSize)
     {
-        $crawler = $this->client->request('GET', '/programmes/b006q2x0/episodes/guide.2013inc');
+        $this->userVisitPartial('/programmes/b006q2x0/episodes/guide.2013inc' . $providedNestedLevel);
 
-        $this->assertResponseStatusCode($this->client, 200);
-        // assert guide items
-        $this->assertEquals(0, $crawler->filter('.footer')->count(), 'Partial-templates shouldnt have any footer');
-        $this->assertEquals(3, $crawler->filter('.js-guideitem')->count());
-        $this->assertEquals(2, $crawler->filter('.episode-guide__series-container')->count());
-        $this->assertEquals(1, $crawler->filter('.js-guideitem .programme--episode')->count());
-        // assert guide items order
-        $this->assertEquals(['B1-S2', 'B1-S1', 'B1-E1'], $this->findAllTitles($crawler));
+        $this->thenUserSeeTheseTitles([
+            'B1-S2',
+            'B1-S1',
+            'B1-E1',
+        ]);
+        $this->thenTheseTitlesHaveThisSize($expectedHeaderSize);
     }
 
-    public function testEpisodeGuideWithThreeNestedLevelsAndPartial()
+    public function nestedLevelsProvider()
     {
-
-        $crawler = $this->client->request('GET', '/programmes/b006q2x0/episodes/guide.2013inc?nestedlevel=3');
-
-        $this->assertResponseStatusCode($this->client, 200);
-        // assert temlate type
-        $this->assertEquals(0, $crawler->filter('.footer')->count(), 'Partial-templates shouldnt have any footer');
-        // assert guide items
-        $this->assertEquals(3, $crawler->filter('.js-guideitem')->count());
-        $this->assertEquals(2, $crawler->filter('.episode-guide__series-container')->count());
-        $this->assertEquals(1, $crawler->filter('.js-guideitem .programme--episode')->count());
-        // assert guide items order
-        $this->assertEquals(['B1-S2', 'B1-S1', 'B1-E1'], $this->findAllTitles($crawler));
-        // assert headings
-        $this->assertTrue($crawler->filter('h3')->count() > 0);
-        $this->assertEquals(0, $crawler->filter('h2')->count());
-        $this->assertEquals(0, $crawler->filter('h1')->count());
+        return [
+            ['', 'h1'],
+            ['?nestedlevel=1', 'h1'],
+            ['?nestedlevel=3', 'h3'],
+            ['?nestedlevel=8', 'h8'],
+        ];
     }
 
-    public function testEpisodeGuideWithOneNestedLevelsAndPartial()
+    /**
+     * Helpers
+     */
+    private function userVisitPartial(string $url)
     {
-
-        $crawler = $this->client->request('GET', '/programmes/b006q2x0/episodes/guide.2013inc?nestedlevel=1');
+        $this->crawler = $this->client->request('GET', $url);
 
         $this->assertResponseStatusCode($this->client, 200);
-        // assert temlate type
-        $this->assertEquals(0, $crawler->filter('.footer')->count(), 'Partial-templates should have any footer');
-        // assert guide items
-        $this->assertEquals(3, $crawler->filter('.js-guideitem')->count());
-        $this->assertEquals(2, $crawler->filter('.episode-guide__series-container')->count());
-        $this->assertEquals(1, $crawler->filter('.js-guideitem .programme--episode')->count());
-        // assert guide items order
-        $this->assertEquals(['B1-S2', 'B1-S1', 'B1-E1'], $this->findAllTitles($crawler));
-        // assert headings
-        $this->assertEquals(0, $crawler->filter('h3')->count());
-        $this->assertEquals(0, $crawler->filter('h2')->count());
-        $this->assertTrue($crawler->filter('h1')->count() > 0);
     }
 
-    private function findAllTitles($crawler)
+    private function thenTheseTitlesHaveThisSize($expectedSizeHeader)
     {
-        $titles = $crawler->filter('ol li a .link-complex__target');
+        $this->assertSame(3, $this->crawler->filter($expectedSizeHeader)->count());
+    }
+
+    private function thenUserSeeTheseTitles(array $expectedListOfTitles)
+    {
+        $seriesTitles = $this->crawler->filter('.episode-guide__series-container .series__title');
 
         $titlesText = [];
-        foreach ($titles as $title) {
-            $titlesText[] = $title->textContent;
+        foreach ($seriesTitles as $seriesTitle) {
+            $titlesText[] = $seriesTitle->textContent;
         }
 
-        $titles = $crawler->filter('li a')->filter('span.programme__title')->eq(0);
-        foreach ($titles as $title) {
-            $titlesText[] = $title->textContent;
+        $titlesEpisodes = $this->crawler->filter('.programme--episode .programme__title');
+        foreach ($titlesEpisodes as $titleEpisode) {
+            $titlesText[] = $titleEpisode->textContent;
         }
 
-        return $titlesText;
+
+
+        $this->assertEquals($expectedListOfTitles, $titlesText);
     }
 }
