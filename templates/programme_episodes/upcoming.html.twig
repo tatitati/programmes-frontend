@@ -19,7 +19,7 @@
                     <li>
                         <div class="broadcast highlight-box--list block-link block-link--steal br-keyline br-blocklink-page br-page-linkhover-onbg015--hover {% if (upcoming.isOnAir()) %} br-box-subtle highlight-box--active{% endif %}" >
                             <div class="grid-wrapper">
-                                <div class="grid 1/6 1/4@bpb1 1/6@bpb2">
+                                <div class="grid 1/4 1/6@bpb2 1/6@bpw">
                                     <div class="grid-wrapper">
                                         <div class="grid 1/1">
                                                 {{- ds2013('broadcastEvent', upcoming, {
@@ -29,7 +29,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="grid 5/6 3/4@bpb1 5/6@bpb2">
+                                <div class="grid 3/4 5/6@bpb2 5/6@bpw">
                                     {{ ds2013('broadcastProgramme', upcoming, null, {
                                         'context_programme': programme,
                                         title_options: {

@@ -36,7 +36,7 @@
                     <span>{{ breakdown.getNetworkName() }}</span>
                 {%- endif -%}
                 {%- if breakdown.getServicesNames() -%}
-                    <span class="except">&nbsp;{{ breakdown.getServicesNames() }}</span>
+                    <span class="except"> {{ breakdown.getServicesNames() }}</span>
                 {%- endif -%}
             {%- endfor -%}
         </div>
