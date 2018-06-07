@@ -23,7 +23,7 @@ class BroadcastNetworkBreakdown
         $this->network = $network;
     }
 
-    public function getNetwork(): Network
+    public function getNetwork(): ?Network
     {
         return $this->network;
     }

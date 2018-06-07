@@ -179,6 +179,7 @@ class BroadcastNetworksHelperTest extends TestCase
         $this->assertEquals(', Network nid3', $breakdown[2]->getNetworkName());
         $this->assertEquals(', Network nid4', $breakdown[3]->getNetworkName());
         $this->assertEquals(', Network nid5', $breakdown[4]->getNetworkName());
+        $this->assertNull($breakdown[5]->getNetwork());
         $this->assertEquals(' & 2 more', $breakdown[5]->getNetworkName());
 
         foreach ($breakdown as $b) {
