@@ -4,16 +4,47 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 
 class ClipController extends BaseController
 {
     public function __invoke(Clip $clip)
     {
         $this->setIstatsProgsPageType('programmes_clip');
+        $this->setIstatsReleaseDate($clip);
+        $this->setIstatsReleaseYear($clip);
+        $this->setParentIstats($clip);
         $this->setContextAndPreloadBranding($clip);
 
         return $this->renderWithChrome('find_by_pid/clip.html.twig', [
             'programme' => $clip,
         ]);
+    }
+
+    private function setIstatsReleaseDate(Clip $clip): void
+    {
+        if ($clip->getReleaseDate()) {
+            $this->setIstatsExtraLabels(['clip_release_date' => $clip->getReleaseDate()->asDateTime()->format('c')]);
+        } elseif ($clip->getStreamableFrom()) {
+            $this->setIstatsExtraLabels(['clip_release_date' => $clip->getStreamableFrom()->format('c')]);
+        }
+    }
+
+    private function setIstatsReleaseYear(Clip $clip): void
+    {
+        if ($clip->getReleaseDate()) {
+            $this->setIstatsExtraLabels(['clip_release_year' => $clip->getReleaseDate()->asDateTime()->format('Y')]);
+        } elseif ($clip->getStreamableFrom()) {
+            $this->setIstatsExtraLabels(['clip_release_year' => $clip->getStreamableFrom()->format('Y')]);
+        }
+    }
+
+    private function setParentIstats(Clip $clip): void
+    {
+        $parent = $clip->getParent();
+        if ($parent instanceof ProgrammeItem) {
+            $this->setIstatsExtraLabels(['parent_available' => $parent->isStreamable() ? 'true' : 'false']);
+            $this->setIstatsExtraLabels(['parent_entity_type' => $parent->getType()]);
+        }
     }
 }
