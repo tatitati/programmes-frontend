@@ -31,8 +31,12 @@ class BroadcastProgrammeTitlePresenter extends CoreEntityTitlePresenter
 
     public function getAriaTitle(): string
     {
-        $title = $this->broadcast->getStartAt()->setTimezone(ApplicationTime::getLocalTimeZone())->format('H:i') . ': ';
-        $title .= $this->getMainTitleProgramme()->getTitle();
+        $timezone = ApplicationTime::getLocalTimeZone();
+        $title = $this->broadcast->getStartAt()->setTimezone($timezone)->format('j M H:i');
+        if ($timezone->getName() === 'UTC') {
+            $title .= ' GMT';
+        }
+        $title .= ': ' . $this->getMainTitleProgramme()->getTitle();
         if ($this->getOption('show_subtitle') && $this->getSubTitlesProgrammes()) {
             foreach ($this->getSubTitlesProgrammes() as $subTitle) {
                 $title .= ', ' . $subTitle->getTitle();

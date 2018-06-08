@@ -1,7 +1,7 @@
 <ol class="highlight-box-wrapper">
     {%- for programme in episode_guide_list.getProgrammes() -%}
         <li>
-            {#SERIES DROPDOWN#}
+            {# SERIES DROPDOWN #}
             {%- if programme.getType() == 'series' -%}
                 <div resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
                      class="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover episode-guide__series-container guide-series island"
@@ -26,7 +26,7 @@
                         <span class="delta br-page-text-ontext deemphasize js-active-hideanyme push--leading">{{ tr('view_episodes')}}</span>
                     </a>
 
-                    <div class="nested-panel hidden js-active-showme" id="series-{{ programme.getPid() }}" aria-hidden="true">
+                    <div class="nested-panel hidden js-active-showme" id="series-{{ programme.getPid() }}">
                         <p class="no-margin island--vertical">{{ programme.getShortSynopsis() }}</p>
                         <div class="js-seriescontent" id="series-content-{{ programme.getPid() }}">
                             {#EPISODES/NESTED SERIES LIST (lazy content)#}
@@ -37,25 +37,31 @@
                     </div>
                 </div>
             {%- else -%}
-                {#EPISODE#}
+                {# EPISODE #}
                 <div class="js-guideitem highlight-box--list block-link block-link--steal br-keyline br-blocklink-page br-page-linkhover-onbg015--hover episode-guide__episode-container">
+                    {%- set programme_broadcast = episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()) is not null ? episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()) : null -%}
+                    {%- set programme_object_options = {
+                       'context_programme': episode_guide_list.getContextProgramme(),
+                       title_options: {
+                           'title_format': 'item::ancestry',
+                           'title_tag': episode_guide_list.getHeadingTag(),
+                           'title_classes': 'gamma'
+                       }
+                    } -%}
                     <div class="grid-wrapper">
                         <div class="grid 2/3@bpw2 2/3@bpe">
-                            {{ ds2013('programme', programme, {
-                                'context_programme': episode_guide_list.getContextProgramme(),
-                                title_options: {
-                                    'title_format': 'item::ancestry',
-                                    'title_tag': episode_guide_list.getHeadingTag(),
-                                    'title_classes': 'gamma'
-                                }
-                            }) }}
+                            {%- if programme_broadcast -%}
+                                {{ ds2013('broadcastProgramme', programme_broadcast, programme, programme_object_options) }}
+                            {%- else -%}
+                                {{ ds2013('programme', programme, programme_object_options) }}
+                            {%- endif -%}
                         </div>
                         <div class="grid 1/3@bpw2 1/3@bpe hidden grid-visible@bpw2 grid-visible@bpe">
                             <div class="grid-wrapper">
                                 <div class="grid 1/2">
-                                    {%- if episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()) is not null -%}
+                                    {%- if programme_broadcast -%}
                                         <{{ episode_guide_list.getNextOnHeadingTag() }} class="delta no-margin">{{ tr('next_on') }}</{{ episode_guide_list.getNextOnHeadingTag() }}>
-                                        {{- ds2013('broadcastEvent', episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()), {
+                                        {{- ds2013('broadcastEvent', programme_broadcast, {
                                             'show_logo': false
                                         }) -}}
                                     {%- endif -%}
