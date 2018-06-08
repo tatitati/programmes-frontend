@@ -66,6 +66,7 @@ class BroadcastProgrammeTitlePresenterTest extends TestCase
             $this->mockTitleLogicHelper,
             $broadcast,
             $programme,
+            $this->streamUrlHelper,
             ['context_programme' => null]
         );
 
