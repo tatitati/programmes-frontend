@@ -78,8 +78,7 @@
         // The `li:last-child > .grid__inner > &` is for when items are in a
         // list-horizontal partial, where there is an intermediate `grid__inner`
         // element.
-        li:last-child > &,
-        li:last-child > .grid__inner > & {
+        li:last-child > & {
             &:not(:hover):not(:active):not(:focus):not(.highlight-box--active) {
                 border-bottom-color: transparent;
             }
