@@ -1,11 +1,30 @@
 {% extends 'base_ds2013.html.twig' %}
 
-{% block page_classes %}text-base programmes-page programmes-page--smallpush b-g-p{% endblock %}
+{% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
 {% block title %}{{ meta_context.titlePrefix() }}{% endblock %}
 {% block adsToDisplay %}leaderboard mpu{% endblock %}
 
 {% block body %}
-        <div class="island br-box-secondary">
-            <h1>THIS IS CLIP</h1>
+    <div class="b-g-p">
+        <div class="map__column br-box-secondary">
+            <h1>Clip Map</h1>
         </div>
+    </div>
+    <div class="prog-layout programmes-page">
+        <div class="br-box-page prog-box">
+            {% if relatedLinks %}
+            <div class="component component--box--primary">
+                <div class="component__header br-box-page">
+                    <h2>{{ tr('related_links') }}</h2>
+                </div>
+                <div class="component__body br-box-page">
+                    {% include 'find_by_pid/partial/related_links_module.html.twig' with {
+                        'programme': programme,
+                        'relatedLinks': relatedLinks,
+                    } only %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

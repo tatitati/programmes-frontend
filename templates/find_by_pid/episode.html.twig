@@ -305,13 +305,18 @@
                 {# TODO Vote module #}
 
                 {% if relatedLinks %}
-                    {% include 'find_by_pid/partial/related_links_module.html.twig' with {
-                        'programme': programme,
-                        'relatedLinks': relatedLinks,
-                    } only %}
+                <div class="component component--box component--box--striped component--box--secondary">
+                    <div class="component__header br-box-highlight">
+                        <h2>{{ tr('related_links') }}</h2>
+                    </div>
+                    <div class="component__body br-box-subtle">
+                        {% include 'find_by_pid/partial/related_links_module.html.twig' with {
+                            'programme': programme,
+                            'relatedLinks': relatedLinks,
+                        } only %}
+                </div>
                 {% endif %}
             </div>
-        </div>
     </div>
 {% endblock %}
 

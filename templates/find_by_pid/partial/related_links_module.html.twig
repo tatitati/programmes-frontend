@@ -1,15 +1,8 @@
-<div class="component component--box component--box--striped component--box--secondary">
-    <div class="component__header br-box-highlight">
-        <h2>{{ tr('related_links') }}</h2>
-    </div>
-    <div class="component__body br-box-subtle">
-        <ul class="no-margin-vertical list-spaced">
-            {%- for link in relatedLinks -%}
-                <li>
-                    <a href="{{ link.getUri() }}">{{ link.getTitle() }}</a>
-                    {%- if link.isExternal() %} <span class="milli">({{ link.getHost() }})</span>{% endif -%}
-                </li>
-            {%- endfor -%}
-        </ul>
-    </div>
-</div>
+<ul class="no-margin-vertical list-spaced">
+    {%- for link in relatedLinks -%}
+        <li>
+            <a href="{{ link.getUri() }}">{{ link.getTitle() }}</a>
+            {%- if link.isExternal() %} <span class="milli">({{ link.getHost() }})</span>{% endif -%}
+        </li>
+    {%- endfor -%}
+</ul>

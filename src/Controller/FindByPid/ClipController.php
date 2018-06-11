@@ -5,19 +5,28 @@ namespace App\Controller\FindByPid;
 use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 
 class ClipController extends BaseController
 {
-    public function __invoke(Clip $clip)
-    {
+    public function __invoke(
+        Clip $clip,
+        RelatedLinksService $relatedLinksService
+    ) {
         $this->setIstatsProgsPageType('programmes_clip');
         $this->setIstatsReleaseDate($clip);
         $this->setIstatsReleaseYear($clip);
         $this->setParentIstats($clip);
         $this->setContextAndPreloadBranding($clip);
 
+        $relatedLinks = [];
+        if ($clip->getRelatedLinksCount() > 0) {
+            $relatedLinks = $relatedLinksService->findByRelatedToProgramme($clip, ['related_site', 'miscellaneous']);
+        }
+
         return $this->renderWithChrome('find_by_pid/clip.html.twig', [
             'programme' => $clip,
+            'relatedLinks' => $relatedLinks,
         ]);
     }
 
