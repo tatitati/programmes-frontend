@@ -108,7 +108,6 @@ define(['jquery-1.9'], function ($) {
 
             // accessibility
             seriesLinkClicked.attr('aria-expanded','true');
-            panel.attr('aria-hidden','false');
         };
 
         /**
@@ -124,7 +123,6 @@ define(['jquery-1.9'], function ($) {
 
             // accessibility
             seriesLinkClicked.attr('aria-expanded','false');
-            panel.attr('aria-hidden','true');
         };
 
         /**
