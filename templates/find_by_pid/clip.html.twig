@@ -25,6 +25,25 @@
                 </div>
             </div>
             {% endif %}
+            {% if featuredIn %}
+                <div class="component component--box component--box-flushbody component--box--primary" id="collections">
+                    <div class="component__header br-box-page">
+                        <h2>{{ tr('featured_in') }}</h2>
+                    </div>
+                    <div class="component__body br-box-page">
+                        <ul class="list-unstyled">
+                            {% for collection in featuredIn %}
+                                <li>
+                                    {{- ds2013('group', collection, {
+                                        'highlight_box_classes': 'highlight-box--list',
+                                        'show_image': false
+                                    }) -}}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
