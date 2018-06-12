@@ -46,6 +46,11 @@ class SeriesFixtures extends AbstractFixture implements DependentFixtureInterfac
             $this->buildSeries('b0000sr2', 'B1-S2', $this->getReference('b006q2x0'))
         );
 
+        $this->addReference(
+            'b0000sr3',
+            $this->buildSeries('b0000sr3', 'S3', null)
+        );
+
         $this->manager->flush();
 
         // a series with nested series
@@ -65,7 +70,7 @@ class SeriesFixtures extends AbstractFixture implements DependentFixtureInterfac
     private function buildSeries(
         string $pid,
         string $title,
-        ProgrammeContainer $brand
+        ? ProgrammeContainer $brand
     ) {
         $series = new Series($pid, $title);
         $series->setParent($brand);

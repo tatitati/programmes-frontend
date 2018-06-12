@@ -28,7 +28,7 @@ class DetailsPresenter extends Presenter
     /** @var UrlGeneratorInterface */
     private $router;
 
-    /** @var RmsPodcast */
+    /** @var RmsPodcast|null */
     private $rmsPodcast;
 
     public function __construct(PlayTranslationsHelper $playTranslationsHelper, UrlGeneratorInterface $router, Episode $episode, array $availableVersions, ?RmsPodcast $rmsPodcast)
@@ -137,7 +137,11 @@ class DetailsPresenter extends Presenter
 
     public function isUkOnlyPodcast(): bool
     {
-        return $this->rmsPodcast->isOnlyInUk();
+        if ($this->rmsPodcast) {
+            return $this->rmsPodcast->isOnlyInUk();
+        }
+
+        return false;
     }
 
     private function hasAvailableVersion(string $versionType)

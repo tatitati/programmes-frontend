@@ -1,13 +1,11 @@
 <?php
 namespace Tests\App\Controller\FindByPid\EpisodeController;
 
-use App\Controller\FindByPid\EpisodeController;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use Tests\App\BaseWebTestCase;
 
 /**
- * @covers EpisodeController
  * @group podcast
  *
  * It makes sure that podcast panel section appear properly in the episode page.
@@ -38,11 +36,20 @@ class EpisodeControllerPodcastTest extends BaseWebTestCase
         $this->thenDownloadButtonDisplayText('Download (UK Only)');
     }
 
+    public function testPodcastApiDoesntReturnAnythingAndUkOnlyIsNotDisplayed()
+    {
+        $this->userVisitEpisode("programmes/p3000002");
+
+        $this->thenNoPodcastPanelIsDisplayed();
+        $this->thenDownloadButtonDisplayText('Download');
+    }
+
     public function testPodcastPanelIsNotLoadedForEpisodesWithNoPodcastableVersions()
     {
         $this->userVisitEpisode("programmes/b000sr21");
 
         $this->thenNoPodcastPanelIsDisplayed();
+        $this->thenDownloadButtonDoesntAppear();
     }
 
     /**
@@ -81,6 +88,14 @@ class EpisodeControllerPodcastTest extends BaseWebTestCase
         $this->assertEquals(
             $expectedText,
             trim($this->crawler->filter('.episode-panel__intro .popup__button label')->text())
+        );
+    }
+
+    private function thenDownloadButtonDoesntAppear()
+    {
+        $this->assertSame(
+            0,
+            $this->crawler->filter('.episode-panel__intro .popup__button label')->count()
         );
     }
 }
