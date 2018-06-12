@@ -13,9 +13,9 @@
         {% set mainBroadcastNetwork = broadcast_event.getMainBroadcastNetwork() %}
         <div class="{{ network_image_classes }}">
             {%- if mainBroadcastNetwork.getUrlKey() -%}
-                <a href="{{ broadcast_event.getNetworkUrl(mainBroadcastNetwork) }}"><img src="{{ asset('images/logos/64x36/' ~ mainBroadcastNetwork.getNid() ~ '.png') }}" alt="" width="64" height="36"></a>
+                <a href="{{ broadcast_event.getNetworkUrl(mainBroadcastNetwork) }}"><img src="{{ get_network_logo(mainBroadcastNetwork.getNid(), '64x36') }}" alt="" width="64" height="36"/></a>
             {%- else -%}
-                <img src="{{ asset('images/logos/64x36/' ~ mainBroadcastNetwork.getNid() ~ '.png') }}" alt="" width="64" height="36">
+                <img src="{{ get_network_logo(mainBroadcastNetwork.getNid(), '64x36') }}" alt="" width="64" height="36"/>
             {%- endif -%}
         </div>
     {%- endif -%}

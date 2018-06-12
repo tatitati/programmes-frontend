@@ -66,7 +66,7 @@
                 {%- if footer.getNetworkUrlKey() -%}
                     <div class="grid grid--flush 1/2 1/6@bpw2 1/8@bpe footer__service centi"><div class="footer__service-island br-service-brand-box fauxcolumn">
                         <a class="islet--vertical footer__service__logo text--center@bpw" href="{{ path('network', { 'networkUrlKey': footer.getNetworkUrlKey() }) }}">
-                            <img alt="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}" src="{{ asset('images/logos/112x63/' ~ footer.getNid() ~ '.png') }}">
+                            <img alt="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}" src="{{ get_network_logo(footer.getNid(), '112x63') }}">
                         </a>
                         <div class="footer__watch-live">
                             <div class="lazy-module" data-lazyload-inc="{{

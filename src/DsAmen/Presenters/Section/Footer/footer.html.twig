@@ -59,7 +59,7 @@
                         <div class="br-service-brand-box">
                             <div class="text--center">
                                 <a href="{{ path('network', { 'networkUrlKey': footer.getNetworkUrlKey() }) }}">
-                                    <img alt="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}" src="{{ asset('images/logos/112x63/' ~ footer.getNid() ~ '.png') }}">
+                                    <img alt="{{ tr('programme_homepage', { '%1': footer.getNetworkName() }) }}" src="{{ get_network_logo(footer.getNid(), '112x63') }}">
                                 </a>
                             </div>
                             <div class="hidden unhidden@gel3b island island--squashed">
