@@ -79,9 +79,9 @@
                     </div></div>
                 {%- endif -%}
                 <div class="grid grid--flush 1/2 1/6@bpw2 1/8@bpe footer__service-nav centi"><div class="footer__service__nav">
+                    {%- set networkUrlKey = footer.getNetworkUrlKey() -%}
+                    {%- if networkUrlKey or footer.getNavigationLinks() -%}
                     <div class="br-service-brand-box--alt fauxcolumn">
-                        {%- set networkUrlKey = footer.getNetworkUrlKey() -%}
-                        {%- if networkUrlKey or footer.getNavigationLinks() -%}
                         <ul class="footer__service__nav__list list-unstyled footer__service-island">
                             {%-  if networkUrlKey -%}
                                 <li class="footer__service__navitem">
@@ -98,8 +98,8 @@
                                 </li>
                             {%- endfor -%}
                         </ul>
-                    {%- endif -%}
                     </div>
+                    {%- endif -%}
                 </div></div>
             {%- endif -%}
         </div>
