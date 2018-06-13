@@ -173,6 +173,8 @@ class DetailsPresenterTest extends TestCase
         $versionPid = new Pid('z000y111');
         $version = $this->createVersionMock('Podcast', false);
         $version->method('getPid')->willReturn($versionPid);
+        $version->method('isDownloadable')->willReturn(true);
+
         $episode = EpisodeBuilder::any()
             ->with(['downloadableMediaSets' => ['audio-nondrm-download', 'audio-nondrm-download-low']])
             ->build();

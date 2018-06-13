@@ -162,10 +162,8 @@ class DetailsPresenter extends Presenter
     private function getVersionPid(): Pid
     {
         foreach ($this->availableVersions as $version) {
-            foreach ($version->getVersionTypes() as $type) {
-                if ($type->getType() === 'Podcast') {
-                    return $version->getPid();
-                }
+            if ($version->isDownloadable()) {
+                return $version->getPid();
             }
         }
         throw new Exception('No podcastable Versions were found');
