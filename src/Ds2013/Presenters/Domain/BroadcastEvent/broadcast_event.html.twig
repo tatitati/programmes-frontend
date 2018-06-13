@@ -30,6 +30,8 @@
         </div>
         <div class="programme__service box-link__elevated micro text--subtle">
             {%- for breakdown in broadcast_event.getNetworkBreakdown -%}
+                {% if not loop.first and not loop.last %},&#32;{%- endif -%}
+                {% if loop.last and loop.length > 1 %}&#32;&&#32;{%- endif -%}
                 {%- if breakdown.getNetwork() and breakdown.getNetwork().getUrlKey() -%}
                     <a href="{{ broadcast_event.getNetworkUrl(breakdown.getNetwork()) }}">{{ breakdown.getNetworkName() }}</a>
                 {%- else -%}

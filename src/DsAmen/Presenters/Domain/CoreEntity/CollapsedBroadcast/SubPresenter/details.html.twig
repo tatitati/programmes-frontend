@@ -13,6 +13,8 @@
         {# Service details #}
         <div class="broadcast-details__service">
             {%- for breakdown in details.getNetworksAndServicesDetails() -%}
+                {% if not loop.first and not loop.last %},&#32;{%- endif -%}
+                {% if loop.last and loop.length > 1 %}&#32;&&#32;{%- endif -%}
                 <span class="gel-minion-bold">{{ breakdown.getNetworkName() }}</span>
                 {%- if breakdown.getServicesNames() -%}
                     {# The space before the services names below is necessary #}

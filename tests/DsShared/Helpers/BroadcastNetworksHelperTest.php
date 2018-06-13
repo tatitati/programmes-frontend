@@ -153,7 +153,7 @@ class BroadcastNetworksHelperTest extends TestCase
         $this->assertCount(2, $breakdown);
 
         $this->assertEquals('Network nid1', $breakdown[0]->getNetworkName());
-        $this->assertEquals(' & Network nid2', $breakdown[1]->getNetworkName());
+        $this->assertEquals('Network nid2', $breakdown[1]->getNetworkName());
 
         $this->assertEquals('except Service sid3', $breakdown[0]->getServicesNames());
         $this->assertEquals('Service sid4', $breakdown[1]->getServicesNames());
@@ -175,12 +175,12 @@ class BroadcastNetworksHelperTest extends TestCase
         $this->assertCount(6, $breakdown);
 
         $this->assertEquals('Network nid1', $breakdown[0]->getNetworkName());
-        $this->assertEquals(', Network nid2', $breakdown[1]->getNetworkName());
-        $this->assertEquals(', Network nid3', $breakdown[2]->getNetworkName());
-        $this->assertEquals(', Network nid4', $breakdown[3]->getNetworkName());
-        $this->assertEquals(', Network nid5', $breakdown[4]->getNetworkName());
+        $this->assertEquals('Network nid2', $breakdown[1]->getNetworkName());
+        $this->assertEquals('Network nid3', $breakdown[2]->getNetworkName());
+        $this->assertEquals('Network nid4', $breakdown[3]->getNetworkName());
+        $this->assertEquals('Network nid5', $breakdown[4]->getNetworkName());
         $this->assertNull($breakdown[5]->getNetwork());
-        $this->assertEquals(' & 2 more', $breakdown[5]->getNetworkName());
+        $this->assertEquals('2 more', $breakdown[5]->getNetworkName());
 
         foreach ($breakdown as $b) {
             $this->assertEquals('', $b->getServicesNames());

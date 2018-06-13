@@ -70,7 +70,7 @@ class BroadcastNetworksHelper
             $networkNames[] = $networkBreakdown['network']->getName();
         }
 
-        return $this->prefixNames($networkNames);
+        return $this->truncateList($networkNames);
     }
 
     /**
@@ -181,14 +181,9 @@ class BroadcastNetworksHelper
 
     private function prefixNames(array $names): array
     {
-        $namesCount = count($names);
+        $names = $this->truncateList($names);
 
-        // If there are more than 5 names, use only the first five names and attach an 'and X more' qualifier at the end
-        if ($namesCount > 5) {
-            $names = array_slice($names, 0, 5);
-            $names[] = $this->translateProvider->getTranslate()->translate('x_more', ['%count%' => $namesCount - 5], $namesCount - 5);
-            $namesCount = 6;
-        }
+        $namesCount = count($names);
 
         // Attach a comma to the beginning of each name, except for the first and last one
         for ($i = 1; $i < $namesCount - 1; $i++) {
@@ -198,6 +193,19 @@ class BroadcastNetworksHelper
         // Attach an ampersand to the beginning of the last name
         if ($namesCount > 1) {
             $names[$namesCount - 1] = ' & ' . $names[$namesCount - 1];
+        }
+
+        return $names;
+    }
+
+    private function truncateList(array $names): array
+    {
+        $namesCount = count($names);
+
+        // If there are more than 5 names, use only the first five names and attach an 'and X more' qualifier at the end
+        if ($namesCount > 5) {
+            $names = \array_slice($names, 0, 5);
+            $names[] = $this->translateProvider->getTranslate()->translate('x_more', ['%count%' => $namesCount - 5], $namesCount - 5);
         }
 
         return $names;
