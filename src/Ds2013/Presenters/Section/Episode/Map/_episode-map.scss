@@ -23,7 +23,6 @@
     padding-bottom: 0;
 }
 
-
 @include mq-range('bpw2') {
     .map--episode .map__column .map__inner {
         margin-bottom: -50em;
@@ -52,6 +51,11 @@
         .map__column {
             margin-top: $basic-spacing;
         }
+    }
+
+    .map__column--last > .map__inner > .map__column {
+        margin-bottom: -50em;
+        padding-bottom: 50em;
     }
 }
 
