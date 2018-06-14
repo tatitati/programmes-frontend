@@ -54,6 +54,33 @@
                     </div>
                 </div>
             {% endif %}
+            {% if relatedProgrammes %}
+                <div class="component component--box--primary">
+                    <div class="component__header br-box-page">
+                        <h2>{{ tr('related_programmes') }}</h2>
+                    </div>
+                    <div class="component__body br-box-page">
+                        <ul class="grid-wrapper highlight-box-wrapper--list bpw-highlight-box-wrapper--grid">
+                            {% for programme in relatedProgrammes %}
+                                <li class="grid 1/3@bpw">
+                                    {{ ds2013('programme', programme.getProgramme(), {
+                                        'title_options': {'title_format': 'item::ancestry', 'link_location_track': 'clip_suggested_item_' ~ loop.index },
+                                        'body_options': {
+                                            'body_suffix': '<p class="programme__child-availability">' ~ tr('episode_is_related_to', {'%1': '<a class="block-link__link" href="' ~ path('topics_topic', {topic: programme.getRelatedByClasses()[0].getId()}) ~'" data-linktrack="clip_suggested_relationship">' ~ programme.getRelatedByClasses()[0].getTitle() ~ '</a></p>'}),
+                                            'show_synopsis': false,
+                                            'show_duration': false,
+                                        },
+                                        'image_options': {
+                                            'classes': '1/4@bpb1 1/1@bpb2 1/1@bpw',
+                                        },
+                                        'container_classes': 'highlight-box--list programme--grid@bpw highlight-box--grid@bpw br-keyline br-blocklink-page br-page-linkhover-onbg015--hover',
+                                    }) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

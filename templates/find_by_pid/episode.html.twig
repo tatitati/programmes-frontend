@@ -225,6 +225,7 @@
                                             'body_options': {
                                                 'body_suffix': '<p class="programme__child-availability">' ~ tr('episode_is_related_to', {'%1': '<a class="block-link__link" href="' ~ path('topics_topic', {topic: programme.getRelatedByClasses()[0].getId()}) ~'" data-linktrack="episode_suggested_relationship">' ~ programme.getRelatedByClasses()[0].getTitle() ~ '</a></p>'}),
                                                 'show_synopsis': false,
+                                                'show_duration': false,
                                             },
                                             'container_classes': 'highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover',
                                         }) }}</li>
