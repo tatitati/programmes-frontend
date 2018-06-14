@@ -4,8 +4,15 @@
     </div>
     <div class="component__body br-box-page">
         <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid@bpb1 highlight-box-wrapper--grid@bpw">
+            {%- set isOddAmountOfRecipes = (recipes|length) % 2 != 0 -%}
+
             {%- for recipe in recipes -%}
-                <li class="grid 1/2@bpb1 1/2@bpw">
+                {%- set recipeClasses = '1/2@bpb1 1/2@bpw' -%}
+                {%- if isOddAmountOfRecipes and loop.first -%}
+                    {%- set recipeClasses = '1/1@bpb1 1/1@bpw' -%}
+                {%- endif -%}
+
+                <li class="grid {{ recipeClasses }}">
                     {{- ds2013('recipe', recipe, options)-}}
                 </li>
             {%- endfor -%}
