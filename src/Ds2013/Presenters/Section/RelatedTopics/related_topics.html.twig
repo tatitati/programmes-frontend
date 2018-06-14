@@ -1,7 +1,12 @@
 <ol class="related-topics">
-    {% for relatedTopic in related_topics.getRelatedTopics() %}
+    {%- for relatedTopic in related_topics.getRelatedTopics() -%}
         <li>
-            <a class="br-linkinvert" href="{{ path('topics_topic', {topic: relatedTopic.getId()}) }}" data-linktrack="episode_topic">{{ relatedTopic.getTitle() }} ({{ relatedTopic.getProgrammeItemCount() }})</a>
+            {% if related_topics.getContextPid() %}
+                {% set url = path('programme_topics_topic', {pid: related_topics.getContextPid(), topic: relatedTopic.getId()}) %}
+            {% else %}
+                {% set url = path('topics_topic', {topic: relatedTopic.getId()}) %}
+            {% endif %}
+            <a class="br-linkinvert" href="{{ url }}" data-linktrack="{{ related_topics.getLinkTrack() }}">{{ relatedTopic.getTitle() }} ({{ relatedTopic.getProgrammeItemCount() }})</a>
         </li>
-    {% endfor %}
+    {%- endfor -%}
 </ol>

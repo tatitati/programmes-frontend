@@ -4,6 +4,7 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\Controller\Helpers\StructuredDataHelper;
+use App\ExternalApi\Ada\Service\AdaClassService;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Service\GroupsService;
@@ -11,11 +12,13 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use Cake\Chronos\ChronosInterval;
+use GuzzleHttp\Promise\FulfilledPromise;
 
 class ClipController extends BaseController
 {
     public function __invoke(
         Clip $clip,
+        AdaClassService $adaClassService,
         GroupsService $groupsService,
         RelatedLinksService $relatedLinksService,
         StructuredDataHelper $structuredDataHelper
@@ -33,12 +36,23 @@ class ClipController extends BaseController
 
         $featuredIn = $groupsService->findByCoreEntityMembership($clip, 'Collection');
 
-        return $this->renderWithChrome('find_by_pid/clip.html.twig', [
+        $relatedTopicsPromise = new FulfilledPromise([]);
+        if ($clip->getOption('show_enhanced_navigation')) {
+            $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($clip, true, 10);
+        }
+
+        $resolvedPromises = $this->resolvePromises([
+            'relatedTopics' => $relatedTopicsPromise,
+        ]);
+
+        $parameters = [
             'programme' => $clip,
             'featuredIn' => $featuredIn,
             'schema' => $this->getSchema($structuredDataHelper, $clip),
             'relatedLinks' => $relatedLinks,
-        ]);
+        ];
+
+        return $this->renderWithChrome('find_by_pid/clip.html.twig', array_merge($parameters, $resolvedPromises));
     }
 
     private function setIstatsReleaseDate(Clip $clip): void

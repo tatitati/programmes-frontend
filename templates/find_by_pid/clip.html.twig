@@ -12,6 +12,16 @@
     </div>
     <div class="prog-layout programmes-page">
         <div class="br-box-page prog-box">
+            {% if relatedTopics %}
+                <div class="component component--box--primary">
+                    <div class="component__header br-box-page">
+                        <h2>{{ tr('related_topics') }}</h2>
+                    </div>
+                    <div class="component__body br-box-page">
+                        {{ ds2013('relatedTopics', relatedTopics, 'clip_topic', programme.getTleo().getPid()) }}
+                    </div>
+                </div>
+            {% endif %}
             {% if relatedLinks %}
             <div class="component component--box--primary">
                 <div class="component__header br-box-page">

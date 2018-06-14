@@ -338,8 +338,8 @@ class PresenterFactory
         return new EpisodesSubNavPresenter($currentRoute, $isDomestic, $hasBroadcasts, $availableEpisodeCount, $pid, $upcomingBroadcastCount);
     }
 
-    public function relatedTopicsPresenter(array $relatedTopics, array $options = []): RelatedTopicsPresenter
+    public function relatedTopicsPresenter(array $relatedTopics, string $linkTrack, Pid $contextPid = null, array $options = []): RelatedTopicsPresenter
     {
-        return new RelatedTopicsPresenter($relatedTopics, $options);
+        return new RelatedTopicsPresenter($relatedTopics, $linkTrack, $contextPid, $options);
     }
 }
