@@ -4,14 +4,19 @@ namespace App\Controller\FindByPid;
 
 use App\Controller\BaseController;
 use App\Controller\Helpers\StructuredDataHelper;
+use App\Ds2013\PresenterFactory;
+use App\DsShared\Helpers\CanonicalVersionHelper;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
+use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Service\GroupsService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
+use BBC\ProgrammesPagesService\Service\SegmentEventsService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
 use Cake\Chronos\ChronosInterval;
 use GuzzleHttp\Promise\FulfilledPromise;
 
@@ -21,9 +26,14 @@ class ClipController extends BaseController
         Clip $clip,
         AdaClassService $adaClassService,
         AdaProgrammeService $adaProgrammeService,
+        CanonicalVersionHelper $canonicalVersionHelper,
+        FavouritesButtonService $favouritesButtonService,
         GroupsService $groupsService,
+        PresenterFactory $presenterFactory,
         RelatedLinksService $relatedLinksService,
-        StructuredDataHelper $structuredDataHelper
+        SegmentEventsService $segmentEventsService,
+        StructuredDataHelper $structuredDataHelper,
+        VersionsService $versionsService
     ) {
         $this->setIstatsProgsPageType('programmes_clip');
         $this->setIstatsReleaseDate($clip);
@@ -45,7 +55,26 @@ class ClipController extends BaseController
             $relatedTopicsPromise = $adaClassService->findRelatedClassesByContainer($clip, true, 10);
         }
 
+        $versions = $versionsService->findByProgrammeItem($clip);
+
+        $segmentsListPresenter = null;
+        if ($versions) {
+            $canonicalVersion = $canonicalVersionHelper->getCanonicalVersion($versions);
+            if ($canonicalVersion->getSegmentEventCount()) {
+                $segmentEvents = $segmentEventsService->findByVersionWithContributions($canonicalVersion);
+                if ($segmentEvents) {
+                    $segmentsListPresenter = $presenterFactory->segmentsListPresenter(
+                        $clip,
+                        $segmentEvents,
+                        null,
+                        null
+                    );
+                }
+            }
+        }
+
         $resolvedPromises = $this->resolvePromises([
+            'favouritesButton' => $favouritesButtonService->getContent(),
             'relatedTopics' => $relatedTopicsPromise,
             'relatedProgrammes' => $relatedProgrammesPromise,
         ]);
@@ -55,6 +84,7 @@ class ClipController extends BaseController
             'featuredIn' => $featuredIn,
             'schema' => $this->getSchema($structuredDataHelper, $clip),
             'relatedLinks' => $relatedLinks,
+            'segmentsListPresenter' => $segmentsListPresenter,
         ];
 
         return $this->renderWithChrome('find_by_pid/clip.html.twig', array_merge($resolvedPromises, $parameters));
