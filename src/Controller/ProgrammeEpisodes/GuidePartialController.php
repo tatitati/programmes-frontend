@@ -22,9 +22,7 @@ class GuidePartialController extends BaseController
         Request $request
     ) {
         $nestedLevel = $request->query->get('nestedlevel');
-
-        $this->setContextAndPreloadBranding($programme);
-        $this->setIstatsProgsPageType('episodes_guide');
+        $this->setInternationalStatusAndTimezoneFromContext($programme);
 
         $children = [];
         $totalChildrenCount = $programmesService->countEpisodeGuideChildren($programme);
@@ -34,12 +32,12 @@ class GuidePartialController extends BaseController
 
         $upcomingBroadcasts = $this->getUpcomingBroadcastsIndexedByProgrammePid($programme, $collapsedBroadcastService);
 
-        return $this->renderWithChrome('programme_episodes/guide.2013inc.html.twig', [
+        return $this->render('programme_episodes/guide.2013inc.html.twig', [
             'programme' => $programme,
             'children' => $children,
             'totalChildrenCount' => $totalChildrenCount,
             'upcomingBroadcasts' => $upcomingBroadcasts,
             'nestedlevel' => (is_null($nestedLevel)) ? 1 : (int) $nestedLevel,
-        ]);
+        ], $this->response());
     }
 }

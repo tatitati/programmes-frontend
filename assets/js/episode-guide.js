@@ -145,6 +145,11 @@ define(['jquery-1.9'], function ($) {
                     // this new content will be able to collapse/expand
                     attachClickEventTo(classDropdownLink);
                     expandSeriesSelected(series);
+                    setTimeout(function () {
+                        series.trigger("lazyloadComplete", {
+                            content: series
+                        });
+                    }, 1);
                 },
                 error: function () {
                     /* Any errors, just bounce to the destination page */

@@ -26,7 +26,7 @@
              datatype="xsd:dateTime"
              content="{{ broadcast_event.getCollapsedBroadcast().getStartAt()|date('c')}}">
             <span class="broadcast-event__date text-base timezone--date">{{ broadcast_event.getBroadcastDay() }}</span>
-            <span class="timezone--time">{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date('H:i') }}</span>
+            <span class="timezone--time">{{ broadcast_event.getCollapsedBroadcast().getStartAt()|local_date('H:i') }}{{ broadcast_event.getCollapsedBroadcast().getStartAt()|time_zone_note() }}</span>
         </div>
         <div class="programme__service box-link__elevated micro text--subtle">
             {%- for breakdown in broadcast_event.getNetworkBreakdown -%}

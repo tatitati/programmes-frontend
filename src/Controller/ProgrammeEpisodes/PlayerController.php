@@ -21,6 +21,7 @@ class PlayerController extends BaseProgrammeEpisodesController
         StructuredDataHelper $structuredDataHelper
     ) {
         $this->setContextAndPreloadBranding($programme);
+        $this->setInternationalStatusAndTimezoneFromContext($programme);
         $this->setIstatsProgsPageType('episodes_player');
         $page = $this->getPage();
         $limit = 10;
