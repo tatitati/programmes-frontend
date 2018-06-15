@@ -1,6 +1,16 @@
 {% import _self as self %}
 
 {% if segments_list.getSegmentEvents() %}
+    <link rel="stylesheet" href="{{ asset('css/snippet/snippets.css') }}" />
+    <script>
+        require(["snippets", "bump-3", "istats-1"], function(snippets, bump, istats) {
+            snippets.init({
+                base_url: '/programmes/snippet',
+                context: "programmes",
+                theme: "music-track"
+            }, bump, istats);
+        });
+    </script>
     <div class="component component--box component--box-flushbody-vertical component--box--primary" id="segments">
         {% block title %}
             <div class="component__header br-box-page">

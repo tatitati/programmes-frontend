@@ -34,6 +34,7 @@ gulp.task('js', ['js:clean'], function () {
         staticPathSrc + '/js/**/timezone-notification.js',
         staticPathSrc + '/js/**/episode-guide.js',
         staticPathSrc + '/js/**/popup.js',
+        staticPathSrc + '/js/snippet-player/**/snippets.js',
         'vendor/bbc-rmp/comscore/js-modules/comscorews.js',
         'node_modules/picturefill/dist/picturefill.js'
     ];
@@ -48,6 +49,9 @@ gulp.task('js', ['js:clean'], function () {
             "comscorews" : "../../vendor/bbc-rmp/comscore/js-modules/comscorews",
             "rmpcomscore/base" : "../../vendor/bbc-rmp/comscore/js-modules/base",
             "orb/cookies": "empty:",
+            'bump-3': 'empty:',
+            'snippets': 'snippet-player/snippets', // map snippet.js because is not in the "baseUrl"
+            'playlister': 'snippet-player/', // map all the snippets folders
             'istats-1': 'empty:'
         },
         "optimize": 'uglify',
@@ -68,7 +72,7 @@ gulp.task('js', ['js:clean'], function () {
     const config = function(file) {
         const fileOptions = perFileOptions[file.relative] || {};
         return Object.assign({}, baseConfig, fileOptions);
-    }
+    };
 
     return gulp.src(modulesToOptimize)
         .pipe(gulpif(isSandbox, sourcemaps.init()))

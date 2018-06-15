@@ -1,0 +1,134 @@
+{
+    "data": [
+        {
+            "id": "n4mz26",
+            "type": "SINGLE",
+            "title": "Spit/Swallow",
+            "recordImagePid": "p061r5ng",
+            "recordImageFormat": "jpg",
+            "recordImageUrl": "https://ichef.bbci.co.uk/images/ic/512x512/p061r5ng.jpg",
+            "radioEdit": false,
+            "album": "",
+            "classical": false,
+            "baseTitle": "Spit/Swallow",
+            "pipsName": "Spit/Swallow",
+            "artistGid": "b6a4f1d2-6d29-4452-b63a-b52c4eff4afc",
+            "artistName": "Skinny Pelembe",
+            "artists": [
+                {
+                    "gid": "b6a4f1d2-6d29-4452-b63a-b52c4eff4afc",
+                    "name": "Skinny Pelembe",
+                    "sortName": "Pelembe, Skinny",
+                    "imagePid": "p05v9b2k",
+                    "imageFormat": "jpg",
+                    "imageUrl": "https://ichef.bbci.co.uk/images/ic/976x549/p05v9b2k.jpg",
+                    "role": "PERFORMER"
+                }
+            ],
+            "recordAudio": [
+                {
+                    "resourceType": "MP3",
+                    "identifier": "https://music-audio.files.bbci.co.uk/n4mz26-pPoxIA.mp3",
+                    "audioType": "SNIPPET",
+                    "raw": true,
+                    "safe": true,
+                    "audioResource": {
+                        "audioType": "SNIPPET",
+                        "resourceType": "MP3"
+                    }
+                }
+            ],
+            "preferredRecordAudio": {
+                "resourceType": "MP3",
+                "identifier": "https://music-audio.files.bbci.co.uk/n4mz26-pPoxIA.mp3",
+                "audioType": "SNIPPET",
+                "raw": true,
+                "safe": true,
+                "audioResource": {
+                    "audioType": "SNIPPET",
+                    "resourceType": "MP3"
+                }
+            },
+            "preferredMultiplayRecordAudio": {
+                "resourceType": "MP3",
+                "identifier": "https://music-audio.files.bbci.co.uk/n4mz26-pPoxIA.mp3",
+                "audioType": "SNIPPET",
+                "raw": true,
+                "safe": true,
+                "audioResource": {
+                    "audioType": "SNIPPET",
+                    "resourceType": "MP3"
+                }
+            },
+            "recordImageHref": "https://ichef.bbci.co.uk/images/ic/512x512/p061r5ng.jpg"
+        },
+        {
+            "id": "nz4zv2",
+            "type": "SINGLE",
+            "title": "Give It Up",
+            "recordImagePid": "p01rrm7n",
+            "recordImageFormat": "jpg",
+            "recordImageUrl": "https://ichef.bbci.co.uk/images/ic/512x512/p01rrm7n.jpg",
+            "radioEdit": false,
+            "classical": false,
+            "baseTitle": "Give It Up",
+            "pipsName": "Give It Up",
+            "artistGid": "bf2e15d0-4b77-469e-bfb4-f8414415baca",
+            "artistName": "Public Enemy",
+            "artists": [
+                {
+                    "gid": "bf2e15d0-4b77-469e-bfb4-f8414415baca",
+                    "name": "Public Enemy",
+                    "sortName": "Public Enemy",
+                    "imagePid": "p01bqk8f",
+                    "imageFormat": "jpg",
+                    "imageUrl": "https://ichef.bbci.co.uk/images/ic/976x549/p01bqk8f.jpg",
+                    "role": "PERFORMER"
+                }
+            ],
+            "recordAudio": [
+                {
+                    "resourceType": "MP3",
+                    "identifier": "https://music-audio.files.bbci.co.uk/nz4zv2-rml0La.mp3",
+                    "duration": 30000,
+                    "audioType": "SNIPPET",
+                    "raw": false,
+                    "safe": true,
+                    "audioResource": {
+                        "audioType": "SNIPPET",
+                        "resourceType": "MP3"
+                    }
+                }
+            ],
+            "mergedIds": [
+                "n2dwj8",
+                "n2vjqn"
+            ],
+            "preferredRecordAudio": {
+                "resourceType": "MP3",
+                "identifier": "https://music-audio.files.bbci.co.uk/nz4zv2-rml0La.mp3",
+                "duration": 30000,
+                "audioType": "SNIPPET",
+                "raw": false,
+                "safe": true,
+                "audioResource": {
+                    "audioType": "SNIPPET",
+                    "resourceType": "MP3"
+                }
+            },
+            "preferredMultiplayRecordAudio": {
+                "resourceType": "MP3",
+                "identifier": "https://music-audio.files.bbci.co.uk/nz4zv2-rml0La.mp3",
+                "duration": 30000,
+                "audioType": "SNIPPET",
+                "raw": false,
+                "safe": true,
+                "audioResource": {
+                    "audioType": "SNIPPET",
+                    "resourceType": "MP3"
+                }
+            },
+            "recordImageHref": "https://ichef.bbci.co.uk/images/ic/512x512/p01rrm7n.jpg"
+        }
+    ]
+}

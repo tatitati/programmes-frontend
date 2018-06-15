@@ -138,3 +138,7 @@ cloud_labs:
     path: /programmes/_cloudlabs/{action}
     defaults: { _controller: App\Controller\CloudLabsController }
 
+# Snippet player
+snippet_get_records:
+    path: /programmes/snippet/{recordsIds}.json
+    defaults: { _controller: App\Controller\SnippetController }

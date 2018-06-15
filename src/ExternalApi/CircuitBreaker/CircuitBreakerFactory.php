@@ -33,6 +33,7 @@ class CircuitBreakerFactory
         ApiTypeEnum::API_RECOMMENDATIONS    => ['maxFailsPerMinute' => 12, 'secondsToOpenWhenFailed' => 60],
         ApiTypeEnum::API_MORPH              => ['maxFailsPerMinute' => 12, 'secondsToOpenWhenFailed' => 60],
         ApiTypeEnum::API_FAVOURITES         => ['maxFailsPerMinute' => 12, 'secondsToOpenWhenFailed' => 60],
+        ApiTypeEnum::API_TUPAC              => ['maxFailsPerMinute' => 24, 'secondsToOpenWhenFailed' => 60],
     ];
 
     public function __construct(MetricsManager $metricsManager, LoggerInterface $logger, Apcu $apcu)

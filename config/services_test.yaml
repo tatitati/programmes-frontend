@@ -11,6 +11,7 @@ parameters:
     app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesStubService
     app.favourites.service.class: App\ExternalApi\FavouritesButton\Service\FavouritesButtonStubService
     app.rmspodcast.service.class: App\ExternalApi\RmsPodcast\Service\RmsPodcastFakeService
+    app.tupac.service.class: App\ExternalApi\Tupac\Service\TupacStubService
 
 framework:
     cache:

@@ -1,0 +1,22 @@
+<div
+    class='spt-snippet spt-theme-default{% if record.getFormattedDuration() %} spt-has-duration{% endif %}'
+    data-id='{{ record.getRecordId() }}'
+    data-title='{{ record.getTitle() }}'
+    data-artist='{{ record.getArtist() }}'
+    data-artist-id='{{ record.getArtistGid() }}'
+    data-duration='{{ record.getDuration() }}'
+    data-image-src='{{ record.getImageSrc() }}'
+    data-resource='{{ record.getBase64Resource() }}'
+    data-format='{{ record.getFormat() }}'
+    data-type='{{ record.getAudioType() }}'
+    data-lang='en_GB'
+    data-version='1.0.0'
+    data-variant='default'
+>
+    <button class='spt-button' title='Play {{ record.getTitle() }}' aria-live='polite' type='button'>
+        <canvas class='spt-playback'></canvas>
+    </button>
+    {% if record.getFormattedDuration() %}
+        <div class='spt-duration'>{{ (record.getFormattedDuration() ) }}</div>
+    {% endif %}
+</div>

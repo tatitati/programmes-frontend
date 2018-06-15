@@ -35,6 +35,8 @@ parameters:
     app.morph.service.lxpromo.class: App\ExternalApi\Morph\Service\LxPromoService
     app.rmspodcast.baseurl: 'https://rms.api.bbc.co.uk/podcasts'
     app.rmspodcast.service.class: App\ExternalApi\RmsPodcast\Service\RmsPodcastService
+    app.tupac.baseurl: 'https://music-tupac.api.bbc.co.uk'
+    app.tupac.service.class: App\ExternalApi\Tupac\Service\TupacService
 
     # External JS
     app.vote.accountwrapperurl: 'https://account-wrapper.files.bbci.co.uk/vote-wrapper.min.js'
@@ -300,3 +302,7 @@ services:
             $baseUrl: '%app.rmspodcast.baseurl%'
             $apiKey: '%rmspodcast_api_key%'
 
+    App\ExternalApi\Tupac\Service\TupacService:
+        class: '%app.tupac.service.class%'
+        arguments:
+            $baseUrl: '%app.tupac.baseurl%'

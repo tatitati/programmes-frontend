@@ -1,0 +1,345 @@
+/* 4em (40px) based on parent font-size of 1em being 10px.
+ * everything in this stylesheet is based from relative
+ * sizing from this base font-size. */
+
+.spt-snippet {
+
+    width: 4em;
+    height: 4em;
+    background: $inactive-bg;
+    cursor: default;
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+    .spt-button {
+        background: none;
+        width: 4em;
+        height: 4em;
+        font-size: 1em;
+        display: block;
+        padding: 0;
+        margin: 0;
+        outline: 0;
+        border: 0;
+        position: relative;
+        overflow: visible;
+
+        &::after {
+            width: 0;
+            height: 0;
+            display: block;
+            content: "";
+            top: 1em;
+            left: 1.2em;
+            position: absolute;
+            border-top: 1em solid transparent;
+            border-bottom: 1em solid transparent;
+            border-left: 1.7em solid $default-icon;
+
+            @media screen and (-ms-high-contrast: active) {
+                content:"\25B6";
+                color: $default-icon;
+                border: none;
+                font-size: 3.3em;
+                top: 0.1em;
+                left: 0.3em;
+            }
+        }
+
+        .spt-playback {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+    }
+
+    /* Loading state
+   ========================================================================== */
+
+    &.is-loading {
+        background: $loading-bg;
+
+        .spt-button {
+            &:after {
+                width: 2.2em;
+                height: 2.2em;
+                position: absolute;
+                top: 0.9em;
+                left: 0.9em;
+                display: block;
+                content: "";
+                border: 0.3em solid $loading-icon;
+                border-bottom-color: transparent;
+
+                /* http://stackoverflow.com/questions/17973394/border-radius-not-working-in-modern-native-android-browser */
+                border-top-left-radius: 100%;
+                border-top-right-radius: 100%;
+                border-bottom-left-radius: 100%;
+                border-bottom-right-radius: 100%;
+
+                box-sizing: border-box;
+                animation: snippetloadingspin .6s infinite linear;
+            }
+        }
+    }
+
+    /* Disabled state
+   ========================================================================== */
+
+    &.is-disabled, &.is-disabled:hover {
+        background: $default-bg;
+        cursor: default;
+
+        .spt-button {
+            cursor: default;
+            &::after {
+                border-left-color: $inactive-icon;
+            }
+        }
+    }
+
+    /* Error state
+   ========================================================================== */
+
+    &.has-error {
+        background: $error-bg;
+
+        .spt-button {
+            &:before {
+                width: 0.6em;
+                height: 0.6em;
+                display: block;
+                content: "";
+                left: 1.7em;
+                top: 2.7em;
+                position: absolute;
+                border: 0;
+                background: $error-icon;
+            }
+
+            &:after {
+                width: 0.6em;
+                height: 1.6em;
+                display: block;
+                content: "";
+                left: 1.7em;
+                top: 0.8em;
+                position: absolute;
+                border: 0;
+                background: $error-icon;
+            }
+        }
+    }
+
+    .spt-button {
+        &.gelicon--alert {
+            canvas {
+                display: none !important;
+            }
+        }
+        &.gelicon--alert::before {
+            color: white;
+            font-size: 2em;
+        }
+        &.gelicon--alert::after {
+            display: none;
+        }
+    }
+
+    /* Playing state
+   ========================================================================== */
+
+    &.is-playing {
+        background: $playing-bg;
+
+        .spt-button {
+
+            &:focus {
+                background: $grey-bg;
+            }
+
+            /* Stop icon */
+            &:after {
+                width: 1em;
+                height: 1em;
+                display: block;
+                content: "";
+                position: absolute;
+                top: 1.5em;
+                left: 1.5em;
+                border: 0;
+                background: $playing-icon;
+            }
+        }
+    }
+
+    /* Paused state
+   ========================================================================== */
+
+    &.can-pause {
+        .spt-button {
+
+            /* Pause icon */
+            &:after {
+                display: block;
+                content: "";
+                height: 1.2em;
+                width: 1em;
+                border: 0;
+                border-left: 0.3em solid $playing-icon;
+                border-right: 0.3em solid $playing-icon;
+                background: transparent;
+                position: absolute;
+                top: 1.4em;
+                left: 1.5em;
+            }
+        }
+    }
+
+    &.is-paused {
+        background: $paused-bg;
+
+        .spt-button {
+
+            /* Resume icon */
+            &:after {
+                display: block;
+                content: "";
+                width: 0;
+                height: 0;
+                border-width: 0.6em 0;
+                border-left: 1.1em solid $default-icon;
+                position: absolute;
+                top: 1.4em;
+                left: 1.6em;
+            }
+        }
+    }
+
+    /* Duration
+   ========================================================================== */
+
+    .spt-duration {
+        display: none;
+    }
+}
+
+.spt-enabled {
+
+    .spt-snippet, .spt-button {
+    
+        cursor: pointer;
+
+        &:hover {
+            background: $hover-bg;
+
+            &:after {
+                border-left-color: $hover-icon;
+            }
+        }
+
+    }
+
+    .spt-button {
+
+        &:focus {
+            background: $hover-bg;
+
+            &:after {
+                border-left-color: $hover-icon;
+            }
+        }
+        &::-moz-focus-inner {
+            padding: 0;
+            border: 0;
+        }
+    }
+
+    .spt-snippet {
+    &.is-paused {
+        .spt-snippet, .spt-button {
+            cursor: pointer;
+
+            &:hover {
+                background: $grey-bg;
+
+                &:after {
+                    border-left-color: $paused-icon;
+                }
+            }
+
+            &:focus {
+                background: $grey-bg;
+
+                &:after {
+                    border-left-color: $paused-icon;
+                }
+            }
+
+        }
+    }
+
+    &.is-playing {
+        .spt-snippet, .spt-button {
+            cursor: pointer;
+
+            &:hover {
+                background: $grey-bg;
+
+                &:after {
+                    border-left-color: $playing-icon;
+                }
+            }
+
+            &:focus {
+                &:after {
+                    border-left-color: $playing-icon;
+                }
+            }
+
+        }
+    }
+
+    &.is-loading {
+        .spt-button {
+            background: $loading-bg;
+        }
+    }
+
+    &.is-disabled {
+        .spt-snippet, .spt-button {
+            cursor: default;
+
+            &:focus {
+                background: $grey-bg;
+            }
+
+            &:hover {
+                background: $default-bg;
+
+                &:after {
+                    border-left-color: $inactive-icon;
+                }
+            }
+
+        }
+    }
+}
+
+}
+
+
+
+@keyframes snippetloadingspin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}

@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Snippet button background and icon colour by state
+   https://jira.dev.bbc.co.uk/browse/PLAYLISTER-2652
+   Snippet player colours
+   ========================================================================== */
+
+	$default-bg: #000000;
+	$grey-bg: #353535;
+	$default-icon: #fff;
+
+	$hover-bg: #a0e2f5;
+	$hover-icon: #000;
+
+	$inactive-bg: #000000;
+	$inactive-icon: #595959; /* rgba(89,89,89,0); */
+
+	$error-bg: #000000;
+	$error-icon: #ffffff;
+
+	$loading-bg: #a0e2f5;
+	$loading-icon: #000;
+
+	$playing-bg: #000;
+	$playing-icon: #a0e2f5;
+	$playing-icon-alt: #595959;
+
+	$paused-bg: #000;
+	$paused-icon: #a0e2f5;
+	$paused-icon-alt: #595959;
+
+	/* Pinned player
+ ========================================================================== */
+
+	$spt-player-bg: #353535;
+
+    /* Music Track theme */
+    $mt-default-bg: rgba(0,0,0,0.6);
+    $mt-hover-bg: #a0e2f5;
+    $mt-hover-color: #000;
+    $mt-inactive-bg: rgba(0,0,0,0.6);
+    $mt-error-bg: rgba(0,0,0,0.6);
+    $mt-loading-bg: #000;
+    $mt-playing-bg: #000;
+    $mt-paused-bg: rgba(0,0,0,0.6);;
+    $mt-progressbar: #a0e2f5;

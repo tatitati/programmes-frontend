@@ -78,7 +78,9 @@
             </div>
         </div>
         <div class="segment__buttons">
-            {# TODO Snippet player #}
+            <div class="segment__button segment__button--snippet">
+                <bbc-snippet data-record-id="{{ music.getSegment().getMusicRecordId() }}"></bbc-snippet>
+            </div>
             {% if music.hasMusicFavouritesButton() %}
                 {% set id = "favourites-button-" ~ music.getSegmentEvent().getPid() %}
                 <div id="{{ id }}" class="segment__button segment__button--playlister favourites-module-wrapper buttons--favourites-small"></div>
