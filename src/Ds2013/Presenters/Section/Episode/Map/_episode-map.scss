@@ -23,6 +23,10 @@
     padding-bottom: 0;
 }
 
+.map__column--last > .map__inner > .map__column:empty {
+    margin-top: 0;
+}
+
 @include mq-range('bpw2') {
     .map--episode .map__column .map__inner {
         margin-bottom: -50em;
@@ -53,7 +57,9 @@
         }
     }
 
-    .map__column--last > .map__inner > .map__column {
+    .map__column--last > .map__inner > .map__column,
+    .map__column--last > .map__inner > .map__column:empty {
+        margin-top: $basic-spacing / 4;
         margin-bottom: -50em;
         padding-bottom: 50em;
     }
