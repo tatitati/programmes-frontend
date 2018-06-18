@@ -5,7 +5,6 @@ namespace App\Controller\FindByPid;
 use App\Controller\BaseController;
 use App\Controller\Helpers\StructuredDataHelper;
 use App\Ds2013\PresenterFactory;
-use App\DsShared\Helpers\CanonicalVersionHelper;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\Electron\Service\ElectronService;
@@ -46,7 +45,6 @@ class EpisodeController extends BaseController
         AdaClassService $adaClassService,
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
-        CanonicalVersionHelper $canonicalVersionHelper,
         StructuredDataHelper $structuredDataHelper,
         RmsPodcastService $podcastService
     ) {
@@ -108,18 +106,15 @@ class EpisodeController extends BaseController
         }
 
         $segmentsListPresenter = null;
-        if ($versions) {
-            $canonicalVersion = $canonicalVersionHelper->getCanonicalVersion($versions);
-            if ($canonicalVersion->getSegmentEventCount()) {
-                $segmentEvents = $segmentEventsService->findByVersionWithContributions($canonicalVersion);
-                if ($segmentEvents) {
-                    $segmentsListPresenter = $presenterFactory->segmentsListPresenter(
-                        $episode,
-                        $segmentEvents,
-                        $upcomingBroadcast,
-                        $lastOnBroadcast
-                    );
-                }
+        if ($episode->getSegmentEventCount() > 0) {
+            $segmentEvents = $segmentEventsService->findByProgrammeForCanonicalVersion($episode);
+            if ($segmentEvents) {
+                $segmentsListPresenter = $presenterFactory->segmentsListPresenter(
+                    $episode,
+                    $segmentEvents,
+                    $upcomingBroadcast,
+                    $lastOnBroadcast
+                );
             }
         }
 
