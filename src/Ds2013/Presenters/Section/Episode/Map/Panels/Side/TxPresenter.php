@@ -26,6 +26,11 @@ class TxPresenter extends Presenter
         return $this->collapsedBroadcast;
     }
 
+    public function getDataColumnAttribute(): string
+    {
+        return 'tx';
+    }
+
     public function getTitle() :?string
     {
         if ($this->collapsedBroadcast->isOnAir()) {

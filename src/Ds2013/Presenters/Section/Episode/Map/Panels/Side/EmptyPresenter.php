@@ -6,5 +6,8 @@ use App\Ds2013\Presenter;
 
 class EmptyPresenter extends Presenter
 {
-
+    public function getDataColumnAttribute(): string
+    {
+        return 'empty';
+    }
 }

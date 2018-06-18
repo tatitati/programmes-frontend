@@ -3,7 +3,7 @@
 
         {#PLAYOUT#}
         <div class="grid 2/3@bpw2 2/3@bpe map__column map__column--first">
-            <div class="map__inner br-box-secondary">
+            <div class="map__inner br-box-secondary" data-map-column="playout-details">
                     {{ ds2013_presenter(episode_map.getPlayoutSubpresenter()) }}
                     {{ ds2013_presenter(episode_map.getDetailsSubpresenter()) }}
             </div>
@@ -14,7 +14,7 @@
             <div class="map__inner">
                 {%- for panel in episode_map.getSidePanelsSubPresenters() -%}
                     {# This line has to be all on one line for the :empty rule to apply correctly #}
-                    <div class="{{ build_css_classes({ 'br-box-secondary': true, 'map__column': loop.last and loop.length > 1 }) }}">{{ ds2013_presenter(panel) }}</div>
+                    <div class="{{ build_css_classes({ 'br-box-secondary': true, 'map__column': loop.last and loop.length > 1 }) }}" data-map-column="{{ panel.getDataColumnAttribute() }}">{{ ds2013_presenter(panel) }}</div>
                 {%- endfor -%}
             </div>
         </div>

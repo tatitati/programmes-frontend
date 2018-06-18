@@ -26,6 +26,11 @@ class MorePresenter extends Presenter
         $this->previousEpisode = $previousEpisode;
     }
 
+    public function getDataColumnAttribute(): string
+    {
+        return 'more';
+    }
+
     public function getEpisode(): Episode
     {
         return $this->episode;
