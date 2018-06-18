@@ -43,6 +43,16 @@ class RecipesControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 404, 'When the PID programme doesnt exist non request is done to recipes server and the responde code is based on this fact');
     }
 
+    public function test404WhenRecipesNotEnabled()
+    {
+        $client = $this->stubRecipeServerResponse();
+
+        $client->request('GET', 'programmes/bp3000004/recipes');
+
+        $this->assertResponseStatusCode($client, 404, 'When the PID programme doesnt exist non request is done to recipes server and the responde code is based on this fact');
+    }
+
+
     public function testBasicRecipesContent()
     {
         $client = $this->stubRecipeServerResponse();

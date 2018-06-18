@@ -5,16 +5,17 @@ namespace App\Controller\Recipes;
 
 use App\Controller\BaseController;
 use App\ExternalApi\Recipes\Service\RecipesService;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 abstract class AbstractRecipesController extends BaseController
 {
-    public function __invoke(string $pid, RecipesService $recipesService, ProgrammesService $programmesService)
+    public function __invoke(Programme $programme, RecipesService $recipesService)
     {
-        $programme = $programmesService->findByPidFull(new Pid($pid));
-        if (!$programme) {
+        $pid = (string) $programme->getPid();
+        if (!$programme->getOption('recipes_enabled')) {
             throw new NotFoundHttpException(sprintf('Unknown Recipes with PID "%s"', $pid));
         }
 

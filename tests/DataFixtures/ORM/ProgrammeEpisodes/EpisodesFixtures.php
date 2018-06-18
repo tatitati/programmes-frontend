@@ -76,21 +76,21 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
 
         $this->addReference(
             'b013pqnm',
-            $this->buildEpisode('b013pqnm', 'B1-S2-S1-E3', $this->getReference('b000sr21'))
+            $this->buildEpisode('b013pqnm', 'B1-S2-S1-E3', $this->getReference('b000sr21'),[], ['recipes_enabled' => true])
         );
 
         $episode = new Episode('p01l1z04', 'The Day of the Doctor');
         $this->manager->persist($episode);
 
         $this->manager->flush();
-        
+
         $episode1 = $this->getReference('p3000000');
         $episode2 = $this->getReference('p3000002');
 
         $versionTypePodcast = new VersionType('Podcast', 'Podcast');
 
         $this->manager->persist($versionTypePodcast);
-        
+
         $this->addReference('version_type_podcast', $versionTypePodcast);
 
         $this->buildVersion('p4000001', $episode1);
@@ -104,7 +104,8 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
         string $pid,
         string $title,
         ProgrammeContainer $series,
-        array $downloadableMediaSets = []
+        array $downloadableMediaSets = [],
+        array $programmeOptions = []
     ): Episode {
         $episode = new Episode($pid, $title);
         $episode->setParent($series);
@@ -112,6 +113,7 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
         if (!empty($downloadableMediaSets)) {
             $episode->setDownloadableMediaSets($downloadableMediaSets);
         }
+        $episode->setOptions($programmeOptions);
 
         $this->manager->persist($episode);
 
