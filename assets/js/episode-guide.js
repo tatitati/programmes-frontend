@@ -95,7 +95,7 @@ define(['jquery-1.9'], function ($) {
          * we go through the happy way (just display it)
          */
         var expandSeriesSelected = function(series) {
-            var seriesLinkClicked = series.find(classDropdownLink),
+            var seriesLinkClicked = series.find(classDropdownLink).eq(0),
                 panel = seriesLinkClicked.find('.panel').eq(0);
 
             if (!isSeriesContentLoadingNow(series) && !isSeriesContentAlreadyLoaded(series)) {
@@ -114,7 +114,7 @@ define(['jquery-1.9'], function ($) {
          * Oposite to expandSeriesSelected().
          */
         var collapseSeriesSelected = function(series) {
-            var seriesLinkClicked = series.find(classDropdownLink),
+            var seriesLinkClicked = series.find(classDropdownLink).eq(0),
                 panel = $('#' + seriesLinkClicked.attr('aria-controls'));
 
             // collapse series: replace "class" value for the classes stored in the data variable "activeclass"
