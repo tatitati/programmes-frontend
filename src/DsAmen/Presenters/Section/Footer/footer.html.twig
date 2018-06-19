@@ -1,5 +1,6 @@
 <div class="br-container br-box-subtle">
     <div class="p-g-p footer">
+        <h2 class="visually-hidden">{{ tr('related_content') }}</h2>
         <div class="grid grid--flush">
             <!-- (Recommendations) You may also like -->
             <div class="grid__item 5/12@gel3b 1/2@gel3">
@@ -15,10 +16,10 @@
             <div class="grid__item 1/3@gel4 1/4@gel3b 1/2@gel3">
                 {%- if footer.getGenres() or footer.getFormats() -%}
                     <div class="islet--horizontal footer__programmes footer__service-island">
-                        <h2 class="gel-double-pica-bold">{{ tr('similar_programmes') }}</h2>
+                        <h3 class="gel-double-pica-bold">{{ tr('similar_programmes') }}</h3>
                         {%- if footer.getGenres() -%}
                             <div class="islet--vertical">
-                                <h3 class="gel-brevier-bold text--shout">{{ tr('by_genre') }}:</h3>
+                                <h4 class="gel-brevier-bold text--shout">{{ tr('by_genre') }}:</h4>
                                 <ul class="list-raw list-unstyled text--shout gel-brevier-bold">
                                     {%- for genreTree in footer.getGenres() -%}
                                         <li>
@@ -36,7 +37,7 @@
                         {%- endif -%}
                         {%- if footer.getFormats() -%}
                             <div class="islet--vertical">
-                                <h3 class="gel-brevier-bold text--shout">{{ tr('by_format') }}:</h3>
+                                <h4 class="gel-brevier-bold text--shout">{{ tr('by_format') }}:</h4>
                                 <ul class="list-raw list-unstyled text--shout gel-brevier-bold">
                                     {%- for format in footer.getFormats() -%}
                                         <li>
