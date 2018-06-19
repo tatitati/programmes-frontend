@@ -1,5 +1,5 @@
 <div
-    class='spt-snippet spt-theme-default{% if record.getFormattedDuration() != '0' %} spt-has-duration{% endif %}{% if not record.getResource() or not record.getFormat() %} is-disabled{% endif %}'
+    class='spt-snippet spt-theme-default{% if record.getFormattedDuration() %} spt-has-duration{% endif %}{% if not record.getResource() or not record.getFormat() %} is-disabled{% endif %}'
     data-id='{{ record.getRecordId() }}'
     data-title='{{ record.getTitle() }}'
     data-artist='{{ record.getArtist() }}'
