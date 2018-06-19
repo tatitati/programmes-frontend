@@ -87,11 +87,11 @@ class Record
     }
 
     /**
-     * @return int|null milliseconds
+     * @return int milliseconds
      */
-    public function getDuration(): ?int
+    public function getDuration(): int
     {
-        return $this->duration;
+        return empty($this->duration) ? 0 : $this->duration;
     }
 
     /**
@@ -156,5 +156,17 @@ class Record
             return $formattedDuration;
         }
         return '';
+    }
+
+    public function getTitleTag(): string
+    {
+        if (empty($this->resource) || empty($this->format)) {
+            $titleTag = 'This snippet is currently unavailable';
+        } else if (!empty($this->title)) {
+            $titleTag = 'Play ' . $this->title;
+        } else {
+            $titleTag =  'Play audio';
+        }
+        return $titleTag;
     }
 }

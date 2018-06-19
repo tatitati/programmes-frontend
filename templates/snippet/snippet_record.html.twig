@@ -1,5 +1,5 @@
 <div
-    class='spt-snippet spt-theme-default{% if record.getFormattedDuration() %} spt-has-duration{% endif %}'
+    class='spt-snippet spt-theme-default{% if record.getFormattedDuration() != '0' %} spt-has-duration{% endif %}{% if not record.getResource() or not record.getFormat() %} is-disabled{% endif %}'
     data-id='{{ record.getRecordId() }}'
     data-title='{{ record.getTitle() }}'
     data-artist='{{ record.getArtist() }}'
@@ -7,13 +7,13 @@
     data-duration='{{ record.getDuration() }}'
     data-image-src='{{ record.getImageSrc() }}'
     data-resource='{{ record.getBase64Resource() }}'
-    data-format='{{ record.getFormat() }}'
-    data-type='{{ record.getAudioType() }}'
+    data-format='{% if record.getResource() %}{{ record.getFormat() }}{% endif %}'
+    data-type='{% if record.getResource() %}{{ record.getAudioType() }}{% endif %}'
     data-lang='en_GB'
     data-version='1.0.0'
     data-variant='default'
 >
-    <button class='spt-button' title='Play {{ record.getTitle() }}' aria-live='polite' type='button'>
+    <button class='spt-button' title='{{ record.getTitleTag() }}' aria-live='polite' type='button'>
         <canvas class='spt-playback'></canvas>
     </button>
     {% if record.getFormattedDuration() %}
