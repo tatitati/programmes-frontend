@@ -89,7 +89,7 @@ ADVERT;
         $template = <<<HEAD
 <script>
 if (window.bbcdotcom) {
-    window.bbcdotcom.init({asyncEnabled: true, adsToDisplay: '%s'.split(' ') });
+    window.bbcdotcom.init({ comScoreEnabled: false, asyncEnabled: true, adsToDisplay: '%s'.split(' ') });
     if (typeof window.bbcdotcom.addLoadEvent !== 'undefined' &&
         typeof window.bbcdotcom.utils !== 'undefined' &&
         typeof window.bbcdotcom.utils.debounce !== 'undefined' &&
