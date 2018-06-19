@@ -22,7 +22,7 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
         'show_image' => true,
         'show_overlay' => true,
         'is_lazy_loaded' => true,
-        'show_secondary_cta' => false,
+        'show_standalone_cta' => false,
         'classes' => '1/4@bpb1 1/4@bpb2 1/3@bpw',
         'default_width' => 320,
         'cta_link_location_track' => 'programmeobjectlink=cta',
@@ -98,5 +98,16 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
         }
 
         return $this->router->generate($routeName, $routeArguments, UrlGeneratorInterface::ABSOLUTE_URL);
+    }
+
+    public function getOverlayDivClasses()
+    {
+        if ($this->getOption('show_standalone_cta')) {
+            return [];
+        }
+        return [
+            'programme__overlay' => true,
+            'programme__overlay--available' => $this->isAvailable(),
+        ];
     }
 }

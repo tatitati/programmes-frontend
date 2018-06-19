@@ -34,6 +34,13 @@ $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18
     &.push-one-twentyfourth {
         max-width: 118px;
     }
+
+    &.programme__img--standalone-cta {
+        float: right;
+        margin-right: 0;
+        margin-left: 0;
+        width: inherit;
+    }
 }
 
 .programme__img--nomax {
