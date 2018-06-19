@@ -1,5 +1,7 @@
 {% extends 'base_ds2013.html.twig' %}
 
+{% import _self as self %}
+
 {% block page_classes %}programmes-page text-base programmes-page--flush{% endblock %}
 {% block title %}{{ meta_context.titlePrefix() }}{% endblock %}
 {% block adsToDisplay %}leaderboard mpu{% endblock %}
@@ -94,9 +96,61 @@
                     </div>
                 </div>
             {% endif %}
+            {% if parentClips %}
+                {{ self.more_clips('parentClips', programme.getParent(), parentClips) }}
+            {% endif %}
+            {% if tleoClips %}
+                {{ self.more_clips('tleoClips', programme.getTleo(), tleoClips) }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
+
+{% macro more_clips(id, programme, clips) %}
+    <div class="component component--box--primary" id="{{ id }}">
+        <div class="component__header">
+            <h2>{{ tr('more_clips_from', {'%1': programme.getTitle()}) }}</h2>
+        </div>
+        <div class="component__body br-box-page">
+            <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid@bpb1 highlight-box-wrapper--grid@bpw">
+                {% for clip in clips %}
+                    <li class="grid 1/2@bpb1 1/2@bpw 1/4@bpe">
+                        {# @TODO is this the correct link_location? #}
+                        {{ ds2013('programme', clip, {
+                            'context_programme': programme,
+                            'highlight_box_classes':'highlight-box--list highlight-box--grid@bpb1 programme--grid@bpb1 highlight-box--grid@bpw programme--grid@bpw',
+                            'image_options': {
+                                'classes': '1/1@bpb1 1/1@bpw',
+                                'default_width': 240,
+                                'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                            },
+                            'title_options': {
+                                'link_location_track': 'component_clips_carousel',
+                                'title_format': 'item::ancestry'
+                            },
+                            'body_options': {
+                                'show_synopsis': false,
+                                'wordy_duration': false,
+                            },
+                            'branding_context': 'page'
+                        }) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if clips|length > 1 %}
+            <div class="component__footer br-box-subtle">
+                <a class="component__footer__link"
+                   href="{{ path('programme_clips', { pid: programme.getPid() }) }}"
+                   data-linktrack="component_clips_summary_footer">
+                    {# @TODO is this the correct link_location? #}
+                    <span class="component__footer__title">{{ tr('see_all_clips_from', {'%1': programme.getTitle()}) }}</span>
+                    <span class="component__footer__detail">({{ programme.getAvailableClipsCount }})</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
 
 {% block javascripts %}
     {{ parent() }}

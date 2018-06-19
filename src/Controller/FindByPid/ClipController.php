@@ -10,9 +10,12 @@ use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\GroupsService;
+use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use BBC\ProgrammesPagesService\Service\SegmentEventsService;
 use Cake\Chronos\ChronosInterval;
@@ -27,6 +30,7 @@ class ClipController extends BaseController
         FavouritesButtonService $favouritesButtonService,
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
+        ProgrammesAggregationService $aggregationService,
         RelatedLinksService $relatedLinksService,
         SegmentEventsService $segmentEventsService,
         StructuredDataHelper $structuredDataHelper
@@ -40,6 +44,21 @@ class ClipController extends BaseController
         $relatedLinks = [];
         if ($clip->getRelatedLinksCount() > 0) {
             $relatedLinks = $relatedLinksService->findByRelatedToProgramme($clip, ['related_site', 'miscellaneous']);
+        }
+
+        $parentClips = [];
+        $tleoClips = [];
+        if ($clip->getParent()) {
+            /** @var ProgrammeContainer|Episode $parent */
+            $parent = $clip->getParent();
+            if ($parent->getAvailableClipsCount() > 0) {
+                $parentClips = $this->getClipsExcept($aggregationService, $parent, $clip->getPid());
+            }
+            /** @var ProgrammeContainer|Episode $tleo */
+            $tleo = $clip->getTleo();
+            if ($tleo && $tleo->getAvailableClipsCount() > 0 && (string) $parent->getPid() !== (string) $clip->getTleo()->getPid()) {
+                $tleoClips = $this->getClipsExcept($aggregationService, $tleo, $clip->getPid());
+            }
         }
 
         $featuredIn = $groupsService->findByCoreEntityMembership($clip, 'Collection');
@@ -73,7 +92,9 @@ class ClipController extends BaseController
         $parameters = [
             'programme' => $clip,
             'featuredIn' => $featuredIn,
+            'parentClips' => $parentClips,
             'schema' => $this->getSchema($structuredDataHelper, $clip),
+            'tleoClips' => $tleoClips,
             'relatedLinks' => $relatedLinks,
             'segmentsListPresenter' => $segmentsListPresenter,
         ];
@@ -141,5 +162,21 @@ class ClipController extends BaseController
         }
 
         return $clipSchema;
+    }
+
+    /**
+     * @param ProgrammesAggregationService $aggregationService
+     * @param Programme $programme
+     * @param Pid $pid
+     * @return Clip[]
+     */
+    private function getClipsExcept(ProgrammesAggregationService $aggregationService, Programme $programme, Pid $pid): array
+    {
+        $clips = $aggregationService->findStreamableDescendantClips($programme, 5);
+        $filteredClips = array_filter($clips, function (Clip $clip) use ($pid) {
+            return (string) $clip->getPid() !== (string) $pid;
+        });
+
+        return \array_slice($filteredClips, 0, 4);
     }
 }
