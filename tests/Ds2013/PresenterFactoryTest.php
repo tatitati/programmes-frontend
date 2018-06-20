@@ -2,11 +2,13 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
+use App\Builders\ClipBuilder;
 use App\Builders\ExternalApi\Recipes\RecipeBuilder;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Recipe\RecipePresenter;
+use App\Ds2013\Presenters\Section\Clip\Details\ClipDetailsPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
@@ -133,6 +135,21 @@ class PresenterFactoryTest extends TestCase
 
         $this->assertInstanceOf(RecipePresenter::class, $presenter);
         $this->assertEquals('@Ds2013/Presenters/Domain/Recipe/recipe.html.twig', $presenter->getTemplatePath());
+        $this->assertSame('value1', $presenter->getOption('key1'));
+    }
+
+    /**
+     * @group MapClip
+     */
+    public function testCanCreateClipDetailsPresenter()
+    {
+        $options = ['key1' => 'value1'];
+        $clip = ClipBuilder::any()->build();
+        $presenter = $this->factory->clipDetailsPresenter($clip, $options);
+
+        $this->assertInstanceOf(ClipDetailsPresenter::class, $presenter);
+        $this->assertEquals('@Ds2013/Presenters/Section/Clip/Details/clip_details.html.twig', $presenter->getTemplatePath());
+        $this->assertEquals('clip_details', $presenter->getTemplateVariableName());
         $this->assertSame('value1', $presenter->getOption('key1'));
     }
 

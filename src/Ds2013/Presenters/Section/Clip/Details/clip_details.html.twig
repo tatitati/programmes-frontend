@@ -1,0 +1,81 @@
+<div class="clip__details grid-wrapper">
+    <div class="grid 2/3@bpw2 3/4@bpe">
+        <div class="island">
+
+
+            <h1 class="details__title">{{ clip_details.getClip().getTitle() }}</h1>
+
+
+            {%- if clip_details.getClip().getLongestSynopsis() -%}
+                <div class="details__description">
+                    <p>{{ ds_shared('synopsis', clip_details.getClip().getSynopses(), 1000) }}</p>
+                </div>
+            {%- endif -%}
+
+
+            <div class="details__times cf component" data-section="metadata">
+                {%- if clip_details.getReleaseDate() -%}
+                    <div class="episode-panel__meta">
+                        <h2 class="visually-hidden">{{ tr('release_date', {'%1': ''}) }}</h2>
+                        <time class="details__releasedate" datetime="{{ clip_details.getReleaseDate()|local_date('c') }}">{{ clip_details.getReleaseDate()|local_date_intl('dd MMMM Y') }}</time>
+                    </div>
+                {%- elseif clip_details.getClip().getStreamableFrom() -%}
+                    <div class="episode-panel__meta">
+                        <h2 class="visually-hidden">{{ tr('release_date', {'%1': ''}) }}</h2>
+                        <time class="details__streamablefrom" datetime="{{ clip_details.getClip().getStreamableFrom()|local_date('c') }}">{{ clip_details.getClip().getStreamableFrom()|local_date_intl('dd MMMM Y') }}</time>
+                    </div>
+                {%- endif -%}
+
+                {% if clip_details.getClip().isStreamable() and clip_details.isAvailableIndefinitely() == false %}
+                    <p class="episode-panel__meta">
+                        <span class="details__streamableuntil" title="{{ clip_details.getClip().getStreamableUntil()|local_date_intl('EEE dd MMMM yyyy, HH:mm') }}">
+                                {{ clip_details.getStreamableTimeRemaining() }}
+                        </span>
+                    </p>
+                {%- endif -%}
+
+
+                {%- if clip_details.getClip().getDuration() -%}
+                    <h2 class="visually-hidden">{{ tr('duration', {'%1': ''}) }}</h2>
+                    <p class="details__duration episode-panel__meta">
+                        {{ gelicon('core', 'duration', 'gelicon--centi gelicon--leading') }}{{ clip_details.getWordyDuration() }}
+                    </p>
+                {%- endif -%}
+            </div>
+
+
+
+            <div class="clip-panel__buttons component">
+                {#@todo: Buttons here#}
+            </div>
+
+
+
+            <div>
+                {#@todo: credits here#}
+            </div>
+        </div>
+    </div>
+
+    {%- if clip_details.getClip().getParent() -%}
+        <div class="grid 1/3@bpw2 1/4@bpe">
+            <div class="clip-panel__clip-is-from">
+                <h2 class="clip-panel__clip-is-from__heading">{{ tr('clip_context') }}</h2>
+                {{ ds2013('programme', clip_details.getClip().getParent(), {
+                    'title_options': {
+                        'title_tag': 'h3',
+                        'title_classes': 'delta'
+                    },
+                    'body_options': {
+                        'show_synopsis': false,
+                        'show_duration': false
+                    },
+                    'image_options': {
+                        'classes': '1/3 1/1@bpe 1/1@bpw2'
+                    },
+                    'container_classes': 'br-secondary-linkhover-onbg015--hover highlight-box--list-borderless programme--grid@bpw2 highlight-box--grid@bpw2 programme--grid@bpe highlight-box--grid@bpe br-keyline br-blocklink-secondary',
+                }) }}
+            </div>
+        </div>
+    {%- endif -%}
+</div>

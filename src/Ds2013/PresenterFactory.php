@@ -13,6 +13,7 @@ use App\Ds2013\Presenters\Domain\Recipe\RecipePresenter;
 use App\Ds2013\Presenters\Domain\Superpromo\SuperpromoPresenter;
 use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
 use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
+use App\Ds2013\Presenters\Section\Clip\Details\ClipDetailsPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
@@ -28,6 +29,7 @@ use App\ExternalApi\Recipes\Domain\Recipe;
 use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -308,6 +310,17 @@ class PresenterFactory
         array $options = []
     ) :RecipePresenter {
         return new RecipePresenter($recipe, $options);
+    }
+
+    public function clipDetailsPresenter(
+        Clip $clip,
+        array $options = []
+    ): ClipDetailsPresenter {
+        return new ClipDetailsPresenter(
+            $clip,
+            $this->helperFactory->getPlayTranslationsHelper(),
+            $options
+        );
     }
 
     public function superpromoPresenter(Promotion $promotion, array $options = []): SuperpromoPresenter
