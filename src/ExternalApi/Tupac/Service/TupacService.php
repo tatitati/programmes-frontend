@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\Tupac\Service;
 
-use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
-use App\ExternalApi\Exception\ParseException;
+use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\Tupac\Domain\Record;
-use BBC\ProgrammesCachingLibrary\CacheInterface;
 use Closure;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -34,37 +32,49 @@ class TupacService
         if (empty($recordIds)) {
             return new FulfilledPromise([]);
         }
-        $client = $this->makeHttpApiClient($recordIds, $isUk);
+        // TUPAC can return up to 100 results per request so it's required to split the API request into chunks of 100 records
+        $chunks = array_chunk($recordIds, 100);
+        $urls = [];
+        foreach ($chunks as $recordsIdsArrayChunk) {
+            $urls[] = $this->generateRequestUrl($recordsIdsArrayChunk, $isUk);
+        }
+
+        $recordIdsHash = md5(implode('_', $recordIds));
+        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $recordIdsHash);
+        $client = $this->clientFactory->getHttpApiMultiClient(
+            $cacheKey,
+            $urls,
+            Closure::fromCallable([$this, 'parseResponse'])
+        );
+
         return $client->makeCachedPromise();
     }
 
-    private function makeHttpApiClient(array $recordIds, bool $isUk = false): HttpApiClient
+    private function generateRequestUrl(array $recordIds, bool $isUk = false): string
     {
-        $recordIdsHash = md5(implode('_', $recordIds));
-        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $recordIdsHash);
-
         $recordIdsAsQueryParameters = '';
-        foreach ($recordIds as $recordsId) {
-            $recordIdsAsQueryParameters .= '&id=' . urlencode($recordsId);
+        foreach ($recordIds as $recordId) {
+            $recordIdsAsQueryParameters .= '&id=' . urlencode($recordId);
         }
-
         $ukQueryParameter = $isUk ? '1' : '0';
-        $url = $this->baseUrl . '/music/v2/records?context=programmes&resultsPerPage=1000&uk=' . $ukQueryParameter . $recordIdsAsQueryParameters;
-
-        return $this->clientFactory->getHttpApiClient(
-            $cacheKey,
-            $url,
-            Closure::fromCallable([$this, 'parseResponse'])
-        );
+        return $this->baseUrl . '/music/v2/records?context=programmes&resultsPerPage=100&uk=' . $ukQueryParameter . $recordIdsAsQueryParameters;
     }
 
-    private function parseResponse(Response $response): array
+    private function parseResponse(array $responses): array
     {
-        $apiResponse = json_decode($response->getBody()->getContents(), true);
-        if (!$apiResponse || !isset($apiResponse['data'])) {
-            throw new ParseException("TUPAC API response is empty or invalid json");
+        $results = [];
+        foreach ($responses as $response) {
+            if (!$response instanceof Response) {
+                throw new MultiParseException("TUPAC callback received non-response object!");
+            }
+            $apiResponse = json_decode($response->getBody()->getContents(), true);
+            if (!$apiResponse || !isset($apiResponse['data'])) {
+                throw new MultiParseException("TUPAC API response is empty or invalid json");
+            }
+            $results = array_merge($results, $this->mapItems($apiResponse));
         }
-        return $this->mapItems($apiResponse);
+
+        return $results;
     }
 
     private function mapItems(array $items): array

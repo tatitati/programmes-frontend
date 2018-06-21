@@ -38,7 +38,7 @@ class TupacServiceTest extends BaseServiceTestCase
         $service->fetchRecordsByIds($recordsIdsArray, true)->wait(true);
         $this->assertCount(1, $historyRequests);
         $this->assertEquals(
-            'https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=1000&uk=1&id=nz4zv2&id=n4mz26&id=n5zdgc&id=nznmbb',
+            'https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=100&uk=1&id=nz4zv2&id=n4mz26&id=n5zdgc&id=nznmbb',
             (string) $historyRequests[0]['request']->getUri()
         );
 
@@ -46,7 +46,7 @@ class TupacServiceTest extends BaseServiceTestCase
         $service->fetchRecordsByIds($recordsIdsArray)->wait(true);
         $this->assertCount(2, $historyRequests);
         $this->assertEquals(
-            'https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=1000&uk=0&id=nz4zv2&id=n4mz26&id=n5zdgc&id=nznmbb',
+            'https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=100&uk=0&id=nz4zv2&id=n4mz26&id=n5zdgc&id=nznmbb',
             (string) $historyRequests[1]['request']->getUri()
         );
 
@@ -55,7 +55,7 @@ class TupacServiceTest extends BaseServiceTestCase
         $service->fetchRecordsByIds($recordsIdsArray)->wait(true);
         $this->assertCount(3, $historyRequests);
         $this->assertEquals(
-            'https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=1000&uk=0&id=n4mz26',
+            'https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=100&uk=0&id=n4mz26',
             (string) $historyRequests[2]['request']->getUri()
         );
 
@@ -71,15 +71,15 @@ class TupacServiceTest extends BaseServiceTestCase
         $this->givenHistoryOfRequests($historyRequests);
         $service = $this->service();
 
-        // API response for https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=1000&uk=0&id=nz4zv2,&id=n4mz26
+        // API response for https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=100&uk=0&id=nz4zv2,&id=n4mz26
         $jsonResponse200 = file_get_contents(dirname(dirname(__DIR__)) . '/Tupac/200_response_nz4zv2_n4mz26.json');
-        $response200 = new Response(200, [], $jsonResponse200);
-        $response = $this->invokePrivateMethod($service, 'parseResponse', [$response200]);
+        $responseArray = [new Response(200, [], $jsonResponse200)];
+        $response = $this->invokePrivateMethod($service, 'parseResponse', [$responseArray]);
         $this->assertEquals($this->getExpectedResponseMapped(), $response);
     }
 
     /**
-     * This is what the API response to "https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=1000&uk=0&id=nz4zv2,&id=n4mz26"
+     * This is what the API response to "https://music-tupac.api.bbc.co.uk/music/v2/records?context=programmes&resultsPerPage=100&uk=0&id=nz4zv2,&id=n4mz26"
      * should be mapped to
      * @return array
      */
