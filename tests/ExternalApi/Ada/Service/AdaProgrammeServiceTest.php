@@ -139,8 +139,9 @@ class AdaProgrammeServiceTest extends BaseServiceTestCase
         $mapper = $this->createMock(AdaProgrammeMapper::class);
         $programmesService = $this->createMock(ProgrammesService::class);
 
+        $dudResponse = new Response(200, [], '"foo":"Bar"');
         $service = $this->service(
-            $this->client([new Response(200, [], '"foo":"Bar"')]),
+            $this->client([$dudResponse, $dudResponse, $dudResponse]),
             $programmesService,
             $mapper
         );
@@ -165,8 +166,9 @@ class AdaProgrammeServiceTest extends BaseServiceTestCase
         $mapper = $this->createMock(AdaProgrammeMapper::class);
         $programmesService = $this->createMock(ProgrammesService::class);
 
+        $dudResponse = new Response(500, [], '');
         $service = $this->service(
-            $this->client([new Response(500, [], '')]),
+            $this->client([$dudResponse, $dudResponse, $dudResponse]),
             $programmesService,
             $mapper
         );
@@ -185,8 +187,9 @@ class AdaProgrammeServiceTest extends BaseServiceTestCase
         $mapper = $this->createMock(AdaProgrammeMapper::class);
         $programmesService = $this->createMock(ProgrammesService::class);
 
+        $dudResponse = new Response(404, [], '');
         $service = $this->service(
-            $this->client([new Response(404, [], '')]),
+            $this->client([$dudResponse, $dudResponse, $dudResponse]),
             $programmesService,
             $mapper
         );
@@ -253,16 +256,21 @@ class AdaProgrammeServiceTest extends BaseServiceTestCase
     }
 
     /**
-     * @expectedException \App\ExternalApi\Exception\ParseException
+     * @expectedException \App\ExternalApi\Exception\MultiParseException
      */
-    public function testSingleParseExceptionWithNoData()
+    public function testParseExceptionWithNoData()
     {
         $response = new Response(200, []);
 
         $mapper = $this->createMock(AdaProgrammeMapper::class);
         $programmesService = $this->createMock(ProgrammesService::class);
 
-        $this->invokeMethod($this->service($this->client([]), $programmesService, $mapper), 'parseSingleResponse', [$response]);
+        $fakeResponses = [
+            'relatedByTag' => $response,
+            'relatedByBrand' => $response,
+            'relatedByCategory' => $response,
+        ];
+        $this->invokeMethod($this->service($this->client([]), $programmesService, $mapper), 'parseAggregateResponses', [$fakeResponses, 3]);
     }
 
     private function service(ClientInterface $client, ProgrammesService $programmesService, AdaProgrammeMapper $mapper): AdaProgrammeService
@@ -271,8 +279,7 @@ class AdaProgrammeServiceTest extends BaseServiceTestCase
             new HttpApiClientFactory($client, $this->cache, $this->logger),
             'https://api.example.com/test',
             $mapper,
-            $programmesService,
-            $this->cache
+            $programmesService
         );
     }
 

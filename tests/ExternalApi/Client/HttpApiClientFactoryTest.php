@@ -5,6 +5,7 @@ namespace Tests\App\ExternalApi\Client;
 
 use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
+use App\ExternalApi\Client\HttpApiMultiClient;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use GuzzleHttp\ClientInterface;
 use PHPUnit\Framework\TestCase;
@@ -32,6 +33,20 @@ class HttpApiClientFactoryTest extends TestCase
             $this->clientFactory->getHttpApiClient(
                 'cachekey',
                 'http://api.com',
+                function () {
+                    // no-op
+                }
+            )
+        );
+    }
+
+    public function testGetHttpApiMultiClient()
+    {
+        $this->assertInstanceOf(
+            HttpApiMultiClient::class,
+            $this->clientFactory->getHttpApiMultiClient(
+                'cachekey',
+                ['http://api.com', 'http://www.wibble.com'],
                 function () {
                     // no-op
                 }

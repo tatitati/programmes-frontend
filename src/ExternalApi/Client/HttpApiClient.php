@@ -19,40 +19,40 @@ use Throwable;
 class HttpApiClient
 {
     /** @var ClientInterface */
-    private $client;
+    protected $client;
 
     /** @var CacheInterface */
-    private $cache;
+    protected $cache;
 
     /** @var LoggerInterface */
-    private $logger;
+    protected $logger;
 
     /** @var string */
-    private $cacheKey;
+    protected $cacheKey;
 
     /** @var string */
-    private $requestUrl;
+    protected $requestUrl;
 
     /** @var callable */
-    private $parseResponseCallable;
+    protected $parseResponseCallable;
 
     /** @var array */
-    private $parseResponseArguments;
+    protected $parseResponseArguments;
 
     /** @var mixed */
-    private $nullResult;
+    protected $nullResult;
 
     /** @var int|string */
-    private $standardTTL;
+    protected $standardTTL;
 
     /** @var int|string */
-    private $notFoundTTL;
+    protected $notFoundTTL;
 
     /** @var CacheItemInterface */
-    private $cacheItem;
+    protected $cacheItem;
 
     /** @var array */
-    private $guzzleOptions;
+    protected $guzzleOptions;
 
     /**
      * @param ClientInterface $client
@@ -135,7 +135,7 @@ class HttpApiClient
         return $requestPromise;
     }
 
-    private function handleResponse(Response $response)
+    protected function handleResponse(Response $response)
     {
         try {
             $args = $this->parseResponseArguments;
@@ -149,15 +149,18 @@ class HttpApiClient
         return $result;
     }
 
-    private function handleGuzzleException(GuzzleException $e)
+    protected function handleGuzzleException(GuzzleException $e)
     {
         $responseCode = "Unknown";
         if ($e instanceof RequestException && $e->getResponse() && $e->getResponse()->getStatusCode()) {
             $responseCode = $e->getResponse()->getStatusCode();
         }
-
         if ($responseCode != 404) {
-            $this->logger->error("HTTP Error status $responseCode for $this->requestUrl : " . $e->getMessage());
+            $url = $this->requestUrl;
+            if ($e instanceof RequestException) {
+                $url = (string) $e->getRequest()->getUri();
+            }
+            $this->logger->error("HTTP Error status $responseCode for $url : " . $e->getMessage());
         } elseif ($this->notFoundTTL !== CacheInterface::NONE) {
             // 404s get cached for a shorter time
             $this->cache->setItem($this->cacheItem, $this->nullResult, $this->notFoundTTL);
@@ -165,7 +168,7 @@ class HttpApiClient
         return $this->nullResult;
     }
 
-    private function handleAsyncError($reason)
+    protected function handleAsyncError($reason)
     {
         if ($reason instanceof GuzzleException) {
             return $this->handleGuzzleException($reason);
@@ -173,7 +176,7 @@ class HttpApiClient
         if ($reason instanceof Throwable) {
             throw $reason;
         }
-        $this->logger->error("An unknown issue occurred handling a guzzle error whose reason was not an exception. URL: $this->requestUrl");
+        $this->logger->error("An unknown issue occurred handling a guzzle error whose reason was not an exception. Probable URL: $this->requestUrl");
         return $this->nullResult;
     }
 }

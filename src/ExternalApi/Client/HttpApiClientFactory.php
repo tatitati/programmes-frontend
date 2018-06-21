@@ -55,6 +55,32 @@ class HttpApiClientFactory
         );
     }
 
+    public function getHttpApiMultiClient(
+        string $cacheKey,
+        array $requestUrls,
+        callable $parseResponse,
+        array $parseResponseArguments = [],
+        $nullResult = [],
+        $standardTTL = CacheInterface::MEDIUM,
+        $notFoundTTL = CacheInterface::NORMAL,
+        array $guzzleOptions = []
+    ) {
+        $guzzleOptions = array_merge(self::DEFAULT_GUZZLE_OPTIONS, $guzzleOptions);
+        return new HttpApiMultiClient(
+            $this->client,
+            $this->cache,
+            $this->logger,
+            $cacheKey,
+            $requestUrls,
+            $parseResponse,
+            $parseResponseArguments,
+            $nullResult,
+            $standardTTL,
+            $notFoundTTL,
+            $guzzleOptions
+        );
+    }
+
     public function keyHelper(string $className, string $functionName, ...$uniqueValues): string
     {
         return $this->cache->keyHelper($className, $functionName, ...$uniqueValues);
