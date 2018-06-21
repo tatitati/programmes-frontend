@@ -50,10 +50,18 @@
             </div>
 
 
-
-            <div>
-                {#@todo: credits here#}
-            </div>
+            {%- if clip_details.getContributions() -%}
+                <div class="details__credits component clip-panel__credits">
+                    <div class="component__header br-box-secondary">
+                        <h2>{{ tr('credits') }}</h2>
+                    </div>
+                    <div class="component__body br-box-secondary">
+                        <div class="credits__contributions">
+                            {{ ds2013('credits', clip_details.getContributions()) }}
+                        </div>
+                    </div>
+                </div>
+            {%- endif -%}
         </div>
     </div>
 

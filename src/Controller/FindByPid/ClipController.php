@@ -14,6 +14,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\GroupsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
@@ -33,7 +34,8 @@ class ClipController extends BaseController
         ProgrammesAggregationService $aggregationService,
         RelatedLinksService $relatedLinksService,
         SegmentEventsService $segmentEventsService,
-        StructuredDataHelper $structuredDataHelper
+        StructuredDataHelper $structuredDataHelper,
+        ContributionsService $contributionsService
     ) {
         $this->setIstatsProgsPageType('programmes_clip');
         $this->setIstatsReleaseDate($clip);
@@ -83,6 +85,11 @@ class ClipController extends BaseController
             }
         }
 
+        $contributions = [];
+        if ($clip->getContributionsCount() > 0) {
+            $contributions = $contributionsService->findByContributionToProgramme($clip);
+        }
+
         $resolvedPromises = $this->resolvePromises([
             'favouritesButton' => $favouritesButtonService->getContent(),
             'relatedTopics' => $relatedTopicsPromise,
@@ -97,6 +104,7 @@ class ClipController extends BaseController
             'tleoClips' => $tleoClips,
             'relatedLinks' => $relatedLinks,
             'segmentsListPresenter' => $segmentsListPresenter,
+            'contributions' => $contributions,
         ];
 
         return $this->renderWithChrome('find_by_pid/clip.html.twig', array_merge($resolvedPromises, $parameters));

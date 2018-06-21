@@ -312,12 +312,19 @@ class PresenterFactory
         return new RecipePresenter($recipe, $options);
     }
 
+    /**
+     * @param Clip $clip
+     * @param Contribution[] $contributions
+     * @param array $options
+     */
     public function clipDetailsPresenter(
         Clip $clip,
+        array $contributions,
         array $options = []
     ): ClipDetailsPresenter {
         return new ClipDetailsPresenter(
             $clip,
+            $contributions,
             $this->helperFactory->getPlayTranslationsHelper(),
             $options
         );

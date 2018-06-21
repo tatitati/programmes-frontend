@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
 use App\Builders\ClipBuilder;
+use App\Builders\ContributionBuilder;
 use App\Builders\ExternalApi\Recipes\RecipeBuilder;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
@@ -145,7 +146,9 @@ class PresenterFactoryTest extends TestCase
     {
         $options = ['key1' => 'value1'];
         $clip = ClipBuilder::any()->build();
-        $presenter = $this->factory->clipDetailsPresenter($clip, $options);
+        $contributions = [ContributionBuilder::any()->build()];
+
+        $presenter = $this->factory->clipDetailsPresenter($clip, $contributions, $options);
 
         $this->assertInstanceOf(ClipDetailsPresenter::class, $presenter);
         $this->assertEquals('@Ds2013/Presenters/Section/Clip/Details/clip_details.html.twig', $presenter->getTemplatePath());

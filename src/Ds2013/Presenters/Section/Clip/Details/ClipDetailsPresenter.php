@@ -4,7 +4,7 @@ namespace App\Ds2013\Presenters\Section\Clip\Details;
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
-use Cake\Chronos\Chronos;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use DateTime;
 
 class ClipDetailsPresenter extends Presenter
@@ -15,9 +15,13 @@ class ClipDetailsPresenter extends Presenter
     /** @var PlayTranslationsHelper */
     private $playTranslationsHelper;
 
-    public function __construct(Clip $clip, PlayTranslationsHelper $playTranslationsHelper, array $options = [])
+    /** @var Contribution[] */
+    private $contributions;
+
+    public function __construct(Clip $clip, array $contributions, PlayTranslationsHelper $playTranslationsHelper, array $options = [])
     {
         $this->clip = $clip;
+        $this->contributions = $contributions;
         $this->playTranslationsHelper = $playTranslationsHelper;
 
         parent::__construct($options);
@@ -26,6 +30,14 @@ class ClipDetailsPresenter extends Presenter
     public function getClip(): Clip
     {
         return $this->clip;
+    }
+
+    /**
+     * @return Contribution[]
+     */
+    public function getContributions(): array
+    {
+        return $this->contributions;
     }
 
     public function getReleaseDate(): ?DateTime

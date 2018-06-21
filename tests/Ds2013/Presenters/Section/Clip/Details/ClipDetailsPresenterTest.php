@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\Ds2013\Presenters\Section\Clip\Details;
 
 use App\Builders\ClipBuilder;
+use App\Builders\ContributionBuilder;
 use App\Builders\EpisodeBuilder;
 use App\Ds2013\Presenters\Section\Clip\Details\ClipDetailsPresenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
@@ -24,7 +25,6 @@ class ClipDetailsPresenterTest extends BaseTemplateTestCase
      */
     public function testDataProvidedByPresenter()
     {
-        $dummy = $this->createMock(PlayTranslationsHelper::class);
         $clip = ClipBuilder::any()->with([
             'title' => 'any title clip',
             'synopses' => new Synopses('short one', 'medium one', 'long one'),
@@ -36,15 +36,14 @@ class ClipDetailsPresenterTest extends BaseTemplateTestCase
 
         ])->build();
 
-        $clipDetailsPresenter = new ClipDetailsPresenter($clip, $dummy);
+        $clipDetailsPresenter = $this->presenter($clip);
 
         $this->assertInstanceOf(DateTime::class, $clipDetailsPresenter->getReleaseDate());
-
         $this->assertTrue($clipDetailsPresenter->isAvailableIndefinitely(), 'When is streamable for more than 1 year is considered inifinite');
     }
 
     /**
-     * HTMl content
+     * HTMl main content
      */
     public function testHtmlCreatedWithoutReleaseDate()
     {
@@ -60,7 +59,7 @@ class ClipDetailsPresenterTest extends BaseTemplateTestCase
 
         ])->build();
 
-        $crawler = $this->renderDetailsPanel($clip);
+        $crawler = $this->renderDetailsPresenter($clip);
 
         $this->assertEquals('any title clip', $crawler->filter('.details__title')->text());
         $this->assertEquals('long one', trim($crawler->filter('.details__description')->text()));
@@ -76,23 +75,54 @@ class ClipDetailsPresenterTest extends BaseTemplateTestCase
             'releaseDate' => new PartialDate(2018, 10, 20),
         ])->build();
 
-        $crawler = $this->renderDetailsPanel($clip);
+        $crawler = $this->renderDetailsPresenter($clip);
 
         $this->assertEquals('20 October 2018', $crawler->filter('.details__releasedate')->text());
     }
 
     /**
+     * HTML credits-block content
+     */
+    public function testContributorsAreDisplayedInClipDetails()
+    {
+        $givenClip = ClipBuilder::any()->build();
+        $givenContributions = [
+            ContributionBuilder::any()->build(),
+            ContributionBuilder::any()->build(),
+        ];
+
+        $crawler = $this->renderDetailsPresenter($givenClip, $givenContributions);
+
+        $this->assertEquals(2, $crawler->filter('.credits__contributions th')->count());
+    }
+
+    public function testCreditsSectionIsNotDisplayed()
+    {
+        $givenClip = ClipBuilder::any()->build();
+        $givenContributions = [];
+
+        $crawler = $this->renderDetailsPresenter($givenClip, $givenContributions);
+
+        $this->assertEquals(0, $crawler->filter('.credits__contributions')->count());
+    }
+
+    /**
      * helpers
      */
-    private function renderDetailsPanel($clip): Crawler
+    private function renderDetailsPresenter($clip, $contributions = []): Crawler
+    {
+        $clipDetailsPresenter = $this->presenter($clip, $contributions);
+        $html = $this->presenterHtml($clipDetailsPresenter);
+        return new Crawler($html);
+    }
+
+    private function presenter($clip, $contributions = [])
     {
         $stub = $this->createConfiguredMock(PlayTranslationsHelper::class, [
             'secondsToWords' => '2 minutes',
             'translateAvailableUntilToWords' => '6 months left to watch',
         ]);
 
-        $clipDetailsPresenter = new ClipDetailsPresenter($clip, $stub);
-        $html = $this->presenterHtml($clipDetailsPresenter);
-        return new Crawler($html);
+        return new ClipDetailsPresenter($clip, $contributions, $stub, []);
     }
 }
