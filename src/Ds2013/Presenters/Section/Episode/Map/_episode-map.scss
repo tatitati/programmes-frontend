@@ -28,7 +28,8 @@
 }
 
 @include mq-range('bpw2') {
-    .map--episode .map__column .map__inner {
+    .map--episode .map__column .map__inner,
+    .map__fauxcolumn {
         margin-bottom: -50em;
         padding-bottom: 50em;
     }
@@ -55,13 +56,6 @@
         .map__column {
             margin-top: $basic-spacing;
         }
-    }
-
-    .map__column--last > .map__inner > .map__column,
-    .map__column--last > .map__inner > .map__column:empty {
-        margin-top: $basic-spacing / 4;
-        margin-bottom: -50em;
-        padding-bottom: 50em;
     }
 }
 
@@ -109,5 +103,10 @@
         text-decoration: none !important;
         color: #ffffff !important;
         background: $iplayer-pink !important; // colours matter here
+    }
+
+    .map__fauxcolumn {
+        margin-bottom: -50em;
+        padding-bottom: 50em;
     }
 }

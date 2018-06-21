@@ -14,7 +14,7 @@
             <div class="map__inner">
                 {%- for panel in episode_map.getSidePanelsSubPresenters() -%}
                     {# This line has to be all on one line for the :empty rule to apply correctly #}
-                    <div class="{{ build_css_classes({ 'br-box-secondary': true, 'map__column': loop.last and loop.length > 1 }) }}" data-map-column="{{ panel.getDataColumnAttribute() }}">{{ ds2013_presenter(panel) }}</div>
+                    <div class="{{ build_css_classes({ 'br-box-secondary': true, 'map__column': loop.last and loop.length > 1, 'map__fauxcolumn': loop.last }) }}" data-map-column="{{ panel.getDataColumnAttribute() }}">{{ ds2013_presenter(panel) }}</div>
                 {%- endfor -%}
             </div>
         </div>
