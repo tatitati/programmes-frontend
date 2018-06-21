@@ -32,16 +32,16 @@ class PopularMusicPresenterTest extends BaseTemplateTestCase
     public function testSetupContributions(
         array $expectedPrimaryContributions,
         array $expectedSecondaryContributions,
-        Contribution $primaryContribution,
-        array $contributions
+        ?Contribution $providedPrimaryContribution,
+        array $providedContributions
     ) {
-        $segment = $this->createConfiguredMock(Segment::class, ['getContributions' => $contributions]);
+        $segment = $this->createConfiguredMock(Segment::class, ['getContributions' => $providedContributions]);
         $segmentEvent = $this->createConfiguredMock(SegmentEvent::class, ['getSegment' => $segment]);
         $presenter = new PopularMusicPresenter($segmentEvent, 'anything', null);
 
         $this->assertEquals($expectedPrimaryContributions, $presenter->getPrimaryContributions());
         $this->assertEquals($expectedSecondaryContributions, $presenter->getOtherContributions());
-        $this->assertEquals($primaryContribution, $presenter->getPrimaryContribution());
+        $this->assertEquals($providedPrimaryContribution, $presenter->getPrimaryContribution());
     }
 
     public function setupContributionsProvider(): array
@@ -64,6 +64,7 @@ class PopularMusicPresenterTest extends BaseTemplateTestCase
         ]);
 
         return [
+            'Nothing' => [[], [], null, []],
             'DJ only' => [[$dj], [], $dj, [$dj]],
             'DJ duplicated' => [[$dj], [], $dj, [$dj, $dj]],
             'DJ and MC' => [[$dj, $mc], [], $dj, [$dj, $mc]],

@@ -94,7 +94,9 @@ abstract class AbstractMusicSegmentItemPresenter extends AbstractSegmentItemPres
 
     public function getPrimaryContribution(): ?Contribution
     {
-        return reset($this->primaryContributions);
+        $primaryContribution = reset($this->primaryContributions);
+
+        return $primaryContribution ?: null;
     }
 
     /** @return Contribution[] */

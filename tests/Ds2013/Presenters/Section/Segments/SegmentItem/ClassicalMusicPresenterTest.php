@@ -31,16 +31,16 @@ class ClassicalMusicPresenterTest extends BaseTemplateTestCase
     public function testSetupContributions(
         array $expectedPrimaryContributions,
         array $expectedSecondaryContributions,
-        Contribution $primaryContribution,
-        array $contributions
+        ?Contribution $providedPrimaryContribution,
+        array $providedContributions
     ) {
-        $segment = $this->createConfiguredMock(Segment::class, ['getContributions' => $contributions]);
+        $segment = $this->createConfiguredMock(Segment::class, ['getContributions' => $providedContributions]);
         $segmentEvent = $this->createConfiguredMock(SegmentEvent::class, ['getSegment' => $segment]);
         $presenter = new ClassicalMusicPresenter($segmentEvent, 'anything', null);
 
         $this->assertEquals($expectedPrimaryContributions, $presenter->getPrimaryContributions());
         $this->assertEquals($expectedSecondaryContributions, $presenter->getOtherContributions());
-        $this->assertEquals($primaryContribution, $presenter->getPrimaryContribution());
+        $this->assertEquals($providedPrimaryContribution, $presenter->getPrimaryContribution());
     }
 
     public function setupContributionsProvider(): array
@@ -63,6 +63,7 @@ class ClassicalMusicPresenterTest extends BaseTemplateTestCase
         ]);
 
         return [
+            'with no contributions' => [[], [], null, []],
             'composer only' => [[$composer], [], $composer, [$composer]],
             'composer and performer' => [[$composer], [$performer], $composer, [$composer, $performer]],
             'composer and composer' => [[$composer], [$anotherComposer], $composer, [$composer, $anotherComposer]],
