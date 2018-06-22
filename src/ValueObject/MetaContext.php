@@ -52,7 +52,7 @@ class MetaContext
             $this->projectSpace = $context->getOption('project_space') ?? 'none';
 
             if ($context->getNetwork()) {
-                // This is temporary. See
+                // This is temporary. See PROGRAMMES-6468
                 $this->showAdverts = ( (string) $context->getNetwork()->getNid() === 'bbc_world_news');
             }
         } elseif ($context instanceof Service) {
