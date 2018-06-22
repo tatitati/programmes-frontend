@@ -8,6 +8,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use PHPUnit\Framework\TestCase;
 
 class MetaContextTest extends TestCase
@@ -31,6 +32,7 @@ class MetaContextTest extends TestCase
 
         $network = $this->createMock(Network::class);
         $network->method('getName')->willReturn('Network name');
+        $network->method('getNid')->willReturn(new Nid('bbc_one'));
 
         $programme = $this->createMock(Programme::class);
         $programme->method('getTleo')->willReturnSelf();
@@ -47,6 +49,23 @@ class MetaContextTest extends TestCase
         $this->assertEquals('Network name - Programme Title', $metaContext->titlePrefix());
         $this->assertTrue($metaContext->isRadio());
         $this->assertEquals('getTitleOutput', $metaContext->image()->getTitle());
+        $this->assertFalse($metaContext->showAdverts());
+    }
+
+    public function testAdvertsWithProgrammeContext()
+    {
+        $image = $this->createMock(Image::class);
+        $image->method('getTitle')->willReturn('getTitleOutput');
+
+        $network = $this->createMock(Network::class);
+        $network->method('getName')->willReturn('Network name');
+        $network->method('getNid')->willReturn(new Nid('bbc_world_news'));
+
+        $programme = $this->createMock(Programme::class);
+        $programme->method('getNetwork')->willReturn($network);
+
+        $metaContext = new MetaContext($programme);
+        $this->assertTrue($metaContext->showAdverts());
     }
 
     public function testTitlePrefixWithProgrammeContextWithMultipleAncestry()

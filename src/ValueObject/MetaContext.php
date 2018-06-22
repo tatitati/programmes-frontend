@@ -52,7 +52,8 @@ class MetaContext
             $this->projectSpace = $context->getOption('project_space') ?? 'none';
 
             if ($context->getNetwork()) {
-                $this->showAdverts = $context->getNetwork()->isInternational();
+                // This is temporary. See
+                $this->showAdverts = ( (string) $context->getNetwork()->getNid() === 'bbc_world_news');
             }
         } elseif ($context instanceof Service) {
             $this->isRadio = $context->isRadio();
