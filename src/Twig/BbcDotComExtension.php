@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Twig;
 
+use RMP\Comscore\Comscore;
 use Twig_Extension;
 use Twig_Function;
 
@@ -27,7 +28,7 @@ class BbcDotComExtension extends Twig_Extension
         return [
             new Twig_Function('advert', [$this, 'advert'], ['is_safe' => ['html']]),
             new Twig_Function('adverts_set_blocks', [$this, 'advertsSetBlocks']),
-            new Twig_Function('adverts_head', [$this, 'advertsHead'], ['is_safe' => ['html']]),
+            new Twig_Function('bbc_dotcom_head', [$this, 'bbcDotComHead'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -80,12 +81,18 @@ ADVERT;
         return !!$this->advertBlocks;
     }
 
-    public function advertsHead(): string
+    public function bbcDotComHead(?Comscore $comscore): string
     {
-        if (!$this->advertBlocks) {
-            return '';
+        if ($this->advertBlocks) {
+            return $this->advertsHead();
         }
-
+        if ($comscore) {
+            return $this->comscoreHead();
+        }
+        return '';
+    }
+    private function advertsHead(): string
+    {
         $template = <<<HEAD
 <script>
 if (window.bbcdotcom) {
@@ -103,5 +110,18 @@ if (window.bbcdotcom) {
 HEAD;
 
         return sprintf($template, $this->advertBlocks);
+    }
+
+    private function comscoreHead(): string
+    {
+        // Make sure bbcdotcom comscore double tracking is disabled on pages
+        // where comscore is put in by us
+        return <<<HEAD
+<script>
+if (window.bbcdotcom) {
+    window.bbcdotcom.init({comScoreEnabled: false, adsEnabled: false});
+}
+</script>
+HEAD;
     }
 }

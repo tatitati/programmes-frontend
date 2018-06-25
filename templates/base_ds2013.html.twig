@@ -62,7 +62,7 @@
         <![endif]-->
         {% block inline_head %}{% endblock %}
 
-        {{ adverts_head() }}
+        {{ bbc_dotcom_head(comscore) }}
         {% if meta_context.metaNoIndex() %}<meta name="robots" content="noindex">{% endif %}
         {% if meta_context.canonicalUrl() %}<link rel="canonical" href="{{ meta_context.canonicalUrl() }}">{% endif %}
         <meta name="theme-color" content="{{ branding.getColours().highlight.bg|default('#2B2B2B') }}">
