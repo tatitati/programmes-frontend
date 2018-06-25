@@ -1,3 +1,7 @@
-.image-block-link {
+a.image-block-link {
     display: block;
+
+    &:focus {
+        outline: auto;
+    }
 }
