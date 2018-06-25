@@ -2,16 +2,13 @@
     <div class="grid 2/3@bpw2 3/4@bpe">
         <div class="island">
 
-
             <h1 class="details__title">{{ clip_details.getClip().getTitle() }}</h1>
-
 
             {%- if clip_details.getClip().getLongestSynopsis() -%}
                 <div class="details__description">
                     <p>{{ ds_shared('synopsis', clip_details.getClip().getSynopses(), 1000) }}</p>
                 </div>
             {%- endif -%}
-
 
             <div class="details__times cf component" data-section="metadata">
                 {%- if clip_details.getReleaseDate() -%}
@@ -34,7 +31,6 @@
                     </p>
                 {%- endif -%}
 
-
                 {%- if clip_details.getClip().getDuration() -%}
                     <h2 class="visually-hidden">{{ tr('duration', {'%1': ''}) }}</h2>
                     <p class="details__duration episode-panel__meta">
@@ -43,12 +39,19 @@
                 {%- endif -%}
             </div>
 
-
-
             <div class="clip-panel__buttons component">
-                {#@todo: Buttons here#}
-            </div>
+                {%- if clip_details.getClip().isRadio() -%}
+                    {{ add_button(
+                            'clip-map-favourites-button',
+                            clip_details.getClip().getPid(),
+                            'programme',
+                            clip_details.getClip().getPid()
+                    ) }}
+                    <div id="clip-map-favourites-button" class="favourites-module-wrapper map__buttons favourites-button buttons--favourites-small"></div>
+                {%- endif -%}
 
+                {#TODO: add download buttons here#}
+            </div>
 
             {%- if clip_details.getContributions() -%}
                 <div class="details__credits component clip-panel__credits">
