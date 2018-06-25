@@ -1,0 +1,41 @@
+/**
+ * Advert Module
+ *
+ * Adverts are 3rd party modules that include their own basic styling.
+ * To ensue we have correct spacing we have to undo the spacing it sets.
+ */
+
+.bbccom_slot {
+    .bbccom_advert {
+        @extend .component;
+    }
+}
+
+.programme-advert--leaderboard-wrap {
+    margin: 0 auto;
+    max-width: 976px;
+    padding: 0;
+
+    .bbccom_slot .bbccom_advert {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+@include mq-range('bpw') {
+    .programme-advert--leaderboard-wrap {
+        padding-left: $wide-spacing;
+        padding-right: $wide-spacing;
+    }
+}
+
+@include mq($from: 744px, $until: 784px) {
+    // At this point we have a leaderboard that is wider than the viewpoirt minus
+    // the 16px padding either side. So temporarily make the leaderboard full
+    // width so the advert doesn't bleed outside of the gray box. Once the
+    // leaderboard fits inside the grey box then we give the page margin right.
+    .programme-advert--leaderboard-wrap {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

@@ -8,6 +8,7 @@ files:
         - 'src/Ds2013/Css/Core/Helpers/_widths.scss'
         # Linter complains about not following class naming conventions, but class is set by bbcdotcom JS
         - 'src/DsAmen/Css/Components/_mpuad.scss'
+        - 'src/Ds2013/Css/Components/_advert.scss'
 rules:
     # Name Formats
     function-name-format: [2, {convention: hyphenatedlowercase}]
