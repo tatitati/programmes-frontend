@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013;
 
+use App\Builders\AdaBuilder;
 use App\Builders\ClipBuilder;
 use App\Builders\ContributionBuilder;
 use App\Builders\ExternalApi\Recipes\RecipeBuilder;
@@ -11,6 +12,7 @@ use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
 use App\Ds2013\Presenters\Domain\Recipe\RecipePresenter;
 use App\Ds2013\Presenters\Section\Clip\Details\ClipDetailsPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
+use App\Ds2013\Presenters\Section\RelatedTopics\RelatedTopicsPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\DsShared\Helpers\HelperFactory;
@@ -122,6 +124,14 @@ class PresenterFactoryTest extends TestCase
         $episodeMapPresenter = $this->anyEpisodeMapPresenter($hasRmsPodcast);
 
         $this->assertTrue($episodeMapPresenter->getDetailsSubpresenter()->isUkOnlyPodcast());
+    }
+
+    public function testRelatedTopicPresenterCanBeCreated()
+    {
+        $ada = AdaBuilder::any()->build();
+        $presenter = $this->factory->relatedTopicsPresenter([$ada], 'any/link/track');
+
+        $this->assertInstanceOf(RelatedTopicsPresenter::class, $presenter);
     }
 
     /**

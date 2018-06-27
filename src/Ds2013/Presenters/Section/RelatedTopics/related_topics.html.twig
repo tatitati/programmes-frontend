@@ -1,8 +1,8 @@
 <ol class="related-topics">
     {%- for relatedTopic in related_topics.getRelatedTopics() -%}
         <li>
-            {% if related_topics.getContextPid() %}
-                {% set url = path('programme_topics_topic', {pid: related_topics.getContextPid(), topic: relatedTopic.getId()}) %}
+            {% if relatedTopic.getProgrammeItemCountContext() %}
+                {% set url = path('programme_topics_topic', {pid: relatedTopic.getProgrammeItemCountContext(), topic: relatedTopic.getId()}) %}
             {% else %}
                 {% set url = path('topics_topic', {topic: relatedTopic.getId()}) %}
             {% endif %}
