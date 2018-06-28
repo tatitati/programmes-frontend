@@ -23,6 +23,7 @@ use App\Ds2013\Presenters\Section\SupportingContent\SupportingContentPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\Credits\CreditsPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
+use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Recipes\Domain\Recipe;
@@ -39,6 +40,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Promotion;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\ChronosInterface;
 use Cake\Chronos\Date;
@@ -315,19 +317,40 @@ class PresenterFactory
     /**
      * @param Clip $clip
      * @param Contribution[] $contributions
+     * @param Version|null $version
+     * @param RmsPodcast|null $rmsPodcast
      * @param array $options
      */
     public function clipDetailsPresenter(
         Clip $clip,
         array $contributions,
+        ?Version $version,
+        ?RmsPodcast $rmsPodcast,
         array $options = []
     ): ClipDetailsPresenter {
         return new ClipDetailsPresenter(
+            $this->helperFactory->getPlayTranslationsHelper(),
             $clip,
             $contributions,
-            $this->helperFactory->getPlayTranslationsHelper(),
+            $version,
+            $rmsPodcast,
             $options
         );
+    }
+
+    /**
+     * @param ProgrammeItem $programmeItem
+     * @param Version $version
+     * @param RmsPodcast|null $rmsPodcast
+     * @param array $options
+     */
+    public function downloadPresenter(
+        ProgrammeItem $programmeItem,
+        Version $version,
+        ?RmsPodcast $rmsPodcast,
+        array $options = []
+    ): DownloadPresenter {
+        return new DownloadPresenter($this->router, $programmeItem, $version, $rmsPodcast, $options);
     }
 
     public function superpromoPresenter(Promotion $promotion, array $options = []): SuperpromoPresenter

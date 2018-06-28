@@ -6,12 +6,10 @@ namespace Tests\App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
 use App\Builders\EpisodeBuilder;
 use App\Ds2013\Presenters\Section\Episode\Map\Panels\Main\DetailsPresenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
-use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use DateTime;
 use PHPUnit\Framework\TestCase;
@@ -152,44 +150,6 @@ class DetailsPresenterTest extends TestCase
         ];
         $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions, null);
         $this->assertFalse($presenter->hasAvailableSignedVersion());
-    }
-
-    public function testPodcastFileName()
-    {
-        $ancestors = [];
-        for ($i = 'a'; $i <= 'e'; $i++) {
-            $ancestor = $this->createMock(CoreEntity::class);
-            $ancestor->method('getTitle')->willReturn($i);
-            $ancestors[] = $ancestor;
-        }
-        $episode = $this->createMock(Episode::class);
-        $episode->method('getAncestry')->willReturn($ancestors);
-        $episode->method('getPid')->willReturn(new Pid('b000c111'));
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, [], null);
-        $this->assertEquals('e, d, c, b, a - b000c111.mp3', $presenter->getPodcastFileName());
-    }
-    public function testRetrivingPodcastUrls()
-    {
-        $versionPid = new Pid('z000y111');
-        $version = $this->createVersionMock('Podcast', false);
-        $version->method('getPid')->willReturn($versionPid);
-        $version->method('isDownloadable')->willReturn(true);
-
-        $episode = EpisodeBuilder::any()
-            ->with(['downloadableMediaSets' => ['audio-nondrm-download', 'audio-nondrm-download-low']])
-            ->build();
-        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $urlGenerator->expects($this->exactly(2))
-            ->method('generate')
-            ->withConsecutive(
-                ['podcast_download', ['pid' => $versionPid]],
-                ['podcast_download_low', ['pid' => $versionPid]]
-            );
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $urlGenerator, $episode, [$version], null);
-        $urls = $presenter->getPodcastUrls();
-        $this->assertCount(2, $urls);
-        $this->assertArrayHasKey('podcast_128kbps_quality', $urls);
-        $this->assertArrayHasKey('podcast_64kbps_quality', $urls);
     }
 
     private function createVersionMock(string $type, bool $isStreamable)

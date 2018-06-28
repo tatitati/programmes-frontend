@@ -3,8 +3,10 @@ namespace App\Ds2013\Presenters\Section\Clip\Details;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
+use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use DateTime;
 
 class ClipDetailsPresenter extends Presenter
@@ -18,9 +20,17 @@ class ClipDetailsPresenter extends Presenter
     /** @var Contribution[] */
     private $contributions;
 
-    public function __construct(Clip $clip, array $contributions, PlayTranslationsHelper $playTranslationsHelper, array $options = [])
+    /** @var Version|null */
+    private $version;
+
+    /** @var RmsPodcast|null */
+    private $rmsPodcast;
+
+    public function __construct(PlayTranslationsHelper $playTranslationsHelper, Clip $clip, array $contributions, ?Version $version, ?RmsPodcast $rmsPodcast, array $options = [])
     {
         $this->clip = $clip;
+        $this->version = $version;
+        $this->rmsPodcast = $rmsPodcast;
         $this->contributions = $contributions;
         $this->playTranslationsHelper = $playTranslationsHelper;
 
@@ -30,6 +40,21 @@ class ClipDetailsPresenter extends Presenter
     public function getClip(): Clip
     {
         return $this->clip;
+    }
+
+    public function getVersion(): ?Version
+    {
+        return $this->version;
+    }
+
+    public function getRmsPodcast(): ?RmsPodcast
+    {
+        return $this->rmsPodcast;
+    }
+
+    public function canBeDownloaded(): bool
+    {
+        return $this->version && $this->version->isDownloadable() && $this->clip->isDownloadable();
     }
 
     /**
@@ -48,7 +73,6 @@ class ClipDetailsPresenter extends Presenter
 
         return null;
     }
-
 
     public function isAvailableIndefinitely(): bool
     {

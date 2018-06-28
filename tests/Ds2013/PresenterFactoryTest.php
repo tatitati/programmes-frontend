@@ -6,6 +6,7 @@ use App\Builders\AdaBuilder;
 use App\Builders\ClipBuilder;
 use App\Builders\ContributionBuilder;
 use App\Builders\ExternalApi\Recipes\RecipeBuilder;
+use App\Builders\VersionBuilder;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
@@ -15,6 +16,7 @@ use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Section\RelatedTopics\RelatedTopicsPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
+use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\Translate\TranslateProvider;
@@ -117,15 +119,6 @@ class PresenterFactoryTest extends TestCase
         $this->assertContains('episode_map.html.twig', $presenter->getTemplatePath());
     }
 
-    public function testDetailsPrenseterPassPodcastDataToDetailsPresenter()
-    {
-        $hasRmsPodcast = true;
-
-        $episodeMapPresenter = $this->anyEpisodeMapPresenter($hasRmsPodcast);
-
-        $this->assertTrue($episodeMapPresenter->getDetailsSubpresenter()->isUkOnlyPodcast());
-    }
-
     public function testRelatedTopicPresenterCanBeCreated()
     {
         $ada = AdaBuilder::any()->build();
@@ -157,13 +150,26 @@ class PresenterFactoryTest extends TestCase
         $options = ['key1' => 'value1'];
         $clip = ClipBuilder::any()->build();
         $contributions = [ContributionBuilder::any()->build()];
+        $version = VersionBuilder::any()->build();
+        $rmsPodcast = new RmsPodcast(new Pid('p002d80x'), 'uk');
 
-        $presenter = $this->factory->clipDetailsPresenter($clip, $contributions, $options);
+        $presenter = $this->factory->clipDetailsPresenter($clip, $contributions, $version, $rmsPodcast, $options);
 
         $this->assertInstanceOf(ClipDetailsPresenter::class, $presenter);
         $this->assertEquals('@Ds2013/Presenters/Section/Clip/Details/clip_details.html.twig', $presenter->getTemplatePath());
         $this->assertEquals('clip_details', $presenter->getTemplateVariableName());
         $this->assertSame('value1', $presenter->getOption('key1'));
+    }
+
+    public function testCanCreateDownloadPresenter()
+    {
+        $clip = ClipBuilder::any()->build();
+        $version = VersionBuilder::any()->build();
+        $rmsPodcast = new RmsPodcast(new Pid('p002d80x'), 'uk');
+
+        $presenter = $this->factory->downloadPresenter($clip, $version, $rmsPodcast, []);
+
+        $this->assertInstanceOf(DownloadPresenter::class, $presenter);
     }
 
     /**

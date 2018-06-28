@@ -50,7 +50,9 @@
                     <div id="clip-map-favourites-button" class="favourites-module-wrapper map__buttons favourites-button buttons--favourites-small"></div>
                 {%- endif -%}
 
-                {#TODO: add download buttons here#}
+                {%- if clip_details.canBeDownloaded() -%}
+                    {{ ds2013('download', clip_details.getClip(), clip_details.getVersion(), clip_details.getRmsPodcast(), {}) }}
+                {%- endif -%}
             </div>
 
             {%- if clip_details.getContributions() -%}

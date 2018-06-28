@@ -8,40 +8,49 @@ use App\Ds2013\PresenterFactory;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
+use App\ExternalApi\RmsPodcast\Service\RmsPodcastService;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\GroupsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use BBC\ProgrammesPagesService\Service\SegmentEventsService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
 use Cake\Chronos\ChronosInterval;
 use GuzzleHttp\Promise\FulfilledPromise;
 
 class ClipController extends BaseController
 {
     public function __invoke(
-        Clip $clip,
         AdaClassService $adaClassService,
         AdaProgrammeService $adaProgrammeService,
+        Clip $clip,
+        ContributionsService $contributionsService,
         FavouritesButtonService $favouritesButtonService,
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
         ProgrammesAggregationService $aggregationService,
         RelatedLinksService $relatedLinksService,
+        RmsPodcastService $podcastService,
         SegmentEventsService $segmentEventsService,
         StructuredDataHelper $structuredDataHelper,
-        ContributionsService $contributionsService
+        VersionsService $versionsService
     ) {
         $this->setIstatsProgsPageType('programmes_clip');
         $this->setIstatsReleaseDate($clip);
         $this->setIstatsReleaseYear($clip);
         $this->setParentIstats($clip);
         $this->setContextAndPreloadBranding($clip);
+
+        /** @todo this is pretty ineficient. We will need to clear this up once we know all the versions we'll need on the clip page */
+        $versions = $versionsService->findByProgrammeItem($clip);
+        $downloadableVersion = $this->getDownloadableVersion($versions);
 
         $relatedLinks = [];
         if ($clip->getRelatedLinksCount() > 0) {
@@ -90,10 +99,16 @@ class ClipController extends BaseController
             $contributions = $contributionsService->findByContributionToProgramme($clip);
         }
 
+        $rmsPodcastPromise = new FulfilledPromise(null);
+        if ($clip->getTleo() instanceof ProgrammeContainer && $clip->getTleo()->isRadio()) {
+            $rmsPodcastPromise = $podcastService->getPodcast($clip->getTleo()->getPid());
+        }
+
         $resolvedPromises = $this->resolvePromises([
             'favouritesButton' => $favouritesButtonService->getContent(),
             'relatedTopics' => $relatedTopicsPromise,
             'relatedProgrammes' => $relatedProgrammesPromise,
+            'podcast' => $rmsPodcastPromise,
         ]);
 
         $parameters = [
@@ -105,6 +120,7 @@ class ClipController extends BaseController
             'relatedLinks' => $relatedLinks,
             'segmentsListPresenter' => $segmentsListPresenter,
             'contributions' => $contributions,
+            'version' => $downloadableVersion,
         ];
 
         return $this->renderWithChrome('find_by_pid/clip.html.twig', array_merge($resolvedPromises, $parameters));
@@ -186,5 +202,19 @@ class ClipController extends BaseController
         });
 
         return \array_slice($filteredClips, 0, 4);
+    }
+
+    /**
+     * @param Version[] $availableVersions
+     */
+    private function getDownloadableVersion(array $availableVersions): ?Version
+    {
+        foreach ($availableVersions as $version) {
+            if ($version->isDownloadable()) {
+                return $version;
+            }
+        }
+
+        return null;
     }
 }

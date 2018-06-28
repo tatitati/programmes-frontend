@@ -82,50 +82,8 @@
             {{ add_button('episode-map-favourites-button', presenter.getEpisode().getPid(), 'programme', presenter.getEpisode().getPid()) }}
             <div id="episode-map-favourites-button" class="favourites-module-wrapper map__buttons favourites-button buttons--favourites-small"></div>
         {% endif %}
-        {% if presenter.getEpisode().isDownloadable() %}
-            {% if presenter.getEpisode().getDownloadableMediaSets()|length == 1 %}
-                <div class="buttons__download">
-                    <a class="link-complex br-linkinvert buttons__download__link" data-clicktrack="podcast_download" href="{{ presenter.getPodcastUrls()|first }}" download="{{ presenter.getPodcastFileName() }}">{{ gelicon('basics', 'download', 'gelicon--centi') }}
-                        {{ tr('downloads', 1) }} {% if presenter.isUkOnlyPodcast() %}({{ tr('uk_only') }}){% endif %}
-                    </a>
-                </div>
-            {% else %}
-                <div class="popup buttons__download">
-                    <input class="popup__status" type="checkbox" id="download-popup" checked>
-                    <div class="buttons__download">
-                        <h2 class="popup__button text-base br-linkinvert buttons__download__link" data-clicktrack="podcast_download">
-                            <label for="download-popup">
-                                {{ gelicon('basics', 'download', 'gelicon--centi') }}
-                                {{ tr('downloads',1) }}{% if presenter.isUkOnlyPodcast() %} ({{ tr('uk_only') }}){% endif %}
-                            </label>
-                        </h2>
-                    </div>
-                    <div class="popup__holder" id="download-popup-holder">
-                        <div class="popup__content popup__content--download br-box-secondary br-secondary-link-onbg br-secondary-link-onborder">
-                            <h3 class="popup__header br-secondary-link-onborder--beforeafter br-secondary-linkhover-onborder--hover-beforeafter gamma no-margin deemphasize">
-                                <label class="popup__close island--squashed br-secondary-bg-onborder br-linkinvert" for="download-popup-holder">
-                                    <span class="pull--right-spaced">{{ gelicon('basics', 'no', 'gelicon--centi') }} </span>{{ tr('choose_your_file') }}
-                                </label>
-                            </h3>
-                            <ul class="list-unstyled popup__list">
-                                {% for translationKey,url in presenter.getPodcastUrls() %}
-                                    <li>
-                                        <a class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="{{ url }}"
-                                           download="{{ presenter.getPodcastFileName() }}">
-                                            {{ tr(translationKey) }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            <script type="text/javascript">
-                require(['popup'], function(popup) {
-                    new popup({containerSelector: '.popup', useParentContainerWidth: true});
-                });
-            </script>
+        {%- if presenter.canBeDownloaded() -%}
+            {{ ds2013('download', presenter.getEpisode(), presenter.getDownloadableVersion(), presenter.getRmsPodcast(), {}) }}
         {% endif %}
     </div>
 {% endmacro %}

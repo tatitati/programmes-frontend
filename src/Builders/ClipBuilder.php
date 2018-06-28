@@ -46,24 +46,28 @@ class ClipBuilder extends AbstractBuilder
             'duration' => null,
             'streamableFrom' => null,
             'streamableUntil' => null,
+            'downloadableMediaSets' => [],
         ];
     }
 
     public static function anyRadioClip()
     {
-        $self = new self();
-
-        return $self->with([
+        return self::any()->with([
             'masterBrand' => MasterBrandBuilder::anyRadioMasterBrand()->build(),
         ]);
     }
 
     public static function anyTvClip()
     {
-        $self = new self();
-
-        return $self->with([
+        return self::any()->with([
             'masterBrand' => MasterBrandBuilder::anyTVMasterBrand()->build(),
+        ]);
+    }
+
+    public static function anyWithMediaSets()
+    {
+        return self::any()->with([
+            'downloadableMediaSets' => ['audio-nondrm-download', 'audio-nondrm-download-low'],
         ]);
     }
 }
