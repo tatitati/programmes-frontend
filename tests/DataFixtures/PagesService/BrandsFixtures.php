@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\DataFixtures\PagesService;
 
+use App\Builders\BrandBuilder;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
@@ -109,5 +110,41 @@ class BrandsFixtures
             MasterBrandsFixtures::worldService(),
             []
         );
+    }
+
+    public static function wordsAndMusic(): Brand
+    {
+        return BrandBuilder::any()->with([
+            'pid' => new Pid('b006x35f'),
+            'title' => 'Words and Music',
+            'searchTitle' => 'Words and Music',
+            'synopses' => new Synopses(
+                'A sequence of classical music mixed with well-loved and less familiar poems and prose',
+                'A sequence of classical music interspersed with well-loved and less familiar poems and prose read by leading actors',
+                ''
+            ),
+            'image' => ImagesFixtures::realityIsNotWhatItSeems(),
+            'promotionsCount' => 0,
+            'relatedLinksCount' => 0,
+            'hasSupportingContent' => false,
+            'isStreamable' => true,
+            'isStreamableAlternate' => false,
+            'contributionsCount' => 0,
+            'aggregatedBroadcastsCount' => 100,
+            'aggregatedEpisodesCount' => 1,
+            'availableClipsCount' => 0,
+            'availableEpisodesCount' => 1,
+            'aggregatedGalleriesCount' => 0,
+            'isPodcastable' => false,
+            'options' => OptionsFixture::radioThree(),
+            // optional
+            'parent' => null,
+            'position' => null,
+            'masterBrand' => MasterBrandsFixtures::radioThree(),
+            'genres' => null,
+            'formats' => null,
+            'firstBroadcastDate' => null,
+            'expectedChildCount' => null,
+        ])->build();
     }
 }

@@ -48,6 +48,11 @@ class HelperFactory
         return $this->getHelper(PlayTranslationsHelper::class, $this->translateProvider);
     }
 
+    public function getSmpPlaylistHelper(): SmpPlaylistHelper
+    {
+        return $this->getHelper(SmpPlaylistHelper::class);
+    }
+
     public function getStreamUrlHelper(): StreamableHelper
     {
         return $this->getHelper(StreamableHelper::class);

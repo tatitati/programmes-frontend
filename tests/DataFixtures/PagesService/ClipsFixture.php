@@ -34,6 +34,7 @@ class ClipsFixture
             MediaTypeEnum::VIDEO,
             0,
             0, //aggregatedGalleriesCount
+            true,
             OptionsFixture::eastEnders(),
             EpisodesFixtures::eastendersAvailable(),
             3, // position

@@ -76,6 +76,12 @@ programme_podcast_ds2013:
     defaults: { _controller: App\Controller\Podcast\PodcastDs2013Controller }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+# SMP Playlist page
+programme_smp_playlist:
+    path: /programmes/{pid}/playlist.json
+    defaults: { _controller: App\Controller\SmpPlaylist\SmpPlaylistController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 # Schedules
 
 schedules_home:

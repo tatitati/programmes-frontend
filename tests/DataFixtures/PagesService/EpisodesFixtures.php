@@ -20,6 +20,7 @@ class EpisodesFixtures
                 'title' => 'An Episode of Eastenders',
                 'synopses' => new Synopses('Short Synopsis', 'Medium Synopsis', 'Long Synopsis'),
                 'image' => ImagesFixtures::eastenders(),
+                'isExternallyEmbeddable' => false,
                 'mediaType' => MediaTypeEnum::VIDEO,
                 'options' => OptionsFixture::eastEnders(),
                 'parent' => BrandsFixtures::eastEnders(),
@@ -30,7 +31,24 @@ class EpisodesFixtures
             ])->build();
     }
 
-    public static function beyondSpaceAndTimeAvailable()
+    public static function eastendersUnavailable(): Episode
+    {
+        return EpisodeBuilder::any()->with([
+            'pid' => new Pid('p0000001'),
+            'dbAncestryIds' => [1],
+            'title' => 'An Unavailable Episode of Eastenders',
+            'synopses' => new Synopses('Short Synopsis', 'Medium Synopsis', 'Long Synopsis'),
+            'image' => ImagesFixtures::eastenders(),
+            'mediaType' => MediaTypeEnum::VIDEO,
+            'options' => OptionsFixture::eastEnders(),
+            'parent' => BrandsFixtures::eastEnders(),
+            'position' => 1,
+            'isStreamable' => false,
+            'masterBrand' => MasterBrandsFixtures::bbcOne(),
+        ])->build();
+    }
+
+    public static function beyondSpaceAndTimeAvailable(): Episode
     {
         return EpisodeBuilder::any()->with([
             'dbAncestryIds' => [2, 17, 222],
@@ -48,6 +66,30 @@ class EpisodesFixtures
             'position' => 5,
             'isStreamable' => true,
             'masterBrand' => MasterBrandsFixtures::radioFour(),
+            'streamableFrom' => new DateTimeImmutable('2017-06-01 20:00:00'),
+        ])->build();
+    }
+
+    public static function wordsAndMusicAvailable(): Episode
+    {
+        return EpisodeBuilder::any()->with([
+            'pid' => new Pid('p0000221'),
+            'dbAncestryIds' => [12345],
+            'title' => 'The Chessboard',
+            'synopses' => new Synopses(
+                'Readings from Adjoa Andoh and Henry Goodman. Music from Shostakovich to The Rolling Stones',
+                'Readings from Adjoa Andoh and Henry Goodman. Music from Shostakovich to The Rolling Stones. Authors include Han Kang, Shakespeare, Philip Larkin and Omar Khayyam.',
+                'Readings from Adjoa Andoh and Henry Goodman. Music from Shostakovich to The Rolling Stones. Authors include Han Kang, Shakespeare, Philip Larkin and Omar Khayyam.'
+            ),
+            'image' => ImagesFixtures::theChessboard(),
+            'mediaType' => MediaTypeEnum::AUDIO,
+            'options' => OptionsFixture::radioThree(),
+            'parent' => BrandsFixtures::wordsAndMusic(),
+            'position' => 3,
+            'isStreamable' => true,
+            'isExternallyEmbeddable' => false,
+            'masterBrand' => MasterBrandsFixtures::radioThree(),
+            'streamableUntil' => null,
             'streamableFrom' => new DateTimeImmutable('2017-06-01 20:00:00'),
         ])->build();
     }

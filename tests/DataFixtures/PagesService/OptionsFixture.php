@@ -127,6 +127,77 @@ class OptionsFixture
         );
     }
 
+    public static function radioThree(): Options
+    {
+        return new Options([
+            'twitter_block' => null,
+            'ivote_block' => null,
+            'thingstodo_block' => null,
+            'comingsoon_block' => null,
+            'comments_clips_enabled' => null,
+            'comments_clips_id' => null,
+            'comments_episodes_enabled' => null,
+            'comments_episodes_id' => null,
+            'playlister_popularity_enabled' => false,
+            'recipes_enabled' => null,
+            'live_stream_id' => null,
+            'live_stream_heading' => null,
+            'control-17' => null,
+            'project_space' => 'progs-radio3',
+            'navigation_links' => [
+                0 => [
+                    'title' => 'Schedule',
+                    'url' => '/radio3/programmes/schedules/this_week',
+                ],
+                1 => [
+                    'title' => 'Podcasts',
+                    'url' => '/podcasts/radio3',
+                ],
+                2 => [
+                    'title' => 'Composers',
+                    'url' => '/programmes/b006tnxf/features/composer-a-z',
+                ],
+            ],
+            'promoted_programmes' => [
+                0 => [
+                    'promoted_programmes_pid' => 'b006tmr6',
+                ],
+                1 => [
+                    'promoted_programmes_pid' => 'b014r87y',
+                ],
+                2 => [
+                    'promoted_programmes_pid' => 'b0144txn',
+                ],
+                3 => [
+                    'promoted_programmes_pid' => 'b006tp0c',
+                ],
+                4 => [
+                    'promoted_programmes_pid' => 'b006tp52',
+                ],
+                5 => [
+                    'promoted_programmes_pid' => 'b03q8r97',
+                ],
+            ],
+            'branding_id' => 'br-00065',
+            'theme' => null,
+            'language' => null,
+            'nav_override' => false,
+            'brand_layout' => null,
+            'pulse_survey' => null,
+            'show_tracklist_inadvance' => true,
+            'show_tracklist_timings' => true,
+            'pid_override_url' => null,
+            'pid_override_code' => null,
+            'show_enhanced_navigation' => null,
+            'podcast_rss_redirect' => null,
+            'brand_2016_layout' => null,
+            'brand_2016_layout_use_minimap' => null,
+            'double_width_first_promo' => null,
+            'show_gallery_cards' => null,
+            'show_clip_cards' => null,
+        ]);
+    }
+
     public static function worldServiceRadio()
     {
         return new Options(

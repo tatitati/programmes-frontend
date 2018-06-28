@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Tests\App\DataFixtures\PagesService;
 
+use App\Builders\NetworkBuilder;
+use App\Builders\ServiceBuilder;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
@@ -16,6 +18,11 @@ class ServicesAndNetworksFixtures
     public static function serviceBbcOneLondon(): Service
     {
         return self::intervalServiceBbcOneLondon(self::networkBbcOne());
+    }
+
+    public static function serviceRadioThree(): Service
+    {
+        return self::internalServiceRadioThree(self::networkRadioThree());
     }
 
     public static function serviceRadioFourFM(): Service
@@ -66,6 +73,19 @@ class ServicesAndNetworksFixtures
         );
     }
 
+    public static function networkRadioThree(): Network
+    {
+        return NetworkBuilder::any()->with([
+            'nid' => new Nid('bbc_radio_three'),
+            'name' => 'BBC Radio 3',
+            'image' => ImagesFixtures::radioThreeLogo(),
+            'options' => OptionsFixture::radioThree(),
+            'type' => 'National Radio',
+            'medium' => NetworkMediumEnum::RADIO,
+            'defaultService' => self::internalServiceRadioThree(),
+        ])->build();
+    }
+
     public static function networkWorldService(): Network
     {
         return new Network(
@@ -101,6 +121,21 @@ class ServicesAndNetworksFixtures
             null,
             null
         );
+    }
+
+    private static function internalServiceRadioThree(Network $network = null): Service
+    {
+        return ServiceBuilder::anyRadioService()->with([
+            'sid' => new Sid('bbc_radio_three'),
+            'pid' => new Pid('p00fzl8t'),
+            'name' => 'BBC Radio 3',
+            'shortName' => 'BBC Radio 3',
+            'urlKey' => 'bbc_radio_three',
+            'network' => $network,
+            'startDate' => new DateTimeImmutable('1967-09-30 08:00:00'),
+            'endDate' => null,
+            'liveStreamUrl' => null,
+        ])->build();
     }
 
     private static function internalServiceRadioFourFM(Network $network = null): Service

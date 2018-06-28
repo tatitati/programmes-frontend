@@ -35,6 +35,7 @@ class EpisodeBuilder extends AbstractBuilder
             'aggregatedBroadcastsCount' => $faker->numberBetween(1, 5),
             'availableClipsCount' => $faker->numberBetween(1, 5),
             'aggregatedGalleriesCount' => $faker->numberBetween(1, 5),
+            'isExternallyEmbeddable' => $faker->boolean,
             'options' => new Options(),
             // optional
             'parent' => null,

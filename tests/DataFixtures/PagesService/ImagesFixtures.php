@@ -19,6 +19,16 @@ class ImagesFixtures
         ])->build();
     }
 
+    public static function radioThreeLogo(): Image
+    {
+        return ImageBuilder::any()->with([
+            'pid' => new Pid('p04drxhn'),
+            'title' => 'Radio Three Logo',
+            'shortSynopsis' => 'Radio Three Logo',
+            'longestSynopsis' => 'Radio Three Logo',
+        ])->build();
+    }
+
     public static function radioFourLogo(): Image
     {
         return ImageBuilder::any()->with([
@@ -77,5 +87,14 @@ class ImagesFixtures
              'shortSynopsis' => 'Hardtalk interviews newsmakers and personalities from across the globe.',
              'longestSynopsis' => 'Hardtalk interviews newsmakers and personalities from across the globe.',
          ])->build();
+    }
+
+    public static function theChessboard(): Image
+    {
+        return ImageBuilder::any()->with([
+            'pid' => new Pid('p069d242'),
+            'title' => 'The Chessboard',
+            'shortSynopsis' => 'Readings from Adjoa Andoh and Henry Goodman. Music from Shostakovich to The Rolling Stones',
+        ])->build();
     }
 }

@@ -33,6 +33,7 @@ class ClipBuilder extends AbstractBuilder
             'mediaType' => $faker->randomElement(MediaTypeEnum::validValues()),
             'segmentEventCount' => $faker->numberBetween(0, 8),
             'aggregatedGalleriesCount' => $faker->numberBetween(1, 5),
+            'isExternallyEmbeddable' => $faker->boolean,
             'options' => new Options(),
             // optional
             'parent' => null,
