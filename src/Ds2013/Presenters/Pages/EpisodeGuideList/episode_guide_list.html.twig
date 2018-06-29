@@ -4,9 +4,9 @@
             {# SERIES DROPDOWN #}
             {%- if programme.getType() == 'series' -%}
                 <div resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
-                     class="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover episode-guide__series-container guide-series island"
-                     data-inactiveclass="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover guide-series island"
-                     data-activeclass="js-guideitem br-box-subtle island js-active guide-series island"
+                     class="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover episode-guide__series block-link"
+                     data-inactiveclass="js-guideitem highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover episode-guide__series block-link"
+                     data-activeclass="js-guideitem br-box-subtle js-active episode-guide__series island"
                      data-fetched="false"
                      data-incpath="{{ path('programme_episodes_guide_partial', {'pid': programme.getPid() }) }}?{{ episode_guide_list.getQueryParamForNextNestedLevel() }}">
 
@@ -14,7 +14,7 @@
 
                     {#Title of this season#}
                     <a resource="{{ path('find_by_pid', {'pid': programme.getPid()}) }}"
-                       class="js-serieslink istats-seriesopen block-link link-complex"
+                       class="js-serieslink istats-seriesopen block-link__target--conditional link-complex"
                        href="{{ path('programme_episodes_guide', {'pid': programme.getPid()}) }}"
                        aria-expanded="false"
                        aria-controls="series-{{ programme.getPid() }}"
@@ -38,7 +38,7 @@
                 </div>
             {%- else -%}
                 {# EPISODE #}
-                <div class="js-guideitem highlight-box--list block-link block-link--steal br-keyline br-blocklink-page br-page-linkhover-onbg015--hover episode-guide__episode-container">
+                <div class="js-guideitem highlight-box--list block-link block-link--steal br-keyline br-blocklink-page br-page-linkhover-onbg015--hover episode-guide__episode">
                     {%- set programme_broadcast = episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()) is not null ? episode_guide_list.getUpcomingBroadcastsFromProgramme(programme.getPid()) : null -%}
                     {%- set programme_object_options = {
                        'context_programme': episode_guide_list.getContextProgramme(),

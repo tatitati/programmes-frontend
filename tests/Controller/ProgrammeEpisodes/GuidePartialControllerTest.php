@@ -65,7 +65,7 @@ class GuidePartialControllerTest extends BaseWebTestCase
 
     private function thenUserSeeTheseTitles(array $expectedListOfTitles)
     {
-        $seriesTitles = $this->crawler->filter('.episode-guide__series-container .series__title');
+        $seriesTitles = $this->crawler->filter('.episode-guide__series .series__title');
 
         $titlesText = [];
         foreach ($seriesTitles as $seriesTitle) {

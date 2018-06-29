@@ -16,7 +16,8 @@
 }
 
 // we need a higher specificity than .box-link a
-.block-link__target.block-link__target {
+.block-link__target.block-link__target,
+.block-link .block-link__target--conditional.block-link__target--conditional {
     position: static;
 
     &::before {
