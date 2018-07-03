@@ -7,6 +7,7 @@ use App\Builders\ClipBuilder;
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
 use App\Builders\ImageBuilder;
+use App\Builders\NetworkBuilder;
 use App\Builders\SeriesBuilder;
 use App\Builders\ServiceBuilder;
 use App\Controller\Helpers\SchemaHelper;
@@ -83,14 +84,12 @@ class SchemaHelperTest extends TestCase
 
     public function testGetSchemaForOnDemandEventOutput()
     {
-        $episode = EpisodeBuilder::anyRadioEpisode()->with([
+        $episode = EpisodeBuilder::anyWithNetwork(['name' => 'BBC One'])->with([
             'streamableFrom' => new DateTimeImmutable('4000-02-03'),
             'streamableUntil' => new DateTimeImmutable('5000-02-03'),
         ])->build();
 
-        $service = ServiceBuilder::any()->with(['name' => 'BBC One Scotland'])->build();
-
-        $schema = $this->helper->getSchemaForOnDemandEvent($episode, $service);
+        $schema = $this->helper->getSchemaForOnDemandEvent($episode);
 
         $this->assertEquals([
             '@type' => 'OnDemandEvent',
@@ -104,7 +103,7 @@ class SchemaHelperTest extends TestCase
                     'name' => 'BBC',
                     'url' => 'https://www.bbc.co.uk/',
                 ],
-                'name' => 'BBC One Scotland',
+                'name' => 'BBC One',
             ],
             'duration' => 'PT' . $episode->getDuration() . 'S',
             'startDate' => '4000-02-03T00:00:00+00:00',

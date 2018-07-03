@@ -52,6 +52,16 @@ class EpisodeBuilder extends AbstractBuilder
         ];
     }
 
+    public static function anyWithNetwork(array $optionsForNetwork = [])
+    {
+        return self::any()->with([
+            'masterBrand' => MasterBrandBuilder::any()->with([
+                'network' => NetworkBuilder::any()->with($optionsForNetwork)
+                    ->build()
+            ])->build()
+        ]);
+    }
+
     public static function anyRadioEpisode()
     {
         $self = new self();

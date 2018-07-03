@@ -208,7 +208,7 @@ class EpisodeController extends BaseController
                 $schemaContext['publication'] = $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
             }
         } elseif ($episode->isStreamable()) {
-            $schemaContext['publication'] = $structuredDataHelper->getSchemaForOnDemand($episode);
+            $schemaContext['publication'] = $structuredDataHelper->getSchemaForOnDemand($episode, $episode->);
         }
 
         foreach ($clips as $clip) {

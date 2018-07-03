@@ -88,19 +88,18 @@ class SchemaHelper
         ];
     }
 
-    /**
-     * @param Episode $episode
-     * @param Service|Network $service
-     * @return array
-     */
-    public function getSchemaForOnDemandEvent(Episode $episode, $service): array
+    public function getSchemaForOnDemandEvent(Episode $episode): array
     {
         $event = [
             '@type' => 'OnDemandEvent',
-            'publishedOn' => $this->getSchemaForService($service),
             'duration' => (string) new ChronosInterval(null, null, null, null, null, null, $episode->getDuration()),
             'url' => $this->router->generate($this->streamableHelper->getRouteForProgrammeItem($episode), ['pid' => $episode->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
         ];
+
+        if ($episode->getNetwork()) {
+            $event['publishedOn'] = $this->getSchemaForService($episode->getNetwork());
+        }
+
         if ($episode->getStreamableFrom()) {
             $event['startDate'] = $episode->getStreamableFrom()->format(DATE_ATOM);
         }
