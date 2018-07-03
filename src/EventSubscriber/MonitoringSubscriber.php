@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace App\EventSubscriber;
 
 use App\Metrics\MetricsManager;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -13,15 +12,13 @@ class MonitoringSubscriber implements EventSubscriberInterface
 {
     const REQUEST_TIMER = 'app.request_time';
 
-    private $logger;
     private $stopwatch;
 
     /** @var MetricsManager */
     private $metricsManager;
 
-    public function __construct(LoggerInterface $logger, Stopwatch $stopwatch, MetricsManager $metricsManager)
+    public function __construct(Stopwatch $stopwatch, MetricsManager $metricsManager)
     {
-        $this->logger = $logger;
         $this->stopwatch = $stopwatch;
         $this->metricsManager = $metricsManager;
     }

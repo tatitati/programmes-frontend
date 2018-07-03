@@ -73,7 +73,6 @@ services:
     App\EventSubscriber\MonitoringSubscriber:
         tags:
             - { name: 'kernel.event_subscriber' }
-            - { name: 'monolog.logger', channel: 'app_access' }
 
     App\ValueObject\CosmosInfo:
         arguments: ['%cosmos_component_release%', '%cosmos_environment%']
