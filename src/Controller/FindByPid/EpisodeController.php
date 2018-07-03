@@ -147,11 +147,9 @@ class EpisodeController extends BaseController
                 'relatedTopics' => $relatedTopicsPromise,
                 'relatedProgrammes' => $relatedProgrammesPromise,
                 'supportingContentItems' => $supportingContentItemsPromise,
-                'isPodcasted' => $rmpsPodcastPromise,
+                'podcast' => $rmpsPodcastPromise,
         ]);
-
-        $rmsPodcast = $resolvedPromises['isPodcasted'];
-
+        
         $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
             $availableVersions,
@@ -159,7 +157,7 @@ class EpisodeController extends BaseController
             $lastOnBroadcast,
             $nextEpisode,
             $previousEpisode,
-            $rmsPodcast
+            $resolvedPromises['podcast']
         );
 
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
@@ -176,7 +174,7 @@ class EpisodeController extends BaseController
             'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
             'segmentsListPresenter' => $segmentsListPresenter,
-            'podcast' => ($rmsPodcast instanceof RmsPodcast) ? $episode->getTleo() : null,
+            'podcastedBy' => ($resolvedPromises['podcast'] instanceof RmsPodcast) ? $episode->getTleo() : null,
         ];
 
         $parameters = array_merge($parameters, $resolvedPromises);

@@ -246,24 +246,24 @@
                     }) }}
                 {% endfor %}
 
-                {% if podcast %}
+                {% if podcastedBy %}
                     {#Display temporal lazypanel#}
                     <div id="podcast">
                         <div class="lazy-module lazy-module--loading--loader"
                              data-lazyload-threshold="280"
-                             data-lazyload-inc="{{ path('programme_podcast_ds2013', {pid: podcast.getPid() }) }}"
+                             data-lazyload-inc="{{ path('programme_podcast_ds2013', {pid: podcastedBy.getPid() }) }}"
                              data-lazyload-delay="true">
                             <div class="component component--box-flushbody component--box--secondary">
                                 <div class="component__body">
                                     <div class="icon-box br-box-page">
                                         <a class="icon-box__link br-box-page__link br-page-link-onbg015 br-page-linkhover-onbg015--hover"
-                                           href="{{ path('programme_podcast_episodes_download', { pid: podcast.getPid() }) }}">
+                                           href="{{ path('programme_podcast_episodes_download', { pid: podcastedBy.getPid() }) }}">
                                             {{ gelicon('basics', 'download', 'icon-box__icon') }}
                                             <div class="icon-box__hgroup">
                                                 <h3 class="icon-box__title gamma">{{ tr('podcasts') }}</h3>
                                             </div>
                                             <p class="icon-box__note micro">
-                                                {{ tr('see_all_podcasts_for', {'%1': podcast.getTitle()}) }}
+                                                {{ tr('see_all_podcasts_for', {'%1': podcastedBy.getTitle()}) }}
                                             </p>
                                         </a>
                                     </div>
