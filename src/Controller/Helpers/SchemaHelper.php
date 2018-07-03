@@ -88,15 +88,16 @@ class SchemaHelper
         ];
     }
 
-    public function getSchemaForOnDemandEvent(Episode $episode): array
+    /**
+     * @param Episode $episode
+     * @param Service|Network $service
+     * @return array
+     */
+    public function getSchemaForOnDemandEvent(Episode $episode, $service): array
     {
         $event = [
             '@type' => 'OnDemandEvent',
-            'publishedOn' => [
-                '@type' => 'BroadcastService',
-                'broadcaster' => $this->getSchemaForOrganisation(),
-                'name' => 'iPlayer',
-            ],
+            'publishedOn' => $this->getSchemaForService($service),
             'duration' => (string) new ChronosInterval(null, null, null, null, null, null, $episode->getDuration()),
             'url' => $this->router->generate($this->streamableHelper->getRouteForProgrammeItem($episode), ['pid' => $episode->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
         ];
@@ -136,11 +137,9 @@ class SchemaHelper
      */
     public function getSchemaForService($service): array
     {
-        $bbcContext = $this->getSchemaForOrganisation();
-
         return [
             '@type' => 'BroadcastService',
-            'broadcaster' => $bbcContext,
+            'broadcaster' => $this->getSchemaForOrganisation(),
             'name' => $service->getName(),
         ];
     }

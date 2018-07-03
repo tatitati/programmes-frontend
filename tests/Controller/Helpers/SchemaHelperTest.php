@@ -88,7 +88,9 @@ class SchemaHelperTest extends TestCase
             'streamableUntil' => new DateTimeImmutable('5000-02-03'),
         ])->build();
 
-        $schema = $this->helper->getSchemaForOnDemandEvent($episode);
+        $service = ServiceBuilder::any()->with(['name' => 'BBC One Scotland'])->build();
+
+        $schema = $this->helper->getSchemaForOnDemandEvent($episode, $service);
 
         $this->assertEquals([
             '@type' => 'OnDemandEvent',
@@ -102,7 +104,7 @@ class SchemaHelperTest extends TestCase
                     'name' => 'BBC',
                     'url' => 'https://www.bbc.co.uk/',
                 ],
-                'name' => 'iPlayer',
+                'name' => 'BBC One Scotland',
             ],
             'duration' => 'PT' . $episode->getDuration() . 'S',
             'startDate' => '4000-02-03T00:00:00+00:00',

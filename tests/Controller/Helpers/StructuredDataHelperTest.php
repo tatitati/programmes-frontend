@@ -39,8 +39,9 @@ class StructuredDataHelperTest extends TestCase
     public function testOnDemandEpisodeIncludeCorrectFields()
     {
         $onDemandEpisode = EpisodeBuilder::any()->build();
+        $service = ServiceBuilder::any()->build();
 
-        $ondemandSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode);
+        $ondemandSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode, $service);
 
         $this->assertKeys([
             '@type',
@@ -56,8 +57,9 @@ class StructuredDataHelperTest extends TestCase
     public function testPublishedOnContent()
     {
         $onDemandEpisode = EpisodeBuilder::any()->build();
+        $service = ServiceBuilder::any()->build();
 
-        $publishedOnSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode)['publishedOn'];
+        $publishedOnSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode, $service)['publishedOn'];
 
         $this->assertKeys([
             '@type',
@@ -72,8 +74,9 @@ class StructuredDataHelperTest extends TestCase
     public function testBroadcasterHasTheRightContent()
     {
         $onDemandEpisode = EpisodeBuilder::any()->build();
+        $service = ServiceBuilder::any()->build();
 
-        $broadcasterSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode)['publishedOn']['broadcaster'];
+        $broadcasterSchema = $this->helper->getSchemaForOnDemand($onDemandEpisode, $service)['publishedOn']['broadcaster'];
 
         $this->assertKeys([
             '@type',

@@ -46,9 +46,14 @@ class StructuredDataHelper
         return $broadcastEvent;
     }
 
-    public function getSchemaForOnDemand(Episode $episode): array
+    /**
+     * @param Episode $episode
+     * @param Service|Network $service
+     * @return array
+     */
+    public function getSchemaForOnDemand(Episode $episode, $service): array
     {
-        return $this->schemaHelper->getSchemaForOnDemandEvent($episode);
+        return $this->schemaHelper->getSchemaForOnDemandEvent($episode, $service);
     }
 
     public function prepare($schemaToPrepare, $isArrayOfContexts = false): array
