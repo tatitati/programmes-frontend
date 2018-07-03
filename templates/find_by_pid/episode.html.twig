@@ -20,7 +20,7 @@
     <div class="prog-layout programmes-page">
         <div class="grid-wrapper grid-wrapper--center">
             {% if relatedTopics %}
-                <div class="grid grid--bounded grid--unbounded@bpw2 grid--unbounded@bpe">
+                <div id="related_topics" class="grid grid--bounded grid--unbounded@bpw2 grid--unbounded@bpe">
                     <div class="br-box-page prog-box">
                         <div class="component component--box--primary">
                             <div class="component__header br-box-page">
@@ -217,7 +217,7 @@
                     {{ advert('mpu', [3,4]) }}
                 {% endif %}
                 {% if relatedProgrammes %}
-                    <div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
+                    <div id="related_programmes" class="component component--box component--box--striped component--box-flushbody component--box--secondary">
                         <div class="component__header br-box-highlight">
                             <h2>{{ tr('related_programmes') }}</h2>
                         </div>
