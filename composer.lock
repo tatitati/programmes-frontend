@@ -2630,16 +2630,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v3.4.2",
+            "version": "v3.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "94ce2a457bfc720be2720767b97caf44ecac6c41"
+                "reference": "99bd0bc61d1de38a7ab3d98ceab00e46ad7385fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/94ce2a457bfc720be2720767b97caf44ecac6c41",
-                "reference": "94ce2a457bfc720be2720767b97caf44ecac6c41",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/99bd0bc61d1de38a7ab3d98ceab00e46ad7385fa",
+                "reference": "99bd0bc61d1de38a7ab3d98ceab00e46ad7385fa",
                 "shasum": ""
             },
             "require": {
@@ -2696,7 +2696,7 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2017-12-08T16:11:27+00:00"
+            "time": "2018-06-21T12:16:06+00:00"
         },
         {
             "name": "symfony/class-loader",

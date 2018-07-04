@@ -1,16 +1,20 @@
 monolog:
     handlers:
-        main:
+        cache:
+            # We need to log warnings from the symfony cache layer, as these encompass important
+            # redis errors, that are in no way warnings.
             type: fingers_crossed
-            channels: ['!app_access']
+            channels: ['cache']
+            action_level: warning
+            handler: nested
+        main:
+            # This handles logging everything else at $actionLevel (error),
+            # according to the activation strategy in the service defined by HttpCodeActivationStrategy
+            type: fingers_crossed
             activation_strategy: 'App\Exception\Handler\HttpCodeActivationStrategy'
             handler: nested
-        app_access:
-            type: stream
-            channels: ['app_access']
-            path: '%kernel.logs_dir%/prod-access.log'
-            level: info
         nested:
+            # And this is what kicks in once the activation strategy tells us we need to log
             type: stream
             path: '%kernel.logs_dir%/prod.log'
             level: debug

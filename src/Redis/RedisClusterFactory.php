@@ -33,6 +33,7 @@ class RedisClusterFactory
                 RedisCluster::FAILOVER_DISTRIBUTE
             );
             $cacheAdapter = new RedisAdapter($redisClusterInstance);
+            $cacheAdapter->setLogger($logger);
         } catch (RedisClusterException $e) {
             // if redis cluster fail, log the error and use a null adapter as a cache provider
             $logger->error("Redis Cluster Error: " . $e->getMessage() . '. Using NullAdapter as a fallback cache adapter');

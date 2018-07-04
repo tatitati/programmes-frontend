@@ -4,12 +4,7 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
-            channels: ['!event', '!app_access']
-        app_access:
-            type: stream
-            channels: ['app_access']
-            path: '%kernel.logs_dir%/%kernel.environment%-access.log'
-            level: debug
+            channels: ['!event']
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration
         #firephp:
