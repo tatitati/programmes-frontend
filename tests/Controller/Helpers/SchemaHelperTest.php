@@ -7,14 +7,19 @@ use App\Builders\ClipBuilder;
 use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\EpisodeBuilder;
 use App\Builders\ImageBuilder;
+use App\Builders\MasterBrandBuilder;
+use App\Builders\NetworkBuilder;
 use App\Builders\SeriesBuilder;
 use App\Builders\ServiceBuilder;
 use App\Controller\Helpers\SchemaHelper;
 use App\DsShared\Helpers\StreamableHelper;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use DateTimeImmutable;
+use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -31,7 +36,7 @@ class SchemaHelperTest extends TestCase
         $router = $this->createConfiguredMock(UrlGeneratorInterface::class, [
             'generate' => 'this/url/was/stubbed',
         ]);
-        $this->helper = new SchemaHelper($router, $this->createMock(StreamableHelper::class));
+        $this->helper = new SchemaHelper($router, new StreamableHelper());
     }
 
     public function testSchemaSeriesOutput()
@@ -83,7 +88,7 @@ class SchemaHelperTest extends TestCase
 
     public function testGetSchemaForOnDemandEventOutput()
     {
-        $episode = EpisodeBuilder::anyRadioEpisode()->with([
+        $episode = $this->anyEpisodeInProgrammes()->with([
             'streamableFrom' => new DateTimeImmutable('4000-02-03'),
             'streamableUntil' => new DateTimeImmutable('5000-02-03'),
         ])->build();
@@ -95,19 +100,42 @@ class SchemaHelperTest extends TestCase
             'url' => 'this/url/was/stubbed',
             'publishedOn' => [
                 '@type' => 'BroadcastService',
-                'broadcaster' => [
-                    '@type' => 'Organization',
-                    'legalName' => 'British Broadcasting Corporation',
-                    'logo' => 'http://ichef.bbci.co.uk/images/ic/1200x675/p01tqv8z.png',
-                    'name' => 'BBC',
-                    'url' => 'https://www.bbc.co.uk/',
-                ],
-                'name' => 'iPlayer',
+                'broadcaster' => $this->broadcaster(),
+                'name' => 'BBC programmes',
+                'url' => 'this/url/was/stubbed',
             ],
             'duration' => 'PT' . $episode->getDuration() . 'S',
             'startDate' => '4000-02-03T00:00:00+00:00',
             'endDate' => '5000-02-03T00:00:00+00:00',
         ], $schema);
+    }
+
+    public function testGetSchemaForOnDemandEventOutputForPlayspace()
+    {
+        $schema = $this->helper->getSchemaForOnDemandEvent(
+            $this->anyEpisodeInPlayspace()->build()
+        );
+
+        $this->assertEquals([
+            '@type' => 'BroadcastService',
+            'broadcaster' => $this->broadcaster(),
+            'url' => 'https://www.bbc.co.uk/radio',
+            'name' => 'BBC iPlayer Radio',
+        ], $schema['publishedOn']);
+    }
+
+    public function testGetSchemaForOnDemandEventOutputForIPlayer()
+    {
+        $schema = $this->helper->getSchemaForOnDemandEvent(
+            $this->anyEpisodeInIplayer()->build()
+        );
+
+        $this->assertEquals([
+            '@type' => 'BroadcastService',
+            'broadcaster' => $this->broadcaster(),
+            'url' => 'https://www.bbc.co.uk/iplayer',
+            'name' => 'BBC iPlayer',
+        ], $schema['publishedOn']);
     }
 
     public function testGetSchemaForBroadcastEventOutput()
@@ -215,5 +243,54 @@ class SchemaHelperTest extends TestCase
         $schema = $this->helper->buildSchemaForClip($clip);
 
         $this->assertArrayNotHasKey('releaseDate', $schema, 'releaseDate is an optional field: cannot exist if the clip has not a releaseDate');
+    }
+
+    /**
+     * Helpers
+     */
+    private function broadcaster(): array
+    {
+        return [
+            '@type' => 'Organization',
+            'legalName' => 'British Broadcasting Corporation',
+            'logo' => 'http://ichef.bbci.co.uk/images/ic/1200x675/p01tqv8z.png',
+            'name' => 'BBC',
+            'url' => 'https://www.bbc.co.uk/',
+        ];
+    }
+
+    private function anyEpisodeInProgrammes()
+    {
+        return EpisodeBuilder::any()->with([
+            'mediaType' => MediaTypeEnum::AUDIO,
+            'masterBrand' => MasterBrandBuilder::any()->with([
+                'network' => NetworkBuilder::any()->build(),
+            ])->build(),
+        ]);
+    }
+
+    private function anyEpisodeInPlayspace()
+    {
+        $faker = Factory::create();
+
+        return EpisodeBuilder::any()->with([
+            'mediaType' => MediaTypeEnum::AUDIO,
+            'masterBrand' => MasterBrandBuilder::any()->with([
+                'network' => NetworkBuilder::any()->with([
+                    'nid' => new Nid(
+                        $faker->randomElement(['bbc_radio_four_extra', 'bbc_radio_three', 'bbc_radio_scotland'])
+                    ),
+                ])->build(),
+            ])->build(),
+        ]);
+    }
+
+    private function anyEpisodeInIplayer()
+    {
+        $faker = Factory::create();
+
+        return EpisodeBuilder::any()->with([
+            'mediaType' => $faker->randomElement([MediaTypeEnum::UNKNOWN, MediaTypeEnum::VIDEO]),
+        ]);
     }
 }

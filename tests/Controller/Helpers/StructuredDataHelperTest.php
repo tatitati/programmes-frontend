@@ -62,7 +62,6 @@ class StructuredDataHelperTest extends TestCase
         $this->assertKeys([
             '@type',
             'broadcaster',
-            'name',
         ], $publishedOnSchema);
 
         $this->assertEquals('BroadcastService', $publishedOnSchema['@type']);

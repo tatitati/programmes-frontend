@@ -90,16 +90,32 @@ class SchemaHelper
 
     public function getSchemaForOnDemandEvent(Episode $episode): array
     {
+        $name = null;
+        $urlBroadcastService = null;
+
+        if ($this->streamableHelper->shouldStreamViaPlayspace($episode)) {
+            $name = 'BBC iPlayer Radio';
+            $urlBroadcastService = 'https://www.bbc.co.uk/radio';
+        } elseif ($this->streamableHelper->shouldStreamViaIplayer($episode)) {
+            $name = 'BBC iPlayer';
+            $urlBroadcastService = 'https://www.bbc.co.uk/iplayer';
+        } else {
+            $name = 'BBC programmes';
+            $urlBroadcastService = $this->router->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
+
         $event = [
             '@type' => 'OnDemandEvent',
             'publishedOn' => [
                 '@type' => 'BroadcastService',
                 'broadcaster' => $this->getSchemaForOrganisation(),
-                'name' => 'iPlayer',
+                'name' => $name,
+                'url' => $urlBroadcastService,
             ],
             'duration' => (string) new ChronosInterval(null, null, null, null, null, null, $episode->getDuration()),
             'url' => $this->router->generate($this->streamableHelper->getRouteForProgrammeItem($episode), ['pid' => $episode->getPid()], UrlGeneratorInterface::ABSOLUTE_URL),
         ];
+
         if ($episode->getStreamableFrom()) {
             $event['startDate'] = $episode->getStreamableFrom()->format(DATE_ATOM);
         }
