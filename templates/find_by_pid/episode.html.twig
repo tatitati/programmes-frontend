@@ -55,9 +55,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if hasAdverts %}
-                        {{ advert('mpu', [1,2]) }}
-                    {% endif %}
+                    {{ advert('mpu', [1,2]) }}
                     {# Recipes module #}
                     {% if programme.getOption('recipes_enabled') %}
                         <div id="recipes" class="lazy-module lazy-module--loading--loader"
@@ -213,9 +211,7 @@
             </div>
 
             <div class="grid grid--bounded 11/24@bpw2 11/24@bpe">
-                {% if hasAdverts %}
-                    {{ advert('mpu', [3,4]) }}
-                {% endif %}
+                {{ advert('mpu', [3,4]) }}
                 {% if relatedProgrammes %}
                     <div id="related_programmes" class="component component--box component--box--striped component--box-flushbody component--box--secondary">
                         <div class="component__header br-box-highlight">
