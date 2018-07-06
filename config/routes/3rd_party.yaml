@@ -66,13 +66,13 @@ my_tracks:
 atoz_list_all:
     path: /programmes/a-z/all
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
-    schemes: [http]
+    schemes: [https]
 
 categories_show:
     path: /programmes/{categoryType}/{urlKeyHierarchy}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     requirements: { categoryType: 'formats|genres', urlKeyHierarchy: '.+' }
-    schemes: [http]
+    schemes: [https]
 
 programme_clips:
     path: /programmes/{pid}/clips
