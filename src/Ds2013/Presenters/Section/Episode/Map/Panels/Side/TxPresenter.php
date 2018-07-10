@@ -34,13 +34,24 @@ class TxPresenter extends Presenter
     public function getTitle() :?string
     {
         if ($this->collapsedBroadcast->isOnAir()) {
-            return $this->collapsedBroadcast->getProgrammeItem()->isRadio() ? 'on_air' : 'on_now';
+            return $this->collapsedBroadcastIsRadio() ? 'on_air' : 'on_now';
         }
 
         if ($this->collapsedBroadcast->getEndAt()->isPast()) {
             return 'last_on';
         }
 
-        return $this->collapsedBroadcast->getProgrammeItem()->isRadio() ? 'on_radio' : 'on_tv';
+        return $this->collapsedBroadcastIsRadio() ? 'on_radio' : 'on_tv';
+    }
+
+    private function collapsedBroadcastIsRadio(): bool
+    {
+        $services = $this->collapsedBroadcast->getServices();
+        foreach ($services as $service) {
+            if ($service->getNetwork()) {
+                return $service->getNetwork()->isRadio();
+            }
+        }
+        return $this->collapsedBroadcast->getProgrammeItem()->isRadio();
     }
 }
