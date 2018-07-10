@@ -10,7 +10,6 @@ use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;

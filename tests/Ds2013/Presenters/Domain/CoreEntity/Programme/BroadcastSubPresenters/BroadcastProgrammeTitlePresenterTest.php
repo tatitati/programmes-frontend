@@ -10,7 +10,6 @@ use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\BroadcastInfoInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Cake\Chronos\Chronos;
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

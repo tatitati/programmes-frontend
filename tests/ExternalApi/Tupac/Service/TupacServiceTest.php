@@ -9,9 +9,9 @@ use App\ExternalApi\Tupac\Service\TupacService;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
-use Tests\App\ExternalApi\BaseServiceTestCase;
 use GuzzleHttp\Psr7\Response;
 use ReflectionClass;
+use Tests\App\ExternalApi\BaseServiceTestCase;
 
 /**
  * @group podcast

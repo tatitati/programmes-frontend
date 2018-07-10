@@ -6,16 +6,13 @@ namespace App\ExternalApi\Ada\Service;
 use App\ExternalApi\Ada\Mapper\AdaProgrammeMapper;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Exception\MultiParseException;
-use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Closure;
-use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
-use Psr\Cache\CacheItemInterface;
 
 class AdaProgrammeService
 {

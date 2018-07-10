@@ -6,8 +6,6 @@ namespace App\Controller\Recipes;
 use App\Controller\BaseController;
 use App\ExternalApi\Recipes\Service\RecipesService;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 abstract class AbstractRecipesController extends BaseController

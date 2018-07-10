@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\Builders;
 
-use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;

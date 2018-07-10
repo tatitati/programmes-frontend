@@ -14,8 +14,8 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
-use Tests\App\ExternalApi\BaseServiceTestCase;
 use GuzzleHttp\Psr7\Response;
+use Tests\App\ExternalApi\BaseServiceTestCase;
 
 /**
  * @group podcast

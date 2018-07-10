@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Exception;
 
-use \Exception;
+use Exception;
 
 class MultiParseException extends \RuntimeException
 {

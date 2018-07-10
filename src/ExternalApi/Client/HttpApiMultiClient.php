@@ -8,13 +8,10 @@ use BBC\ProgrammesCachingLibrary\CacheInterface;
 use Closure;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
-use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 class HttpApiMultiClient extends HttpApiClient
 {

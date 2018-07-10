@@ -5,8 +5,6 @@ namespace Tests\App\ExternalApi\Ada\Domain;
 
 use App\ExternalApi\Ada\Domain\AdaProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Domain\Entity\Image;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
 
 class AdaProgrammeItemTest extends TestCase

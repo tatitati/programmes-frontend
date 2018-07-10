@@ -12,9 +12,9 @@ use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
 use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\ExternalApi\RmsPodcast\Service\RmsPodcastService;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
-use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
@@ -149,7 +149,7 @@ class EpisodeController extends BaseController
                 'supportingContentItems' => $supportingContentItemsPromise,
                 'podcast' => $rmpsPodcastPromise,
         ]);
-        
+
         $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
             $availableVersions,
