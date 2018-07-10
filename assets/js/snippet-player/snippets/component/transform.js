@@ -23,10 +23,12 @@ define([
             }
             var self = this;
 
-            this.request(recordIds, function(snippetsItems) {
-                self.replace(snippetsItems);
-                callback();
-            });
+            if (recordIds.length > 0) {
+                this.request(recordIds, function(snippetsItems) {
+                    self.replace(snippetsItems);
+                    callback();
+                });
+            }
         },
 
         request: function(ids, callback) {
