@@ -27,6 +27,11 @@
     margin-top: 0;
 }
 
+.episode-panel__alternate-icon {
+    width: 24px;
+    height: 24px;
+}
+
 @include mq-range('bpw2') {
     .map--episode .map__column .map__inner,
     .map__fauxcolumn {
