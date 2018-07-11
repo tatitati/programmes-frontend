@@ -60,12 +60,12 @@
             <p class="episode-panel__meta delta">
                 {% if presenter.hasAvailableSignedVersion() %}
                     <a class="text--no-ul" title="{{ tr('signed') }}" href="{{ path('iplayer_play', {'pid': presenter.getEpisode().getPid(), 'version': 'sign'}) }}">
-                        {{ gelicon('audio-visual', 'sign-language-1', 'gelicon--gamma') }}<span class="visually-hidden">{{ tr('signed') }}</span>
+                        {{ gelicon('audio-visual', 'sign-language-1', 'gelicon--beta') }}<span class="visually-hidden">{{ tr('signed') }}</span>
                     </a>
                 {% endif %}
                 {% if presenter.hasAvailableAudioDescribedVersion() %}
                     <a class="text--no-ul" title="{{ tr('audio_described') }}" href="{{ path('iplayer_play', {'pid': presenter.getEpisode().getPid(), 'version': 'ad'}) }}">
-                        {{ gelicon('audio-visual', 'audio-description', 'gelicon--gamma') }}<span class="visually-hidden">{{ tr('audio_described') }}</span>
+                        {{ gelicon('audio-visual', 'audio-description', 'gelicon--beta') }}<span class="visually-hidden">{{ tr('audio_described') }}</span>
                     </a>
                 {% endif %}
             </p>
