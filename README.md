@@ -161,6 +161,20 @@ In order to create and populate the scenario datbase, run the following command 
 php bin/console doctrine:schema:update --em fixture --env dev_fixture
 ```
 
+Updating the fixture database on test
+---------------------------------
+
+The fixture database on test is not kept up to date by the standard faucet migrations. It has to be done 
+manually once in a while. To do this, ssh into a FRONTEND server on test with the latest programmes pages service. 
+Run the following command to check what needs to be updated  
+```
+php /var/www/programmes-frontend/bin/console --env=prod_test_fixture doctrine:schema:update  --dump-sql
+```
+If that looks reasonable, run
+```
+php /var/www/programmes-frontend/bin/console --env=prod_test_fixture doctrine:schema:update  --force
+``` 
+
 Release process
 ---------------------------------
 See [Release Process](docs/release-process.md)

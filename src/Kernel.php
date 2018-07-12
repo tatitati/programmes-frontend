@@ -83,7 +83,7 @@ class Kernel extends BaseKernel
 
         // If we are in a fixtured environment then load the fixture config
         if (substr($this->environment, -8) == '_fixture') {
-            $loader->load($confDir . '/fixture_db.yaml', 'glob');
+            $loader->load($confDir . '/fixture_db.yaml', 'yaml');
         }
 
         $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
