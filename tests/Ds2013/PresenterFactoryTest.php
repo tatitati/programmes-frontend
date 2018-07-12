@@ -18,11 +18,11 @@ use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\DsShared\Helpers\HelperFactory;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -151,9 +151,9 @@ class PresenterFactoryTest extends TestCase
         $clip = ClipBuilder::any()->build();
         $contributions = [ContributionBuilder::any()->build()];
         $version = VersionBuilder::any()->build();
-        $rmsPodcast = new RmsPodcast(new Pid('p002d80x'), 'uk');
+        $podcast = new Podcast($clip, 'weekly', -1, true, false);
 
-        $presenter = $this->factory->clipDetailsPresenter($clip, $contributions, $version, $rmsPodcast, $options);
+        $presenter = $this->factory->clipDetailsPresenter($clip, $contributions, $version, $podcast, $options);
 
         $this->assertInstanceOf(ClipDetailsPresenter::class, $presenter);
         $this->assertEquals('@Ds2013/Presenters/Section/Clip/Details/clip_details.html.twig', $presenter->getTemplatePath());
@@ -165,9 +165,9 @@ class PresenterFactoryTest extends TestCase
     {
         $clip = ClipBuilder::any()->build();
         $version = VersionBuilder::any()->build();
-        $rmsPodcast = new RmsPodcast(new Pid('p002d80x'), 'uk');
+        $podcast = new Podcast($clip, 'weekly', -1, true, false);
 
-        $presenter = $this->factory->downloadPresenter($clip, $version, $rmsPodcast, []);
+        $presenter = $this->factory->downloadPresenter($clip, $version, $podcast, []);
 
         $this->assertInstanceOf(DownloadPresenter::class, $presenter);
     }
@@ -175,11 +175,10 @@ class PresenterFactoryTest extends TestCase
     /**
      * helpers
      */
-    private function anyEpisodeMapPresenter(bool $hasRmsPodcast = false): EpisodeMapPresenter
+    private function anyEpisodeMapPresenter(bool $hasPodcast = false): EpisodeMapPresenter
     {
-        $dummyPid = $this->createMock(Pid::class);
-        $rmsPodcast = new RmsPodcast($dummyPid, 'uk');
         $dummyEp = $this->createMock(Episode::class);
+        $podcast = new Podcast($dummyEp, 'weekly', -1, true, false);
         $dummyCB = $this->createMock(CollapsedBroadcast::class);
         $dummyNull = null;
         $dummyArray = [];
@@ -191,7 +190,7 @@ class PresenterFactoryTest extends TestCase
             $dummyCB,
             $dummyNull,
             $dummyNull,
-            $hasRmsPodcast ? $rmsPodcast : null
+            $hasPodcast ? $podcast : null
         );
     }
 }

@@ -24,4 +24,3 @@ parameters:
     fixture_secure_key: developer
     receng_video_key: 'videokey'
     receng_audio_key: 'audiokey'
-    rmspodcast_api_key: 'check_in_cosmos_configuration'

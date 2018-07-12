@@ -27,7 +27,6 @@ use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Recipes\Domain\Recipe;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
@@ -35,6 +34,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
+use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -202,7 +202,7 @@ class PresenterFactory
         ?CollapsedBroadcast $lastOnCollapsedBroadcast,
         ?Episode $nextEpisode,
         ?Episode $previousEpisode,
-        ?RmsPodcast $rmsPodcast
+        ?Podcast $podcast
     ) :EpisodeMapPresenter {
         return new EpisodeMapPresenter(
             $this->router,
@@ -215,7 +215,7 @@ class PresenterFactory
             $versions,
             $nextEpisode,
             $previousEpisode,
-            $rmsPodcast
+            $podcast
         );
     }
 
@@ -318,14 +318,14 @@ class PresenterFactory
      * @param Clip $clip
      * @param Contribution[] $contributions
      * @param Version|null $version
-     * @param RmsPodcast|null $rmsPodcast
+     * @param Podcast|null $podcast
      * @param array $options
      */
     public function clipDetailsPresenter(
         Clip $clip,
         array $contributions,
         ?Version $version,
-        ?RmsPodcast $rmsPodcast,
+        ?Podcast $podcast,
         array $options = []
     ): ClipDetailsPresenter {
         return new ClipDetailsPresenter(
@@ -333,7 +333,7 @@ class PresenterFactory
             $clip,
             $contributions,
             $version,
-            $rmsPodcast,
+            $podcast,
             $options
         );
     }
@@ -341,16 +341,16 @@ class PresenterFactory
     /**
      * @param ProgrammeItem $programmeItem
      * @param Version $version
-     * @param RmsPodcast|null $rmsPodcast
+     * @param Podcast|null $podcast
      * @param array $options
      */
     public function downloadPresenter(
         ProgrammeItem $programmeItem,
         Version $version,
-        ?RmsPodcast $rmsPodcast,
+        ?Podcast $podcast,
         array $options = []
     ): DownloadPresenter {
-        return new DownloadPresenter($this->router, $programmeItem, $version, $rmsPodcast, $options);
+        return new DownloadPresenter($this->router, $programmeItem, $version, $podcast, $options);
     }
 
     public function superpromoPresenter(Promotion $promotion, array $options = []): SuperpromoPresenter

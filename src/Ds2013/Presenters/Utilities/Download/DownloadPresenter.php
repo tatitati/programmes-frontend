@@ -2,8 +2,8 @@
 namespace App\Ds2013\Presenters\Utilities\Download;
 
 use App\Ds2013\Presenter;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
+use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -19,15 +19,15 @@ class DownloadPresenter extends Presenter
     /** @var Version */
     private $version;
 
-    /** @var RmsPodcast|null */
-    private $rmsPodcast;
+    /** @var Podcast|null */
+    private $podcast;
 
-    public function __construct(UrlGeneratorInterface $router, ProgrammeItem $programme, Version $version, ?RmsPodcast $rmsPodcast, array $options = [])
+    public function __construct(UrlGeneratorInterface $router, ProgrammeItem $programme, Version $version, ?Podcast $podcast, array $options = [])
     {
         $this->programme = $programme;
         $this->router = $router;
         $this->version = $version;
-        $this->rmsPodcast = $rmsPodcast;
+        $this->podcast = $podcast;
         parent::__construct($options);
     }
 
@@ -66,8 +66,8 @@ class DownloadPresenter extends Presenter
 
     public function isUkOnlyPodcast(): bool
     {
-        if ($this->rmsPodcast) {
-            return $this->rmsPodcast->isOnlyInUk();
+        if ($this->podcast) {
+            return $this->podcast->getIsUkOnly();
         }
 
         return false;

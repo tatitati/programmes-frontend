@@ -47,7 +47,6 @@ def substitute_data(data):
         'fixture_secure_key': data["secure_configuration"].get('fixture_secure_key', 'blank'),
         'receng_video_key': data["secure_configuration"]["receng_video_key"],
         'receng_audio_key': data["secure_configuration"]["receng_audio_key"],
-        'rmspodcast_api_key': data["secure_configuration"]["rmspodcast_api_key"],
     }
 
 def rewrite_application_parameters(config):

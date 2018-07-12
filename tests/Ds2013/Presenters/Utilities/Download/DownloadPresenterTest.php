@@ -4,9 +4,9 @@ namespace Tests\App\Ds2013\Presenters\Utilities\Download;
 use App\Builders\ClipBuilder;
 use App\Builders\VersionBuilder;
 use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPStan\Testing\TestCase;
@@ -64,34 +64,11 @@ class DownloadPresenterTest extends TestCase
     public function testIsNotUkOnlyByDefault()
     {
         $givenClip = ClipBuilder::any()->build();
-        $noneRmsPodcast = null;
+        $podcast = null;
 
-        $thenClipDetailsPresenter = $this->presenter($givenClip, $noneRmsPodcast);
+        $thenClipDetailsPresenter = $this->presenter($givenClip, $podcast);
 
         $this->assertFalse($thenClipDetailsPresenter->isUkOnlyPodcast());
-    }
-
-    /**
-     * @dataProvider rmsPodcastTerritoriesProvider
-     */
-    public function testRmsPodcastDecidesIfIsOnlyUk($providedTerritory, $expectedIsUkOnly)
-    {
-        $dummy = $this->createMock(Pid::class);
-
-        $givenClip = ClipBuilder::any()->build();
-        $givenRmsPodcast = new RmsPodcast($dummy, $providedTerritory);
-
-        $thenClipDetailsPresenter = $this->presenter($givenClip, $givenRmsPodcast);
-
-        $this->assertEquals($expectedIsUkOnly, $thenClipDetailsPresenter->isUkOnlyPodcast());
-    }
-
-    public function rmsPodcastTerritoriesProvider()
-    {
-        return [
-            ['uk', true],
-            ['spain', false],
-        ];
     }
 
     /**
@@ -120,7 +97,7 @@ class DownloadPresenterTest extends TestCase
     /**
      * helpers
      */
-    private function presenter(ProgrammeItem $programmeItem, ?RmsPodcast $rmsPodcast): DownloadPresenter
+    private function presenter(ProgrammeItem $programmeItem, ?Podcast $podcast): DownloadPresenter
     {
         $stubRouter = $this->createConfiguredMock(UrlGeneratorInterface::class, [
             'generate' => 'stubbed/url/from/router',
@@ -128,6 +105,6 @@ class DownloadPresenterTest extends TestCase
 
         $version = VersionBuilder::any()->with(['isDownloadable' => true])->build();
 
-        return new DownloadPresenter($stubRouter, $programmeItem, $version, $rmsPodcast, []);
+        return new DownloadPresenter($stubRouter, $programmeItem, $version, $podcast, []);
     }
 }

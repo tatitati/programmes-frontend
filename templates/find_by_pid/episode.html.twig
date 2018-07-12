@@ -243,27 +243,34 @@
                 {% endfor %}
 
                 {% if podcastedBy %}
-                    {#Display temporal lazypanel#}
                     <div id="podcast">
-                        <div class="lazy-module lazy-module--loading--loader"
-                             data-lazyload-threshold="280"
-                             data-lazyload-inc="{{ path('programme_podcast_ds2013', {pid: podcastedBy.getPid() }) }}"
-                             data-lazyload-delay="true">
-                            <div class="component component--box-flushbody component--box--secondary">
-                                <div class="component__body">
-                                    <div class="icon-box br-box-page">
-                                        <a class="icon-box__link br-box-page__link br-page-link-onbg015 br-page-linkhover-onbg015--hover"
-                                           href="{{ path('programme_podcast_episodes_download', { pid: podcastedBy.getPid() }) }}">
-                                            {{ gelicon('basics', 'download', 'icon-box__icon') }}
-                                            <div class="icon-box__hgroup">
-                                                <h3 class="icon-box__title gamma">{{ tr('podcasts') }}</h3>
-                                            </div>
-                                            <p class="icon-box__note micro">
-                                                {{ tr('see_all_podcasts_for', {'%1': podcastedBy.getTitle()}) }}
-                                            </p>
-                                        </a>
-                                    </div>
-                                </div>
+                        <div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
+                            <div class="component__header br-box-highlight">
+                                <h2>{{ tr('podcasts', 1) }}</h2>
+                            </div>
+
+                            <div class="component__body br-box-subtle">
+                                <ul class="list-unstyled">
+                                    <li class="">
+                                        {{ ds2013('programme', podcastedBy, {
+                                            'body_options': {
+                                                'show_synopsis': true,
+                                            },
+                                            'title_options': {
+                                                'link_to' : 'podcast',
+                                            },
+                                            'image_options': {
+                                                'default_width': 160,
+                                                'is_lazy_loaded': true,
+                                                'sizes': {
+                                                    0: 1/4,
+                                                    1008: '136px',
+                                                },
+                                            },
+                                            'container_classes': 'programme programme--radio programme--brand block-link highlight-box--list br-keyline br-blocklink-page br-page-linkhover-onbg015--hover',
+                                        }) }}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

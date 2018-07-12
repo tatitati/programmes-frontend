@@ -12,9 +12,9 @@ use App\Ds2013\Presenters\Section\Episode\Map\Panels\Side\TxPresenter;
 use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\DsShared\Helpers\StreamableHelper;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EpisodeMapPresenter extends Presenter
@@ -54,7 +54,7 @@ class EpisodeMapPresenter extends Presenter
         array $availableVersions,
         ?Episode $nextEpisode,
         ?Episode $previousEpisode,
-        ?RmsPodcast $rmsPodcast
+        ?Podcast $podcast
     ) {
         parent::__construct();
         $this->episode = $episode;
@@ -63,7 +63,7 @@ class EpisodeMapPresenter extends Presenter
         $this->nextEpisode = $nextEpisode;
         $this->previousEpisode = $previousEpisode;
         $this->sideSubPresenters = $this->buildSidePanelsSubPresenters();
-        $this->detailsSubpresenter = new DetailsPresenter($playTranslationsHelper, $router, $episode, $availableVersions, $rmsPodcast);
+        $this->detailsSubpresenter = new DetailsPresenter($playTranslationsHelper, $router, $episode, $availableVersions, $podcast);
         $this->playoutSubpresenter = new PlayoutPresenter($liveBroadcastHelper, $streamUrlHelper, $router, $episode, $upcoming, $lastOn, $availableVersions);
     }
 

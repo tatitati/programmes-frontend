@@ -3,9 +3,9 @@ namespace App\Ds2013\Presenters\Section\Clip\Details;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
+use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use DateTime;
 
@@ -23,14 +23,14 @@ class ClipDetailsPresenter extends Presenter
     /** @var Version|null */
     private $version;
 
-    /** @var RmsPodcast|null */
-    private $rmsPodcast;
+    /** @var Podcast|null */
+    private $podcast;
 
-    public function __construct(PlayTranslationsHelper $playTranslationsHelper, Clip $clip, array $contributions, ?Version $version, ?RmsPodcast $rmsPodcast, array $options = [])
+    public function __construct(PlayTranslationsHelper $playTranslationsHelper, Clip $clip, array $contributions, ?Version $version, ?Podcast $podcast, array $options = [])
     {
         $this->clip = $clip;
         $this->version = $version;
-        $this->rmsPodcast = $rmsPodcast;
+        $this->podcast = $podcast;
         $this->contributions = $contributions;
         $this->playTranslationsHelper = $playTranslationsHelper;
 
@@ -47,9 +47,9 @@ class ClipDetailsPresenter extends Presenter
         return $this->version;
     }
 
-    public function getRmsPodcast(): ?RmsPodcast
+    public function getPodcast(): ?Podcast
     {
-        return $this->rmsPodcast;
+        return $this->podcast;
     }
 
     public function canBeDownloaded(): bool

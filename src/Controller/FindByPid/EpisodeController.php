@@ -9,8 +9,6 @@ use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\Electron\Service\ElectronService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
-use App\ExternalApi\RmsPodcast\Service\RmsPodcastService;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -19,6 +17,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\GroupsService;
+use BBC\ProgrammesPagesService\Service\PodcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\PromotionsService;
@@ -46,7 +45,7 @@ class EpisodeController extends BaseController
         GroupsService $groupsService,
         PresenterFactory $presenterFactory,
         StructuredDataHelper $structuredDataHelper,
-        RmsPodcastService $podcastService
+        PodcastsService $podcastsService
     ) {
         $this->setIstatsProgsPageType('programmes_episode');
         $this->setContextAndPreloadBranding($episode);
@@ -137,18 +136,17 @@ class EpisodeController extends BaseController
         $this->setIstatsUpcomingLabel($upcomingBroadcast);
         $this->setIstatsLiveEpisodeLabel($upcomingBroadcast);
 
-        $rmpsPodcastPromise = new FulfilledPromise(null);
-        if ($episode->getTleo() instanceof ProgrammeContainer && $episode->getTleo()->isRadio()) {
-            $rmpsPodcastPromise = $podcastService->getPodcast($episode->getTleo()->getPid());
-        }
-
         $resolvedPromises = $this->resolvePromises([
                 'favouritesButton' => $favouritesButtonService->getContent(),
                 'relatedTopics' => $relatedTopicsPromise,
                 'relatedProgrammes' => $relatedProgrammesPromise,
                 'supportingContentItems' => $supportingContentItemsPromise,
-                'podcast' => $rmpsPodcastPromise,
         ]);
+
+        $podcast = null;
+        if ($episode->getTleo() instanceof ProgrammeContainer && $episode->getTleo()->isPodcastable()) {
+            $podcast = $podcastsService->findByCoreEntity($episode->getTleo());
+        }
 
         $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
@@ -157,7 +155,7 @@ class EpisodeController extends BaseController
             $lastOnBroadcast,
             $nextEpisode,
             $previousEpisode,
-            $resolvedPromises['podcast']
+            $podcast
         );
 
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
@@ -174,7 +172,7 @@ class EpisodeController extends BaseController
             'allBroadcasts' => $allBroadcasts,
             'episodeMapPresenter' => $episodeMapPresenter,
             'segmentsListPresenter' => $segmentsListPresenter,
-            'podcastedBy' => ($resolvedPromises['podcast'] instanceof RmsPodcast) ? $episode->getTleo() : null,
+            'podcastedBy' => ($podcast !== null) ? $episode->getTleo() : null,
         ];
 
         $parameters = array_merge($parameters, $resolvedPromises);

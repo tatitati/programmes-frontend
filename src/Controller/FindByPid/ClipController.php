@@ -8,7 +8,6 @@ use App\Ds2013\PresenterFactory;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
-use App\ExternalApi\RmsPodcast\Service\RmsPodcastService;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -18,6 +17,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ContributionsService;
 use BBC\ProgrammesPagesService\Service\GroupsService;
+use BBC\ProgrammesPagesService\Service\PodcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesAggregationService;
 use BBC\ProgrammesPagesService\Service\RelatedLinksService;
 use BBC\ProgrammesPagesService\Service\SegmentEventsService;
@@ -34,10 +34,10 @@ class ClipController extends BaseController
         ContributionsService $contributionsService,
         FavouritesButtonService $favouritesButtonService,
         GroupsService $groupsService,
+        PodcastsService $podcastsService,
         PresenterFactory $presenterFactory,
         ProgrammesAggregationService $aggregationService,
         RelatedLinksService $relatedLinksService,
-        RmsPodcastService $podcastService,
         SegmentEventsService $segmentEventsService,
         StructuredDataHelper $structuredDataHelper,
         VersionsService $versionsService
@@ -99,16 +99,15 @@ class ClipController extends BaseController
             $contributions = $contributionsService->findByContributionToProgramme($clip);
         }
 
-        $rmsPodcastPromise = new FulfilledPromise(null);
-        if ($clip->getTleo() instanceof ProgrammeContainer && $clip->getTleo()->isRadio()) {
-            $rmsPodcastPromise = $podcastService->getPodcast($clip->getTleo()->getPid());
+        $podcast = null;
+        if ($clip->getTleo() instanceof ProgrammeContainer && $clip->getTleo()->isPodcastable()) {
+            $podcast = $podcastsService->findByCoreEntity($clip->getTleo());
         }
 
         $resolvedPromises = $this->resolvePromises([
             'favouritesButton' => $favouritesButtonService->getContent(),
             'relatedTopics' => $relatedTopicsPromise,
             'relatedProgrammes' => $relatedProgrammesPromise,
-            'podcast' => $rmsPodcastPromise,
         ]);
 
         $parameters = [
@@ -120,6 +119,7 @@ class ClipController extends BaseController
             'relatedLinks' => $relatedLinks,
             'segmentsListPresenter' => $segmentsListPresenter,
             'contributions' => $contributions,
+            'podcast' => $podcast,
             'version' => $downloadableVersion,
         ];
 

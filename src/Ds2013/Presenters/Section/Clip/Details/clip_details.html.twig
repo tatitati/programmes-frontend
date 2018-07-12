@@ -51,7 +51,7 @@
                 {%- endif -%}
 
                 {%- if clip_details.canBeDownloaded() -%}
-                    {{ ds2013('download', clip_details.getClip(), clip_details.getVersion(), clip_details.getRmsPodcast(), {}) }}
+                    {{ ds2013('download', clip_details.getClip(), clip_details.getVersion(), clip_details.getPodcast(), {}) }}
                 {%- endif -%}
             </div>
 

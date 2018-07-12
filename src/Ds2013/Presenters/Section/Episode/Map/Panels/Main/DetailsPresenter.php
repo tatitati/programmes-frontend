@@ -4,8 +4,8 @@ namespace App\Ds2013\Presenters\Section\Episode\Map\Panels\Main;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
-use App\ExternalApi\RmsPodcast\Domain\RmsPodcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use Cake\Chronos\Chronos;
 use DateTime;
@@ -25,10 +25,10 @@ class DetailsPresenter extends Presenter
     /** @var UrlGeneratorInterface */
     private $router;
 
-    /** @var RmsPodcast|null */
-    private $rmsPodcast;
+    /** @var Podcast|null */
+    private $podcast;
 
-    public function __construct(PlayTranslationsHelper $playTranslationsHelper, UrlGeneratorInterface $router, Episode $episode, array $availableVersions, ?RmsPodcast $rmsPodcast)
+    public function __construct(PlayTranslationsHelper $playTranslationsHelper, UrlGeneratorInterface $router, Episode $episode, array $availableVersions, ?Podcast $podcast)
     {
         parent::__construct();
 
@@ -36,7 +36,7 @@ class DetailsPresenter extends Presenter
         $this->playTranslationsHelper = $playTranslationsHelper;
         $this->router = $router;
         $this->availableVersions = $availableVersions;
-        $this->rmsPodcast = $rmsPodcast;
+        $this->podcast = $podcast;
     }
 
     public function getEpisode(): Episode
@@ -44,9 +44,9 @@ class DetailsPresenter extends Presenter
         return $this->episode;
     }
 
-    public function getRmsPodcast(): ?RmsPodcast
+    public function getPodcast(): ?Podcast
     {
-        return $this->rmsPodcast;
+        return $this->podcast;
     }
 
     public function canBeDownloaded(): bool

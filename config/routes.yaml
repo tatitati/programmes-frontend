@@ -71,11 +71,6 @@ programme_podcast_episodes_download:
     defaults: { _controller: App\Controller\Podcast\EpisodesDownloadsController }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
-programme_podcast_ds2013:
-    path: /programmes/{pid}/podcasts.2013inc
-    defaults: { _controller: App\Controller\Podcast\PodcastDs2013Controller }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
 # SMP Playlist page
 programme_smp_playlist:
     path: /programmes/{pid}/playlist.json

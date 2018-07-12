@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\App\DataFixtures\ORM\ProgrammeEpisodes;
 
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Podcast;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,10 +26,14 @@ class BrandFixtures extends AbstractFixture implements DependentFixtureInterface
     {
         $this->manager = $manager;
 
+        $brand = $this->buildBrand('b006q2x0', 'B1', 2);
+
         $this->addReference(
             'b006q2x0',
-            $this->buildBrand('b006q2x0', 'B1', 2)
+            $brand
         );
+
+        $this->buildPodcast($brand);
 
         $this->buildBrand('b006pnjk', 'B2');
 
@@ -46,5 +51,12 @@ class BrandFixtures extends AbstractFixture implements DependentFixtureInterface
         $this->manager->persist($brand);
 
         return $brand;
+    }
+
+    private function buildPodcast($brand)
+    {
+        $podcast = new Podcast($brand, 'weekly', -1, true, false);
+
+        $this->manager->persist($podcast);
     }
 }

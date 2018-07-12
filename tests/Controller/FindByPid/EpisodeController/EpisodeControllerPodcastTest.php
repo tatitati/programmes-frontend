@@ -26,16 +26,6 @@ class EpisodeControllerPodcastTest extends BaseWebTestCase
         $this->client = static::createClient();
     }
 
-    public function testPodcastPanelIsUsingCorrectUrls()
-    {
-        $this->userVisitEpisode("programmes/p3000000");
-
-        $expectedTleoPid = 'b006q2x0';
-        $this->thenLazyContentIsLoadedFrom("/programmes/$expectedTleoPid/podcasts.2013inc");
-        $this->thenPanelWithoutJSTakesUserTo("/programmes/$expectedTleoPid/episodes/downloads");
-        $this->thenDownloadButtonDisplayText('Download (UK Only)');
-    }
-
     public function testPodcastApiDoesntReturnAnythingAndUkOnlyIsNotDisplayed()
     {
         $this->userVisitEpisode("programmes/p3000002");
@@ -55,22 +45,6 @@ class EpisodeControllerPodcastTest extends BaseWebTestCase
     /**
      * Helpers
      */
-    private function thenLazyContentIsLoadedFrom(string $expectedUrl)
-    {
-        $lazyUrlSelector = '#podcast .lazy-module';
-        $lazyUrl = $this->crawler->filter($lazyUrlSelector)->attr('data-lazyload-inc');
-
-        $this->assertEquals($expectedUrl, $lazyUrl);
-    }
-
-    private function thenPanelWithoutJSTakesUserTo(string $expectedUrl)
-    {
-        $lazyUrlSelector = '#podcast .lazy-module .br-box-page__link';
-        $lazyUrl = $this->crawler->filter($lazyUrlSelector)->attr('href');
-
-        $this->assertEquals($expectedUrl, $lazyUrl);
-    }
-
     private function userVisitEpisode(string $url)
     {
         $crawler = $this->client->request('GET', $url);
