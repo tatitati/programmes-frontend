@@ -222,8 +222,7 @@ class PresenterFactory
     public function segmentsListPresenter(
         ProgrammeItem $programmeItem,
         array $segmentEvents,
-        ?CollapsedBroadcast $upcoming,
-        ?CollapsedBroadcast $lastOn,
+        ?CollapsedBroadcast $firstBroadcast,
         array $options = []
     ): SegmentsListPresenter {
         return new SegmentsListPresenter(
@@ -231,8 +230,7 @@ class PresenterFactory
             $this->helperFactory->getPlayTranslationsHelper(),
             $programmeItem,
             $segmentEvents,
-            $upcoming,
-            $lastOn,
+            $firstBroadcast,
             $options
         );
     }

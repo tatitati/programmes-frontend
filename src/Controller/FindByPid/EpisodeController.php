@@ -97,7 +97,8 @@ class EpisodeController extends BaseController
         $previousEpisode = null;
 
         $upcomingBroadcast = !empty($upcomingBroadcasts) ? reset($upcomingBroadcasts) : null;
-        $lastOnBroadcast =  !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null;
+        $lastOnBroadcast = !empty($lastOnBroadcasts) ? reset($lastOnBroadcasts) : null;
+        $firstBroadcast = !empty($allBroadcasts) ? reset($allBroadcasts) : null;
 
         if (!$episode->isTleo()) {
             $nextEpisode = $programmesService->findNextSiblingByProgramme($episode);
@@ -111,8 +112,7 @@ class EpisodeController extends BaseController
                 $segmentsListPresenter = $presenterFactory->segmentsListPresenter(
                     $episode,
                     $segmentEvents,
-                    $upcomingBroadcast,
-                    $lastOnBroadcast
+                    $firstBroadcast
                 );
             }
         }

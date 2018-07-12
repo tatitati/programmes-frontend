@@ -48,7 +48,6 @@ class SegmentsListPresenterTest extends TestCase
             $episode,
             $segmentEvents,
             null,
-            null,
             []
         );
         $this->assertEquals($expected, $presenter->getTitle());
@@ -94,7 +93,6 @@ class SegmentsListPresenterTest extends TestCase
             $context,
             $segmentEvents,
             null,
-            null,
             []
         );
         $this->assertEquals($expected, $presenter->getMorelessClass());
@@ -136,7 +134,6 @@ class SegmentsListPresenterTest extends TestCase
             $context,
             [],
             null,
-            null,
             []
         );
         $this->assertEquals($expected, $presenter->hasTimingIntro());
@@ -176,7 +173,6 @@ class SegmentsListPresenterTest extends TestCase
             $this->mockPlayTranslationsHelper,
             $context,
             $segmentEvents,
-            null,
             null,
             []
         );
@@ -287,7 +283,6 @@ class SegmentsListPresenterTest extends TestCase
             $context,
             $segmentEvents,
             $collapsedBroadcast,
-            null,
             []
         );
 
@@ -309,17 +304,28 @@ class SegmentsListPresenterTest extends TestCase
         $liveDebut = $this->createConfiguredMock(CollapsedBroadcast::class, [
             'isRepeat' => false,
             'getStartAt' => new Chronos('2017-06-01 11:57:00'),
+            'getEndAt' => new Chronos('2017-06-01 12:57:00'),
         ]);
 
         $liveRepeat = $this->createConfiguredMock(CollapsedBroadcast::class, [
             'isRepeat' => true,
             'getStartAt' => new Chronos('2017-06-01 11:57:00'),
+            'getEndAt' => new Chronos('2017-06-01 12:57:00'),
         ]);
 
         $past = $this->createConfiguredMock(CollapsedBroadcast::class, [
-            'isRepeat' => true,
+            'isRepeat' => false,
             'getStartAt' => new Chronos('2017-01-01 12:00:00'),
+            'getEndAt' => new Chronos('2017-01-01 14:00:00'),
         ]);
+
+        $future = $this->createConfiguredMock(CollapsedBroadcast::class, [
+            'isRepeat' => false,
+            'getStartAt' => new Chronos('2018-01-01 12:00:00'),
+            'getEndAt' => new Chronos('2018-01-01 14:00:00'),
+        ]);
+
+
 
         $musicSegment = $this->createConfiguredMock(
             MusicSegment::class,
@@ -431,12 +437,19 @@ class SegmentsListPresenterTest extends TestCase
                 false,
                 false,
             ],
-            'repeat live music segment events dont get reversed' => [
+            'future music segment events get shown when iSite option is set' => [
                 ['msc000001', 'msc000002', 'msc000003', 'msc000004'],
                 [$musicWithOffset1, $musicWithOffset2, $musicWithOffset3, $musicWithoutOffset],
-                $liveRepeat,
-                false,
+                $future,
                 true,
+                false,
+            ],
+            'future music segment events dont get shown when iSite option is not set' => [
+                [],
+                [$musicWithOffset1, $musicWithOffset2, $musicWithOffset3, $musicWithoutOffset],
+                $future,
+                false,
+                false,
             ],
         ];
     }

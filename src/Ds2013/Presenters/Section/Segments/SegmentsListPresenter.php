@@ -37,7 +37,7 @@ class SegmentsListPresenter extends Presenter
     private $context;
 
     /** @var CollapsedBroadcast|null */
-    private $collapsedBroadcast;
+    private $firstBroadcast;
 
     /** @var bool */
     private $hasMusicSegmentItems = false;
@@ -65,8 +65,7 @@ class SegmentsListPresenter extends Presenter
      * @param PlayTranslationsHelper $playTranslationsHelper
      * @param ProgrammeItem $context
      * @param SegmentEvent[] $segmentEvents
-     * @param CollapsedBroadcast|null $upcoming
-     * @param CollapsedBroadcast|null $lastOn
+     * @param CollapsedBroadcast|null $firstBroadcast
      * @param array $options
      */
     public function __construct(
@@ -74,15 +73,14 @@ class SegmentsListPresenter extends Presenter
         PlayTranslationsHelper $playTranslationsHelper,
         ProgrammeItem $context,
         array $segmentEvents,
-        ?CollapsedBroadcast $upcoming,
-        ?CollapsedBroadcast $lastOn,
+        ?CollapsedBroadcast $firstBroadcast,
         array $options = []
     ) {
         parent::__construct($options);
         $this->liveBroadcastHelper = $liveBroadcastHelper;
         $this->playTranslationsHelper = $playTranslationsHelper;
         $this->context = $context;
-        $this->collapsedBroadcast = $upcoming ?? $lastOn;
+        $this->firstBroadcast = $firstBroadcast;
         $this->segmentEvents = $segmentEvents;
         $this->segmentItemsPresenters = $this->getSegmentItemsPresenters();
     }
@@ -138,7 +136,7 @@ class SegmentsListPresenter extends Presenter
 
     public function getTimingIntroTranslationString(): string
     {
-        if ($this->collapsedBroadcast && $this->collapsedBroadcast->getStartAt()->isFuture()) {
+        if ($this->firstBroadcast && $this->firstBroadcast->getStartAt()->isFuture()) {
             return 'timings_start_of_day';
         }
 
@@ -217,17 +215,23 @@ class SegmentsListPresenter extends Presenter
     private function filterSegmentEvents(): array
     {
         if ($this->context->getOption('show_tracklist_inadvance') ||
-            !$this->collapsedBroadcast ||
-            $this->collapsedBroadcast->isRepeat() ||
-            !$this->liveBroadcastHelper->isOnNowIsh($this->collapsedBroadcast, true)
+            !$this->firstBroadcast ||
+            $this->context instanceof Clip ||
+            $this->firstBroadcast->getEndAt()->isPast() // Episode last broadcast in the past
         ) {
+            // In all these cases we want to show the full track list in chronological order
             return $this->segmentEvents;
         }
+        if (!$this->liveBroadcastHelper->isOnNowIsh($this->firstBroadcast, true)) {
+            // If none of the above conditions are fulfilled, and the broadcast is not on now. We do not
+            // render a list of segment events. (basically the broadcast hasn't happened yet)
+            return [];
+        }
 
-        // if the programme item is currently being broadcast for the first time, filter to only the segment events that
-        // have already started
+        // If we are here, ** this episode is currently being broadcast for the first time. **
+        // Filter to only the segment events that have already started
         $filteredSegmentEvents = [];
-        $currentOffset = $this->collapsedBroadcast->getStartAt()->diffInSeconds(ApplicationTime::getTime(), false);
+        $currentOffset = $this->firstBroadcast->getStartAt()->diffInSeconds(ApplicationTime::getTime(), false);
 
         foreach ($this->segmentEvents as $segmentEvent) {
             // music segments that have offsets get reversed
@@ -273,9 +277,9 @@ class SegmentsListPresenter extends Presenter
                 $options['context_pid'] = (string) $this->context->getPid();
 
                 if ($this->isClassicalMusicSegment($segmentEvent->getSegment())) {
-                    $presenters[] = new ClassicalMusicPresenter($segmentEvent, $this->getTimingType(), $this->collapsedBroadcast, $options);
+                    $presenters[] = new ClassicalMusicPresenter($segmentEvent, $this->getTimingType(), $this->firstBroadcast, $options);
                 } else {
-                    $presenters[] = new PopularMusicPresenter($segmentEvent, $this->getTimingType(), $this->collapsedBroadcast, $options);
+                    $presenters[] = new PopularMusicPresenter($segmentEvent, $this->getTimingType(), $this->firstBroadcast, $options);
                 }
             } else {
                 if ($segmentEvent->getSegment()->getType() === 'chapter') {
@@ -327,7 +331,7 @@ class SegmentsListPresenter extends Presenter
             return AbstractMusicSegmentItemPresenter::TIMING_OFF;
         }
 
-        if ($this->collapsedBroadcast && $this->collapsedBroadcast->getStartAt()->isFuture()) {
+        if ($this->firstBroadcast && $this->firstBroadcast->getStartAt()->isFuture()) {
             return AbstractMusicSegmentItemPresenter::TIMING_PRE;
         }
 
