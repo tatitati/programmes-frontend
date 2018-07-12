@@ -12,5 +12,4 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['test' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'dev_fixture' => true, 'test' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'dev_fixture' => true, 'test' => true],
-    Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
 ];

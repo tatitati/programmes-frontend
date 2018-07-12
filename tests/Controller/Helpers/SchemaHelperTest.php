@@ -91,6 +91,7 @@ class SchemaHelperTest extends TestCase
         $episode = $this->anyEpisodeInProgrammes()->with([
             'streamableFrom' => new DateTimeImmutable('4000-02-03'),
             'streamableUntil' => new DateTimeImmutable('5000-02-03'),
+            'duration' => 897,
         ])->build();
 
         $schema = $this->helper->getSchemaForOnDemandEvent($episode);
@@ -104,7 +105,7 @@ class SchemaHelperTest extends TestCase
                 'name' => 'BBC programmes',
                 'url' => 'this/url/was/stubbed',
             ],
-            'duration' => 'PT' . $episode->getDuration() . 'S',
+            'duration' => 'PT14M57S',
             'startDate' => '4000-02-03T00:00:00+00:00',
             'endDate' => '5000-02-03T00:00:00+00:00',
         ], $schema);
