@@ -40,6 +40,11 @@ programme_upcoming_broadcasts:
     defaults: { _controller: App\Controller\ProgrammeEpisodes\UpcomingController, debut: null}
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', debut: 'debut' }
 
+programme_profile:
+    path: /programmes/profiles/{key}/{slug}
+    defaults: { _controller: App\Controller\Profiles\ShowController, slug: '' }
+    requirements: { key: '[a-zA-Z0-9-]{1,40}' }
+
 programme_profile_listings:
     path: /programmes/{pid}/profiles
     defaults: { _controller: App\Controller\Profiles\IndexController }
