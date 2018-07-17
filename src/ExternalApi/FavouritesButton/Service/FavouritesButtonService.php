@@ -5,7 +5,7 @@ namespace App\ExternalApi\FavouritesButton\Service;
 
 use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
-use App\ExternalApi\Exception\ParseException;
+use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\FavouritesButton\Domain\FavouritesButton;
 use App\ExternalApi\FavouritesButton\Mapper\FavouritesButtonMapper;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
@@ -52,9 +52,9 @@ class FavouritesButtonService
             // Ugly hack because cert is required on int
             $guzzleOptions = [];
         }
-        $client = $this->clientFactory->getHttpApiClient(
+        $client = $this->clientFactory->getHttpApiMultiClient(
             $cacheKey,
-            $this->url,
+            [$this->url],
             Closure::fromCallable([$this, 'parseResponse']),
             [],
             null,
@@ -66,11 +66,15 @@ class FavouritesButtonService
         return $client;
     }
 
-    private function parseResponse(Response $response): FavouritesButton
+    /**
+     * @param Response[] $responses
+     * @return FavouritesButton
+     */
+    private function parseResponse(array $responses): FavouritesButton
     {
-        $data = json_decode($response->getBody()->getContents(), true);
+        $data = json_decode($responses[0]->getBody()->getContents(), true);
         if (!isset($data['head'], $data['script'], $data['bodyLast'])) {
-            throw new ParseException('Response must contain head, script and bodyLast elements');
+            throw new MultiParseException(0, 'Response must contain head, script and bodyLast elements');
         }
 
         return $this->favouritesButtonMapper->mapItem($data);
