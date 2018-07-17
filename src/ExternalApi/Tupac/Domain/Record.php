@@ -162,7 +162,7 @@ class Record
     {
         if (empty($this->resource) || empty($this->format)) {
             $titleTag = 'This snippet is currently unavailable';
-        } else if (!empty($this->title)) {
+        } elseif (!empty($this->title)) {
             $titleTag = 'Play ' . $this->title;
         } else {
             $titleTag =  'Play audio';
