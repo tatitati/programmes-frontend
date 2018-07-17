@@ -7,7 +7,7 @@ use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Electron\Mapper\SupportingContentMapper;
-use App\ExternalApi\Exception\ParseException;
+use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\XmlParser\XmlParser;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -57,9 +57,9 @@ class ElectronService
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programme->getPid());
         $url = $this->makeSupportingContentUrlForProgramme($programme->getPid());
 
-        return $this->clientFactory->getHttpApiClient(
+        return $this->clientFactory->getHttpApiMultiClient(
             $cacheKey,
-            $url,
+            [$url],
             Closure::fromCallable([$this, 'parseResponse'])
         );
     }
@@ -74,15 +74,15 @@ class ElectronService
     }
 
     /**
-     * @param Response $response
+     * @param Response[] $responses
      * @return SupportingContentItem[]
      */
-    private function parseResponse(Response $response): array
+    private function parseResponse(array $responses): array
     {
-        $responseBody = $response->getBody()->getContents();
+        $responseBody = $responses[0]->getBody()->getContents();
         $simpleXml = $this->xmlParser->parse($responseBody);
         if (!isset($simpleXml->content->pages)) {
-            throw new ParseException("Electron XML response does not contain pages element");
+            throw new MultiParseException(0, "Electron XML response does not contain pages element");
         }
         return $this->mapItems($simpleXml->content->pages);
     }

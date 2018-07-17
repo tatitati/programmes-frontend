@@ -63,13 +63,13 @@ class TupacService
     private function parseResponse(array $responses): array
     {
         $results = [];
-        foreach ($responses as $response) {
+        foreach ($responses as $key => $response) {
             if (!$response instanceof Response) {
-                throw new MultiParseException("TUPAC callback received non-response object!");
+                throw new MultiParseException($key, "TUPAC callback received non-response object!");
             }
             $apiResponse = json_decode($response->getBody()->getContents(), true);
             if (!$apiResponse || !isset($apiResponse['data'])) {
-                throw new MultiParseException("TUPAC API response is empty or invalid json");
+                throw new MultiParseException($key, "TUPAC API response is empty or invalid json");
             }
             $results = array_merge($results, $this->mapItems($apiResponse));
         }

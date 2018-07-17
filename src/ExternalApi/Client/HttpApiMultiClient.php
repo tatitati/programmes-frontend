@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Client;
 
 use App\ExternalApi\Exception\MultiParseException;
+use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use Closure;
 use GuzzleHttp\ClientInterface;
@@ -101,6 +102,9 @@ class HttpApiMultiClient extends HttpApiClient
         } catch (MultiParseException $e) {
             $url = $this->requestUrls[$e->getResponseKey()] ?? $this->requestUrl;
             $this->logger->error('Error parsing feed for "{0}". Error was: {1}', [$url, $e->getMessage()]);
+            return $this->nullResult;
+        } catch (ParseException $e) {
+            $this->logger->error('Error parsing feed for "{0}". Error was: {1}', [$this->requestUrl, $e->getMessage()]);
             return $this->nullResult;
         }
         $this->cache->setItem($this->cacheItem, $result, $this->standardTTL);
