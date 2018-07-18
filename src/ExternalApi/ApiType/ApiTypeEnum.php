@@ -8,6 +8,7 @@ class ApiTypeEnum
     public const API_ADA = 'ADA';
     public const API_BRANDING = 'BRANDING';
     public const API_ELECTRON = 'ELECTRON';
+    public const API_ISITE = 'ISITE';
     public const API_ORBIT = 'ORB';
     public const API_RECIPE = 'RECIPE';
     public const API_RECOMMENDATIONS = 'RECOMMENDATIONS';
@@ -19,6 +20,7 @@ class ApiTypeEnum
         self::API_ADA => true,
         self::API_BRANDING => true,
         self::API_ELECTRON => true,
+        self::API_ISITE => true,
         self::API_ORBIT => true,
         self::API_RECIPE => true,
         self::API_RECOMMENDATIONS => true,

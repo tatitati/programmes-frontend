@@ -13,6 +13,7 @@ class UriToApiTypeMapper
         ApiTypeEnum::API_ADA => '%^ada\.(int\.|test\.|stage\.)?api\.bbci\.co\.uk%i',
         ApiTypeEnum::API_BRANDING => '%^branding\.(int\.|test\.|stage\.)?files\.bbci\.co\.uk%i',
         ApiTypeEnum::API_ELECTRON => '%^api\.(int\.|test\.|stage\.|live\.)bbc\.co\.uk/electron%i',
+        ApiTypeEnum::API_ISITE => '%^api\.(int\.|test\.|stage\.|live\.)bbc\.co\.uk/isite2-content-reader%i',
         ApiTypeEnum::API_ORBIT => '%^navigation\.(int\.|test\.|stage\.)?api\.bbci\.co\.uk%i',
         ApiTypeEnum::API_RECIPE => '%^api\.(int\.|test\.|stage\.|live\.)bbc\.co\.uk/food/recipes%i',
         ApiTypeEnum::API_RECOMMENDATIONS => '%^open\.live\.bbc\.co\.uk/recommend/items%i',

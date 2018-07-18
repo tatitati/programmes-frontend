@@ -27,6 +27,8 @@ parameters:
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
     app.favourites.baseurl: 'https://www.bbc.co.uk/modules/plugin/musicfavourite/init'
     app.favourites.service.class: App\ExternalApi\FavouritesButton\Service\FavouritesButtonService
+    app.isite.baseurl: 'https://api.live.bbc.co.uk/isite2-content-reader'
+    app.isite.service.class: App\ExternalApi\Isite\Service\IsiteService
     app.receng.baseurl: 'https://open.live.bbc.co.uk/recommend/items'
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
     app.recipes.baseurl: 'https://api.live.bbc.co.uk/food/recipes'
@@ -278,6 +280,11 @@ services:
             class: '%app.favourites.service.class%'
             arguments:
                 $url: '%app.favourites.baseurl%'
+
+    App\ExternalApi\Isite\Service\IsiteService:
+        class: '%app.isite.service.class%'
+        arguments:
+            $baseUrl: '%app.isite.baseurl%'
 
     App\ExternalApi\RecEng\Service\RecEngService:
         class: '%app.receng.service.class%'

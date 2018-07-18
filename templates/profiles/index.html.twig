@@ -6,5 +6,13 @@
 {% block body %}
     <div class="programmes-page prog-layout__primary br-box-page">
         <h1><span class="context">{{ ds_shared('entityContext', coreEntity) }} </span>{{ tr('profiles') }}</h1>
+        {% for profile in profiles %}
+            <a href="{{ path('programme_profile', {'key': profile.getKey(), 'slug': profile.getSlug()}) }}">{{ profile.getTitle() }}</a>
+            {% if profile.getChildren() %}
+                {% for child in profile.getChildren() %}
+                    <a href="{{ path('programme_profile', {'key': child.getKey(), 'slug': child.getSlug()}) }}">{{ child.getTitle() }}</a>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
     </div>
 {% endblock %}
