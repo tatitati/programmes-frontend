@@ -5,8 +5,7 @@ namespace App\ExternalApi\Recipes\Service;
 
 use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
-use App\ExternalApi\Exception\ParseException;
-use App\ExternalApi\HttpApiService;
+use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\Recipes\Domain\RecipesApiResult;
 use App\ExternalApi\Recipes\Mapper\RecipeMapper;
 use Closure;
@@ -55,20 +54,25 @@ class RecipesService
 
         $emptyResult = new RecipesApiResult([], 0);
 
-        return $this->clientFactory->getHttpApiClient(
+        return $this->clientFactory->getHttpApiMultiClient(
             $cacheKey,
-            $url,
+            [$url],
             Closure::fromCallable([$this, 'parseResponse']),
             [$pid],
             $emptyResult
         );
     }
 
-    private function parseResponse(Response $response, string $pid): RecipesApiResult
+    /**
+     * @param Response[] $responses
+     * @param string $pid
+     * @return RecipesApiResult
+     */
+    private function parseResponse(array $responses, string $pid): RecipesApiResult
     {
-        $items = json_decode($response->getBody()->getContents(), true);
+        $items = json_decode($responses[0]->getBody()->getContents(), true);
         if (!$items || !isset($items['byProgramme'][$pid])) {
-            throw new ParseException("Invalid Recipes API JSON");
+            throw new MultiParseException(0, "Invalid Recipes API JSON");
         }
         return $this->mapItems($items['byProgramme'][$pid]);
     }
