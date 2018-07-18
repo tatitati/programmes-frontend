@@ -5,7 +5,7 @@ namespace App\ExternalApi\RecEng\Service;
 
 use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
-use App\ExternalApi\Exception\ParseException;
+use App\ExternalApi\Exception\MultiParseException;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -77,9 +77,9 @@ class RecEngService
         $recEngKey = $programmeEpisode->isVideo() ? $this->videoKey : $this->audioKey;
         $requestUrl = $this->baseUrl . '?key=' . $recEngKey . '&id=' . (string) $programmePid;
 
-        return $this->clientFactory->getHttpApiClient(
+        return $this->clientFactory->getHttpApiMultiClient(
             $cacheKey,
-            $requestUrl,
+            [$requestUrl],
             Closure::fromCallable([$this, 'parseResponse']),
             [$limit]
         );
@@ -88,17 +88,17 @@ class RecEngService
     /**
      * Returns an array of at most limit Pid objects from the given response
      *
-     * @param Response $response
+     * @param Response[] $responses
      * @param int $limit
      * @return Programme[]
      */
-    private function parseResponse(Response $response, int $limit): array
+    private function parseResponse(array $responses, int $limit): array
     {
-        $responseBody = $response->getBody()->getContents();
+        $responseBody = $responses[0]->getBody()->getContents();
         $results = json_decode($responseBody, true);
 
         if (!isset($results['recommendations'])) {
-            throw new ParseException("Invalid data from Recommendations API");
+            throw new MultiParseException(0, "Invalid data from Recommendations API");
         }
 
         $pids = $this->getPidsFromRecommendations($results['recommendations'], $limit);
