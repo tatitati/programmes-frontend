@@ -98,6 +98,11 @@ programme_topics_topic:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
     schemes: [http]
 
+programme_player:
+    path: /programmes/{pid}/player
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+    schemes: [https]
 
 # TODO implement slice and filter parameters properly
 programme_broadcasts:

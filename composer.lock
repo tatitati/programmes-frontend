@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "5b39da9d3b59a7c326f829cc9c8ccaa4",
@@ -465,12 +465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "91242c9c003f2c9c7e9582fed7796b8779a93b11"
+                "reference": "bd83f62cc1bbadcefece115b551c96cd18f32c39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/91242c9c003f2c9c7e9582fed7796b8779a93b11",
-                "reference": "91242c9c003f2c9c7e9582fed7796b8779a93b11",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/bd83f62cc1bbadcefece115b551c96cd18f32c39",
+                "reference": "bd83f62cc1bbadcefece115b551c96cd18f32c39",
                 "shasum": ""
             },
             "require": {
@@ -513,7 +513,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2018-07-11T13:25:45+00:00"
+            "time": "2018-07-19T15:19:19+00:00"
         },
         {
             "name": "behat/transliterator",

@@ -16,6 +16,7 @@ class ImagePresenter extends Presenter
         'ratio' => (16 / 9),
         'is_bounded' => false,
         'alt' => '',
+        'image_classes' => '',
     ];
 
     /** @var Image */

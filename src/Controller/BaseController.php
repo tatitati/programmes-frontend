@@ -189,13 +189,14 @@ abstract class BaseController extends AbstractController
 
         $cosmosInfo = $this->container->get(CosmosInfo::class);
         $istatsAnalyticsLabels = new IstatsAnalyticsLabels($this->context, $this->istatsProgsPageType, $cosmosInfo->getAppVersion(), $this->istatsExtraLabels);
+        $analyticsCounterName = (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo());
         $orb = $this->container->get(OrbitClient::class)->getContent([
             'variant' => $this->branding->getOrbitVariant(),
             'language' => $this->branding->getLanguage(),
         ], [
             'searchScope' => $this->branding->getOrbitSearchScope(),
             'skipLinkTarget' => 'programmes-content',
-            'analyticsCounterName' => (string) new AnalyticsCounterName($this->context, $this->request()->getPathInfo()),
+            'analyticsCounterName' => $analyticsCounterName,
             'analyticsLabels' => $istatsAnalyticsLabels->orbLabels(),
         ]);
 
@@ -206,6 +207,8 @@ abstract class BaseController extends AbstractController
             'orb' => $orb,
             'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl(), $this->getMetaNoIndex()),
             'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl() . $urlQueryString))->getComscore(),
+            'analytics_counter_name' => $analyticsCounterName,
+            'istats_analytics_labels' => $istatsAnalyticsLabels->getLabels(),
             'branding' => $this->branding,
             'with_chrome' => true,
             'is_international' => $this->isInternational,

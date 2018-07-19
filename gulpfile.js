@@ -34,6 +34,7 @@ gulp.task('js', ['js:clean'], function () {
         staticPathSrc + '/js/**/timezone-notification.js',
         staticPathSrc + '/js/**/episode-guide.js',
         staticPathSrc + '/js/**/popup.js',
+        staticPathSrc + '/js/**/smp/*',
         staticPathSrc + '/js/snippet-player/**/snippets.js',
         'vendor/bbc-rmp/comscore/js-modules/comscorews.js',
         'node_modules/picturefill/dist/picturefill.js'

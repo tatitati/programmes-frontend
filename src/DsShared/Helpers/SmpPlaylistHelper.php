@@ -21,13 +21,15 @@ class SmpPlaylistHelper
     private const DEFAULT_WARNING_VPID = 'p025x55x';
 
     /**
+     * This method produces the legacy playlist.json still used by V2 and blogs
+     *
      * @param ProgrammeItem $programmeItem
      * @param Version|null $streamableVersion
      * @param SegmentEvent[] $segmentEvents
      * @param Version[] $allStreamableVersions
      * @return array
      */
-    public function getPlaylist(
+    public function getLegacyJsonPlaylist(
         ProgrammeItem $programmeItem,
         ?Version $streamableVersion,
         array $segmentEvents = [],
@@ -66,6 +68,61 @@ class SmpPlaylistHelper
         return $feed;
     }
 
+    /**
+     * This method returns the SMP config we actually use
+     *
+     * @param ProgrammeItem $programmeItem
+     * @param Version $version
+     * @return array
+     */
+    public function getSmpPlaylist(
+        ProgrammeItem $programmeItem,
+        Version $version
+    ) : array {
+        $feed = [
+            'title' => $this->getFullTitle($programmeItem),
+            'summary' => $programmeItem->getSynopses()->getShortestSynopsis(),
+            'masterBrandName' => ($programmeItem->getMasterBrand() ? $programmeItem->getMasterBrand()->getName() : ''),
+            'items' => [],
+            'holdingImageURL' => $this->makeUrlProtocolRelative($programmeItem->getImage()->getRecipeUrl()),
+            'guidance' => $this->getGuidanceWarnings($version),
+            'embedRights' => $programmeItem->isExternallyEmbeddable() ? 'allowed' : 'blocked',
+        ];
+        if ($version->hasCompetitionWarning()) {
+            $feed['items'][] = $this->getCompetitionWarning($programmeItem);
+        }
+
+        $feed['items'][] = [
+            'vpid' => (string) $version->getPid(),
+            'kind' => $programmeItem->isAudio() ? 'radioProgramme' : 'programme',
+            'duration' => $version->getDuration(),
+        ];
+        return $feed;
+    }
+
+    /**
+     * @param SegmentEvent[] $segmentEvents
+     * @param ProgrammeItem $programmeItem
+     * @return array
+     */
+    public function getMarkers(array $segmentEvents, ProgrammeItem $programmeItem): array
+    {
+        $markers = [];
+        foreach ($segmentEvents as $segmentEvent) {
+            $segment = $segmentEvent->getSegment();
+            $offset = $segmentEvent->getOffset();
+            $showTimings = $programmeItem->getOption('show_tracklist_timings');
+            if ($segmentEvent->isChapter() && !is_null($offset) && !is_null($segment->getDuration())) {
+                // Normal marker for chapter segment
+                $markers[] = $this->getChapterMarker($segmentEvent, $segment);
+            } elseif (!is_null($offset) && ($segment instanceof MusicSegment) && $showTimings) {
+                // Special music marker when show_tracklist_timings is set in iSite
+                $markers[] = $this->getMusicMarker($segmentEvent, $segment);
+            }
+        }
+        return $markers;
+    }
+
     private function getVersionFeed(ProgrammeItem $programmeItem, Version $version): array
     {
         $versionTypes = array_map(function (VersionType $versionType) {
@@ -75,28 +132,9 @@ class SmpPlaylistHelper
         $feed = [
             'pid' => (string) $version->getPid(),
             'types' => $versionTypes,
-            'smpConfig' => [
-                'title' => $this->getFullTitle($programmeItem),
-                'summary' => $programmeItem->getSynopses()->getShortestSynopsis(),
-                'masterBrandName' => ($programmeItem->getMasterBrand() ? $programmeItem->getMasterBrand()->getName() : ''),
-                'items' => [],
-                'holdingImageURL' => $this->makeUrlProtocolRelative($programmeItem->getImage()->getRecipeUrl()),
-                'guidance' => $this->getGuidanceWarnings($version),
-                'embedRights' => $programmeItem->isExternallyEmbeddable() ? 'allowed' : 'blocked',
-            ],
+            'smpConfig' => $this->getSmpPlaylist($programmeItem, $version),
             'markers' => [], // Added later and not to all versions for legacy compatibility reasons
         ];
-
-        if ($version->hasCompetitionWarning()) {
-            $feed['smpConfig']['items'][] = $this->getCompetitionWarning($programmeItem);
-        }
-
-        $feed['smpConfig']['items'][] = [
-            'vpid' => (string) $version->getPid(),
-            'kind' => $programmeItem->isAudio() ? 'radioProgramme' : 'programme',
-            'duration' => $version->getDuration(),
-        ];
-
         return $feed;
     }
 
@@ -126,29 +164,6 @@ class SmpPlaylistHelper
             'vpid' => $warningPid,
             'kind' => 'warning',
         ];
-    }
-
-    /**
-     * @param SegmentEvent[] $segmentEvents
-     * @param ProgrammeItem $programmeItem
-     * @return array
-     */
-    private function getMarkers(array $segmentEvents, ProgrammeItem $programmeItem): array
-    {
-        $markers = [];
-        foreach ($segmentEvents as $segmentEvent) {
-            $segment = $segmentEvent->getSegment();
-            $offset = $segmentEvent->getOffset();
-            $showTimings = $programmeItem->getOption('show_tracklist_timings');
-            if ($segmentEvent->isChapter() && !is_null($offset) && !is_null($segment->getDuration())) {
-                // Normal marker for chapter segment
-                $markers[] = $this->getChapterMarker($segmentEvent, $segment);
-            } elseif (!is_null($offset) && ($segment instanceof MusicSegment) && $showTimings) {
-                // Special music marker when show_tracklist_timings is set in iSite
-                $markers[] = $this->getMusicMarker($segmentEvent, $segment);
-            }
-        }
-        return $markers;
     }
 
     private function getChapterMarker(SegmentEvent $segmentEvent, Segment $segment): array

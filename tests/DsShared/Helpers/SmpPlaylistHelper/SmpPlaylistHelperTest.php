@@ -31,7 +31,7 @@ class SmpPlaylistHelperTest extends TestCase
     {
         $version = VersionsFixture::eastendersEpisodeUnavailable();
         $episode = $version->getProgrammeItem();
-        $feed = $this->helper->getPlaylist($episode, $version);
+        $feed = $this->helper->getLegacyJsonPlaylist($episode, $version);
 
         $expectedFeed = self::BASE_FEED;
         $expectedFeed['statsObject']['parentPID'] = 'p0000001';
@@ -79,7 +79,7 @@ class SmpPlaylistHelperTest extends TestCase
         $expectedFeed['defaultAvailableVersion'] = $expectedVersionFeed;
         $expectedFeed['allAvailableVersions'] = [$expectedVersionFeed];
         $expectedFeed['holdingImage'] = '//ichef.bbci.co.uk/images/ic/976x549/p01vg679.jpg';
-        $this->assertEquals($expectedFeed, $this->helper->getPlaylist($clip, $version));
+        $this->assertEquals($expectedFeed, $this->helper->getLegacyJsonPlaylist($clip, $version));
     }
 
     public function testAvailableEpisodeWithSegments()
@@ -136,7 +136,7 @@ class SmpPlaylistHelperTest extends TestCase
         $expectedFeed['defaultAvailableVersion']['markers'] = $expectedMarkers;
         $expectedFeed['allAvailableVersions'] = [$expectedVersionFeed];
         $expectedFeed['holdingImage'] = '//ichef.bbci.co.uk/images/ic/976x549/p01vg679.jpg';
-        $this->assertEquals($expectedFeed, $this->helper->getPlaylist($episode, $version, $segmentEvents));
+        $this->assertEquals($expectedFeed, $this->helper->getLegacyJsonPlaylist($episode, $version, $segmentEvents));
     }
 
     public function testAvailableEpisodeWithSegmentsAndTracklistTimings()
@@ -189,6 +189,6 @@ class SmpPlaylistHelperTest extends TestCase
         $expectedFeed['defaultAvailableVersion']['markers'] = $expectedMarkers;
         $expectedFeed['allAvailableVersions'] = [$expectedVersionFeed];
         $expectedFeed['holdingImage'] = '//ichef.bbci.co.uk/images/ic/976x549/p069d242.jpg';
-        $this->assertEquals($expectedFeed, $this->helper->getPlaylist($episode, $version, $segmentEvents));
+        $this->assertEquals($expectedFeed, $this->helper->getLegacyJsonPlaylist($episode, $version, $segmentEvents));
     }
 }

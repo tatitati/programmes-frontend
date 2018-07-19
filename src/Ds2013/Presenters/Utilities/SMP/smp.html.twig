@@ -1,0 +1,30 @@
+{% if smp.getProgrammeItem().isStreamable() %}
+    <div class="episode-playout">
+        <div id="{{ smp.getContainerId() }}" class="smp">
+            {{-  ds_shared('image',
+                    smp.getProgrammeItem().getImage(),
+                    640,
+                    smp.getOption('sizes'),
+                    {
+                        'is_lazy_loaded': false,
+                        'srcsets' : [640, 976],
+                        'image_classes' : 'smp__holding',
+                    })
+            -}}
+
+            <script>
+                require(['smp/smpFactory'], function (SmpFactory) {
+                    var factorySmp = new SmpFactory();
+                    factorySmp.runSmp({{ smp.getFactoryOptions() | json_encode | raw }}, {{ smp.getSmpConfig() | json_encode | raw }});
+                });
+            </script>
+
+            <div class="smp__overlay">
+                <div class="smp__message js-loading-message delta">
+                    <noscript>{{ tr('javascript_required') }}</noscript>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endif %}

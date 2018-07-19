@@ -39,7 +39,7 @@ class SmpPlaylistController extends BaseController
             $segmentEvents = $segmentEventsService->findByProgrammeForCanonicalVersion($programmeItem);
         }
         $smpPlaylistHelper = $helperFactory->getSmpPlaylistHelper();
-        $playlistFeed = $smpPlaylistHelper->getPlaylist($programmeItem, $streamableVersion, $segmentEvents, $allStreamableVersions);
+        $playlistFeed = $smpPlaylistHelper->getLegacyJsonPlaylist($programmeItem, $streamableVersion, $segmentEvents, $allStreamableVersions);
 
         $this->response()->headers->set('Content-Type', 'application/json');
         return $this->response()->setContent(json_encode($playlistFeed));

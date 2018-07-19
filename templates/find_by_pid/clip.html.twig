@@ -19,7 +19,10 @@
 
     <div class="b-g-p">
         <div class="map__column br-box-secondary">
-            {{ ds2013('clipDetails', programme, contributions, version, podcast) }}
+            {% if streamableVersion %}
+                {{ ds2013('smp', programme, streamableVersion, segmentEvents, analytics_counter_name, istats_analytics_labels) }}
+            {% endif %}
+            {{ ds2013('clipDetails', programme, contributions, downloadableVersion, podcast) }}
         </div>
     </div>
     <div class="prog-layout programmes-page">
@@ -48,8 +51,8 @@
             </div>
             {% endif %}
 
-            {% if segmentsListPresenter %}
-                {{ ds2013_presenter(segmentsListPresenter) }}
+            {% if segmentEvents %}
+                {{ ds2013('segmentsList', programme, segmentEvents) }}
             {% endif %}
 
             {% if featuredIn %}

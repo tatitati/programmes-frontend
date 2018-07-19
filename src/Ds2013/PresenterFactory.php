@@ -24,6 +24,7 @@ use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\Credits\CreditsPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
+use App\Ds2013\Presenters\Utilities\SMP\SmpPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Recipes\Domain\Recipe;
@@ -231,6 +232,26 @@ class PresenterFactory
             $programmeItem,
             $segmentEvents,
             $firstBroadcast,
+            $options
+        );
+    }
+
+    public function smpPresenter(
+        ProgrammeItem $programmeItem,
+        Version $streamableVersion,
+        array $segmentEvents,
+        string $analyticsCounterName,
+        array $analyticsLabels,
+        array $options = []
+    ): SmpPresenter {
+        return new SmpPresenter(
+            $programmeItem,
+            $streamableVersion,
+            $segmentEvents,
+            $analyticsCounterName,
+            $analyticsLabels,
+            $this->helperFactory->getSmpPlaylistHelper(),
+            $this->router,
             $options
         );
     }

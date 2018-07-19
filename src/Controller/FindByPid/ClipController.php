@@ -50,7 +50,7 @@ class ClipController extends BaseController
 
         /** @todo this is pretty ineficient. We will need to clear this up once we know all the versions we'll need on the clip page */
         $versions = $versionsService->findByProgrammeItem($clip);
-        $downloadableVersion = $this->getDownloadableVersion($versions);
+        $linkedVersions = $versionsService->findLinkedVersionsForProgrammeItem($clip);
 
         $relatedLinks = [];
         if ($clip->getRelatedLinksCount() > 0) {
@@ -82,16 +82,9 @@ class ClipController extends BaseController
         }
 
         $segmentsListPresenter = null;
+        $segmentEvents = [];
         if ($clip->getSegmentEventCount() > 0) {
             $segmentEvents = $segmentEventsService->findByProgrammeForCanonicalVersion($clip);
-            if ($segmentEvents) {
-                $segmentsListPresenter = $presenterFactory->segmentsListPresenter(
-                    $clip,
-                    $segmentEvents,
-                    null,
-                    null
-                );
-            }
         }
 
         $contributions = [];
@@ -120,7 +113,9 @@ class ClipController extends BaseController
             'segmentsListPresenter' => $segmentsListPresenter,
             'contributions' => $contributions,
             'podcast' => $podcast,
-            'version' => $downloadableVersion,
+            'downloadableVersion' => $linkedVersions['downloadableVersion'],
+            'streamableVersion' => $linkedVersions['streamableVersion'],
+            'segmentEvents' => $segmentEvents,
         ];
 
         return $this->renderWithChrome('find_by_pid/clip.html.twig', array_merge($resolvedPromises, $parameters));
