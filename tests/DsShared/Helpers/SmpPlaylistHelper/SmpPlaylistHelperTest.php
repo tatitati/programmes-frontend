@@ -3,8 +3,12 @@ declare(strict_types = 1);
 
 namespace Tests\App\DsShared\Helpers\SmpPlaylistHelper;
 
+use App\Builders\VersionBuilder;
+use App\DsShared\Helpers\GuidanceWarningHelper;
 use App\DsShared\Helpers\SmpPlaylistHelper;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use PHPUnit\Framework\TestCase;
+use Tests\App\DataFixtures\PagesService\EpisodesFixtures;
 use Tests\App\DataFixtures\PagesService\SegmentEventsFixture;
 use Tests\App\DataFixtures\PagesService\VersionsFixture;
 
@@ -24,7 +28,7 @@ class SmpPlaylistHelperTest extends TestCase
 
     public function setUp()
     {
-        $this->helper = new SmpPlaylistHelper();
+        $this->helper = new SmpPlaylistHelper($this->createMock(GuidanceWarningHelper::class));
     }
 
     public function testEmptyEpisodeFeed()
@@ -190,5 +194,25 @@ class SmpPlaylistHelperTest extends TestCase
         $expectedFeed['allAvailableVersions'] = [$expectedVersionFeed];
         $expectedFeed['holdingImage'] = '//ichef.bbci.co.uk/images/ic/976x549/p069d242.jpg';
         $this->assertEquals($expectedFeed, $this->helper->getLegacyJsonPlaylist($episode, $version, $segmentEvents));
+    }
+
+    public function testGuidanceWarning()
+    {
+        /** @var Version $version */
+        $version = VersionBuilder::any()
+            ->with([
+                'programmeItem' => EpisodesFixtures::eastendersUnavailable(),
+                'isStreamable' => false,
+                'isDownloadable' => false,
+                'segmentEventCount' => 0,
+                'guidanceWarningCodes' => 'L2',
+            ])->build();
+
+        $guidanceWarningHelper = $this->createMock(GuidanceWarningHelper::class);
+        $guidanceWarningHelper->expects($this->once())
+            ->method('getText')
+            ->with('L2');
+        $smpPlaylistHelper = new SmpPlaylistHelper($guidanceWarningHelper);
+        $smpPlaylistHelper->getSmpPlaylist($version->getProgrammeItem(), $version);
     }
 }

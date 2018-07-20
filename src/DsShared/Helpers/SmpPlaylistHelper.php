@@ -12,6 +12,14 @@ use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
 
 class SmpPlaylistHelper
 {
+    /** @var GuidanceWarningHelper */
+    private $guidanceWarningHelper;
+
+    public function __construct(GuidanceWarningHelper $guidanceWarningHelper)
+    {
+        $this->guidanceWarningHelper = $guidanceWarningHelper;
+    }
+
     /**
      * Most masterbrands have a linked competition warning version PID in PIPs
      * This is a short clip that plays before the main programmeItem telling
@@ -150,8 +158,13 @@ class SmpPlaylistHelper
 
     private function getGuidanceWarnings(Version $version): ?string
     {
-        //@TODO, see PROGRAMMES-6448
-        return null;
+        $codes = $version->getGuidanceWarningCodes();
+
+        if (null === $codes) {
+            return null;
+        }
+
+        return $this->guidanceWarningHelper->getText($codes);
     }
 
     private function getCompetitionWarning(ProgrammeItem $programmeItem): array

@@ -6,6 +6,7 @@ use App\Builders\EpisodeBuilder;
 use App\Builders\SegmentEventBuilder;
 use App\Builders\VersionBuilder;
 use App\Ds2013\Presenters\Utilities\SMP\SmpPresenter;
+use App\DsShared\Helpers\GuidanceWarningHelper;
 use App\DsShared\Helpers\SmpPlaylistHelper;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -80,7 +81,7 @@ class SmpPresenterTest extends TestCase
                 'app_name' => 'app____name',
                 'event_master_brand' => 'event___master___brand',
             ],
-            new SmpPlaylistHelper(),
+            new SmpPlaylistHelper($this->createMock(GuidanceWarningHelper::class)),
             $stubRouter,
             []
         );

@@ -33,6 +33,11 @@ class HelperFactory
         return $this->getHelper(BroadcastNetworksHelper::class, $this->translateProvider);
     }
 
+    public function getGuidanceWarningHelper(): GuidanceWarningHelper
+    {
+        return $this->getHelper(GuidanceWarningHelper::class);
+    }
+
     public function getLiveBroadcastHelper(): LiveBroadcastHelper
     {
         return $this->getHelper(LiveBroadcastHelper::class, $this->router);
@@ -50,7 +55,7 @@ class HelperFactory
 
     public function getSmpPlaylistHelper(): SmpPlaylistHelper
     {
-        return $this->getHelper(SmpPlaylistHelper::class);
+        return $this->getHelper(SmpPlaylistHelper::class, $this->getGuidanceWarningHelper());
     }
 
     public function getStreamUrlHelper(): StreamableHelper
