@@ -9,13 +9,49 @@ use BBC\ProgrammesCachingLibrary\CacheInterface;
 use Closure;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
+use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
-class HttpApiMultiClient extends HttpApiClient
+class HttpApiMultiClient
 {
+    /** @var ClientInterface */
+    private $client;
+
+    /** @var CacheInterface */
+    private $cache;
+
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var string */
+    private $cacheKey;
+
+    /** @var callable */
+    private $parseResponseCallable;
+
+    /** @var array */
+    private $parseResponseArguments;
+
+    /** @var mixed */
+    private $nullResult;
+
+    /** @var int|string */
+    private $standardTTL;
+
+    /** @var int|string */
+    private $notFoundTTL;
+
+    /** @var CacheItemInterface */
+    private $cacheItem;
+
+    /** @var array */
+    private $guzzleOptions;
+
     /** @var array */
     private $requestUrls;
 
@@ -53,9 +89,16 @@ class HttpApiMultiClient extends HttpApiClient
         array $guzzleOptions
     ) {
         $this->requestUrls = $requestUrls;
-        // Hack. We need to log A request URL, we don't always know which one failed, so pick the first one
-        $requestUrl = reset($requestUrls);
-        parent::__construct($client, $cache, $logger, $cacheKey, $requestUrl, $parseResponse, $parseResponseArguments, $nullResult, $standardTTL, $notFoundTTL, $guzzleOptions);
+        $this->client = $client;
+        $this->cache = $cache;
+        $this->logger = $logger;
+        $this->cacheKey = $cacheKey;
+        $this->parseResponseCallable = $parseResponse;
+        $this->parseResponseArguments = $parseResponseArguments;
+        $this->nullResult = $nullResult;
+        $this->standardTTL = $standardTTL;
+        $this->notFoundTTL = $notFoundTTL;
+        $this->guzzleOptions = $guzzleOptions;
     }
 
     public function makeCachedRequest()
@@ -76,7 +119,8 @@ class HttpApiMultiClient extends HttpApiClient
                 $requestPromises[$requestKey] = $this->client->requestAsync('GET', $requestUrl, $this->guzzleOptions);
             }
         } catch (GuzzleException $e) {
-            return $this->handleGuzzleException($e);
+            $nullResponse = $this->handleGuzzleException($e);
+            return new FulfilledPromise($nullResponse);
         }
 
         $aggregatePromise = \GuzzleHttp\Promise\all($requestPromises);
@@ -100,14 +144,46 @@ class HttpApiMultiClient extends HttpApiClient
             array_unshift($args, $responses);
             $result = call_user_func_array($this->parseResponseCallable, $args);
         } catch (MultiParseException $e) {
-            $url = $this->requestUrls[$e->getResponseKey()] ?? $this->requestUrl;
+            $url = $this->requestUrls[$e->getResponseKey()] ?? reset($this->requestUrls);
             $this->logger->error('Error parsing feed for "{0}". Error was: {1}', [$url, $e->getMessage()]);
             return $this->nullResult;
         } catch (ParseException $e) {
-            $this->logger->error('Error parsing feed for "{0}". Error was: {1}', [$this->requestUrl, $e->getMessage()]);
+            $this->logger->error('Error parsing feed for one of this URLs: "{0}". Error was: {1}', [implode(',', $this->requestUrls), $e->getMessage()]);
             return $this->nullResult;
         }
         $this->cache->setItem($this->cacheItem, $result, $this->standardTTL);
         return $result;
+    }
+
+    private function handleGuzzleException(GuzzleException $e)
+    {
+        $responseCode = "Unknown";
+        if ($e instanceof RequestException && $e->getResponse() && $e->getResponse()->getStatusCode()) {
+            $responseCode = $e->getResponse()->getStatusCode();
+        }
+        if ($responseCode != 404) {
+            if ($e instanceof RequestException) {
+                $urls = (string) $e->getRequest()->getUri();
+            } else {
+                $urls = implode(',', $this->requestUrls);
+            }
+            $this->logger->error("HTTP Error status $responseCode for one of this URLs $urls : " . $e->getMessage());
+        } elseif ($this->notFoundTTL !== CacheInterface::NONE) {
+            // 404s get cached for a shorter time
+            $this->cache->setItem($this->cacheItem, $this->nullResult, $this->notFoundTTL);
+        }
+        return $this->nullResult;
+    }
+
+    private function handleAsyncError($reason)
+    {
+        if ($reason instanceof GuzzleException) {
+            return $this->handleGuzzleException($reason);
+        }
+        if ($reason instanceof Throwable) {
+            throw $reason;
+        }
+        $this->logger->error("An unknown issue occurred handling a guzzle error whose reason was not an exception. Probable URL: " . reset($this->requestUrls));
+        return $this->nullResult;
     }
 }

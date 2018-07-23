@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\RecEng\Service;
 
-use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
+use App\ExternalApi\Client\HttpApiMultiClient;
 use App\ExternalApi\Exception\MultiParseException;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -70,7 +70,7 @@ class RecEngService
         return $client->makeCachedPromise();
     }
 
-    private function makeClient(Episode $programmeEpisode, int $limit): HttpApiClient
+    private function makeClient(Episode $programmeEpisode, int $limit): HttpApiMultiClient
     {
         $programmePid = $programmeEpisode->getPid();
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programmePid);

@@ -26,20 +26,6 @@ class HttpApiClientFactoryTest extends TestCase
         $this->clientFactory = new HttpApiClientFactory($mockClient, $this->mockCache, $mockLogger);
     }
 
-    public function testGetHttpApiClient()
-    {
-        $this->assertInstanceOf(
-            HttpApiClient::class,
-            $this->clientFactory->getHttpApiClient(
-                'cachekey',
-                'http://api.com',
-                function () {
-                    // no-op
-                }
-            )
-        );
-    }
-
     public function testGetHttpApiMultiClient()
     {
         $this->assertInstanceOf(
@@ -54,13 +40,13 @@ class HttpApiClientFactoryTest extends TestCase
         );
     }
 
-    public function testGetHttpApiClientAllParams()
+    public function testGetHttpApiMultiClientAllParams()
     {
         $this->assertInstanceOf(
-            HttpApiClient::class,
-            $this->clientFactory->getHttpApiClient(
+            HttpApiMultiClient::class,
+            $this->clientFactory->getHttpApiMultiClient(
                 'cachekey',
-                'http://api.com',
+                ['http://api.com', 'http://www.wibble.com'],
                 function () {
                     // no-op
                 },

@@ -5,9 +5,9 @@ namespace App\ExternalApi\Ada\Service;
 
 use App\ExternalApi\Ada\Domain\AdaClass;
 use App\ExternalApi\Ada\Mapper\AdaClassMapper;
-use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
-use App\ExternalApi\Exception\ParseException;
+use App\ExternalApi\Client\HttpApiMultiClient;
+use App\ExternalApi\Exception\MultiParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Closure;
@@ -77,7 +77,7 @@ class AdaClassService
         return $client->makeCachedPromise();
     }
 
-    private function makeClient(Programme $programme, bool $countWithinTleo, int $limit): HttpApiClient
+    private function makeClient(Programme $programme, bool $countWithinTleo, int $limit): HttpApiMultiClient
     {
         // If $countWithinTleo is true, then the programme_item_count returned
         // shall be the number of items with a tag WITHIN the TLEO.
@@ -93,9 +93,9 @@ class AdaClassService
 
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $stringPid, $countWithinTleo);
 
-        return $this->clientFactory->getHttpApiClient(
+        return $this->clientFactory->getHttpApiMultiClient(
             $cacheKey,
-            $url,
+            [$url],
             Closure::fromCallable([$this, 'parseResponse']),
             [$contextPid, $limit],
             [],
@@ -135,13 +135,16 @@ class AdaClassService
     }
 
     /**
+     * @param Response[] $responses
+     * @param null|string $countContextPid
+     * @param int $limit
      * @return AdaClass[]
      */
-    private function parseResponse(Response $response, ?string $countContextPid, int $limit): array
+    private function parseResponse(array $responses, ?string $countContextPid, int $limit): array
     {
-        $data = json_decode($response->getBody()->getContents(), true);
+        $data = json_decode($responses[0]->getBody()->getContents(), true);
         if (!isset($data['items'])) {
-            throw new ParseException("Ada JSON response does not contain items element");
+            throw new MultiParseException(0, "Ada JSON response does not contain items element");
         }
 
         $classes = [];

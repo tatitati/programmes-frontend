@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\FavouritesButton\Service;
 
-use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
+use App\ExternalApi\Client\HttpApiMultiClient;
 use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\FavouritesButton\Domain\FavouritesButton;
 use App\ExternalApi\FavouritesButton\Mapper\FavouritesButtonMapper;
@@ -40,7 +40,7 @@ class FavouritesButtonService
         return $client->makeCachedPromise();
     }
 
-    private function makeHttpApiClient(): HttpApiClient
+    private function makeHttpApiClient(): HttpApiMultiClient
     {
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__);
         // Making a call with a cert to some envs results in failures. Hence this

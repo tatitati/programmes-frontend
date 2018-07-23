@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\ExternalApi\Recipes\Service;
 
-use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
+use App\ExternalApi\Client\HttpApiMultiClient;
 use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\Recipes\Domain\RecipesApiResult;
 use App\ExternalApi\Recipes\Mapper\RecipeMapper;
@@ -45,7 +45,7 @@ class RecipesService
         return $client->makeCachedPromise();
     }
 
-    private function makeHttpApiClient(string $pid, int $limit, int $page): HttpApiClient
+    private function makeHttpApiClient(string $pid, int $limit, int $page): HttpApiMultiClient
     {
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $pid, $limit, $page);
 

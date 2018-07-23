@@ -4,10 +4,14 @@ declare(strict_types = 1);
 namespace Tests\App\ExternalApi\Client;
 
 use App\ExternalApi\Client\HttpApiMultiClient;
+use App\ExternalApi\Exception\MultiParseException;
+use App\ExternalApi\Exception\ParseException;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
@@ -162,6 +166,80 @@ class HttpApiMultiClientTest extends TestCase
         $this->assertEquals('The parsed response', $httpApiClient->makeCachedPromise()->wait(true));
     }
 
+    public function testMakeUncachedPromiseExceptionReturnsNullResult()
+    {
+        $guzzleClient = $this->createMock(Client::class);
+        $guzzleClient->expects($this->any())
+            ->method('requestAsync')
+            ->willThrowException(new RequestException('test', new Request('get', 'http://www.api.com/fail')));
+
+        $httpApiClient = $this->createHttpApiMultiClient(
+            $guzzleClient,
+            'cachekey',
+            ['http://www.api.com/a', 'http://www.api.com/a'],
+            function () {
+                // no-op
+            },
+            [],
+            ['data' => ''] // null result
+        );
+
+        // Assert the error was logged
+        $this->mockLogger->expects($this->once())
+            ->method('error')
+            ->with($this->matchesRegularExpression('/HTTP Error status Unknown for one of this URLs http:\/\/www\.api\.com\/fail : /'));
+        // Assert $nullResponse is return when a GuzzleException is thrown
+         $this->assertEquals(['data' => ''], $httpApiClient->makeCachedPromise()->wait(true));
+    }
+
+    /**
+     * Test when the callback for parsing the results throws an MultiParseException the error is logged and null result returned
+     */
+    public function testParseResponseCallableThrowsMultiParseException()
+    {
+        $guzzleClient = $this->createMock(Client::class);
+        $httpApiClient = $this->createHttpApiMultiClient(
+            $guzzleClient,
+            'cachekey',
+            ['http://www.api.com/a', 'http://www.api.com/b'],
+            function () {
+                throw new MultiParseException(0, 'Error when parsing the responses');
+            },
+            [],
+            ['data' => ''] // null result
+        );
+        // Assert the error was logged
+        $this->mockLogger->expects($this->once())
+            ->method('error')
+            ->with('Error parsing feed for "{0}". Error was: {1}', ['http://www.api.com/a', 'Error when parsing the responses']);
+        // Assert $nullResponse is return when a GuzzleException is thrown
+        $this->assertEquals(['data' => ''], $httpApiClient->makeCachedPromise()->wait(true));
+    }
+
+    /**
+     * Same as testParseResponseCallableThrowsMultiParseException but for ParseException
+     */
+    public function testParseResponseCallableThrowsParseException()
+    {
+        $guzzleClient = $this->createMock(Client::class);
+        $httpApiClient = $this->createHttpApiMultiClient(
+            $guzzleClient,
+            'cachekey',
+            ['http://www.api.com/a', 'http://www.api.com/b'],
+            function () {
+                throw new ParseException('Error when parsing a response');
+            },
+            [],
+            ['data' => ''] // null result
+        );
+        // Assert the error was logged
+        $this->mockLogger->expects($this->once())
+            ->method('error')
+            ->with('Error parsing feed for one of this URLs: "{0}". Error was: {1}', ['http://www.api.com/a,http://www.api.com/b', 'Error when parsing a response']);
+        // Assert $nullResponse is return when a GuzzleException is thrown
+        $this->assertEquals(['data' => ''], $httpApiClient->makeCachedPromise()->wait(true));
+    }
+
     public function testErrorLoggingAndNotCaching()
     {
         $response1 = new Response(200, [], 'The correct response');
@@ -190,7 +268,7 @@ class HttpApiMultiClientTest extends TestCase
         );
         $this->mockLogger->expects($this->once())
             ->method('error')
-            ->with($this->matchesRegularExpression('/HTTP Error status 500 for http:\/\/www\.api\.com\/fail : /'));
+            ->with($this->matchesRegularExpression('/HTTP Error status 500 for one of this URLs http:\/\/www\.api\.com\/fail : /'));
 
         $this->assertEquals([], $httpApiClient->makeCachedPromise()->wait(true));
     }

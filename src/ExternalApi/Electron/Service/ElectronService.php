@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Electron\Service;
 
-use App\ExternalApi\Client\HttpApiClient;
 use App\ExternalApi\Client\HttpApiClientFactory;
+use App\ExternalApi\Client\HttpApiMultiClient;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Electron\Mapper\SupportingContentMapper;
 use App\ExternalApi\Exception\MultiParseException;
@@ -52,7 +52,7 @@ class ElectronService
         return $client->makeCachedPromise();
     }
 
-    private function makeClient(Programme $programme): HttpApiClient
+    private function makeClient(Programme $programme): HttpApiMultiClient
     {
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programme->getPid());
         $url = $this->makeSupportingContentUrlForProgramme($programme->getPid());

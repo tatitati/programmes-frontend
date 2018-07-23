@@ -29,46 +29,6 @@ class HttpApiClientFactory
         $this->logger = $logger;
     }
 
-    /**
-     * @deprecated
-     * To be replaced by getHttpApiMultiClient
-     *
-     * @param string $cacheKey
-     * @param string $requestUrl
-     * @param callable $parseResponse
-     * @param array $parseResponseArguments
-     * @param array $nullResult
-     * @param string $standardTTL
-     * @param string $notFoundTTL
-     * @param array $guzzleOptions
-     * @return HttpApiClient
-     */
-    public function getHttpApiClient(
-        string $cacheKey,
-        string $requestUrl,
-        callable $parseResponse,
-        array $parseResponseArguments = [],
-        $nullResult = [],
-        $standardTTL = CacheInterface::MEDIUM,
-        $notFoundTTL = CacheInterface::NORMAL,
-        array $guzzleOptions = []
-    ) {
-        $guzzleOptions = array_merge(self::DEFAULT_GUZZLE_OPTIONS, $guzzleOptions);
-        return new HttpApiClient(
-            $this->client,
-            $this->cache,
-            $this->logger,
-            $cacheKey,
-            $requestUrl,
-            $parseResponse,
-            $parseResponseArguments,
-            $nullResult,
-            $standardTTL,
-            $notFoundTTL,
-            $guzzleOptions
-        );
-    }
-
     public function getHttpApiMultiClient(
         string $cacheKey,
         array $requestUrls,

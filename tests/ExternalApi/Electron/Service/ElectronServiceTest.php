@@ -73,7 +73,7 @@ class ElectronServiceTest extends BaseServiceTestCase
 
         // Assert the error was logged
         $this->assertTrue($this->getLoggerHandler()->hasRecordThatMatches(
-            '/Error parsing feed for "https:\/\/.*"\. Error was: Unable to parse XML/',
+            '/Error parsing feed for one of this URLs: "https:\/\/.*"\. Error was: Unable to parse XML/',
             Logger::ERROR
         ));
     }
