@@ -57,6 +57,7 @@ class Kernel extends BaseKernel
         $derivativeEnvs = [
             'prod_int' => ['prod'],
             'prod_test' => ['prod'],
+            'prod_stage' => ['prod'],
             'dev_fixture' => ['dev'],
             'prod_int_fixture' => ['prod', 'prod_int'],
             'prod_test_fixture' => ['prod', 'prod_test'],

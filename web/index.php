@@ -13,7 +13,7 @@ $env = $_SERVER['APP_ENV'] ?? 'dev';
 if (in_array($env, ['dev', 'prod_int','prod_test']) && !empty($_GET['__scenario'])) {
     $env .= '_fixture';
 }
-$debug = $_SERVER['APP_DEBUG'] ?? !in_array($env, ['prod', 'prod_int', 'prod_test', 'prod_int_fixture', 'prod_test_fixture']);
+$debug = $_SERVER['APP_DEBUG'] ?? !in_array($env, ['prod', 'prod_int', 'prod_test', 'prod_stage', 'prod_int_fixture', 'prod_test_fixture']);
 
 
 if ($debug) {

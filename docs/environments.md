@@ -19,6 +19,7 @@ follows:
 * `prod`: for running the deployed app in the Cosmos LIVE environment
 * `prod_int`: for running the deployed app in the Cosmos INT environment
 * `prod_test`: for running the deployed app in the Cosmos TEST environment
+* `prod_stage`: for running the deployed app in the Cosmos STAGE environment
 
 Both `prod_int` and `prod_test` inherit from `prod`. Only configuration
 parameters should need to be changed between these environments.
