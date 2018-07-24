@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "5b39da9d3b59a7c326f829cc9c8ccaa4",
@@ -221,16 +221,16 @@
         },
         {
             "name": "bbc/branding-client",
-            "version": "v2.5.0",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/branding-client.git",
-                "reference": "0b708cd5834dd79be5c367c92ac57a33d73e7d9f"
+                "reference": "adf2f76777fec2af0a9a11b83501760c9f1ddee8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/branding-client/zipball/0b708cd5834dd79be5c367c92ac57a33d73e7d9f",
-                "reference": "0b708cd5834dd79be5c367c92ac57a33d73e7d9f",
+                "url": "https://api.github.com/repos/bbc/branding-client/zipball/adf2f76777fec2af0a9a11b83501760c9f1ddee8",
+                "reference": "adf2f76777fec2af0a9a11b83501760c9f1ddee8",
                 "shasum": ""
             },
             "require": {
@@ -261,10 +261,10 @@
             ],
             "description": "PHP Branding client",
             "support": {
-                "source": "https://github.com/bbc/branding-client/tree/v2.5.0",
+                "source": "https://github.com/bbc/branding-client/tree/v2.6.0",
                 "issues": "https://github.com/bbc/branding-client/issues"
             },
-            "time": "2018-04-06T13:09:08+00:00"
+            "time": "2018-07-24T10:53:52+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",
