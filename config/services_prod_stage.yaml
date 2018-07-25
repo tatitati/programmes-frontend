@@ -1,3 +1,4 @@
 parameters:
     app.feed_env.orbit: 'stage'
     app.feed_env.branding: 'live'
+    app.isite.baseurl: 'https://api.test.bbc.co.uk/isite2-content-reader'
