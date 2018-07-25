@@ -221,16 +221,16 @@
         },
         {
             "name": "bbc/branding-client",
-            "version": "v2.6.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/branding-client.git",
-                "reference": "adf2f76777fec2af0a9a11b83501760c9f1ddee8"
+                "reference": "61a1bf05cb59b05d3b7f945817496922e7c1fb78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/branding-client/zipball/adf2f76777fec2af0a9a11b83501760c9f1ddee8",
-                "reference": "adf2f76777fec2af0a9a11b83501760c9f1ddee8",
+                "url": "https://api.github.com/repos/bbc/branding-client/zipball/61a1bf05cb59b05d3b7f945817496922e7c1fb78",
+                "reference": "61a1bf05cb59b05d3b7f945817496922e7c1fb78",
                 "shasum": ""
             },
             "require": {
@@ -261,10 +261,10 @@
             ],
             "description": "PHP Branding client",
             "support": {
-                "source": "https://github.com/bbc/branding-client/tree/v2.6.0",
+                "source": "https://github.com/bbc/branding-client/tree/v2.6.1",
                 "issues": "https://github.com/bbc/branding-client/issues"
             },
-            "time": "2018-07-24T10:53:52+00:00"
+            "time": "2018-07-25T09:06:41+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",
