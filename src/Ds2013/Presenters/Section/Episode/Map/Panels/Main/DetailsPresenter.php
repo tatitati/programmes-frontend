@@ -93,21 +93,7 @@ class DetailsPresenter extends Presenter
 
     public function getStreamableTimeRemaining(): string
     {
-        $timeRemaining = $this->episode->getStreamableUntil()->diff(Chronos::now());
-
-        $string = 'iplayer_play_remaining';
-        if ($this->episode->getMediaType()) {
-            if ($this->episode->getMediaType() === 'audio') {
-                $string = 'iplayer_listen_remaining';
-            } else {
-                $string = 'iplayer_watch_remaining';
-            }
-        } elseif ($this->episode->isRadio()) {
-            $string = 'iplayer_listen_remaining';
-        } elseif ($this->episode->isTv()) {
-            $string = 'iplayer_watch_remaining';
-        }
-        return $this->playTranslationsHelper->timeIntervalToWords($timeRemaining, false, $string);
+        return $this->playTranslationsHelper->translateAvailableUntilToWords($this->episode, null, false);
     }
 
     public function getDuration(): string

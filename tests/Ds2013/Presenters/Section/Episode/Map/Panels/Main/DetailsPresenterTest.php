@@ -63,51 +63,6 @@ class DetailsPresenterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider streamableTimeProvider
-     */
-    public function testStreamableTimeRemaining(Episode $episode, string $string)
-    {
-        $interval = $episode->getStreamableUntil()->diff(Chronos::now());
-        $playTranslationsHelper = $this->createMock(PlayTranslationsHelper::class);
-        $playTranslationsHelper->expects($this->once())->method('timeIntervalToWords')->with($interval, false, $string);
-        $presenter = new DetailsPresenter($playTranslationsHelper, $this->createMock(UrlGeneratorInterface::class), $episode, [], null);
-        $presenter->getStreamableTimeRemaining();
-    }
-
-    public function streamableTimeProvider(): array
-    {
-        $streamableUntil = new Chronos('+1 month');
-        $options = [];
-        $audioType = $this->createMock(Episode::class);
-        $audioType->method('getStreamableUntil')->willReturn($streamableUntil);
-        $audioType->method('getMediaType')->willReturn('audio');
-        $options['audio-type'] = [$audioType, 'iplayer_listen_remaining'];
-        $nonAudioType = $this->createMock(Episode::class);
-        $nonAudioType->method('getStreamableUntil')->willReturn($streamableUntil);
-        $nonAudioType->method('getMediaType')->willReturn('something else');
-        $options['non-audio-type'] = [$nonAudioType, 'iplayer_watch_remaining'];
-        $radio = $this->createMock(Episode::class);
-        $radio->method('getStreamableUntil')->willReturn($streamableUntil);
-        $radio->method('getMediaType')->willReturn('');
-        $radio->method('isRadio')->willReturn(true);
-        $options['radio'] = [$radio, 'iplayer_listen_remaining'];
-        $tv = $this->createMock(Episode::class);
-        $tv->method('getStreamableUntil')->willReturn($streamableUntil);
-        $tv->method('getMediaType')->willReturn('');
-        $tv->method('isRadio')->willReturn(false);
-        $tv->method('isTv')->willReturn(true);
-        $options['tv'] = [$tv, 'iplayer_watch_remaining'];
-        $none = $this->createMock(Episode::class);
-        $none->method('getStreamableUntil')->willReturn($streamableUntil);
-        $none->method('getMediaType')->willReturn('');
-        $none->method('isRadio')->willReturn(false);
-        $none->method('isTv')->willReturn(false);
-        $options['none'] = [$none, 'iplayer_play_remaining'];
-
-        return $options;
-    }
-
     public function testADVersionIsAvailable()
     {
         $versions = [

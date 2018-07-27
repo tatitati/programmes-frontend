@@ -31,7 +31,7 @@ class PlayTranslationsHelper
         $this->translateProvider = $translateProvider;
     }
 
-    public function translateAvailableUntilToWords(ProgrammeItem $programmeItem, Service $service = null): string
+    public function translateAvailableUntilToWords(ProgrammeItem $programmeItem, Service $service = null, $showAvailableUntil = true): string
     {
         if (!$programmeItem->isStreamable()) {
             return '';
@@ -47,7 +47,7 @@ class PlayTranslationsHelper
 
         $translationPrefix = 'iplayer_' . $mediaVerb . '_remaining';
         $text = $this->timeIntervalToWords($remainingTime, false, $translationPrefix);
-        if ($programmeItem->getStreamableUntil()) {
+        if ($showAvailableUntil && $programmeItem->getStreamableUntil()) {
             $text .= ' (' . $this->localDateIntl($programmeItem->getStreamableUntil(), 'EEE dd MMMM yyyy, HH:mm') . ')';
         }
         return $text;
