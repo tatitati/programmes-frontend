@@ -122,13 +122,13 @@ topics_topic:
     schemes: [http]
 
 podcast_download:
-    path: /mediaselector/5/redir/version/2.0/mediaset/audio-nondrm-download/proto/http/vpid/{pid}.mp3
+    path: /mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download/proto/http/vpid/{pid}.mp3
     host: 'open.live.bbc.co.uk'
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     schemes: [http]
 
 podcast_download_low:
-    path: /mediaselector/5/redir/version/2.0/mediaset/audio-nondrm-download-low/proto/http/vpid/{pid}.mp3
+    path: /mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-low/proto/http/vpid/{pid}.mp3
     host: 'open.live.bbc.co.uk'
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }
     schemes: [http]
