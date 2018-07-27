@@ -8,8 +8,6 @@ use App\ExternalApi\Isite\DataNotFetchedException;
 class Profile
 {
     //Image
-    //Title
-    //Slug(slugified title)
     //Key (Mutated Guid)
     //Guid
 
@@ -20,6 +18,9 @@ class Profile
     private $fileId;
 
     /** @var string */
+    private $projectSpace;
+
+    /** @var string */
     private $key;
 
     /** @var string */
@@ -28,13 +29,34 @@ class Profile
     /** @var string */
     private $type;
 
-    public function __construct(string $title, string $key, string $fileId, string $type)
-    {
+    /** @var string */
+    private $parentPid;
+
+    /** @var string */
+    private $longSynopsis;
+
+    /** @var string */
+    private $brandingId;
+
+    public function __construct(
+        string $title,
+        string $key,
+        string $fileId,
+        string $type,
+        string $projectSpace,
+        string $parentPid,
+        string $longSynopsis,
+        string $brandingId
+    ) {
         $this->title = $title;
         $this->key = $key;
         $this->fileId = $fileId;
         $this->type = $type;
-        if ($this->type !== 'group') {
+        $this->projectSpace = $projectSpace;
+        $this->parentPid = $parentPid;
+        $this->longSynopsis = $longSynopsis;
+        $this->brandingId = $brandingId;
+        if ($this->isIndividual()) {
             $this->setChildren([]);
         }
     }
@@ -60,6 +82,16 @@ class Profile
     public function getKey(): string
     {
         return $this->key;
+    }
+
+    public function getLongSynopsis(): string
+    {
+        return $this->longSynopsis;
+    }
+
+    public function getParentPid(): string
+    {
+        return $this->parentPid;
     }
 
     public function getSlug()
@@ -93,11 +125,31 @@ class Profile
         return $this->type;
     }
 
+    public function getProjectSpace(): string
+    {
+        return $this->projectSpace;
+    }
+
+    public function getBrandingId()
+    {
+        return $this->brandingId;
+    }
+
     /**
      * @param Profile[] $children
      */
     public function setChildren(array $children)
     {
         $this->children = $children;
+    }
+
+    public function isIndividual(): bool
+    {
+        return $this->type == 'individual';
+    }
+
+    public function isGroup(): bool
+    {
+        return $this->type == 'group';
     }
 }

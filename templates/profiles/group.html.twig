@@ -1,0 +1,27 @@
+{% extends 'base_ds2013.html.twig' %}
+
+{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('profiles') }}{% endblock %}
+{% block page_classes %}text-base prog-layout{% endblock %}
+
+{% block body %}
+    <div class="programmes-page profile--group">
+        <div class="grid-wrapper">
+            <div class="grid">
+                <div class="br-box-page">
+                    <div class="prog-layout__primary island--vertical">
+                        <h1>{{ profile.getTitle() }}</h1>
+                        <div class="text--prose component">
+                            <p>{{ profile.getLongSynopsis() }}</p>
+                        </div>
+
+                        {% if profile.getChildren() %}
+                            {% for child in profile.getChildren() %}
+                                <a href="{{ path('programme_profile', {'key': child.getKey(), 'slug': child.getSlug()}) }}">{{ child.getTitle() }}</a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

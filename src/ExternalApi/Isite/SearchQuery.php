@@ -6,7 +6,7 @@ namespace App\ExternalApi\Isite;
 use InvalidArgumentException;
 use stdClass;
 
-class SearchQuery
+class SearchQuery implements QueryInterface
 {
     private const MAX_PAGE_SIZE = 48;
 

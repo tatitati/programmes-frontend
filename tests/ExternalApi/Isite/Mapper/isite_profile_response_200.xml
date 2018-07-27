@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result xmlns="https://production.bbc.co.uk/isite2/contentreader/xml/result">
+   <metadata>
+      <modifiedDateTime>2018-07-25T09:46:25.282029Z</modifiedDateTime>
+      <creationDateTime>2014-05-06T09:09:03.568Z</creationDateTime>
+      <type>programmes-profile</type>
+      <fileId>programmes-profile-b007qlvb-container-presenters</fileId>
+      <guid>a8ed3fbc-db98-3f8e-b974-3a6348083c0f</guid>
+   </metadata>
+   <document>
+      <form xmlns="https://production.bbc.co.uk/isite2/project/progs-radio4and4extra/programmes-profile">
+         <metadata>
+            <name>Woman's Hour Presenters (b007qlvb)</name>
+            <title>Woman's Hour Presenters</title>
+            <type>group</type>
+            <short_synopsis>Woman's Hour Presenters - Jane Garvey and Jenni Murray</short_synopsis>
+            <long_synopsis>Woman's Hour Presenters</long_synopsis>
+            <image>p01svhcp</image>
+            <importance>0</importance>
+            <tagline />
+            <group_size />
+            <!--Parent pid is an optional field-->
+            <parent_pid />
+            <branding_id>dr who</branding_id>
+            <file_id>b007qlvb-container-presenters</file_id>
+            <contributor_pid />
+            <contribution_pid />
+            <parents>
+               <parent />
+            </parents>
+            <position>1</position>
+            <bbc_site>homepage</bbc_site>
+         </metadata>
+         <key_facts />
+         <profile>
+            <content_blocks>
+               <content_block />
+            </content_blocks>
+            <image_portrait />
+            <onward_journeys />
+         </profile>
+      </form>
+   </document>
+</result>
+

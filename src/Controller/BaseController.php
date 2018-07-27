@@ -178,8 +178,10 @@ abstract class BaseController extends AbstractController
             $promises['branding'] = $this->brandingPromise;
         }
         $unwrapped = \GuzzleHttp\Promise\unwrap($promises);
-        $this->branding = $unwrapped['branding'];
-        unset($unwrapped['branding']);
+        if (isset($unwrapped['branding'])) {
+            $this->branding = $unwrapped['branding'];
+            unset($unwrapped['branding']);
+        }
         return $unwrapped;
     }
 

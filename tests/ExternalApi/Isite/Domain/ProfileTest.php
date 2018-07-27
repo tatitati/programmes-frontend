@@ -3,26 +3,28 @@ declare(strict_types = 1);
 
 namespace Tests\App\ExternalApi\Isite\Domain;
 
-use App\ExternalApi\Isite\Domain\Profile;
+use App\Builders\ProfileBuilder;
 use PHPUnit\Framework\TestCase;
 
 class ProfileTest extends TestCase
 {
-    public function testSlugify()
+    /**
+     * @dataProvider titlesAndSlugsProvider
+     */
+    public function testSlugify($withTitle, $expectSlug)
     {
-        $profile = new Profile('title', 'anything', 'anything', 'anything');
-        $this->assertSame('title', $profile->getSlug());
+        $profile = ProfileBuilder::any()->with(['title' => $withTitle])->build();
+        $this->assertSame($expectSlug, $profile->getSlug());
+    }
 
-        $profile = new Profile('Title-of an    article!@£$%^&*()', 'anything', 'anything', 'anything');
-        $this->assertSame('title-of-an-article', $profile->getSlug());
-
-        $profile = new Profile('A title~with "quotes" that should/ strip', 'anything', 'anything', 'anything');
-        $this->assertSame('a-title-with-quotes-that-should-strip', $profile->getSlug());
-
-        $profile = new Profile('A title~with apostrophe\'s that should/ strip', 'anything', 'anything', 'anything');
-        $this->assertSame('a-title-with-apostrophes-that-should-strip', $profile->getSlug());
-
-        $profile = new Profile('A cööl titlé wîth accènts', 'anything', 'anything', 'anything');
-        $this->assertSame('a-cool-title-with-accents', $profile->getSlug());
+    public function titlesAndSlugsProvider()
+    {
+        return [
+            'Alpha:' => ['title', 'title'],
+            'Special-chars:' => ['Title-of an    article!@£$%^&*()', 'title-of-an-article'],
+            'Quotes:' => ['A title~with "quotes" that should/ strip', 'a-title-with-quotes-that-should-strip'],
+            'Apostrophes:' => ['A title~with apostrophe\'s that should/ strip', 'a-title-with-apostrophes-that-should-strip'],
+            'Accents:' => ['A cööl titlé wîth accènts', 'a-cool-title-with-accents'],
+        ];
     }
 }

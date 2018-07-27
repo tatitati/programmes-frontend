@@ -36,7 +36,7 @@ class IndexController extends BaseController
                     $groupProfiles[] = $profile;
                 }
             }
-            $childPromise = $isiteService->getChildrenOfProfiles($project, $groupProfiles);
+            $childPromise = $isiteService->setChildProfilesOn($groupProfiles, $project);
             $this->resolvePromises([$childPromise]);
             $parameters['profiles'] = $profiles;
         }

@@ -49,13 +49,13 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
         // Episodes not nested on series but on brands
         $this->addReference(
             'p3000000',
-            $this->buildEpisode('p3000000', 'B1-E1', $this->getReference('b006q2x0'), ['download_mediaset_1', 'download_mediaset_2'])
+            $this->buildEpisode('p3000000', 'B1-E1', $this->getReference('b006q2x0'), ['download_mediaset_1', 'download_mediaset_2'], ['project_space' => 'progs-radio4and4extra'])
         );
 
         // Episodes contained on simple series
         $this->addReference(
             'p3000001',
-            $this->buildEpisode('p3000001', 'B1-S1-E1', $this->getReference('b0000sr1'))
+            $this->buildEpisode('p3000001', 'B1-S1-E1', $this->getReference('b0000sr1'), [], ['project_space' => 'progs-radio4and4extra'])
         );
 
         $this->addReference(

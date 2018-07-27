@@ -11,6 +11,7 @@ parameters:
     app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesStubService
     app.favourites.service.class: App\ExternalApi\FavouritesButton\Service\FavouritesButtonStubService
     app.tupac.service.class: App\ExternalApi\Tupac\Service\TupacStubService
+    app.isite.service.class: App\ExternalApi\Isite\Service\IsiteFakeService
 
 framework:
     cache:

@@ -26,6 +26,16 @@ class IsiteKeyHelper
             substr($characters, 20, 12);
     }
 
+    public function isKeyAGuid(string $key): bool
+    {
+        $regexGuid = '/^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/i';
+        if (preg_match($regexGuid, $key)) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function convertBase(string $characters, string $fromString, string $toString): string
     {
         $iFromBase = \strlen($fromString);

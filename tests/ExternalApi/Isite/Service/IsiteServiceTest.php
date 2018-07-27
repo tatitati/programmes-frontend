@@ -12,6 +12,7 @@ use App\ExternalApi\Isite\Service\IsiteService;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +36,7 @@ class IsiteServiceTest extends TestCase
         $mockHttpApiClientFactory->expects($this->once())
             ->method('getHttpApiMultiClient')
             ->with('cacheKey', [$url], function () {
-            }, [], [], CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
+            }, [], $this->isInstanceOf(IsiteResult::class), CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
             ->willReturn($mockClient);
         $service = new IsiteService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
         $service->getProfilesByProgramme($mockProgramme);
@@ -55,6 +56,10 @@ class IsiteServiceTest extends TestCase
             'baseurl/search?q=%7B%22namespaces%22%3A%7B%22profile%22%3A%22https%3A%5C%2F%5C%2Fproduction.bbc.co.uk%5C%2Fisite2%5C%2Fproject%5C%2Fproject-space%5C%2Fprogrammes-profile%22%7D%2C%22project%22%3A%22project-space%22%2C%22depth%22%3A0%2C%22sort%22%3A%5B%7B%22elementPath%22%3A%22%5C%2Fprofile%3Aform%5C%2Fprofile%3Ametadata%5C%2Fprofile%3Aposition%22%2C%22type%22%3A%22numeric%22%2C%22direction%22%3A%22asc%22%7D%2C%7B%22elementPath%22%3A%22%5C%2Fprofile%3Aform%5C%2Fprofile%3Ametadata%5C%2Fprofile%3Atitle%22%2C%22direction%22%3A%22asc%22%7D%5D%2C%22page%22%3A%221%22%2C%22pageSize%22%3A%2248%22%2C%22query%22%3A%5B%22profile%3Aparent%22%2C%22%3D%22%2C%22urn%3Aisite%3Aproject-space%3AfileIdC%22%5D%7D',
         ];
         $mockClient = $this->createMock(HttpApiMultiClient::class);
+        $mockClient->expects($this->once())
+            ->method('makeCachedPromise')
+            ->willReturn(new Promise());
+
         $mockHttpApiClientFactory = $this->createMock(HttpApiClientFactory::class);
         $mockHttpApiClientFactory->expects($this->once())
             ->method('keyHelper')
@@ -65,31 +70,17 @@ class IsiteServiceTest extends TestCase
             }, [[$profileA, $profileB, $profileC]], [], CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
             ->willReturn($mockClient);
         $service = new IsiteService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
-        $service->getChildrenOfProfiles('project-space', [$profileA, $profileB, $profileC]);
+        $service->setChildProfilesOn([$profileA, $profileB, $profileC], 'project-space');
     }
 
     public function testResponseHandlerOfGetChildrenOfProfilesResponses()
     {
-        $someArrayA = ['foo', 'bar'];
-        $someArrayB = ['baz', 'qux'];
         $responseA = $this->createMock(Response::class);
         $responseB = $this->createMock(Response::class);
         $profileA = $this->createMock(Profile::class);
-        $profileA->expects($this->once())
-            ->method('setChildren')
-            ->with($someArrayA);
         $profileB = $this->createMock(Profile::class);
-        $profileB->expects($this->once())
-            ->method('setChildren')
-            ->with($someArrayB);
         $iSiteResultA = $this->createMock(IsiteResult::class);
-        $iSiteResultA->expects($this->once())
-            ->method('getDomainModels')
-            ->willReturn($someArrayA);
         $iSiteResultB = $this->createMock(IsiteResult::class);
-        $iSiteResultB->expects($this->once())
-            ->method('getDomainModels')
-            ->willReturn($someArrayB);
         $mockResponseHandler = $this->createMock(IsiteFeedResponseHandler::class);
         $mockResponseHandler->expects($this->exactly(2))
             ->method('getIsiteResult')
@@ -109,6 +100,6 @@ class IsiteServiceTest extends TestCase
             ->with($response)
             ->willReturn($iSiteResult);
         $service = new IsiteService('baseurl', $this->createMock(HttpApiClientFactory::class), $mockResponseHandler);
-        $this->assertEquals($iSiteResult, $service->parseProfilesByProgrammeResponses([$response]));
+        $this->assertEquals($iSiteResult, $service->parseProfileResponse([$response]));
     }
 }
