@@ -288,4 +288,6 @@
     display: block;
     position: relative;
     z-index: 1;
+    hyphens: auto;
+    word-wrap: break-word;
 }
