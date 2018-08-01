@@ -131,3 +131,8 @@ abbr[title] {
         display: none;
     }
 }
+
+.text-break-hyphens {
+    hyphens: auto;
+    word-wrap: break-word;
+}

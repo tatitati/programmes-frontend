@@ -29,10 +29,15 @@
                 {% endif %}
                 {# Song title with occasional feature #}
                 <p class="no-margin">
-                    <span>{{ music.getSegment().getTitle() }}</span>
-                    {% if music.getFeaturedContributions() %}
-                        (feat. {{ self.get_names(music, music.getFeaturedContributions(), '') }})
+                    {% if music.getSegment().getTitle() %}
+                        <span>{{ music.getSegment().getTitle() }}</span>
+                        {% if music.getFeaturedContributions() %}
+                            (feat. {{ self.get_names(music, music.getFeaturedContributions(), '') }})
+                        {% endif %}
+                    {% else %}
+                        <span>Untitled</span>
                     {% endif %}
+
                 </p>
 
                 {# Other Contributions #}
@@ -59,7 +64,7 @@
                             </li>
                         {% endif %}
                         {% if music.getSegment().getRecordLabel() %}
-                            <li class="inline">
+                            <li class="inline text-break-hyphens">
                                 <abbr title="Record Label">{{ music.getSegment().getRecordLabel() }}. </abbr>
                             </li>
                         {% endif %}
