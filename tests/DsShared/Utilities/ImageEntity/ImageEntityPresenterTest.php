@@ -1,17 +1,19 @@
 <?php
 declare(strict_types = 1);
-namespace Tests\App\DsShared\Utilities\Image;
+namespace Tests\App\DsShared\Utilities\ImageEntity;
 
-use App\DsShared\Utilities\Image\ImagePresenter;
+use App\Builders\ImageBuilder;
+use App\DsShared\Utilities\ImageEntity\ImageEntityPresenter;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class ImagePresenterTest extends TestCase
+class ImageEntityPresenterTest extends TestCase
 {
-    public function testImagePresenter(): void
+    public function testImageEntityPresenter(): void
     {
+        $image = ImageBuilder::any()->build();
         $sizes = [130 => 1/2];
-        $imagePresenter = new ImagePresenter('bcdf1234', 48, $sizes);
+        $imagePresenter = new ImageEntityPresenter($image, 48, $sizes);
 
         // Test default options
         $this->assertEquals(true, $imagePresenter->getOption('is_lazy_loaded'));
@@ -21,14 +23,15 @@ class ImagePresenterTest extends TestCase
         $this->assertEquals(false, $imagePresenter->getOption('is_bounded'));
 
         // Test generating src url using the defaultWidth argument
-        $this->assertEquals('https://ichef.bbci.co.uk/images/ic/48x27/bcdf1234.jpg', $imagePresenter->getSrc());
+        $this->assertEquals('https://ichef.bbci.co.uk/images/ic/48x27/' . $image->getPid() . '.jpg', $imagePresenter->getSrc());
     }
 
     public function testSettingOptions(): void
     {
+        $image = ImageBuilder::any()->build();
         $sizes = [130 => 1/2];
 
-        $imagePresenter = new ImagePresenter('bcdf1234', 300, $sizes, [
+        $imagePresenter = new ImageEntityPresenter($image, 300, $sizes, [
             'srcsets' => [320],
             'alt' => 'alt text',
             'ratio' => 1/2,
@@ -36,27 +39,31 @@ class ImagePresenterTest extends TestCase
         ]);
 
         $this->assertEquals('(min-width: 8.125em) 50vw, 100vw', $imagePresenter->getSizes());
-        $this->assertEquals('https://ichef.bbci.co.uk/images/ic/300x600_b/bcdf1234.jpg', $imagePresenter->getSrc());
-        $this->assertEquals('https://ichef.bbci.co.uk/images/ic/320x640_b/bcdf1234.jpg 320w', $imagePresenter->getSrcsets());
+        $this->assertEquals('https://ichef.bbci.co.uk/images/ic/300x600_b/' . $image->getPid() . '.jpg', $imagePresenter->getSrc());
+        $this->assertEquals('https://ichef.bbci.co.uk/images/ic/320x640_b/' . $image->getPid() . '.jpg 320w', $imagePresenter->getSrcsets());
     }
 
     public function testSizesStringOverride(): void
     {
-        $imagePresenter = new ImagePresenter('bcdf1234', 48, 'string override');
+        $image = ImageBuilder::any()->build();
+        $imagePresenter = new ImageEntityPresenter($image, 48, 'string override');
 
         $this->assertEquals('string override', $imagePresenter->getSizes());
     }
 
     public function testEmptySizesArray(): void
     {
-        $imagePresenter = new ImagePresenter('bcdf1234', 48, []);
+        $image = ImageBuilder::any()->build();
+        $imagePresenter = new ImageEntityPresenter($image, 48, []);
 
         $this->assertEquals('100vw', $imagePresenter->getSizes());
     }
 
     public function testInvalidSizesType()
     {
+        $image = ImageBuilder::any()->build();
+
         $this->expectException(InvalidArgumentException::class);
-        new ImagePresenter('bcdf1234', 48, 3);
+        new ImageEntityPresenter($image, 48, 3);
     }
 }

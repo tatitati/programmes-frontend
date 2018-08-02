@@ -1,7 +1,7 @@
 {% if smp.getProgrammeItem().isStreamable() %}
     <div class="episode-playout">
         <div id="{{ smp.getContainerId() }}" class="smp">
-            {{-  ds_shared('image',
+            {{-  ds_shared('imageEntity',
                     smp.getProgrammeItem().getImage(),
                     640,
                     smp.getOption('sizes'),

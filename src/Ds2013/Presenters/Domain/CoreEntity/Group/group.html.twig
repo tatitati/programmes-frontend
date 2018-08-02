@@ -3,7 +3,7 @@
     {% if group.getImage() %}
         <div class="programme__img programme__img--hasimage {{ group.getOption('img_classes') }}">
             {{- ds_shared(
-                'image',
+                'imageEntity',
                 group.getImage(),
                 group.getOption('img_default_width'),
                 group.getOption('img_sizes'),

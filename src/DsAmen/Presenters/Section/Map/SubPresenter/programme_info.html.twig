@@ -1,6 +1,6 @@
 <div class="br-box-secondary" data-map-column="programme-info">
     {% if not programme_info.showMiniMap %}
-        {{ ds_shared('image', programme_info.getProgrammeContainer().getImage(), programme_info.getDefaultImageSize(), programme_info.getImageSizes(), {'is_lazy_loaded': false}) }}
+        {{ ds_shared('imageEntity', programme_info.getProgrammeContainer().getImage(), programme_info.getDefaultImageSize(), programme_info.getImageSizes(), {'is_lazy_loaded': false}) }}
     {% endif %}
     <div class="island">
         <h1 class="invisible">{{ programme_info.getProgrammeContainer().getTitle() }}</h1>

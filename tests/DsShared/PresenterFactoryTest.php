@@ -4,7 +4,7 @@ namespace Tests\App\DsShared;
 
 use App\DsShared\Helpers\HelperFactory;
 use App\DsShared\PresenterFactory;
-use App\DsShared\Utilities\Image\ImagePresenter;
+use App\DsShared\Utilities\ImageEntity\ImageEntityPresenter;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use PHPUnit\Framework\TestCase;
@@ -44,8 +44,8 @@ class PresenterFactoryTest extends TestCase
         $mockImage = $this->createMock(Image::class);
 
         $this->assertEquals(
-            new ImagePresenter($mockImage, 240, '1'),
-            $this->factory->imagePresenter($mockImage, 240, '1')
+            new ImageEntityPresenter($mockImage, 240, '1'),
+            $this->factory->imageEntityPresenter($mockImage, 240, '1')
         );
     }
 }

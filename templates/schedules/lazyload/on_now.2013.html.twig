@@ -12,7 +12,7 @@
     <div class="centi gamma emphasize">{{ broadcast.getStartAt()|local_date('H:i') }} {{ broadcast.getStartAt()|time_zone_note() }}</div>
 
     <a href="{{ path('find_by_pid', {'pid': broadcast.getProgrammeItem().getPid()}) }}">
-        {{ ds_shared('image', broadcast.getProgrammeItem().getImage(), 160, { 0: 0,  770: 1/6 ,1008: '94px' }) }}
+        {{ ds_shared('imageEntity', broadcast.getProgrammeItem().getImage(), 160, { 0: 0,  770: 1/6 ,1008: '94px' }) }}
         <div class="islet--vertical no-margin">{{ broadcast.getProgrammeItem().getTleo().getTitle() }}</div>
     </a>
 

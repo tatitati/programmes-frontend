@@ -1,14 +1,20 @@
 <?php
 declare(strict_types = 1);
+
 namespace App\DsShared\Utilities\Image;
 
 use App\DsShared\Presenter;
 use App\Exception\InvalidOptionException;
-use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use InvalidArgumentException;
 
 class ImagePresenter extends Presenter
 {
+    /** @var int */
+    protected $defaultWidth;
+
+    /** @var string */
+    protected $imagePid;
+
     /** @inheritdoc */
     protected $options = [
         'is_lazy_loaded' => true,
@@ -19,18 +25,12 @@ class ImagePresenter extends Presenter
         'image_classes' => '',
     ];
 
-    /** @var Image */
-    private $image;
-
-    /** @var int */
-    private $defaultWidth;
-
     /** @var string */
-    private $sizes;
+    protected $sizes;
 
     /**
      * ImagePresenter constructor.
-     * @param Image $image
+     * @param string $imagePid
      * @param int $defaultWidth
      *        Used to build the src attribute for browsers that don't support srcset/sizes
      * @param array|string $sizes
@@ -38,7 +38,7 @@ class ImagePresenter extends Presenter
      * @param array $options
      */
     public function __construct(
-        Image $image,
+        string $imagePid,
         int $defaultWidth,
         $sizes,
         array $options = []
@@ -51,7 +51,7 @@ class ImagePresenter extends Presenter
             throw new InvalidArgumentException("Argument 'sizes' must be either an empty or associative array, or a string");
         }
 
-        $this->image = $image;
+        $this->imagePid = $imagePid;
         $this->defaultWidth = $defaultWidth;
         $this->sizes = $this->buildSizes($sizes);
     }
@@ -75,6 +75,29 @@ class ImagePresenter extends Presenter
         }
 
         return implode(', ', $srcsets);
+    }
+
+    protected function buildSrcUrl(?int $width): string
+    {
+        // Bounded images force a specific ratio image by adding borders to
+        // the shorter dimension, rather than cutting off part of the image.
+        // Bounded imagechef recipes are only defined for recipes with an
+        // explicit ratio. For instance 320x320_b and 320x180_b are valid, but
+        // 320xn is not. Which makes sense as images without an explicit
+        // height do not get forced to a particular ratio at all.
+
+        $ratio = $this->getOption('ratio');
+        if ($ratio) {
+            $height = (string) round($width / $ratio, 0);
+            if ($this->getOption('is_bounded')) {
+                $height .= '_b';
+            }
+
+            $recipe = $width . 'x' . $height;
+            return 'https://ichef.bbci.co.uk/images/ic/' . $recipe . '/' . $this->imagePid . '.jpg';
+        }
+
+        return 'https://ichef.bbci.co.uk/images/ic/' . $width . 'xn/' . $this->imagePid . '.jpg';
     }
 
     protected function validateOptions(array $options): void
@@ -135,27 +158,5 @@ class ImagePresenter extends Presenter
         $parts[] = '100vw';
 
         return implode(', ', $parts);
-    }
-
-    private function buildSrcUrl(?int $width): string
-    {
-        // Bounded images force a specific ratio image by adding borders to
-        // the shorter dimension, rather than cutting off part of the image.
-        // Bounded imagechef recipes are only defined for recipes with an
-        // explicit ratio. For instance 320x320_b and 320x180_b are valid, but
-        // 320xn is not. Which makes sense as images without an explicit
-        // height do not get forced to a particular ratio at all.
-
-        $ratio = $this->getOption('ratio');
-        if ($ratio) {
-            $height = (string) round($width / $ratio, 0);
-            if ($this->getOption('is_bounded')) {
-                $height .= '_b';
-            }
-
-            return $this->image->getUrl((string) $width, $height);
-        }
-
-        return $this->image->getUrl((string) $width);
     }
 }

@@ -6,7 +6,7 @@
         <div class="feature br-keyline">
             {% if supporting_content.getItem().getImage() %}
                 <div class="feature__img 13/24">
-                    {{ ds_shared('image', supporting_content.getItem().getImage(), 160, {0: 1/2, 770: 1/4, 1008: '266px'}, {'alt': supporting_content.getItem().getTitle()}) }}
+                    {{ ds_shared('imageEntity', supporting_content.getItem().getImage(), 160, {0: 1/2, 770: 1/4, 1008: '266px'}, {'alt': supporting_content.getItem().getTitle()}) }}
                 </div>
             {% endif %}
             <div class="feature__description centi">

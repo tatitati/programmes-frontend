@@ -10,7 +10,7 @@
     <div class="{{ outer_div_classes }}">
         {% if programme_overlay.getOption('show_image') %}
             <meta property="image" content="{{ programme_overlay.getImageUrl(480,270)}}" />
-            {{ ds_shared('image', programme_overlay.getImage(), programme_overlay.getOption('default_width'), programme_overlay.getOption('sizes'), {
+            {{ ds_shared('imageEntity', programme_overlay.getImage(), programme_overlay.getOption('default_width'), programme_overlay.getOption('sizes'), {
                 'is_lazy_loaded' : programme_overlay.getOption('is_lazy_loaded'),
                 'ratio': (16 / 9)
             })}}

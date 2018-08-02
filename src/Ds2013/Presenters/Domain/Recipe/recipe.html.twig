@@ -2,7 +2,7 @@
     <div class="programme__img 1/1@bpb1 1/1@bpw programme__img--hasimage recipe__img block-link br-blocklink-page">
         {%- if recipe.getImage() -%}
             {{-
-                ds_shared('image',
+                ds_shared('imageEntity',
                     recipe.getImage(),
                     280,
                     recipe.getOption('srcset'),

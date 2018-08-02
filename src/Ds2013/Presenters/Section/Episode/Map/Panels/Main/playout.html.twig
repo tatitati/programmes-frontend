@@ -29,7 +29,7 @@
 
 {% macro image(playout) %}
     {{ ds_shared(
-        'image',
+        'imageEntity',
         playout.getEpisode().getImage(),
         640,
         {0: 1/1, 768: 2/3, 1008: 640},

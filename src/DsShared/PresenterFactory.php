@@ -5,6 +5,7 @@ namespace App\DsShared;
 
 use App\DsShared\Utilities\EntityContext\EntityContextPresenter;
 use App\DsShared\Utilities\Image\ImagePresenter;
+use App\DsShared\Utilities\ImageEntity\ImageEntityPresenter;
 use App\DsShared\Utilities\Synopsis\SynopsisPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
@@ -22,14 +23,28 @@ class PresenterFactory
         return new EntityContextPresenter($context, $options);
     }
 
-    public function imagePresenter(
+    public function imageEntityPresenter(
         Image $image,
+        int $defaultWidth,
+        $sizes,
+        array $options = []
+    ): ImageEntityPresenter {
+        return new ImageEntityPresenter(
+            $image,
+            $defaultWidth,
+            $sizes,
+            $options
+        );
+    }
+
+    public function imagePresenter(
+        string $imagePid,
         int $defaultWidth,
         $sizes,
         array $options = []
     ): ImagePresenter {
         return new ImagePresenter(
-            $image,
+            $imagePid,
             $defaultWidth,
             $sizes,
             $options
