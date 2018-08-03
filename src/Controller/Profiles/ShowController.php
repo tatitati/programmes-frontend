@@ -5,6 +5,7 @@ namespace App\Controller\Profiles;
 
 use App\Controller\BaseController;
 use App\Controller\Helpers\IsiteKeyHelper;
+use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\IsiteResult;
 use App\ExternalApi\Isite\Service\IsiteService;
@@ -36,6 +37,7 @@ class ShowController extends BaseController
         }
 
         $profile = reset($profiles);
+
         if ($slug != $profile->getSlug()) {
             return $this->redirectWith($profile->getKey(), $profile->getSlug(), $preview);
         }
@@ -56,13 +58,20 @@ class ShowController extends BaseController
         }
 
         if ($profile->isIndividual()) {
-            return $this->renderWithChrome('profiles/individual.html.twig', ['profile' => $profile]);
+            $extraProfiles = $profile->getParents();
+            $siblingPromise = $isiteService->setChildProfilesOn($extraProfiles, $profile->getProjectSpace());
+            $this->resolvePromises([$siblingPromise]);
+            return $this->renderWithChrome('profiles/individual.html.twig', ['profile' => $profile, 'programme' => $context]);
         }
 
-        $childPromise = $isiteService->setChildProfilesOn([$profile], $profile->getProjectSpace());
-        $this->resolvePromises([$childPromise]);
+        $response = $isiteService->setChildProfilesOn([$profile], $profile->getProjectSpace(), $this->getPage())->wait(true);
+        $extraProfiles = array_merge($profile->getChildren(), $profile->getParents()); // We want to fetch the children of the main profiles children and parents.
+        $grandChildPromise = $isiteService->setChildProfilesOn($extraProfiles, $profile->getProjectSpace());
+        $this->resolvePromises([$grandChildPromise]);
 
-        return $this->renderWithChrome('profiles/group.html.twig', ['profile' => $profile]);
+        $paginator = $this->getPaginator($response[0]);
+
+        return $this->renderWithChrome('profiles/group.html.twig', ['profile' => $profile, 'paginatorPresenter' => $paginator, 'programme' => $context]);
     }
 
     private function redirectWith(string $key, string $slug, bool $preview)
@@ -74,5 +83,14 @@ class ShowController extends BaseController
         }
 
         return $this->cachedRedirectToRoute('programme_profile', $params, 301);
+    }
+
+    private function getPaginator(IsiteResult $iSiteResult): ?PaginatorPresenter
+    {
+        if ($iSiteResult->getTotal() <= 48) {
+            return null;
+        }
+
+        return new PaginatorPresenter($this->getPage(), 48, $iSiteResult->getTotal());
     }
 }

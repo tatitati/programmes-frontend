@@ -17,27 +17,8 @@
     }
 }
 
-.recipe .block-link__overlay-link {
-    position: absolute;
-    z-index: 0;
-    // this line is needed as all elements have a solid black
-    // background in high contrast mode
-    opacity: 0;
-}
-
 .recipe .programme__titles .delta {
     margin-bottom: 0;
-}
-
-.block-link__overlay-link {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    text-indent: 200%;
-    white-space: nowrap;
-    background: rgba(0, 0, 0, 0); // IE9 fix
 }
 
 .recipe__img {

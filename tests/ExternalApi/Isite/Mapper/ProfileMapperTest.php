@@ -3,11 +3,12 @@ declare(strict_types = 1);
 
 namespace Tests\App\ExternalApi\Isite\Mapper;
 
+use App\Controller\Helpers\IsiteKeyHelper;
 use App\ExternalApi\Isite\Domain\Profile;
+use App\ExternalApi\Isite\Mapper\MapperFactory;
+use App\ExternalApi\Isite\Mapper\ProfileMapper;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
-use App\ExternalApi\Isite\Mapper\ProfileMapper;
-use App\Controller\Helpers\IsiteKeyHelper;
 
 /**
  * @group profiles
@@ -19,7 +20,8 @@ class ProfileMapperTest extends TestCase
 
     public function setUp()
     {
-        $this->mapper = new ProfileMapper(new IsiteKeyHelper());
+        $keyHelper = new IsiteKeyHelper();
+        $this->mapper = new ProfileMapper(new MapperFactory($keyHelper), $keyHelper);
     }
 
     public function testCanMappXmlWithSomeEmptyValues()

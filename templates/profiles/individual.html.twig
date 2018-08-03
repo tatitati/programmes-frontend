@@ -1,17 +1,63 @@
-{% extends 'base_ds2013.html.twig' %}
+{% extends 'profiles/show.html.twig' %}
 
-{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('profiles') }}{% endblock %}
-{% block page_classes %}text-base prog-layout{% endblock %}
-
-{% block body %}
+{% block body_inner %}
     <div class="programmes-page profile--individual">
         <div class="grid-wrapper">
-            <div class="grid bpw2-thirteen-twentyfourths bpe-thirteen-twentyfourths">
+            <div class="grid 13/24@bpw2 13/24@bpe">
                 <div class="br-box-page prog-box">
                     <div class="prog-layout prog-layout__primary component programmes-page--topboxed">
                         <h1>{{ profile.getTitle() }}</h1>
+                        <div class="text--prose component">
+                            <p>{{ profile.getLongSynopsis() }}</p>
+                        </div>
+                        <div class="hidden@bpw2 hidden@bpe component">
+                            {{ ds_shared('image', profile.getImage(), 336, '', {'image_classes': 'rsp-img'}) }}
+                        </div>
+                        {% if profile.getKeyFacts() %}
+                            <div class="component component--box component--box--primary component--borderedbookends br-keyline">
+                                <div class="component__body br-box-page">
+                                    <table class="table">
+                                        <thead class="visually-hidden">
+                                        <tr>
+                                            <th>{{ tr('profiles_key_fact_title') }}</th>
+                                            <th>{{ tr('profiles_key_fact_data') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for fact in profile.getKeyFacts() %}
+                                            <tr>
+                                                <td class="1/2 text--right"><strong>{{ fact.getTitle() }}</strong></td>
+                                                <td>
+                                                    <div class="island--horizontal">
+                                                        {% if fact.getUrl() %}
+                                                            <a href="{{ fact.getUrl() }}">{{ fact.getAnswer() }}</a>
+                                                        {% else %}
+                                                            {{ fact.getAnswer() }}
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
+                    {% if profile.getContentBlocks() %}
+                        {% for block in profile.getContentBlocks() %}
+                            <div>{{ block.getType() }}</div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
+            </div>
+            <div class="grid 11/24@bpw2 11/24@bpe">
+                <div class="hidden visible@bpw2 visible@bpe component">
+                    {{ ds_shared('image', profile.getPortraitImage(), 336, '', {'image_classes': 'rsp-img', 'ratio': null}) }}
+                </div>
+                {% if profile.getOnwardJourneyBlock() %}
+                    <div>{{ profile.getOnwardJourneyBlock().getType() }}</div>
+                {% endif %}
             </div>
         </div>
     </div>

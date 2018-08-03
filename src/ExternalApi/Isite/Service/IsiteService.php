@@ -13,7 +13,6 @@ use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Closure;
 use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 
@@ -216,10 +215,12 @@ class IsiteService
             function ($responses) use ($profiles) {
                 // Success callback
                 $this->hydrateProfiles($profiles, $responses);
+                return $responses;
             },
             function ($error) use ($profiles) {
                 // Error callback
                 $this->hydrateProfiles($profiles, []);
+                return null;
             }
         );
     }

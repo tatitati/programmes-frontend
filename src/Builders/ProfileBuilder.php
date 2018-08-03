@@ -19,8 +19,15 @@ class ProfileBuilder extends AbstractBuilder
             'type' => $faker->randomElement(['group', 'individual']),
             'projectSpace' => $faker->word,
             'parentPid' => new Pid($faker->regexify('[0-9b-df-hj-np-tv-z]{8,15}')),
+            'shortSynopsis' => null,
             'longSynopsis' => $faker->sentence(5),
             'brandingId' => $faker->word,
+            'contentBlocks' => [],
+            'keyFacts' => [],
+            'image' => '',
+            'portraitImage' => '',
+            'onwardJourneyBlock' => null,
+            'parents' => [],
         ];
     }
 

@@ -1,0 +1,24 @@
+<div
+    class="br-box-subtle programme block-link highlight-box--grid programme--grid br-keyline br-blocklink-page br-page-linkhover-onbg015--hover">
+    <div class="programme__img 1/1 programme__img--hasimage">
+        <div class="programme__img-box">
+            {{ ds_shared('image', profile.getProfile().getImage(), 256, '', {'image_classes': 'rsp-img'}) }}
+        </div>
+    </div>
+    <div class="programme__body">
+        <{{ profile.getOption('heading_level') }} class="programme__titles delta">
+            <span class="programme__title">
+                <a href="{{ path('programme_profile', {'key': profile.getProfile().getKey(), 'slug': profile.getProfile().getSlug()}) }}"
+                   class="br-blocklink__link">{{ profile.getProfile().getTitle() }}</a>
+            </span>
+        </{{ profile.getOption('heading_level') }}>
+        {% if profile.getOption('show_synopsis') %}
+            <p class="programme__synopsis text--subtle">
+                <span>{{ profile.getProfile().getShortSynopsis() }}</span>
+            </p>
+        {% endif %}
+        <a class="block-link__overlay-link"
+            href="{{ path('programme_profile', {'key': profile.getProfile().getKey(), 'slug': profile.getProfile().getSlug()}) }}"
+            aria-hidden="true" tabindex="-1">View {{ profile.getProfile().getTitle() }}</a>
+    </div>
+</div>

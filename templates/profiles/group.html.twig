@@ -1,9 +1,6 @@
-{% extends 'base_ds2013.html.twig' %}
+{% extends 'profiles/show.html.twig' %}
 
-{% block title %}{{ meta_context.titlePrefix() }} - {{ tr('profiles') }}{% endblock %}
-{% block page_classes %}text-base prog-layout{% endblock %}
-
-{% block body %}
+{% block body_inner %}
     <div class="programmes-page profile--group">
         <div class="grid-wrapper">
             <div class="grid">
@@ -13,13 +10,44 @@
                         <div class="text--prose component">
                             <p>{{ profile.getLongSynopsis() }}</p>
                         </div>
-
-                        {% if profile.getChildren() %}
-                            {% for child in profile.getChildren() %}
-                                <a href="{{ path('programme_profile', {'key': child.getKey(), 'slug': child.getSlug()}) }}">{{ child.getTitle() }}</a>
-                            {% endfor %}
-                        {% endif %}
                     </div>
+                    <div class="component component--box component--box--primary">
+                        <div class="component__body br-box-page">
+                            {% if profile.getChildren() %}
+                                <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid">
+                                    {% for child in profile.getChildren() %}
+                                        {% if child.isGroup() %}
+                                            <li class="grid grid--flush">
+                                                <div class="component component--box component--box-flushbody-vertical component--box--primary">
+                                                    <div class="component__header br-box-page">
+                                                        <h2>
+                                                            <a href="{{ path('programme_profile', {'key': child.getKey(), 'slug': child.getSlug()}) }}">{{ child.getTitle() }}</a>
+                                                        </h2>
+                                                    </div>
+                                                    <div class="component__body br-box-page">
+                                                        <ul class="highlight-box-wrapper">
+                                                            {%- for grandchild in child.getChildren() -%}
+                                                                <li class="grid 1/2@bpb1 1/3@bpb2 1/3@bpw 1/4@bpw2 1/4@bpe">
+                                                                    {{ ds2013('profile', grandchild, {'heading_level': 'h3'}) }}
+                                                                </li>
+                                                            {%- endfor -%}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% else %}
+                                            <li class="grid 1/2@bpb1 1/3@bpb2 1/3@bpw 1/4@bpw2 1/4@bpe">
+                                                {{ ds2013('profile', child) }}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {%- if paginatorPresenter -%}
+                        {{ ds2013_presenter(paginatorPresenter) }}
+                    {%- endif -%}
                 </div>
             </div>
         </div>

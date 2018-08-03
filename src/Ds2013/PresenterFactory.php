@@ -8,6 +8,7 @@ use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\ProgrammePresenter;
+use App\Ds2013\Presenters\Domain\Profile\ProfilePresenter;
 use App\Ds2013\Presenters\Domain\Promotion\PromotionPresenter;
 use App\Ds2013\Presenters\Domain\Recipe\RecipePresenter;
 use App\Ds2013\Presenters\Domain\Superpromo\SuperpromoPresenter;
@@ -27,6 +28,7 @@ use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\Ds2013\Presenters\Utilities\SMP\SmpPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
+use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
@@ -218,6 +220,11 @@ class PresenterFactory
             $previousEpisode,
             $podcast
         );
+    }
+
+    public function profilePresenter(Profile $profile, array $options = []): ProfilePresenter
+    {
+        return new ProfilePresenter($profile, $options);
     }
 
     public function segmentsListPresenter(

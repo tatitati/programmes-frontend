@@ -7,10 +7,6 @@ use App\ExternalApi\Isite\DataNotFetchedException;
 
 class Profile
 {
-    //Image
-    //Key (Mutated Guid)
-    //Guid
-
     /** @var Profile[]|null */
     private $children;
 
@@ -32,11 +28,32 @@ class Profile
     /** @var string */
     private $parentPid;
 
+    /** @var string|null */
+    private $shortSynopsis;
+
     /** @var string */
     private $longSynopsis;
 
     /** @var string */
     private $brandingId;
+
+    /** @var ContentBlock[]|null */
+    private $contentBlocks;
+
+    /** @var KeyFact[] */
+    private $keyFacts;
+
+    /** @var Profile[] */
+    private $parents;
+
+    /** @var ContentBlock|null */
+    private $onwardJourneyBlock;
+
+    /** @var string */
+    private $image;
+
+    /** @var string|null */
+    private $portraitImage;
 
     public function __construct(
         string $title,
@@ -45,8 +62,15 @@ class Profile
         string $type,
         string $projectSpace,
         string $parentPid,
+        ?string $shortSynopsis,
         string $longSynopsis,
-        string $brandingId
+        string $brandingId,
+        ?array $contentBlocks,
+        array $keyFacts,
+        string $image,
+        ?string $portraitImage,
+        ?ContentBlock $onwardJourneyBlock,
+        array $parents
     ) {
         $this->title = $title;
         $this->key = $key;
@@ -54,11 +78,18 @@ class Profile
         $this->type = $type;
         $this->projectSpace = $projectSpace;
         $this->parentPid = $parentPid;
+        $this->shortSynopsis = $shortSynopsis;
         $this->longSynopsis = $longSynopsis;
         $this->brandingId = $brandingId;
         if ($this->isIndividual()) {
             $this->setChildren([]);
         }
+        $this->contentBlocks = $contentBlocks;
+        $this->keyFacts = $keyFacts;
+        $this->onwardJourneyBlock = $onwardJourneyBlock;
+        $this->image = $image;
+        $this->portraitImage = $portraitImage;
+        $this->parents = $parents;
     }
 
     /**
@@ -74,9 +105,23 @@ class Profile
         return $this->children;
     }
 
+    public function getContentBlocks(): array
+    {
+        if ($this->contentBlocks === null) {
+            throw new DataNotFetchedException('Profile content blocks have not been queried for yet.');
+        }
+
+        return $this->contentBlocks;
+    }
+
     public function getFileId(): string
     {
         return $this->fileId;
+    }
+
+    public function getImage(): string
+    {
+        return $this->image;
     }
 
     public function getKey(): string
@@ -84,14 +129,39 @@ class Profile
         return $this->key;
     }
 
+    public function getKeyFacts(): array
+    {
+        return $this->keyFacts;
+    }
+
     public function getLongSynopsis(): string
     {
         return $this->longSynopsis;
     }
 
+    public function getOnwardJourneyBlock(): ?ContentBlock
+    {
+        return $this->onwardJourneyBlock;
+    }
+
+    public function getParents(): array
+    {
+        return $this->parents;
+    }
+
     public function getParentPid(): string
     {
         return $this->parentPid;
+    }
+
+    public function getPortraitImage(): string
+    {
+        return $this->portraitImage ?: $this->image;
+    }
+
+    public function getShortSynopsis(): ?string
+    {
+        return $this->shortSynopsis;
     }
 
     public function getSlug()
