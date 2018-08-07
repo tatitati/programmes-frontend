@@ -74,7 +74,7 @@ $body-grey: #262525;
 
         .icon--iplayer-dark,
         .icon--play,
-        .icon--iplayer-radio svg {
+        .icon--listen svg {
             color: #ffffff;
             background-color: $iplayer-pink;
         }
@@ -82,7 +82,7 @@ $body-grey: #262525;
 }
 
 .cta--dark:not(.cta--standalone) {
-    .icon--iplayer-radio {
+    .icon--listen {
         background-color: rgba($body-grey, 0.7);
         color: #ffffff;
 
@@ -94,7 +94,7 @@ $body-grey: #262525;
     &:hover,
     &:active,
     &:focus {
-        .icon--iplayer-radio {
+        .icon--listen {
             color: #ffffff;
             background-color: $iplayer-pink;
 
@@ -108,7 +108,7 @@ $body-grey: #262525;
 .cta--dark.cta--standalone {
     background-color: transparent;
 
-    .icon--iplayer-radio {
+    .icon--listen {
         .gelicon {
             background-color: rgba($body-grey, 0.7);
         }
@@ -121,8 +121,8 @@ $body-grey: #262525;
     &:hover,
     &:active,
     &:focus {
-        .icon--iplayer-radio .gelicon,
-        .icon--iplayer-radio svg {
+        .icon--listen .gelicon,
+        .icon--listen svg {
             color: #ffffff;
             background-color: $iplayer-pink;
         }

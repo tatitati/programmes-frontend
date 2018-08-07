@@ -76,11 +76,11 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
 
     public function getMediaIconName(): string
     {
-        $isAudio = $this->streamUrlHelper->shouldTreatProgrammeItemAsAudio($this->programme);
-        if ($this->programme instanceof Episode) {
-            return $isAudio ? 'iplayer-radio' : 'iplayer';
+        if ($this->streamUrlHelper->shouldTreatProgrammeItemAsAudio($this->programme)) {
+            return 'listen';
         }
-        return $isAudio ? 'listen' : 'play';
+
+        return $this->programme instanceof Episode ? 'iplayer' : 'play';
     }
 
     public function getPlaybackUrl(): string

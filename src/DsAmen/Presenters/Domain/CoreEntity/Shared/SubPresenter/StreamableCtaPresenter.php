@@ -29,7 +29,7 @@ class StreamableCtaPresenter extends BaseCtaPresenter
     {
         if ($this->coreEntity instanceof Episode) {
             if ($this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->coreEntity)) {
-                return 'iplayer-radio';
+                return 'listen';
             }
 
             return 'iplayer';

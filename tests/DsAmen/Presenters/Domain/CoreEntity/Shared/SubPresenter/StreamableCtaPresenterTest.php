@@ -89,7 +89,7 @@ class StreamableCtaPresenterTest extends BaseSubPresenterTest
         return [
             'TV episode shows iPlayer CTA icon' => [$tvEpisode, 'iplayer', false],
             'Clip shows play CTA icon' => [$clip, 'play', null],
-            'Radio episode shows iPlayer Radio CTA icon' => [$radioEpisode, 'iplayer-radio', true],
+            'Radio episode shows listen CTA icon' => [$radioEpisode, 'listen', true],
         ];
     }
 

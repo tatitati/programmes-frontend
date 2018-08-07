@@ -65,7 +65,7 @@ class LiveCtaPresenter extends BaseCtaPresenter
 
         if ($this->coreEntity instanceof Episode) {
             if ($this->coreEntity->isAudio()) {
-                return 'iplayer-radio';
+                return 'listen';
             }
 
             return 'iplayer';

@@ -2,7 +2,7 @@
 # within the application, but are not part of the application. These routes
 # fall into one of two buckets:
 #
-# 1) A url to an external product, e.g. iplayer, iplayer radio
+# 1) A url to an external product, e.g. iplayer, Sounds
 # 2) A url to a /programmes page we have not yet migrated. As we migrate pages,
 #    we shall move these routes into the main routes.yaml.
 #

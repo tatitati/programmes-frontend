@@ -50,7 +50,7 @@ class PlayoutPresenterTest extends TestCase
     public function getIconProvider(): array
     {
         return [
-            'radio episode returns radio icon' => [true, 'iplayer-radio'],
+            'radio episode returns radio icon' => [true, 'listen'],
             'non-radio episode return iplayer icon' => [false, 'iplayer'],
         ];
     }

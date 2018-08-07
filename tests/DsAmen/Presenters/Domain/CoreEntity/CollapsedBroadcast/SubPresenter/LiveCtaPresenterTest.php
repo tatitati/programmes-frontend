@@ -58,7 +58,7 @@ class LiveCtaPresenterTest extends BaseSubPresenterTest
 
         return [
             'TV episode shows iPlayer CTA icon' => [$cb1, [], 'iplayer'],
-            'Radio episode shows iPlayer Radio CTA icon' => [$cb3, [], 'iplayer-radio'],
+            'Radio episode shows listen CTA icon' => [$cb3, [], 'listen'],
             'link_to_start option shows rewind button' => [$cb1, ['link_to_start' => true], 'live-restart'],
         ];
     }

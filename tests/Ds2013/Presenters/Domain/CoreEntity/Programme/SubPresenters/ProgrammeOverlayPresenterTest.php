@@ -54,7 +54,7 @@ class ProgrammeOverlayPresenterTest extends TestCase
     public function mediaIconNameProvider()
     {
         return [
-            [true, 'iplayer-radio'],
+            [true, 'listen'],
             [false, 'iplayer'],
         ];
     }

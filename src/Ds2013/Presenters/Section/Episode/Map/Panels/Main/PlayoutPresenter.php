@@ -99,7 +99,7 @@ class PlayoutPresenter extends Presenter
 
     public function getIcon(): string
     {
-        return $this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->episode) ? 'iplayer-radio' : 'iplayer';
+        return $this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->episode) ? 'listen' : 'iplayer';
     }
 
     public function getAvailableTranslation(): string
