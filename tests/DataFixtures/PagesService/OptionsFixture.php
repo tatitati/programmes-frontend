@@ -77,7 +77,7 @@ class OptionsFixture
                 'live_stream_id' => '',
                 'live_stream_heading' => '',
                 'control-17' => '',
-                'projectId' => 'progs-radio4and4extra',
+                'project_space' => 'progs-radio4and4extra',
                 'navigation_links' => [
                     [
                         'title' => 'Schedule',
@@ -216,7 +216,7 @@ class OptionsFixture
                 'live_stream_id' => '',
                 'live_stream_heading' => '',
                 'control-17' => '',
-                'projectId' => 'progs-worldservice',
+                'project_space' => 'progs-worldservice',
                 'navigation_links' => [
                     [
                         "title" => "Online schedule",
@@ -342,7 +342,7 @@ class OptionsFixture
                 'comingsoon_textonly' => '',
                 'livepromo_block' => '',
                 'prioritytext_block' => '',
-                'projectId' => 'progs-eastenders',
+                'project_space' => 'progs-eastenders',
                 'branding_id' => 'br-03777',
                 'theme' => '',
                 'language' => 'en',
