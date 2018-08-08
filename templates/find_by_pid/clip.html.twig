@@ -20,7 +20,27 @@
     <div class="b-g-p">
         <div class="map__column br-box-secondary">
             {% if streamableVersion %}
-                {{ ds2013('smp', programme, streamableVersion, segmentEvents, analytics_counter_name, istats_analytics_labels) }}
+                {% if clipIsAudio %}
+                    <div class="playout">
+                        <a class="playout__blocklink" data-linktrack="sounds_clippage_playcurrent_calltoaction" href="{{ path('playspace_play', {pid: programme.getPid()}) }}">
+                            {{ ds_shared(
+                                'imageEntity',
+                                programme.getImage(),
+                                1008,
+                                {0: 1/1, 1008: 640},
+                                {'is_lazy_loaded': false }
+                            ) }}
+                            <div class="playout__overlay">
+                                <div class="playout__message playout__message--icon">
+                                    <span class="playout__icon">{{ gelicon('audio-visual', 'listen', 'gelicon--fill-container') }}</span>
+                                    <span class="playout__messagetext">{{ tr('iplayer_listen_now') }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% else %}
+                    {{ ds2013('smp', programme, streamableVersion, segmentEvents, analytics_counter_name, istats_analytics_labels) }}
+                {% endif %}
             {% endif %}
             {{ ds2013('clipDetails', programme, contributions, downloadableVersion, podcast) }}
         </div>

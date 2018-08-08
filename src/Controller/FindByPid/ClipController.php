@@ -5,6 +5,7 @@ namespace App\Controller\FindByPid;
 use App\Controller\BaseController;
 use App\Controller\Helpers\StructuredDataHelper;
 use App\Ds2013\PresenterFactory;
+use App\DsShared\Helpers\StreamableHelper;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
@@ -39,6 +40,7 @@ class ClipController extends BaseController
         ProgrammesAggregationService $aggregationService,
         RelatedLinksService $relatedLinksService,
         SegmentEventsService $segmentEventsService,
+        StreamableHelper $streamableHelper,
         StructuredDataHelper $structuredDataHelper,
         VersionsService $versionsService
     ) {
@@ -105,6 +107,7 @@ class ClipController extends BaseController
 
         $parameters = [
             'programme' => $clip,
+            'clipIsAudio' => $streamableHelper->shouldTreatProgrammeItemAsAudio($clip),
             'featuredIn' => $featuredIn,
             'parentClips' => $parentClips,
             'schema' => $this->getSchema($structuredDataHelper, $clip),
