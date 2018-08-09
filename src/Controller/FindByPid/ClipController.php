@@ -107,7 +107,7 @@ class ClipController extends BaseController
 
         $parameters = [
             'programme' => $clip,
-            'clipIsAudio' => $streamableHelper->shouldTreatProgrammeItemAsAudio($clip),
+            'clipIsAudio' => $streamableHelper->shouldStreamViaPlayspace($clip),
             'featuredIn' => $featuredIn,
             'parentClips' => $parentClips,
             'schema' => $this->getSchema($structuredDataHelper, $clip),
