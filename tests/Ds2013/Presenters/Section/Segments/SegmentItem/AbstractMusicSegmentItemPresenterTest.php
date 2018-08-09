@@ -7,9 +7,11 @@ use App\Builders\CollapsedBroadcastBuilder;
 use App\Builders\ContributionBuilder;
 use App\Builders\ContributorBuilder;
 use App\Builders\MusicSegmentBuilder;
+use App\Builders\SegmentBuilder;
 use App\Builders\SegmentEventBuilder;
 use App\Ds2013\Presenters\Section\Segments\SegmentItem\AbstractMusicSegmentItemPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use Cake\Chronos\Chronos;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -130,6 +132,48 @@ class AbstractMusicSegmentItemPresenterTest extends TestCase
             ->willReturn(null);
 
         $this->assertSame('https://ichef.bbci.co.uk/images/ic/96x96/p01c9cjb.png', $stub->getImageUrl());
+    }
+
+    public function testGetFavouriteButtonTitle()
+    {
+        $contributor1 = ContributorBuilder::any()->with(['musicBrainzId' => 'something', 'name' => 'ContributorName1'])->build();
+        $contribution1 = ContributionBuilder::any()->with(['contributor' => $contributor1])->build();
+
+        $contributor2 = ContributorBuilder::any()->with(['musicBrainzId' => 'something', 'name' => 'ContributorName2'])->build();
+        $contribution2 = ContributionBuilder::any()->with(['contributor' => $contributor2])->build();
+
+        $vsContributor1 = ContributorBuilder::any()->with(['musicBrainzId' => 'something', 'name' => 'VsContributorName1'])->build();
+        $vsContribution1 = ContributionBuilder::any()->with(['contributor' => $vsContributor1])->build();
+
+        $vsContributor2 = ContributorBuilder::any()->with(['musicBrainzId' => 'something', 'name' => 'VsContributorName2'])->build();
+        $vsContribution2 = ContributionBuilder::any()->with(['contributor' => $vsContributor2])->build();
+
+        $segment = SegmentBuilder::any()->with(['contributions' => [$contribution1], 'title' => 'SegmentTitle'])->build();
+        $segmentEvent = SegmentEventBuilder::any()->with(['segment' => $segment])->build();
+        $stub = $this->getMockForAbstractClass(
+            AbstractMusicSegmentItemPresenter::class,
+            [$segmentEvent, 'anything', null],
+            '',
+            true,
+            true,
+            true,
+            ['hasTiming', 'getPrimaryContributions', 'getVersusContributions', 'getFeaturedContributions']
+        );
+
+        $stub->expects($this->any())
+            ->method('getPrimaryContributions')
+            ->willReturn([$contribution1, $contribution2]);
+        $stub->expects($this->any())
+            ->method('getVersusContributions')
+            ->willReturn([$vsContribution1, $vsContribution2]);
+        $stub->expects($this->any())
+            ->method('getFeaturedContributions')
+            ->willReturn([$contribution1, $contribution2]);
+
+        $this->assertEquals(
+            'ContributorName1 & ContributorName2 vs VsContributorName1 & VsContributorName2 || SegmentTitle (feat. ContributorName1 & ContributorName2)',
+            $stub->getFavouriteButtonTitle()
+        );
     }
 
     /**

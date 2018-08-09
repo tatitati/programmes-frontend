@@ -21,19 +21,17 @@ class FavouriteButtonExtension extends Twig_Extension
         ];
     }
 
-    public function addButton(string $elementId, string $id, string $type, string $contextId, ?string $profile = null, ?string $product = null)
+    public function addButton(string $elementId, string $id, string $type, string $contextId, string $title, ?string $profile = null)
     {
         $button = [
             'element_id' => $elementId,
             'id' => $id,
             'type' => $type,
             'context_id' => $contextId,
+            'title' => $title,
         ];
         if ($profile) {
             $button['profile'] = $profile;
-        }
-        if ($product) {
-            $button['product'] = $product;
         }
         $this->buttons[] = $button;
     }

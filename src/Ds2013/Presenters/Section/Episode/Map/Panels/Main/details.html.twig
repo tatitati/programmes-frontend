@@ -74,7 +74,7 @@
             <div class="map__intro__synopsis centi">{{ ds_shared('synopsis', presenter.getEpisode().getSynopses(), 300) }}</div>
         {% endif %}
         {% if presenter.getEpisode().isRadio() %}
-            {{ add_button('episode-map-favourites-button', presenter.getEpisode().getPid(), 'programme', presenter.getEpisode().getPid()) }}
+            {{ add_button('episode-map-favourites-button', presenter.getEpisode().getPid(), 'programme', presenter.getEpisode().getPid(), presenter.getEpisode().getTitle()) }}
             <div id="episode-map-favourites-button" class="favourites-module-wrapper map__buttons favourites-button buttons--favourites-small"></div>
         {% endif %}
         {%- if presenter.canBeDownloaded() -%}

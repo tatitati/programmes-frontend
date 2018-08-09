@@ -345,11 +345,13 @@
                     'appid': 'radio',
                     'type': '{{ button['type'] }}',
                     'id': '{{ button['id'] }}',
-                    'title': '{{ programme.getTitle() }}',
+                    'title': '{{ button['title']|e('js') }}',
                     'variant': 'small',
                     'lang': '{{ tr('language_code')|lower }}',
                     'platform': 'responsiveweb',
                     'context-type': 'network_pid',
+                    {% if button['profile'] is defined %}'profile': '{{ button['profile'] }}',{% endif %}
+                    'product': 'radio',
                     'context-id': '{{ button['context_id'] }}'
                 });
                 {% endfor %}

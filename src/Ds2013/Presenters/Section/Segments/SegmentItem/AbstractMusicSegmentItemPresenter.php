@@ -160,5 +160,62 @@ abstract class AbstractMusicSegmentItemPresenter extends AbstractSegmentItemPres
         return $segmentEndTime->diffForHumans();
     }
 
+    /**
+     * This function generates a track title as in https://confluence.dev.bbc.co.uk/display/MAT/Item+Types
+     * this follows same logic we have in the twig template but without any HTML.
+     * This values is send to Favourites API and is not visible by the users
+     *
+     * @return string
+     */
+    public function getFavouriteButtonTitle(): string
+    {
+        return $this->getArtistWithContributions() . ' || ' . $this->getTrackTitleWithContributions();
+    }
+
     abstract protected function setupContributions(): void;
+
+    private function getArtistWithContributions(): string
+    {
+        $artistWithContributions = '';
+        if (!$this->getVersusContributions() && !$this->getPrimaryContributions()) {
+            return $artistWithContributions;
+        }
+
+        if ($this->getPrimaryContributions()) {
+            $artistWithContributions = $this->concatContributorNames(' & ', $this->getPrimaryContributions());
+        }
+
+        $artistWithContributions .= ($this->getVersusContributions() && $this->getPrimaryContributions()) ? ' vs ' : '';
+
+        if ($this->getVersusContributions()) {
+            $artistWithContributions .= $this->concatContributorNames(' & ', $this->getVersusContributions());
+        }
+
+        return $artistWithContributions;
+    }
+
+    private function getTrackTitleWithContributions(): string
+    {
+        if (!$this->segment->getTitle()) {
+            return 'Untitled';
+        }
+        if (!$this->getFeaturedContributions()) {
+            return $this->segment->getTitle();
+        }
+        return $this->segment->getTitle() . ' (feat. ' . $this->concatContributorNames(' & ', $this->getFeaturedContributions()) . ')';
+    }
+
+    /**
+     * @param string $glue
+     * @param Contribution[] $contributions
+     * @return string
+     */
+    private function concatContributorNames(string $glue, array $contributions): string
+    {
+        $names = [];
+        foreach ($contributions as $contribution) {
+            $names[] = $contribution->getContributor()->getName();
+        }
+        return implode($glue, $names);
+    }
 }
