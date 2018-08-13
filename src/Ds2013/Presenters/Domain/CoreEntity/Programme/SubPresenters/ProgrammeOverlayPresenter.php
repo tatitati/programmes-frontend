@@ -76,7 +76,7 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
 
     public function getMediaIconName(): string
     {
-        if ($this->streamUrlHelper->shouldTreatProgrammeItemAsAudio($this->programme)) {
+        if ($this->programmeIsAudio()) {
             return 'listen';
         }
 
@@ -109,5 +109,10 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
             'programme__overlay' => true,
             'programme__overlay--available' => $this->isAvailable(),
         ];
+    }
+
+    public function programmeIsAudio(): bool
+    {
+        return $this->streamUrlHelper->shouldTreatProgrammeItemAsAudio($this->programme);
     }
 }

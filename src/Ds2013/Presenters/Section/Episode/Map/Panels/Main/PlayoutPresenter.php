@@ -117,6 +117,14 @@ class PlayoutPresenter extends Presenter
         return 'iplayer_watch_now';
     }
 
+    public function getMessageClasses(): string
+    {
+        if ($this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->episode)) {
+            return 'playout__message playout__message--icon br-secondary-bg-onbg--hover br-secondary-text-ontext--hover sounds';
+        }
+        return 'playout__message playout__message--icon iplayer';
+    }
+
     public function getNotAvailableTranslation(): string
     {
         if ($this->broadcast && $this->broadcast->getStartAt()->isFuture() &&

@@ -9,7 +9,7 @@
                 <a class="playout__blocklink" data-linktrack="iplayer_episodepage_playcurrent_calltoaction" href="{{ playout.getUrl() }}">
                     {{ self.image(playout) }}
                     <div class="playout__overlay">
-                        <div class="playout__message playout__message--icon">
+                        <div class="{{ playout.getMessageClasses() }}">
                             <span class="playout__icon">{{ gelicon('audio-visual', playout.getIcon(), 'gelicon--fill-container') }}</span>
                             <span class="playout__messagetext">{{ tr(playout.getAvailableTranslation()) }}</span>
                         </div>

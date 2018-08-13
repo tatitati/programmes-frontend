@@ -113,11 +113,10 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertEquals('http://localhost/programmes/b0849ccf#play', $overlayLink->attr('href'));
         $this->assertStringStartsWith('Listen now', $overlayLink->attr('title'));
         $this->assertEquals('programmeobjectlink=cta', $overlayLink->attr('data-linktrack'));
-        $this->assertHasClasses('iplayer-icon--container', $overlayLink, 'Iplayer overlay link has icon classes');
         // overlay link icon
         $iconContainer = $overlayLink->filter('.programme__icon');
         $this->assertCount(1, $iconContainer);
-        $this->assertHasClasses('programme__icon br-box-page iplayer-icon iplayer-icon--boxed', $iconContainer, 'Icon container classes');
+        $this->assertHasClasses('programme__icon br-box-page sounds-icon', $iconContainer, 'Icon container classes');
         $this->assertCount(1, $iconContainer->filter('svg.gelicon'), 'svg icon present');
 
         // Test main link target

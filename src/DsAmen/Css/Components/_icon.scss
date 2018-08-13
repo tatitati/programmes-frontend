@@ -37,6 +37,42 @@ $body-grey: #262525;
     margin: auto $gel-unit-small;
 }
 
+.cta {
+    //When the CTA is standalone, only colour the Icon
+    &.cta--standalone {
+        .icon--listen .gelicon {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            .icon--listen .gelicon {
+                color: #000000;
+                background-color: #ffffff;
+            }
+        }
+    }
+
+    //When the CTA is not standalone, colour the whole div
+    &:not(.cta--standalone) {
+        .icon--listen {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            .icon--listen {
+                color: #000000;
+                background-color: #ffffff;
+            }
+        }
+    }
+}
+
 .cta--dark {
     background-color: rgba($body-grey, 0.7);
     color: #ffffff;
@@ -73,60 +109,15 @@ $body-grey: #262525;
         }
 
         .icon--iplayer-dark,
-        .icon--play,
-        .icon--listen svg {
+        .icon--play {
             color: #ffffff;
             background-color: $iplayer-pink;
-        }
-    }
-}
-
-.cta--dark:not(.cta--standalone) {
-    .icon--listen {
-        background-color: rgba($body-grey, 0.7);
-        color: #ffffff;
-
-        svg {
-            color: $iplayer-pink;
-        }
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-        .icon--listen {
-            color: #ffffff;
-            background-color: $iplayer-pink;
-
-            svg {
-                color: #ffffff;
-            }
         }
     }
 }
 
 .cta--dark.cta--standalone {
     background-color: transparent;
-
-    .icon--listen {
-        .gelicon {
-            background-color: rgba($body-grey, 0.7);
-        }
-
-        svg {
-            color: $iplayer-pink;
-        }
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-        .icon--listen .gelicon,
-        .icon--listen svg {
-            color: #ffffff;
-            background-color: $iplayer-pink;
-        }
-    }
 }
 
 .media__overlay {
