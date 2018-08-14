@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Controller\Profiles;
 
 use App\Controller\BaseController;
+use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\Service\IsiteService;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
@@ -17,12 +18,16 @@ class IndexController extends BaseController
 
         /** @var Profile[] $profiles */
         $profiles = [];
-        $parameters = ['coreEntity' => $coreEntity, 'profiles' => $profiles];
+        $parameters = ['coreEntity' => $coreEntity, 'profiles' => $profiles, 'paginatorPresenter' => null];
         if ($coreEntity instanceof Programme) {
             $parameters['programme'] = $coreEntity; //so the the base 2013 template sets the footer
 
             $profilesResult = $isiteService->getProfilesByProgramme($coreEntity, $this->getPage())->wait();
             $profiles = $profilesResult->getDomainModels();
+
+            if ($profilesResult->getTotal() > 48) {
+                $parameters['paginatorPresenter'] = new PaginatorPresenter($this->getPage(), 48, $profilesResult->getTotal());
+            }
         }
 
         if (empty($profiles)) {

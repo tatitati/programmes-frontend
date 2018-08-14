@@ -12,7 +12,7 @@ class ProfileMapper extends Mapper
     public function getDomainModel(SimpleXMLElement $isiteObject): Profile
     {
         $form = $this->getForm($isiteObject);
-        $formMetaData = $form->metadata;
+        $formMetaData = $this->getFormMetaData($isiteObject);
         $projectSpace = $this->getProjectSpace($formMetaData);
         $key = $this->isiteKeyHelper->convertGuidToKey($this->getString($this->getMetaData($isiteObject)->guid));
         $title = $this->getString($formMetaData->title);
@@ -50,7 +50,7 @@ class ProfileMapper extends Mapper
                 $contentBlocks = null; // Content blocks have not been fetched
             } else {
                 foreach ($blocks as $block) {
-                    if (!empty($block->content_block->result->metadata->guid)) { // Must be published
+                    if ($this->isPublished($block->content_block)) { // Must be published
                         $contentBlocks[] = $this->mapperFactory->createContentBlockMapper()->getDomainModel(
                             $block->content_block->result
                         );
@@ -58,14 +58,16 @@ class ProfileMapper extends Mapper
                 }
             }
         }
-        // @codingStandardsIgnoreEnd
 
         $onwardJourneyBlock = null;
         if (!empty($form->profile->onward_journeys)) {
-            $onwardJourneyBlock = $this->mapperFactory->createContentBlockMapper()->getDomainModel(
-                $form->profile->onward_journeys->result
-            );
+            if ($this->isPublished($form->profile->onward_journeys)) { // Must be published
+                $onwardJourneyBlock = $this->mapperFactory->createContentBlockMapper()->getDomainModel(
+                    $form->profile->onward_journeys->result
+                );
+            }
         }
+        // @codingStandardsIgnoreEnd
 
         return new Profile($title, $key, $fileId, $type, $projectSpace, $parentPid, $shortSynopsis, $longSynopsis, $brandingId, $contentBlocks, $keyFacts, $image, $imagePortrait, $onwardJourneyBlock, $parents);
     }
@@ -80,5 +82,10 @@ class ProfileMapper extends Mapper
             throw new ParseException('iSite XML does not specify project space and is therefore invalid');
         }
         return $matches[1];
+    }
+
+    protected function isPublished(SimpleXMLElement $context): bool
+    {
+        return isset($context->result->metadata->guid);
     }
 }
