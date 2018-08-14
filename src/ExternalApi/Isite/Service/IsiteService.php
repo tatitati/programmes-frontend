@@ -51,7 +51,7 @@ class IsiteService
         int $limit = 48
     ): PromiseInterface {
         if (empty($profiles)) {
-            return new FulfilledPromise(null);
+            return new FulfilledPromise([]);
         }
 
         $cacheKeys = [];
@@ -220,7 +220,7 @@ class IsiteService
             function ($error) use ($profiles) {
                 // Error callback
                 $this->hydrateProfiles($profiles, []);
-                return null;
+                return [];
             }
         );
     }

@@ -29,7 +29,6 @@ class ShowControllerTest extends BaseWebTestCase
      */
     public function testTemplateGroupIsDisplayed()
     {
-        $this->markTestSkipped('Fails randomly, possibly something to do with multi-curl');
         $crawler = $this->client->request('GET', '/programmes/profiles/' . self::PROFILE_GROUP . '/' . self::SLUG);
         $this->assertResponseStatusCode($this->client, 200);
 
