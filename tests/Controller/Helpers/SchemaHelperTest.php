@@ -102,8 +102,8 @@ class SchemaHelperTest extends TestCase
             'publishedOn' => [
                 '@type' => 'BroadcastService',
                 'broadcaster' => $this->broadcaster(),
-                'name' => 'BBC programmes',
-                'url' => 'this/url/was/stubbed',
+                'name' => 'BBC iPlayer Radio',
+                'url' => 'https://www.bbc.co.uk/radio',
             ],
             'duration' => 'PT14M57S',
             'startDate' => '4000-02-03T00:00:00+00:00',
