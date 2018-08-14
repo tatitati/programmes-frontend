@@ -38,7 +38,7 @@ class HttpApiMultiClient
     private $parseResponseArguments;
 
     /** @var mixed */
-    private $nullResult;
+    private $resultOnError;
 
     /** @var int|string */
     private $standardTTL;
@@ -66,7 +66,7 @@ class HttpApiMultiClient
      *   a callable function accepting a Guzzle Response object as its first parameter
      * @param array $parseResponseArguments
      *   an array containing arguments 2-n required by function in $parseResponse
-     * @param mixed $nullResult
+     * @param mixed $resultOnError
      *   the result you want returned on a 404 or HTTP error
      * @param int|string $standardTTL
      *   TTL for a 200 API response
@@ -83,7 +83,7 @@ class HttpApiMultiClient
         array $requestUrls,
         callable $parseResponse,
         array $parseResponseArguments,
-        $nullResult,
+        $resultOnError,
         $standardTTL,
         $notFoundTTL,
         array $guzzleOptions
@@ -95,7 +95,7 @@ class HttpApiMultiClient
         $this->cacheKey = $cacheKey;
         $this->parseResponseCallable = $parseResponse;
         $this->parseResponseArguments = $parseResponseArguments;
-        $this->nullResult = $nullResult;
+        $this->resultOnError = $resultOnError;
         $this->standardTTL = $standardTTL;
         $this->notFoundTTL = $notFoundTTL;
         $this->guzzleOptions = $guzzleOptions;
@@ -146,10 +146,10 @@ class HttpApiMultiClient
         } catch (MultiParseException $e) {
             $url = $this->requestUrls[$e->getResponseKey()] ?? reset($this->requestUrls);
             $this->logger->error('Error parsing feed for "{0}". Error was: {1}', [$url, $e->getMessage()]);
-            return $this->nullResult;
+            return $this->resultOnError;
         } catch (ParseException $e) {
             $this->logger->error('Error parsing feed for one of this URLs: "{0}". Error was: {1}', [implode(',', $this->requestUrls), $e->getMessage()]);
-            return $this->nullResult;
+            return $this->resultOnError;
         }
         $this->cache->setItem($this->cacheItem, $result, $this->standardTTL);
         return $result;
@@ -170,9 +170,9 @@ class HttpApiMultiClient
             $this->logger->error("HTTP Error status $responseCode for one of this URLs $urls : " . $e->getMessage());
         } elseif ($this->notFoundTTL !== CacheInterface::NONE) {
             // 404s get cached for a shorter time
-            $this->cache->setItem($this->cacheItem, $this->nullResult, $this->notFoundTTL);
+            $this->cache->setItem($this->cacheItem, $this->resultOnError, $this->notFoundTTL);
         }
-        return $this->nullResult;
+        return $this->resultOnError;
     }
 
     private function handleAsyncError($reason)
@@ -184,6 +184,6 @@ class HttpApiMultiClient
             throw $reason;
         }
         $this->logger->error("An unknown issue occurred handling a guzzle error whose reason was not an exception. Probable URL: " . reset($this->requestUrls));
-        return $this->nullResult;
+        return $this->resultOnError;
     }
 }

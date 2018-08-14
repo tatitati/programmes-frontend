@@ -34,7 +34,7 @@ class HttpApiClientFactory
         array $requestUrls,
         callable $parseResponse,
         array $parseResponseArguments = [],
-        $nullResult = [],
+        $resultOnError = [],
         $standardTTL = CacheInterface::MEDIUM,
         $notFoundTTL = CacheInterface::NORMAL,
         array $guzzleOptions = []
@@ -48,7 +48,7 @@ class HttpApiClientFactory
             $requestUrls,
             $parseResponse,
             $parseResponseArguments,
-            $nullResult,
+            $resultOnError,
             $standardTTL,
             $notFoundTTL,
             $guzzleOptions
