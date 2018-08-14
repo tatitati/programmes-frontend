@@ -56,8 +56,13 @@ abbr[title] {
 
 .programmes-page--inset,
 .inset {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: $basic-spacing;
+    padding-right: $basic-spacing;
+}
+
+.offset {
+    display: inline-block;
+    padding-right: $basic-spacing;
 }
 
 .programmes-page--flush {
@@ -115,6 +120,10 @@ abbr[title] {
     .inset {
         padding-left: 16px;
         padding-right: 16px;
+    }
+
+    .offset {
+        padding-right: $wide-spacing;
     }
 
     .pull-out {

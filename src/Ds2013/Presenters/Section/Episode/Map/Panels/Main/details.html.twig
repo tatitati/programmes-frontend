@@ -7,18 +7,13 @@
         {% else %}
             <h1 class="no-margin">{{ details.getEpisode().getTitle() }}</h1>
             <div class="gamma">
-                {{ ds_shared('entityContext', details.getEpisode(), {'include_self': false}) }}
-
+                <div class="{% if not details.getEpisode().getParent().isTleo() %}offset{% endif %}">
+                    {{ ds_shared('entityContext', details.getEpisode(), {'include_self': false}) }}
+                </div>
                 {% if details.getEpisode().getPosition() and details.getEpisode().getParent().getExpectedChildCount() %}
-                    {% if details.getEpisode().getParent().isTleo() %}
-                        <span>
-                            {{ tr('episode_number', {'%1': details.getEpisode().getPosition(), '%2': details.getEpisode().getParent().getExpectedChildCount()}) }}
-                        </span>
-                    {% else %}
-                        <span class="inset">
-                            {{ tr('episode_number', {'%1': details.getEpisode().getPosition(), '%2': details.getEpisode().getParent().getExpectedChildCount()}) }}
-                        </span>
-                    {% endif %}
+                    <span>
+                        {{ tr('episode_number', {'%1': details.getEpisode().getPosition(), '%2': details.getEpisode().getParent().getExpectedChildCount()}) }}
+                    </span>
                 {% endif %}
             </div>
         {% endif %}
