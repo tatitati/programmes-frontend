@@ -15,6 +15,12 @@ find_by_pid:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 # Programme information pages
+programme_credits:
+    path: /programmes/{pid}/credits
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults: { route: find_by_pid, _fragment: 'credits' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 programme_episodes:
     path: /programmes/{pid}/episodes
     defaults: { _controller: App\Controller\ProgrammeEpisodes\IndexController }
