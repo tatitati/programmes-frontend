@@ -38,7 +38,9 @@ class ProfileMapper extends Mapper
         $parents = [];
         if (!empty($formMetaData->parents->parent->result)) {
             foreach ($formMetaData->parents as $parent) {
-                $parents[] = $this->mapperFactory->createProfileMapper()->getDomainModel($parent->parent->result);
+                if ($this->isPublished($parent->parent)) {
+                    $parents[] = $this->mapperFactory->createProfileMapper()->getDomainModel($parent->parent->result);
+                }
             }
         }
 
