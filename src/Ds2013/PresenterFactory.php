@@ -31,6 +31,7 @@ use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
+use App\ValueObject\CosmosInfo;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
@@ -80,11 +81,19 @@ class PresenterFactory
     /** @var HelperFactory */
     private $helperFactory;
 
-    public function __construct(TranslateProvider $translateProvider, UrlGeneratorInterface $router, HelperFactory $helperFactory)
-    {
+    /** @var CosmosInfo */
+    private $cosmosInfo;
+
+    public function __construct(
+        TranslateProvider $translateProvider,
+        UrlGeneratorInterface $router,
+        HelperFactory $helperFactory,
+        CosmosInfo $cosmosInfo
+    ) {
         $this->translateProvider = $translateProvider;
         $this->router = $router;
         $this->helperFactory = $helperFactory;
+        $this->cosmosInfo = $cosmosInfo;
     }
 
     /**
@@ -259,6 +268,7 @@ class PresenterFactory
             $analyticsLabels,
             $this->helperFactory->getSmpPlaylistHelper(),
             $this->router,
+            $this->cosmosInfo,
             $options
         );
     }

@@ -54,25 +54,25 @@ define(['jquery-1.9','smp/cookieStore'], function ($, DataStore) {
         };
 
         this.updateTimeResume = function (timestamp) {
-            dataStore.persist(COOKIE_RESUME, replaceTimeResumeForProgramme(timestamp));
+            replaceTimeResumeForProgrammeInCache(timestamp);
+            dataStore.persist(COOKIE_RESUME, cache);
         };
 
         this.removeTimeResume = function () {
-            dataStore.persist(COOKIE_RESUME, removeProgrammeFromCache());
+            removeProgrammeFromCache();
+            dataStore.persist(COOKIE_RESUME, cache);
         };
 
 
         // Privates
 
-        var replaceTimeResumeForProgramme = function (newTimeResume) {
+        var replaceTimeResumeForProgrammeInCache = function (newTimeResume) {
             removeProgrammeFromCache();
 
             // add a new time resume for the pid
             cache.push({pid: programmePid, time: newTimeResume});
             // keep in cache only time resumes about the last 10 programmes reproduced
             cache = cache.slice(-10);
-
-            return cache;
         };
 
         var removeProgrammeFromCache = function() {

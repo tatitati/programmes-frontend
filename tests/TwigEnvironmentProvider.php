@@ -12,6 +12,7 @@ use App\Twig\FavouriteButtonExtension;
 use App\Twig\GelIconExtension;
 use App\Twig\HtmlUtilitiesExtension;
 use App\Twig\TranslateAndTimeExtension;
+use App\ValueObject\CosmosInfo;
 use RMP\Translate\TranslateFactory;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
@@ -123,7 +124,8 @@ class TwigEnvironmentProvider
         $helperFactory = new HelperFactory($translateProvider, $router);
 
         // Set presenter factory for template tests to use.
-        self::$ds2013PresenterFactory = new Ds2013PresenterFactory($translateProvider, $router, $helperFactory);
+        $dummyCosmosInfo = new CosmosInfo('12', 'asdf');
+        self::$ds2013PresenterFactory = new Ds2013PresenterFactory($translateProvider, $router, $helperFactory, $dummyCosmosInfo);
         self::$dsAmenPresenterFactory = new DsAmenPresenterFactory($translateProvider, $router, $helperFactory);
         self::$dsSharedPresenterFactory = new DsSharedPresenterFactory();
 

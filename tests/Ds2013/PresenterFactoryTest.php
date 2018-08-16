@@ -19,6 +19,7 @@ use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
+use App\ValueObject\CosmosInfo;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
@@ -57,7 +58,8 @@ class PresenterFactoryTest extends TestCase
         $translateProvider->method('getTranslate')->willReturn($this->translate);
         $this->router = $this->createMock(UrlGeneratorInterface::class);
         $this->helperFactory = $this->createMock(HelperFactory::class);
-        $this->factory = new PresenterFactory($translateProvider, $this->router, $this->helperFactory);
+        $dummyCosmosInfo = $this->createMock(CosmosInfo::class);
+        $this->factory = new PresenterFactory($translateProvider, $this->router, $this->helperFactory, $dummyCosmosInfo);
     }
 
     public function tearDown()

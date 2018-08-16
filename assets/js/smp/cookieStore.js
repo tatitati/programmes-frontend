@@ -12,7 +12,7 @@ define(function () {
             var cookie = all[name];
 
             if (cookie !== undefined) {
-                return JSON.parse(cookie)
+                return JSON.parse(cookie);
             }
 
             return null;

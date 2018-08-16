@@ -41,7 +41,7 @@ define(['jquery-1.9', 'smp/smpStatePersistance', 'bump-3'], function ($, SmpStat
                     volume: null,
                     autoplay: false
                 },
-                rememberResume: true,
+                rememberResume: false,
                 messages: {
                     loading: 'Loading player...',
                     error: 'An error occurred',
@@ -145,22 +145,38 @@ define(['jquery-1.9', 'smp/smpStatePersistance', 'bump-3'], function ($, SmpStat
         var listenProgressTimeEvents = function ()
         {
             var savedTime = 0;
+            var currentTime = 0;
+
+            self.player.bind('playing', function(event) {
+                var startTime = 0;
+
+                self.playerInteracted = true;
+
+                if (self.options.smpSettings.startTime) {
+                    startTime = self.options.smpSettings.startTime;
+                } else if (currentTime) {
+                    startTime = currentTime;
+                }
+
+                if (self.options.UAS) {
+                    self.options.UAS.notifyStarted(Math.floor(startTime));
+                }
+            });
 
             self.player.bind('timeupdate', function(event) {
-                var time = (Math.floor(event.currentTime));
+                currentTime = (Math.floor(event.currentTime));
 
                 if (self.options.rememberResume) {
                     // Even if this event is called many times per second, we want to act on it (write to the cookie) every 1 second
-                    if (time != savedTime) {
-                        self.playerRepostiroy.updateTimeResume(parseInt(time, 10));
-                        savedTime = time;
+                    if (currentTime != savedTime) {
+                        self.playerRepostiroy.updateTimeResume(parseInt(currentTime, 10));
+                        savedTime = currentTime;
                     }
                 }
 
-                // @todo
-                // if (_this.options.UAS) {
-                //     _this.options.UAS.registerHeartbeat(Math.floor(time));
-                // }
+                if (self.options.UAS) {
+                    self.options.UAS.notifyHeartbeat(Math.floor(currentTime));
+                }
             });
 
             self.player.bind('ended', function(event) {
@@ -168,10 +184,15 @@ define(['jquery-1.9', 'smp/smpStatePersistance', 'bump-3'], function ($, SmpStat
                     self.playerRepostiroy.removeTimeResume();
                 }
 
-                // @todo
-                // if (self.options.UAS) {
-                //     self.options.UAS.registerEnded(Math.floor(time));
-                // }
+                if (self.options.UAS) {
+                    self.options.UAS.notifyEnded(Math.floor(currentTime));
+                }
+            });
+
+            self.player.bind('pause', function (event) {
+                if (self.options.UAS) {
+                    self.options.UAS.notifyPaused(currentTime);
+                }
             });
         };
     };

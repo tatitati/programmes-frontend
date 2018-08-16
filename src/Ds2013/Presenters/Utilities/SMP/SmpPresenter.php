@@ -5,6 +5,7 @@ namespace App\Ds2013\Presenters\Utilities\SMP;
 
 use App\Ds2013\Presenter;
 use App\DsShared\Helpers\SmpPlaylistHelper;
+use App\ValueObject\CosmosInfo;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
@@ -42,6 +43,9 @@ class SmpPresenter extends Presenter
     /** @var UrlGeneratorInterface */
     private $router;
 
+    /** @var CosmosInfo */
+    private $cosmosInfo;
+
     public function __construct(
         ProgrammeItem $programmeItem,
         Version $streamableVersion,
@@ -50,6 +54,7 @@ class SmpPresenter extends Presenter
         array $analyticsLabels,
         SmpPlaylistHelper $smpPlaylistHelper,
         UrlGeneratorInterface $router,
+        CosmosInfo $cosmosInfo,
         array $options = []
     ) {
         parent::__construct($options);
@@ -60,6 +65,7 @@ class SmpPresenter extends Presenter
         $this->analyticsCounterName = $analyticsCounterName;
         $this->analyticsLabels = $analyticsLabels;
         $this->router = $router;
+        $this->cosmosInfo = $cosmosInfo;
     }
 
     public function getProgrammeItem(): ProgrammeItem
@@ -128,9 +134,19 @@ class SmpPresenter extends Presenter
      */
     private function getUasConfig(): array
     {
+        $cosmosEnv = $this->cosmosInfo->getAppEnvironment();
+        $uasEnv = 'live';
+        $password = 'rt5uf8v9aol56';
+
+        if ($cosmosEnv !== 'live') {
+            // V2 set "test" environment even for sandbox.
+            $uasEnv = 'test';
+            $password = 'bapd63mcqopnp';
+        }
+
         return [
-            'apiKey' => '', // @todo
-            'env' => '', // @todo
+            'apiKey' => $password,
+            'env' => $uasEnv,
             'pid' => (string) $this->programmeItem->getPid(),
             'versionPid' => (string) $this->streamableVersion->getPid(),
             'resourceDomain' => $this->programmeItem->isTv() ? 'tv' : 'radio',

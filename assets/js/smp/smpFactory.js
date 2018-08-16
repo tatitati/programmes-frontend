@@ -16,7 +16,7 @@ define(['jquery-1.9'], function ($) {
             factoryOptions = mergeOptions(factoryOptions);
 
             if (factoryOptions.uasConfig) {
-                requiredItems.push(null); // @todo: UAS module injection into module
+                requiredItems.push('smp/uasService');
                 requiredItems.push('smp/recommendationsBump');
             } else {
                 requiredItems.push(null);
@@ -30,13 +30,13 @@ define(['jquery-1.9'], function ($) {
                 requiredItems.push(hasDotComAnalytics ? 'bbcdotcom/av/emp/analytics' : null);
             }
 
-            require(requiredItems, function (Smp, uas, RecommendationsBump, adverts, analytics) {
-                var smpUAS = null;
+            require(requiredItems, function (Smp, UasService, RecommendationsBump, adverts, analytics) {
+                var smpUasService = null;
                 var smprecbump = null;
 
                 if (factoryOptions.uasConfig) {
-                    //@TODO
-                    //smpUAS = new uas(factoryOptions.uasConfig);
+                    smpUasService = new UasService(factoryOptions.uasConfig);
+                    smpUasService.init();
                 }
 
                 if (RecommendationsBump) {
@@ -45,7 +45,7 @@ define(['jquery-1.9'], function ($) {
 
                 smpOptions.bbcdotcomAdverts = adverts;
                 smpOptions.bbcdotcomAnalytics = analytics;
-                smpOptions.UAS = smpUAS;
+                smpOptions.UAS = smpUasService;
                 smpOptions.recBump = smprecbump;
 
                 var smp = new Smp(smpOptions);
