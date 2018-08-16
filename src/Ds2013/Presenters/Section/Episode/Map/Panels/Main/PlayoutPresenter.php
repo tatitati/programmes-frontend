@@ -120,7 +120,7 @@ class PlayoutPresenter extends Presenter
     public function getMessageClasses(): string
     {
         if ($this->streamableHelper->shouldTreatProgrammeItemAsAudio($this->episode)) {
-            return 'playout__message playout__message--icon br-secondary-bg-onbg--hover br-secondary-text-ontext--hover sounds';
+            return 'playout__message playout__message--icon br-highlight-bg-onbg--hover br-highlight-text-ontext--hover sounds';
         }
         return 'playout__message playout__message--icon iplayer';
     }

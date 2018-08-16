@@ -74,20 +74,13 @@ $size: 64px;
 .playout__blocklink:not([disabled]):focus {
     .playout__message {
         text-decoration: none;
-    }
-}
 
-.iplayer .playout__blocklink:not([disabled]) {
-    &:hover,
-    &:active,
-    &:focus {
-        .playout__message {
+        &.iplayer {
             background: $iplayer-pink !important; //pink is the brand colour
             color: #ffffff !important;
         }
     }
 }
-
 
 // bpw (larger icons)
 @include mq-range('bpw') {
