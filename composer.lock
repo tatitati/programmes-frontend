@@ -465,12 +465,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "aab6b5d84ec9747915f1dd04dcdd8be642ad4fb3"
+                "reference": "a3c5409392b3c3d23297061e95722656d9792cc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/aab6b5d84ec9747915f1dd04dcdd8be642ad4fb3",
-                "reference": "aab6b5d84ec9747915f1dd04dcdd8be642ad4fb3",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/a3c5409392b3c3d23297061e95722656d9792cc5",
+                "reference": "a3c5409392b3c3d23297061e95722656d9792cc5",
                 "shasum": ""
             },
             "require": {
@@ -513,7 +513,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2018-08-08T10:50:48+00:00"
+            "time": "2018-08-16T10:58:50+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -3640,17 +3640,6 @@
         {
             "name": "symfony/lts",
             "version": "v3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/lts.git",
-                "reference": "3a4e88df038e3197e6b66d091d2495fd7d255c0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lts/zipball/3a4e88df038e3197e6b66d091d2495fd7d255c0b",
-                "reference": "3a4e88df038e3197e6b66d091d2495fd7d255c0b",
-                "shasum": ""
-            },
             "conflict": {
                 "symfony/asset": ">=4",
                 "symfony/browser-kit": ">=4",
