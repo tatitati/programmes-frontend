@@ -25,7 +25,7 @@
                             'programme__icon' : true,
                             ('br-box-' ~ programme_overlay.getOption('branding_context')): true,
                             'iplayer-icon iplayer-icon--boxed': programme_overlay.isEpisode() and not programme_overlay.programmeIsAudio() ,
-                            'sounds-icon': programme_overlay.isEpisode() and programme_overlay.programmeIsAudio() ,
+                            'sounds-icon': programme_overlay.programmeIsAudio(),
                             'programme__icon--orphaned': programme_overlay.getOption('show_standalone_cta'),
                         }) %}
                         {% if programme_overlay.isEpisode() %}
