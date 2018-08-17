@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2102ccb6d3ab439f7fffb16b3a2873a",
+    "content-hash": "22c8314c21f33ef15280d65f7975eb67",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -221,16 +221,16 @@
         },
         {
             "name": "bbc/branding-client",
-            "version": "v2.6.1",
+            "version": "dev-idcta-aws-investigation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/branding-client.git",
-                "reference": "61a1bf05cb59b05d3b7f945817496922e7c1fb78"
+                "reference": "35477894476c2e32597c180d32676729f4b788a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/branding-client/zipball/61a1bf05cb59b05d3b7f945817496922e7c1fb78",
-                "reference": "61a1bf05cb59b05d3b7f945817496922e7c1fb78",
+                "url": "https://api.github.com/repos/bbc/branding-client/zipball/35477894476c2e32597c180d32676729f4b788a6",
+                "reference": "35477894476c2e32597c180d32676729f4b788a6",
                 "shasum": ""
             },
             "require": {
@@ -261,10 +261,10 @@
             ],
             "description": "PHP Branding client",
             "support": {
-                "source": "https://github.com/bbc/branding-client/tree/v2.6.1",
+                "source": "https://github.com/bbc/branding-client/tree/idcta-aws-investigation",
                 "issues": "https://github.com/bbc/branding-client/issues"
             },
-            "time": "2018-07-25T09:06:41+00:00"
+            "time": "2018-08-17T09:51:07+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",
@@ -7534,6 +7534,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "bbc/branding-client": 20,
         "bbc/programmes-pages-service": 20
     },
     "prefer-stable": false,
