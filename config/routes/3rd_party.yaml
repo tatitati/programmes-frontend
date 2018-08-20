@@ -37,6 +37,9 @@ worldservice_liveradio:
     requirements: { language: '[a-z]{1,}', sid: '[0-9a-z_]{1,}' }
     schemes: [http]
 
+worldservice_news_west_africa:
+    path: /news/av/world-africa-29144792/bbc-world-service-africa
+
 network:
     path: /{networkUrlKey}
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: '' }

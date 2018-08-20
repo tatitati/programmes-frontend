@@ -30,7 +30,8 @@ class LiveBroadcastHelperTest extends TestCase
     {
         $routeCollectionBuilder = new RouteCollectionBuilder();
         $routeCollectionBuilder->add('/iplayer/live/{sid}', '', 'iplayer_live');
-        $routeCollectionBuilder->add('/{networkUrlKey}', '', 'network');
+        $routeCollectionBuilder->add('/radio/play/live:{sid}', '', 'playspace_live');
+        $routeCollectionBuilder->add('/news/av/world-africa-29144792/bbc-world-service-africa', '', 'worldservice_news_west_africa');
 
         $router = new UrlGenerator(
             $routeCollectionBuilder->build(),
@@ -141,7 +142,7 @@ class LiveBroadcastHelperTest extends TestCase
         $this->assertEquals('http://localhost/iplayer/live/bbcnews', $result);
     }
 
-    public function testSimulcastGenerateTheCorrectLinkForNetworkUrls()
+    public function testSimulcastGenerateTheCorrectLinkForPlayspaceUrls()
     {
         $collapsedBroadcast = $this->createCollapsedBroadcast(
             ['bbc_radio_cornwall'],
@@ -150,7 +151,21 @@ class LiveBroadcastHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            'http://localhost/radiocornwall',
+            'http://localhost/radio/play/live:bbc_radio_cornwall',
+            $this->helper->simulcastUrl($collapsedBroadcast)
+        );
+    }
+
+    public function testBBCWSWestAfricaCorrectLinking()
+    {
+        $collapsedBroadcast = $this->createCollapsedBroadcast(
+            ['bbc_world_service_west_africa'],
+            new DateTimeImmutable(),
+            new DateTimeImmutable()
+        );
+
+        $this->assertEquals(
+            'http://localhost/news/av/world-africa-29144792/bbc-world-service-africa',
             $this->helper->simulcastUrl($collapsedBroadcast)
         );
     }
