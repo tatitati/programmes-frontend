@@ -3,12 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Controller\Schedules;
 
-use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Date;
 
-class ByYearController extends BaseController
+class ByYearController extends SchedulesBaseController
 {
     /**
      * Value decided to avoid unusual values for the year like 0000, 0001, etc.

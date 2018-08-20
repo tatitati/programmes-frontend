@@ -3,12 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Controller\Schedules;
 
-use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Date;
 
-class ByMonthController extends BaseController
+class ByMonthController extends SchedulesBaseController
 {
     public function __invoke(Service $service, string $date)
     {

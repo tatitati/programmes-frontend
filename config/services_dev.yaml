@@ -2,3 +2,5 @@ parameters:
     app.metric_backend.class: App\Metrics\Backend\LogMetricBackend
 
     app.vote.accountwrapperurl: 'https://account-wrapper.test.files.bbci.co.uk/vote-wrapper.min.js'
+
+    app.cosmos.dials.path: '../dials.json'

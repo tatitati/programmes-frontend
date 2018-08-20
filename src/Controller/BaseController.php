@@ -30,6 +30,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class BaseController extends AbstractController
 {
+    protected $context;
+
     private $brandingId = 'br-00001';
 
     /**
@@ -43,8 +45,6 @@ abstract class BaseController extends AbstractController
 
     /** @var Branding */
     private $branding;
-
-    private $context;
 
     private $response;
 
@@ -113,6 +113,11 @@ abstract class BaseController extends AbstractController
         }
 
         throw $this->createNotFoundException('Page parameter must be a number between 1 and 9999');
+    }
+
+    protected function overrideBrandingOption(string $key, $value): void
+    {
+        $this->branding->overrideOption($key, $value);
     }
 
     protected function setBrandingId(string $brandingId)
@@ -275,7 +280,7 @@ abstract class BaseController extends AbstractController
         return $this->container->get('request_stack')->getCurrentRequest();
     }
 
-    private function preRender()
+    protected function preRender()
     {
         if (!$this->branding) {
             $this->branding = $this->getBrandingPromise()->wait(true);

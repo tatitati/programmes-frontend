@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace App\Controller\Schedules;
 
-use App\Controller\BaseController;
 use App\Controller\Helpers\StructuredDataHelper;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
@@ -22,7 +21,7 @@ use Cake\Chronos\Chronos;
 use Cake\Chronos\Date;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ByDayController extends BaseController
+class ByDayController extends SchedulesBaseController
 {
     use UtcOffsetValidatorTrait;
     use SchedulesPageResponseCodeTrait;

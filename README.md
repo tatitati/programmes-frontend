@@ -175,6 +175,14 @@ If that looks reasonable, run
 php /var/www/programmes-frontend/bin/console --env=prod_test_fixture doctrine:schema:update  --force
 ``` 
 
+Dials
+---------------------------------
+
+Cosmos Dials allow functionality to be turned on and off without the need for a release of code. In order to create a 
+new dial, add a schema as instructed from 
+[the confluence page](https://confluence.dev.bbc.co.uk/display/platform/Developing+with+Dials#DevelopingwithDials-3:WriteaDialSchema). 
+Then update [dials.json](dials.json) with the previously used default value. Now you should be ready to go.
+
 Release process
 ---------------------------------
 See [Release Process](docs/release-process.md)

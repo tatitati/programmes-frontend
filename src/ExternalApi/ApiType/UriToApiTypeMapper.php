@@ -19,6 +19,7 @@ class UriToApiTypeMapper
         ApiTypeEnum::API_RECOMMENDATIONS => '%^open\.live\.bbc\.co\.uk/recommend/items%i',
         ApiTypeEnum::API_MORPH => '%^morph\.(int\.|test\.|stage\.)?api\.bbci\.co\.uk%i',
         ApiTypeEnum::API_FAVOURITES => '%^www\.(int\.|test\.|stage\.)?bbc\.co\.uk/modules/plugin/musicfavourite%i',
+        ApiTypeEnum::API_SOUNDSNAV => '%^sounds-nav\.(int\.|test\.|stage\.)?api\.bbci\.co\.uk\/json%i',
         ApiTypeEnum::API_TUPAC => '%^music-tupac\.(int\.|test\.|stage\.)?api\.bbc\.co\.uk/music/v2%i',
     ];
 

@@ -35,11 +35,16 @@ parameters:
     app.recipes.service.class: App\ExternalApi\Recipes\Service\RecipesService
     app.morph.baseurl: 'https://morph.api.bbci.co.uk'
     app.morph.service.lxpromo.class: App\ExternalApi\Morph\Service\LxPromoService
+    app.sounds_nav.baseurl: 'https://sounds-nav.api.bbci.co.uk/json'
+    app.sounds_nav.service.class: App\ExternalApi\SoundsNav\Service\SoundsNavService
     app.tupac.baseurl: 'https://music-tupac.api.bbc.co.uk'
     app.tupac.service.class: App\ExternalApi\Tupac\Service\TupacService
 
     # External JS
     app.vote.accountwrapperurl: 'https://account-wrapper.files.bbci.co.uk/vote-wrapper.min.js'
+
+    #Dials
+    app.cosmos.dials.path: '/etc/cosmos-dials/dials.json'
 
 services:
     # default configuration for services in *this* file
@@ -65,6 +70,10 @@ services:
     # please note that last definitions always *replace* previous ones
 
     ### Begin the services!
+
+    App\Cosmos\Dials:
+        arguments:
+            $path: '%app.cosmos.dials.path%'
 
     # Event Subscribers
     App\EventSubscriber\FindByPidRouterSubscriber: ~
@@ -128,7 +137,6 @@ services:
             - '@cache.programmes'
             - env: '%app.feed_env.branding%'
               cacheKeyPrefix: 'programmes-frontend.%cosmos_component_release%.branding'
-
 
     BBC\ProgrammesMorphLibrary\MorphClient:
         class: '%app.morph_client.class%'
@@ -302,6 +310,11 @@ services:
         class: '%app.morph.service.lxpromo.class%'
         arguments:
             $lxPromoEnv: '%app.feed_env.morph.lxpromo%'
+
+    App\ExternalApi\SoundsNav\Service\SoundsNavService:
+        class: '%app.sounds_nav.service.class%'
+        arguments:
+            $url: '%app.sounds_nav.baseurl%'
 
     App\ExternalApi\Tupac\Service\TupacService:
         class: '%app.tupac.service.class%'

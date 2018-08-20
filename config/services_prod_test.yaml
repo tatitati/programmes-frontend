@@ -8,5 +8,6 @@ parameters:
     app.isite.baseurl: 'https://api.test.bbc.co.uk/isite2-content-reader'
     app.recipes.baseurl: 'https://api.test.bbc.co.uk/food/recipes'
     app.morph.baseurl: 'https://morph.test.api.bbci.co.uk'
+    app.sounds_nav.baseurl: 'https://sounds-nav.test.api.bbci.co.uk/json'
 
     app.vote.accountwrapperurl: 'https://account-wrapper.test.files.bbci.co.uk/vote-wrapper.min.js'

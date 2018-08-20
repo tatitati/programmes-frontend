@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\Controller\Schedules;
 
-use App\Controller\BaseController;
 use App\Controller\Helpers\StructuredDataHelper;
 use App\Controller\Traits\SchedulesPageResponseCodeTrait;
 use App\Controller\Traits\UtcOffsetValidatorTrait;
@@ -21,7 +20,7 @@ use DateTimeZone;
 use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ByWeekController extends BaseController
+class ByWeekController extends SchedulesBaseController
 {
     use UtcOffsetValidatorTrait;
     use SchedulesPageResponseCodeTrait;

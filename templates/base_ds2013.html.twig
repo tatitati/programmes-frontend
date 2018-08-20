@@ -30,6 +30,9 @@
         #}
         {% if hasAdverts %}<script>window.orb_fig_blocking = true;</script>{% endif %}
         {{ orb.getHead()|raw }}
+        {% if soundsNav is defined  %}
+            {{ soundsNav.getHead()|raw }}
+        {% endif %}
         {{ branding.getHead()|raw }}
 
         <script>
@@ -100,6 +103,9 @@
     </head>
     <body id="top">
         {{ orb.getBodyfirst()|raw }}
+        {% if soundsNav is defined  %}
+            {{ soundsNav.getBody()|raw }}
+        {% endif %}
         {{ branding.getBodyFirst()|raw }}
 
         <div class="{% block page_classes %}programmes-page text-base b-g-p{% endblock %}" role="main">
@@ -119,6 +125,9 @@
         {% block javascripts %}{% endblock %}
         {% include 'base_ds_common_js_partial.html.twig' with {'title': block('title')} %}
         {{ branding.getBodyLast()|raw }}
+        {% if soundsNav is defined  %}
+            {{ soundsNav.getFoot()|raw }}
+        {% endif %}
         {{ orb.getBodylast()|raw }}
     </body>
 </html>

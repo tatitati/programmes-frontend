@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2102ccb6d3ab439f7fffb16b3a2873a",
+    "content-hash": "64a6856bfcc6326a8b9cdebbe19d67ae",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -221,16 +221,16 @@
         },
         {
             "name": "bbc/branding-client",
-            "version": "v2.6.1",
+            "version": "v2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/branding-client.git",
-                "reference": "61a1bf05cb59b05d3b7f945817496922e7c1fb78"
+                "reference": "1b87afc4927d955f0a161cf37fbc4e145bec050f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/branding-client/zipball/61a1bf05cb59b05d3b7f945817496922e7c1fb78",
-                "reference": "61a1bf05cb59b05d3b7f945817496922e7c1fb78",
+                "url": "https://api.github.com/repos/bbc/branding-client/zipball/1b87afc4927d955f0a161cf37fbc4e145bec050f",
+                "reference": "1b87afc4927d955f0a161cf37fbc4e145bec050f",
                 "shasum": ""
             },
             "require": {
@@ -261,10 +261,10 @@
             ],
             "description": "PHP Branding client",
             "support": {
-                "source": "https://github.com/bbc/branding-client/tree/v2.6.1",
+                "source": "https://github.com/bbc/branding-client/tree/v2.6.2",
                 "issues": "https://github.com/bbc/branding-client/issues"
             },
-            "time": "2018-07-25T09:06:41+00:00"
+            "time": "2018-08-10T13:37:14+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",
@@ -7543,6 +7543,7 @@
         "ext-simplexml": "^7.1",
         "ext-iconv": "*",
         "ext-intl": "*",
+        "ext-json": "*",
         "ext-redis": "*"
     },
     "platform-dev": [],
