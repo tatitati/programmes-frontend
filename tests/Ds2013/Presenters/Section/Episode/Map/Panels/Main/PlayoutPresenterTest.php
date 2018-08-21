@@ -250,8 +250,6 @@ class PlayoutPresenterTest extends TestCase
                 [true, [$signedVersion], false, false, false, false],
             'is downloadable, so no overlay' =>
                 [true, [], true, false, false, false],
-            'is international, so no overlay' =>
-                [true, [], false, true, false, false],
         ];
     }
 }

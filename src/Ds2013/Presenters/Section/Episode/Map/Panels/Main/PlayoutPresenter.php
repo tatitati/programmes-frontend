@@ -75,7 +75,7 @@ class PlayoutPresenter extends Presenter
         }
 
         // International networks don't get overlays
-        if ($this->episode->getNetwork() && $this->episode->getNetwork()->isInternational()) {
+        if ($this->episode->getNetwork() && $this->episode->getNetwork()->isWorldNews()) {
             return true;
         }
 
