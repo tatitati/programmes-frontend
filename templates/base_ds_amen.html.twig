@@ -1,7 +1,7 @@
 {%- set hasAdverts = adverts_set_blocks(meta_context.showAdverts and block('adsToDisplay') is defined ? block('adsToDisplay') : '') -%}
 
 <!DOCTYPE html>
-<html class="{{ branding.getOrbitThemeClasses()|raw }} {% block html_classes %}{% endblock %}" lang="{{ tr('language_code') }}">
+<html class="b-reith-sans-font {{ branding.getOrbitThemeClasses()|raw }} {% block html_classes %}{% endblock %}" lang="{{ tr('language_code') }}">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
