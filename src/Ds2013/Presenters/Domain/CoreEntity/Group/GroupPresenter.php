@@ -22,6 +22,7 @@ class GroupPresenter extends Presenter
         'img_sizes' => [ 0 => '0vw', 320 => 1/4, 480 => 1/4, 600 => 1/3, 1008 => '336px' ],
         'highlight_box_classes' => '',
         'branding_context' => 'page',
+        'title_tag' => 'h4',
     ];
 
     /** @var UrlGeneratorInterface */
@@ -63,6 +64,7 @@ class GroupPresenter extends Presenter
                 'context_programme' => $this->options['context_programme'],
                 'title_format' => 'item::ancestry',
                 'link_location_track' => $this->getLinkTrack(),
+                'title_tag' => $this->options['title_tag'],
             ]
         );
     }

@@ -25,6 +25,7 @@ class PromotionPresenter extends Presenter
         'show_image' => true,
         'show_synopsis' => true,
         'related_links_count' => 999,
+        'title_tag' => 'h4',
 
         // classes & elements
         'img_default_width' => 320,

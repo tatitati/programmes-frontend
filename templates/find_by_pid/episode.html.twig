@@ -44,6 +44,7 @@
                                 <ul class="list-unstyled">
                                     {% for promo in promotions.regular %}
                                         <li>{{ ds2013('promotion', promo, {
+                                                'title_tag': 'h2',
                                                 'highlight_box_classes': 'promotion--inset@bpw highlight-box--list',
                                                 'promo_link_track_title' : 'promo_title_position' ~ loop.index,
                                                 'img_classes': '1/4 1/4@bpb1 1/3@bpb2 1/2@bpw',
@@ -103,6 +104,7 @@
                                                 },
                                                 'title_options': {
                                                     'link_location_track': 'component_clips_carousel',
+                                                    'title_tag': 'h3'
                                                 },
                                                 'body_options': {
                                                     'show_synopsis': false,
@@ -199,7 +201,8 @@
                                     {% for collection in featuredIn %}
                                         <li>
                                             {{- ds2013('group', collection, {
-                                                'highlight_box_classes': 'highlight-box--list'
+                                                'highlight_box_classes': 'highlight-box--list',
+                                                'title_tag': 'h3'
                                             }) -}}
                                         </li>
                                     {% endfor %}
@@ -221,7 +224,7 @@
                             <ul class="list-unstyled">
                                 {% for programme in relatedProgrammes %}
                                     <li>{{ ds2013('programme', programme.getProgramme(), {
-                                            'title_options': {'title_format': 'item::ancestry', 'link_location_track': 'episode_suggested_item_' ~ loop.index },
+                                            'title_options': {'title_tag': 'h3', 'title_format': 'item::ancestry', 'link_location_track': 'episode_suggested_item_' ~ loop.index },
                                             'body_options': {
                                                 'body_suffix': '<p class="programme__child-availability">' ~ tr('episode_is_related_to', {'%1': '<a class="block-link__link" href="' ~ path('topics_topic', {topic: programme.getRelatedByClasses()[0].getId()}) ~'" data-linktrack="episode_suggested_relationship">' ~ programme.getRelatedByClasses()[0].getTitle() ~ '</a></p>'}),
                                                 'show_synopsis': false,
@@ -258,6 +261,7 @@
                                             },
                                             'title_options': {
                                                 'link_to' : 'podcast',
+                                                'title_tag': 'h3'
                                             },
                                             'image_options': {
                                                 'default_width': 160,
@@ -293,7 +297,8 @@
                                             'img_default_width': 240,
                                             'img_sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
                                             'show_synopsis': false,
-                                            'branding_context': 'page'
+                                            'branding_context': 'page',
+                                            'title_tag': 'h3'
                                         }) }}
                                     </li>
                                 {% endfor %}
