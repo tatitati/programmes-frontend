@@ -9,7 +9,6 @@
 
     <div class="{{ outer_div_classes }}">
         {% if programme_overlay.getOption('show_image') %}
-            <meta property="image" content="{{ programme_overlay.getImageUrl(480,270)}}" />
             {{ ds_shared('imageEntity', programme_overlay.getImage(), programme_overlay.getOption('default_width'), programme_overlay.getOption('sizes'), {
                 'is_lazy_loaded' : programme_overlay.getOption('is_lazy_loaded'),
                 'ratio': (16 / 9)
@@ -39,26 +38,13 @@
                                     <div class="{{ programme_icon_classes }}">
                                         {{ gelicon('audio-visual', programme_overlay.getMediaIconName(), 'gelicon--half-container') }}
                                     </div>
-                                    <meta property="description" content="{{ programme_overlay.getProgramme().getShortSynopsis() }}" />
-                                    <meta property="thumbnailUrl" content="{{ programme_overlay.getImageUrl(1920, 1080) }}" />
-                                    {% if programme_overlay.getProgramme().getStreamableFrom() %}
-                                        <meta property="uploadDate" content="{{ programme_overlay.getProgramme().getStreamableFrom().format(constant('DateTime::ATOM')) }}" />
-                                    {% endif %}
-                                    <meta property="name" content="{{ programme_overlay.getProgramme().getTitle() }}" />
                                 </a>
                             </div>
-                            {% if programme_overlay.getProgramme().getStreamableUntil() %}
-                                <span>
-                                    <meta property="endDate" datatype="xsd:dateTime" content="{{ programme_overlay.getProgramme().getStreamableUntil().format(constant('DateTime::ATOM')) }}" />
-                                </span>
-                            {% endif %}
                         {% else %}
                             {# If our available programme is NOT an episode, e.g. a clip #}
                             <div class="{{ programme_icon_classes }}">
                                 {{ gelicon('audio-visual', programme_overlay.getMediaIconName(), 'gelicon--half-container') }}
                             </div>
-                            <meta property="description" content="{{ programme_overlay.getProgramme().getShortSynopsis() }}" />
-                            <meta property="thumbnailUrl" content="{{ programme_overlay.getImageUrl(1920, 1080) }}" />
                         {% endif %}
                     {% endif %}
                 </div>

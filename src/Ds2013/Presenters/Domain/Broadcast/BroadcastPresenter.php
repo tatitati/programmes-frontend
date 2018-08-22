@@ -43,11 +43,6 @@ class BroadcastPresenter extends Presenter
         return $this->broadcast;
     }
 
-    public function getServiceName(): string
-    {
-        return $this->broadcast->getService()->getName();
-    }
-
     public function getServicePid(): string
     {
         return (string) $this->broadcast->getService()->getPid();

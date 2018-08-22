@@ -28,10 +28,6 @@
             </h3>
 
             {#end time and zone#}
-            <meta property="endDate" datatype="xsd:dateTime" content="{{ broadcast.getEndAt()|date('c')}}" />
-            <span>
-                <meta property="name" content="{{ broadcast.getServiceName() }}" />
-            </span>
 
             {%- if not broadcast.getProgrammeItem() -%}
                 <div class="broadcast__live centi br-box-subtle">

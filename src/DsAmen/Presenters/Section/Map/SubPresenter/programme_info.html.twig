@@ -4,7 +4,6 @@
     {% endif %}
     <div class="island">
         <h1 class="invisible">{{ programme_info.getProgrammeContainer().getTitle() }}</h1>
-        <meta property="image" content="{{ programme_info.getProgrammeContainer().getImage().getUrl(480,270) }}"/>
         {% if programme_info.getProgrammeContainer().getLongestSynopsis() %}
             <div class="gel-long-primer">
                 {{ ds_shared('synopsis', programme_info.getProgrammeContainer().getSynopses(), 250) }}

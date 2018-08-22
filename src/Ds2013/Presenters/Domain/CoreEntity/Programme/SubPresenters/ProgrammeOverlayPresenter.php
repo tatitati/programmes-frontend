@@ -69,11 +69,6 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
         return $this->programme->getImage();
     }
 
-    public function getImageUrl(int $xSize, int $ySize): string
-    {
-        return $this->programme->getImage()->getUrl($xSize, $ySize);
-    }
-
     public function getMediaIconName(): string
     {
         if ($this->programmeIsAudio()) {
