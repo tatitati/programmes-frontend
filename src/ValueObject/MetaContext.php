@@ -52,7 +52,7 @@ class MetaContext
             $this->projectSpace = $context->getOption('project_space') ?? 'none';
 
             if ($context->getNetwork()) {
-                $this->showAdverts = $context->getNetwork()->isInternational();
+                $this->showAdverts = $context->getNetwork()->isAllowedAdverts();
             }
         } elseif ($context instanceof Service) {
             $this->isRadio = $context->isRadio();
