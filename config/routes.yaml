@@ -15,6 +15,16 @@ find_by_pid:
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 # Programme information pages
+programme_article:
+    path: /programmes/articles/{key}/{slug}
+    defaults: { _controller: App\Controller\Articles\ShowController, slug: '' }
+    requirements: { key: '[a-zA-Z0-9-]{1,40}' }
+
+programme_article_listings:
+    path: /programmes/{pid}/articles
+    defaults: { _controller: App\Controller\Articles\IndexController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}'}
+
 programme_credits:
     path: /programmes/{pid}/credits
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
