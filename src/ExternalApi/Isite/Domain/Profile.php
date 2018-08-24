@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Isite\Domain;
 
 use App\ExternalApi\Isite\DataNotFetchedException;
+use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 
 class Profile
 {
@@ -37,7 +38,7 @@ class Profile
     /** @var string */
     private $brandingId;
 
-    /** @var ContentBlock[]|null */
+    /** @var AbstractContentBlock[]|null */
     private $contentBlocks;
 
     /** @var KeyFact[] */
@@ -46,7 +47,7 @@ class Profile
     /** @var Profile[] */
     private $parents;
 
-    /** @var ContentBlock|null */
+    /** @var AbstractContentBlock|null */
     private $onwardJourneyBlock;
 
     /** @var string */
@@ -69,7 +70,7 @@ class Profile
         array $keyFacts,
         string $image,
         ?string $portraitImage,
-        ?ContentBlock $onwardJourneyBlock,
+        ?AbstractContentBlock $onwardJourneyBlock,
         array $parents
     ) {
         $this->title = $title;
@@ -139,7 +140,7 @@ class Profile
         return $this->longSynopsis;
     }
 
-    public function getOnwardJourneyBlock(): ?ContentBlock
+    public function getOnwardJourneyBlock(): ?AbstractContentBlock
     {
         return $this->onwardJourneyBlock;
     }

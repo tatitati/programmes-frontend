@@ -1,0 +1,16 @@
+<div class="component component--box component--box-flushbody-vertical component--box--primary">
+    <div class="component__header br-box-page">
+        <h2>{{ links.getLinksBlock().getTitle() }}</h2>
+    </div>
+    <div class="component__body br-box-page">
+        <ul class="no-margin-vertical list-spaced">
+            {% for title, url in links.getLinksBlock().getLinks() %}
+                <li class="related-link">
+                    <a href="{{ url }}">{{ title }}</a>
+                    {% set externalUrl = links.extractExternalHost(url) %}
+                    {% if externalUrl %} <span class="milli">({{ externalUrl }})</span>{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

@@ -4,6 +4,8 @@ namespace App\Ds2013;
 
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastProgrammePresenter;
@@ -28,6 +30,9 @@ use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\Ds2013\Presenters\Utilities\SMP\SmpPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
+use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
+use App\ExternalApi\Isite\Domain\ContentBlock\Image;
+use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
@@ -182,6 +187,21 @@ class PresenterFactory
             $this->router,
             $options
         );
+    }
+
+    public function contentBlockPresenter(AbstractContentBlock $contentBlock, array $options = []): Presenter
+    {
+        if ($contentBlock instanceof Image) {
+            return new ImagePresenter($contentBlock, $options);
+        }
+        if ($contentBlock instanceof Links) {
+            return new LinksPresenter($contentBlock, $options);
+        }
+
+        throw new InvalidArgumentException(sprintf(
+            '$block was not a valid type. Found instance of "%s"',
+            (\is_object($contentBlock) ? \get_class($contentBlock) : gettype($contentBlock))
+        ));
     }
 
     /**

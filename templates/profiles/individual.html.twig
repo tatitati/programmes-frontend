@@ -44,11 +44,11 @@
                             </div>
                         {% endif %}
                     </div>
-                    {% if profile.getContentBlocks() %}
-                        {% for block in profile.getContentBlocks() %}
-                            <div>{{ block.getType() }}</div>
-                        {% endfor %}
-                    {% endif %}
+                    {% for block in profile.getContentBlocks() %}
+                        {% if block is not null %} {# Remove this line once all content block types are popualted #}
+                            {{ ds2013('contentBlock', block) }}
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="grid 11/24@bpw2 11/24@bpe">
