@@ -259,7 +259,7 @@ class PresenterFactory
     public function segmentsListPresenter(
         ProgrammeItem $programmeItem,
         array $segmentEvents,
-        ?CollapsedBroadcast $firstBroadcast,
+        ?CollapsedBroadcast $firstBroadcast = null,
         array $options = []
     ): SegmentsListPresenter {
         return new SegmentsListPresenter(
