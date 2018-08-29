@@ -99,8 +99,8 @@ class AdaClassService
             Closure::fromCallable([$this, 'parseResponse']),
             [$contextPid, $limit],
             [],
-            CacheInterface::MEDIUM,
             CacheInterface::NORMAL,
+            CacheInterface::SHORT,
             [
                 'timeout' => 10,
             ]

@@ -9,6 +9,7 @@ use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Electron\Mapper\SupportingContentMapper;
 use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\XmlParser\XmlParser;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Closure;
@@ -60,7 +61,11 @@ class ElectronService
         return $this->clientFactory->getHttpApiMultiClient(
             $cacheKey,
             [$url],
-            Closure::fromCallable([$this, 'parseResponse'])
+            Closure::fromCallable([$this, 'parseResponse']),
+            [],
+            [],
+            CacheInterface::MEDIUM,
+            CacheInterface::NORMAL
         );
     }
 

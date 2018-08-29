@@ -6,6 +6,7 @@ namespace App\ExternalApi\Tupac\Service;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Exception\MultiParseException;
 use App\ExternalApi\Tupac\Domain\Record;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use Closure;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -44,7 +45,10 @@ class TupacService
         $client = $this->clientFactory->getHttpApiMultiClient(
             $cacheKey,
             $urls,
-            Closure::fromCallable([$this, 'parseResponse'])
+            Closure::fromCallable([$this, 'parseResponse']),
+            [],
+            [],
+            CacheInterface::MEDIUM
         );
 
         return $client->makeCachedPromise();

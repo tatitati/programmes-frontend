@@ -35,8 +35,8 @@ class HttpApiClientFactory
         callable $parseResponse,
         array $parseResponseArguments = [],
         $resultOnError = [],
-        $standardTTL = CacheInterface::MEDIUM,
-        $notFoundTTL = CacheInterface::NORMAL,
+        $standardTTL = CacheInterface::NORMAL,
+        $notFoundTTL = CacheInterface::SHORT,
         array $guzzleOptions = []
     ) {
         $guzzleOptions = array_merge(self::DEFAULT_GUZZLE_OPTIONS, $guzzleOptions);

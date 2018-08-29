@@ -6,6 +6,7 @@ namespace App\ExternalApi\RecEng\Service;
 use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\Client\HttpApiMultiClient;
 use App\ExternalApi\Exception\MultiParseException;
+use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -81,7 +82,10 @@ class RecEngService
             $cacheKey,
             [$requestUrl],
             Closure::fromCallable([$this, 'parseResponse']),
-            [$limit]
+            [$limit],
+            [],
+            CacheInterface::MEDIUM,
+            CacheInterface::NORMAL
         );
     }
 

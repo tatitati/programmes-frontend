@@ -56,8 +56,8 @@ class AdaProgrammeService
             Closure::fromCallable([$this, 'parseAggregateResponses']),
             [$limit],
             [],
-            CacheInterface::MEDIUM,
             CacheInterface::NORMAL,
+            CacheInterface::SHORT,
             [
                 'timeout' => 10,
             ]
