@@ -102,7 +102,7 @@ class SchemaHelperTest extends TestCase
             'publishedOn' => [
                 '@type' => 'BroadcastService',
                 'broadcaster' => $this->broadcaster(),
-                'name' => 'BBC iPlayer Radio',
+                'name' => 'BBC Sounds',
                 'url' => 'https://www.bbc.co.uk/radio',
             ],
             'duration' => 'PT14M57S',
@@ -121,7 +121,7 @@ class SchemaHelperTest extends TestCase
             '@type' => 'BroadcastService',
             'broadcaster' => $this->broadcaster(),
             'url' => 'https://www.bbc.co.uk/radio',
-            'name' => 'BBC iPlayer Radio',
+            'name' => 'BBC Sounds',
         ], $schema['publishedOn']);
     }
 

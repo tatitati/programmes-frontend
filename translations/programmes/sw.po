@@ -53,7 +53,7 @@ msgstr "Makala zote zinazopatikana katika BBC iPlayer"
 msgid "all_episodes_iplayer_radio"
 msgstr "Makala zote zinazopatikana katika BBC iPlayer Radio"
 
-#. English: "All %1 episodes available on BBC iPlayer Radio".
+#. English: "All %1 episodes available".
 #. Example URL: http://www.bbc.co.uk/programmes/b006m86d (Mouse over "All Available" text)
 #. %1 is a variable, which may contain the value: "Eastenders".
 #. Priority for: Programmes
@@ -556,7 +556,7 @@ msgstr "Makala hii itapatikana hivi karibuni"
 msgid "episode_availability_none"
 msgstr "Samahani, makala hii haipatikani kwa sasa"
 
-#. English: "Sorry, this episode is not currently available on BBC iPlayer Radio".
+#. English: "Sorry, this episode is not currently available".
 #. Example URL: http://www.bbc.co.uk/programmes/b00hc2d9 .
 #. Priority for: Programmes
 msgid "episode_availability_none_radio"
@@ -567,7 +567,7 @@ msgstr "Samahani, makala hii haipatikani kwa sasa katika BBC iPlayer Radio"
 msgid "episode_availability_past"
 msgstr "Samahani, makala hii haipatikani tena"
 
-#. English: "Sorry, this episode is no longer available on BBC iPlayer Radio".
+#. English: "Sorry, this episode is no longer available".
 #. Priority for: Programmes
 msgid "episode_availability_past_radio"
 msgstr "Samahani, makala hii haipatikani tena katika BBC iPlayer Radio"
@@ -1534,7 +1534,7 @@ msgstr ""
 msgid "programme_availability_none"
 msgstr "Kipindi hiki hakipatikani kwa sasa kwenye BBC iPlayer"
 
-#. English: "This programme is not currently available on BBC iPlayer Radio".
+#. English: "This programme is not currently available".
 #. Example URL: http://www.bbc.co.uk/programmes/b03kpkyz .
 #. Priority for: Programmes
 msgid "programme_availability_none_radio"
@@ -1545,7 +1545,7 @@ msgstr "Kipindi hiki hakipatikani kwa sasa kwenye BBC iPlayer Radio"
 msgid "programme_availability_past"
 msgstr "Kipindi hiki hakipatikani tena kwenye BBC iPlayer"
 
-#. English: "This programme is no longer available on BBC iPlayer Radio".
+#. English: "This programme is no longer available".
 #. Priority for: Programmes
 msgid "programme_availability_past_radio"
 msgstr "Kipindi hiki hakipatikani tena kwenye BBC iPlayer Radio"

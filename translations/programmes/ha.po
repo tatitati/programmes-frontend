@@ -54,7 +54,7 @@ msgstr ""
 msgid "all_episodes_iplayer_radio"
 msgstr ""
 
-#. English: "All %1 episodes available on BBC iPlayer Radio".
+#. English: "All %1 episodes available".
 #. Example URL: http://www.bbc.co.uk/programmes/b006m86d (Mouse over "All Available" text)
 #. %1 is a variable, which may contain the value: "Eastenders".
 #. Priority for: Programmes
@@ -557,7 +557,7 @@ msgstr "Jim kadan za a samu wannan shirin"
 msgid "episode_availability_none"
 msgstr "Yi hakuri, ba za a samu wannan shirin ba a yanzu"
 
-#. English: "Sorry, this episode is not currently available on BBC iPlayer Radio".
+#. English: "Sorry, this episode is not currently available".
 #. Example URL: http://www.bbc.co.uk/programmes/b00hc2d9 .
 #. Priority for: Programmes
 msgid "episode_availability_none_radio"
@@ -568,7 +568,7 @@ msgstr "Yi hakuri, ba za a samu wannan shirin ba a yanzu a rediyon BBC iPlayer"
 msgid "episode_availability_past"
 msgstr "Yi hakuri, ba za a samu wannan shirin ba"
 
-#. English: "Sorry, this episode is no longer available on BBC iPlayer Radio".
+#. English: "Sorry, this episode is no longer available".
 #. Priority for: Programmes
 msgid "episode_availability_past_radio"
 msgstr "Yi hakuri, ba za a samu wannan shirin ba a rediyon BBC iPlayer"
@@ -1533,7 +1533,7 @@ msgstr ""
 msgid "programme_availability_none"
 msgstr "Ba za a samu wannan shirin ba a BBC iPlayer"
 
-#. English: "This programme is not currently available on BBC iPlayer Radio".
+#. English: "This programme is not currently available".
 #. Example URL: http://www.bbc.co.uk/programmes/b03kpkyz .
 #. Priority for: Programmes
 msgid "programme_availability_none_radio"
@@ -1544,7 +1544,7 @@ msgstr "Ba za a samu wannan shirin ba a yanzu a rediyon BBC iPlayer"
 msgid "programme_availability_past"
 msgstr "Ba za a samu wannan shirin ba a yanzu a BBC iPlayer"
 
-#. English: "This programme is no longer available on BBC iPlayer Radio".
+#. English: "This programme is no longer available".
 #. Priority for: Programmes
 msgid "programme_availability_past_radio"
 msgstr "Ba za a samu wannan shirin ba a BBC iPlayer"
