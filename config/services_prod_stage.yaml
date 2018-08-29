@@ -3,3 +3,4 @@ parameters:
     app.feed_env.branding: 'live'
     app.isite.baseurl: 'https://api.test.bbc.co.uk/isite2-content-reader'
     app.vote.accountwrapperurl: 'https://account-wrapper.stage.files.bbci.co.uk/vote-wrapper.min.js'
+    app.electron.baseurl: 'https://api.test.bbc.co.uk/electron'
