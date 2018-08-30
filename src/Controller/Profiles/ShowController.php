@@ -8,14 +8,14 @@ use App\Controller\Helpers\IsiteKeyHelper;
 use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\IsiteResult;
-use App\ExternalApi\Isite\Service\IsiteService;
+use App\ExternalApi\Isite\Service\ProfileService;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use Symfony\Component\HttpFoundation\Request;
 
 class ShowController extends BaseController
 {
-    public function __invoke(string $key, string $slug, Request $request, IsiteService $isiteService, IsiteKeyHelper $isiteKeyHelper, CoreEntitiesService $coreEntitiesService)
+    public function __invoke(string $key, string $slug, Request $request, ProfileService $isiteService, IsiteKeyHelper $isiteKeyHelper, CoreEntitiesService $coreEntitiesService)
     {
         $preview = false;
         if ($request->query->has('preview') && $request->query->get('preview')) {

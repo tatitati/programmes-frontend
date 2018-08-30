@@ -8,7 +8,7 @@ use App\ExternalApi\Client\HttpApiMultiClient;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\IsiteFeedResponseHandler;
 use App\ExternalApi\Isite\IsiteResult;
-use App\ExternalApi\Isite\Service\IsiteService;
+use App\ExternalApi\Isite\Service\ProfileService;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -16,7 +16,7 @@ use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
-class IsiteServiceTest extends TestCase
+class ProfileServiceTest extends TestCase
 {
     public function testGetHttpApiMultiClientIsCalledWithCorrecUrl()
     {
@@ -38,7 +38,7 @@ class IsiteServiceTest extends TestCase
             ->with('cacheKey', [$url], function () {
             }, [], $this->isInstanceOf(IsiteResult::class), CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
             ->willReturn($mockClient);
-        $service = new IsiteService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
+        $service = new ProfileService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
         $service->getProfilesByProgramme($mockProgramme);
     }
 
@@ -69,7 +69,7 @@ class IsiteServiceTest extends TestCase
             ->with('cacheKey', $urls, function () {
             }, [[$profileA, $profileB, $profileC]], [], CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
             ->willReturn($mockClient);
-        $service = new IsiteService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
+        $service = new ProfileService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
         $service->setChildProfilesOn([$profileA, $profileB, $profileC], 'project-space');
     }
 
@@ -77,8 +77,6 @@ class IsiteServiceTest extends TestCase
     {
         $responseA = $this->createMock(Response::class);
         $responseB = $this->createMock(Response::class);
-        $profileA = $this->createMock(Profile::class);
-        $profileB = $this->createMock(Profile::class);
         $iSiteResultA = $this->createMock(IsiteResult::class);
         $iSiteResultB = $this->createMock(IsiteResult::class);
         $mockResponseHandler = $this->createMock(IsiteFeedResponseHandler::class);
@@ -86,8 +84,8 @@ class IsiteServiceTest extends TestCase
             ->method('getIsiteResult')
             ->withConsecutive($responseA, $responseB)
             ->willReturnOnConsecutiveCalls($iSiteResultA, $iSiteResultB);
-        $service = new IsiteService('baseurl', $this->createMock(HttpApiClientFactory::class), $mockResponseHandler);
-        $service->parseChildrenOfProfilesResponses([$responseA, $responseB], [$profileA, $profileB]);
+        $service = new ProfileService('baseurl', $this->createMock(HttpApiClientFactory::class), $mockResponseHandler);
+        $service->parseResponses([$responseA, $responseB]);
     }
 
     public function testResponseHandlerOfGetProfilesByProgramme()
@@ -99,7 +97,7 @@ class IsiteServiceTest extends TestCase
             ->method('getIsiteResult')
             ->with($response)
             ->willReturn($iSiteResult);
-        $service = new IsiteService('baseurl', $this->createMock(HttpApiClientFactory::class), $mockResponseHandler);
-        $this->assertEquals($iSiteResult, $service->parseProfileResponse([$response]));
+        $service = new ProfileService('baseurl', $this->createMock(HttpApiClientFactory::class), $mockResponseHandler);
+        $this->assertEquals($iSiteResult, $service->parseResponse([$response]));
     }
 }

@@ -1,7 +1,7 @@
 <?php
+
 namespace App\ExternalApi\Isite\Service;
 
-use App\Builders\IsiteResultBuilder;
 use App\Builders\ProfileBuilder;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\IsiteResult;
@@ -9,7 +9,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 
-class IsiteFakeService extends IsiteService
+class ProfileFakeService extends ProfileService
 {
     public function getByContentId(string $guid, bool $preview = false): PromiseInterface
     {

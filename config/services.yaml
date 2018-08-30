@@ -28,7 +28,8 @@ parameters:
     app.favourites.baseurl: 'https://www.bbc.co.uk/modules/plugin/musicfavourite/init'
     app.favourites.service.class: App\ExternalApi\FavouritesButton\Service\FavouritesButtonService
     app.isite.baseurl: 'https://api.live.bbc.co.uk/isite2-content-reader'
-    app.isite.service.class: App\ExternalApi\Isite\Service\IsiteService
+    app.isite.article_service.class: App\ExternalApi\Isite\Service\ArticleService
+    app.isite.profile_service.class: App\ExternalApi\Isite\Service\ProfileService
     app.receng.baseurl: 'https://open.live.bbc.co.uk/recommend/items'
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngService
     app.recipes.baseurl: 'https://api.live.bbc.co.uk/food/recipes'
@@ -118,6 +119,18 @@ services:
             - '@logger'
         tags:
             - { name: 'monolog.logger', channel: 'cache' }
+
+    ### iSite Feed Handlers
+    isite.feed_response_handler.article:
+        class: App\ExternalApi\Isite\IsiteFeedResponseHandler
+        arguments:
+            $mapper: '@App\ExternalApi\Isite\Mapper\ArticleMapper'
+
+    isite.feed_response_handler.profile:
+        class: App\ExternalApi\Isite\IsiteFeedResponseHandler
+        arguments:
+            $mapper: '@App\ExternalApi\Isite\Mapper\ProfileMapper'
+
 
     ### Http Clients
 
@@ -289,10 +302,17 @@ services:
             arguments:
                 $url: '%app.favourites.baseurl%'
 
-    App\ExternalApi\Isite\Service\IsiteService:
-        class: '%app.isite.service.class%'
+    App\ExternalApi\Isite\Service\ArticleService:
+        class: '%app.isite.article_service.class%'
         arguments:
             $baseUrl: '%app.isite.baseurl%'
+            $responseHandler: '@isite.feed_response_handler.article'
+
+    App\ExternalApi\Isite\Service\ProfileService:
+        class: '%app.isite.profile_service.class%'
+        arguments:
+            $baseUrl: '%app.isite.baseurl%'
+            $responseHandler: '@isite.feed_response_handler.profile'
 
     App\ExternalApi\RecEng\Service\RecEngService:
         class: '%app.receng.service.class%'

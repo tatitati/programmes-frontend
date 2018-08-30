@@ -6,13 +6,13 @@ namespace App\Controller\Profiles;
 use App\Controller\BaseController;
 use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use App\ExternalApi\Isite\Domain\Profile;
-use App\ExternalApi\Isite\Service\IsiteService;
+use App\ExternalApi\Isite\Service\ProfileService;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class IndexController extends BaseController
 {
-    public function __invoke(CoreEntity $coreEntity, IsiteService $isiteService)
+    public function __invoke(CoreEntity $coreEntity, ProfileService $isiteService)
     {
         $this->setContextAndPreloadBranding($coreEntity);
 

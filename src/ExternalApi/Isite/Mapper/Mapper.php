@@ -56,6 +56,18 @@ abstract class Mapper
         return $this->getForm($isiteObject)->metadata;
     }
 
+    protected function getProjectSpace(SimpleXMLElement $form): string
+    {
+        $namespaces = $form->getNamespaces();
+        $namespace = reset($namespaces);
+        $matches = [];
+        preg_match('{https://production(?:\.int|\.test|\.stage|\.live)?\.bbc\.co\.uk/isite2/project/([^/]+)/}', $namespace, $matches);
+        if (empty($matches[1])) {
+            throw new ParseException('iSite XML does not specify project space and is therefore invalid');
+        }
+        return $matches[1];
+    }
+
     protected function getString(?SimpleXMLElement $val): ?string
     {
         if (empty($val)) {
@@ -63,5 +75,10 @@ abstract class Mapper
         }
         $val = (string) $val;
         return trim($val);
+    }
+
+    protected function isPublished(SimpleXMLElement $context): bool
+    {
+        return isset($context->result->metadata->guid);
     }
 }

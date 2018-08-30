@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Isite\Mapper;
 
-use App\ExternalApi\Exception\ParseException;
 use App\ExternalApi\Isite\Domain\Profile;
 use SimpleXMLElement;
 
@@ -72,22 +71,5 @@ class ProfileMapper extends Mapper
         // @codingStandardsIgnoreEnd
 
         return new Profile($title, $key, $fileId, $type, $projectSpace, $parentPid, $shortSynopsis, $longSynopsis, $brandingId, $contentBlocks, $keyFacts, $image, $imagePortrait, $onwardJourneyBlock, $parents);
-    }
-
-    protected function getProjectSpace(SimpleXMLElement $form): string
-    {
-        $namespaces = $form->getNamespaces();
-        $namespace = reset($namespaces);
-        $matches = [];
-        preg_match('{https://production(?:\.int|\.test|\.stage|\.live)?\.bbc\.co\.uk/isite2/project/([^/]+)/}', $namespace, $matches);
-        if (empty($matches[1])) {
-            throw new ParseException('iSite XML does not specify project space and is therefore invalid');
-        }
-        return $matches[1];
-    }
-
-    protected function isPublished(SimpleXMLElement $context): bool
-    {
-        return isset($context->result->metadata->guid);
     }
 }

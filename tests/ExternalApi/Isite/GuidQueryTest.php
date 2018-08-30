@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class GuidQueryTest extends TestCase
 {
-    public function testBlogMetadataQuery()
+    public function testMetadataQuery()
     {
         $query = (new GuidQuery())
             ->setDepth(2)

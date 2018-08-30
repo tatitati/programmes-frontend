@@ -16,6 +16,11 @@ class MapperFactory
         $this->isiteKeyHelper = $isiteKeyHelper;
     }
 
+    public function createArticleMapper(): ArticleMapper
+    {
+        return $this->findMapper(ArticleMapper::class);
+    }
+
     public function createContentBlockMapper(): ContentBlockMapper
     {
         return $this->findMapper(ContentBlockMapper::class);
@@ -29,6 +34,11 @@ class MapperFactory
     public function createProfileMapper(): ProfileMapper
     {
         return $this->findMapper(ProfileMapper::class);
+    }
+
+    public function createRowMapper(): RowMapper
+    {
+        return $this->findMapper(RowMapper::class);
     }
 
     private function findMapper(string $mapperType)

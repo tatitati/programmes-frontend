@@ -8,10 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class SearchQueryTest extends TestCase
 {
-    public function testBlogMetadataQuery()
+    public function testMetadataQuery()
     {
         $searchQuery = new SearchQuery();
-        $searchQuery->setNamespace('progs-eastenders')
+        $searchQuery->setNamespace('profile', 'progs-eastenders')
             ->setProject('progs-eastenders')
             ->setDepth(0)// no depth as this is an aggregation - no need to fetch parents or content blocks
             ->setQuery([

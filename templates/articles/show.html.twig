@@ -5,6 +5,59 @@
 
 {% block body %}
     <div class="prog-layout">
-        The article, or list of them
+        <div class="programmes-page">
+            {% if article.getRows() %}
+                <div class="grid-wrapper">
+                    {% for row in article.getRows() %}
+                        <div class="grid{{ row.getSecondaryBlocks() ? ' 7/12@bpw2 7/12@bpe' : '' }}">
+                            <div class="br-box-page prog-box">
+                                {% if row.getPrimaryBlocks() %}
+                                    {# If we're the first row then show the article title#}
+                                    {% if loop.first %}
+                                        <div class="prog-layout__primary island--vertical">
+                                            <h1>{{ article.getTitle() }}</h1>
+                                        </div>
+                                    {% endif %}
+
+                                    {% for block in row.getPrimaryBlocks() %}
+                                        {% if block is not null %} {# Remove this line once all content block types are populated #}
+                                            {{ ds2013('contentBlock', block) }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if row.getSecondaryBlocks() %}
+                            <div class="grid 5/12@bpw2 5/12@bpe">
+                                {% for block in row.getSecondaryBlocks() %}
+                                    {% if block is not null %} {# Remove this line once all content block types are populated #}
+                                        {{ ds2013('contentBlock', block) }}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="prog-layout__primary br-box-page island--vertical">
+                    <h1>{{ article.getTitle() }}</h1>
+                </div>
+            {% endif %}
+            {% if article.getChildren() %}
+                <div class="br-box-page prog-box">
+                    Children go here
+                    <div class="component">Pagination</div>
+                </div>
+            {% endif %}
+        </div>
     </div>
+    {% if article.getParents() %}
+        <div class="programmes-page programmes-page--stripe br-box-subtle">
+            <div class="prog-layout">
+                <div class="prog-layout__primary">
+                    Parents go here
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -24,10 +24,10 @@ class SearchQuery implements QueryInterface
         return $this;
     }
 
-    public function setNamespace(string $project): self
+    public function setNamespace(string $filetype, string $project): self
     {
         $this->q->namespaces = new stdClass();
-        $this->q->namespaces->profile = 'https://production.bbc.co.uk/isite2/project/' . $project . '/programmes-profile';
+        $this->q->namespaces->{$filetype} = 'https://production.bbc.co.uk/isite2/project/' . $project . '/programmes-' . $filetype;
 
         return $this;
     }

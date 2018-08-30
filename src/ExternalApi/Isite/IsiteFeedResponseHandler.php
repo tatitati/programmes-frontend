@@ -4,20 +4,20 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Isite;
 
 use App\ExternalApi\Exception\ParseException;
-use App\ExternalApi\Isite\Mapper\ProfileMapper;
+use App\ExternalApi\Isite\Mapper\Mapper;
 use App\ExternalApi\XmlParser\XmlParser;
 use Psr\Http\Message\ResponseInterface;
 use SimpleXMLElement;
 
 class IsiteFeedResponseHandler
 {
-    /** @var ProfileMapper */
+    /** @var Mapper */
     private $mapper;
 
     /** @var XmlParser */
     private $xmlParser;
 
-    public function __construct(ProfileMapper $mapper, XmlParser $xmlParser)
+    public function __construct(Mapper $mapper, XmlParser $xmlParser)
     {
         $this->mapper = $mapper;
         $this->xmlParser = $xmlParser;
