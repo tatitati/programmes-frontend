@@ -30,6 +30,7 @@ use App\Ds2013\Presenters\Section\RelatedTopics\RelatedTopicsPresenter;
 use App\Ds2013\Presenters\Section\Segments\SegmentsListPresenter;
 use App\Ds2013\Presenters\Section\SupportingContent\SupportingContentPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
+use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use App\Ds2013\Presenters\Utilities\Credits\CreditsPresenter;
 use App\Ds2013\Presenters\Utilities\Cta\CtaPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
@@ -148,6 +149,21 @@ class PresenterFactory
             $options
         );
     }
+
+    /**
+     * @param int $currentPage
+     * @param int $pageSize
+     * @param int $totalItems
+     * @return PaginatorPresenter
+     */
+    public function paginatorPresenter(
+        int $currentPage,
+        int $pageSize,
+        int $totalItems
+    ): PaginatorPresenter {
+        return new PaginatorPresenter($currentPage, $pageSize, $totalItems);
+    }
+
 
     /**
      * @param Contribution[] $contributions
