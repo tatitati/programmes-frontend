@@ -32,8 +32,8 @@ class ArticleMapper extends Mapper
             }
         }
 
-        $rows = null;
-        if (!empty($form->rows->{'rows-iteration'})) {
+        $rows = [];
+        if (!empty($form->rows->{'rows-iteration'}->primary[0]->{'primary-blocks'}->result) || !empty($form->rows->{'rows-iteration'}->secondary[0]->{'secondary-blocks'}->result)) {
             foreach($form->rows->{'rows-iteration'} as $row) {
                 $rows[] = $this->mapperFactory->createRowMapper()->getDomainModel($row);
             }

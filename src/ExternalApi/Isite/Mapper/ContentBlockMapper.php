@@ -6,6 +6,7 @@ namespace App\ExternalApi\Isite\Mapper;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
+use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use Exception;
 use SimpleXMLElement;
 
@@ -47,6 +48,59 @@ class ContentBlockMapper extends Mapper
                 $contentBlock = new Links(
                     $this->getString($contentBlockData->title),
                     $links
+                );
+                break;
+            case 'table':
+                $contentBlockData = $form->content;
+                // @codingStandardsIgnoreStart
+                $oneEmpty = empty($this->getString($contentBlockData->heading_1));
+                $twoEmpty = empty($this->getString($contentBlockData->heading_2));
+                $threeEmpty = empty($this->getString($contentBlockData->heading_3));
+
+                foreach($contentBlockData->row as $r) {
+                    if (!empty($this->getString($r->column_1))) {
+                        $oneEmpty = false;
+                    }
+                    if (!empty($this->getString($r->column_2))) {
+                        $twoEmpty = false;
+                    }
+                    if (!empty($this->getString($r->column_3))) {
+                        $threeEmpty = false;
+                    }
+                }
+
+                $rows = [];
+
+                foreach($contentBlockData->row as $r) {
+                    $row = [];
+                    if (!$oneEmpty) {
+                        $row[] = $this->getString($r->column_1);
+                    }
+                    if (!$twoEmpty) {
+                        $row[] = $this->getString($r->column_2);
+                    }
+                    if (!$threeEmpty) {
+                        $row[] = $this->getString($r->column_3);
+                    }
+                    $rows[] = $row;
+                }
+
+                $headings = [];
+                if (!$oneEmpty) {
+                    $headings[] = $this->getString($contentBlockData->heading_1);
+                }
+                if (!$twoEmpty) {
+                    $headings[] = $this->getString($contentBlockData->heading_2);
+                }
+                if (!$threeEmpty) {
+                    $headings[] = $this->getString($contentBlockData->heading_3);
+                }
+                // @codingStandardsIgnoreEnd
+
+                $contentBlock = new Table(
+                    $this->getString($contentBlockData->title),
+                    $headings,
+                    $rows
                 );
                 break;
             default:

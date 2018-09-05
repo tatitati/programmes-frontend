@@ -31,7 +31,7 @@
                             <div class="grid 5/12@bpw2 5/12@bpe">
                                 {% for block in row.getSecondaryBlocks() %}
                                     {% if block is not null %} {# Remove this line once all content block types are populated #}
-                                        {{ ds2013('contentBlock', block) }}
+                                        {{ ds2013('contentBlock', block, false) }}
                                     {% endif %}
                                 {% endfor %}
                             </div>

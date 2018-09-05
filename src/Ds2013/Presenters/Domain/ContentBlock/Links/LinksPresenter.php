@@ -8,13 +8,17 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 
 class LinksPresenter extends Presenter
 {
+    /** @var bool */
+    private $inPrimaryColumn;
+
     /** @var Links */
     private $linksBlock;
 
-    public function __construct(Links $linksBlock, array $options = [])
+    public function __construct(Links $linksBlock, bool $inPrimaryColumn, array $options = [])
     {
         parent::__construct($options);
         $this->linksBlock = $linksBlock;
+        $this->inPrimaryColumn = $inPrimaryColumn;
     }
 
     public function getLinksBlock(): Links

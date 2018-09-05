@@ -11,10 +11,14 @@ class ImagePresenter extends Presenter
     /** @var Image */
     private $imageBlock;
 
-    public function __construct(Image $imageBlock, array $options = [])
+    /** @var bool */
+    private $inPrimaryColumn;
+
+    public function __construct(Image $imageBlock, bool $inPrimaryColumn, array $options = [])
     {
         parent::__construct($options);
         $this->imageBlock = $imageBlock;
+        $this->inPrimaryColumn = $inPrimaryColumn;
     }
 
     public function getImageBlock(): Image

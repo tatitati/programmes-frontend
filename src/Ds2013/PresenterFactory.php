@@ -6,6 +6,7 @@ use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastProgrammePresenter;
@@ -33,6 +34,7 @@ use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
+use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
@@ -189,13 +191,16 @@ class PresenterFactory
         );
     }
 
-    public function contentBlockPresenter(AbstractContentBlock $contentBlock, array $options = []): Presenter
+    public function contentBlockPresenter(AbstractContentBlock $contentBlock, $inPrimaryColumn = true, array $options = []): Presenter
     {
         if ($contentBlock instanceof Image) {
-            return new ImagePresenter($contentBlock, $options);
+            return new ImagePresenter($contentBlock, $inPrimaryColumn, $options);
         }
         if ($contentBlock instanceof Links) {
-            return new LinksPresenter($contentBlock, $options);
+            return new LinksPresenter($contentBlock, $inPrimaryColumn, $options);
+        }
+        if ($contentBlock instanceof Table) {
+            return new TablePresenter($contentBlock, $inPrimaryColumn, $options);
         }
 
         throw new InvalidArgumentException(sprintf(
