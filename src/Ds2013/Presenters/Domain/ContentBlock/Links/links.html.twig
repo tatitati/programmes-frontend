@@ -1,16 +1,13 @@
-<div class="component component--box component--box-flushbody-vertical component--box--primary">
-    <div class="component__header br-box-page">
-        <h2>{{ links.getLinksBlock().getTitle() }}</h2>
-    </div>
-    <div class="component__body br-box-page">
-        <ul class="no-margin-vertical list-spaced">
-            {% for title, url in links.getLinksBlock().getLinks() %}
-                <li class="related-link">
-                    <a href="{{ url }}">{{ title }}</a>
-                    {% set externalUrl = links.extractExternalHost(url) %}
-                    {% if externalUrl %} <span class="milli">({{ externalUrl }})</span>{% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block blockContent %}
+    <ul class="no-margin-vertical list-spaced">
+        {% for title, url in content_block.getBlock().getLinks() %}
+            <li class="related-link">
+                <a href="{{ url }}">{{ title }}</a>
+                {% set externalUrl = content_block.extractExternalHost(url) %}
+                {% if externalUrl %} <span class="milli">({{ externalUrl }})</span>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

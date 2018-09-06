@@ -1,25 +1,22 @@
-<div class="component component--box{{ table.isInPrimaryColumn() ? ' component--box-flushbody-vertical component--box--primary' : ' component--box--striped component--box--secondary' }}">
-    <div class="component__header{{ table.isInPrimaryColumn() ? ' br-box-page' : ' br-box-highlight'}}">
-        <h2>{{ table.getTableBlock().getTitle() }}</h2>
-    </div>
-    <div class="component__body {{ table.isInPrimaryColumn() ? ' br-box-page' : ' br-box-subtle'}}">
-        <table class="table table--slatted">
-            <thead>
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block blockContent %}
+    <table class="table table--slatted">
+        <thead>
+            <tr>
+                {% for heading in content_block.getBlock().getHeadings() %}
+                    <th class="{{ content_block.getHeaderClasses() }}">{{ heading }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in content_block.getBlock().getRows() %}
                 <tr>
-                    {% for heading in table.getTableBlock().getHeadings() %}
-                        <th class="{{ table.getHeaderClasses() }}">{{ heading }}</th>
+                    {% for column in row %}
+                        <td class="{{ content_block.getCellClasses() }}">{{ column }}</td>
                     {% endfor %}
                 </tr>
-            </thead>
-            <tbody>
-                {% for row in table.getTableBlock().getRows() %}
-                    <tr>
-                        {% for column in row %}
-                            <td class="{{ table.getCellClasses() }}">{{ column }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Isite\Mapper;
 
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
+use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
@@ -27,6 +28,23 @@ class ContentBlockMapper extends Mapper
         $contentBlock = null;
 
         switch ($type) {
+            case 'faq':
+                $contentBlockData = $form->content;
+                $questions = [];
+                foreach ($contentBlockData->questions as $q) {
+                    $questions[] = [
+                        'question' => $this->getString($q->question),
+                        'answer' => $this->getString($q->answer),
+                    ];
+                }
+                $contentBlock = new Faq(
+                    $this->getString($contentBlockData->title),
+                    // @codingStandardsIgnoreStart
+                    $this->getString($contentBlockData->intro_paragraph),
+                    // @codingStandardsIgnoreEnd
+                    $questions
+                );
+                break;
             case 'image':
                 $contentBlockData = $form->content;
                 $contentBlock = new Image(

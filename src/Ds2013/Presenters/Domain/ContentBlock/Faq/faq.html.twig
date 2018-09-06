@@ -1,0 +1,19 @@
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block blockContent %}
+    {% if content_block.getBlock().getIntro() %}
+        <p>{{ content_block.getBlock().getIntro() }}</p>
+    {% endif %}
+    {% for key, question in content_block.getBlock().getQuestions() %}
+        {% set id = 'faq-' ~ random() ~ '-' ~ key %}
+        <div class="component ml">
+            <input class="ml__status" type="checkbox" id="{{ id }}" checked>
+            <h3 class="ml__button--faq-q">
+                <label class="ml__button ml__button--faq br-pseudolink" for="{{ id }}"><span class="dropdown-symbol">{{ gelicon('core', 'next', 'gelicon--delta dropdown-icon') }}</span> {{ question['question'] }}</label>
+            </h3>
+            <div class="ml__hidden" id="{{ id }}-answer">
+                <div class="text--prose ml__button--faq__answer">{{ question['answer']|raw }}</div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

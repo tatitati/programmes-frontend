@@ -3,27 +3,14 @@ declare(strict_types = 1);
 
 namespace App\Ds2013\Presenters\Domain\ContentBlock\Links;
 
-use App\Ds2013\Presenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\ContentBlockPresenter;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 
-class LinksPresenter extends Presenter
+class LinksPresenter extends ContentBlockPresenter
 {
-    /** @var bool */
-    private $inPrimaryColumn;
-
-    /** @var Links */
-    private $linksBlock;
-
     public function __construct(Links $linksBlock, bool $inPrimaryColumn, array $options = [])
     {
-        parent::__construct($options);
-        $this->linksBlock = $linksBlock;
-        $this->inPrimaryColumn = $inPrimaryColumn;
-    }
-
-    public function getLinksBlock(): Links
-    {
-        return $this->linksBlock;
+        parent::__construct($linksBlock, $inPrimaryColumn, $options);
     }
 
     public function extractExternalHost(string $url): ?string

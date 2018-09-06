@@ -16,7 +16,6 @@
     margin: 0;
 }
 
-.ml__button--faq::before,
 .ml__button--dropdown::before {
     content: '\e005';
     margin-right: 8px;
@@ -27,11 +26,19 @@
     transition: transform 0.25s linear; // all others don't need a prefix
 }
 
-.ml__button--faq-q .ml__button--faq::before {
+.ml__button--faq .dropdown-symbol {
+    margin-right: 8px;
+    vertical-align: baseline;
+    font-size: 16px;
+    display: inline-block;
+    transition: transform 0.25s linear; // all others don't need a prefix
+}
+
+.ml__button--faq-q .ml__button--faq .dropdown-symbol {
     transform: rotate(90deg); // all others don't need a prefix
 }
 
-.ml__status:checked + .ml__button--faq-q .ml__button--faq::before {
+.ml__status:checked + .ml__button--faq-q .ml__button--faq .dropdown-symbol {
     transform: rotate(0); // all others don't need a prefix
 }
 

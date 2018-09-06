@@ -4,6 +4,7 @@ namespace App\Ds2013;
 
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Faq\FaqPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
@@ -32,6 +33,7 @@ use App\Ds2013\Presenters\Utilities\SMP\SmpPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
+use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
@@ -191,8 +193,11 @@ class PresenterFactory
         );
     }
 
-    public function contentBlockPresenter(AbstractContentBlock $contentBlock, $inPrimaryColumn = true, array $options = []): Presenter
+    public function contentBlockPresenter(AbstractContentBlock $contentBlock, bool $inPrimaryColumn = true, array $options = []): Presenter
     {
+        if ($contentBlock instanceof Faq) {
+            return new FaqPresenter($contentBlock, $inPrimaryColumn, $options);
+        }
         if ($contentBlock instanceof Image) {
             return new ImagePresenter($contentBlock, $inPrimaryColumn, $options);
         }
