@@ -3,16 +3,29 @@ declare(strict_types = 1);
 
 namespace App\ExternalApi\Isite\Mapper;
 
+use App\Controller\Helpers\IsiteKeyHelper;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
+use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use Exception;
 use SimpleXMLElement;
 
 class ContentBlockMapper extends Mapper
 {
+    /** @var CoreEntitiesService */
+    private $coreEntitiesService;
+
+    public function __construct(MapperFactory $mapperFactory, IsiteKeyHelper $isiteKeyHelper, CoreEntitiesService $coreEntitiesService)
+    {
+        parent::__construct($mapperFactory, $isiteKeyHelper);
+        $this->coreEntitiesService = $coreEntitiesService;
+    }
+
     /**
      * public function getDomainModel(SimpleXMLElement $isiteObject): AbstractContentBlock
      */
@@ -43,6 +56,18 @@ class ContentBlockMapper extends Mapper
                     $this->getString($contentBlockData->intro_paragraph),
                     // @codingStandardsIgnoreEnd
                     $questions
+                );
+                break;
+            case 'galleries':
+                $contentBlockData = $form->content;
+                $galleryPids = [];
+                foreach ($contentBlockData->galleries as $gallery) {
+                    $galleryPids[] = new Pid($this->getString($gallery->pid));
+                }
+                $galleries = $this->coreEntitiesService->findByPids($galleryPids, 'Gallery');
+                $contentBlock = new Galleries(
+                    $this->getString($contentBlockData->title),
+                    $galleries
                 );
                 break;
             case 'image':

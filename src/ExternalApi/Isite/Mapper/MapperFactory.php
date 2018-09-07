@@ -4,16 +4,21 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Isite\Mapper;
 
 use App\Controller\Helpers\IsiteKeyHelper;
+use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 
 class MapperFactory
 {
     protected $instances = [];
 
+    /** @var CoreEntitiesService */
+    private $coreEntitiesService;
+
     private $isiteKeyHelper;
 
-    public function __construct(IsiteKeyHelper $isiteKeyHelper)
+    public function __construct(IsiteKeyHelper $isiteKeyHelper, CoreEntitiesService $coreEntitiesService)
     {
         $this->isiteKeyHelper = $isiteKeyHelper;
+        $this->coreEntitiesService = $coreEntitiesService;
     }
 
     public function createArticleMapper(): ArticleMapper
@@ -23,7 +28,10 @@ class MapperFactory
 
     public function createContentBlockMapper(): ContentBlockMapper
     {
-        return $this->findMapper(ContentBlockMapper::class);
+        if (!isset($this->instances[ContentBlockMapper::class])) {
+            $this->instances[ContentBlockMapper::class] = new ContentBlockMapper($this, $this->isiteKeyHelper, $this->coreEntitiesService);
+        }
+        return $this->instances[ContentBlockMapper::class];
     }
 
     public function createKeyFactMapper(): KeyFactMapper

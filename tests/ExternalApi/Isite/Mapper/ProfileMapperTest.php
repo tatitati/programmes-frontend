@@ -7,6 +7,7 @@ use App\Controller\Helpers\IsiteKeyHelper;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\Mapper\MapperFactory;
 use App\ExternalApi\Isite\Mapper\ProfileMapper;
+use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
 
@@ -21,7 +22,8 @@ class ProfileMapperTest extends TestCase
     public function setUp()
     {
         $keyHelper = new IsiteKeyHelper();
-        $this->mapper = new ProfileMapper(new MapperFactory($keyHelper), $keyHelper);
+        $ces = $this->createMock(CoreEntitiesService::class);
+        $this->mapper = new ProfileMapper(new MapperFactory($keyHelper, $ces), $keyHelper);
     }
 
     public function testCanMappXmlWithSomeEmptyValues()

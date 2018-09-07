@@ -8,6 +8,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Mapper\ContentBlockMapper;
 use App\ExternalApi\Isite\Mapper\MapperFactory;
+use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
 
@@ -19,7 +20,8 @@ class ContentBlockMapperTest extends TestCase
     public function setUp()
     {
         $keyHelper = new IsiteKeyHelper();
-        $this->mapper = new ContentBlockMapper(new MapperFactory($keyHelper), $keyHelper);
+        $ces = $this->createMock(CoreEntitiesService::class);
+        $this->mapper = new ContentBlockMapper(new MapperFactory($keyHelper, $ces), $keyHelper, $ces);
     }
 
     public function testMappingFaqObject()
