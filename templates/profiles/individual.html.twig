@@ -11,7 +11,7 @@
                             <p>{{ profile.getLongSynopsis() }}</p>
                         </div>
                         <div class="hidden@bpw2 hidden@bpe component">
-                            {{ ds_shared('image', profile.getImage(), 336, '', {'image_classes': 'rsp-img'}) }}
+                            {{ ds_shared('image', profile.getImage(), 336, '') }}
                         </div>
                         {% if profile.getKeyFacts() %}
                             <div class="component component--box component--box--primary component--borderedbookends br-keyline">
@@ -53,7 +53,7 @@
             </div>
             <div class="grid 11/24@bpw2 11/24@bpe">
                 <div class="hidden visible@bpw2 visible@bpe component">
-                    {{ ds_shared('image', profile.getPortraitImage(), 336, '', {'image_classes': 'rsp-img', 'ratio': null}) }}
+                    {{ ds_shared('image', profile.getPortraitImage(), 336, '', {'ratio': null}) }}
                 </div>
                 {% if profile.getOnwardJourneyBlock() %}
                     <div>{{ profile.getOnwardJourneyBlock().getType() }}</div>
