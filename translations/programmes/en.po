@@ -386,6 +386,10 @@ msgstr "Sorry, this clip is no longer available"
 msgid "clip_context"
 msgstr "This clip is from"
 
+#. English: "This clip is related to %1".
+msgid "clip_is_related_to"
+msgstr "This clip is related to %1"
+
 #. English (no items): "Clips".
 #. English (one item): "Clip".
 #. English (2+ items): "Clips".

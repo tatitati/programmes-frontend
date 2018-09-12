@@ -384,6 +384,10 @@ msgstr ""
 msgid "clip_context"
 msgstr ""
 
+#. English: "This clip is related to %1".
+msgid "clip_is_related_to"
+msgstr ""
+
 #. English (no items): "Clips".
 #. English (one item): "Clip".
 #. English (2+ items): "Clips".

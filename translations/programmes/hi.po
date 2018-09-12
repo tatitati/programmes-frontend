@@ -384,6 +384,10 @@ msgstr "माफ़़ करें, ये क्लिप अब उपलब
 msgid "clip_context"
 msgstr "ये क्लिप ...की है"
 
+#. English: "This clip is related to %1".
+msgid "clip_is_related_to"
+msgstr ""
+
 #. English (no items): "Clips".
 #. English (one item): "Clip".
 #. English (2+ items): "Clips".

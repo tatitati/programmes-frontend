@@ -388,6 +388,10 @@ msgstr "Mae’n ddrwg gennym, ‘dyw’r clip yma ddim ar gael bellach"
 msgid "clip_context"
 msgstr "Daw'r clip hwn o"
 
+#. English: "This clip is related to %1".
+msgid "clip_is_related_to"
+msgstr ""
+
 #. English (no items): "Clips".
 #. English (one item): "Clip".
 #. English (2+ items): "Clips".

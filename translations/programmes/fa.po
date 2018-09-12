@@ -383,6 +383,10 @@ msgstr "متأسفانه این ویدیود دیگر موجود نیست"
 msgid "clip_context"
 msgstr "این ویدیو از این قسمت شروع خواهد شد"
 
+#. English: "This clip is related to %1".
+msgid "clip_is_related_to"
+msgstr ""
+
 #. English (no items): "Clips".
 #. English (one item): "Clip".
 #. English (2+ items): "Clips".

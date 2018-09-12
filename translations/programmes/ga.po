@@ -386,6 +386,10 @@ msgstr "Níl an ghearrthóg seo ar fáil níos mó"
 msgid "clip_context"
 msgstr "Seo gearrthóg ó"
 
+#. English: "This clip is related to %1".
+msgid "clip_is_related_to"
+msgstr ""
+
 #. English (no items): "Clips".
 #. English (one item): "Clip".
 #. English (2+ items): "Clips".

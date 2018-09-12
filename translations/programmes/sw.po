@@ -384,6 +384,10 @@ msgstr "Samahani, kipande hiki hakipatikani tena"
 msgid "clip_context"
 msgstr "Kipande hiki kimetoka"
 
+#. English: "This clip is related to %1".
+msgid "clip_is_related_to"
+msgstr ""
+
 #. English (no items): "Clips".
 #. English (one item): "Clip".
 #. English (2+ items): "Clips".
