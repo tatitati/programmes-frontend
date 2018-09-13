@@ -12,7 +12,11 @@ define(function () {
             var cookie = all[name];
 
             if (cookie !== undefined) {
-                return JSON.parse(cookie);
+                try {
+                    return JSON.parse(cookie);
+                } catch (e) {
+                    this.persist(name, []);
+                }
             }
 
             return null;
