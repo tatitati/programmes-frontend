@@ -1,0 +1,13 @@
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block blockContent %}
+    {% if content_block.getBlock().getLayout() == 'list' %}
+        {% include '@Ds2013/Presenters/Domain/ContentBlock/Promotions/promotionslist.html.twig' %}
+    {% elseif content_block.getBlock().getLayout() == 'grid' %}
+        {% include '@Ds2013/Presenters/Domain/ContentBlock/Promotions/promotionsgrid.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+{% block extraClasses %}
+    {% if content_block.getBlock().getLayout() == 'list' %}component--box-flushbody{% endif %}
+{% endblock %}

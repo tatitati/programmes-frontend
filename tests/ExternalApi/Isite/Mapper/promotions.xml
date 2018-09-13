@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result xmlns="https://production.bbc.co.uk/isite2/contentreader/xml/result">
+    <metadata>
+        <modifiedDateTime>2018-09-11T12:54:49.58094Z</modifiedDateTime>
+        <creationDateTime>2018-08-10T13:58:24.008207Z</creationDateTime>
+        <type>programmes-content-promotions</type>
+        <fileId>programmes-content-1533913097</fileId>
+        <guid>5aceacbe-034d-4703-b4fc-b1a6d556ee41</guid>
+    </metadata>
+    <document>
+        <form
+            xmlns="https://production.bbc.co.uk/isite2/project/progs-englishregions/programmes-content-promotions">
+            <metadata>
+                <name>List promotion test profile page</name>
+                <file_id>1533913097</file_id>
+            </metadata>
+            <content>
+                <title>test title</title>
+                <layout>list</layout>
+                <promotions>
+                    <promotion_title>This is a promo displayed as list</promotion_title>
+                    <url>https://www.bbc.co.uk</url>
+                    <promoted_item_id>p01lcqgs</promoted_item_id>
+                    <short_synopsis>This is a short synopsis</short_synopsis>
+                    <link_location/>
+                    <super_promo>false</super_promo>
+                    <promoted_item_type>image</promoted_item_type>
+                </promotions>
+            </content>
+        </form>
+    </document>
+</result>

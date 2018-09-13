@@ -8,6 +8,7 @@ use App\Ds2013\Presenters\Domain\ContentBlock\Faq\FaqPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Galleries\GalleriesPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Promotions\PromotionsPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
@@ -38,6 +39,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
+use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
@@ -208,6 +210,9 @@ class PresenterFactory
         }
         if ($contentBlock instanceof Links) {
             return new LinksPresenter($contentBlock, $inPrimaryColumn, $options);
+        }
+        if ($contentBlock instanceof Promotions) {
+            return new PromotionsPresenter($contentBlock, $inPrimaryColumn, $options);
         }
         if ($contentBlock instanceof Table) {
             return new TablePresenter($contentBlock, $inPrimaryColumn, $options);

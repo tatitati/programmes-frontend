@@ -1,0 +1,24 @@
+<ul class="list-unstyled">
+    {% for promotion in content_block.getBlock().getPromotions() %}
+    <li>
+        <div class="promotion block-link highlight-box--list-borderless br-keyline br-{{ content_block.getPositionType() }}-linkhover-onbg015--hover">
+            <div class="promotion__img 1/4@bpb1  1/3@bpb2 1/3@bpw">
+                {{ ds_shared('image', promotion.promotedItemId, 320, '') }}
+            </div>
+            <div class="promotion__body br-box-{{ content_block.getPositionType() }}">
+                <div class="promotion__body__inner br-{{ content_block.getPositionType() }}-linkhover-onbg015--childhover">
+                    <h4 class="promotion__titles">
+                        <span class="promotion__title">
+                            <a href="{{ promotion.url }}" class="br-blocklink__link promotion__link">{{ promotion.promotionTitle }}</a>
+                        </span>
+                    </h4>
+                    {% if promotion.shortSynopsis is not empty %}
+                        <p class="promotion__synopsis centi text--subtle"><span>{{ promotion.shortSynopsis }}</span></p>
+                    {% endif %}
+                </div>
+            </div>
+            <a class="block-link__overlay-link promotion__link" href="{{ promotion.url }}" aria-hidden="true" tabindex="-1">{{ promotion.promotionTitle }}</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

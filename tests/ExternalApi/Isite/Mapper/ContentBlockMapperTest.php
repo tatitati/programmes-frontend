@@ -5,6 +5,7 @@ namespace Tests\App\ExternalApi\Isite\Mapper;
 
 use App\Controller\Helpers\IsiteKeyHelper;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
+use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Mapper\ContentBlockMapper;
 use App\ExternalApi\Isite\Mapper\MapperFactory;
@@ -53,5 +54,23 @@ class ContentBlockMapperTest extends TestCase
         $this->assertEquals('This table has 2 columns and 2 rows, but I\'ve only populated the 1st column of each row', $block->getTitle());
         $this->assertEquals(['Country', 'Capital'], $block->getHeadings());
         $this->assertEquals([['Italy', ''], ['Rome', '']], $block->getRows());
+    }
+
+    public function testMappingPromotionObject()
+    {
+        $xml = new SimpleXMLElement(file_get_contents(__DIR__ . '/promotions.xml'));
+
+        $block = $this->mapper->getDomainModel($xml);
+
+        $this->assertInstanceOf(Promotions::class, $block);
+        $this->assertEquals('test title', $block->getTitle());
+        $this->assertEquals('list', $block->getLayout());
+        $expectedPromotions[0] = [
+            'promotionTitle' => 'This is a promo displayed as list',
+            'url' => 'https://www.bbc.co.uk',
+            'promotedItemId' => 'p01lcqgs',
+            'shortSynopsis' => 'This is a short synopsis',
+        ];
+        $this->assertEquals($expectedPromotions, $block->getPromotions());
     }
 }

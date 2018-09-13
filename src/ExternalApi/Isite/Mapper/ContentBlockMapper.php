@@ -9,6 +9,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
+use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
@@ -92,6 +93,23 @@ class ContentBlockMapper extends Mapper
                     $this->getString($contentBlockData->title),
                     $links
                 );
+                break;
+            case 'promotions':
+                $contentBlockData = $form->content;
+                $title = $this->getString($contentBlockData->title);
+                $layout = $this->getString($contentBlockData->layout);
+                $promotions = [];
+                foreach ($contentBlockData->promotions as $promotion) {
+                    // @codingStandardsIgnoreStart
+                    $promotions[] = [
+                        'promotionTitle' => $this->getString($promotion->promotion_title),
+                        'url' => $this->getString($promotion->url),
+                        'promotedItemId' => $this->getString($promotion->promoted_item_id),
+                        'shortSynopsis' => $this->getString($promotion->short_synopsis),
+                    ];
+                    // @codingStandardsIgnoreEnd
+                }
+                $contentBlock = new Promotions($promotions, $layout, $title);
                 break;
             case 'table':
                 $contentBlockData = $form->content;
