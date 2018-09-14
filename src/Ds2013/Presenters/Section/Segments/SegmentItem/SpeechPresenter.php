@@ -34,4 +34,10 @@ class SpeechPresenter extends AbstractSegmentItemPresenter
     {
         return $this->playTranslationsHelper->secondsToFormattedDuration($this->segmentEvent->getSegment()->getDuration());
     }
+
+    public function getIdentifyingClass(): string
+    {
+        // This class is currently just used by test for automation. It's not quite as pointless as it looks.
+        return 'segments-list__item--' . $this->segmentEvent->getSegment()->getType();
+    }
 }
