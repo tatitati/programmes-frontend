@@ -83,7 +83,7 @@ class LiveBroadcastHelper
         'bbc_radio_leeds'                       => ['playspace_live', ['sid' => 'bbc_radio_leeds']],
         'bbc_radio_leicester'                   => ['playspace_live', ['sid' => 'bbc_radio_leicester']],
         'bbc_radio_lincolnshire'                => ['playspace_live', ['sid' => 'bbc_radio_lincolnshire']],
-        'bbc_radio_manchester'                  => ['playspace_live', ['sid' => 'bbcradio_manchester']],
+        'bbc_radio_manchester'                  => ['playspace_live', ['sid' => 'bbc_radio_manchester']],
         'bbc_radio_merseyside'                  => ['playspace_live', ['sid' => 'bbc_radio_merseyside']],
         'bbc_radio_newcastle'                   => ['playspace_live', ['sid' => 'bbc_radio_newcastle']],
         'bbc_radio_norfolk'                     => ['playspace_live', ['sid' => 'bbc_radio_norfolk']],
