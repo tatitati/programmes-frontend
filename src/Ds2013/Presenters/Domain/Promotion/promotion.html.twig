@@ -25,7 +25,7 @@
                     <ul class="no-margin-vertical list-spaced">
                     {%- for link in promotion.getRelatedLinks() -%}
                         <li>
-                            <a data-{%- if link.isExternal() -%}ext{% endif %}linktrack="programmes_promo_relatedlink{{ loop.index }}" href="{{ link.getUri() }}">{{- link.getTitle() -}}</a>
+                            <a data-{%- if link.isExternal() -%}ext{% endif %}linktrack="promo_relatedlink{{ loop.index }}" href="{{ link.getUri() }}">{{- link.getTitle() -}}</a>
                             {%- if link.isExternal() %} <span class="milli">({{ link.getHost() }})</span>{% endif -%}
                         </li>
                     {%- endfor -%}
