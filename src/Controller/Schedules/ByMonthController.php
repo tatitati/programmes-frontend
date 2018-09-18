@@ -11,6 +11,13 @@ class ByMonthController extends SchedulesBaseController
 {
     public function __invoke(Service $service, string $date)
     {
+        if ($this->shouldRedirectToOverriddenUrl($service)) {
+            return $this->redirect(
+                $service->getNetwork()->getOption('pid_override_url'),
+                $service->getNetwork()->getOption('pid_override_code')
+            );
+        }
+
         if (!$this->isValidDate($date)) {
             throw $this->createNotFoundException('Invalid date supplied');
         }

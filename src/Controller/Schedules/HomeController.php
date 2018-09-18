@@ -87,6 +87,11 @@ class HomeController extends BaseController
             }
 
             $network = $service->getNetwork();
+
+            if ($network->getOption('pid_override_url') && $network->getOption('pid_override_code')) {
+                continue; // These pages redirect, no point linking to them
+            }
+
             $groupKey = $this->groupKeyForService($service);
 
             $nid = (string) $network->getNid();

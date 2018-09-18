@@ -34,6 +34,13 @@ class ByWeekController extends SchedulesBaseController
         UrlGeneratorInterface $router,
         StructuredDataHelper $structuredDataHelper
     ) {
+        if ($this->shouldRedirectToOverriddenUrl($service)) {
+            return $this->redirect(
+                $service->getNetwork()->getOption('pid_override_url'),
+                $service->getNetwork()->getOption('pid_override_code')
+            );
+        }
+
         $utcOffset = $this->request()->query->get('utcoffset');
         if (!$this->isValidDate($date) || !$this->isValidUtcOffset($utcOffset)) {
             throw $this->createNotFoundException('Invalid date supplied');

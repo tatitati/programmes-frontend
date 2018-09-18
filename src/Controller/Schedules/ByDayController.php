@@ -40,6 +40,13 @@ class ByDayController extends SchedulesBaseController
         UrlGeneratorInterface $router,
         StructuredDataHelper $structuredDataHelper
     ) {
+        if ($this->shouldRedirectToOverriddenUrl($service)) {
+            return $this->redirect(
+                $service->getNetwork()->getOption('pid_override_url'),
+                $service->getNetwork()->getOption('pid_override_code')
+            );
+        }
+
         if (!$this->isValidDate($date) || !$this->isValidUtcOffset($this->request()->query->get('utcoffset'))) {
             throw $this->createNotFoundException('Invalid date supplied');
         }

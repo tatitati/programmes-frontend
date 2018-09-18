@@ -6,6 +6,7 @@ namespace App\Controller\Schedules;
 use App\Controller\BaseController;
 use App\Cosmos\Dials;
 use App\ExternalApi\SoundsNav\Service\SoundsNavService;
+use BBC\ProgrammesPagesService\Domain\Entity\Service;
 
 abstract class SchedulesBaseController extends BaseController
 {
@@ -35,6 +36,15 @@ abstract class SchedulesBaseController extends BaseController
             }
         }
         return parent::renderWithChrome($view, $parameters);
+    }
+
+    protected function shouldRedirectToOverriddenUrl(Service $service): bool
+    {
+        if ($service->getNetwork() === null) {
+            return false;
+        }
+
+        return $service->getNetwork()->getOption('pid_override_url') && $service->getNetwork()->getOption('pid_override_code');
     }
 
     private function shouldShowSoundsNav(): bool

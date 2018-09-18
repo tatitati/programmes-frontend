@@ -18,6 +18,13 @@ class ByYearController extends SchedulesBaseController
 
     public function __invoke(Service $service, string $year)
     {
+        if ($this->shouldRedirectToOverriddenUrl($service)) {
+            return $this->redirect(
+                $service->getNetwork()->getOption('pid_override_url'),
+                $service->getNetwork()->getOption('pid_override_code')
+            );
+        }
+
         if (!$this->isValidYear($year)) {
             throw $this->createNotFoundException('Invalid date supplied');
         }

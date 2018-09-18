@@ -11,6 +11,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
 class HomeController extends BaseController
 {
     private const BLACKLISTED_NETWORKS = [
+        'bbc_afrique_radio' => true, // Afrique
         'bbc_amharic_radio' => true, // Amharic
         'bbc_arabic_radio' => true, // Arabic Radio
         'bbc_arabic_tv' => true, // Arabic TV
@@ -18,6 +19,8 @@ class HomeController extends BaseController
         'bbc_burmese_radio' => true, // Burmese
         'bbc_cantonese_radio' => true, // Cantonese
         'bbc_dari_radio' => true, // Dari
+        'bbc_gahuza_radio' => true, // Gahuza
+        'bbc_hausa_radio' => true, // Hausa
         'bbc_hindi_radio' => true, // Hindi
         'bbc_indonesian_radio' => true, // Indonesia
         'bbc_korean_radio' => true, // Korean Radio
@@ -28,6 +31,8 @@ class HomeController extends BaseController
         'bbc_persian_radio' => true, // Persian
         'bbc_russian_radio' => true, // Russian
         'bbc_sinhala_radio' => true, // Sinhala
+        'bbc_somali_radio' => true, // Somali
+        'bbc_swahili_radio' => true, // Swahili
         'bbc_tamil_radio' => true, // Tamil
         'bbc_tigrinya_radio' => true, // Tigrinya
         'bbc_urdu_radio' => true, // Urdu
