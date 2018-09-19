@@ -35,4 +35,10 @@ abstract class AbstractSegmentItemPresenter extends Presenter
     {
         return $this->segmentEvent;
     }
+
+    public function getIdentifyingClass(): string
+    {
+        // This class is currently just used by test for automation. It's not quite as pointless as it looks.
+        return 'segments-list__item--' . $this->segmentEvent->getSegment()->getType();
+    }
 }
