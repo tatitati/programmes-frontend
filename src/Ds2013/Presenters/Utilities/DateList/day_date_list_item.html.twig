@@ -4,7 +4,7 @@
 {%- block date_lines -%}
     <span class="date-list__item-line1">
         {#- The French for "today" does not fit into the box so don't even try -#}
-        {{ date_list_item.getDatetime().isToday() and tr('language_code') != 'fr' ? tr('schedules_today') : date_list_item.getDatetime()|local_date_intl('eee') }}
+        {{ date_list_item.isToday() and tr('language_code') != 'fr' ? tr('schedules_today') : date_list_item.getDatetime()|local_date_intl('eee') }}
     </span>
     <span class="date-list__item-line2">
         {{ date_list_item.getDatetime()|local_date_intl('d MMM') }}
@@ -12,5 +12,5 @@
 {% endblock %}
 
 {%- block aria_date -%}
-    {{ date_list_item.getDatetime().isToday() ? tr('schedules_today') : date_list_item.getDatetime()|local_date_intl('eeee d MMMM') }}
+    {{ date_list_item.isToday() ? tr('schedules_today') : date_list_item.getDatetime()|local_date_intl('eeee d MMMM') }}
 {% endblock %}

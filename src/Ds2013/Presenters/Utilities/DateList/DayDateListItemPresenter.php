@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use BBC\ProgrammesPagesService\Domain\ApplicationTime;
 
 class DayDateListItemPresenter extends AbstractDateListItemPresenter
 {
@@ -30,6 +31,15 @@ class DayDateListItemPresenter extends AbstractDateListItemPresenter
     public function isGmt(): bool
     {
         return $this->options['user_timezone'] == 'GMT';
+    }
+
+    /**
+     * Using getDateTime()->isToday() would create a new Chronos object for each call. So therefore we use
+     * ApplicationTime as it is only created once.
+     */
+    public function isToday(): bool
+    {
+        return ApplicationTime::getTime()->toDateString() == $this->getDateTime()->toDateString();
     }
 
     protected function getBroadcastPeriod(string $medium): BroadcastPeriod
