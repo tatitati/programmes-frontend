@@ -237,11 +237,15 @@ abstract class BaseController extends AbstractController
      *
      * @param string $url    The URL to redirect to
      * @param int    $status The status code to use for the Response
+     * @param int    $cacheLifetime Seconds the response should be cached for
      *
      * @return RedirectResponse
      */
-    protected function cachedRedirect($url, $status = 302): RedirectResponse
+    protected function cachedRedirect($url, $status = 302, int $cacheLifetime = null): RedirectResponse
     {
+        if ($cacheLifetime !== null) {
+            $this->response()->setPublic()->setMaxAge($cacheLifetime);
+        }
         $headers = $this->response->headers->all();
         return new RedirectResponse($url, $status, $headers);
     }
