@@ -23,6 +23,7 @@ class ProgrammeBodyPresenter extends ProgrammePresenterBase
         'show_duration' => false,
         'wordy_duration' => true,
         'body_suffix' => null,
+        'show_child_availability' => false,
     ];
 
     /** @var PlayTranslationsHelper */
@@ -87,5 +88,13 @@ class ProgrammeBodyPresenter extends ProgrammePresenterBase
             $this->programme instanceof ProgrammeItem &&
             $this->programme->getDuration()
         );
+    }
+
+    public function containerHasAvailableEpisodes()
+    {
+        if ($this->programme->isTlec() && $this->programme instanceof ProgrammeContainer) {
+            return $this->programme->getAvailableEpisodesCount() > 0;
+        }
+        return false;
     }
 }
