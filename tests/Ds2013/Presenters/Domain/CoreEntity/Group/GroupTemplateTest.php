@@ -27,9 +27,9 @@ class GroupTemplateTest extends BaseTemplateTestCase
         $this->assertContains('p01vg679', $imageLazy->attr('data-srcset'));
 
         // Test overlay link and icon
-        $overlayDiv = $crawler->filter('.programme__overlay');
+        $overlayDiv = $crawler->filter('.cta__overlay');
         $this->assertCount(1, $overlayDiv);
-        $this->assertHasClasses('programme__overlay', $overlayDiv, 'Overlay container classes');
+        $this->assertHasClasses('cta__overlay', $overlayDiv, 'Overlay container classes');
 
 
         // Test main link target

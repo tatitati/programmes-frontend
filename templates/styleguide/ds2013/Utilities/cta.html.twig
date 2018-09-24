@@ -1,0 +1,102 @@
+{% extends 'styleguide/ds2013/base.html.twig' %}
+
+{% block inline_head %}
+<style>
+    .grid-wrapper.section {
+        background: lightgrey;
+        padding-top: 16px;
+        padding-right: 16px;
+        padding-bottom: 16px;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block section_name %}CTAs{% endblock %}
+
+{% block content %}
+    <p>
+        CTA is the small square icon depicting the type of media available.
+        There are two types of CTA, a <a href="{{ path('ds2013_styleguide_utilities/cta_insitu', {'_fragment': 'standalone'}) }}">standalone CTA</a> which links off to content, and an <a href="{{ path('ds2013_styleguide_utilities/cta_insitu', {'_fragment': 'overlay'}) }}">overlay CTA</a> which sits in the bottom left corner of an image.
+        The overlay CTA usually sits on an image that is already a link. If the CTA would link to the same location as the image, the CTA should not be a separate link. Also in this instance, the CTA should have it's hover state when the image is hovered.
+        There are 2 CTA presenters, a LiveCtaPresenter, this accepts a CollapsedBroadcast and links to the live page for the network. The other CTA Presenter accepts a CoreEntity and links to the correct place for that entity.
+        In order to see the CTAs in situ see: <a href="{{ path('ds2013_styleguide_utilities/cta_insitu') }}">{{ path('ds2013_styleguide_utilities/cta_insitu') }}</a>.
+    </p>
+    <h3>Branding Options</h3>
+    Choose branding:
+    <ul class="list-unstyled">
+        <li style="display: inline-block;">
+            <a href="{{ path('ds2013_styleguide_utilities/cta') }}">Base Branding</a> |
+        </li>
+        <li style="display: inline-block;">
+            <a href="{{ path('ds2013_styleguide_utilities/cta', {'branding_context': 'b006q2x0'}) }}">Doctor Who</a> |
+        </li>
+        <li style="display: inline-block;">
+            <a href="{{ path('ds2013_styleguide_utilities/cta', {'branding_context': 'b006qpgr'}) }}">The Archers</a>
+        </li>
+    </ul>
+    <div class="island--vertical">
+        <h3>LIVE CTA</h3>
+        <div class="grid-wrapper section">
+            <div class="grid 1/2 1/4@bpw">
+                <p>Radio Episode</p>
+                <div style="position: relative; width: 129px; height: 40px;"> {# TODO what shall we do about this? #}
+                    {{ ds2013_presenter(radioCollapsedBroadcastPresenter) }}
+                </div>
+            </div>
+            <div class="grid 1/2 1/4@bpw">
+
+            </div>
+            <div class="grid 1/2 1/4@bpw">
+                <p>TV Episode</p>
+                <div style="position: relative; width: 129px; height: 40px;"> {# TODO what shall we do about this? #}
+                    {{ ds2013_presenter(tvCollapsedBroadcastPresenter) }}
+                </div>
+            </div>
+            <div class="grid 1/2 1/4@bpw">
+
+            </div>
+        </div>
+    </div>
+    <h3>CTA</h3>
+    <h4>Clips</h4>
+    <div class="island--vertical">
+        <div class="grid-wrapper section">
+            {% for blurb, clip in clips %}
+                <div class="grid 1/2 1/4@bpw">
+                    <p>{{ blurb }}</p>
+                    <div style="position: relative; width: 40px; height: 40px;"> {# TODO what shall we do about this? #}
+                        {{ ds2013('cta', clip) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="island--vertical">
+        <h4>Episodes</h4>
+        <div class="grid-wrapper section">
+            {% for blurb, episode in episodes %}
+                <div class="grid 1/2 1/4@bpw">
+                    <p>{{ blurb }}</p>
+                    <div style="position: relative; width: 40px; height: 40px;"> {# TODO what shall we do about this? #}
+                        {{ ds2013('cta', episode) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <hr/>
+    <div class="island--vertical">
+        <h3>Groups</h3>
+        <div class="grid-wrapper section">
+            {% for blurb, entity in groups %}
+                <div class="grid 1/2 1/4@bpw">
+                    <p>{{ blurb }}</p>
+                    <div style="position: relative; width: 40px; height: 40px;">
+                        {{ ds2013('cta', entity) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -69,6 +69,11 @@ class GroupPresenter extends Presenter
         );
     }
 
+    public function getGroup(): Group
+    {
+        return $this->group;
+    }
+
     public function getImage(): ?Image
     {
         if (!$this->options['show_image']) {
@@ -85,15 +90,6 @@ class GroupPresenter extends Presenter
         }
 
         return $this->group->getShortSynopsis();
-    }
-
-    public function getMediaIconName(): string
-    {
-        if ($this->group instanceof Gallery) {
-            return 'image';
-        }
-
-        return 'collection';
     }
 
     public function getLinkTrack(): string

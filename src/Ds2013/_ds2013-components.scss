@@ -51,8 +51,6 @@
 @import 'Css/Components/media';
 @import 'Css/Components/link-complex';
 @import 'Css/Components/nav';
-@import 'Css/Components/iplayer-icon';
-@import 'Css/Components/sounds-icon';
 @import 'Css/Components/timebar';
 @import 'Css/Components/dropdown';
 @import 'Css/Components/moreless';
@@ -78,6 +76,7 @@
 // Thus they should sit at the bottom to ensure their styles win in the cascade.
 @import 'Css/Components/box-link';
 @import 'Presenters/Utilities/block-link';
+@import 'Presenters/Utilities/Cta/cta';
 @import 'Presenters/Utilities/lazyload';
 @import 'Presenters/Utilities/Paginator/paginator';
 // @import 'objects/broadcast-event';

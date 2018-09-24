@@ -37,6 +37,7 @@
         "csa/guzzle-bundle": "^3.0.1",
         "doctrine/doctrine-bundle": "^1.8",
         "doctrine/orm": "2.6.*",
+        "fzaninotto/faker": "^1.8",
         "incenteev/composer-parameter-handler": "^2.1",
         "sensiolabs/security-checker": "^4.1",
         "stof/doctrine-extensions-bundle": "^1.2",
@@ -58,7 +59,6 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "escapestudios/symfony2-coding-standard": "^3.0.0",
-        "fzaninotto/faker": "^1.7",
         "johnkary/phpunit-speedtrap": "^2.0",
         "liip/functional-test-bundle": "^1.9",
         "phpstan/phpstan": "^0.9.1",

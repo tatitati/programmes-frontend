@@ -37,77 +37,16 @@ class ProgrammeOverlayPresenter extends ProgrammePresenterBase
         ],
     ];
 
-    /** @var PlayTranslationsHelper */
-    protected $playTranslationsHelper;
-
-    /** @var StreamableHelper */
-    protected $streamUrlHelper;
-
     public function __construct(
         UrlGeneratorInterface $router,
-        PlayTranslationsHelper $playTranslationsHelper,
-        StreamableHelper $streamUrlHelper,
         Programme $programme,
         array $options = []
     ) {
         parent::__construct($router, $programme, $options);
-        $this->playTranslationsHelper = $playTranslationsHelper;
-        $this->streamUrlHelper = $streamUrlHelper;
-    }
-
-    public function getAvailabilityInWords(): string
-    {
-        if ($this->programme instanceof ProgrammeItem && $this->programme->isStreamable()) {
-            // @TODO allow override services?
-            return $this->playTranslationsHelper->translateAvailableUntilToWords($this->programme);
-        }
-        return '';
     }
 
     public function getImage(): Image
     {
         return $this->programme->getImage();
-    }
-
-    public function getMediaIconName(): string
-    {
-        if ($this->programmeIsAudio()) {
-            return 'listen';
-        }
-
-        return $this->programme instanceof Episode ? 'iplayer' : 'play';
-    }
-
-    public function getPlaybackUrl(): string
-    {
-        if (!$this->programme instanceof ProgrammeItem) {
-            return '';
-        }
-
-        $routeName = $this->streamUrlHelper->getRouteForProgrammeItem($this->programme);
-        $routeArguments = ['pid' => $this->programme->getPid()];
-
-        if ($routeName === 'find_by_pid') {
-            // Clip or Radio programme. Link to programme page for now.
-            $routeArguments['_fragment'] = 'play';
-        }
-
-        return $this->router->generate($routeName, $routeArguments, UrlGeneratorInterface::ABSOLUTE_URL);
-    }
-
-    public function getOverlayDivClasses()
-    {
-        if ($this->getOption('show_standalone_cta')) {
-            return [];
-        }
-        return [
-            'programme__overlay' => true,
-            'programme__overlay--available' => $this->isAvailable(),
-        ];
-    }
-
-    public function programmeIsAudio(): bool
-    {
-        return $this->streamUrlHelper->shouldTreatProgrammeItemAsAudio($this->programme);
     }
 }

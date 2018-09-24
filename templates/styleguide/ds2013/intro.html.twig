@@ -3,5 +3,19 @@
 {% block section_name %}Intro{% endblock %}
 
 {% block content %}
-<p>This is the /programmes Ds2013 styleguide. It details the components that build Ds2013-based /programmes pages.</p>
+    <p>This is the /programmes Ds2013 styleguide. It details the components that build Ds2013-based /programmes pages.</p>
+    <h3>
+        <a href="{{ path('ds2013_styleguide_segments') }}">Segments</a>
+    </h3>
+    <ul>
+        <li>
+            <a href="{{ path('ds2013_styleguide_segments/music') }}">Music</a>
+        </li>
+    </ul>
+    <h3>Utilities</h3>
+    <ul>
+        <li>
+            <a href="{{ path('ds2013_styleguide_utilities/cta') }}">CTAs</a>
+        </li>
+    </ul>
 {% endblock %}
