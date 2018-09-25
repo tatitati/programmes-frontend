@@ -6,7 +6,7 @@
 
             {%- if clip_details.getClip().getLongestSynopsis() -%}
                 <div class="details__description">
-                    <p>{{ ds_shared('synopsis', clip_details.getClip().getSynopses(), 1000) }}</p>
+                    {{ ds_shared('synopsis', clip_details.getClip().getSynopses(), 1000) }}
                 </div>
             {%- endif -%}
 
