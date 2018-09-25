@@ -45,9 +45,24 @@ class AdaProgrammeService
         $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, (string) $programme->getPid(), $limit);
 
         $urls = [
-            'relatedByTag' => $this->requestUrlForRelatedProgrammeItems($programme->getPid(), 'tag', null, 1),
-            'relatedByBrand' => $this->requestUrlForRelatedProgrammeItems($programme->getPid(), null, $programme->getTleo()->getPid(), 1),
-            'relatedByCategory' => $this->requestUrlForRelatedProgrammeItems($programme->getPid(), null, null, 5),
+            'relatedByTag' => $this->requestUrlForRelatedProgrammeItems(
+                $programme->getPid(),
+                'tag',
+                null,
+                1
+            ),
+            'relatedByBrand' => $this->requestUrlForRelatedProgrammeItems(
+                $programme->getPid(),
+                null,
+                $programme->getTleo()->getPid(),
+                1
+            ),
+            'relatedByCategory' => $this->requestUrlForRelatedProgrammeItems(
+                $programme->getPid(),
+                null,
+                null,
+                5
+            ),
         ];
 
         $client = $this->clientFactory->getHttpApiMultiClient(
@@ -79,7 +94,29 @@ class AdaProgrammeService
             }
             $results[$resultKey] = $data['items'];
         }
-        $uniqueProgrammes = array_unique(array_merge($results['relatedByTag'], $results['relatedByBrand'], $results['relatedByCategory']), SORT_REGULAR);
+
+        $programmes = array_merge(
+            $results['relatedByTag'],
+            $results['relatedByBrand'],
+            $results['relatedByCategory']
+        );
+        if (empty($programmes)) {
+            return [];
+        }
+
+        $uniqueProgrammes = array_reduce(
+            $programmes,
+            function ($carry, $item) {
+                if (!is_array($carry)) {
+                    $carry = [];
+                }
+                if (isset($item['pid'])) {
+                    $carry[$item['pid']] = $item;
+                }
+                return $carry;
+            }
+        );
+        $uniqueProgrammes = array_values($uniqueProgrammes);
         $uniqueProgrammes = array_slice($uniqueProgrammes, 0, $limit);
 
         if (empty($uniqueProgrammes)) {

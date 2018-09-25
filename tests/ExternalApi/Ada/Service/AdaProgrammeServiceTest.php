@@ -54,7 +54,15 @@ class AdaProgrammeServiceTest extends BaseServiceTestCase
                 'class_count' => 0,
             ],
         ]);
-        $secondResponse = $this->createResponse([]);
+        $secondResponse = $this->createResponse([
+            [
+                'pid' => 'b007rlb6',
+                'type' => 'episode',
+                'title' => 'AAAA',
+                'class_count' => 0,
+                'meaning' => 'same pid different body, should be removed',
+            ],
+        ]);
         $thirdResponse = $this->createResponse([
             [
                 'pid' => 'b007rlb4',
@@ -70,7 +78,12 @@ class AdaProgrammeServiceTest extends BaseServiceTestCase
             ],
         ]);
         $mapper = $this->createMock(AdaProgrammeMapper::class);
-        $mapper->expects($this->exactly(2))->method('mapItem')->willReturn($this->createMock(AdaProgrammeItem::class));
+        $mapper
+            ->expects($this->exactly(2))
+            ->method('mapItem')
+            ->willReturn(
+                $this->createMock(AdaProgrammeItem::class)
+            );
         $programmesService = $this->createMock(ProgrammesService::class);
         $programmesService->expects($this->once())
             ->method('findByPids')
