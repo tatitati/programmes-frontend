@@ -56,6 +56,11 @@ programme_upcoming_broadcasts:
     defaults: { _controller: App\Controller\ProgrammeEpisodes\UpcomingController, debut: null}
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}', debut: 'debut' }
 
+programme_player:
+    path: /programmes/{pid}/player
+    defaults: { _controller: App\Controller\AncillaryPages\PlayerController }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 programme_profile:
     path: /programmes/profiles/{key}/{slug}
     defaults: { _controller: App\Controller\Profiles\ShowController, slug: '' }
