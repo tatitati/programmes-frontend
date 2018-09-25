@@ -21,6 +21,7 @@ use App\Ds2013\Presenters\Domain\Superpromo\SuperpromoPresenter;
 use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
 use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
 use App\Ds2013\Presenters\Section\Clip\Details\ClipDetailsPresenter;
+use App\Ds2013\Presenters\Section\Clip\Playout\ClipPlayoutPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
@@ -122,6 +123,26 @@ class PresenterFactory
         return new CalendarPresenter(
             $date,
             $service,
+            $options
+        );
+    }
+
+    public function clipPlayoutPresenter(
+        Clip $clip,
+        ?Version $streamableVersion,
+        array $segmentEvents,
+        string $analyticsCounterName,
+        array $istatsAnalyticsLabels,
+        array $options = []
+    ) : ClipPlayoutPresenter {
+        return new ClipPlayoutPresenter(
+            $this,
+            $this->helperFactory->getStreamUrlHelper(),
+            $clip,
+            $streamableVersion,
+            $segmentEvents,
+            $analyticsCounterName,
+            $istatsAnalyticsLabels,
             $options
         );
     }
