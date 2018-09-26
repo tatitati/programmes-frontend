@@ -85,7 +85,7 @@ class ClipDetailsPresenter extends Presenter
 
     public function getStreamableTimeRemaining(): string
     {
-        return $this->playTranslationsHelper->translateAvailableUntilToWords($this->clip);
+        return $this->playTranslationsHelper->translateAvailableUntilToWords($this->clip, null, false);
     }
 
     public function getWordyDuration(): ?string
