@@ -92,14 +92,14 @@ class SmpPresenter extends Presenter
             'container' => '#' . $this->getContainerId(),
             'pid' => (string) $this->programmeItem->getPid(),
             'smpSettings' => [
-                'autoplay' => ($this->programmeItem instanceof Clip) ? 'true' : 'false',
+                'autoplay' => ($this->programmeItem instanceof Clip) ? true : false,
                 'ui' => [
                     'controls' => [
                         'enabled' => true,
-                        'always' => $this->programmeItem->getMediaType() ==  MediaTypeEnum::AUDIO ? 'true': 'false',
+                        'always' => $this->programmeItem->getMediaType() ==  MediaTypeEnum::AUDIO ? true: false,
                     ],
                     'fullscreen' => [
-                        'enabled' => $this->programmeItem->getMediaType() ==  MediaTypeEnum::AUDIO ? 'false': 'true',
+                        'enabled' => $this->programmeItem->getMediaType() ==  MediaTypeEnum::AUDIO ? false: true,
                     ],
                 ],
                 'playlistObject' => $smpPlaylist,

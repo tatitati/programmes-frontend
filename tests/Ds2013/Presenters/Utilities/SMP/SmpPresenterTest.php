@@ -26,20 +26,20 @@ class SmpPresenterTest extends TestCase
 
     public function testSmpSettingsAutoplay()
     {
-        $this->assertEquals('true', $this->presenter()->getSmpConfig()['smpSettings']['autoplay']);
-        $this->assertEquals('false', $this->presenter(false)->getSmpConfig()['smpSettings']['autoplay']);
+        $this->assertTrue($this->presenter()->getSmpConfig()['smpSettings']['autoplay']);
+        $this->assertFalse($this->presenter(false)->getSmpConfig()['smpSettings']['autoplay']);
     }
 
     public function testSmpSettingsUI()
     {
         $this->assertEquals([
-            'controls' => ['enabled' => true, 'always' => 'false'],
-            'fullscreen' => ['enabled' => 'true'],
+            'controls' => ['enabled' => true, 'always' => false],
+            'fullscreen' => ['enabled' => true],
         ], $this->presenter(true, MediaTypeEnum::VIDEO)->getSmpConfig()['smpSettings']['ui']);
 
         $this->assertEquals([
-            'controls' => ['enabled' => true, 'always' => 'true'],
-            'fullscreen' => ['enabled' => 'false'],
+            'controls' => ['enabled' => true, 'always' => true],
+            'fullscreen' => ['enabled' => false],
         ], $this->presenter(true, MediaTypeEnum::AUDIO)->getSmpConfig()['smpSettings']['ui']);
     }
 
