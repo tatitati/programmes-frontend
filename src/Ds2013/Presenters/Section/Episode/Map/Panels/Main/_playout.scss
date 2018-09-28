@@ -130,3 +130,7 @@ $size: 64px;
     font-size: 20px;
     margin-top: 2px;
 }
+
+.map__intro svg {
+    pointer-events: none;
+}
