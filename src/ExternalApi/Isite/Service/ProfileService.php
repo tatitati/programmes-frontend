@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Isite\Service;
 
 use App\ExternalApi\Isite\Domain\Profile;
-use App\ExternalApi\Isite\IsiteResult;
 use App\ExternalApi\Isite\SearchQuery;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -65,38 +64,7 @@ class ProfileService extends IsiteService
         int $page = 1,
         int $limit = 48
     ): PromiseInterface {
-        /** @var string $project */
-        $project = $programme->getOption('project_space');
-        $query = $this->getBaseQuery($project, $page, $limit);
-        $query->setQuery([
-            'and' => [
-                ['profile:parent_pid', '=', (string) $programme->getPid()],
-                [
-                    'not' => [
-                        ['profile:parent', 'contains', 'urn:isite'],
-                    ],
-                ],
-            ],
-        ]);
-
-        $url = $this->baseUrl . $query->getPath();
-
-        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $programme->getPid(), $page, $limit);
-
-        $client = $this->clientFactory->getHttpApiMultiClient(
-            $cacheKey,
-            [$url],
-            Closure::fromCallable([$this, 'parseResponse']),
-            [],
-            new IsiteResult($page, $limit, 0, []),
-            CacheInterface::NORMAL,
-            CacheInterface::NONE,
-            [
-                'timeout' => 10,
-            ]
-        );
-
-        return $client->makeCachedPromise();
+        return $this->getByProgramme('profile', $programme, $page, $limit);
     }
 
     protected function getBaseQuery(string $project, int $page, int $limit): SearchQuery

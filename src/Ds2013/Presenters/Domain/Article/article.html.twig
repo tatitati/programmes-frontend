@@ -1,0 +1,24 @@
+<div
+    class="br-box-subtle programme block-link highlight-box--grid programme--grid br-keyline br-blocklink-page br-page-linkhover-onbg015--hover">
+    <div class="programme__img 1/1 programme__img--hasimage">
+        <div class="programme__img-box">
+            {{ ds_shared('image', article.getArticle().getImage(), 256, '') }}
+        </div>
+    </div>
+    <div class="programme__body">
+        <{{ article.getOption('heading_level') }} class="programme__titles delta">
+            <span class="programme__title">
+                <a href="{{ path('programme_article', {'key': article.getArticle().getKey(), 'slug': article.getArticle().getSlug()}) }}"
+                   class="br-blocklink__link">{{ article.getArticle().getTitle() }}</a>
+            </span>
+        </{{ article.getOption('heading_level') }}>
+        {% if article.getOption('show_synopsis') %}
+            <p class="programme__synopsis text--subtle">
+                <span>{{ article.getArticle().getShortSynopsis() }}</span>
+            </p>
+        {% endif %}
+        <a class="block-link__overlay-link"
+            href="{{ path('programme_article', {'key': article.getArticle().getKey(), 'slug': article.getArticle().getSlug()}) }}"
+            aria-hidden="true" tabindex="-1">View {{ article.getArticle().getTitle() }}</a>
+    </div>
+</div>

@@ -11,6 +11,7 @@ use App\ExternalApi\Isite\IsiteFeedResponseHandler;
 use App\ExternalApi\Isite\IsiteResult;
 use App\ExternalApi\Isite\SearchQuery;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
@@ -110,6 +111,46 @@ abstract class IsiteService
                 return [];
             }
         );
+    }
+
+    protected function getByProgramme(
+        string $type,
+        Programme $programme,
+        int $page = 1,
+        int $limit = 48
+    ): PromiseInterface {
+        /** @var string $project */
+        $project = $programme->getOption('project_space');
+        $query = $this->getBaseQuery($project, $page, $limit);
+        $query->setQuery([
+            'and' => [
+                [$type . ':parent_pid', '=', (string) $programme->getPid()],
+                [
+                    'not' => [
+                        [$type . ':parent', 'contains', 'urn:isite'],
+                    ],
+                ],
+            ],
+        ]);
+
+        $url = $this->baseUrl . $query->getPath();
+
+        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, $programme->getPid(), $page, $limit);
+
+        $client = $this->clientFactory->getHttpApiMultiClient(
+            $cacheKey,
+            [$url],
+            Closure::fromCallable([$this, 'parseResponse']),
+            [],
+            new IsiteResult($page, $limit, 0, []),
+            CacheInterface::NORMAL,
+            CacheInterface::NONE,
+            [
+                'timeout' => 10,
+            ]
+        );
+
+        return $client->makeCachedPromise();
     }
 
     private function hydrateObjects(array $objects, array $responses): void

@@ -6,12 +6,21 @@ namespace App\ExternalApi\Isite\Service;
 use App\ExternalApi\Isite\Domain\Article;
 use App\ExternalApi\Isite\SearchQuery;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Closure;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class ArticleService extends IsiteService
 {
+    public function getArticlesByProgramme(
+        Programme $programme,
+        int $page = 1,
+        int $limit = 48
+    ): PromiseInterface {
+        return $this->getByProgramme('article', $programme, $page, $limit);
+    }
+
     /**
      * @param Article[] $articles
      * @param string $project

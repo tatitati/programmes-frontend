@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace App\Ds2013;
 
+use App\Ds2013\Presenters\Domain\Article\ArticlePresenter;
 use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Faq\FaqPresenter;
@@ -36,6 +37,7 @@ use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\Ds2013\Presenters\Utilities\SMP\SmpPresenter;
 use App\DsShared\Helpers\HelperFactory;
 use App\ExternalApi\Electron\Domain\SupportingContentItem;
+use App\ExternalApi\Isite\Domain\Article;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
@@ -219,6 +221,11 @@ class PresenterFactory
     /**
      * Organisms
      */
+    public function articlePresenter(Article $article, array $options = []): ArticlePresenter
+    {
+        return new ArticlePresenter($article, $options);
+    }
+
     public function broadcastEventPresenter(
         CollapsedBroadcast $collapsedBroadcast,
         array $options = []

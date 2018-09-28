@@ -4,13 +4,16 @@ declare(strict_types = 1);
 namespace App\Controller\Articles;
 
 use App\Controller\BaseController;
-use App\ExternalApi\Isite\Service\IsiteService;
+use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
+use App\ExternalApi\Isite\Service\ArticleService;
 use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class IndexController extends BaseController
 {
-    public function __invoke(CoreEntity $coreEntity, IsiteService $isiteService)
+    const RESULTS_PER_PAGE = 48;
+
+    public function __invoke(CoreEntity $coreEntity, ArticleService $isiteService)
     {
         $this->setContextAndPreloadBranding($coreEntity);
 
@@ -18,10 +21,19 @@ class IndexController extends BaseController
         $parameters = ['coreEntity' => $coreEntity, 'articles' => $articles, 'paginatorPresenter' => null];
         if ($coreEntity instanceof Programme) {
             $parameters['programme'] = $coreEntity; //so the the base 2013 template sets the footer
+
+            $articlesResult = $isiteService->getArticlesByProgramme($coreEntity, $this->getPage())->wait();
+            $articles = $articlesResult->getDomainModels();
+
+            if ($articlesResult->getTotal() > self::RESULTS_PER_PAGE) {
+                $parameters['paginatorPresenter'] = new PaginatorPresenter($this->getPage(), self::RESULTS_PER_PAGE, $articlesResult->getTotal());
+            }
         }
 
         if (empty($articles)) {
             $this->response()->setStatusCode(404);
+        } else {
+            $parameters['articles'] = $articles;
         }
 
         return $this->renderWithChrome('articles/index.html.twig', $parameters);
