@@ -28,13 +28,13 @@ programme_article_listings:
 programme_broadcasts:
     path: /programmes/{pid}/broadcasts
     controller: App\Controller\RedirectAndCacheController::redirectAction
-    defaults: { route: find_by_pid, _fragment: 'broadcasts' }
+    defaults: { route: find_by_pid, _fragment: 'broadcasts', permanent: true  }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 programme_credits:
     path: /programmes/{pid}/credits
     controller: App\Controller\RedirectAndCacheController::redirectAction
-    defaults: { route: find_by_pid, _fragment: 'credits' }
+    defaults: { route: find_by_pid, _fragment: 'credits', permanent: true }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 programme_episodes:

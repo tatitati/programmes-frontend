@@ -34,7 +34,7 @@ class RedirectAndCacheControllerTest extends BaseWebTestCase
 
     private function thenCacheRedirectTo($redirectTo)
     {
-        $this->assertResponseStatusCode($this->client, 302, 'Redirect should be temporal(302)');
+        $this->assertResponseStatusCode($this->client, 301, 'Redirect should be permanent(301)');
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse, 'Response should be a RedirectResponse');
 
         /** @var RedirectResponse $response */
