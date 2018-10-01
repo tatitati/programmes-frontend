@@ -1,0 +1,6 @@
+<script src="{{ voteaccountwrapperurl }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        voteWrapper.loadVote('{{ vote_id }}', 'en-GB', '{{ container_html_id }}');
+    });
+</script>

@@ -11,6 +11,7 @@ use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Promotions\PromotionsPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Telescope\TelescopePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\ThirdParty\ThirdPartyPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
@@ -46,6 +47,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
+use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
 use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
@@ -264,6 +266,9 @@ class PresenterFactory
         }
         if ($contentBlock instanceof Table) {
             return new TablePresenter($contentBlock, $inPrimaryColumn, $options);
+        }
+        if ($contentBlock instanceof Telescope) {
+            return new TelescopePresenter($contentBlock, $inPrimaryColumn, $options);
         }
         if ($contentBlock instanceof ThirdParty) {
             return new ThirdPartyPresenter($contentBlock, $inPrimaryColumn, $options);

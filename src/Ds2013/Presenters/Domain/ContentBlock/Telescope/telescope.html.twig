@@ -1,0 +1,14 @@
+{% set container_html_id = 'vote-telescope-' ~ random() %}
+
+<div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
+    <div class="component component--box component--box--primary">
+        {% include 'shared/telescope/target_element.html.twig' with {
+            container_html_id: container_html_id
+        } %}
+    </div>
+</div>
+
+{% include 'shared/telescope/initialisation.html.twig' with {
+    vote_id: content_block.getBlock().getVoteId(),
+    container_html_id: container_html_id
+} %}

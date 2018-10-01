@@ -11,6 +11,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
+use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
 use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
@@ -165,6 +166,17 @@ class ContentBlockMapper extends Mapper
                     $rows
                 );
                 break;
+            case 'telescope-vote':
+                $contentBlockData = $form->content;
+
+                // @codingStandardsIgnoreStart
+                $contentBlock = new Telescope(
+                    $this->getString($contentBlockData->title),
+                    $this->getString($contentBlockData->vote_id),
+                    $this->getString($form->metadata->name)
+                );
+                // @codingStandardsIgnoreEnd
+                break;
             case 'thirdparty':
                 $contentBlockData = $form->content;
 
@@ -189,7 +201,11 @@ class ContentBlockMapper extends Mapper
     {
         $typeWithPrefix = $this->getMetaData($isiteObject)->type;
         if ($typeWithPrefix !== null) {
-            return str_replace('programmes-content-', '', $typeWithPrefix);
+            return str_replace(
+                ['programmes-content-', 'programmes-'],
+                '',
+                $typeWithPrefix
+            );
         }
 
         return null;
