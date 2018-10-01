@@ -51,7 +51,7 @@
                 {{ gelicon('core', 'duration', 'gelicon--centi gelicon--leading') }}{{ presenter.getDuration() }}
             </p>
         {% endif %}
-        {% if presenter.getEpisode().isStreamableAlternatate() and presenter.getEpisode().isTv() %}
+        {% if presenter.getEpisode().isStreamableAlternate() and presenter.getEpisode().isTv() %}
             <p class="episode-panel__meta delta">
                 {% if presenter.hasAvailableSignedVersion() %}
                     <a class="text--no-ul" title="{{ tr('signed') }}" href="{{ path('iplayer_play', {'pid': presenter.getEpisode().getPid(), 'version': 'sign'}) }}">

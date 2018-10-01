@@ -84,7 +84,9 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
 
         $this->manager->flush();
 
+        /** @var Episode $episode1 */
         $episode1 = $this->getReference('p3000000');
+        /** @var Episode $episode2 */
         $episode2 = $this->getReference('p3000002');
 
         $versionTypePodcast = new VersionType('Podcast', 'Podcast');
@@ -96,6 +98,10 @@ class EpisodesFixtures extends AbstractFixture implements DependentFixtureInterf
         $this->buildVersion('p4000001', $episode1);
         $this->buildVersion('p4000002', $episode2);
 
+        $episode2->setDownloadableVersion($this->getReference('p4000002'));
+        $episode1->setDownloadableVersion($this->getReference('p4000001'));
+        $this->manager->persist($episode1);
+        $this->manager->persist($episode2);
 
         $this->manager->flush();
     }

@@ -27,9 +27,6 @@ class PlayoutPresenter extends Presenter
     /** @var StreamableHelper */
     private $streamableHelper;
 
-    /** @var Version[] */
-    private $availableVersions;
-
     /** @var bool|null */
     private $isWatchableLive;
 
@@ -39,8 +36,7 @@ class PlayoutPresenter extends Presenter
         UrlGeneratorInterface $router,
         Episode $episode,
         ?CollapsedBroadcast $upcoming,
-        ?CollapsedBroadcast $lastOn,
-        array $availableVersions
+        ?CollapsedBroadcast $lastOn
     ) {
         parent::__construct();
         $this->episode = $episode;
@@ -48,7 +44,6 @@ class PlayoutPresenter extends Presenter
         $this->liveBroadcastHelper = $liveBroadcastHelper;
         $this->streamableHelper = $streamableHelper;
         $this->router = $router;
-        $this->availableVersions = $availableVersions;
         $this->isWatchableLive = null;
     }
 
@@ -84,14 +79,8 @@ class PlayoutPresenter extends Presenter
             return true;
         }
 
-        $relevantVersions = ['DubbedAudioDescribed', 'Signed'];
-
-        foreach ($this->availableVersions as $version) {
-            foreach ($version->getVersionTypes() as $type) {
-                if (in_array($type->getType(), $relevantVersions)) {
-                    return true;
-                }
-            }
+        if ($this->episode->isStreamableAlternate()) {
+            return true;
         }
 
         return false;

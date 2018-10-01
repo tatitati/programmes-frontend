@@ -43,7 +43,7 @@ class PlayoutPresenterTest extends TestCase
     {
         $episode = EpisodeBuilder::any()->build();
         $this->streamableHelper->method('shouldTreatProgrammeItemAsAudio')->willReturn($isAudio);
-        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, null, null, []);
+        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, null, null);
         $this->assertEquals($expected, $presenter->getIcon());
     }
 
@@ -70,7 +70,7 @@ class PlayoutPresenterTest extends TestCase
 
         $collapsedBroadcast = $this->createConfiguredMock(CollapsedBroadcast::class, ['getStartAt' => $startAt]);
 
-        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $collapsedBroadcast, null, []);
+        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $collapsedBroadcast, null);
         $this->assertEquals($expected, $presenter->getNotAvailableTranslation());
     }
 
@@ -142,7 +142,7 @@ class PlayoutPresenterTest extends TestCase
         $episode = $this->createConfiguredMock(Episode::class, ['isStreamable' => $isStreamable]);
         $this->liveBroadcastHelper->method('isWatchableLive')->willReturn($isWatchableLive);
 
-        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $collapsedBroadcast, null, []);
+        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $collapsedBroadcast, null);
         $this->assertEquals($expected, $presenter->isAvailableForStreaming());
     }
 
@@ -165,7 +165,7 @@ class PlayoutPresenterTest extends TestCase
         $this->liveBroadcastHelper->method('isWatchableLive')->willReturn($isWatchableLive);
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
         $this->streamableHelper->method('shouldTreatProgrammeItemAsAudio')->willReturn($isAudio);
-        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $collapsedBroadcast, null, []);
+        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $collapsedBroadcast, null);
         $this->assertEquals($expected, $presenter->getAvailableTranslation());
     }
 
@@ -187,7 +187,7 @@ class PlayoutPresenterTest extends TestCase
         $episode = $this->createConfiguredMock(Episode::class, ['getPid' => new Pid('b0000001')]);
         $this->streamableHelper->method('getRouteForProgrammeItem')->willReturn($route);
 
-        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $cb, null, []);
+        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $cb, null);
 
         $this->assertEquals($expected, $presenter->getUrl());
     }
@@ -208,7 +208,7 @@ class PlayoutPresenterTest extends TestCase
     /** @dataProvider doesntHaveOverlayProvider */
     public function testDoesntHaveOverlay(
         bool $expected,
-        array $versions,
+        bool $isStreamableAlternate,
         bool $isDownloadable,
         bool $isInternational,
         bool $isStreamable,
@@ -219,37 +219,31 @@ class PlayoutPresenterTest extends TestCase
 
         $episode = $this->createConfiguredMock(
             Episode::class,
-            ['getNetwork' => $network, 'isDownloadable' => $isDownloadable, 'isStreamable' => $isStreamable]
+            ['getNetwork' => $network, 'isDownloadable' => $isDownloadable, 'isStreamable' => $isStreamable, 'isStreamableAlternate' => $isStreamableAlternate]
         );
 
         $this->liveBroadcastHelper->method('isWatchableLive')->willReturn($isWatchableLive);
 
-        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $cb, null, $versions);
+        $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $cb, null);
         $this->assertEquals($expected, $presenter->doesntHaveOverlay());
     }
 
     public function doesntHaveOverlayProvider(): array
     {
-        $audioDescribedType = $this->createConfiguredMock(VersionType::class, ['getType' => 'DubbedAudioDescribed']);
-        $signedType = $this->createConfiguredMock(VersionType::class, ['getType' => 'Signed']);
-
-        $audioDescribedVersion = $this->createConfiguredMock(Version::class, ['getVersionTypes' => [$audioDescribedType]]);
-        $signedVersion = $this->createConfiguredMock(Version::class, ['getVersionTypes' => [$signedType]]);
-
         return [
             // streamable cases, have overlay
             'is available on demand, so has overlay' =>
-                [false, [$audioDescribedVersion, $signedVersion], true, false, true, false],
+                [false, true, true, false, true, false],
             'is live, so has overlay' =>
-                [false, [$audioDescribedVersion, $signedVersion], true, false, false, true],
+                [false, true, true, false, false, true],
 
             // not streamable cases, no overlay
             'has audio described version, so no overlay' =>
-                [true, [$audioDescribedVersion], false, false, false, false],
+                [true, true, false, false, false, false],
             'has signed version, so no overlay' =>
-                [true, [$signedVersion], false, false, false, false],
+                [true, true, false, false, false, false],
             'is downloadable, so no overlay' =>
-                [true, [], true, false, false, false],
+                [true, false, true, false, false, false],
         ];
     }
 }

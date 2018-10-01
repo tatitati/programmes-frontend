@@ -26,6 +26,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\Date;
@@ -182,14 +183,16 @@ class PresenterFactoryTest extends TestCase
         $dummyEp = $this->createMock(Episode::class);
         $podcast = new Podcast($dummyEp, 'weekly', -1, true, false);
         $dummyCB = $this->createMock(CollapsedBroadcast::class);
+        $dummyVersion = $this->createMock(Version::class);
         $dummyNull = null;
         $dummyArray = [];
 
         return $this->factory->episodeMapPresenter(
             $dummyEp,
+            $dummyVersion,
             $dummyArray,
-            $dummyNull,
             $dummyCB,
+            $dummyNull,
             $dummyNull,
             $dummyNull,
             $hasPodcast ? $podcast : null

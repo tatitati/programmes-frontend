@@ -51,9 +51,11 @@ class EpisodeController extends BaseController
         $this->setContextAndPreloadBranding($episode);
         $this->setInternationalStatusAndTimezoneFromContext($episode);
 
-        // TODO: After PROGRAMMES-6284 is done, we can just fetch the versions we actually need and this can go
-        $versions = $versionsService->findByProgrammeItem($episode);
-        $availableVersions = $this->getAvailableVersions($versions);
+        $linkedVersions = $versionsService->findLinkedVersionsForProgrammeItem($episode);
+        $alternateVersions = [];
+        if ($episode->isStreamableAlternate()) {
+            $alternateVersions = $versionsService->findAlternateVersionsForProgrammeItem($episode);
+        }
 
         $clips = [];
         if ($episode->getAvailableClipsCount() > 0) {
@@ -106,8 +108,8 @@ class EpisodeController extends BaseController
         }
 
         $segmentsListPresenter = null;
-        if ($episode->getSegmentEventCount() > 0) {
-            $segmentEvents = $segmentEventsService->findByProgrammeForCanonicalVersion($episode);
+        if ($episode->getSegmentEventCount() > 0 && $linkedVersions['canonicalVersion']) {
+            $segmentEvents = $segmentEventsService->findByVersionWithContributions($linkedVersions['canonicalVersion']);
             if ($segmentEvents) {
                 $segmentsListPresenter = $presenterFactory->segmentsListPresenter(
                     $episode,
@@ -150,7 +152,8 @@ class EpisodeController extends BaseController
 
         $episodeMapPresenter = $presenterFactory->episodeMapPresenter(
             $episode,
-            $availableVersions,
+            $linkedVersions['downloadableVersion'],
+            $alternateVersions,
             $upcomingBroadcast,
             $lastOnBroadcast,
             $nextEpisode,
@@ -177,13 +180,6 @@ class EpisodeController extends BaseController
 
         $parameters = array_merge($parameters, $resolvedPromises);
         return $this->renderWithChrome('find_by_pid/episode.html.twig', $parameters);
-    }
-
-    private function getAvailableVersions(array $versions): array
-    {
-        return array_filter($versions, function (Version $version) {
-            return $version->isDownloadable() || $version->isStreamable();
-        });
     }
 
     private function getSchema(

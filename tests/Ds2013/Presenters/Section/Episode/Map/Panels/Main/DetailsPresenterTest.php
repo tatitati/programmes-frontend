@@ -32,7 +32,7 @@ class DetailsPresenterTest extends TestCase
     public function testReleaseDateIsNull()
     {
         $episode = EpisodeBuilder::any()->with(['releaseDate' => null])->build();
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, [], null);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, null, [], null);
         $this->assertNull($presenter->getReleaseDate());
     }
 
@@ -40,7 +40,7 @@ class DetailsPresenterTest extends TestCase
     {
         $releaseDate = new PartialDate(2012);
         $episode = EpisodeBuilder::any()->with(['releaseDate' => $releaseDate])->build();
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, [], null);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, null, [], null);
         $this->assertInstanceOf(DateTime::class, $presenter->getReleaseDate());
     }
 
@@ -50,7 +50,7 @@ class DetailsPresenterTest extends TestCase
     public function testIndefiniteAvailability(?Chronos $streamableUntil, bool $availableIndefinately)
     {
         $episode = EpisodeBuilder::any()->with(['streamableUntil' => $streamableUntil])->build();
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, [], null);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), $episode, null, [], null);
         $this->assertSame($availableIndefinately, $presenter->isAvailableIndefinitely());
     }
 
@@ -65,46 +65,29 @@ class DetailsPresenterTest extends TestCase
 
     public function testADVersionIsAvailable()
     {
-        $versions = [
+        $alternateVersions = [
             $this->createVersionMock('foo', true),
-            $this->createVersionMock('bar', false),
             $this->createVersionMock('DubbedAudioDescribed', true),
         ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions, null);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), null, $alternateVersions, null);
         $this->assertTrue($presenter->hasAvailableAudioDescribedVersion());
     }
 
     public function testADVersionIsUnavailable()
     {
-        $versions = [
-            $this->createVersionMock('foo', false),
-            $this->createVersionMock('bar', true),
-            $this->createVersionMock('DubbedAudioDescribed', false),
-        ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions, null);
+        $alternateVerions = [];
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), null, $alternateVerions, null);
         $this->assertFalse($presenter->hasAvailableAudioDescribedVersion());
     }
 
     public function testSignedVersionIsAvailable()
     {
-        $versions = [
-            $this->createVersionMock('foo', false),
+        $alternateVersions = [
             $this->createVersionMock('bar', true),
             $this->createVersionMock('Signed', true),
         ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions, null);
+        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), null, $alternateVersions, null);
         $this->assertTrue($presenter->hasAvailableSignedVersion());
-    }
-
-    public function testSignedVersionIsUnavailable()
-    {
-        $versions = [
-            $this->createVersionMock('foo', true),
-            $this->createVersionMock('bar', true),
-            $this->createVersionMock('Signed', false),
-        ];
-        $presenter = new DetailsPresenter($this->createMock(PlayTranslationsHelper::class), $this->createMock(UrlGeneratorInterface::class), EpisodeBuilder::any()->build(), $versions, null);
-        $this->assertFalse($presenter->hasAvailableSignedVersion());
     }
 
     private function createVersionMock(string $type, bool $isStreamable)

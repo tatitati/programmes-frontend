@@ -19,23 +19,33 @@ class DetailsPresenter extends Presenter
     /** @var PlayTranslationsHelper */
     private $playTranslationsHelper;
 
-    /** @var Version[] */
-    private $availableVersions;
-
     /** @var UrlGeneratorInterface */
     private $router;
 
     /** @var Podcast|null */
     private $podcast;
 
-    public function __construct(PlayTranslationsHelper $playTranslationsHelper, UrlGeneratorInterface $router, Episode $episode, array $availableVersions, ?Podcast $podcast)
-    {
+    /** @var Version|null */
+    private $downloadableVersion;
+
+    /** @var Version[] */
+    private $alternateVersions;
+
+    public function __construct(
+        PlayTranslationsHelper $playTranslationsHelper,
+        UrlGeneratorInterface $router,
+        Episode $episode,
+        ?Version $downloadableVersion,
+        array $alternateVersions,
+        ?Podcast $podcast
+    ) {
         parent::__construct();
 
         $this->episode = $episode;
         $this->playTranslationsHelper = $playTranslationsHelper;
         $this->router = $router;
-        $this->availableVersions = $availableVersions;
+        $this->downloadableVersion = $downloadableVersion;
+        $this->alternateVersions = $alternateVersions;
         $this->podcast = $podcast;
     }
 
@@ -56,13 +66,7 @@ class DetailsPresenter extends Presenter
 
     public function getDownloadableVersion(): ?Version
     {
-        foreach ($this->availableVersions as $version) {
-            if ($version->isDownloadable()) {
-                return $version;
-            }
-        }
-
-        return null;
+        return $this->downloadableVersion;
     }
 
     public function hasPreviousBroadcast(): bool
@@ -103,22 +107,20 @@ class DetailsPresenter extends Presenter
 
     public function hasAvailableAudioDescribedVersion(): bool
     {
-        return $this->hasAvailableVersion('DubbedAudioDescribed');
+        return $this->hasAlternateVersion('DubbedAudioDescribed');
     }
 
     public function hasAvailableSignedVersion(): bool
     {
-        return $this->hasAvailableVersion('Signed');
+        return $this->hasAlternateVersion('Signed');
     }
 
-    private function hasAvailableVersion(string $versionType)
+    private function hasAlternateVersion(string $versionType)
     {
-        foreach ($this->availableVersions as $version) {
-            if ($version->isStreamable()) {
-                foreach ($version->getVersionTypes() as $type) {
-                    if ($type->getType() === $versionType) {
-                        return true;
-                    }
+        foreach ($this->alternateVersions as $version) {
+            foreach ($version->getVersionTypes() as $type) {
+                if ($type->getType() === $versionType) {
+                    return true;
                 }
             }
         }

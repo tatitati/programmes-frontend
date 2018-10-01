@@ -50,8 +50,6 @@ class ClipController extends BaseController
         $this->setParentIstats($clip);
         $this->setContextAndPreloadBranding($clip);
 
-        /** @todo this is pretty ineficient. We will need to clear this up once we know all the versions we'll need on the clip page */
-        $versions = $versionsService->findByProgrammeItem($clip);
         $linkedVersions = $versionsService->findLinkedVersionsForProgrammeItem($clip);
 
         $relatedLinks = [];
@@ -85,8 +83,8 @@ class ClipController extends BaseController
 
         $segmentsListPresenter = null;
         $segmentEvents = [];
-        if ($clip->getSegmentEventCount() > 0) {
-            $segmentEvents = $segmentEventsService->findByProgrammeForCanonicalVersion($clip);
+        if ($clip->getSegmentEventCount() > 0 && $linkedVersions['canonicalVersion']) {
+            $segmentEvents = $segmentEventsService->findByVersionWithContributions($linkedVersions['canonicalVersion']);
         }
 
         $contributions = [];
@@ -200,19 +198,5 @@ class ClipController extends BaseController
         });
 
         return \array_slice($filteredClips, 0, 4);
-    }
-
-    /**
-     * @param Version[] $availableVersions
-     */
-    private function getDownloadableVersion(array $availableVersions): ?Version
-    {
-        foreach ($availableVersions as $version) {
-            if ($version->isDownloadable()) {
-                return $version;
-            }
-        }
-
-        return null;
     }
 }

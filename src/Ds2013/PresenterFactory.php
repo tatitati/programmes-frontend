@@ -305,7 +305,8 @@ class PresenterFactory
 
     public function episodeMapPresenter(
         Episode $programme,
-        array $versions,
+        ?Version $downloadableVersion,
+        array $alternateVersions,
         ?CollapsedBroadcast $upcomingCollapsedBroadcast,
         ?CollapsedBroadcast $lastOnCollapsedBroadcast,
         ?Episode $nextEpisode,
@@ -320,7 +321,8 @@ class PresenterFactory
             $programme,
             $upcomingCollapsedBroadcast,
             $lastOnCollapsedBroadcast,
-            $versions,
+            $downloadableVersion,
+            $alternateVersions,
             $nextEpisode,
             $previousEpisode,
             $podcast
