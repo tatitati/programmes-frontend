@@ -1,4 +1,4 @@
-define(['jquery-1.9','smp/cookieStore'], function ($, DataStore) {
+define(['jquery-1.9','cookieStore'], function ($, DataStore) {
 
     var SmpStatePersistance = function (programmePid) {
         var dataStore = new DataStore();

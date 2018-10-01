@@ -1,4 +1,11 @@
-<div class="component component--box {{ content_block.isInPrimaryColumn() ? 'component--box-flushbody-vertical component--box--primary' : 'component--box--striped component--box--secondary' }} {% block extraClasses %}{% endblock %}">
+{% if content_block.isInPrimaryColumn() %}
+    {% set container_classes = 'component--box-flushbody-vertical component--box--primary' %}
+{% else %}
+    {% set container_classes = 'component--box--striped component--box--secondary' %}
+{% endif %}
+
+<div
+    class="component component--box {{ container_classes }} {% block extraClasses %}{% endblock %}">
     {% if content_block.getBlock().getTitle() %}
         <div class="component__header {{ content_block.isInPrimaryColumn() ? 'br-box-page' : 'br-box-highlight'}}">
             <h2>{% block title %}{{ content_block.getBlock().getTitle() }}{% endblock %}</h2>

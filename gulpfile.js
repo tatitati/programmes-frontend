@@ -36,6 +36,7 @@ gulp.task('js', ['js:clean'], function () {
         staticPathSrc + '/js/**/popup.js',
         staticPathSrc + '/js/**/smp/*',
         staticPathSrc + '/js/snippet-player/**/snippets.js',
+        staticPathSrc + '/js/third-party.js',
         'vendor/bbc-rmp/comscore/js-modules/comscorews.js',
         'node_modules/picturefill/dist/picturefill.js'
     ];

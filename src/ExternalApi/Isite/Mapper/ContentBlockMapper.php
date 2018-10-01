@@ -11,6 +11,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
+use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use Exception;
@@ -163,6 +164,18 @@ class ContentBlockMapper extends Mapper
                     $headings,
                     $rows
                 );
+                break;
+            case 'thirdparty':
+                $contentBlockData = $form->content;
+
+                // @codingStandardsIgnoreStart
+                $contentBlock = new ThirdParty(
+                    $this->getString($contentBlockData->title),
+                    $this->getString($contentBlockData->url),
+                    $this->getString($contentBlockData->alt_text),
+                    $this->getString($form->metadata->name)
+                );
+                // @codingStandardsIgnoreEnd
                 break;
             default:
 //                throw new Exception('Invalid content block type. Found ' . $type);

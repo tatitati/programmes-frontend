@@ -51,9 +51,10 @@
                     'smp/smp': "{{ asset_js("js/smp/smp.js") }}",
                     'smp/recommendationsBump': "{{ asset_js("js/smp/recommendationsBump.js") }}",
                     'smp/uasService': "{{ asset_js("js/smp/uasService.js") }}",
+                    'cookieStore': "{{ asset_js("js/cookieStore.js") }}",
                     'uasclient': "https://static.bbc.co.uk/uasclient/0.1.42/modules/uasclient",
-                    'relay-1': "https://static.bbc.co.uk/frameworks/relay/0.2.6/sharedmodules/relay-1"
-
+                    'relay-1': "https://static.bbc.co.uk/frameworks/relay/0.2.6/sharedmodules/relay-1",
+                    'third-party': "{{ asset_js("js/third-party.js") }}"
                 },
                 "priority": ['jquery-1.9', 'rv-bootstrap', 'timezone-notification'],
                 "map": {

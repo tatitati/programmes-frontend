@@ -11,6 +11,7 @@ use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Promotions\PromotionsPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\ThirdParty\ThirdPartyPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastProgrammePresenter;
@@ -45,6 +46,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
+use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
@@ -240,8 +242,11 @@ class PresenterFactory
         );
     }
 
-    public function contentBlockPresenter(AbstractContentBlock $contentBlock, bool $inPrimaryColumn = true, array $options = []): Presenter
-    {
+    public function contentBlockPresenter(
+        AbstractContentBlock $contentBlock,
+        bool $inPrimaryColumn = true,
+        array $options = []
+    ): Presenter {
         if ($contentBlock instanceof Faq) {
             return new FaqPresenter($contentBlock, $inPrimaryColumn, $options);
         }
@@ -259,6 +264,9 @@ class PresenterFactory
         }
         if ($contentBlock instanceof Table) {
             return new TablePresenter($contentBlock, $inPrimaryColumn, $options);
+        }
+        if ($contentBlock instanceof ThirdParty) {
+            return new ThirdPartyPresenter($contentBlock, $inPrimaryColumn, $options);
         }
 
         throw new InvalidArgumentException(sprintf(

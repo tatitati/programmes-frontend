@@ -1,0 +1,33 @@
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block extraClasses %}
+    {{ build_css_classes({'component--box-flushbody': not content_block.isInPrimaryColumn()}) }}
+{% endblock %}
+
+{% block blockContent %}
+    {% set content_block_box_id = 'third-party-' ~ random() %}
+    {% set third_party_block = content_block.getBlock() %}
+
+    <div class="third-party" id="{{ content_block_box_id }}">
+        <div class="icon-box br-box-page">
+            <a
+                class="icon-box__link br-box-page__link br-page-link-onbg015 br-page-linkhover-onbg015--hover"
+                href="{{ third_party_block.getUrl() }}"
+            >
+                {{ gelicon('core', 'external-link', 'icon-box__icon br-pseudolink') }}
+                <div class="icon-box__hgroup">
+                    <h3 class="icon-box__title gamma">{{ third_party_block.getName() }}</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        require(['jquery-1.9', 'third-party'], function($, ThirdParty) {
+            var embed = new ThirdParty({
+                container: $('#{{ content_block_box_id }}'),
+                url: '{{ third_party_block.getUrl() }}'
+            });
+        });
+    </script>
+{% endblock %}
