@@ -51,20 +51,12 @@ class PaginatorPresenter extends Presenter
 
     public function shouldApplyNoHideClass(int $item): bool
     {
-        $pageCount = $this->getPageCount();
         if ($this->shouldShowAllPagesWithoutSpacers()) {
             // We ALWAYS want to show ALL items if under 5, so this applies a CSS override for that case
             return true;
         }
-        if (($item <= 3) && $this->getCurrentPage() <= 3) {
-            // We should always show the first three items if the current page is less than 3
-            return true;
-        }
-        if (($item >= ($pageCount - 2)) && $this->getCurrentPage() >= $pageCount - 2) {
-            // We should show the last three items if the final page count is less than 3 from the end
-            return true;
-        }
-        return false;
+
+        return $this->currentPageWithinThreeOfEnd($item);
     }
 
     /**
@@ -172,5 +164,18 @@ class PaginatorPresenter extends Presenter
         $ninePageException = $pageCount == 9 && $this->currentPage == 5; // Show all items in this special case
 
         return $this->getPageCount() > 7 && !$eightPageException && !$ninePageException;
+    }
+
+    private function currentPageWithinThreeOfEnd(int $item): bool
+    {
+        if (($item <= 3) && $this->getCurrentPage() <= 3) {
+            // We should always show the first three items if the current page is less than 3
+            return true;
+        }
+        if (($item >= ($this->getPageCount() - 2)) && $this->getCurrentPage() >= $this->getPageCount() - 2) {
+            // We should show the last three items if the final page count is less than 3 from the end
+            return true;
+        }
+        return false;
     }
 }
