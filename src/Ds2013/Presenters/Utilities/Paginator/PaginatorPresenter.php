@@ -148,7 +148,7 @@ class PaginatorPresenter extends Presenter
             return true;
         }
 
-        return ($currentPage > 3) && ($currentPage < $pageCount - 2);
+        return $this->hiddenSpacerAtStart() && $this->hiddenSpacerAtEnd();
     }
 
     private function hiddenSpacerStartNormalSpacerEnd(): bool
@@ -161,11 +161,7 @@ class PaginatorPresenter extends Presenter
             return false;
         }
 
-        if (($currentPage > 3) && ($currentPage < $pageCount - 2)) {
-            // 9 is the first case of this so never apply this to anything under 9 pages
-            return ($currentPage >= $pageCount - 5) && ($pageCount >= 9);
-        }
-        return false;
+        return $this->hiddenSpacerAtStart() && $this->spacerAtEnd();
     }
 
     private function normalSpacerStartHiddenSpacerEnd(): bool
@@ -173,21 +169,22 @@ class PaginatorPresenter extends Presenter
         $currentPage = $this->getCurrentPage();
         $pageCount = $this->getPageCount();
 
-        if ($currentPage == 5 && $pageCount == 8) {
+        if (in_array($currentPage, [4, 5]) && $pageCount == 8) {
             // 8-5 is a weird exception to the rule
             return false;
         }
 
-        if ($currentPage > $pageCount - 4 && ($pageCount > 7)) {
-            return ($currentPage <= $pageCount - 3) && ($pageCount >= 6);
+        if (in_array($currentPage, [5]) && $pageCount == 9) {
+            // 9-5 is a weird exception to the rule
+            return false;
         }
-        return false;
+
+        return $this->spacerAtStart() && $this->hiddenSpacerAtEnd();
     }
 
     private function hiddenSpacerAtStartOnly(): bool
     {
-        // After first three pages we always want to show the first spacer
-        return $this->currentPage > 3;
+        return $this->hiddenSpacerAtStart();
     }
 
     private function hiddenSpacerAtEndOnly(): bool
@@ -197,7 +194,7 @@ class PaginatorPresenter extends Presenter
             // 7-X is a weird exception to the rule
             return true;
         }
-        return ($this->currentPage <= $this->getPageCount() - 3) && ($this->getPageCount() >= 6);
+        return $this->hiddenSpacerAtEnd();
     }
 
     private function normalSpacerBothEnds(): bool
@@ -214,7 +211,8 @@ class PaginatorPresenter extends Presenter
 
     private function spacerAtStart(): bool
     {
-        return ($this->currentPage > 4) && ($this->getPageCount() > 7);
+        // currentPage >= $pageCount - 4 && ($pageCount > 7)
+        return ($this->currentPage > 5) && ($this->getPageCount() > 7);
     }
 
     private function spacerAtEnd(): bool
@@ -222,4 +220,15 @@ class PaginatorPresenter extends Presenter
         $pageCount = $this->getPageCount();
         return ($this->currentPage <= $pageCount - 5) && ($pageCount >= 9);
     }
+
+    private function hiddenSpacerAtEnd(): bool
+    {
+        return ($this->currentPage <= $this->getPageCount() - 3) && ($this->getPageCount() >= 6);
+    }
+
+    private function hiddenSpacerAtStart(): bool
+    {
+        return $this->currentPage > 3 && $this->getPageCount() > 5;
+    }
+
 }
