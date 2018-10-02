@@ -18,6 +18,6 @@ ds2013_styleguide_utilities/cta_insitu:
     path: /programmes/styleguide/ds2013/utilities/cta/insitu
     defaults: { _controller: App\Controller\Styleguide\Ds2013\Utilities\CtaInSituController }
 
-ds2013_styleguide_utilities_pagination:
+ds2013_styleguide_utilities/pagination:
     path: /programmes/styleguide/ds2013/utilities/pagination
     defaults: { _controller: App\Controller\Styleguide\Ds2013\Utilities\PaginationController }

@@ -118,6 +118,14 @@ svg.pagination__next-previous {
     }
 }
 
+@include mq-range('bpw1') {
+    .pagination {
+        .pagination__spacer--hidden {
+            display: inline-block;
+        }
+    }
+}
+
 @include mq($from: 'gel3', $until: 'gel3b') {
     // Hide the next/previous text, so only the arrow is displayed
     .pagination__next span,

@@ -52,7 +52,7 @@ class PaginatorPresenter extends Presenter
     public function shouldApplyNoHideClass(int $item): bool
     {
         $pageCount = $this->getPageCount();
-        if (($item <= 5) && ($pageCount <= 5)) {
+        if ($this->shouldShowAllPagesWithoutSpacers()) {
             // We ALWAYS want to show ALL items if under 5, so this applies a CSS override for that case
             return true;
         }
@@ -120,9 +120,7 @@ class PaginatorPresenter extends Presenter
 
     private function shouldShowAllPagesWithoutSpacers(): bool
     {
-        $totalPages = $this->getPageCount();
-
-        return $totalPages <= 5;
+        return $this->getPageCount() <= 5;
     }
 
     private function spacerAtEndOnly(): bool
@@ -211,9 +209,17 @@ class PaginatorPresenter extends Presenter
             return false;
         }
 
-        $shouldBeStart = ($this->currentPage > 4) && ($pageCount > 7);
-        $shouldBeEnd = ($this->currentPage <= $pageCount - 5) && ($pageCount >= 9);
+        return $this->spacerAtStart() && $this->spacerAtEnd();
+    }
 
-        return ($shouldBeStart && $shouldBeEnd);
+    private function spacerAtStart(): bool
+    {
+        return ($this->currentPage > 4) && ($this->getPageCount() > 7);
+    }
+
+    private function spacerAtEnd(): bool
+    {
+        $pageCount = $this->getPageCount();
+        return ($this->currentPage <= $pageCount - 5) && ($pageCount >= 9);
     }
 }
