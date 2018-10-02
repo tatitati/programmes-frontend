@@ -106,6 +106,7 @@ class PaginatorPresenter extends Presenter
         if ($this->hiddenSpacerAtStart()) {
             return array_merge([1, 'spacer-hidden'], range(2, $pages));
         }
+
         if ($this->hiddenSpacerAtEnd()) {
             $numberOfPagesBeforeSpacer = max($this->getPageCount() === 7 ? 6 : 5, $this->currentPage + 2);
             return array_merge(range(1, $numberOfPagesBeforeSpacer), ['spacer-hidden', $pages]);
@@ -121,12 +122,12 @@ class PaginatorPresenter extends Presenter
 
     private function spacerAtEndOnly(): bool
     {
-        return $this->currentPage < 5 && $this->desktopSizeNeedsSpacers();
+        return $this->currentPage < 5 && $this->spacerAtEnd();
     }
 
     private function spacerAtStartOnly(): bool
     {
-        return $this->currentPage > $this->getPageCount() - 4 && $this->desktopSizeNeedsSpacers();
+        return $this->currentPage > $this->getPageCount() - 4 && $this->spacerAtStart();
     }
 
     private function hiddenSpacerBothEnds(): bool
@@ -169,6 +170,7 @@ class PaginatorPresenter extends Presenter
         $pageCount = $this->getPageCount();
         $eightPageException = $pageCount == 8 && in_array($this->currentPage, [4, 5]); // Show all items in this special case
         $ninePageException = $pageCount == 9 && $this->currentPage == 5; // Show all items in this special case
+
         return $this->getPageCount() > 7 && !$eightPageException && !$ninePageException;
     }
 
