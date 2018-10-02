@@ -79,10 +79,6 @@ class PaginatorPresenter extends Presenter
             return range(1, $pages);
         }
 
-        if ($this->normalSpacerBothEnds()) {
-            return array_merge([1, 'spacer'], range($this->currentPage - 2, $this->currentPage + 2), ['spacer', $pages]);
-        }
-
         if ($this->normalSpacerStartHiddenSpacerEnd()) {
             $numberOfPagesAfterSpacer = max(5, ($pages - $this->currentPage) + 3);
             return array_merge([1, 'spacer'], range($pages - ($numberOfPagesAfterSpacer - 1), $pages - 1), ['spacer-hidden', $pages]);
@@ -107,10 +103,10 @@ class PaginatorPresenter extends Presenter
             return array_merge(range(1, $numberOfPagesBeforeSpacer), ['spacer', $pages]);
         }
 
-        if ($this->hiddenSpacerAtStartOnly()) {
+        if ($this->hiddenSpacerAtStart()) {
             return array_merge([1, 'spacer-hidden'], range(2, $pages));
         }
-        if ($this->hiddenSpacerAtEndOnly()) {
+        if ($this->hiddenSpacerAtEnd()) {
             $numberOfPagesBeforeSpacer = max($this->getPageCount() === 7 ? 6 : 5, $this->currentPage + 2);
             return array_merge(range(1, $numberOfPagesBeforeSpacer), ['spacer-hidden', $pages]);
         }
@@ -125,110 +121,55 @@ class PaginatorPresenter extends Presenter
 
     private function spacerAtEndOnly(): bool
     {
-        return $this->currentPage < 5 && ($this->getPageCount() > 7);
+        return $this->currentPage < 5 && $this->desktopSizeNeedsSpacers();
     }
 
     private function spacerAtStartOnly(): bool
     {
-        return $this->currentPage > $this->getPageCount() - 4 && ($this->getPageCount() > 7);
+        return $this->currentPage > $this->getPageCount() - 4 && $this->desktopSizeNeedsSpacers();
     }
 
     private function hiddenSpacerBothEnds(): bool
     {
-        $currentPage = $this->getCurrentPage();
-        $pageCount = $this->getPageCount();
-
-        // Shouldn't have a hidden spacer at both ends if greater than 9, at 9 the desktop sized spacers kick in
-        if (($pageCount > 9)) {
-            return false;
-        }
-
-        if ($currentPage == 5 && $pageCount == 9) {
-            // 9-5 is a weird exception to the rule
-            return true;
-        }
-
         return $this->hiddenSpacerAtStart() && $this->hiddenSpacerAtEnd();
     }
 
     private function hiddenSpacerStartNormalSpacerEnd(): bool
     {
-        $currentPage = $this->getCurrentPage();
-        $pageCount = $this->getPageCount();
-
-        if ($currentPage == 5 && $pageCount == 9) {
-            // 9-5 is a weird exception to the rule
-            return false;
-        }
-
         return $this->hiddenSpacerAtStart() && $this->spacerAtEnd();
     }
 
     private function normalSpacerStartHiddenSpacerEnd(): bool
     {
-        $currentPage = $this->getCurrentPage();
-        $pageCount = $this->getPageCount();
-
-        if (in_array($currentPage, [4, 5]) && $pageCount == 8) {
-            // 8-5 is a weird exception to the rule
-            return false;
-        }
-
-        if (in_array($currentPage, [5]) && $pageCount == 9) {
-            // 9-5 is a weird exception to the rule
-            return false;
-        }
-
         return $this->spacerAtStart() && $this->hiddenSpacerAtEnd();
-    }
-
-    private function hiddenSpacerAtStartOnly(): bool
-    {
-        return $this->hiddenSpacerAtStart();
-    }
-
-    private function hiddenSpacerAtEndOnly(): bool
-    {
-        // Before last three pages we always want to show the last spacer
-        if (($this->getPageCount() === 7) && ($this->getCurrentPage() <= 3)) {
-            // 7-X is a weird exception to the rule
-            return true;
-        }
-        return $this->hiddenSpacerAtEnd();
-    }
-
-    private function normalSpacerBothEnds(): bool
-    {
-        $pageCount = $this->getPageCount();
-
-        if ($pageCount < 10) {
-            // Should never have a spacer at both ends under 10
-            return false;
-        }
-
-        return $this->spacerAtStart() && $this->spacerAtEnd();
     }
 
     private function spacerAtStart(): bool
     {
-        // currentPage >= $pageCount - 4 && ($pageCount > 7)
-        return ($this->currentPage > 5) && ($this->getPageCount() > 7);
+        return ($this->currentPage > 5) && $this->desktopSizeNeedsSpacers();
     }
 
     private function spacerAtEnd(): bool
     {
-        $pageCount = $this->getPageCount();
-        return ($this->currentPage <= $pageCount - 5) && ($pageCount >= 9);
+        return ($this->currentPage <= $this->getPageCount() - 5) && $this->desktopSizeNeedsSpacers();
     }
 
     private function hiddenSpacerAtEnd(): bool
     {
-        return ($this->currentPage <= $this->getPageCount() - 3) && ($this->getPageCount() >= 6);
+        return ($this->currentPage <= $this->getPageCount() - 3) && !$this->spacerAtEnd();
     }
 
     private function hiddenSpacerAtStart(): bool
     {
-        return $this->currentPage > 3 && $this->getPageCount() > 5;
+        return $this->currentPage > 3 && $this->getPageCount() > 5 && !$this->spacerAtStart();
+    }
+
+    private function desktopSizeNeedsSpacers(): bool
+    {
+        $pageCount = $this->getPageCount();
+        $eightPageException = $pageCount == 8 && in_array($this->currentPage, [4, 5]); // Show all items in this special case
+        $ninePageException = $pageCount == 9 && $this->currentPage == 5; // Show all items in this special case
+        return $this->getPageCount() > 7 && !$eightPageException && !$ninePageException;
     }
 
 }
