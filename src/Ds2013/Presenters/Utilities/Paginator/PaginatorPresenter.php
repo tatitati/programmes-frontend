@@ -173,5 +173,4 @@ class PaginatorPresenter extends Presenter
 
         return $this->getPageCount() > 7 && !$eightPageException && !$ninePageException;
     }
-
 }
