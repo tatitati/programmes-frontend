@@ -1,0 +1,15 @@
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block extraClasses %}
+    {% if not content_block.isInPrimaryColumn() %}
+        component--box-flushbody
+    {% endif %}
+{% endblock %}
+
+{% block blockContent %}
+    <div class="third-party third-party--touchcast">
+        <div class="third-party__embed">
+            <iframe src="//bbc-vip.touchcast.com/embed/{{ content_block.getBlock().getTouchcastId()|url_encode }}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        </div>
+    </div>
+{% endblock %}

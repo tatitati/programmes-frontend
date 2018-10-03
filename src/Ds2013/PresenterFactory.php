@@ -13,6 +13,7 @@ use App\Ds2013\Presenters\Domain\ContentBlock\Promotions\PromotionsPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Telescope\TelescopePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\ThirdParty\ThirdPartyPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Touchcast\TouchcastPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Group\GroupPresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\BroadcastProgrammePresenter;
 use App\Ds2013\Presenters\Domain\CoreEntity\Programme\CollapsedBroadcastProgrammePresenter;
@@ -49,6 +50,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
 use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
+use App\ExternalApi\Isite\Domain\ContentBlock\Touchcast;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Recipes\Domain\Recipe;
 use App\Translate\TranslateProvider;
@@ -272,6 +274,9 @@ class PresenterFactory
         }
         if ($contentBlock instanceof ThirdParty) {
             return new ThirdPartyPresenter($contentBlock, $inPrimaryColumn, $options);
+        }
+        if ($contentBlock instanceof Touchcast) {
+            return new TouchcastPresenter($contentBlock, $inPrimaryColumn, $options);
         }
 
         throw new InvalidArgumentException(sprintf(

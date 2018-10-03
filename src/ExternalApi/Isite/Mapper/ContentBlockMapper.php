@@ -13,6 +13,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
 use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
+use App\ExternalApi\Isite\Domain\ContentBlock\Touchcast;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use Exception;
@@ -186,6 +187,16 @@ class ContentBlockMapper extends Mapper
                     $this->getString($contentBlockData->url),
                     $this->getString($contentBlockData->alt_text),
                     $this->getString($form->metadata->name)
+                );
+                // @codingStandardsIgnoreEnd
+                break;
+            case 'touchcast':
+                $contentBlockData = $form->content;
+
+                // @codingStandardsIgnoreStart
+                $contentBlock = new Touchcast(
+                    $this->getString($contentBlockData->title),
+                    $this->getString($contentBlockData->touchcast_id)
                 );
                 // @codingStandardsIgnoreEnd
                 break;
