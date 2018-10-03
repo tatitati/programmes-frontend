@@ -22,7 +22,7 @@ class IndexController extends BaseController
         if ($coreEntity instanceof Programme) {
             $parameters['programme'] = $coreEntity; //so the the base 2013 template sets the footer
 
-            $profilesResult = $isiteService->getProfilesByProgramme($coreEntity, $this->getPage())->wait();
+            $profilesResult = $isiteService->getByProgramme($coreEntity, $this->getPage())->wait();
             $profiles = $profilesResult->getDomainModels();
 
             if ($profilesResult->getTotal() > 48) {
@@ -41,7 +41,7 @@ class IndexController extends BaseController
                     $groupProfiles[] = $profile;
                 }
             }
-            $childPromise = $isiteService->setChildProfilesOn($groupProfiles, $project);
+            $childPromise = $isiteService->setChildrenOn($groupProfiles, $project);
             $this->resolvePromises([$childPromise]);
             $parameters['profiles'] = $profiles;
         }

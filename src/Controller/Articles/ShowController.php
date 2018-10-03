@@ -58,8 +58,8 @@ class ShowController extends BaseController
         }
 
         $parents = $article->getParents();
-        $siblingPromise = $isiteService->setChildProfilesOn($parents, $article->getProjectSpace()); //if more than 48, extras are removed
-        $childPromise = $isiteService->setChildProfilesOn([$article], $article->getProjectSpace(), $this->getPage());
+        $siblingPromise = $isiteService->setChildrenOn($parents, $article->getProjectSpace()); //if more than 48, extras are removed
+        $childPromise = $isiteService->setChildrenOn([$article], $article->getProjectSpace(), $this->getPage());
         $response = $this->resolvePromises(['children' => $childPromise, 'siblings' => $siblingPromise]);
 
         $paginator = $this->getPaginator(reset($response['children']));

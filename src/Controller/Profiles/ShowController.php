@@ -59,7 +59,7 @@ class ShowController extends BaseController
 
         if ($profile->isIndividual()) {
             $extraProfiles = $profile->getParents();
-            $siblingPromise = $isiteService->setChildProfilesOn($extraProfiles, $profile->getProjectSpace());
+            $siblingPromise = $isiteService->setChildrenOn($extraProfiles, $profile->getProjectSpace());
             $this->resolvePromises([$siblingPromise]);
             return $this->renderWithChrome('profiles/individual.html.twig', ['profile' => $profile, 'programme' => $context]);
         }
@@ -67,9 +67,9 @@ class ShowController extends BaseController
         /**
          * @var IsiteResult[] $response
          */
-        $response = $isiteService->setChildProfilesOn([$profile], $profile->getProjectSpace(), $this->getPage())->wait(true);
+        $response = $isiteService->setChildrenOn([$profile], $profile->getProjectSpace(), $this->getPage())->wait(true);
         $extraProfiles = array_merge($profile->getChildren(), $profile->getParents()); // We want to fetch the children of the main profiles children and parents.
-        $grandChildPromise = $isiteService->setChildProfilesOn($extraProfiles, $profile->getProjectSpace());
+        $grandChildPromise = $isiteService->setChildrenOn($extraProfiles, $profile->getProjectSpace());
         $this->resolvePromises([$grandChildPromise]);
 
         $paginator = $this->getPaginator(reset($response));

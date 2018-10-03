@@ -13,11 +13,15 @@ use App\ExternalApi\Isite\SearchQuery;
 use BBC\ProgrammesCachingLibrary\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Closure;
+use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 
 abstract class IsiteService
 {
+    /** @var string */
+    protected $isiteKey = '';
+
     /** @var string */
     protected $baseUrl;
 
@@ -68,53 +72,7 @@ abstract class IsiteService
         return $client->makeCachedPromise();
     }
 
-    /**
-     * @param Response[] $responses
-     * @return IsiteResult[]
-     */
-    public function parseResponses(array $responses): array
-    {
-        $results = [];
-        foreach ($responses as $key => $response) {
-            $results[] = $this->responseHandler->getIsiteResult($response);
-        }
-        return $results;
-    }
-
-    /**
-     * @param Response[] $responses
-     * @return IsiteResult
-     */
-    public function parseResponse(array $responses): IsiteResult
-    {
-        return $this->responseHandler->getIsiteResult($responses[0]);
-    }
-
-    abstract protected function getBaseQuery(string $project, int $page, int $limit): SearchQuery;
-
-    /**
-     * @param Article[]|Profile[] $objects
-     * @param PromiseInterface $promise
-     * @return PromiseInterface
-     */
-    protected function chainHydrationPromise(array $objects, PromiseInterface $promise): PromiseInterface
-    {
-        return $promise->then(
-            function ($responses) use ($objects) {
-                // Success callback
-                $this->hydrateObjects($objects, $responses);
-                return $responses;
-            },
-            function ($error) use ($objects) {
-                // Error callback
-                $this->hydrateObjects($objects, []);
-                return [];
-            }
-        );
-    }
-
-    protected function getByProgramme(
-        string $type,
+    public function getByProgramme(
         Programme $programme,
         int $page = 1,
         int $limit = 48
@@ -124,10 +82,10 @@ abstract class IsiteService
         $query = $this->getBaseQuery($project, $page, $limit);
         $query->setQuery([
             'and' => [
-                [$type . ':parent_pid', '=', (string) $programme->getPid()],
+                [$this->isiteKey . ':parent_pid', '=', (string) $programme->getPid()],
                 [
                     'not' => [
-                        [$type . ':parent', 'contains', 'urn:isite'],
+                        [$this->isiteKey . ':parent', 'contains', 'urn:isite'],
                     ],
                 ],
             ],
@@ -151,6 +109,123 @@ abstract class IsiteService
         );
 
         return $client->makeCachedPromise();
+    }
+
+    /**
+     * @param Response[] $responses
+     * @return IsiteResult[]
+     */
+    public function parseResponses(array $responses): array
+    {
+        $results = [];
+        foreach ($responses as $key => $response) {
+            $results[] = $this->responseHandler->getIsiteResult($response);
+        }
+        return $results;
+    }
+
+    /**
+     * @param Response[] $responses
+     * @return IsiteResult
+     */
+    public function parseResponse(array $responses): IsiteResult
+    {
+        return $this->responseHandler->getIsiteResult($responses[0]);
+    }
+
+    /**
+     * @param Article[]|Profile[] $objects
+     * @param string $project
+     * @param int $page
+     * @param int $limit
+     * @return PromiseInterface
+     */
+    public function setChildrenOn(
+        array $objects,
+        string $project,
+        int $page = 1,
+        int $limit = 48
+    ): PromiseInterface {
+        if (empty($objects)) {
+            return new FulfilledPromise([]);
+        }
+
+        $cacheKeys = [];
+        $urls = [];
+        foreach ($objects as $object) {
+            $query = $this->getBaseQuery($project, $page, $limit);
+            $query->setQuery([$this->isiteKey . ':parent', '=', 'urn:isite:' . $project . ':' . $object->getFileId()]);
+
+            $urls[] = $this->baseUrl . $query->getPath();
+            $cacheKeys[] = $object->getFileId();
+        }
+
+        $cacheKey = $this->clientFactory->keyHelper(__CLASS__, __FUNCTION__, implode(',', $cacheKeys), $page, $limit);
+
+        $client = $this->clientFactory->getHttpApiMultiClient(
+            $cacheKey,
+            $urls,
+            Closure::fromCallable([$this, 'parseResponses']),
+            [$objects],
+            [],
+            CacheInterface::NORMAL,
+            CacheInterface::NONE,
+            [
+                'timeout' => 10,
+            ]
+        );
+
+        $promise = $client->makeCachedPromise();
+        return $this->chainHydrationPromise($objects, $promise);
+    }
+
+    /**
+     * @param Article[]|Profile[] $objects
+     * @param PromiseInterface $promise
+     * @return PromiseInterface
+     */
+    protected function chainHydrationPromise(array $objects, PromiseInterface $promise): PromiseInterface
+    {
+        return $promise->then(
+            function ($responses) use ($objects) {
+                // Success callback
+                $this->hydrateObjects($objects, $responses);
+                return $responses;
+            },
+            function ($error) use ($objects) {
+                // Error callback
+                $this->hydrateObjects($objects, []);
+                return [];
+            }
+        );
+    }
+
+    protected function getBaseQuery(string $project, int $page, int $limit): SearchQuery
+    {
+        $query = new SearchQuery();
+        $query->setNamespace($this->isiteKey, $project)
+            ->setProject($project)
+            ->setDepth(0)// no depth as this is an aggregation - no need to fetch parents or content blocks
+            ->setSort($this->getDefaultSort())
+            ->setPage($page)
+            ->setPageSize($limit);
+
+        return $query;
+    }
+
+    private function getDefaultSort(): array
+    {
+        return [
+            [
+                'elementPath' => '/' . $this->isiteKey . ':form/' . $this->isiteKey . ':metadata/' . $this->isiteKey . ':position',
+                'type' => 'numeric',
+                'direction' => 'asc',
+            ],
+            [
+                'elementPath' => '/' . $this->isiteKey . ':form/' . $this->isiteKey . ':metadata/' . $this->isiteKey . ':title',
+                'direction' => 'asc',
+            ],
+        ];
     }
 
     private function hydrateObjects(array $objects, array $responses): void

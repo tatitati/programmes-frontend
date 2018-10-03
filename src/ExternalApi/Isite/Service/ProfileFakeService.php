@@ -53,7 +53,7 @@ class ProfileFakeService extends ProfileService
         return new FulfilledPromise($isiteResult);
     }
 
-    public function setChildProfilesOn(
+    public function setChildrenOn(
         array $profiles,
         string $project,
         int $page = 1,

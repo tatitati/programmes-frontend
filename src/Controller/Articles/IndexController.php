@@ -22,7 +22,7 @@ class IndexController extends BaseController
         if ($coreEntity instanceof Programme) {
             $parameters['programme'] = $coreEntity; //so the the base 2013 template sets the footer
 
-            $articlesResult = $isiteService->getArticlesByProgramme($coreEntity, $this->getPage())->wait();
+            $articlesResult = $isiteService->getByProgramme($coreEntity, $this->getPage())->wait();
             $articles = $articlesResult->getDomainModels();
 
             if ($articlesResult->getTotal() > self::RESULTS_PER_PAGE) {

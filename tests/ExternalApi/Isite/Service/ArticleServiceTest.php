@@ -44,7 +44,7 @@ class ArticleServiceTest extends TestCase
             }, [[$articleA, $articleB, $articleC]], [], CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
             ->willReturn($mockClient);
         $service = new ArticleService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
-        $service->setChildProfilesOn([$articleA, $articleB, $articleC], 'project-space');
+        $service->setChildrenOn([$articleA, $articleB, $articleC], 'project-space');
     }
 
     public function testResponseHandlerOfGetChildrenOfArticlesResponses()

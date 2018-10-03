@@ -39,7 +39,7 @@ class ProfileServiceTest extends TestCase
             }, [], $this->isInstanceOf(IsiteResult::class), CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
             ->willReturn($mockClient);
         $service = new ProfileService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
-        $service->getProfilesByProgramme($mockProgramme);
+        $service->getByProgramme($mockProgramme);
     }
 
     public function testGetHttpApiMultiClientIsCalledWithCorrectNumberOfUrlsAndProfiles()
@@ -70,7 +70,7 @@ class ProfileServiceTest extends TestCase
             }, [[$profileA, $profileB, $profileC]], [], CacheInterface::NORMAL, CacheInterface::NONE, ['timeout' => 10])
             ->willReturn($mockClient);
         $service = new ProfileService('baseurl', $mockHttpApiClientFactory, $this->createMock(IsiteFeedResponseHandler::class));
-        $service->setChildProfilesOn([$profileA, $profileB, $profileC], 'project-space');
+        $service->setChildrenOn([$profileA, $profileB, $profileC], 'project-space');
     }
 
     public function testResponseHandlerOfGetChildrenOfProfilesResponses()
