@@ -28,7 +28,7 @@ class ByMonthController extends SchedulesBaseController
 
         $firstOfMonth = Date::createFromFormat('Y/m|', $date, ApplicationTime::getLocalTimeZone())->firstOfMonth();
         $viewData = ['first_of_month' => $firstOfMonth, 'service' => $service];
-
+        $this->overridenDescription = "This is the monthly broadcast schedule for " . $service->getName();
         // If the service is not active at all over the month, then the status code should be 404, so
         // that search engines do not index thousands of empty pages
         if (!$this->serviceIsActiveDuringMonth($service, $firstOfMonth)) {

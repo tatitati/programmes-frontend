@@ -38,12 +38,11 @@ class MetaContext
     /** @var  bool */
     private $metaNoIndex;
 
-    public function __construct($context = null, string $canonicalUrl = '', bool $metaNoIndex = false)
+    public function __construct($context = null, string $canonicalUrl = '', bool $metaNoIndex = false, $overriddenDescription = null)
     {
         $this->canonicalUrl = $canonicalUrl;
         $this->context = $context;
         $this->metaNoIndex = $metaNoIndex;
-
         if ($context instanceof CoreEntity) {
             $this->description = $context->getShortSynopsis();
             $this->image = $context->getImage();
@@ -72,6 +71,9 @@ class MetaContext
                 'standard',
                 'png'
             );
+        }
+        if ($overriddenDescription) {
+            $this->description = $overriddenDescription;
         }
     }
 

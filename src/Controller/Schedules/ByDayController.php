@@ -115,7 +115,7 @@ class ByDayController extends SchedulesBaseController
         $this->setResponseCodeAndNoIndexProperties($serviceIsActiveInThisPeriod, $broadcasts, $broadcastDay);
 
         $this->setIstatsExtraLabels($this->getIstatsExtraLabels($date, $broadcastDay->start()->isYesterday()));
-
+        $this->overridenDescription = "This is the daily broadcast schedule for " . $service->getName();
         if ($this->request()->query->has('no_chrome')) {
             return $this->renderWithoutChrome('schedules/by_day.html.twig', $viewData);
         }

@@ -102,6 +102,7 @@ class ByWeekController extends SchedulesBaseController
         ];
 
         $serviceIsActiveInThisPeriod = $this->serviceIsActiveDuringWeek($service, $broadcastWeek);
+        $this->overridenDescription = "This is the weekly broadcast schedule for " . $service->getName();
 
         // This is from a trait and sets a 404 status code or noindex on the controller
         // as appropriate when we have no broadcasts

@@ -35,7 +35,7 @@ class ByYearController extends SchedulesBaseController
 
         $startOfYear = Date::createFromFormat('Y|', $year, ApplicationTime::getLocalTimeZone())->firstOfYear();
         $viewData = ['start_of_year' => $startOfYear, 'service' => $service];
-
+        $this->overridenDescription = "This is the yearly broadcast schedule for " . $service->getName();
         // If the service is not active at all over the year, then the status code should be 404, so
         // that search engines do not index thousands of empty pages
         if (!$this->serviceIsActiveDuringYear($service, $startOfYear)) {

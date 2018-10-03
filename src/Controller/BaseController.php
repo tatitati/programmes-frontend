@@ -62,6 +62,8 @@ abstract class BaseController extends AbstractController
     /** @var bool */
     protected $metaNoIndex;
 
+    protected $overridenDescription;
+
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -224,7 +226,7 @@ abstract class BaseController extends AbstractController
 
         $parameters = array_merge([
             'orb' => $orb,
-            'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl(), $this->getMetaNoIndex()),
+            'meta_context' => new MetaContext($this->context, $this->getCanonicalUrl(), $this->getMetaNoIndex(), $this->overridenDescription),
             'comscore' => (new ComscoreAnalyticsLabels($this->context, $cosmosInfo, $istatsAnalyticsLabels, $this->getCanonicalUrl() . $urlQueryString))->getComscore(),
             'analytics_counter_name' => $analyticsCounterName,
             'istats_analytics_labels' => $istatsAnalyticsLabels->getLabels(),
