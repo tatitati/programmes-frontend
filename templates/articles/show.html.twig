@@ -45,8 +45,22 @@
             {% endif %}
             {% if article.getChildren() %}
                 <div class="br-box-page prog-box">
-                    Children go here
-                    <div class="component">Pagination</div>
+                    <div class="component component--box component--box--primary">
+                        <div class="component__body br-box-page">
+                            <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid">
+                                {%- for child in article.getChildren() -%}
+                                    <li class="grid 1/2@bpb1 1/3@bpb2 1/3@bpw 1/4@bpw2 1/4@bpe">
+                                        {{ ds2013('article', child) }}
+                                    </li>
+                                {%- endfor -%}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="component">
+                        {%- if paginatorPresenter -%}
+                            {{ ds2013_presenter(paginatorPresenter) }}
+                        {%- endif -%}
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -55,7 +69,26 @@
         <div class="programmes-page programmes-page--stripe br-box-subtle">
             <div class="prog-layout">
                 <div class="prog-layout__primary">
-                    Parents go here
+                    {% for parent in article.getParents() %}
+                        <div class="component component--box">
+                            <div class="component__header">
+                                <h2>
+                                    <a href="{{ path('programme_article', {'key': parent.getKey(), 'slug': parent.getSlug()}) }}">{{ parent.getTitle() }}</a>
+                                </h2>
+                            </div>
+                            <div class="component__body">
+                                {% if parent.getChildren() %}
+                                    <ul class="grid-wrapper highlight-box-wrapper highlight-box-wrapper--grid">
+                                        {%- for child in parent.getChildren() -%}
+                                            <li class="grid 1/2@bpb1 1/3@bpb2 1/3@bpw 1/4@bpw2 1/5@bpe">
+                                                {{ ds2013('article', child, {'show_synopsis': false, 'heading_level': 'h3'}) }}
+                                            </li>
+                                        {%- endfor -%}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

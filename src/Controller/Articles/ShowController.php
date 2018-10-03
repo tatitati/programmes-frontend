@@ -5,6 +5,7 @@ namespace App\Controller\Articles;
 
 use App\Controller\BaseController;
 use App\Controller\Helpers\IsiteKeyHelper;
+use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use App\ExternalApi\Isite\Domain\Article;
 use App\ExternalApi\Isite\IsiteResult;
 use App\ExternalApi\Isite\Service\ArticleService;
@@ -56,10 +57,13 @@ class ShowController extends BaseController
             $this->setBrandingId($article->getBrandingId());
         }
 
-        $childPromise = $isiteService->setChildProfilesOn([$article], $article->getProjectSpace());
-        $this->resolvePromises([$childPromise]);
+        $parents = $article->getParents();
+        $siblingPromise = $isiteService->setChildProfilesOn($parents, $article->getProjectSpace()); //if more than 48, extras are removed
+        $childPromise = $isiteService->setChildProfilesOn([$article], $article->getProjectSpace(), $this->getPage());
+        $response = $this->resolvePromises(['children' => $childPromise, 'siblings' => $siblingPromise]);
 
-        return $this->renderWithChrome('articles/show.html.twig', ['article' => $article]);
+        $paginator = $this->getPaginator(reset($response['children']));
+        return $this->renderWithChrome('articles/show.html.twig', ['article' => $article, 'paginatorPresenter' => $paginator]);
     }
 
     private function redirectWith(string $key, string $slug, bool $preview)
@@ -71,5 +75,14 @@ class ShowController extends BaseController
         }
 
         return $this->cachedRedirectToRoute('programme_article', $params, 301);
+    }
+
+    private function getPaginator(IsiteResult $iSiteResult): ?PaginatorPresenter
+    {
+        if ($iSiteResult->getTotal() <= 48) {
+            return null;
+        }
+
+        return new PaginatorPresenter($this->getPage(), 48, $iSiteResult->getTotal());
     }
 }
