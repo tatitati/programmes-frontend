@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Tests\App\ExternalApi\Isite\Mapper;
 
 use App\Controller\Helpers\IsiteKeyHelper;
+use App\ExternalApi\IdtQuiz\IdtQuizService;
 use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\Mapper\MapperFactory;
 use App\ExternalApi\Isite\Mapper\ProfileMapper;
@@ -23,7 +24,14 @@ class ProfileMapperTest extends TestCase
     {
         $keyHelper = new IsiteKeyHelper();
         $ces = $this->createMock(CoreEntitiesService::class);
-        $this->mapper = new ProfileMapper(new MapperFactory($keyHelper, $ces), $keyHelper);
+        $this->mapper = new ProfileMapper(
+            new MapperFactory(
+                $keyHelper,
+                $ces,
+                $this->getMockBuilder(IdtQuizService::class)->disableOriginalConstructor()->getMock()
+            ),
+            $keyHelper
+        );
     }
 
     public function testCanMappXmlWithSomeEmptyValues()

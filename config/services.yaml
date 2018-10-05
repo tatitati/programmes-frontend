@@ -40,6 +40,7 @@ parameters:
     app.sounds_nav.service.class: App\ExternalApi\SoundsNav\Service\SoundsNavService
     app.tupac.baseurl: 'https://music-tupac.api.bbc.co.uk'
     app.tupac.service.class: App\ExternalApi\Tupac\Service\TupacService
+    app.services.smallprox.endpoint: 'https://smallprox.vj.tools.bbc.co.uk'
 
     # External JS
     app.vote.accountwrapperurl: 'https://account-wrapper.files.bbci.co.uk/vote-wrapper.min.js'
@@ -340,3 +341,8 @@ services:
         class: '%app.tupac.service.class%'
         arguments:
             $baseUrl: '%app.tupac.baseurl%'
+
+    App\ExternalApi\IdtQuiz\IdtQuizService:
+        arguments:
+            $clientFactory: '@App\ExternalApi\Client\HttpApiClientFactory'
+            $smallproxEndpoint: '%app.services.smallprox.endpoint%'

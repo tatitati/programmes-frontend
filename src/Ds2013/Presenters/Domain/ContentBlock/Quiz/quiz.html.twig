@@ -1,0 +1,9 @@
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block extraClasses %}
+    {{ build_css_classes({'component--box-flushbody': not content_block.isInPrimaryColumn()}) }}
+{% endblock %}
+
+{% block blockContent %}
+    {{ content_block.getBlock().getHtmlContent()|raw }}
+{% endblock %}

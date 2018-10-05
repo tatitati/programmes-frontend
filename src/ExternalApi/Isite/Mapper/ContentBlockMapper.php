@@ -4,12 +4,14 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Isite\Mapper;
 
 use App\Controller\Helpers\IsiteKeyHelper;
+use App\ExternalApi\IdtQuiz\IdtQuizService;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
+use App\ExternalApi\Isite\Domain\ContentBlock\Quiz;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
 use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
@@ -24,10 +26,18 @@ class ContentBlockMapper extends Mapper
     /** @var CoreEntitiesService */
     private $coreEntitiesService;
 
-    public function __construct(MapperFactory $mapperFactory, IsiteKeyHelper $isiteKeyHelper, CoreEntitiesService $coreEntitiesService)
-    {
+    /** @var IdtQuizService */
+    private $idtQuizService;
+
+    public function __construct(
+        MapperFactory $mapperFactory,
+        IsiteKeyHelper $isiteKeyHelper,
+        CoreEntitiesService $coreEntitiesService,
+        IdtQuizService $idtQuizService
+    ) {
         parent::__construct($mapperFactory, $isiteKeyHelper);
         $this->coreEntitiesService = $coreEntitiesService;
+        $this->idtQuizService = $idtQuizService;
     }
 
     /**
@@ -166,6 +176,18 @@ class ContentBlockMapper extends Mapper
                     $headings,
                     $rows
                 );
+                break;
+            case 'idt-quiz':
+                $quizId = $this->getString($form->content->idt_id);
+                $htmlContent = $this->idtQuizService->getQuizContentPromise($quizId)->wait();
+
+                $contentBlock = new Quiz(
+                    $this->getString($form->content->title),
+                    $this->getString($form->metadata->name),
+                    $quizId,
+                    $htmlContent
+                );
+
                 break;
             case 'telescope-vote':
                 $contentBlockData = $form->content;

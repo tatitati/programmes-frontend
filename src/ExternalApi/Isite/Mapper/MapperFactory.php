@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\ExternalApi\Isite\Mapper;
 
 use App\Controller\Helpers\IsiteKeyHelper;
+use App\ExternalApi\IdtQuiz\IdtQuizService;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 
 class MapperFactory
@@ -15,10 +16,17 @@ class MapperFactory
 
     private $isiteKeyHelper;
 
-    public function __construct(IsiteKeyHelper $isiteKeyHelper, CoreEntitiesService $coreEntitiesService)
-    {
+    /** @var IdtQuizService */
+    private $idtQuizService;
+
+    public function __construct(
+        IsiteKeyHelper $isiteKeyHelper,
+        CoreEntitiesService $coreEntitiesService,
+        IdtQuizService $idtQuizService
+    ) {
         $this->isiteKeyHelper = $isiteKeyHelper;
         $this->coreEntitiesService = $coreEntitiesService;
+        $this->idtQuizService = $idtQuizService;
     }
 
     public function createArticleMapper(): ArticleMapper
@@ -29,7 +37,12 @@ class MapperFactory
     public function createContentBlockMapper(): ContentBlockMapper
     {
         if (!isset($this->instances[ContentBlockMapper::class])) {
-            $this->instances[ContentBlockMapper::class] = new ContentBlockMapper($this, $this->isiteKeyHelper, $this->coreEntitiesService);
+            $this->instances[ContentBlockMapper::class] = new ContentBlockMapper(
+                $this,
+                $this->isiteKeyHelper,
+                $this->coreEntitiesService,
+                $this->idtQuizService
+            );
         }
         return $this->instances[ContentBlockMapper::class];
     }

@@ -4,25 +4,87 @@ declare(strict_types = 1);
 namespace Tests\App\ExternalApi\Isite\Mapper;
 
 use App\Controller\Helpers\IsiteKeyHelper;
+use App\ExternalApi\Client\HttpApiClientFactory;
+use App\ExternalApi\IdtQuiz\IdtQuizService;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
+use App\ExternalApi\Isite\Domain\ContentBlock\Quiz;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Mapper\ContentBlockMapper;
 use App\ExternalApi\Isite\Mapper\MapperFactory;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
+use Tests\App\ReflectionHelper;
 
 class ContentBlockMapperTest extends TestCase
 {
     /** @var ContentBlockMapper */
     private $mapper;
 
+    private $idtQuizService;
+
     public function setUp()
     {
+        $this->idtQuizService = $this->getMockBuilder(IdtQuizService::class)
+            ->setMethods(['getQuizContentPromise'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $keyHelper = new IsiteKeyHelper();
         $ces = $this->createMock(CoreEntitiesService::class);
-        $this->mapper = new ContentBlockMapper(new MapperFactory($keyHelper, $ces), $keyHelper, $ces);
+        $this->mapper = new ContentBlockMapper(
+            new MapperFactory(
+                $keyHelper,
+                $ces,
+                $this->idtQuizService
+            ),
+            $keyHelper,
+            $ces,
+            $this->idtQuizService
+        );
+    }
+
+    /**
+     * @dataProvider getTestMappingQuizObjectData
+     */
+    public function testMappingQuizObject($xml, $quizId, $htmlContent)
+    {
+        $promiseMock = $this
+            ->getMockBuilder(Promise::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['wait'])
+            ->getMock();
+
+        $promiseMock
+            ->expects($this->once())
+            ->method('wait')
+            ->willReturn($htmlContent);
+
+        $this->idtQuizService
+            ->expects($this->once())
+            ->method('getQuizContentPromise')
+            ->with($this->equalTo($quizId))
+            ->willReturn($promiseMock);
+
+        /** @var Quiz $block */
+        $block = $this->mapper->getDomainModel($xml);
+        $this->assertInstanceOf(Quiz::class, $block, 'Check returns Quiz class');
+        $this->assertEquals($htmlContent, $block->getHtmlContent(), 'Check has right HTML content');
+        $this->assertEquals($quizId, $block->getQuizId(), 'Checks has right Quiz ID');
+    }
+
+    public function getTestMappingQuizObjectData()
+    {
+        return [
+            'data_in_quiz.xml' => [
+                'xml-element' => new SimpleXMLElement(file_get_contents(__DIR__ . '/quiz.xml')),
+                'quiz-id' => '1234',
+                'html-content' => 'This is just mock quiz content',
+            ],
+        ];
     }
 
     public function testMappingFaqObject()

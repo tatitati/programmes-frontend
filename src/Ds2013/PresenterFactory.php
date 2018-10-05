@@ -10,6 +10,7 @@ use App\Ds2013\Presenters\Domain\ContentBlock\Galleries\GalleriesPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Promotions\PromotionsPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Quiz\QuizPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Telescope\TelescopePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\ThirdParty\ThirdPartyPresenter;
@@ -47,6 +48,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
+use App\ExternalApi\Isite\Domain\ContentBlock\Quiz;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
 use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
@@ -265,6 +267,9 @@ class PresenterFactory
         }
         if ($contentBlock instanceof Promotions) {
             return new PromotionsPresenter($contentBlock, $inPrimaryColumn, $options);
+        }
+        if ($contentBlock instanceof Quiz) {
+            return new QuizPresenter($contentBlock, $inPrimaryColumn, $options);
         }
         if ($contentBlock instanceof Table) {
             return new TablePresenter($contentBlock, $inPrimaryColumn, $options);
