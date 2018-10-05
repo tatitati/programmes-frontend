@@ -14,6 +14,7 @@ use App\DsShared\Helpers\HelperFactory;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -184,7 +185,7 @@ class ProgrammePresenterTest extends TestCase
     public function testWhenNoDisplayedAndImageIsAlwaysStandAlone(bool $givenShowImageOption)
     {
         $presenter = new ProgrammePresenter(
-            EpisodeBuilder::any()->with(['isStreamable' => true])->build(),
+            EpisodeBuilder::any()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::VIDEO])->build(),
             $this->mockRouter,
             $this->mockHelperFactory,
             ['show_image' => $givenShowImageOption]
@@ -221,8 +222,8 @@ class ProgrammePresenterTest extends TestCase
     public function episodesNotShowingImageProvider()
     {
         $thenShowDuration = true;
-        $givenRadioEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build();
-        $givenTvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build();
+        $givenRadioEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::AUDIO])->build();
+        $givenTvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::VIDEO])->build();
 
         return [
             'GIVEN TV EPISODE, THEN SHOW DURATION=TRUE' =>  [$givenTvEpisode, $thenShowDuration],
@@ -249,8 +250,8 @@ class ProgrammePresenterTest extends TestCase
 
     public function episodesShowingImageProvider()
     {
-        $givenRadioEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build();
-        $givenTvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build();
+        $givenRadioEpisode = EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::AUDIO])->build();
+        $givenTvEpisode = EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::VIDEO])->build();
 
         return [
             'GIVEN TV EPISODE' =>  [$givenTvEpisode],
@@ -258,13 +259,13 @@ class ProgrammePresenterTest extends TestCase
         ];
     }
     
-    private function createMockClip(bool $isStreamable = false)
+    private function createMockClip(bool $hasPlayableDestination = false)
     {
         $mockClip = $this->createMock(Clip::class);
         $mockClip->method('getTitle')->willReturn('Clip 1');
         $mockClip->method('getPid')->willReturn(new Pid('p0000001'));
         $mockClip->method('getDuration')->willReturn(10);
-        $mockClip->method('isStreamable')->willReturn($isStreamable);
+        $mockClip->method('hasPlayableDestination')->willReturn($hasPlayableDestination);
 
         return $mockClip;
     }

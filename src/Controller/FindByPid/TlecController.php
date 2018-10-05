@@ -287,7 +287,7 @@ class TlecController extends BaseController
     {
         if (empty($lastOn)
             || $lastOn->getProgrammeItem()->getStreamableFrom() === null
-            || $lastOn->getProgrammeItem()->isStreamable()
+            || $lastOn->getProgrammeItem()->hasPlayableDestination()
         ) {
             $this->setIstatsExtraLabels(['just_missed' => 'false']);
         } elseif ($lastOn->getStartAt()->wasWithinLast('7 days')) {

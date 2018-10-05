@@ -134,7 +134,7 @@ class PlayoutPresenter extends Presenter
 
     public function isAvailableForStreaming(): bool
     {
-        return $this->episode->isStreamable() || $this->isWatchableLive();
+        return $this->episode->hasPlayableDestination() || $this->isWatchableLive();
     }
 
     public function getUrl(): string

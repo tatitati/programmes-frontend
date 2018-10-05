@@ -23,7 +23,7 @@
                     </div>
                 {%- endif -%}
 
-                {% if clip_details.getClip().isStreamable() and clip_details.isAvailableIndefinitely() == false %}
+                {% if clip_details.getClip().hasPlayableDestination() and clip_details.isAvailableIndefinitely() == false %}
                     <p class="episode-panel__meta">
                         <span class="details__streamableuntil" title="{{ clip_details.getClip().getStreamableUntil()|local_date_intl('EEE dd MMMM yyyy, HH:mm') }}">
                                 {{ clip_details.getStreamableTimeRemaining() }}

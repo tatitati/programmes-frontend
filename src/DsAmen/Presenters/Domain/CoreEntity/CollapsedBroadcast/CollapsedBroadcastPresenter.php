@@ -74,7 +74,7 @@ class CollapsedBroadcastPresenter extends BaseCoreEntityPresenter
                 $options
             );
         }
-        if ($this->isStreamable()) {
+        if ($this->hasPlayableDestination()) {
             if ($this->hideStandaloneDuration()) {
                 $options['show_duration'] = false;
             }
@@ -126,7 +126,7 @@ class CollapsedBroadcastPresenter extends BaseCoreEntityPresenter
 
     public function showStandaloneCta(): bool
     {
-        return !$this->getOption('show_image') && ($this->isStreamable() || $this->isPlayableLive());
+        return !$this->getOption('show_image') && ($this->hasPlayableDestination() || $this->isPlayableLive());
     }
 
     public function showWatchFromStartCta(): bool

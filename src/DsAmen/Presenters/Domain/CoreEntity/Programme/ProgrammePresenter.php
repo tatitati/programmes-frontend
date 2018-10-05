@@ -46,7 +46,7 @@ class ProgrammePresenter extends BaseCoreEntityPresenter
 
     public function getCtaPresenter(array $options = []): ?BaseCtaPresenter
     {
-        if ($this->isStreamable()) {
+        if ($this->hasPlayableDestination()) {
             $options = array_merge($this->subPresenterOptions('cta_options'), $options);
             if ($this->hideStandaloneDuration()) {
                 $options['show_duration'] = false;
@@ -87,7 +87,7 @@ class ProgrammePresenter extends BaseCoreEntityPresenter
 
     public function showStandaloneCta(): bool
     {
-        return (!$this->getOption('show_image') && $this->isStreamable());
+        return (!$this->getOption('show_image') && $this->hasPlayableDestination());
     }
 
     private function hideStandaloneDuration() :bool

@@ -6,6 +6,7 @@ use App\Ds2013\Presenter;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -36,7 +37,7 @@ abstract class ProgrammePresenterBase extends Presenter
 
     public function isAvailable(): bool
     {
-        return $this->programme->isStreamable();
+        return ($this->programme instanceof ProgrammeItem && $this->programme->hasPlayableDestination());
     }
 
     public function isContainer(): bool

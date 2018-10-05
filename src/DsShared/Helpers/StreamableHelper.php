@@ -38,13 +38,13 @@ class StreamableHelper
 
     public function shouldStreamViaIplayer(ProgrammeItem $programmeItem): bool
     {
-        return !($programmeItem instanceof Clip || $this->shouldTreatProgrammeItemAsAudio($programmeItem));
+        return !($programmeItem instanceof Clip || !$programmeItem->isVideo());
     }
 
     public function shouldStreamViaPlayspace(ProgrammeItem $programmeItem): bool
     {
-        $network = $programmeItem->getNetwork();
-        if ($network && !$network->isTv() && $this->shouldTreatProgrammeItemAsAudio($programmeItem)) {
+        $isPlayspaceMasterBrand = ($programmeItem->getMasterBrand() && $programmeItem->getMasterBrand()->isStreamableInPlayspace());
+        if ($isPlayspaceMasterBrand && $programmeItem->isAudio()) {
             return true;
         }
         return false;

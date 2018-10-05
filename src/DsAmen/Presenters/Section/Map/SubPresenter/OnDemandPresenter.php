@@ -145,7 +145,7 @@ class OnDemandPresenter extends RightColumnPresenter
         if (!$this->lastOn || !$this->lastOn->getProgrammeItem()) {
             return false;
         }
-        $hasFutureAvailablity = !($this->lastOn->getProgrammeItem()->getStreamableFrom() === null || $this->lastOn->getProgrammeItem()->isStreamable());
+        $hasFutureAvailablity = !($this->lastOn->getProgrammeItem()->getStreamableFrom() === null || $this->lastOn->getProgrammeItem()->hasPlayableDestination());
         if (!$hasFutureAvailablity) {
             return false;
         }

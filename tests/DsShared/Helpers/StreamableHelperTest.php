@@ -19,10 +19,9 @@ class StreamableHelperTest extends TestCase
     /**
      * @dataProvider itemToRouteProvider
      */
-    public function testGetRouteForProgramme(ProgrammeItem $programmeItem, bool $isAudio, string $expectedOutcome)
+    public function testGetRouteForProgramme(ProgrammeItem $programmeItem, string $expectedOutcome)
     {
-        $helper = $this->getMockBuilder(StreamableHelper::class)->setMethods(['shouldTreatProgrammeItemAsAudio'])->getMock();
-        $helper->method('shouldTreatProgrammeItemAsAudio')->willReturn($isAudio);
+        $helper = new StreamableHelper();
         $this->assertSame($expectedOutcome, $helper->getRouteForProgrammeItem($programmeItem));
     }
 
@@ -61,7 +60,7 @@ class StreamableHelperTest extends TestCase
     {
         $helper = new StreamableHelper();
         $network = NetworkBuilder::any()->with(['medium' => NetworkMediumEnum::UNKNOWN, 'nid' => new Nid('bbc_radio_three')])->build();
-        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network])->build();
+        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network, 'streamableInPlayspace' => true])->build();
         $playspaceAudioClip = ClipBuilder::any()->with(['mediaType' => MediaTypeEnum::AUDIO, 'masterBrand' => $masterBrand])->build();
         $this->assertTrue($helper->shouldStreamViaPlayspace($playspaceAudioClip));
 
@@ -71,20 +70,22 @@ class StreamableHelperTest extends TestCase
 
     public function itemToRouteProvider(): array
     {
-        $clip = ClipBuilder::any()->build();
-        $episode = EpisodeBuilder::any()->build();
+        $videoClip = ClipBuilder::any()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::VIDEO])->build();
+        $videoEpisode = EpisodeBuilder::any()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::VIDEO])->build();
 
+        $audioClip = ClipBuilder::any()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::AUDIO])->build();
         // Playspace audio clip
         $network = NetworkBuilder::any()->with(['nid' => new Nid('bbc_radio_three')])->build();
-        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network])->build();
+        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network, 'streamableInPlayspace' => true])->build();
         $playspaceAudioClip = ClipBuilder::any()->with(['mediaType' => MediaTypeEnum::AUDIO, 'masterBrand' => $masterBrand])->build();
+        $playspaceAudioEpisode = EpisodeBuilder::any()->with(['mediaType' => MediaTypeEnum::AUDIO, 'masterBrand' => $masterBrand])->build();
 
         return [
-            'episode-not-audio' => [$episode, false, 'iplayer_play'],
-            'episode-audio' => [$episode, true, 'find_by_pid'],
-            'clip-not-audio' => [$clip, false, 'find_by_pid'],
-            'clip-audio' => [$clip, true, 'find_by_pid'],
-            'playspace-clip-audio' => [$playspaceAudioClip, true, 'playspace_play'],
+            'episode-video' => [$videoEpisode, 'iplayer_play'],
+            'clip-not-audio' => [$videoClip, 'find_by_pid'],
+            'clip-audio' => [$audioClip, 'find_by_pid'],
+            'playspace-clip-audio' => [$playspaceAudioClip, 'playspace_play'],
+            'playspace-episode' => [$playspaceAudioEpisode, 'playspace_play'],
         ];
     }
 

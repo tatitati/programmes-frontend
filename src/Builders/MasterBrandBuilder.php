@@ -19,6 +19,7 @@ class MasterBrandBuilder extends AbstractBuilder
             'name' => $faker->sentence(1),
             'image' => ImageBuilder::any()->build(),
             'network' => NetworkBuilder::any()->build(),
+            'streamableInPlayspace' => $faker->boolean,
             'competitionWarning' => VersionBuilder::any()->build(),
         ];
     }
@@ -29,6 +30,7 @@ class MasterBrandBuilder extends AbstractBuilder
 
         return $self->with([
             'network' => NetworkBuilder::any()->with(['medium' => NetworkMediumEnum::RADIO])->build(),
+            'streamableInPlayspace' => true,
         ]);
     }
 
@@ -38,6 +40,7 @@ class MasterBrandBuilder extends AbstractBuilder
 
         return $self->with([
             'network' => NetworkBuilder::any()->with(['medium' => NetworkMediumEnum::TV])->build(),
+            'streamableInPlayspace' => true,
         ]);
     }
 }

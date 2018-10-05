@@ -135,11 +135,11 @@ class PlayoutPresenterTest extends TestCase
     /** @dataProvider isAvailableForStreamingProvider */
     public function testIsAvailableForStreaming(
         bool $expected,
-        bool $isStreamable,
+        bool $hasPlayableDestination,
         bool $isWatchableLive,
         ?CollapsedBroadcast $collapsedBroadcast
     ) {
-        $episode = $this->createConfiguredMock(Episode::class, ['isStreamable' => $isStreamable]);
+        $episode = $this->createConfiguredMock(Episode::class, ['hasPlayableDestination' => $hasPlayableDestination]);
         $this->liveBroadcastHelper->method('isWatchableLive')->willReturn($isWatchableLive);
 
         $presenter = new PlayoutPresenter($this->liveBroadcastHelper, $this->streamableHelper, $this->router, $episode, $collapsedBroadcast, null);
@@ -151,10 +151,10 @@ class PlayoutPresenterTest extends TestCase
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
 
         return [
-            'Episode is streamable returns true' => [true, true, false, null],
-            'Not streamable but is watchable live returns true' => [true, false, true, $collapsedBroadcast],
-            'Not streamable and not watchable live returns false' => [false, false, false, $collapsedBroadcast],
-            'Not streamable and no broadcast returns false' => [false, false, false, null],
+            'Episode is playable returns true' => [true, true, false, null],
+            'Not playable but is watchable live returns true' => [true, false, true, $collapsedBroadcast],
+            'Not playable and not watchable live returns false' => [false, false, false, $collapsedBroadcast],
+            'Not playable and no broadcast returns false' => [false, false, false, null],
         ];
     }
 
@@ -211,7 +211,7 @@ class PlayoutPresenterTest extends TestCase
         bool $isStreamableAlternate,
         bool $isDownloadable,
         bool $isInternational,
-        bool $isStreamable,
+        bool $hasPlayableDestination,
         bool $isWatchableLive
     ) {
         $cb = $this->createMock(CollapsedBroadcast::class);
@@ -219,7 +219,7 @@ class PlayoutPresenterTest extends TestCase
 
         $episode = $this->createConfiguredMock(
             Episode::class,
-            ['getNetwork' => $network, 'isDownloadable' => $isDownloadable, 'isStreamable' => $isStreamable, 'isStreamableAlternate' => $isStreamableAlternate]
+            ['getNetwork' => $network, 'isDownloadable' => $isDownloadable, 'hasPlayableDestination' => $hasPlayableDestination, 'isStreamableAlternate' => $isStreamableAlternate]
         );
 
         $this->liveBroadcastHelper->method('isWatchableLive')->willReturn($isWatchableLive);

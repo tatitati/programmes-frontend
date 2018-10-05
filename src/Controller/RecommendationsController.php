@@ -59,13 +59,13 @@ class RecommendationsController extends BaseController
             return reset($onDemandEpisodes);
         }
 
-        if ($programme instanceof Episode && $programme->isStreamable()) {
+        if ($programme instanceof Episode && $programme->hasPlayableDestination()) {
             return $programme;
         }
 
         if ($programme instanceof Clip) {
             $parent = $programme->getParent();
-            if ($parent instanceof Episode && $parent->isStreamable()) {
+            if ($parent instanceof Episode && $parent->hasPlayableDestination()) {
                 return $parent;
             }
         }

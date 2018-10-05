@@ -13,13 +13,14 @@ class MasterBrandsFixtures
 {
     public static function bbcOne(): MasterBrand
     {
-        return new MasterBrand(
-            new Mid('bbc_one_london'),
-            'BBC One London',
-            ImagesFixtures::bbcOneLogo(),
-            ServicesAndNetworksFixtures::networkBbcOne(),
-            null
-        );
+        return MasterBrandBuilder::any()->with([
+            'mid' => new Mid('bbc_one_london'),
+            'name' => 'BBC One London',
+            'image' => ImagesFixtures::bbcOneLogo(),
+            'network' => ServicesAndNetworksFixtures::networkBbcOne(),
+            'streamableInPlayspace' => true,
+            'competitionWarning' => null,
+        ])->build();
     }
 
     public static function radioThree(): MasterBrand
@@ -29,6 +30,7 @@ class MasterBrandsFixtures
             'name' => 'BBC Radio 3',
             'image' => ImagesFixtures::radioThreeLogo(),
             'network' => ServicesAndNetworksFixtures::networkRadioThree(),
+            'streamableInPlayspace' => true,
             'competitionWarning' => VersionBuilder::any()->with([
                 'pid' => new Pid('p00px5zn'),
             ])->build(),
@@ -37,23 +39,25 @@ class MasterBrandsFixtures
 
     public static function radioFour(): MasterBrand
     {
-        return new MasterBrand(
-            new Mid('bbc_radio_four'),
-            'BBC Radio 4',
-            ImagesFixtures::radioFourLogo(),
-            ServicesAndNetworksFixtures::networkRadioFour(),
-            null
-        );
+        return MasterBrandBuilder::any()->with([
+            'mid' => new Mid('bbc_radio_four'),
+            'name' => 'BBC Radio 4',
+            'image' => ImagesFixtures::radioFourLogo(),
+            'network' => ServicesAndNetworksFixtures::networkRadioFour(),
+            'streamableInPlayspace' => true,
+            'competitionWarning' => null,
+        ])->build();
     }
 
     public static function worldService(): MasterBrand
     {
-        return new MasterBrand(
-            new Mid('bbc_world_service'),
-            'BBC World Service',
-            ImagesFixtures::worldServiceLogo(),
-            ServicesAndNetworksFixtures::networkWorldService(),
-            null
-        );
+        return MasterBrandBuilder::any()->with([
+            'mid' => new Mid('bbc_world_service'),
+            'name' => 'BBC World Service',
+            'image' => ImagesFixtures::worldServiceLogo(),
+            'network' => ServicesAndNetworksFixtures::networkWorldService(),
+            'streamableInPlayspace' => true,
+            'competitionWarning' => null,
+        ])->build();
     }
 }

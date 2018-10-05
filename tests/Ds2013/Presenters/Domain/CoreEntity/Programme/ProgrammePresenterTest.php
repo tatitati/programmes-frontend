@@ -192,7 +192,7 @@ class ProgrammePresenterTest extends TestCase
     {
         $programme = $this->createMock(Clip::class);
         $programme->expects($this->once())
-            ->method('isStreamable')
+            ->method('hasPlayableDestination')
             ->willReturn(true);
 
         $programmePresenter = new ProgrammePresenter(
@@ -207,7 +207,7 @@ class ProgrammePresenterTest extends TestCase
     {
         $programme = $this->createMock(Clip::class);
         $programme->expects($this->once())
-            ->method('isStreamable')
+            ->method('hasPlayableDestination')
             ->willReturn(false);
 
         $programmePresenter = new ProgrammePresenter(

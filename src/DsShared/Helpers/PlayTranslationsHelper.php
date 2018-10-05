@@ -33,7 +33,7 @@ class PlayTranslationsHelper
 
     public function translateAvailableUntilToWords(ProgrammeItem $programmeItem, Service $service = null, $showAvailableUntil = true): string
     {
-        if (!$programmeItem->isStreamable()) {
+        if (!$programmeItem->hasPlayableDestination()) {
             return '';
         }
 

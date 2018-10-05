@@ -36,7 +36,7 @@
                 <time datetime="{{ presenter.getReleaseDate()|local_date('Y-m-d') }}">{{ presenter.getReleaseDate()|local_date_intl('dd MMMM Y') }}</time>
             </div>
         {% endif %}
-        {% if presenter.getEpisode().isStreamable() %}
+        {% if presenter.getEpisode().hasPlayableDestination() %}
             <p class="episode-panel__meta">
                 {% if presenter.isAvailableIndefinitely() %}
                     {{ tr('available_now') }}

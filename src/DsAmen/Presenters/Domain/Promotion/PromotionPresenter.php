@@ -58,7 +58,7 @@ class PromotionPresenter extends Presenter
 
         // Build ActionIcon
         $promotedEntity = $this->promotion->getPromotedEntity();
-        if ($promotedEntity instanceof ProgrammeItem && $promotedEntity->isStreamable()) {
+        if ($promotedEntity instanceof ProgrammeItem && $promotedEntity->hasPlayableDestination()) {
             $this->actionIcon = ['set' => 'audio-visual', 'icon' => 'play'];
         } elseif ($this->isExternalLink($this->getUrl())) {
             $this->actionIcon = ['set' => 'basics', 'icon' => 'external-link'];

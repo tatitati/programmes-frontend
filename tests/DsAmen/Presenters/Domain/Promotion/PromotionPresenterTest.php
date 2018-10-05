@@ -54,7 +54,7 @@ class PromotionPresenterTest extends TestCase
             'getPid' => new Pid('b0000001'),
             'getImage' => $image,
             'getDuration' => 11,
-            'isStreamable' => false,
+            'hasPlayableDestination' => false,
             'isTv' => false,
         ]);
 
@@ -81,7 +81,7 @@ class PromotionPresenterTest extends TestCase
             'getPid' => new Pid('b0000001'),
             'getImage' => $image,
             'getDuration' => null,
-            'isStreamable' => false,
+            'hasPlayableDestination' => false,
             'isTv' => false,
         ]);
 
@@ -108,7 +108,7 @@ class PromotionPresenterTest extends TestCase
             'getPid' => new Pid('b0000001'),
             'getImage' => $image,
             'getDuration' => 11,
-            'isStreamable' => true,
+            'hasPlayableDestination' => true,
             'isTv' => true,
         ]);
 

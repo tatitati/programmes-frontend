@@ -144,7 +144,7 @@ class ClipController extends BaseController
     {
         $parent = $clip->getParent();
         if ($parent instanceof ProgrammeItem) {
-            $this->setIstatsExtraLabels(['parent_available' => $parent->isStreamable() ? 'true' : 'false']);
+            $this->setIstatsExtraLabels(['parent_available' => $parent->hasPlayableDestination() ? 'true' : 'false']);
             $this->setIstatsExtraLabels(['parent_entity_type' => $parent->getType()]);
         }
     }

@@ -42,6 +42,7 @@ class MasterBrandsFixture extends AbstractFixture implements DependentFixtureInt
     ): MasterBrand {
         $entity = new MasterBrand($mid, $pid, $name);
         $entity->setNetwork($network);
+        $entity->setStreamableInPlayspace(true);
         $this->manager->persist($entity);
         $this->addReference('masterbrand_' . $mid, $entity);
         return $entity;

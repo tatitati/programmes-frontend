@@ -14,6 +14,7 @@ use App\Builders\ServiceBuilder;
 use App\Controller\Helpers\SchemaHelper;
 use App\DsShared\Helpers\StreamableHelper;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
+use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -102,8 +103,8 @@ class SchemaHelperTest extends TestCase
             'publishedOn' => [
                 '@type' => 'BroadcastService',
                 'broadcaster' => $this->broadcaster(),
-                'name' => 'BBC Sounds',
-                'url' => 'https://www.bbc.co.uk/radio',
+                'name' => 'BBC programmes',
+                'url' => 'this/url/was/stubbed',
             ],
             'duration' => 'PT14M57S',
             'startDate' => '4000-02-03T00:00:00+00:00',
@@ -266,21 +267,19 @@ class SchemaHelperTest extends TestCase
             'mediaType' => MediaTypeEnum::AUDIO,
             'masterBrand' => MasterBrandBuilder::any()->with([
                 'network' => NetworkBuilder::any()->build(),
+                'streamableInPlayspace' => false,
             ])->build(),
         ]);
     }
 
     private function anyEpisodeInPlayspace()
     {
-        $faker = Factory::create();
-
         return EpisodeBuilder::any()->with([
             'mediaType' => MediaTypeEnum::AUDIO,
             'masterBrand' => MasterBrandBuilder::any()->with([
+                'streamableInPlayspace' => true,
                 'network' => NetworkBuilder::any()->with([
-                    'nid' => new Nid(
-                        $faker->randomElement(['bbc_radio_four_extra', 'bbc_radio_three', 'bbc_radio_scotland'])
-                    ),
+                    'medium' => NetworkMediumEnum::RADIO,
                 ])->build(),
             ])->build(),
         ]);
@@ -288,10 +287,8 @@ class SchemaHelperTest extends TestCase
 
     private function anyEpisodeInIplayer()
     {
-        $faker = Factory::create();
-
         return EpisodeBuilder::any()->with([
-            'mediaType' => $faker->randomElement([MediaTypeEnum::UNKNOWN, MediaTypeEnum::VIDEO]),
+            'mediaType' => MediaTypeEnum::VIDEO,
         ]);
     }
 }

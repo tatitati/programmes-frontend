@@ -8,6 +8,7 @@ use App\Controller\Traits\IndexerTrait;
 use App\Ds2013\PresenterFactory;
 use App\Ds2013\Presenters\Utilities\Paginator\PaginatorPresenter;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
@@ -91,13 +92,13 @@ class GuideController extends BaseProgrammeEpisodesController
         foreach ($children as $child) {
             if ($child instanceof Series) {
                 $schemaContext['containsSeason'][] = $structuredDataHelper->getSchemaForProgrammeContainer($child);
-            } else {
+            } elseif ($child instanceof Episode) {
                 $episodeSchema = $structuredDataHelper->getSchemaForEpisode($child, false);
                 $cb = $od = null;
                 if (isset($upcomingBroadcast[(string) $child->getPid()])) {
                     $cb = $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast[(string) $child->getPid()]);
                 }
-                if ($child->isStreamable()) {
+                if ($child->hasPlayableDestination()) {
                     $od = $structuredDataHelper->getSchemaForOnDemand($child);
                 }
                 if ($cb || $od) {

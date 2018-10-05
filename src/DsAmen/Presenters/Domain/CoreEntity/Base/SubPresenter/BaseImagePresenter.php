@@ -72,6 +72,6 @@ abstract class BaseImagePresenter extends Presenter
 
     public function showCta(): bool
     {
-        return ($this->coreEntity instanceof ProgrammeItem && $this->coreEntity->isStreamable());
+        return ($this->coreEntity instanceof ProgrammeItem && $this->coreEntity->hasPlayableDestination());
     }
 }

@@ -171,7 +171,7 @@ class TranslateAvailableUntilToWordsTest extends TestCase
             $programmeItem->method('isRadio')->willReturn(false);
             $programmeItem->method('isTv')->willReturn(false);
         }
-        $programmeItem->method('isStreamable')->willReturn(true);
+        $programmeItem->method('hasPlayableDestination')->willReturn(true);
         $programmeItem->method('getStreamableUntil')->willReturn($endAvailabilityTime);
         return $programmeItem;
     }

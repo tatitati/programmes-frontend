@@ -296,11 +296,11 @@ class OnDemandPresenterTest extends TestCase
 
     /**
      * @dataProvider trueFalseDataProvider
-     * @param bool $isStreamable
+     * @param bool $hasPlayableDestination
      */
-    public function testEpisodeIsPendingWhenNoStreamableFromDate(bool $isStreamable)
+    public function testEpisodeIsPendingWhenNoStreamableFromDate(bool $hasPlayableDestination)
     {
-        $episode = $this->createEpisode(1, null, '-1 day', $isStreamable);
+        $episode = $this->createEpisode(1, null, '-1 day', $hasPlayableDestination);
         $programme = $this->createProgramme();
         $collapsedBroadcast = $this->createMock(CollapsedBroadcast::class);
         $collapsedBroadcast->method('getProgrammeItem')->willReturn($episode);
@@ -375,7 +375,7 @@ class OnDemandPresenterTest extends TestCase
      * @param null|string $streamableFrom
      * @return Episode|PHPUnit_Framework_MockObject_MockObject
      */
-    private function createEpisode(int $position = 1, ?string $streamableFrom = '+1 day', string $firstBroadcast = '-1 day', bool $isStreamable = false): Episode
+    private function createEpisode(int $position = 1, ?string $streamableFrom = '+1 day', string $firstBroadcast = '-1 day', bool $hasPlayableDestination = false): Episode
     {
         $episode = $this->createMock(Episode::class);
         $episode->method('getParent')
@@ -391,8 +391,8 @@ class OnDemandPresenterTest extends TestCase
             $episode->method('getStreamableFrom')
                 ->willReturn(new Chronos($streamableFrom));
         }
-        $episode->method('isStreamable')
-            ->willReturn($isStreamable);
+        $episode->method('hasPlayableDestination')
+            ->willReturn($hasPlayableDestination);
         return $episode;
     }
 

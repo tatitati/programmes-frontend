@@ -147,8 +147,8 @@ abstract class BaseCoreEntityPresenter extends Presenter
         return $this->subPresenterOptions('cta_options');
     }
 
-    protected function isStreamable(): bool
+    protected function hasPlayableDestination(): bool
     {
-        return ($this->coreEntity instanceof ProgrammeItem && $this->coreEntity->isStreamable());
+        return ($this->coreEntity instanceof ProgrammeItem && $this->coreEntity->hasPlayableDestination());
     }
 }

@@ -97,7 +97,7 @@ class IstatsAnalyticsLabels
             if (!is_null($context->getMasterBrand())) {
                 $this->labels['event_master_brand'] = $context->getMasterBrand()->getName();
             }
-            $this->labels['availability'] =  $context->isStreamable() ? 'true' : 'false';
+            $this->labels['availability'] =  $context->hasPlayableDestination() ? 'true' : 'false';
         }
     }
 

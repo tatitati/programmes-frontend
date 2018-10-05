@@ -19,6 +19,7 @@ use App\DsShared\Helpers\LiveBroadcastHelper;
 use App\Translate\TranslateProvider;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use RMP\Translate\TranslateFactory;
@@ -66,7 +67,7 @@ class CollapsedBroadcastPresenterTest extends TestCase
 
     public function testGetCtaPresenterReturnsStreamableWhenStreamable(): void
     {
-        $this->setStreamableAndLiveExpectations(true, false);
+        $this->setPlayableAndLiveExpectations(true, false);
 
         $cbPresenter = new CollapsedBroadcastPresenter(
             $this->mockCollapsedBroadcast,
@@ -79,7 +80,7 @@ class CollapsedBroadcastPresenterTest extends TestCase
 
     public function testGetCtaPresenterReturnsLiveWhenLive(): void
     {
-        $this->setStreamableAndLiveExpectations(false, true);
+        $this->setPlayableAndLiveExpectations(false, true);
 
         $cbPresenter = new CollapsedBroadcastPresenter(
             $this->mockCollapsedBroadcast,
@@ -92,7 +93,7 @@ class CollapsedBroadcastPresenterTest extends TestCase
 
     public function testGetCtaPresenterReturnsNullWhenNotStreamableOrLive(): void
     {
-        $this->setStreamableAndLiveExpectations(false, false);
+        $this->setPlayableAndLiveExpectations(false, false);
 
         $cbPresenter = new CollapsedBroadcastPresenter(
             $this->mockCollapsedBroadcast,
@@ -137,9 +138,9 @@ class CollapsedBroadcastPresenterTest extends TestCase
     }
 
     /** @dataProvider showStandaloneCtaProvider */
-    public function testShowStandaloneCta(bool $isOnAir, bool $isStreamable, array $options, bool $expected): void
+    public function testShowStandaloneCta(bool $isOnAir, bool $hasPlayableDestination, array $options, bool $expected): void
     {
-        $this->setStreamableAndLiveExpectations($isStreamable, $isOnAir);
+        $this->setPlayableAndLiveExpectations($hasPlayableDestination, $isOnAir);
 
         $cbPresenter = new CollapsedBroadcastPresenter(
             $this->mockCollapsedBroadcast,
@@ -165,7 +166,7 @@ class CollapsedBroadcastPresenterTest extends TestCase
     /** @dataProvider showWatchFromStartCtaProvider */
     public function testShowWatchFromStartCta(bool $isOnAir, bool $isRadio, bool $expected): void
     {
-        $this->setStreamableAndLiveExpectations(false, $isOnAir);
+        $this->setPlayableAndLiveExpectations(false, $isOnAir);
 
         $this->mockProgrammeItem->expects($this->atLeastOnce())
             ->method('isRadio')
@@ -198,7 +199,7 @@ class CollapsedBroadcastPresenterTest extends TestCase
     public function testShowDurationIsTrueForTVProgrammes(bool $givenShowImageOption)
     {
         $ctaPresenter = $this->buildCollapsedBroadcastPresenter(
-            EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true])->build(),
+            EpisodeBuilder::anyTVEpisode()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::VIDEO])->build(),
             $givenShowImageOption
         )->getCtaPresenter();
 
@@ -213,7 +214,7 @@ class CollapsedBroadcastPresenterTest extends TestCase
     public function testShowDurationIsFalseForRadioProgrammes(bool $givenShowImageOption)
     {
         $ctaPresenter = $this->buildCollapsedBroadcastPresenter(
-            EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true])->build(),
+            EpisodeBuilder::anyRadioEpisode()->with(['isStreamable' => true, 'mediaType' => MediaTypeEnum::AUDIO])->build(),
             $givenShowImageOption
         )->getCtaPresenter();
 
@@ -252,13 +253,13 @@ class CollapsedBroadcastPresenterTest extends TestCase
         return $cb;
     }
 
-    private function setStreamableAndLiveExpectations(bool $isStreamable, bool $isLive)
+    private function setPlayableAndLiveExpectations(bool $hasPlayableDestination, bool $isLive)
     {
         $this->mockProgrammeItem = $this->createMock(ProgrammeItem::class);
 
         $this->mockProgrammeItem->expects($this->any())
-            ->method('isStreamable')
-            ->willReturn($isStreamable);
+            ->method('hasPlayableDestination')
+            ->willReturn($hasPlayableDestination);
 
         $this->mockCollapsedBroadcast->expects($this->atLeastOnce())
             ->method('getProgrammeItem')

@@ -1,13 +1,13 @@
 {% import _self as self %}
 
 <div class="playout">
-    {% if clip_playout.getClip().isStreamable() %}
+    {% if clip_playout.getClip().hasPlayableDestination() %}
         {% if clip_playout.shouldStreamViaPlayspace() %}
             {{  self.renderPlayerAsLink(clip_playout.getClip())}}
         {% else %}
             {{ ds2013_presenter(clip_playout.getSmpPresenter()) }}
         {% endif %}
-    {% elseif clip_playout.getClip().getStreamableFrom() is not null %}
+    {% elseif clip_playout.getClip().hasFutureAvailability() %}
         {{ self.renderUnavailableAsLink(clip_playout.getClip(), 'clip_availability_future') }}
     {% else %}
         {{ self.renderUnavailableAsLink(clip_playout.getClip(), 'clip_availability_none') }}

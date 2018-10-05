@@ -56,7 +56,7 @@ class CoreEntityTitlePresenterTest extends TestCase
         $network = NetworkBuilder::any()->with(['nid' => new Nid('bbc_radio_three')])->build();
 
         // Audio Clip whitelisted to go to playspace
-        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network])->build();
+        $masterBrand = MasterBrandBuilder::any()->with(['network' => $network, 'streamableInPlayspace' => true])->build();
         $playspaceAudioClip = ClipBuilder::any()->with([
             'mediaType' => MediaTypeEnum::AUDIO,
             'masterBrand' => $masterBrand,

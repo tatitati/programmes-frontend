@@ -191,7 +191,7 @@ class EpisodeController extends BaseController
     ): array {
         $schemaContext = $structuredDataHelper->getSchemaForEpisode($episode, true);
         if ($upcomingBroadcast) {
-            if ($episode->isStreamable()) {
+            if ($episode->hasPlayableDestination()) {
                 $schemaContext['publication'] = [
                     $structuredDataHelper->getSchemaForOnDemand($episode),
                     $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast),
@@ -199,7 +199,7 @@ class EpisodeController extends BaseController
             } else {
                 $schemaContext['publication'] = $structuredDataHelper->getSchemaForCollapsedBroadcast($upcomingBroadcast);
             }
-        } elseif ($episode->isStreamable()) {
+        } elseif ($episode->hasPlayableDestination()) {
             $schemaContext['publication'] = $structuredDataHelper->getSchemaForOnDemand($episode);
         }
 

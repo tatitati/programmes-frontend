@@ -62,10 +62,10 @@ class ImagePresenterTest extends BaseSubPresenterTest
     public function showCtaProvider(): array
     {
         $streamableEpisode = $this->createMock(Episode::class);
-        $streamableEpisode->method('isStreamable')->willReturn(true);
+        $streamableEpisode->method('hasPlayableDestination')->willReturn(true);
 
         $nonStreamableEpisode = $this->createMock(Episode::class);
-        $nonStreamableEpisode->method('isStreamable')->willReturn(false);
+        $nonStreamableEpisode->method('hasPlayableDestination')->willReturn(false);
 
         $brand = $this->createMock(Brand::class);
 

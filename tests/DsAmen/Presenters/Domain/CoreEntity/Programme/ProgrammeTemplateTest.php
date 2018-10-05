@@ -240,7 +240,7 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
 
             [$programmeTv, 'audio', true],
             [$programmeTv, 'audio_video', false],
-            [$programmeTv, '', true],
+            [$programmeTv, '', false],
         ];
     }
 
