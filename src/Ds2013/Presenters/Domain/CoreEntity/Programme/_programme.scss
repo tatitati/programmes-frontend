@@ -38,7 +38,7 @@ $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18
     &.programme__img--standalone-cta {
         float: right;
         margin-right: 0;
-        margin-left: 0;
+        margin-left: $basic-spacing;
         width: inherit;
     }
 }
