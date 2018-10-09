@@ -25,12 +25,6 @@ programme_article_listings:
     defaults: { _controller: App\Controller\Articles\IndexController }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}'}
 
-programme_broadcasts:
-    path: /programmes/{pid}/broadcasts
-    controller: App\Controller\RedirectAndCacheController::redirectAction
-    defaults: { route: find_by_pid, _fragment: 'broadcasts', permanent: true  }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
 programme_credits:
     path: /programmes/{pid}/credits
     controller: App\Controller\RedirectAndCacheController::redirectAction
