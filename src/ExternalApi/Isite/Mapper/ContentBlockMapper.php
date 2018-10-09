@@ -12,13 +12,19 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
 use App\ExternalApi\Isite\Domain\ContentBlock\Quiz;
+use App\ExternalApi\Isite\Domain\ContentBlock\Prose;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
 use App\ExternalApi\Isite\Domain\ContentBlock\ThirdParty;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use App\ExternalApi\Isite\Domain\ContentBlock\Touchcast;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
 use Exception;
+use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 
 class ContentBlockMapper extends Mapper
@@ -29,15 +35,84 @@ class ContentBlockMapper extends Mapper
     /** @var IdtQuizService */
     private $idtQuizService;
 
+    /** @var ProgrammesService */
+    private $programmesService;
+
+    /**  @var VersionsService  */
+    private $versionsService;
+
+    /** @var LoggerInterface */
+    private $logger;
+
+    /**
+     * All available clip will be set here at once so we don't need to query the DB or Redis multiple times
+     *
+     * var Clip[]
+     */
+    private $clips = [];
+
+    /** @var Version[] */
+    private $streamableVersions = [];
+
     public function __construct(
         MapperFactory $mapperFactory,
         IsiteKeyHelper $isiteKeyHelper,
         CoreEntitiesService $coreEntitiesService,
-        IdtQuizService $idtQuizService
+        IdtQuizService $idtQuizService,
+        ProgrammesService $programmesService,
+        VersionsService $versionsService,
+        LoggerInterface $logger
     ) {
         parent::__construct($mapperFactory, $isiteKeyHelper);
         $this->coreEntitiesService = $coreEntitiesService;
         $this->idtQuizService = $idtQuizService;
+        $this->programmesService = $programmesService;
+        $this->versionsService = $versionsService;
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param array $contentBlocksList
+     * @return AbstractContentBlock[]
+     */
+    public function getDomainModels(array $contentBlocksList): array
+    {
+        $clipsPid = [];
+        // get clips queries
+        foreach ($contentBlocksList as $block) {
+            $type = $this->getType($block->result);
+            $form = $this->getForm($block->result);
+            if ('prose' === $type) {
+                $clipPidString = $this->getString($form->content->clip);
+                if (!empty($clipPidString)) {
+                    try {
+                        $clipsPid[] = new Pid($clipPidString);
+                    } catch (InvalidArgumentException $e) {
+                        $this->logger->error('Invalid clip PID: "' . $clipPidString . '" from iSite prose');
+                    }
+                }
+            }
+            if ('clips' === $type) {
+                foreach ($form->content->clips as $isiteClip) {
+                    $clipPidString = $this->getString($isiteClip->pid);
+                    if (!empty($clipPidString)) {
+                        try {
+                            $clipsPid[] = new Pid($clipPidString);
+                        } catch (InvalidArgumentException $e) {
+                            $this->logger->error('Invalid clip PID: "' . $clipPidString . '" from iSite clips');
+                        }
+                    }
+                }
+            }
+        }
+        $this->clips = $this->coreEntitiesService->findByPids($clipsPid, 'Clip');
+        $this->streamableVersions = $this->versionsService->findStreamableVersionForProgrammeItems($this->clips);
+
+        $contentBlock = [];
+        foreach ($contentBlocksList as $block) {
+            $contentBlock[] = $this->getDomainModel($block->result);
+        }
+        return $contentBlock;
     }
 
     /**
@@ -123,6 +198,25 @@ class ContentBlockMapper extends Mapper
                     // @codingStandardsIgnoreEnd
                 }
                 $contentBlock = new Promotions($promotions, $layout, $title);
+                break;
+            case 'prose':
+                $contentBlockData = $form->content;
+                $clipPid = $this->getString($contentBlockData->clip);
+                $clip = (isset($this->clips[$clipPid])) ? $this->clips[$clipPid] : null;
+                $streamableVersions = (isset($this->streamableVersions[$clipPid])) ? $this->streamableVersions[$clipPid] : null;
+                $contentBlock = new Prose(
+                    $this->getString($contentBlockData->title),
+                    $this->getString($contentBlockData->prose),
+                    $this->getString($contentBlockData->image),
+                    // @codingStandardsIgnoreStart
+                    $this->getString($contentBlockData->image_caption),
+                    $this->getString($contentBlockData->quote),
+                    $this->getString($contentBlockData->quote_attribution),
+                    $clip,
+                    $this->getString($contentBlockData->media_position),
+                    // @codingStandardsIgnoreEnd
+                    $streamableVersions
+                );
                 break;
             case 'table':
                 $contentBlockData = $form->content;

@@ -9,7 +9,10 @@ use App\ExternalApi\Isite\Domain\Profile;
 use App\ExternalApi\Isite\Mapper\MapperFactory;
 use App\ExternalApi\Isite\Mapper\ProfileMapper;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 
 /**
@@ -24,11 +27,17 @@ class ProfileMapperTest extends TestCase
     {
         $keyHelper = new IsiteKeyHelper();
         $ces = $this->createMock(CoreEntitiesService::class);
+        $ps = $this->createMock(ProgrammesService::class);
+        $vs = $this->createMock(VersionsService::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $this->mapper = new ProfileMapper(
             new MapperFactory(
                 $keyHelper,
                 $ces,
-                $this->getMockBuilder(IdtQuizService::class)->disableOriginalConstructor()->getMock()
+                $this->getMockBuilder(IdtQuizService::class)->disableOriginalConstructor()->getMock(),
+                $ps,
+                $vs,
+                $logger
             ),
             $keyHelper
         );

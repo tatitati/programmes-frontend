@@ -6,13 +6,25 @@ namespace App\ExternalApi\Isite\Mapper;
 use App\Controller\Helpers\IsiteKeyHelper;
 use App\ExternalApi\IdtQuiz\IdtQuizService;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
+use Psr\Log\LoggerInterface;
 
 class MapperFactory
 {
     protected $instances = [];
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /** @var CoreEntitiesService */
     private $coreEntitiesService;
+
+    /** @var ProgrammesService */
+    private $programmesService;
+
+    /** @var VersionsService */
+    private $versionsService;
 
     private $isiteKeyHelper;
 
@@ -22,11 +34,17 @@ class MapperFactory
     public function __construct(
         IsiteKeyHelper $isiteKeyHelper,
         CoreEntitiesService $coreEntitiesService,
-        IdtQuizService $idtQuizService
+        IdtQuizService $idtQuizService,
+        ProgrammesService $programmesService,
+        VersionsService $versionsService,
+        LoggerInterface $logger
     ) {
         $this->isiteKeyHelper = $isiteKeyHelper;
         $this->coreEntitiesService = $coreEntitiesService;
         $this->idtQuizService = $idtQuizService;
+        $this->programmesService = $programmesService;
+        $this->versionsService = $versionsService;
+        $this->logger = $logger;
     }
 
     public function createArticleMapper(): ArticleMapper
@@ -41,7 +59,10 @@ class MapperFactory
                 $this,
                 $this->isiteKeyHelper,
                 $this->coreEntitiesService,
-                $this->idtQuizService
+                $this->idtQuizService,
+                $this->programmesService,
+                $this->versionsService,
+                $this->logger
             );
         }
         return $this->instances[ContentBlockMapper::class];

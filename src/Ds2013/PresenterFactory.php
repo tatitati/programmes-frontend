@@ -10,6 +10,7 @@ use App\Ds2013\Presenters\Domain\ContentBlock\Galleries\GalleriesPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Promotions\PromotionsPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\Prose\ProsePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Quiz\QuizPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Table\TablePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Telescope\TelescopePresenter;
@@ -48,6 +49,7 @@ use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
+use App\ExternalApi\Isite\Domain\ContentBlock\Prose;
 use App\ExternalApi\Isite\Domain\ContentBlock\Quiz;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Domain\ContentBlock\Telescope;
@@ -268,6 +270,9 @@ class PresenterFactory
         if ($contentBlock instanceof Promotions) {
             return new PromotionsPresenter($contentBlock, $inPrimaryColumn, $options);
         }
+        if ($contentBlock instanceof Prose) {
+            return new ProsePresenter($contentBlock, $inPrimaryColumn, $options);
+        }
         if ($contentBlock instanceof Quiz) {
             return new QuizPresenter($contentBlock, $inPrimaryColumn, $options);
         }
@@ -364,8 +369,8 @@ class PresenterFactory
         ProgrammeItem $programmeItem,
         Version $streamableVersion,
         array $segmentEvents,
-        string $analyticsCounterName,
-        array $analyticsLabels,
+        ?string $analyticsCounterName,
+        ?array $analyticsLabels,
         array $options = []
     ): SmpPresenter {
         return new SmpPresenter(

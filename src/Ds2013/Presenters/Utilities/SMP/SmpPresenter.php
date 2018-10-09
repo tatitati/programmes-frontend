@@ -20,6 +20,7 @@ class SmpPresenter extends Presenter
             695 => 976,
         ],
         'uas' => true,
+        'autoplay' => true,
     ];
 
     /** @var ProgrammeItem */
@@ -50,8 +51,8 @@ class SmpPresenter extends Presenter
         ProgrammeItem $programmeItem,
         Version $streamableVersion,
         array $segmentEvents,
-        string $analyticsCounterName,
-        array $analyticsLabels,
+        ?string $analyticsCounterName,
+        ?array $analyticsLabels,
         SmpPlaylistHelper $smpPlaylistHelper,
         UrlGeneratorInterface $router,
         CosmosInfo $cosmosInfo,
@@ -88,11 +89,11 @@ class SmpPresenter extends Presenter
             $this->streamableVersion
         );
 
-        return [
+        $smpConfig = [
             'container' => '#' . $this->getContainerId(),
             'pid' => (string) $this->programmeItem->getPid(),
             'smpSettings' => [
-                'autoplay' => ($this->programmeItem instanceof Clip) ? true : false,
+                'autoplay' => $this->options['autoplay'],
                 'ui' => [
                     'controls' => [
                         'enabled' => true,
@@ -103,23 +104,30 @@ class SmpPresenter extends Presenter
                     ],
                 ],
                 'playlistObject' => $smpPlaylist,
-                'statsObject' => [
-                    'siteId' => $this->analyticsLabels['bbc_site'] ?? '',
-                    'product' => $this->analyticsLabels['prod_name'],
-                    'appName' => $this->analyticsLabels['app_name'],
-                    'appType' => 'responsive',
-                    'parentPID'     => (string) $this->programmeItem->getPid(),
-                    'parentPIDType' => $this->programmeItem->getType(),
-                    'sessionLabels' => [
-                        'bbc_site' => $this->analyticsLabels['bbc_site'] ?? '',
-                        'event_master_brand' => $this->analyticsLabels['event_master_brand'] ?? '',
-                    ],
-                ],
-                'counterName' => $this->analyticsCounterName,
                 'externalEmbedUrl' => $this->router->generate('programme_player', ['pid' => (string) $this->programmeItem->getPid()]),
             ],
             'markers' => $this->smpPlaylistHelper->getMarkers($this->segmentEvents, $this->programmeItem),
         ];
+
+        if (!empty($this->analyticsCounterName)) {
+            $smpConfig['smpSettings']['counterName'] = $this->analyticsCounterName;
+        }
+        if (!empty($this->analyticsLabels)) {
+            $smpConfig['smpSettings']['statsObject'] = [
+                'siteId' => $this->analyticsLabels['bbc_site'] ?? '',
+                'product' => $this->analyticsLabels['prod_name'],
+                'appName' => $this->analyticsLabels['app_name'],
+                'appType' => 'responsive',
+                'parentPID'     => (string) $this->programmeItem->getPid(),
+                'parentPIDType' => $this->programmeItem->getType(),
+                'sessionLabels' => [
+                    'bbc_site' => $this->analyticsLabels['bbc_site'] ?? '',
+                    'event_master_brand' => $this->analyticsLabels['event_master_brand'] ?? '',
+                ],
+            ];
+        }
+
+        return $smpConfig;
     }
 
     public function getFactoryOptions(): array

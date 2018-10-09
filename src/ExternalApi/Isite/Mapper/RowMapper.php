@@ -35,12 +35,12 @@ class RowMapper extends Mapper
             throw new Exception('Blocks have not been fetched');
         }
         $contentBlocks = [];
+        $contentBlocksList = [];
         foreach ($blocks as $block) {
             if ($this->isPublished($block->{$name})) { // Must be published
-                $contentBlocks[] = $this->mapperFactory->createContentBlockMapper()->getDomainModel(
-                    $block->{$name}->result
-                );
+                $contentBlocksList[] = $block->{$name};
             }
+            $contentBlocks = $this->mapperFactory->createContentBlockMapper()->getDomainModels($contentBlocksList);
         }
 
         return $contentBlocks;

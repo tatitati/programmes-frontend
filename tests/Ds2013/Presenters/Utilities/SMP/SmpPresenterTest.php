@@ -27,7 +27,7 @@ class SmpPresenterTest extends TestCase
     public function testSmpSettingsAutoplay()
     {
         $this->assertTrue($this->presenter()->getSmpConfig()['smpSettings']['autoplay']);
-        $this->assertFalse($this->presenter(false)->getSmpConfig()['smpSettings']['autoplay']);
+        $this->assertFalse($this->presenter(true, 'audio_video', false)->getSmpConfig()['smpSettings']['autoplay']);
     }
 
     public function testSmpSettingsUI()
@@ -59,7 +59,7 @@ class SmpPresenterTest extends TestCase
         ], $this->presenter()->getSmpConfig()['smpSettings']['statsObject']);
     }
 
-    private function presenter(bool $useClip = true, $mediaType = 'audio_video'): SmpPresenter
+    private function presenter(bool $useClip = true, $mediaType = 'audio_video', $autoplay = true): SmpPresenter
     {
         $stubRouter = $this->createConfiguredMock(UrlGeneratorInterface::class, [
             'generate' => 'stubbed/url/from/router',
@@ -69,6 +69,11 @@ class SmpPresenterTest extends TestCase
             $programme = ClipBuilder::any()->with(['pid' => new Pid('st000001'), 'mediaType' => $mediaType])->build();
         } else {
             $programme = EpisodeBuilder::any()->with(['pid' => new Pid('st000001'), 'mediaType' => $mediaType])->build();
+        }
+
+        $options = [];
+        if ($autoplay === false) {
+            $options = ['autoplay' => false];
         }
 
         return new SmpPresenter(
@@ -85,7 +90,7 @@ class SmpPresenterTest extends TestCase
             new SmpPlaylistHelper($this->createMock(GuidanceWarningHelper::class)),
             $stubRouter,
             $this->createMock(CosmosInfo::class),
-            []
+            $options
         );
     }
 }

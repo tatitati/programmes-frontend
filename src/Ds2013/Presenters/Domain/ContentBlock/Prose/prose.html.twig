@@ -1,0 +1,38 @@
+{% extends "@Ds2013/Presenters/Domain/ContentBlock/content_block.html.twig" %}
+
+{% block blockContent %}
+    <div class="text--prose">
+        {# Print the first paragraph #}
+        {% if content_block.getParagraphs() is not empty %}
+            {{ content_block.getHeaderParagraph()|raw }}
+        {% endif %}
+        <div {% if content_block.isInPrimaryColumn() %}class="1/2@bpw pull--{{ content_block.getBlock().getMediaPosition() }}-spaced@bpw"{% endif %}>
+            {% if content_block.getBlock().getClip() is not empty %}
+                <div class="component smp">{{ ds2013('smp', content_block.getBlock().getClip(), content_block.getBlock().getStreamableVersion(), [], null, null, {'autoplay': 'false'} ) }}</div>
+            {% endif %}
+            {% if content_block.getBlock().getImage() is not empty %}
+                <div class="component">
+                        {{ ds_shared('image', content_block.getBlock().getImage(), 320, '') }}
+                    {% if content_block.getBlock().getImageCaption() is not empty %}
+                        <div class="centi island--squashed {% if content_block.isInPrimaryColumn() %}br-box-highlight{% else %}br-box-page{% endif %}">
+                            {{ content_block.getBlock().getImageCaption() }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if content_block.getBlock().getQuote() is not empty %}
+                <blockquote class="full-quote island component text--left {% if content_block.isInPrimaryColumn() %}br-box-highlight{% else %}br-box-page{% endif %}">
+                    <div class="alpha component">{{ gelicon('core','quote', 'gelicon--alpha') }}</div>
+                    <div class="beta component">{{ content_block.getBlock().getQuote() }}</div>
+                    {% if content_block.getBlock().getQuoteAttribution() is not empty %}
+                        <div class="gamma text--right"><cite>{{ content_block.getBlock().getQuoteAttribution() }}</cite></div>
+                    {% endif %}
+                </blockquote>
+            {% endif %}
+        </div>
+        {# Print second to last paragraph #}
+        {% for paragraph in content_block.getFooterParagraphs() %}
+            {{ paragraph|raw }}
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -50,13 +50,15 @@ class ProfileMapper extends Mapper
             if (empty($blocks[0]->content_block->result)) {
                 $contentBlocks = null; // Content blocks have not been fetched
             } else {
+                $contentBlocksList = [];
                 foreach ($blocks as $block) {
                     if ($this->isPublished($block->content_block)) { // Must be published
-                        $contentBlocks[] = $this->mapperFactory->createContentBlockMapper()->getDomainModel(
-                            $block->content_block->result
-                        );
+                        $contentBlocksList[] = $block->content_block;
                     }
                 }
+                $contentBlocks = $this->mapperFactory->createContentBlockMapper()->getDomainModels(
+                    $contentBlocksList
+                );
             }
         }
 

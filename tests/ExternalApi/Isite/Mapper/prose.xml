@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result xmlns="https://production.bbc.co.uk/isite2/contentreader/xml/result">
+    <metadata>
+        <modifiedDateTime>2018-09-26T12:28:27.805969Z</modifiedDateTime>
+        <creationDateTime>2018-08-13T08:33:14.168856Z</creationDateTime>
+        <type>programmes-content-prose</type>
+        <fileId>programmes-content-1534152788</fileId>
+        <guid>651c28c6-b7da-4f20-b2d3-9d6fbee6a976</guid>
+    </metadata>
+    <document>
+        <form
+            xmlns="https://production.bbc.co.uk/isite2/project/progs-englishregions/programmes-content-prose">
+            <metadata>
+                <name>Prose test profile</name>
+                <file_id>1534152788</file_id>
+            </metadata>
+            <content>
+                <title>This is a prose content box</title>
+                <prose>&lt;p&gt;Lorem ipsum &lt;strong&gt;dolor sit amet&lt;/strong&gt;&lt;/p&gt;</prose>
+                <image>p019x81g</image>
+                <image_caption>This is an optional image caption</image_caption>
+                <quote>Only two things are infinite</quote>
+                <quote_attribution>Albert Einstein</quote_attribution>
+                <clip>p02f3wtn</clip>
+                <media_position>right</media_position>
+            </content>
+        </form>
+    </document>
+</result>

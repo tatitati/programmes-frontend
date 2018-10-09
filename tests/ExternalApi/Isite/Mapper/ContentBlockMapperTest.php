@@ -8,14 +8,18 @@ use App\ExternalApi\Client\HttpApiClientFactory;
 use App\ExternalApi\IdtQuiz\IdtQuizService;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
+use App\ExternalApi\Isite\Domain\ContentBlock\Prose;
 use App\ExternalApi\Isite\Domain\ContentBlock\Quiz;
 use App\ExternalApi\Isite\Domain\ContentBlock\Table;
 use App\ExternalApi\Isite\Mapper\ContentBlockMapper;
 use App\ExternalApi\Isite\Mapper\MapperFactory;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 use Tests\App\ReflectionHelper;
 
@@ -35,15 +39,24 @@ class ContentBlockMapperTest extends TestCase
 
         $keyHelper = new IsiteKeyHelper();
         $ces = $this->createMock(CoreEntitiesService::class);
+        $ps = $this->createMock(ProgrammesService::class);
+        $vs = $this->createMock(VersionsService::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $this->mapper = new ContentBlockMapper(
             new MapperFactory(
                 $keyHelper,
                 $ces,
-                $this->idtQuizService
+                $this->idtQuizService,
+                $ps,
+                $vs,
+                $logger
             ),
             $keyHelper,
             $ces,
-            $this->idtQuizService
+            $this->idtQuizService,
+            $ps,
+            $vs,
+            $logger
         );
     }
 
@@ -134,5 +147,21 @@ class ContentBlockMapperTest extends TestCase
             'shortSynopsis' => 'This is a short synopsis',
         ];
         $this->assertEquals($expectedPromotions, $block->getPromotions());
+    }
+
+    public function testMappingProseObject()
+    {
+        $xml = new SimpleXMLElement(file_get_contents(__DIR__ . '/prose.xml'));
+
+        $block = $this->mapper->getDomainModel($xml);
+
+        $this->assertInstanceOf(Prose::class, $block);
+        $this->assertEquals('This is a prose content box', $block->getTitle());
+        $this->assertEquals('<p>Lorem ipsum <strong>dolor sit amet</strong></p>', $block->getProse());
+        $this->assertEquals('p019x81g', $block->getImage());
+        $this->assertEquals('This is an optional image caption', $block->getImageCaption());
+        $this->assertEquals('Only two things are infinite', $block->getQuote());
+        $this->assertEquals('Albert Einstein', $block->getQuoteAttribution());
+        $this->assertEquals('right', $block->getMediaPosition());
     }
 }
