@@ -37,7 +37,8 @@ class HttpApiClientFactory
         $resultOnError = [],
         $standardTTL = CacheInterface::NORMAL,
         $notFoundTTL = CacheInterface::SHORT,
-        array $guzzleOptions = []
+        array $guzzleOptions = [],
+        bool $bubbleFailure = false
     ) {
         $guzzleOptions = array_merge(self::DEFAULT_GUZZLE_OPTIONS, $guzzleOptions);
         return new HttpApiMultiClient(
@@ -51,7 +52,8 @@ class HttpApiClientFactory
             $resultOnError,
             $standardTTL,
             $notFoundTTL,
-            $guzzleOptions
+            $guzzleOptions,
+            $bubbleFailure
         );
     }
 

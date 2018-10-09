@@ -66,7 +66,8 @@ abstract class IsiteService
             CacheInterface::NONE,
             [
                 'timeout' => 10,
-            ]
+            ],
+            true
         );
 
         return $client->makeCachedPromise();
@@ -105,7 +106,8 @@ abstract class IsiteService
             CacheInterface::NONE,
             [
                 'timeout' => 10,
-            ]
+            ],
+            true
         );
 
         return $client->makeCachedPromise();

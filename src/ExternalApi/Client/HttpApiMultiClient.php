@@ -19,6 +19,9 @@ use Throwable;
 
 class HttpApiMultiClient
 {
+    /** @var bool */
+    private $bubbleFailure;
+
     /** @var ClientInterface */
     private $client;
 
@@ -74,6 +77,8 @@ class HttpApiMultiClient
      *   TTL for a 404 API response
      * @param array $guzzleOptions
      *   Extra options for guzzle client
+     * @param bool $bubbleFailure
+     *   Set to true if you want iSite failures to bubble up
      */
     public function __construct(
         ClientInterface $client,
@@ -86,7 +91,8 @@ class HttpApiMultiClient
         $resultOnError,
         $standardTTL,
         $notFoundTTL,
-        array $guzzleOptions
+        array $guzzleOptions,
+        bool $bubbleFailure = false
     ) {
         $this->requestUrls = $requestUrls;
         $this->client = $client;
@@ -99,6 +105,7 @@ class HttpApiMultiClient
         $this->standardTTL = $standardTTL;
         $this->notFoundTTL = $notFoundTTL;
         $this->guzzleOptions = $guzzleOptions;
+        $this->bubbleFailure = $bubbleFailure;
     }
 
     public function makeCachedRequest()
@@ -168,6 +175,9 @@ class HttpApiMultiClient
                 $urls = implode(',', $this->requestUrls);
             }
             $this->logger->error("HTTP Error status $responseCode for one of this URLs $urls : " . $e->getMessage());
+            if ($this->bubbleFailure) {
+                throw $e;
+            }
         } elseif ($this->notFoundTTL !== CacheInterface::NONE) {
             // 404s get cached for a shorter time
             $this->cache->setItem($this->cacheItem, $this->resultOnError, $this->notFoundTTL);
