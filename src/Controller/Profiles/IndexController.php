@@ -46,6 +46,8 @@ class IndexController extends BaseController
             $parameters['profiles'] = $profiles;
         }
 
+        $this->overridenDescription = 'Profiles for ' . $coreEntity->getTitle();
+
         return $this->renderWithChrome('profiles/index.html.twig', $parameters);
     }
 }

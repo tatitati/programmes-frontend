@@ -36,6 +36,8 @@ class IndexController extends BaseController
             $parameters['articles'] = $articles;
         }
 
+        $this->overridenDescription = 'Articles about ' . $coreEntity->getTitle();
+
         return $this->renderWithChrome('articles/index.html.twig', $parameters);
     }
 }

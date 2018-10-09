@@ -68,6 +68,8 @@ class GuideController extends BaseProgrammeEpisodesController
 
         $schema = $this->getSchema($structuredDataHelper, $programme, $children, $upcomingBroadcasts);
 
+        $this->overridenDescription = 'All episodes of ' . $programme->getTitle();
+
         return $this->renderWithChrome('programme_episodes/guide.html.twig', [
             'programme' => $programme,
             'children' => $children,

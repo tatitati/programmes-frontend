@@ -38,6 +38,8 @@ class UpcomingController extends BaseProgrammeEpisodesController
 
         $schema = $this->getSchema($structuredDataHelper, $programme, $upcomingBroadcasts);
 
+        $this->overridenDescription = 'Upcoming episodes of ' . $programme->getTitle();
+
         return $this->renderWithChrome('programme_episodes/upcoming.html.twig', [
             'programme' => $programme,
             'upcomingBroadcasts' => $upcomingBroadcasts,

@@ -25,6 +25,8 @@ class EpisodesDownloadsController extends BaseController
 
         $this->setContextAndPreloadBranding($programme);
 
+        $this->overridenDescription = 'Podcast downloads for ' . $programme->getTitle();
+
         return $this->renderWithChrome('podcast/podcast.html.twig');
     }
 }

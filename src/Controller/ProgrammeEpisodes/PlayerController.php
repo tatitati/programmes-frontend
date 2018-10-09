@@ -56,6 +56,8 @@ class PlayerController extends BaseProgrammeEpisodesController
         $subNavPresenter = $this->getSubNavPresenter($collapsedBroadcastService, $programme, $presenterFactory);
         $schema = $this->getSchema($structuredDataHelper, $programme, $availableEpisodes);
 
+        $this->overridenDescription = 'Available episodes of ' . $programme->getTitle();
+
         return $this->renderWithChrome('programme_episodes/player.html.twig', [
             'programme' => $programme,
             'availableEpisodes' => $availableEpisodes,

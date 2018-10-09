@@ -35,6 +35,8 @@ abstract class AbstractRecipesController extends BaseController
         // Cache for 5 minutes
         $this->response()->setMaxAge(300);
 
+        $this->overridenDescription = 'Recipes from ' . $programme->getTitle();
+
         return $this->renderRecipes([
             'recipes' => $apiResponse->getRecipes(),
             'total' => $apiResponse->getTotal(),
