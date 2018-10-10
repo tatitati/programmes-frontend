@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\App\Ds2013\Presenters\Utilities\Cta;
 
+use App\Builders\EpisodeBuilder;
 use App\Ds2013\Presenters\Utilities\Cta\CtaPresenter;
 use App\DsShared\Helpers\PlayTranslationsHelper;
 use App\DsShared\Helpers\StreamableHelper;
@@ -161,5 +162,40 @@ class CtaPresenterTest extends TestCase
             ->willReturn('anything');
         $presenter = new CtaPresenter($coreEntity, $playTranslationHelper, $router, $streamUrlHelper);
         $presenter->getUrl();
+    }
+
+    /**
+     * @group cta__data_link_track
+     * @dataProvider optionsProvider
+     */
+    public function testDataLinkIsConfigurable(array $givenOptions, string $expectedDataLinkTrack)
+    {
+        $presenter = $this->presenterWithOptions($givenOptions);
+
+        $this->assertEquals($expectedDataLinkTrack, $presenter->getOption('data_link_track'));
+    }
+
+    public function optionsProvider(): array
+    {
+        return [
+            'data-link-track-using-default-value' => [
+                [],
+                'programmeobjectlink=cta',
+            ],
+            'data-link-track-using-CUSTOM-value' => [
+                ['data_link_track' => 'custom-link-track'],
+                'custom-link-track',
+            ],
+        ];
+    }
+
+    private function presenterWithOptions(array $options): CtaPresenter
+    {
+        $episode = EpisodeBuilder::any()->build();
+        $dummy1 = $this->createMock(PlayTranslationsHelper::class);
+        $dummy2 = $this->createMock(UrlGeneratorInterface::class);
+        $dummy3 = $this->createMock(StreamableHelper::class);
+
+        return new CtaPresenter($episode, $dummy1, $dummy2, $dummy3, $options);
     }
 }

@@ -2,7 +2,10 @@
 declare(strict_types = 1);
 namespace Tests\App\Ds2013\Presenters\Domain\CoreEntity\Programme;
 
+use App\Builders\EpisodeBuilder;
+use App\Builders\MasterBrandBuilder;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use Cake\Chronos\Chronos;
 use Tests\App\BaseTemplateTestCase;
 use Tests\App\DataFixtures\PagesService\EpisodesFixtures;
@@ -149,6 +152,38 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
             trim($synopsisP->filter('span')->eq(2)->text()),
             'Short synopsis is correct'
         );
+    }
+
+    /**
+     * @group cta__data_link_track
+     * @dataProvider imageOptionsProvider
+     */
+    public function testDataLinkTrack(array $givenImageOptions, $expectedValueOnLinkTrack)
+    {
+        $programme = EpisodeBuilder::anyWithPlayableDestination()->build();
+
+        $crawler = $this->presenterCrawler(
+            TwigEnvironmentProvider::ds2013PresenterFactory()->programmePresenter($programme, $givenImageOptions)
+        );
+
+        $this->assertEquals(
+            $expectedValueOnLinkTrack,
+            $crawler->filter('.cta__standalone a')->attr('data-linktrack')
+        );
+    }
+
+    public function imageOptionsProvider(): array
+    {
+        return [
+            'CTA is set with default value' => [
+                ['image_options' =>  ['show_standalone_cta' => true]],
+                'programmeobjectlink=cta',
+            ],
+            'CTA is set with the specified value' => [
+                ['image_options' =>  ['show_standalone_cta' => true, 'cta_link_location_track' => 'my_custom_tag']],
+                'my_custom_tag',
+            ],
+        ];
     }
 
     protected function tearDown()

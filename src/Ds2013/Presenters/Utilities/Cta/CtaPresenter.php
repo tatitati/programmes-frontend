@@ -25,6 +25,7 @@ class CtaPresenter extends Presenter
 {
     protected $options = [
         'is_overlay' => true, // Does the CTA overlay an image?
+        'data_link_track' => "programmeobjectlink=cta",
     ];
 
     /** @var CoreEntity */

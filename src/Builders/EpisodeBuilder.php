@@ -69,4 +69,17 @@ class EpisodeBuilder extends AbstractBuilder
             'masterBrand' => MasterBrandBuilder::anyTVMasterBrand()->build(),
         ]);
     }
+
+    public static function anyWithPlayableDestination()
+    {
+        $faker = Factory::create();
+
+        return self::any()->with([
+            'isStreamable' => true,
+            'mediaType' => $faker->randomElement([MediaTypeEnum::VIDEO, MediaTypeEnum::AUDIO]),
+            'masterBrand' => MasterBrandBuilder::any()->with([
+                'streamableInPlayspace' => true,
+            ])->build(),
+        ]);
+    }
 }

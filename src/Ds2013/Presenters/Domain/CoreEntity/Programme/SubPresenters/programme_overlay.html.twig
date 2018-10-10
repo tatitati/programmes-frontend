@@ -18,7 +18,12 @@
         {% block overlay %}
             {# This block is overriden (and called directly) from CollapsedBroadcastProgrammeOverlayPresenter #}
             {% if programme_overlay.getOption('show_overlay') and not programme_overlay.isContainer() and programme_overlay.isAvailable() %}
-                {{ ds2013('cta', programme_overlay.getProgramme(), {'is_overlay': not programme_overlay.getOption('show_standalone_cta')}) }}
+                {{ ds2013('cta',
+                    programme_overlay.getProgramme(),
+                    {
+                        'is_overlay': not programme_overlay.getOption('show_standalone_cta'),
+                        'data_link_track': programme_overlay.getOption('cta_link_location_track')
+                    }) }}
             {% endif %}
         {% endblock %}
     </div>

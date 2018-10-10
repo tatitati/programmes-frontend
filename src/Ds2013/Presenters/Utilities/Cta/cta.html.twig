@@ -5,7 +5,7 @@
         <a href="{{ cta.getUrl() }}"
            class=""
            title="{{ cta.getAvailabilityInWords() }}"
-           data-linktrack="programmeobjectlink=cta"
+           data-linktrack={{ cta.getOption('data_link_track') }}
            tabindex="-1"
         >
             {% block cta_icon %}
