@@ -18,13 +18,6 @@ class RedirectAndCacheControllerTest extends BaseWebTestCase
         $this->client = static::createClient();
     }
 
-    public function testRedirectToFragmentBroadcastWithCaching()
-    {
-        $this->userVisitEpisode("programmes/p3000002/broadcasts");
-
-        $this->thenCacheRedirectTo('/programmes/p3000002#broadcasts');
-    }
-
     public function testRedirectToCreditsFragment()
     {
         $this->userVisitEpisode("programmes/p3000002/credits");
