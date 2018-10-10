@@ -6,6 +6,7 @@ namespace Tests\App\Ds2013\Presenters\Section\RelatedTopics;
 use App\Builders\AdaBuilder;
 use App\Ds2013\Presenters\Section\RelatedTopics\RelatedTopicsPresenter;
 use App\ExternalApi\Ada\Domain\AdaClass;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\DomCrawler\Crawler;
 use Tests\App\BaseTemplateTestCase;
@@ -44,7 +45,8 @@ class RelatedTopicsPresenterTest extends BaseTemplateTestCase
      */
     private function renderPresenterWithAda(AdaClass $ada): void
     {
-        $presenter = new RelatedTopicsPresenter([$ada], 'http://linkTrack.com');
+        $clipMock = $this->getMockBuilder(Clip::class)->disableOriginalConstructor()->getMock();
+        $presenter = new RelatedTopicsPresenter([$ada], $clipMock);
         $this->crawler = new Crawler($this->presenterHtml($presenter));
     }
 

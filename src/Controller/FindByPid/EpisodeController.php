@@ -139,10 +139,10 @@ class EpisodeController extends BaseController
         $this->setIstatsLiveEpisodeLabel($upcomingBroadcast);
 
         $resolvedPromises = $this->resolvePromises([
-                'favouritesButton' => $favouritesButtonService->getContent(),
-                'relatedTopics' => $relatedTopicsPromise,
-                'relatedProgrammes' => $relatedProgrammesPromise,
-                'supportingContentItems' => $supportingContentItemsPromise,
+            'favouritesButton' => $favouritesButtonService->getContent(),
+            'relatedTopics' => $relatedTopicsPromise,
+            'relatedProgrammes' => $relatedProgrammesPromise,
+            'supportingContentItems' => $supportingContentItemsPromise,
         ]);
 
         $podcast = null;
@@ -162,7 +162,6 @@ class EpisodeController extends BaseController
         );
 
         $schema = $this->getSchema($structuredDataHelper, $episode, $upcomingBroadcast, $clips, $contributions);
-
         $parameters = [
             'schema' => $schema,
             'contributions' => $contributions,

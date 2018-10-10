@@ -5,25 +5,32 @@ namespace App\Ds2013\Presenters\Section\RelatedTopics;
 
 use App\Ds2013\Presenter;
 use App\ExternalApi\Ada\Domain\AdaClass;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 
 class RelatedTopicsPresenter extends Presenter
 {
-    /** @var string */
-    private $linkTrack;
+    /** @var Programme */
+    private $context;
 
     /** @var array AdaClass[] */
     private $relatedTopics;
 
-    public function __construct(array $relatedTopics, string $linkTrack, array $options = [])
+    public function __construct(array $relatedTopics, Programme $context, array $options = [])
     {
         parent::__construct($options);
-        $this->linkTrack = $linkTrack;
+        $this->context = $context;
         $this->relatedTopics = $relatedTopics;
     }
 
     public function getLinkTrack(): string
     {
-        return $this->linkTrack;
+        if ($this->context instanceof Clip) {
+            return 'clip_topic';
+        }
+
+        return 'episode_topic';
     }
 
     /**
@@ -32,5 +39,13 @@ class RelatedTopicsPresenter extends Presenter
     public function getRelatedTopics(): array
     {
         return $this->relatedTopics;
+    }
+
+    public function hideCount(): bool
+    {
+        $contextIsEpisodePage = $this->context instanceof Episode;
+        $contextIsTleo = $this->context->isTleo();
+
+        return ($contextIsEpisodePage && $contextIsTleo);
     }
 }

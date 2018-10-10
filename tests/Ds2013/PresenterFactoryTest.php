@@ -21,6 +21,7 @@ use App\DsShared\Helpers\HelperFactory;
 use App\Translate\TranslateProvider;
 use App\ValueObject\CosmosInfo;
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
@@ -125,7 +126,8 @@ class PresenterFactoryTest extends TestCase
     public function testRelatedTopicPresenterCanBeCreated()
     {
         $ada = AdaBuilder::any()->build();
-        $presenter = $this->factory->relatedTopicsPresenter([$ada], 'any/link/track');
+        $clipMock = $this->getMockBuilder(Clip::class)->disableOriginalConstructor()->getMock();
+        $presenter = $this->factory->relatedTopicsPresenter([$ada], $clipMock);
 
         $this->assertInstanceOf(RelatedTopicsPresenter::class, $presenter);
     }

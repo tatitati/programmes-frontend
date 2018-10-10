@@ -6,7 +6,12 @@
             {% else %}
                 {% set url = path('topics_topic', {topic: relatedTopic.getId()}) %}
             {% endif %}
-            <a class="br-linkinvert" href="{{ url }}" data-linktrack="{{ related_topics.getLinkTrack() }}">{{ relatedTopic.getTitle() }} ({{ relatedTopic.getProgrammeItemCount() }})</a>
+            <a class="br-linkinvert" href="{{ url }}" data-linktrack="{{ related_topics.getLinkTrack() }}">
+                {{ relatedTopic.getTitle() }}
+                {% if not related_topics.hideCount() %}
+                    ({{ relatedTopic.getProgrammeItemCount() }})
+                {% endif %}
+            </a>
         </li>
     {%- endfor -%}
 </ol>
