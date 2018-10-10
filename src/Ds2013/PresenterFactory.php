@@ -7,6 +7,7 @@ use App\Ds2013\Presenters\Domain\Broadcast\BroadcastPresenter;
 use App\Ds2013\Presenters\Domain\BroadcastEvent\BroadcastEventPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Faq\FaqPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Galleries\GalleriesPresenter;
+use App\Ds2013\Presenters\Domain\ContentBlock\InteractiveActivity\InteractiveActivityPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Image\ImagePresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Links\LinksPresenter;
 use App\Ds2013\Presenters\Domain\ContentBlock\Promotions\PromotionsPresenter;
@@ -46,6 +47,7 @@ use App\ExternalApi\Isite\Domain\Article;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
+use App\ExternalApi\Isite\Domain\ContentBlock\InteractiveActivity;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
@@ -260,6 +262,9 @@ class PresenterFactory
         }
         if ($contentBlock instanceof Galleries) {
             return new GalleriesPresenter($contentBlock, $inPrimaryColumn, $options);
+        }
+        if ($contentBlock instanceof InteractiveActivity) {
+            return new InteractiveActivityPresenter($contentBlock, $inPrimaryColumn, $options);
         }
         if ($contentBlock instanceof Image) {
             return new ImagePresenter($contentBlock, $inPrimaryColumn, $options);

@@ -8,6 +8,7 @@ use App\ExternalApi\IdtQuiz\IdtQuizService;
 use App\ExternalApi\Isite\Domain\ContentBlock\AbstractContentBlock;
 use App\ExternalApi\Isite\Domain\ContentBlock\Faq;
 use App\ExternalApi\Isite\Domain\ContentBlock\Galleries;
+use App\ExternalApi\Isite\Domain\ContentBlock\InteractiveActivity;
 use App\ExternalApi\Isite\Domain\ContentBlock\Image;
 use App\ExternalApi\Isite\Domain\ContentBlock\Links;
 use App\ExternalApi\Isite\Domain\ContentBlock\Promotions;
@@ -313,6 +314,18 @@ class ContentBlockMapper extends Mapper
                 $contentBlock = new Touchcast(
                     $this->getString($contentBlockData->title),
                     $this->getString($contentBlockData->touchcast_id)
+                );
+                // @codingStandardsIgnoreEnd
+                break;
+            case 'kitegame':
+                // @codingStandardsIgnoreStart
+                $contentBlock = new InteractiveActivity(
+                    $this->getString($form->content->title),
+                    $this->getString($form->metadata->name),
+                    $this->getString($form->content->game_loader_url),
+                    $this->getString($form->content->path),
+                    $this->getString($form->content->width),
+                    $this->getString($form->content->height)
                 );
                 // @codingStandardsIgnoreEnd
                 break;
