@@ -6,6 +6,7 @@ parameters:
     app.ada.class_service.class: App\ExternalApi\Ada\Service\AdaClassStubService
     app.ada.programme_service.class: App\ExternalApi\Ada\Service\AdaProgrammeStubService
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronStubService
+    app.idtquiz.service.class: App\ExternalApi\IdtQuiz\IdtQuizStubService
     app.morph.service.lxpromo.class: App\ExternalApi\Morph\Service\LxPromoStubService
     app.receng.service.class: App\ExternalApi\RecEng\Service\RecEngStubService
     app.recipe.service.class: App\ExternalApi\Recipes\Service\RecipesStubService

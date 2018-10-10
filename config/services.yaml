@@ -25,6 +25,7 @@ parameters:
     app.ada.programme_service.class: App\ExternalApi\Ada\Service\AdaProgrammeService
     app.electron.baseurl: 'https://api.live.bbc.co.uk/electron'
     app.electron.service.class: App\ExternalApi\Electron\Service\ElectronService
+    app.idtquiz.service.class: App\ExternalApi\IdtQuiz\IdtQuizService
     app.favourites.baseurl: 'https://www.bbc.co.uk/modules/plugin/musicfavourite/init'
     app.favourites.service.class: App\ExternalApi\FavouritesButton\Service\FavouritesButtonService
     app.isite.baseurl: 'https://api.live.bbc.co.uk/isite2-content-reader'
@@ -343,6 +344,8 @@ services:
             $baseUrl: '%app.tupac.baseurl%'
 
     App\ExternalApi\IdtQuiz\IdtQuizService:
+        class: '%app.idtquiz.service.class%'
         arguments:
             $clientFactory: '@App\ExternalApi\Client\HttpApiClientFactory'
             $smallproxEndpoint: '%app.services.smallprox.endpoint%'
+
