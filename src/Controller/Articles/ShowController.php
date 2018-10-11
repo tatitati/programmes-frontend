@@ -10,6 +10,7 @@ use App\ExternalApi\Isite\Domain\Article;
 use App\ExternalApi\Isite\IsiteResult;
 use App\ExternalApi\Isite\Service\ArticleService;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 class ShowController extends BaseController
@@ -27,8 +28,13 @@ class ShowController extends BaseController
 
         $guid = $isiteKeyHelper->convertKeyToGuid($key);
 
-        /** @var IsiteResult $isiteResult */
-        $isiteResult = $isiteService->getByContentId($guid, $preview)->wait(true);
+        $isiteResult = null;
+        try {
+            /** @var IsiteResult $isiteResult */
+            $isiteResult = $isiteService->getByContentId($guid, $preview)->wait(true);
+        } catch (Exception $e) {
+            return $this->redirectToRoute('programme_article', ['contactForm' => 1, 'key' => $key, 'slug' => $slug] ,307);
+        }
 
         $articles = $isiteResult->getDomainModels();
         if (!$articles) {
