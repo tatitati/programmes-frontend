@@ -318,7 +318,6 @@ class ContentBlockMapper extends Mapper
                 break;
             case 'contactform':
                 throw new Exception('Contact form found');
-                break;
             default:
 //                throw new Exception('Invalid content block type. Found ' . $type);
                 break;

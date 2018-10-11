@@ -33,7 +33,7 @@ class ShowController extends BaseController
             /** @var IsiteResult $isiteResult */
             $isiteResult = $isiteService->getByContentId($guid, $preview)->wait(true);
         } catch (Exception $e) {
-            return $this->redirectToRoute('programme_article', ['contactForm' => 1, 'key' => $key, 'slug' => $slug] ,307);
+            return $this->redirectToRoute('programme_article', ['contactForm' => 1, 'key' => $key, 'slug' => $slug], 307);
         }
 
         $articles = $isiteResult->getDomainModels();
