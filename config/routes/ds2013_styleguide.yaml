@@ -17,3 +17,35 @@ ds2013_styleguide_utilities/cta:
 ds2013_styleguide_utilities/cta_insitu:
     path: /programmes/styleguide/ds2013/utilities/cta/insitu
     defaults: { _controller: App\Controller\Styleguide\Ds2013\Utilities\CtaInSituController }
+
+ds2013_styleguide_domain/broadcast_event:
+    path: /programmes/styleguide/ds2013/domain/broadcastevent
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\BroadcastEventsController }
+
+ds2013_styleguide_domain/broadcast_object:
+    path: /programmes/styleguide/ds2013/domain/broadcastobject
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\BroadcastObjectController }
+
+ds2013_styleguide_domain/programme_object:
+    path: /programmes/styleguide/ds2013/domain/programmeobject
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\ProgrammeObjectController }
+
+ds2013_styleguide_domain/GEL:
+    path: /programmes/styleguide/ds2013/domain/gel
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\GELController }
+
+ds2013_styleguide_domain/credits:
+    path: /programmes/styleguide/ds2013/domain/credits
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\CreditsController }
+
+ds2013_styleguide_domain/layout:
+    path: /programmes/styleguide/ds2013/domain/layout
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\LayoutController }
+
+ds2013_styleguide_domain/promotion:
+    path: /programmes/styleguide/ds2013/domain/promotion
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\PromotionController }
+
+ds2013_styleguide_domain/folding_list:
+    path: /programmes/styleguide/ds2013/domain/foldinglist
+    defaults: {_controller: App\Controller\Styleguide\Ds2013\Domain\FoldingListController }

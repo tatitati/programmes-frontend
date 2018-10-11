@@ -17,6 +17,7 @@ class DateListPresenter extends Presenter
         'css_classes' => '',
         'user_timezone' => 'GMT',
         'format' => 'day',
+        'isLink'=> false,
     ];
 
     /** @var ChronosInterface */
@@ -52,6 +53,7 @@ class DateListPresenter extends Presenter
             $offset,
             $this->unavailableAfterDate,
             ['user_timezone' => $this->options['user_timezone']]
+//             'isLink' => $this->options['isLink']]
         );
         // @codingStandardsIgnoreEnd
     }

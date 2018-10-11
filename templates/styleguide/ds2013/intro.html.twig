@@ -3,6 +3,7 @@
 {% block section_name %}Intro{% endblock %}
 
 {% block content %}
+<div class="prog-layout">
     <p>This is the /programmes Ds2013 styleguide. It details the components that build Ds2013-based /programmes pages.</p>
     <h3>
         <a href="{{ path('ds2013_styleguide_segments') }}">Segments</a>
@@ -18,4 +19,41 @@
             <a href="{{ path('ds2013_styleguide_utilities/cta') }}">CTAs</a>
         </li>
     </ul>
+
+    <h3><a href="{{ path('ds2013_styleguide_domain/GEL') }}">GEL standards</a></h3>
+    <h3><a href="{{ path('ds2013_styleguide_domain/broadcast_object') }}">Broadcast objects</a></h3>
+    <h3><a href="{{ path('ds2013_styleguide_domain/broadcast_event') }}">Broadcast events</a></h3>
+    <h3><a href="{{ path('ds2013_styleguide_domain/programme_object') }}">Programme Objects</a></h3>
+    <h3><a href="{{ path('ds2013_styleguide_domain/credits') }}">Credits</a></h3>
+
+    <h3><a href="{{ path('ds2013_styleguide_domain/promotion') }}">Promotions</a></h3>
+
+    <h3><a href="{{ path('ds2013_styleguide_domain/folding_list') }}">Folding List</a></h3>
+
+    <h3>Browser support</h3>
+    <p> These are the browsers we support as of 2018:</p>
+    <ul>
+        <li>
+            Chrome (latest 10 versions)
+        </li>
+        <li>
+            Firefox (latest)
+        </li>
+        <li>
+            Safari (latest 5 versions)
+        </li>
+        <li>
+            Edge (latest)
+        </li>
+        <li>
+            Internet Explorer 11 (until January 2020)
+        </li>
+        <li>
+            iOS Safari
+        </li>
+        <li>
+            Chrome Mobile
+        </li>
+    </ul>
+</div>
 {% endblock %}
