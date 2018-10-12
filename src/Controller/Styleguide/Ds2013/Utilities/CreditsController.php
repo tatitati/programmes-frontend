@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Styleguide\Ds2013\Domain;
+namespace App\Controller\Styleguide\Ds2013\Utilities;
 
 use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -37,7 +37,7 @@ class CreditsController extends BaseController
         if ($episode->getContributionsCount() > 0) {
             $contributions = $contributionsService->findByContributionToProgramme($episode, 4);
         }
-        return $this->renderWithChrome('styleguide/ds2013/domain/credits.html.twig', [
+        return $this->renderWithChrome('styleguide/ds2013/utilities/credits.html.twig', [
             'contributions' => $contributions,
         ]);
     }

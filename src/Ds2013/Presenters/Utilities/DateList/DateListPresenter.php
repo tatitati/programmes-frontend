@@ -53,7 +53,6 @@ class DateListPresenter extends Presenter
             $offset,
             $this->unavailableAfterDate,
             ['user_timezone' => $this->options['user_timezone']]
-//             'isLink' => $this->options['isLink']]
         );
         // @codingStandardsIgnoreEnd
     }
