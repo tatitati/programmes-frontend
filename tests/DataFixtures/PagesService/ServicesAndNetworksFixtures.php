@@ -11,7 +11,7 @@ use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
-use DateTimeImmutable;
+use Cake\Chronos\Chronos;
 
 class ServicesAndNetworksFixtures
 {
@@ -117,7 +117,7 @@ class ServicesAndNetworksFixtures
             'London',
             'london',
             $network,
-            new DateTimeImmutable('1964-04-20 00:01:00'),
+            new Chronos('1964-04-20 00:01:00'),
             null,
             null
         );
@@ -132,7 +132,7 @@ class ServicesAndNetworksFixtures
             'shortName' => 'BBC Radio 3',
             'urlKey' => 'bbc_radio_three',
             'network' => $network,
-            'startDate' => new DateTimeImmutable('1967-09-30 08:00:00'),
+            'startDate' => new Chronos('1967-09-30 08:00:00'),
             'endDate' => null,
             'liveStreamUrl' => null,
         ])->build();
@@ -148,7 +148,7 @@ class ServicesAndNetworksFixtures
             'FM',
             'fm',
             $network,
-            new DateTimeImmutable('1967-09-30 05:30:00'),
+            new Chronos('1967-09-30 05:30:00'),
             null,
             null
         );
@@ -164,7 +164,7 @@ class ServicesAndNetworksFixtures
             'Online',
             'bbc_world_service',
             $network,
-            new DateTimeImmutable('2000-04-01 00:00:00'),
+            new Chronos('2000-04-01 00:00:00'),
             null,
             null
         );
