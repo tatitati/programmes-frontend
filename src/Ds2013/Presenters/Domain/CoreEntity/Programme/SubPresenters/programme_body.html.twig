@@ -1,3 +1,16 @@
+{% if programme_body.containerHasAvailableEpisodes() and programme_body.getOption('show_child_availability')  %}
+    <div class="programme__child-availability milli box-link__elevated">
+        {% if programme_body.getProgramme().isRadio() %}
+            <a href="{{ path('programme_episodes_player', {'pid':programme_body.getProgramme().getPid()}) }}">
+                {{ gelicon('audio-visual', 'listen', 'gelicon gelicon--milli--reith gelicon--leading')}}<span>{{tr('show_available_episodes')}}</span>
+            </a>
+        {% else %}
+            <a class="iplayer-text" href="{{ path('programme_episodes_player', {'pid':programme_body.getProgramme().getPid()}) }}">
+                {{ gelicon('audio-visual', 'iplayer', 'gelicon gelicon--milli--reith gelicon--leading')}}<span>{{tr('show_available_episodes') }}</span>
+            </a>
+        {% endif %}
+    </div>
+{% endif %}
 {% if programme_body.getOption('show_synopsis') %}
     <p class="programme__synopsis text--subtle centi">
         {% if programme_body.hasDefinedPositionUnderParentProgramme() %}

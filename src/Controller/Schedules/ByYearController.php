@@ -19,9 +19,10 @@ class ByYearController extends SchedulesBaseController
     public function __invoke(Service $service, string $year)
     {
         if ($this->shouldRedirectToOverriddenUrl($service)) {
-            return $this->redirect(
+            return $this->cachedRedirect(
                 $service->getNetwork()->getOption('pid_override_url'),
-                $service->getNetwork()->getOption('pid_override_code')
+                $service->getNetwork()->getOption('pid_override_code'),
+                3600
             );
         }
 

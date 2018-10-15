@@ -1,0 +1,24 @@
+{% import _self as self %}
+
+<div class="cta{{ cta.getOption('is_overlay') ? ' cta__overlay' : ' cta__standalone' }}">
+    {% if cta.shouldIncludeLink() %}
+        <a href="{{ cta.getUrl() }}"
+           class=""
+           title="{{ cta.getAvailabilityInWords() }}"
+           data-linktrack="programmeobjectlink=cta"
+           tabindex="-1"
+        >
+            {% block cta_icon %}
+                {{ self.render_icon(cta) }}
+            {% endblock %}
+        </a>
+    {% else %}
+        {{ block('cta_icon') }}
+    {% endif %}
+</div>
+
+{%- macro render_icon(presenter) -%}
+    <div class="cta__icon {{ presenter.getProductClasses() }}{{ presenter.shouldIncludeLink() ? ' cta__with-link' : ' cta__without-link' }}">
+        {{ gelicon(presenter.getGelIconSet(), presenter.getMediaIconName(), 'gelicon--half-container') }}
+    </div>
+{%- endmacro -%}

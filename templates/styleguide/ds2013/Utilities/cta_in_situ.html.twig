@@ -1,0 +1,196 @@
+{% extends 'styleguide/ds2013/base.html.twig' %}
+
+{% block inline_head %}
+    <style>
+        .grid-wrapper.section {
+            background: lightgrey;
+            padding-top: 16px;
+            padding-right: 16px;
+            padding-bottom: 16px;
+            border-radius: 4px;
+        }
+    </style>
+{% endblock %}
+
+{% block section_name %}In Situ CTAs{% endblock %}
+
+{% block content %}
+    <p>
+        This page shows what the CTAs look like in situ.
+        If any CTA's don't appear, the programme may no longer be available. Find a new available programme and update the Styleguide.
+    </p>
+    <h3>Branding Options</h3>
+    Choose branding:
+    <ul class="list-unstyled">
+        <li style="display: inline-block;">
+            <a href="{{ path('ds2013_styleguide_utilities/cta') }}">Base Branding</a> |
+        </li>
+        <li style="display: inline-block;">
+            <a href="{{ path('ds2013_styleguide_utilities/cta', {'branding_context': 'b006q2x0'}) }}">Doctor Who</a> |
+        </li>
+        <li style="display: inline-block;">
+            <a href="{{ path('ds2013_styleguide_utilities/cta', {'branding_context': 'b006qpgr'}) }}">The Archers</a>
+        </li>
+    </ul>
+    <h3>Collapsed Broadcast</h3>
+    <div class="grid-wrapper section">
+        <div class="grid 1/1 1/2@bpw">
+            {{ ds2013('broadcastProgramme', tvCollapsedBroadcast, null, { 'body_options': {'show_overlay': true}}) }}
+        </div>
+        <div class="grid 1/1 1/2@bpw">
+            {{ ds2013('broadcastProgramme', radioCollapsedBroadcast, null, { 'body_options': {'show_overlay': true}}) }}
+        </div>
+    </div>
+    <h3>Programmes</h3>
+    <h4 id="overlay">Overlay CTAs</h4>
+    <div class="grid-wrapper section">
+        <div class="grid 1/2 1/4@bpw">
+            <h5>TV Video Clip</h5>
+            {{ ds2013('programme', tvClip, {
+                'context_programme': tvClip,
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>Radio Audio Clip</h5>
+            {{ ds2013('programme', audioClip, {
+                'context_programme': audioClip,
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>TV Video Episode</h5>
+            {{ ds2013('programme', tvEpisode, {
+                'context_programme': tvEpisode,
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>Radio Audio Episode</h5>
+            {{ ds2013('programme', audioEpisode, {
+                'context_programme': audioEpisode,
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>Radio Video Clip</h5>
+            {{ ds2013('programme', radioVideoClip, {
+                'context_programme': radioVideoClip,
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>TV Audio Episode</h5>
+            {{ ds2013('programme', tvAudioEpisode, {
+                'context_programme': tvAudioEpisode,
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>Radio Video Episode</h5>
+            {{ ds2013('programme', radioVideoEpisode, {
+                'context_programme': radioVideoEpisode,
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+    </div>
+    <h4 id="standalone">Standalone CTAs</h4>
+    <div class="grid-wrapper section">
+        <div class="grid 1/2 1/4@bpw">
+
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>TV Video Episode</h5>
+            {{ ds2013('programme', tvEpisode, {
+                'body_options': {
+                    'show_synopsis': false
+                },
+                'context_programme': tvEpisode,
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'show_image': false,
+                    'show_standalone_cta': true,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>Radio Audio Episode</h5>
+            {{ ds2013('programme', audioEpisode, {
+                'body_options': {
+                    'show_synopsis': false
+                },
+                'context_programme': audioEpisode,
+                'image_options': {
+                    'classes': '1/1@bpb1 1/1@bpw',
+                    'default_width': 240,
+                    'show_image': false,
+                    'show_standalone_cta': true,
+                    'sizes': { 0: 1/2, 768: 1/4, 1008: '240px'},
+                }
+            }) }}
+        </div>
+    </div>
+    <hr/>
+    <h3>Groups</h3>
+    <div class="grid-wrapper section">
+        <div class="grid 1/2 1/4@bpw">
+            <h5>Gallery</h5>
+            {{ ds2013('group', gallery, {
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'img_classes': '1/1@bpb1 1/1@bpw',
+                'show_synopsis': false,
+            }) }}
+        </div>
+        <div class="grid 1/2 1/4@bpw">
+            <h5>Collection</h5>
+            {{ ds2013('group', collection, {
+                'highlight_box_classes':'programme--grid@bpb1 programme--grid@bpw',
+                'img_classes': '1/1@bpb1 1/1@bpw',
+                'show_synopsis': false,
+            }) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,97 @@
+.cta {
+    &.cta__overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    a {
+        display: block;
+
+        &:active,
+        &:focus,
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .cta__icon {
+        float: left;
+        margin-right: 1px;
+        display: block;
+        height: $programme-icon-basic-box-size;
+        width: $programme-icon-basic-box-size;
+        color: #ffffff;
+        background: #000000;
+
+        &.iplayer-icon {
+            background: $iplayer-pink;
+        }
+
+        // Unused, just an example for the moment
+        &.sounds-icon {
+            background: #ff4900;
+        }
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+        a {
+            .cta__icon.cta__with-link {
+                color: #000000;
+                background: #ffffff;
+
+                &.iplayer-icon {
+                    background: $iplayer-grey;
+                    color: $iplayer-pink;
+                }
+
+                &.sounds-icon {
+                    color: #ff4900;
+                    background: #ffffff;
+                }
+            }
+        }
+    }
+}
+
+// If hovering over a block link that contains a link-less CTA, invert CTA colours
+.block-link {
+    &:hover,
+    &:active,
+    &:focus {
+        .cta__without-link {
+            color: #000000;
+            background: #ffffff;
+
+            &.iplayer-icon {
+                background: $iplayer-grey;
+                color: $iplayer-pink;
+            }
+
+            &.sounds-icon {
+                color: #ff4900;
+                background: #ffffff;
+            }
+        }
+    }
+}
+
+@include mq-range('bpw') {
+    .cta {
+        .cta__icon {
+            height: $programme-icon-bpw-box-size;
+            width: $programme-icon-bpw-box-size;
+        }
+    }
+}
+
+@include mq($from: 480px, $until: 769px) {
+    .cta {
+        .cta__icon {
+            height: $programme-icon-bpb1-box-size;
+            width: $programme-icon-bpb1-box-size;
+        }
+    }
+}

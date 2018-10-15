@@ -40,19 +40,18 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertContains('p01vg679', $imageLazy->attr('data-srcset'));
 
         //Test overlay link and icon
-        $overlayDiv = $crawler->filter('.programme__overlay');
+        $overlayDiv = $crawler->filter('.cta__overlay');
         $this->assertCount(1, $overlayDiv);
-        $this->assertHasClasses('programme__overlay programme__overlay--available', $overlayDiv, 'Overlay container classes');
+        $this->assertHasClasses('cta__overlay', $overlayDiv, 'Overlay container classes');
 
         $overlayLink = $overlayDiv->filterXPath('//a')->first();
         $this->assertEquals('https://localhost/iplayer/episode/p0000001', $overlayLink->attr('href'));
         $this->assertStringStartsWith('30 days left to watch', $overlayLink->attr('title'));
         $this->assertEquals('programmeobjectlink=cta', $overlayLink->attr('data-linktrack'));
-        $this->assertHasClasses('iplayer-icon--container', $overlayLink, 'Iplayer overlay link has icon classes');
         // overlay link icon
-        $iconContainer = $overlayLink->filter('.programme__icon');
+        $iconContainer = $overlayLink->filter('.cta__icon');
         $this->assertCount(1, $iconContainer);
-        $this->assertHasClasses('programme__icon br-box-page iplayer-icon iplayer-icon--boxed', $iconContainer, 'Icon container classes');
+        $this->assertHasClasses('cta__icon iplayer-icon cta__with-link', $iconContainer, 'Icon container classes');
         $this->assertCount(1, $iconContainer->filter('svg.gelicon'), 'svg icon present');
 
         // Test main link target
@@ -105,18 +104,18 @@ class ProgrammeTemplateTest extends BaseTemplateTestCase
         $this->assertContains('p04hc8d1', $imageLazy->attr('data-srcset'));
 
         //Test overlay link and icon
-        $overlayDiv = $crawler->filter('.programme__overlay');
+        $overlayDiv = $crawler->filter('.cta__overlay');
         $this->assertCount(1, $overlayDiv);
-        $this->assertHasClasses('programme__overlay programme__overlay--available', $overlayDiv, 'Overlay container classes');
+        $this->assertHasClasses('cta__overlay', $overlayDiv, 'Overlay container classes');
 
         $overlayLink = $overlayDiv->filterXPath('//a')->first();
         $this->assertEquals('http://localhost/radio/play/b0849ccf', $overlayLink->attr('href'));
         $this->assertStringStartsWith('Listen now', $overlayLink->attr('title'));
         $this->assertEquals('programmeobjectlink=cta', $overlayLink->attr('data-linktrack'));
         // overlay link icon
-        $iconContainer = $overlayLink->filter('.programme__icon');
+        $iconContainer = $overlayLink->filter('.cta__icon');
         $this->assertCount(1, $iconContainer);
-        $this->assertHasClasses('programme__icon br-box-page sounds-icon', $iconContainer, 'Icon container classes');
+        $this->assertHasClasses('cta__icon cta__with-link', $iconContainer, 'Icon container classes');
         $this->assertCount(1, $iconContainer->filter('svg.gelicon'), 'svg icon present');
 
         // Test main link target

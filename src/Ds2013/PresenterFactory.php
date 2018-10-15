@@ -21,6 +21,7 @@ use App\Ds2013\Presenters\Domain\Superpromo\SuperpromoPresenter;
 use App\Ds2013\Presenters\Pages\EpisodeGuideList\EpisodeGuideListPresenter;
 use App\Ds2013\Presenters\Pages\Schedules\NoSchedule\NoSchedulePresenter;
 use App\Ds2013\Presenters\Section\Clip\Details\ClipDetailsPresenter;
+use App\Ds2013\Presenters\Section\Clip\Playout\ClipPlayoutPresenter;
 use App\Ds2013\Presenters\Section\Episode\Map\EpisodeMapPresenter;
 use App\Ds2013\Presenters\Section\EpisodesSubNav\EpisodesSubNavPresenter;
 use App\Ds2013\Presenters\Section\Footer\FooterPresenter;
@@ -29,6 +30,7 @@ use App\Ds2013\Presenters\Section\Segments\SegmentsListPresenter;
 use App\Ds2013\Presenters\Section\SupportingContent\SupportingContentPresenter;
 use App\Ds2013\Presenters\Utilities\Calendar\CalendarPresenter;
 use App\Ds2013\Presenters\Utilities\Credits\CreditsPresenter;
+use App\Ds2013\Presenters\Utilities\Cta\CtaPresenter;
 use App\Ds2013\Presenters\Utilities\DateList\DateListPresenter;
 use App\Ds2013\Presenters\Utilities\Download\DownloadPresenter;
 use App\Ds2013\Presenters\Utilities\SMP\SmpPresenter;
@@ -49,6 +51,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
+use BBC\ProgrammesPagesService\Domain\Entity\CoreEntity;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Group;
 use BBC\ProgrammesPagesService\Domain\Entity\Podcast;
@@ -124,6 +127,26 @@ class PresenterFactory
         );
     }
 
+    public function clipPlayoutPresenter(
+        Clip $clip,
+        ?Version $streamableVersion,
+        array $segmentEvents,
+        string $analyticsCounterName,
+        array $istatsAnalyticsLabels,
+        array $options = []
+    ) : ClipPlayoutPresenter {
+        return new ClipPlayoutPresenter(
+            $this,
+            $this->helperFactory->getStreamUrlHelper(),
+            $clip,
+            $streamableVersion,
+            $segmentEvents,
+            $analyticsCounterName,
+            $istatsAnalyticsLabels,
+            $options
+        );
+    }
+
     /**
      * @param Contribution[] $contributions
      * @param mixed[] $options
@@ -135,6 +158,19 @@ class PresenterFactory
     ): CreditsPresenter {
         return new CreditsPresenter(
             $contributions,
+            $options
+        );
+    }
+
+    public function ctaPresenter(
+        CoreEntity $coreEntity,
+        array $options = []
+    ): CtaPresenter {
+        return new CtaPresenter(
+            $coreEntity,
+            $this->helperFactory->getPlayTranslationsHelper(),
+            $this->router,
+            $this->helperFactory->getStreamUrlHelper(),
             $options
         );
     }

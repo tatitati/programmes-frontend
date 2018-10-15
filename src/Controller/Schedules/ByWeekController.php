@@ -35,9 +35,10 @@ class ByWeekController extends SchedulesBaseController
         StructuredDataHelper $structuredDataHelper
     ) {
         if ($this->shouldRedirectToOverriddenUrl($service)) {
-            return $this->redirect(
+            return $this->cachedRedirect(
                 $service->getNetwork()->getOption('pid_override_url'),
-                $service->getNetwork()->getOption('pid_override_code')
+                $service->getNetwork()->getOption('pid_override_code'),
+                3600
             );
         }
 

@@ -17,37 +17,8 @@
 
         {% block overlay %}
             {# This block is overriden (and called directly) from CollapsedBroadcastProgrammeOverlayPresenter #}
-            {% if programme_overlay.getOption('show_overlay') %}
-                <div class="{{ build_css_classes(programme_overlay.getOverlayDivClasses()) }}">
-                    {% if not programme_overlay.isContainer() and programme_overlay.isAvailable() %}
-                        {% set programme_icon_classes = build_css_classes({
-                            'programme__icon' : true,
-                            ('br-box-' ~ programme_overlay.getOption('branding_context')): true,
-                            'iplayer-icon iplayer-icon--boxed': programme_overlay.isEpisode() and not programme_overlay.programmeIsAudio() ,
-                            'sounds-icon': programme_overlay.programmeIsAudio(),
-                            'programme__icon--orphaned': programme_overlay.getOption('show_standalone_cta'),
-                        }) %}
-                        {% if programme_overlay.isEpisode() %}
-                            <div>
-                                <a href="{{ programme_overlay.getPlaybackUrl() }}"
-                                   class="programme__availability programme__player{{ programme_overlay.programmeIsAudio() ? '' : ' iplayer-icon--container' }}"
-                                   title="{{ programme_overlay.getAvailabilityInWords() }}"
-                                   data-linktrack="{{ programme_overlay.getOption('cta_link_location_track') }}"
-                                   tabindex="-1"
-                                >
-                                    <div class="{{ programme_icon_classes }}">
-                                        {{ gelicon('audio-visual', programme_overlay.getMediaIconName(), 'gelicon--half-container') }}
-                                    </div>
-                                </a>
-                            </div>
-                        {% else %}
-                            {# If our available programme is NOT an episode, e.g. a clip #}
-                            <div class="{{ programme_icon_classes }}">
-                                {{ gelicon('audio-visual', programme_overlay.getMediaIconName(), 'gelicon--half-container') }}
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
+            {% if programme_overlay.getOption('show_overlay') and not programme_overlay.isContainer() and programme_overlay.isAvailable() %}
+                {{ ds2013('cta', programme_overlay.getProgramme(), {'is_overlay': not programme_overlay.getOption('show_standalone_cta')}) }}
             {% endif %}
         {% endblock %}
     </div>

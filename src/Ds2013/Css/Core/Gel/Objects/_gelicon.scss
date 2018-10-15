@@ -83,6 +83,11 @@ svg.gelicon--micro {
         height: nth($milli, 1);
     }
 
+    .gelicon--milli--reith {
+        width: nth($milli, 1);
+        height: nth($milli, 1) - 2px;
+    }
+
     .gelicon--micro {
         width: nth($micro, 1);
         height: nth($micro, 1);

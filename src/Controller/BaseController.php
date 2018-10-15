@@ -56,6 +56,9 @@ abstract class BaseController extends AbstractController
 
     protected $canonicalUrl;
 
+    /** @var string */
+    private $orbitSearchScope;
+
     /** @var bool */
     protected $metaNoIndex;
 
@@ -131,14 +134,23 @@ abstract class BaseController extends AbstractController
 
         // br-00002 is the default 'Programme Variant' - use that when we're
         // displaying programme/group/service pages.
-        if ($context instanceof CoreEntity || $context instanceof Network) {
+        $network = null;
+        if ($context instanceof CoreEntity) {
             $this->setBrandingId($context->getOption('branding_id'));
             $this->fallbackBrandingId = 'br-00002';
+            $network = $context->getNetwork();
+        } elseif ($context instanceof Network) {
+            $this->setBrandingId($context->getOption('branding_id'));
+            $this->fallbackBrandingId = 'br-00002';
+            $network = $context;
         } elseif ($context instanceof Service) {
             $this->setBrandingId($context->getNetwork()->getOption('branding_id'));
             $this->fallbackBrandingId = 'br-00002';
+            $network = $context->getNetwork();
         }
+        $this->orbitSearchScope = $this->calculateOrbitSearchScope($network);
     }
+
 
     protected function setContextAndPreloadBranding($context)
     {
@@ -201,7 +213,7 @@ abstract class BaseController extends AbstractController
             'variant' => $this->branding->getOrbitVariant(),
             'language' => $this->branding->getLanguage(),
         ], [
-            'searchScope' => $this->branding->getOrbitSearchScope(),
+            'searchScope' => $this->orbitSearchScope,
             'skipLinkTarget' => 'programmes-content',
             'analyticsCounterName' => $analyticsCounterName,
             'analyticsLabels' => $istatsAnalyticsLabels->orbLabels(),
@@ -237,11 +249,15 @@ abstract class BaseController extends AbstractController
      *
      * @param string $url    The URL to redirect to
      * @param int    $status The status code to use for the Response
+     * @param int    $cacheLifetime Seconds the response should be cached for
      *
      * @return RedirectResponse
      */
-    protected function cachedRedirect($url, $status = 302): RedirectResponse
+    protected function cachedRedirect($url, $status = 302, int $cacheLifetime = null): RedirectResponse
     {
+        if ($cacheLifetime !== null) {
+            $this->response()->setPublic()->setMaxAge($cacheLifetime);
+        }
         $headers = $this->response->headers->all();
         return new RedirectResponse($url, $status, $headers);
     }
@@ -371,5 +387,26 @@ abstract class BaseController extends AbstractController
         }
 
         return $this->metaNoIndex;
+    }
+
+    private function calculateOrbitSearchScope(?Network $network): string
+    {
+        if (!$network) {
+            return '';
+        };
+        $serviceSearchScopes = [
+            'cbbc' => 'cbbc',
+            'cbeebies' => 'cbeebies',
+            'bbc_radio_cymru' => 'cymru',
+            'bbc_radio_cymru_mwy' => 'cymru',
+        ];
+        $nid = (string) $network->getNid();
+        if (array_key_exists($nid, $serviceSearchScopes)) {
+            return $serviceSearchScopes[$nid];
+        }
+        if ($network->isRadio()) {
+            return 'sounds';
+        }
+        return '';
     }
 }

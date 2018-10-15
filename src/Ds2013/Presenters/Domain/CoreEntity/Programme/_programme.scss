@@ -72,59 +72,10 @@ $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18
     visibility: hidden;
 }
 
-.programme__overlay {
-    min-width: 100%;
-    display: block;
-    overflow: hidden;
-    position: relative;
-}
-
 .programme__new {
     text-transform: uppercase;
     font-weight: bold;
     text-align: left;
-}
-
-.programme__overlay--live,
-.programme__overlay--available {
-    min-width: 92.857142857142857%;
-}
-
-.programme__availability {
-    display: block;
-}
-
-.programme__availability:hover,
-.programme__availability:active,
-.programme__availability:focus {
-    .programme__icon {
-        background: $iplayer-grey;
-        filter: none;
-        color: #ffffff;
-    }
-}
-
-.programme__overlay a.programme__availability:hover {
-    text-decoration: none; // specific to override .programmes-page
-}
-
-.programme__icon {
-    float: left;
-    margin-right: 1px;
-    display: block;
-    height: $programme-icon-basic-box-size;
-    width: $programme-icon-basic-box-size;
-}
-
-.programme__icon--translucent {
-    background-color: rgb(38, 37, 37);
-    background-color: rgba(38, 37, 37, 0.7);
-    color: #ffffff;
-}
-
-.programme__icon--orphaned {
-    margin-left: $basic-spacing;
-    float: right;
 }
 
 .programme__overlay-data {
@@ -202,14 +153,12 @@ $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18
 
 // show/hide bits of this object, when embedded in a stream
 .stream .programme,
-.stream .programme__body,
-.stream .programme__overlay {
+.stream .programme__body {
     transition: opacity 0.3s ease-in, background-color 0.3s ease-in;
     opacity: 1;
 }
 
-.stream:not(.touched):not(.stream--alwaysvisible) .stream__i--hidden .programme__body,
-.stream:not(.touched):not(.stream--alwaysvisible) .stream__i--hidden .programme__overlay {
+.stream:not(.touched):not(.stream--alwaysvisible) .stream__i--hidden .programme__body {
     opacity: 0;
 }
 
@@ -238,29 +187,12 @@ $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18
         visibility: visible;
     }
 
-    .has-js .programme__img--hasimage .programme__overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-    }
-
     .has-js .programme__img--hasimage ~ .programme__new {
         top: 0;
         left: 0;
         position: absolute;
         padding: 0 4px;
         text-align: center;
-    }
-}
-
-@include mq-range('bpb2') {
-    .programme__icon {
-        height: $programme-icon-bpb1-box-size;
-        width: $programme-icon-bpb1-box-size;
-    }
-
-    .programme__icon--orphaned {
-        top: -0.375em;
     }
 }
 
@@ -274,23 +206,13 @@ $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18
         visibility: visible;
     }
 
-    .programme__icon,
     .programme__img--standalone-cta:not(.programme__img--available) {
         height: $programme-icon-bpw-box-size;
         width: $programme-icon-bpw-box-size;
     }
 
-    .programme__icon--orphaned {
-        margin-left: $wide-half-spacing;
-    }
-
     /*  Only to be set if a user has javascript enabled
         And the object has an image */
-    .has-js .programme__img--hasimage .programme__overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-    }
 
     .has-js .programme__img--hasimage ~ .programme__new {
         top: 0;
@@ -316,33 +238,10 @@ $programme-icon-bpw-box-size: gel-typography('bpw', 'delta', 'line-height') + 18
     }
 }
 
-@include mq-range('bpw2') {
-    .programme__overlay--available {
-        min-width: 82.857143%;
-    }
-}
-
-@include mq-range('bpe') {
-    .programme__overlay--available {
-        min-width: 82.857143%;
-    }
-
-    .programme__overlay--live {
-        min-width: 70.857%;
-    }
-
-}
-
 @include mq($from: 600px, $until: 769px) {
-    .programme__icon,
     .programme__img--standalone-cta:not(.programme__img--available) {
         height: $programme-icon-bpb1-box-size;
         width: $programme-icon-bpb1-box-size;
-    }
-
-    .programme__icon--orphaned {
-        top: -0.375em;
-        margin-left: $wide-half-spacing;
     }
 
     .programme__overlay-data {

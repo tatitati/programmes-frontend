@@ -9,7 +9,6 @@ use App\DsShared\Helpers\StreamableHelper;
 use App\ExternalApi\Ada\Service\AdaClassService;
 use App\ExternalApi\Ada\Service\AdaProgrammeService;
 use App\ExternalApi\FavouritesButton\Service\FavouritesButtonService;
-use App\ValueObject\CosmosInfo;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;

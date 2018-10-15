@@ -1,0 +1,189 @@
+{% extends'base_unbranded.html.twig' %}
+
+{% block title %}{{ context.titlePrefix() }}{% endblock %}
+
+{% block inline_head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="{{ context.canonicalUrl() }}">
+
+    <meta property="twitter:card" content="player"/>
+    <meta property="twitter:title" content="{{ twitter_title }}"/>
+    <meta property="twitter:description" content="{{ clip.getShortSynopsis() }}"/>
+    <meta property="twitter:image" content="{{ clip.getImage().getUrl(640,360) }}"/>
+    <meta property="twitter:image:width" content="640"/>
+    <meta property="twitter:image:height" content="360"/>
+    <meta property="twitter:player" content="{{ context.canonicalUrl() }}?chromeless"/>
+    <meta property="twitter:player:width" content="576"/>
+    <meta property="twitter:player:height" content="324"/>
+    <script type="text/javascript" src="https://nav.files.bbci.co.uk/orbit/2.0.0-296.9bee3fd/js/require.min.js"></script>
+    <script>
+        requirejs.config({
+            "paths": {
+                'jquery-1.9': "https://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1",
+                'bump-3': "//emp.bbci.co.uk/emp/bump-3/bump-3",
+                'smp/smpFactory': "{{ asset_js("js/smp/smpFactory.js") }}",
+                'smp/smp': "{{ asset_js("js/smp/smp.js") }}",
+                'smp/recommendationsBump': "{{ asset_js("j  s/smp/recommendationsBump.js") }}"
+            },
+            "priority": ['jquery-1.9', 'rv-bootstrap', 'timezone-notification'],
+            "map": {
+                "*": {
+                    "jquery": "jquery-1.9"
+                }
+            }
+        });
+    </script>
+
+    <? /* Facebook pages that are allowed to edit FB preview titles and descriptions */ ?>
+    <meta property="fb:pages" content="{{ context.getBBCFacebookPageIds() }}">
+
+    <style type="text/css">
+        body {
+            font-family: Arial,Helvetica,freesans,sans-serif;
+            background: #000;
+            padding:0;
+            margin:0;
+            overflow: hidden;
+            font-size: 14px;
+            line-height: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        img {
+            min-width: 100%;
+            display: block;
+        }
+
+        h1 {
+            margin: 0 0 18px 0;
+            font-size: 18px;
+            line-height: 24px;
+        }
+
+        a {
+            color: #fff;
+        }
+
+        p {
+            margin-bottom: 18px;
+        }
+
+        .subtitle {
+            margin-top: -16px;
+        }
+
+        .info {
+            background-color: #282828;
+            color: #fff;
+            padding: 8px 16px 16px;
+        }
+
+        .info__synopsis {
+            color: #d8d8d8;
+        }
+
+        .info__more {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            padding: 8px 16px;
+            font-size: 14px;
+            line-height: 24px;
+            overflow: auto;
+        }
+
+        .footer__logo {
+            float: left;
+            padding-right: 10px;
+        }
+
+        .footer__links {
+            float: right;
+            text-align: left;
+        }
+
+        .smp {
+            position: relative;
+        }
+
+        .smp__overlay {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            margin: 0;
+        }
+
+        .smp__message {
+            text-align: center;
+            background: #000;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.7);
+            letter-spacing: 0;
+            font-weight: normal;
+            margin: 0;
+            padding: 8px;
+            display: table;
+            vertical-align: middle;
+        }
+
+        .smp__blocklink:hover .smp__message,
+        .smp__blocklink:active .smp__message,
+        .smp__blocklink:focus .smp__message {
+            text-decoration: none;
+            background: #f54997 !important;
+            color: white !important;
+        }
+
+        @media (min-width: 37.5em) {
+            .smp__message {
+                padding: 16px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="episode-playout">
+        {% if available %}
+            {{ ds2013('smp', clip, streamable_version, segment_events, '', {'app_name': 'programmes', 'prod_name': 'programmes'}, {'autoplay': false, 'uas': false, 'sizes': {1: 1/1}}) }}
+        {% else %}
+            {{ ds_shared('imageEntity', clip.getImage(), 640, {1: 1/1} ,{'is_lazy_loaded': false}) }}
+            <div class="smp">
+                <div class="smp__overlay">
+                    <div class="smp__message delta">
+                        {{ tr(unavailable_message) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if has_chrome %}
+        <div class="info">
+            <h1>{{ clip.getTitle() }}</h1>
+
+            <p class="subtitle">{{ subtitle }}</p>
+
+            <div class="info__synopsis">{{ clip.getShortSynopsis() }}</div>
+
+            <p class="info__more">
+                <a href="{{ path('find_by_pid', { 'pid': clip.getTleo.getPid() }) }}" target="_blank">
+                    {{ clip.getTleo.getTitle() }}
+                </a>
+            </p>
+        </div>
+        <div class="footer">
+            <div class="footer__logo">
+                <img src="{{ asset("images/bbc-blocks-light.png") }}" alt="">
+            </div>
+
+            <div class="footer__links">
+                <a href="http://www.bbc.co.uk/terms" target="_blank">Terms &amp; conditions</a>
+                <span class="footer__divider"></span>
+                <a href="http://www.bbc.co.uk/help" target="_blank">Help</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

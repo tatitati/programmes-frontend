@@ -1,0 +1,15 @@
+{% extends "@Ds2013/Presenters/Utilities/Cta/cta.html.twig" %}
+
+{% block cta_icon %}
+    {{ parent() }}
+    <div class="programme__overlay-data br-box-page br-page-bg-onbg080">
+        <div class="programme__time-remaining micro">{{ cta.translatePlayLive() }}</div>
+        <div class="timebar">
+            {% spaceless %}
+                <span class="timebar-barbox timebar-barbox--live"></span>
+                <span class="timebar-barbox timebar-barbox--live"></span>
+                <span class="timebar-barbox timebar-barbox--live"></span>
+            {% endspaceless %}
+        </div>
+    </div>
+{% endblock %}
