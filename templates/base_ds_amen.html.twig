@@ -93,7 +93,8 @@
     {{ branding.getBodyFirst()|raw }}
 
     <div class="{% block page_classes %}gel-long-primer amen{% endblock %}" role="main">
-        <div id="programmes-content" tabindex="-1"></div>
+        <div id="programmes-content" class="invisible" tabindex="-1">Main content</div>
+
         {% block body %}{% endblock %}
     </div>
     {{ gelicons_source() }}
