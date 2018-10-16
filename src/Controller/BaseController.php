@@ -124,7 +124,11 @@ abstract class BaseController extends AbstractController
 
     protected function overrideBrandingOption(string $key, $value): void
     {
-        $this->branding->overrideOption($key, $value);
+        // International services could do a second request that renders a version of the page without
+        // chrome (WithoutChrome) that version doesn't have branding
+        if (isset($this->branding)) {
+            $this->branding->overrideOption($key, $value);
+        }
     }
 
     protected function setBrandingId(string $brandingId)
