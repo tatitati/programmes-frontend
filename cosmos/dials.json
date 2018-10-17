@@ -1,6 +1,6 @@
 [{
     "name": "sounds-nav",
-    "default-value": "false",
+    "default-value": "true",
     "values": [{
         "value": "true",
         "description": "Show the Sounds Nav on Schedule Pages"
