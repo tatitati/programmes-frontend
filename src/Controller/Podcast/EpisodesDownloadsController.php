@@ -5,6 +5,7 @@ namespace App\Controller\Podcast;
 
 use App\Controller\BaseController;
 use App\Ds2013\PresenterFactory;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,17 +17,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class EpisodesDownloadsController extends BaseController
 {
-    public function __invoke(string $pid, ProgrammesService $programmesService, PresenterFactory $presenterFactory)
+    public function __invoke(Programme $programme)
     {
-        $programme = $programmesService->findByPidFull(new Pid($pid));
-        if (!$programme) {
-            throw new NotFoundHttpException(sprintf('Unknown Programme with PID "%s"', $pid));
+        if (!$programme->isTleo()) {
+            return $this->cachedRedirectToRoute('programme_podcast_episodes_download', ['pid'=>$programme->getTleo()->getPid()],301);
         }
 
         $this->setContextAndPreloadBranding($programme);
 
         $this->overridenDescription = 'Podcast downloads for ' . $programme->getTitle();
 
-        return $this->renderWithChrome('podcast/podcast.html.twig');
+        return $this->renderWithChrome('podcast/podcast.html.twig',[
+            'programme'=> $programme,
+        ]);
     }
 }
