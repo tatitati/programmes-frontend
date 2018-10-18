@@ -22,8 +22,13 @@ class DownloadPresenter extends Presenter
     /** @var Podcast|null */
     private $podcast;
 
-    public function __construct(UrlGeneratorInterface $router, ProgrammeItem $programme, Version $version, ?Podcast $podcast, array $options = [])
-    {
+    public function __construct(
+        UrlGeneratorInterface $router,
+        ProgrammeItem $programme,
+        Version $version,
+        ?Podcast $podcast,
+        array $options = []
+    ) {
         $this->programme = $programme;
         $this->router = $router;
         $this->version = $version;
