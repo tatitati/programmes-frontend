@@ -93,7 +93,9 @@
         <meta property="og:image" content="{{ meta_context.image().getUrl(1200, 675) }}">
 
         {#- Twitter-specific tags -#}
-        <meta name="twitter:card" content="summary_large_image">
+        {% block twitter_tags %}
+            <meta name="twitter:card" content="summary_large_image">
+        {% endblock %}
 
         {#- This image 272px not 150px wide because Microsoft suggests the image
             dimensions be 1.8x larger than the rendered size to allow for scaling.
