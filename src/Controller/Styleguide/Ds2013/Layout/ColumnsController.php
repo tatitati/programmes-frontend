@@ -1,17 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Styleguide\Ds2013\Domain;
+namespace App\Controller\Styleguide\Ds2013\Layout;
 
 use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
-
 use Symfony\Component\HttpFoundation\Request;
 
-class GELController extends BaseController
+class ColumnsController extends BaseController
 {
     public function __invoke(
         CoreEntitiesService $coreEntitiesService,
@@ -27,7 +25,6 @@ class GELController extends BaseController
             $this->setContextAndPreloadBranding($service);
         }
 
-        return $this->renderWithChrome('styleguide/ds2013/domain/gel.html.twig', [
-        ]);
+        return $this->renderWithChrome('styleguide/ds2013/layout/columns.html.twig');
     }
 }

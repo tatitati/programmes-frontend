@@ -3,24 +3,25 @@ declare(strict_types=1);
 
 namespace App\Controller\Styleguide\Ds2013\Domain;
 
+use App\Builders\GalleryBuilder;
+use App\Builders\ImageBuilder;
 use App\Controller\BaseController;
+use App\Ds2013\PresenterFactory;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
-use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
-use BBC\ProgrammesPagesService\Service\PromotionsService;
 use Symfony\Component\HttpFoundation\Request;
 
-class PromotionController extends BaseController
+class GalleryController extends BaseController
 {
     public function __invoke(
-        ProgrammesService $programmesService,
+        CollapsedBroadcastsService $collapsedBroadcastService,
         CoreEntitiesService $coreEntitiesService,
-        PromotionsService $promotionsService,
+        Request $request,
         ServicesService $servicesService,
-        Request $request
-    )
-    {
+    PresenterFactory $presenterFactory
+    ) {
 
         if ($request->query->has('branding_context')) {
             $coreEntity = $coreEntitiesService->findByPidFull(new Pid($request->query->get('branding_context')));
@@ -30,11 +31,22 @@ class PromotionController extends BaseController
             $service = $servicesService->findByPidFull(new Pid($request->query->get('service')));
             $this->setContextAndPreloadBranding($service);
         }
-        $promotion = $promotionsService->findActivePromotionsByContext($coreEntitiesService->findByPidFull(new Pid('b006q2x0')),1)[0];
 
+        $gallery = $this->createGallery();
 
-        return $this->renderWithChrome('styleguide/ds2013/domain/promotion.html.twig', [
-            'promotion' => $promotion,
+        return $this->renderWithChrome('styleguide/ds2013/domain/gallery.html.twig', [
+            'gallery' => $gallery,
         ]);
+    }
+
+    public function createGallery(
+
+    ){
+        $image = ImageBuilder::anyWithPid('p01bz8pr')->build();
+        return GalleryBuilder::any()->with([
+            'pid' => new Pid('b006q2x0'),
+            'image' => $image,
+        ])->build();
+
     }
 }

@@ -9,12 +9,26 @@
 
         <a href="{{ path('ds2013_styleguide_intro')}}"><h1>Styleguide/2013</h1></a>
         <div class="grid-wrapper">
-            <div class="grid 1/3@bpw">
-                <h3>Domain</h3>
+            <div class="grid 1/4@bpw">
+                <h3>Layout</h3>
                 <ul>
                     <li>
-                        <a href="{{ path('ds2013_styleguide_domain/GEL') }}">GEL standards</a>
+                        <a href="{{ path('ds2013_styleguide_layout/GEL') }}">GEL standards</a>
                     </li>
+                    <li>
+                        <a href="{{ path('ds2013_styleguide_layout/columns') }}">Columns</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('ds2013_styleguide_layout/prose') }}">Prose</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('ds2013_styleguide_layout/layout') }}">Layout</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="grid 1/4@bpw">
+                <h3>Domain</h3>
+                <ul>
                     <li>
                         <a href="{{ path('ds2013_styleguide_domain/broadcast_object') }}">Broadcast objects</a>
                     <li>
@@ -28,7 +42,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="grid 1/3@bpw">
+            <div class="grid 1/4@bpw">
                 <h3> Segments</h3>
                 <ul>
                     <li>
@@ -37,9 +51,12 @@
                     <li>
                         <a href="{{ path('ds2013_styleguide_segments/music') }}">Music</a>
                     </li>
+                    <li>
+                        <a href="{{ path('ds2013_styleguide_segments/gallery') }}">Gallery</a>
+                    </li>
                 </ul>
             </div>
-            <div class="grid 1/3@bpw">
+            <div class="grid 1/4@bpw">
                 <h3>Utilities</h3>
                 <ul>
                     <li>
@@ -79,7 +96,7 @@
             </ul>
 
         <br>
-        <h2>{% block section_name %}{% endblock %}</h2>
+        <h1>{% block section_name %}{% endblock %}</h1>
 
         {% block content %}
 

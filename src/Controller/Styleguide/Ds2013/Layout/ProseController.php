@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Styleguide\Ds2013\Domain;
+namespace App\Controller\Styleguide\Ds2013\Layout;
 
 use App\Controller\BaseController;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
 use BBC\ProgrammesPagesService\Service\ServicesService;
+
 use Symfony\Component\HttpFoundation\Request;
 
-class LayoutController extends BaseController
+class ProseController extends BaseController
 {
     public function __invoke(
         CoreEntitiesService $coreEntitiesService,
@@ -25,6 +26,7 @@ class LayoutController extends BaseController
             $this->setContextAndPreloadBranding($service);
         }
 
-        return $this->renderWithChrome('styleguide/ds2013/domain/layout.html.twig');
+        return $this->renderWithChrome('styleguide/ds2013/Layout/prose.html.twig', [
+        ]);
     }
 }
