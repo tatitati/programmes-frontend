@@ -48,6 +48,7 @@
                     'snippets': "{{ asset_js("js/snippets.js") }}",
                     'bump-3': "//emp.bbci.co.uk/emp/bump-3/bump-3",
                     'smp/smpFactory': "{{ asset_js("js/smp/smpFactory.js") }}",
+                    'stream': "{{ asset_js("js/stream.js") }}",
                     'smp/smp': "{{ asset_js("js/smp/smp.js") }}",
                     'smp/recommendationsBump': "{{ asset_js("js/smp/recommendationsBump.js") }}",
                     'smp/uasService': "{{ asset_js("js/smp/uasService.js") }}",
@@ -115,7 +116,6 @@
             {% block body %}{% endblock %}
         </div>
         {% if programme is defined %}{{ ds2013('footer', programme) }}{% endif %}
-        {{ gelicons_source() }}
         <script>
             require(['rv-bootstrap']);
         </script>
@@ -125,6 +125,7 @@
             </script>
         {% endif %}
         {% block javascripts %}{% endblock %}
+        {{ gelicons_source() }}
         {% include 'base_ds_common_js_partial.html.twig' with {'title': block('title')} %}
         {{ branding.getBodyLast()|raw }}
         {% if soundsNav is defined  %}
