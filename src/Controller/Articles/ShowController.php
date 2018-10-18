@@ -10,7 +10,7 @@ use App\ExternalApi\Isite\Domain\Article;
 use App\ExternalApi\Isite\IsiteResult;
 use App\ExternalApi\Isite\Service\ArticleService;
 use BBC\ProgrammesPagesService\Service\CoreEntitiesService;
-use Exception;
+use App\Exception\HasContactFormException;
 use Symfony\Component\HttpFoundation\Request;
 
 class ShowController extends BaseController
@@ -32,8 +32,8 @@ class ShowController extends BaseController
         try {
             /** @var IsiteResult $isiteResult */
             $isiteResult = $isiteService->getByContentId($guid, $preview)->wait(true);
-        } catch (Exception $e) {
-            return $this->redirectToRoute('programme_article', ['contactForm' => 1, 'key' => $key, 'slug' => $slug], 307);
+        } catch (HasContactFormException $e) {
+            return $this->cachedRedirectToRoute('article_with_contact_form', ['key' => $key, 'slug' => $slug], 307);
         }
 
         $articles = $isiteResult->getDomainModels();
