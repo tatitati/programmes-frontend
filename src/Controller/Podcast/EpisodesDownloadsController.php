@@ -20,7 +20,7 @@ class EpisodesDownloadsController extends BaseController
     public function __invoke(Programme $programme)
     {
         if (!$programme->isTleo()) {
-            return $this->cachedRedirectToRoute('programme_podcast_episodes_download', ['pid'=>$programme->getTleo()->getPid()], 301);
+            return $this->cachedRedirectToRoute('programme_podcast_episodes_download', ['pid' => $programme->getTleo()->getPid()], 301);
         }
 
         $this->setContextAndPreloadBranding($programme);
