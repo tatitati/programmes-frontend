@@ -20,15 +20,15 @@ class EpisodesDownloadsController extends BaseController
     public function __invoke(Programme $programme)
     {
         if (!$programme->isTleo()) {
-            return $this->cachedRedirectToRoute('programme_podcast_episodes_download', ['pid'=>$programme->getTleo()->getPid()],301);
+            return $this->cachedRedirectToRoute('programme_podcast_episodes_download', ['pid'=>$programme->getTleo()->getPid()], 301);
         }
 
         $this->setContextAndPreloadBranding($programme);
 
         $this->overridenDescription = 'Podcast downloads for ' . $programme->getTitle();
 
-        return $this->renderWithChrome('podcast/podcast.html.twig',[
-            'programme'=> $programme,
+        return $this->renderWithChrome('podcast/podcast.html.twig', [
+            'programme' => $programme,
         ]);
     }
 }
