@@ -30,14 +30,10 @@
                         </label>
                     </h3>
                     <ul class="list-unstyled popup__list">
-                        {% for translationKey, url in download.getPodcastUrls() %}
+                        {% for translationKey,url in download.getPodcastUrls() %}
                             <li>
-                                <a
-                                    class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover"
-                                    href="{{ url }}"
-                                    download="{{ download.getPodcastFileName() }}"
-                                    aria-label="{{ tr('downloads', 1) }} {{ tr(translationKey) }} "
-                                >
+                                <a class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="{{ url }}"
+                                   download="{{ download.getPodcastFileName() }}" aria-label="{{ tr('downloads', 1) }} {{ tr(translationKey)}} ">
                                     {{ tr(translationKey) }}
                                 </a>
                             </li>
