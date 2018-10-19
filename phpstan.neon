@@ -14,3 +14,5 @@ parameters:
         - '#Call to an undefined method BBC\\ProgrammesPagesService\\Domain\\Entity\\CoreEntity::getDuration()#'
         - '#Call to an undefined method Tests\\App\\Translate\\TranslatableTraitTest::tr().#'
         - '#Call to an undefined method Tests\\App\\Translate\\TranslatableTraitTest::localDateIntl().#'
+        - '#expects Cake\\Chronos\\(Chronos|ChronosInterface), DateTimeImmutable given.#' #Clifton use Datatimeimutable while programmes-frontend uses Chronos but they are typehinted as Datatimeimutable
+        - '#class Cake\\Chronos\\(Chronos|Date) constructor expects string|null, DateTimeImmutable given.#' #Clifton use Datatimeimutable while programmes-frontend uses Chronos but they are typehinted as Datatimeimutable
