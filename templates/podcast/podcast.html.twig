@@ -11,14 +11,20 @@
                     <div class="island">
                         <h1><span class="visually-hidden">The Archers </span><span class="deemphasize block-link">Podcast</span></h1>
                         <div class="map__intro__synopsis centi">
-                            <p>Contemporary drama in a rural setting</p>
+                            <p>{{entity.synopses.shortestSynopsis}}</p>
                         </div>
                         <div class="grid-wrapper micro">
-                            <div class="grid one-half">
-                                <div class="grid__inner"> <strong>Updated: </strong> <span class="nowrap">daily</span> </div>
+                            <div class="grid 1/2">
+                                <div class="grid__inner"> <strong>Updated: </strong> <span class="nowrap">{{ tr('updated_'~podcast.FREQUENCY)}}</span> </div>
                             </div>
-                            <div class="grid one-half">
-                                <div class="grid__inner"> <strong>Episodes available: </strong><span class="nowrap">30 days</span></div>
+                            <div class="grid 1/2">
+                                <div class="grid__inner"> <strong>Episodes available: </strong><span class="nowrap">
+                                        {% if podcast.availability ==-1 %} {{ tr('iplayer_time_indefinitely') }} {% endif %}
+                                        {% if podcast.availability ==7 %} {{ tr('iplayer_time_weeks',1) }} {% endif %}
+                                        {% if podcast.availability ==14 %} {{ tr('iplayer_time_weeks',2) }} {% endif %}
+                                        {% if podcast.availability ==30 %} {{ tr('iplayer_time_months',1) }} {% endif %}
+                                        {% if podcast.availability ==60 %} {{ tr('iplayer_time_months',2) }} {% endif %}
+                                    </span></div>
                             </div>
                         </div>
                     </div>
@@ -29,7 +35,7 @@
                     <div class="island">
                         <div class="popup">
                             <input class="popup__status" type="checkbox" id="popup-2" checked="">
-                            <h2 class="gamma popup__button popup__button--subscribe br-pseudolink br-linkinvert"> <label for="popup-2"> <i aria-hidden="true" class="gelicon gelicon--podcast gelicon--leading"></i>Subscribe </label> </h2>
+                            <h2 class="gamma popup__button popup__button--subscribe br-pseudolink br-linkinvert"> <label for="popup-2"> <i aria-hidden="true" class="gelicon gelicon--media--podcast gelicon--leading"></i>Subscribe </label> </h2>
                             <div class="popup__holder visually-hidden" id="popup-2-holder">
                                 <div class="popup__content popup__content--subscribe br-box-secondary br-secondary-link-onbg br-secondary-link-onborder br-secondary-link-onborder--beforeafter">
                                     <h3 class="popup__header br-secondary-link-onborder--beforeafter br-secondary-linkhover-onborder--hover-beforeafter gamma no-margin deemphasize"> <label class="popup__close island--squashed br-secondary-bg-onborder br-linkinvert" for="popup-2"> <span class="pull--right-spaced"><i aria-hidden="true" class="gelicon gelicon--no"></i> </span>Subscribe to podcast </label> </h3>
@@ -37,7 +43,7 @@
                                         <li> <a data-istats-track="programmes_podcast_series_subscribe_itunes" class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="pcast://podcasts.files.bbci.co.uk/b006qpgr.rss"> <i aria-hidden="true" class="gelicon gelicon--apple gelicon--leading"></i> <span class="link-complex__target"> iTunes / iOS </span> </a> </li>
                                         <li> <a data-istats-track="programmes_podcast_series_subscribe_android" class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="http://podcasts.files.bbci.co.uk/b006qpgr.rss"> <i aria-hidden="true" class="gelicon gelicon--android gelicon--leading"></i> <span class="link-complex__target"> Android / Google Play </span> </a> </li>
                                         <li> <a data-istats-track="programmes_podcast_series_subscribe_windows" class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="pcast://podcasts.files.bbci.co.uk/b006qpgr.rss"> <i aria-hidden="true" class="gelicon gelicon--windows gelicon--leading"></i> <span class="link-complex__target"> Windows Phone </span> </a> </li>
-                                        <li> <a data-istats-track="programmes_podcast_series_subscribe_rss" class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="http://podcasts.files.bbci.co.uk/b006qpgr.rss"> <i aria-hidden="true" class="gelicon gelicon--rss gelicon--leading"></i> <span class="link-complex__target"> RSS </span> </a> </li>
+                                        <li> <a data-istats-track="programmes_podcast_series_subscribe_rss" class="link-complex popup__list__item island--squashed br-secondary-bg-ontext br-secondary-bg-onbg--hover br-secondary-link-ontext--hover" href="http://podcasts.files.bbci.co.uk/b006qpgr.rss"> <i aria-hidden="true" class="gelicon gelicon--media--rss gelicon--leading"></i> <span class="link-complex__target"> RSS </span> </a> </li>
                                     </ul>
                                 </div>
                             </div>
@@ -69,7 +75,6 @@
                             </div>
                             <div class="component__body br-box-subtle">
                                 <div class="superpromo">
-
                                 </div>
                             </div>
                         </div>
