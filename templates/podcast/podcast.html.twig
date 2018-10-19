@@ -4,21 +4,22 @@
 {% block page_classes %}text-base programmes-page--smallpush prog-layout{% endblock %}
 
 {%- block body -%}
-
+    {% if entity.isPodcastable %}
         <div class="grid-wrapper grid-wrapper--flush map map--episode map--count-2">
             <div class="grid 2/3@bpw2 3/4@bpe map__column map__column--first">
-                <div class="grid__inner map__inner grid__inner--flush br-box-secondary">
+                <div class="map__inner  br-box-secondary">
                     <div class="island">
                         <h1><span class="visually-hidden">The Archers </span><span class="deemphasize block-link">Podcast</span></h1>
                         <div class="map__intro__synopsis centi">
-                            <p>{{entity.synopses.shortestSynopsis}}</p>
+                            {{ ds_shared('synopsis', entity.synopses, 300) }}
                         </div>
+                        {% if podcast.isUkOnly %}  <p>UK only</p> {% endif %}
                         <div class="grid-wrapper micro">
                             <div class="grid 1/2">
-                                <div class="grid__inner"> <strong>Updated: </strong> <span class="nowrap">{{ tr('updated_'~podcast.FREQUENCY)}}</span> </div>
+                                <div class=""> <strong>Updated: </strong> <span class="nowrap">{{ tr('updated_'~podcast.FREQUENCY)}}</span> </div>
                             </div>
                             <div class="grid 1/2">
-                                <div class="grid__inner"> <strong>Episodes available: </strong><span class="nowrap">
+                                <div> <strong>Episodes available: </strong><span class="nowrap">
                                         {% if podcast.availability ==-1 %} {{ tr('iplayer_time_indefinitely') }} {% endif %}
                                         {% if podcast.availability ==7 %} {{ tr('iplayer_time_weeks',1) }} {% endif %}
                                         {% if podcast.availability ==14 %} {{ tr('iplayer_time_weeks',2) }} {% endif %}
@@ -31,7 +32,7 @@
                 </div>
             </div>
             <div class="grid 1/3@bpw2 1/4@bpe map__column map__column--2 map__column--last">
-                <div class="grid__inner map__inner grid__inner--flush br-box-secondary">
+                <div class="map__inner br-box-secondary">
                     <div class="island">
                         <div class="popup">
                             <input class="popup__status" type="checkbox" id="popup-2" checked="">
@@ -52,10 +53,11 @@
                 </div>
             </div>
         </div>
+    {% endif %}
     <div class="programmes-page">
             <div class="grid-wrapper grid-wrapper--center">
                 <div class="grid 2/3@bpw2 2/3@bpe">
-                    <div class="grid__inner">
+                    <div >
                         <div class="br-box-page prog-box">
                             <div class="component component--box component--box-flushbody component--box--primary">
                                 <div class="component__header br-box-page">
@@ -68,7 +70,7 @@
                     </div>
                 </div>
                 <div class="grid 1/3@bpw2 1/3@bpe">
-                    <div class="grid__inner">
+                    <div>
                         <div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
                             <div class="component__header br-box-highlight">
                                 <h2 data-linktrack="superpromo_title">Who knows their character best?</h2>
@@ -84,5 +86,5 @@
             </div>
     </div>
 
-
+    <script> require(['popup'], function(popup) { var p = new popup({containerSelector: '.popup'}); }); </script>
 {%- endblock -%}

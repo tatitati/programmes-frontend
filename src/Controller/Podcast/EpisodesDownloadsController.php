@@ -44,7 +44,7 @@ class EpisodesDownloadsController extends BaseController
 
 
         return $this->renderWithChrome('podcast/podcast.html.twig', [
-            'programme' => $programme,
+            'programmnne' => $programme,
             'entity' => $coreEntity,
             'podcast' => $podcast,
         ]);
