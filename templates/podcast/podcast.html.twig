@@ -25,7 +25,8 @@
                                         {% if podcast.availability ==14 %} {{ tr('iplayer_time_weeks',2) }} {% endif %}
                                         {% if podcast.availability ==30 %} {{ tr('iplayer_time_months',1) }} {% endif %}
                                         {% if podcast.availability ==60 %} {{ tr('iplayer_time_months',2) }} {% endif %}
-                                    </span></div>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,35 +56,32 @@
         </div>
     {% endif %}
     <div class="programmes-page">
-            <div class="grid-wrapper grid-wrapper--center">
-                <div class="grid 2/3@bpw2 2/3@bpe">
-                    <div >
-                        <div class="br-box-page prog-box">
-                            <div class="component component--box component--box-flushbody component--box--primary">
-                                <div class="component__header br-box-page">
-                                    <h2>Episodes to download</h2>
-                                </div>
-                                <div class="component__body br-box-page">
-                                </div>
-                            </div>
+        <div class="grid-wrapper grid-wrapper--center">
+            <div class="grid 2/3@bpw2 2/3@bpe">
+                <div class="br-box-page prog-box">
+                    <div class="component component--box component--box-flushbody component--box--primary">
+                        <div class="component__header br-box-page">
+                            <h2>Episodes to download</h2>
                         </div>
-                    </div>
-                </div>
-                <div class="grid 1/3@bpw2 1/3@bpe">
-                    <div>
-                        <div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
-                            <div class="component__header br-box-highlight">
-                                <h2 data-linktrack="superpromo_title">Who knows their character best?</h2>
-                            </div>
-                            <div class="component__body br-box-subtle">
-                                <div class="superpromo">
-                                </div>
-                            </div>
+                        <div class="component__body br-box-page">
+
                         </div>
-                        {#needs the lost of other related podcasts#}
                     </div>
                 </div>
             </div>
+            <div class="grid 1/3@bpw2 1/3@bpe">
+                <div class="component component--box component--box--striped component--box-flushbody component--box--secondary">
+                    <div class="component__header br-box-highlight">
+                        <h2 data-linktrack="superpromo_title">Who knows their character best?</h2>
+                    </div>
+                    <div class="component__body br-box-subtle">
+                        <div class="superpromo">
+                        </div>
+                    </div>
+                </div>
+                {#needs the lost of other related podcasts#}
+            </div>
+        </div>
     </div>
 
     <script> require(['popup'], function(popup) { var p = new popup({containerSelector: '.popup'}); }); </script>
